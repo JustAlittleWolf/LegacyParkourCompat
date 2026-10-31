@@ -1,0 +1,2514 @@
+{
+  "reason": "User-authorized weekly usage threshold: primary weekly window10percentremaining. Stopnewassignments/delegations, completeexistingcheckpoints andreadyintegration.",
+  "productCommit": "e921645f0ee3dbee33f0458a4c2c522dd30e702a",
+  "sources": [
+    {
+      "source": ".native-source/20261031/1122-1132-finish58",
+      "archive": "development/research/source-evidence/20261031/checkpoint67/1122-1132-finish58.zip",
+      "sha256": "b82db80cf32b9e01a5d44ccd40f6679ba659653f1abaa084fea61be660f2099b",
+      "files": [
+        {
+          "path": "autojump-provider-witness/independent-roster.md",
+          "sha256": "d0f227c59252b78c9a26884f7fe639ed442949c683f604edd3041c075e747671",
+          "bytes": 877
+        },
+        {
+          "path": "autojump-provider-witness/independent-source-roster.tsv",
+          "sha256": "b4c5e1073b5bc5e2b6825bab81fd51b493431bf67818c70557be30c7923ce5bf",
+          "bytes": 53426
+        },
+        {
+          "path": "autojump-provider-witness/report.md",
+          "sha256": "caeeff0481499ee3256d2737fe1f4b93655a0d731c87144178e308dcb63ae33a",
+          "bytes": 8285
+        },
+        {
+          "path": "effect-equipment-routes/effect-equipment-route-inventory.md",
+          "sha256": "9e93f9298cf454e2b13f85f6328d01c35c99128ab79747ee8399f16890e85423",
+          "bytes": 7667
+        },
+        {
+          "path": "effect-equipment-routes/independent-roster.md",
+          "sha256": "a5f7f8a57ccd029e97ae27c3cadcb92d4ac1683221c120ffc87d8ca0f6bb0deb",
+          "bytes": 815
+        },
+        {
+          "path": "effect-equipment-routes/independent-source-roster.tsv",
+          "sha256": "9607df94c5f1240333aa6125450850801560a9e604175f4d68a02a5e61d73b50",
+          "bytes": 163609
+        },
+        {
+          "path": "findings/anvil-collision-geometry.md",
+          "sha256": "32b7aa3969d729468c758d4d8b8dff3e2c738a6f0a4e8f348d6c6a55231e75a6",
+          "bytes": 1716
+        },
+        {
+          "path": "findings/brewing-stand-collision-geometry.md",
+          "sha256": "4c43818b954bc6f240e95cee4738d22ec16cac618e6c1f5608426ea25352ea7e",
+          "bytes": 1148
+        },
+        {
+          "path": "findings/cauldron-collision-geometry.md",
+          "sha256": "3c086c7d61ce0b9d22b1bff0e4a707e841ddb2276586a60c8017727c9ea59c1c",
+          "bytes": 1207
+        },
+        {
+          "path": "findings/fence-tnt-neighbor-connection.md",
+          "sha256": "6d11641319feed525a87fd631bbd6ece331047d8fd53587a9f5397639b4c6440",
+          "bytes": 1690
+        },
+        {
+          "path": "findings/hopper-collision-geometry.md",
+          "sha256": "8da3c9f75358eac3646e9fa9b30ce35b2cb0c530ccfd193da2035ac46ead7f2d",
+          "bytes": 1775
+        },
+        {
+          "path": "findings/moving-piston-short-head-collision.md",
+          "sha256": "93121adeba200935b23c14df1d4c97a7adf0b06eaae94fe62e982df3b22b76e5",
+          "bytes": 4052
+        },
+        {
+          "path": "findings/wall-tnt-neighbor-connection.md",
+          "sha256": "ecf8453d373106fe332439ef243be86166b8e2681799132c519d0f94fe2e833a",
+          "bytes": 1720
+        },
+        {
+          "path": "five-provider-audit/audit.md",
+          "sha256": "22433aad18eee5ffcc6aa3ff5c7feeb12684915190110916fa8917bd3f095618",
+          "bytes": 25112
+        },
+        {
+          "path": "flattened-state-mapping-closure.md",
+          "sha256": "83f1ff75a1bdd7e7ccb588d60fd9113f0851243c82d0f57b3a97ac5bf310c289",
+          "bytes": 3976
+        },
+        {
+          "path": "local-tick-writer-residual/coverage.md",
+          "sha256": "f71e0a88448780da2f39bfca0cb354a28e849a3b9ff34666f35cfbc5b2e94b70",
+          "bytes": 46031
+        },
+        {
+          "path": "local-tick-writer-residual/findings/grounded-friction-constant-r2.md",
+          "sha256": "290425b576ba4821868955af980b5612fa129e394d3f2fbcc000d0fd89715344",
+          "bytes": 4080
+        },
+        {
+          "path": "local-tick-writer-residual/findings/grounded-friction-constant-r3.md",
+          "sha256": "46b6fe5e966ee537116f7f84e9b7680392f466fe05d90d3f6b8318a6c141ae53",
+          "bytes": 4336
+        },
+        {
+          "path": "local-tick-writer-residual/findings/grounded-friction-constant.md",
+          "sha256": "f4dd7f37c588cf2e7a86c9cb119b6d568ea8a36af6aa2ca564680248ab06e041",
+          "bytes": 3883
+        },
+        {
+          "path": "local-tick-writer-residual/findings/manifest-r2.md",
+          "sha256": "b6b2cfcaf83ef5be41bdaeeb4dd7989ff3361f8b32787d0af5a137991dd0703a",
+          "bytes": 731
+        },
+        {
+          "path": "local-tick-writer-residual/findings/manifest-r3.md",
+          "sha256": "f2bbc529dcb8a5cb2fd2896a2634ed6afe71cd00538218af342c80798c5b67de",
+          "bytes": 1006
+        },
+        {
+          "path": "local-tick-writer-residual/findings/manifest-r4.md",
+          "sha256": "4b17c318330143bb138ebcd9957037ba153162d362780e2e062528036461528d",
+          "bytes": 984
+        },
+        {
+          "path": "local-tick-writer-residual/findings/manifest-r5.md",
+          "sha256": "52224921051d110bbcfa259aac040ae0589bf421dfbe875ad9221b64f743bb9d",
+          "bytes": 944
+        },
+        {
+          "path": "local-tick-writer-residual/findings/manifest-r6.md",
+          "sha256": "621fac57b48faa85f5d18cdb35d7846a2109b7fa4d6c2834b3e7030e428615db",
+          "bytes": 916
+        },
+        {
+          "path": "local-tick-writer-residual/findings/manifest.md",
+          "sha256": "24c64151ed6b9e929fa66f0d4ae004a4f531719099d826a305fab8569de899e4",
+          "bytes": 736
+        },
+        {
+          "path": "local-tick-writer-residual/findings/water-jump-depth-witness-supplement.md",
+          "sha256": "43f6ca555fc83b0c6e93e28a13f0cefe70fb512de723e131a8fe2df8c8c4dede",
+          "bytes": 5226
+        },
+        {
+          "path": "local-tick-writer-residual/findings/wet-sneak-knock-down.md",
+          "sha256": "725c060caf67d19d600e57efce151c5630ee68713a939f6a0ac7fe596f4bc1d2",
+          "bytes": 2285
+        },
+        {
+          "path": "local-tick-writer-residual/findings/wet-sprint-predicate-r2.md",
+          "sha256": "d4b29057d619c6f24b83bf611608b91ed3fdaaf96a04790af1f205facc718798",
+          "bytes": 6594
+        },
+        {
+          "path": "local-tick-writer-residual/findings/wet-sprint-predicate-r3.md",
+          "sha256": "db5652a3c85acfbee8eb8d32d183503cb6213e69d0f0cdcd077b9b9ffd5d1f16",
+          "bytes": 6877
+        },
+        {
+          "path": "local-tick-writer-residual/findings/wet-sprint-predicate.md",
+          "sha256": "1c30e9d1c51dfa29cec0e0313557b70acacf310398338763b225ded7db5c466b",
+          "bytes": 4958
+        },
+        {
+          "path": "local-tick-writer-residual/independent-roster.md",
+          "sha256": "b02eda0cff5022f25fe3fced98c6e52fd11c8a298ce6fa9bcce637e5b786a14c",
+          "bytes": 4334
+        },
+        {
+          "path": "movement-writers-effects/coverage.md",
+          "sha256": "5445111fa3ff6d310b6ecbabd1b61225f0df3ef523143ab00e7810a521f97255",
+          "bytes": 10645
+        },
+        {
+          "path": "movement-writers-effects/findings/chorus-fruit-entity-collision-query.md",
+          "sha256": "3ac627448eb1b66e46bda799a7613af7ec7f4ed5b42189134fe38ddc70b00b2f",
+          "bytes": 10441
+        },
+        {
+          "path": "movement-writers-effects/findings/farmland-block-conversion-push-up-epsilon.md",
+          "sha256": "20637ff3440fd860e33bec7ec17d378eba629faa68517534c9bcaa4f192a3d7a",
+          "bytes": 2997
+        },
+        {
+          "path": "movement-writers-effects/findings/player-dismount-position-query.md",
+          "sha256": "c47fe22ec0731867571c5974365647b965d281080b1d351e6a22f217b123a8ad",
+          "bytes": 10763
+        },
+        {
+          "path": "movement-writers-effects/roster.md",
+          "sha256": "9e82e423f6e357bef1bc2ec4159898315187889d591f7f4f6f3b0a8d2bde05eb",
+          "bytes": 1643
+        },
+        {
+          "path": "movement-writers-effects/writer-audit.md",
+          "sha256": "cdf195eaddd0caf5a4b397fe5b2dbbc457bed36054830ccf6c17eb94e9d6748f",
+          "bytes": 20454
+        },
+        {
+          "path": "provider-registration-census/artifact-hashes.sha256",
+          "sha256": "a4e111714986059c00a829f5142d34c2aaefe15d65b2e8a1da6b84c158195969",
+          "bytes": 769
+        },
+        {
+          "path": "provider-registration-census/independent-roster.md",
+          "sha256": "be5f8324c9ae59a96562c78d320aee5aa1599cb44efe2e8d719ede8a0b0eb39e",
+          "bytes": 28308
+        },
+        {
+          "path": "provider-registration-census/legacy-registration-state-join.tsv",
+          "sha256": "edd56893b1d1bd7746a48e171e0f17a36b860caf9c77e0b9c4078939ea05d905",
+          "bytes": 75938
+        },
+        {
+          "path": "provider-registration-census/legacy-state-fixer-crosswalk.tsv",
+          "sha256": "6f348449cc50a8d47833bc5a794576ecbb67f08f7d1bbb6b474f32b0236a7f83",
+          "bytes": 5148780
+        },
+        {
+          "path": "provider-registration-census/provider-source-hash-inventory.tsv",
+          "sha256": "cbbdf44773e35c035ded0e5e905cac7fa99b945f631d8c96ce8f248d5af6f0cb",
+          "bytes": 48494
+        },
+        {
+          "path": "provider-registration-census/provider-state-domain-matrix.tsv",
+          "sha256": "8c07e3521f3add7a977f6244203a93a6e46cac3bc9bb398ee4df4e80f74d6bff",
+          "bytes": 12300
+        },
+        {
+          "path": "provider-registration-census/report.md",
+          "sha256": "6443e75ee65d764951f28dd80fea155426d9cc864b10ac3c4541ecce196e19de",
+          "bytes": 40381
+        },
+        {
+          "path": "provider-registration-census/skull-state-entity-remap.tsv",
+          "sha256": "992050ca8e89da305f939d3604bbdb01318dcfede4ad96976f221951b0075585",
+          "bytes": 304708
+        },
+        {
+          "path": "provider-registration-census/unregistered-alias-dispositions.tsv",
+          "sha256": "592317e424f723fd1816e1c75e207d00bdcf88668930a6101d71e198bce0072b",
+          "bytes": 9799
+        },
+        {
+          "path": "rail-button-lever-pressure-plate-collision-registration.md",
+          "sha256": "21fcb0d7afdeb11750a925264ee68b10d7d8bf08ccb2b169ae88245b1e82044a",
+          "bytes": 4497
+        },
+        {
+          "path": "residual-source-audit/input-hashes.txt",
+          "sha256": "6ee99fc84df69413dab7759f4e8eca94c609836889293e54705c74878d0a17b4",
+          "bytes": 26965
+        },
+        {
+          "path": "residual-source-audit/movement-tick-candidate-review-r2.md",
+          "sha256": "0f9005ca2f9a2d65d12ebcb2ebfe528b2ede95bfc6d6bdb76dcf6f4d8a9d115d",
+          "bytes": 11765
+        },
+        {
+          "path": "residual-source-audit/movement-tick-candidate-review.md",
+          "sha256": "fdbe6dc3c7d07cd8e316dd5a5e867a663f24d932365f1845a7793e42000e114c",
+          "bytes": 10849
+        },
+        {
+          "path": "residual-source-audit/report.md",
+          "sha256": "861751fa84d4d4ecbe505c8c533eb3d1b3138d47ca48da25319fee22c79549e8",
+          "bytes": 38295
+        },
+        {
+          "path": "residual-source-audit/water-jump-supplement-review.md",
+          "sha256": "ce354e043bd39d0dbeff358366c8a0c91f4a7e0ee425398eefed0bd32231adc1",
+          "bytes": 9933
+        },
+        {
+          "path": "slab-state-and-collision-closure.md",
+          "sha256": "06d8e6bfe3438e55cb32995e2ee4c7e866b59fd8713f263c5b61b6371f16d9fa",
+          "bytes": 3714
+        },
+        {
+          "path": "stair-state-index-proof.md",
+          "sha256": "b2f01638562873a43aeb104600ae6880e851f6b3495b813aec0fe4e048623201",
+          "bytes": 3526
+        },
+        {
+          "path": "water-sprint-core/coverage.md",
+          "sha256": "f992b7f3b88b637e2d5c43a415519983545ce14bd9f9836dceac57e881ebf3d9",
+          "bytes": 6819
+        },
+        {
+          "path": "water-sprint-core/findings/local-sprint-water-gates.md",
+          "sha256": "cacfa0985e0b1f94751bed18710f13168c8abc8d3a1f9ad984039137ded8587a",
+          "bytes": 1556
+        },
+        {
+          "path": "water-sprint-core/findings/player-water-current.md",
+          "sha256": "ecc22045e143b6703ce01f5bfc70301bf9cbb93658f68451a674948f6ec15b5d",
+          "bytes": 4239
+        },
+        {
+          "path": "water-sprint-core/findings/water-contact-immersion-height.md",
+          "sha256": "5f077642ff619dab4f77a3c39358529e7c18a81d37c921a0a2517ac35785cc31",
+          "bytes": 2640
+        },
+        {
+          "path": "water-sprint-core/findings/water-jump-depth-gate.md",
+          "sha256": "c705c9d949543a425d6e631a6cd53d37d3e8df3b489841b8b1f5651c59a6d8b2",
+          "bytes": 1654
+        },
+        {
+          "path": "water-sprint-core/findings/water-travel-gravity.md",
+          "sha256": "c530e3ac4ec70a6062751c1524cceece1454f0b66cae74991b3ce79a3564c5ab",
+          "bytes": 1407
+        },
+        {
+          "path": "water-sprint-core/intermediate-comparison.md",
+          "sha256": "d28afac799051a26fd51d37ffdf8f087abc2c12037b595c42e731548a659129a",
+          "bytes": 7484
+        },
+        {
+          "path": "water-sprint-core/roster.md",
+          "sha256": "66ffc388cfadf52ad1fe8da6faae0f462bd4ede0dc093c064b38fd4e5ae0add8",
+          "bytes": 2019
+        },
+        {
+          "path": "water-sprint-core/source-hashes.md",
+          "sha256": "9e9358157324ae2ad63569a2d710f8c816f3b159aa049eb231c986d1d0052326",
+          "bytes": 11657
+        }
+      ]
+    },
+    {
+      "source": ".native-source/20261031/1132-1144-finish46",
+      "archive": "development/research/source-evidence/20261031/checkpoint67/1132-1144-finish46.zip",
+      "sha256": "2e2e303d065a8889928ef4a85b68b547c6642dab5573be4e0d772dc271724524",
+      "files": [
+        {
+          "path": "autojump-callback-terminal/report.md",
+          "sha256": "82b5a11adf8f0e194ed41d0949d7a35845dd0cdc748e69e5c1c0aa53c125d070",
+          "bytes": 13828
+        },
+        {
+          "path": "autojump-callback-terminal/report.sha256",
+          "sha256": "72f5fecdbd5c649b1e249b76bc0be4c7f3b6369bf3ccc6379e710ea201e434f7",
+          "bytes": 75
+        },
+        {
+          "path": "autojump-multi-candidate-output-search/candidate.md",
+          "sha256": "b999a1beee4d483c40b839cd50e635b7702f5015496fcb93df7c17930e3f4db5",
+          "bytes": 5955
+        },
+        {
+          "path": "autojump-multi-candidate-output-search/report.md",
+          "sha256": "812cd1ee0a23296fff643ec69fb3c590ea84f4b535963fe60a123f6c49e156d2",
+          "bytes": 6503
+        },
+        {
+          "path": "autojump-query-terminal-expansion-v2/report.md",
+          "sha256": "077a799697c28c2b7bfb51cde47da13f7a8c586e76487421355ad643d5bf845a",
+          "bytes": 13107
+        },
+        {
+          "path": "autojump-query-terminal-expansion-v2/report.sha256",
+          "sha256": "100eddcd0df8aa8e7cfe92f957bdf2915fea7c7e3a947de80286fe73d7fbe62b",
+          "bytes": 64
+        },
+        {
+          "path": "base-inherited-face-membership-closure/registration-face-results.tsv",
+          "sha256": "2002c68d4890192b7635dd270a1cd4d7f4cc2aa0df5f0d1728b1f7105872a92a",
+          "bytes": 68470
+        },
+        {
+          "path": "base-inherited-face-membership-closure/result.md",
+          "sha256": "7a6faef530c713937486b1e76308bac4452f55b7edfa8ab859ab7242d5099e88",
+          "bytes": 7805
+        },
+        {
+          "path": "base-inherited-face-membership-closure/source-hashes.tsv",
+          "sha256": "8cfad445bd926af3120974843983712dee1dc795637dc61bb1060eb7e34cebb6",
+          "bytes": 1884
+        },
+        {
+          "path": "base-shape-registration-census/counts.json",
+          "sha256": "4b2e604001b9e2f47c9a112733a32aeabdef361fc15322181ef38a5aafeb1ecb",
+          "bytes": 848
+        },
+        {
+          "path": "base-shape-registration-census/deliverable-sha256.tsv",
+          "sha256": "2bee15255c7abe9279a003523650b682da68fc17265d229fa2e5529da53c1ff2",
+          "bytes": 932
+        },
+        {
+          "path": "base-shape-registration-census/excluded-custom-shape-registrations.tsv",
+          "sha256": "318d1c87057113428529444d6a3db3cbda284acd87c4ca07722d3aaf1a7b3f93",
+          "bytes": 111305
+        },
+        {
+          "path": "base-shape-registration-census/inherited-common-registrations.tsv",
+          "sha256": "44005de72f8e952c0dd72c19d0e6d037d5040f86d27482cd698d69c7b2d269af",
+          "bytes": 80494
+        },
+        {
+          "path": "base-shape-registration-census/override-reconciliation.md",
+          "sha256": "c1a79be223fae45a3769dde887603307f660097c9dfde26a6ae2fff6f239d327",
+          "bytes": 3955
+        },
+        {
+          "path": "base-shape-registration-census/override-state-reconciliation.tsv",
+          "sha256": "2acc1d339ab0e4a8e08d1bbcb16b17d52a0b96546a08455086809d3b0a5a9c17",
+          "bytes": 72133
+        },
+        {
+          "path": "base-shape-registration-census/paired-report-sha256.tsv",
+          "sha256": "3837770774fdbdd6858d0739e4f8df2dd612b566b9bdac876bd7e2d81c6b6229",
+          "bytes": 2492
+        },
+        {
+          "path": "base-shape-registration-census/README.md",
+          "sha256": "3c1057590e487c4ade0f64bb9244424a302fc210fbb391b8d75f28574e409a90",
+          "bytes": 5074
+        },
+        {
+          "path": "base-shape-registration-census/registry-id-differences.tsv",
+          "sha256": "9b29fe55ce53e17ad5e7e90af58011206efde1f25b80ccb3f851e65cfe4961c7",
+          "bytes": 5408
+        },
+        {
+          "path": "base-shape-registration-census/source-sha256.tsv",
+          "sha256": "6c6e7644bd82ae7b1e4046dea1bb61de402208b8d894a59fa1b732d535d03cbc",
+          "bytes": 64101
+        },
+        {
+          "path": "base-shape-registration-census/unresolved-aliases.tsv",
+          "sha256": "108c2eea8cae61d9fe01d86e87d898779372adc75dc5211c09a3d4275465999f",
+          "bytes": 29
+        },
+        {
+          "path": "bed-shape-movement-query/result.md",
+          "sha256": "bba1c3f01831444935ba9dcab6f092f04bceb63b17965bf4d935ed6cd5ba104c",
+          "bytes": 5466
+        },
+        {
+          "path": "bed-shape-pairing/result.md",
+          "sha256": "6d994a9b6650de912844eebd1a5f6da40e7b233e9b2cd4f1647d9ce2051a48ee",
+          "bytes": 7963
+        },
+        {
+          "path": "block-callback-terminal-pairing/review.md",
+          "sha256": "6398d0084049505727ef49940fddc37bd4b8866f2f00c78309255c861d47f948",
+          "bytes": 20716
+        },
+        {
+          "path": "block-chunk-collision-closure/result.md",
+          "sha256": "4e3a9515fb76d816b3ed6c007266d415a2aff4a1a30c72854c14ce48c48fb7d9",
+          "bytes": 11466
+        },
+        {
+          "path": "blockstate-context-pairing/result.md",
+          "sha256": "69d4acd6633e402225b9ca3d1c14178842153bf77e6d0e67ab03007ba21341c4",
+          "bytes": 7259
+        },
+        {
+          "path": "border-shape-independent-review/review.md",
+          "sha256": "8cdab3f87fa310d6061035d6c85cbb6f21a354109f576afaab47434e101757d3",
+          "bytes": 4417
+        },
+        {
+          "path": "border-shape-movement-query-pairing/candidate.md",
+          "sha256": "8a1444ec798458d05d7ee374e755f09fe2035e57576460671b2763922af976bb",
+          "bytes": 5590
+        },
+        {
+          "path": "border-shape-movement-query-pairing/result.md",
+          "sha256": "7f309011405bf87acc8ab02e3c3b9ed696cfd8a135ce3b43c26d04f0f2106a2e",
+          "bytes": 6389
+        },
+        {
+          "path": "callback-consumer-closure-followup/report.md",
+          "sha256": "940d1ace9298d2d7da2bffe57081ec6a237bd7c341635515e6cf0d269e097219",
+          "bytes": 9743
+        },
+        {
+          "path": "callback-lifecycle-residual/candidates/jump-boost-float-rounding.draft.md",
+          "sha256": "99f912c20cd59e13918182b289ce1e8681540940e73c1c4a3514fd6febfe02ba",
+          "bytes": 2057
+        },
+        {
+          "path": "callback-lifecycle-residual/result.md",
+          "sha256": "b41117c9c8077625d449d38abb2b8bad78b64b3c693dfc556d7b6b285ad71aff",
+          "bytes": 9404
+        },
+        {
+          "path": "candidates/cauldron-collision-volume.draft.md",
+          "sha256": "dce1c18429f7c204da21689b12c41622d760c4d85818fa740d33c59d1b917bba",
+          "bytes": 2211
+        },
+        {
+          "path": "candidates/chorus-flower-falling-current.draft.md",
+          "sha256": "ee0bba652a75b741c177b0cbd7e667c7f7d0fa4d82f04e8b3cc7a6c71eee1b5b",
+          "bytes": 3656
+        },
+        {
+          "path": "candidates/corner-shell-moving-piston-clip.draft.md",
+          "sha256": "18f2c704d0facc5f85b1f911f1da48d0efe016be3b13b7ace81e9fbf674e9871",
+          "bytes": 2222
+        },
+        {
+          "path": "candidates/fluid-stair-current-impulse.draft.md",
+          "sha256": "a4227dfc907b8b195db475efac66fffbd7ca8024e7ae1a8ca77cf8c94e61eceb",
+          "bytes": 3143
+        },
+        {
+          "path": "candidates/horizontal-collision-flag-tolerance.draft.md",
+          "sha256": "e756d6d24c16526095b1552b4a29e051b566746bb31cf5568d595ad0fe72102a",
+          "bytes": 2054
+        },
+        {
+          "path": "candidates/moving-piston-cauldron-nested-collision.draft.md",
+          "sha256": "0208f16284b4f04bf2ee0b8492aad2fb2b7347b703e165cbb5ce21e30089c1e3",
+          "bytes": 2625
+        },
+        {
+          "path": "candidates/piston-micro-request-bypasses-accumulator.draft.md",
+          "sha256": "b77166ec38822a14d0665e5b93cf78d729dd625c53565bcc7732f1ddc71ffc74",
+          "bytes": 2651
+        },
+        {
+          "path": "candidates/resetpos-climb-coordinate.draft.md",
+          "sha256": "343f7d607ee82e5d1d7e9957c74bb25c4e863797d9c969f0292fec3c958f7f78",
+          "bytes": 2384
+        },
+        {
+          "path": "candidates/resolved-vector-position-cutoff.draft.md",
+          "sha256": "30202252204d7fcb22f8f3b32c63dd87a5b94ab05fe5025162e96d0bf2c92164",
+          "bytes": 2079
+        },
+        {
+          "path": "candidates/respawn-sleep-state-first-tick.draft.md",
+          "sha256": "c158bb3d829c1e345d3e06d9cb0e5be6c75f31c13511af92283dd1100fc4d3b7",
+          "bytes": 3189
+        },
+        {
+          "path": "candidates/sleep-position-response.draft.md",
+          "sha256": "be6fd49e3bff04ed690fe1cc643ec96cab1f5cc21cc8f6f94fbf1947908b41c8",
+          "bytes": 1750
+        },
+        {
+          "path": "candidates/step-downward-component.draft.md",
+          "sha256": "1d9df5ab2cd76bbf0c0a8dea8667308d4799a67e13c86a2bcb137e1e1a1c2dd4",
+          "bytes": 2912
+        },
+        {
+          "path": "cauldron-independent-review/review.md",
+          "sha256": "b096098ae0c335582a2bec65ecfefd43541fc1266992d5532e9721cdc63f8236",
+          "bytes": 3567
+        },
+        {
+          "path": "cauldron-independent-review-v2/review.md",
+          "sha256": "4ae37037d19f15d57291d3f300cfaabe804aa3d4ea4bffdcc1efc2d0247b2a64",
+          "bytes": 3549
+        },
+        {
+          "path": "cauldron-independent-review-v3/review.md",
+          "sha256": "04936030a397db2e14bcc0da44980089195bc37793568c1da081481ddecaca6a",
+          "bytes": 3810
+        },
+        {
+          "path": "cauldron-independent-review-v4/review.md",
+          "sha256": "d19a5551499fc25fb10552995e474ad3796d93074925888e7a3795d393a0ed85",
+          "bytes": 3325
+        },
+        {
+          "path": "cauldron-movement-relevance/result.md",
+          "sha256": "a77f53dcbc21d9e9a4c1b3aff59394bfcff534ac219900a2e2606758f0ced591",
+          "bytes": 5520
+        },
+        {
+          "path": "cauldron-storage-shapes/result.md",
+          "sha256": "f5cffa49d2d8cbf10dfed12bbb513123002abaec32c0c532825e39cf6de84360",
+          "bytes": 10967
+        },
+        {
+          "path": "chorus-current-independent-review/review.md",
+          "sha256": "e4a3b8347d21932efe597dabf96add51c426a10aeae2397a1cc7aa80c9ef1dbc",
+          "bytes": 6535
+        },
+        {
+          "path": "chorus-current-independent-review-v2/review.md",
+          "sha256": "250799b16169d258cbe0de0040b78568fd1d4acd7a81450f93986ae209918797",
+          "bytes": 3854
+        },
+        {
+          "path": "chorus-current-independent-review-v3/review.md",
+          "sha256": "62fb8d61fe2012489416385b2f39b3f3a0977224ee7cbd295ca5834ccac4f97d",
+          "bytes": 4639
+        },
+        {
+          "path": "chorus-dynamic-shape-pairing/result.md",
+          "sha256": "cde4b0a37914dcd7efbf504d8d6402451c61b9805097c95a9b7e5a4682365dc2",
+          "bytes": 8967
+        },
+        {
+          "path": "chorus-dynamic-shape-pairing/states.tsv",
+          "sha256": "009162b345e592f2452781b3f496f8ff1d2cbf0bb1bfcb320f9d44ca03eecd81",
+          "bytes": 3433
+        },
+        {
+          "path": "client-modifier-pairing/report.md",
+          "sha256": "e9c5cb5a8998c939114fd44ef1fc86acb61d3d0ded152690b7e0e77229f3d55f",
+          "bytes": 12930
+        },
+        {
+          "path": "client-response-modifier-residual/result.md",
+          "sha256": "840661b7af22e851fa1e290dbff13493bdf2ed1ecc95d0081cfecc2e7c4107a1",
+          "bytes": 11604
+        },
+        {
+          "path": "client-response-pairing/report.md",
+          "sha256": "7563d89bc605f330ac8fac55cf7045f600013a250df07d0ab8a30216eb849f3f",
+          "bytes": 15860
+        },
+        {
+          "path": "climb-resetpos-candidate-independent-review/review.md",
+          "sha256": "02fa02934be97a0d47c1b628b9b7be69f5e982d11be5689e9d511c4469746312",
+          "bytes": 5527
+        },
+        {
+          "path": "climb-resetpos-upper-bound-terminal/report.md",
+          "sha256": "a00f46ca3959e11dc43fad8b3d1183e646493572d6d1157a4389463c9ddc9955",
+          "bytes": 6692
+        },
+        {
+          "path": "climb-trigger-shapes/comparison.md",
+          "sha256": "cde14f7db077f0074bab895171ef3260bfdd4dbbd4da5c1cc7225ea99944c158",
+          "bytes": 7799
+        },
+        {
+          "path": "climb-trigger-shapes/raw-state-shape-outputs.tsv",
+          "sha256": "470d6d01818a257b0301f98a6f7159cf1604ca72e8c694fb98f57558774aae35",
+          "bytes": 58382
+        },
+        {
+          "path": "climb-trigger-shapes/source-hashes.tsv",
+          "sha256": "7e56bc53b0319a27e2d9b786062ce8f099080abcdaab2a8c230586d04fe7bac9",
+          "bytes": 1900
+        },
+        {
+          "path": "climbing-box-y-invariant-closure/report.md",
+          "sha256": "b66092f099b46fc6e7622f959589aa587673410be02b411998765c6ab54a69a2",
+          "bytes": 10948
+        },
+        {
+          "path": "collision-border-entity-closure/result.md",
+          "sha256": "c550d37a14278647cfe4c4545c1a9d9f25de705fc7863585feaa7546a61ee7cd",
+          "bytes": 10761
+        },
+        {
+          "path": "collision-candidate-route-pairing/report.md",
+          "sha256": "b5ee15630792d3fe020a48dca85f84aec9d8a3aa5d0d249305e8cf6db4d19af5",
+          "bytes": 12876
+        },
+        {
+          "path": "common-block-shape-pairing/result.md",
+          "sha256": "98a6b71058a7ddfd5bc5f06e4f14cdaf5ce1fd63869a6cf0443fba0162a50fa9",
+          "bytes": 8528
+        },
+        {
+          "path": "container-shape-pairing/result.md",
+          "sha256": "3fb677f6bbce271e8e156d82a46c0cb2441ff1da01a12f10fc16693ad03f0d61",
+          "bytes": 9570
+        },
+        {
+          "path": "corner-shell-clip-candidate-search/report.md",
+          "sha256": "8fe19e62c3c5d4152ffcbf2024917e2d7e418b68da82ccb158a2f323a4583ed7",
+          "bytes": 8597
+        },
+        {
+          "path": "corner-shell-clip-independent-review/review.md",
+          "sha256": "89e96ac413a3e724f9523f0a739b5ef7334a295df474232f5fba010c50124180",
+          "bytes": 4478
+        },
+        {
+          "path": "cutoff-independent-review/review-report.md",
+          "sha256": "f9111cb2bc71800d631ba2f5c90c5d5870cc1e10666e9b2f95f1991057bf2336",
+          "bytes": 5453
+        },
+        {
+          "path": "default-tag-provider-membership/result.md",
+          "sha256": "869cea6924bf3e233cd1c1ad70d05c20b0bc6947a236f2c81e1b39109671d065",
+          "bytes": 3991
+        },
+        {
+          "path": "door-gate-shape-pairing/result.md",
+          "sha256": "9e1daef5a182b8ca6f770fce4a21afa9a6988ea16767613bcd8e61e3da4c3d45",
+          "bytes": 5594
+        },
+        {
+          "path": "door-gate-shape-pairing/states.tsv",
+          "sha256": "b04999ba885d62f462451192ce505a874727a913f3ecfe16bb226d4b62b5d72a",
+          "bytes": 37764
+        },
+        {
+          "path": "dynamic-provider-movement-gap/result.md",
+          "sha256": "82c9fe973c72442510236677b8a04193fd1b8a58781b5c17ff85933c965c3d01",
+          "bytes": 9233
+        },
+        {
+          "path": "dynamic-provider-movement-gap/result.sha256",
+          "sha256": "91ca06e8440a2a6eea32b49701812a66f988dec57f0a9f82244fca0468533879",
+          "bytes": 77
+        },
+        {
+          "path": "entity-collision-epsilon-movement-terminal/result.md",
+          "sha256": "bc53f8aca2bf44c253d56eeaa54bcfa80fab933119631a3979b178bd70082bee",
+          "bytes": 6420
+        },
+        {
+          "path": "entity-collision-margin-terminal-closure/result.md",
+          "sha256": "8fdfcacdfec20f152acc2f8d442a92c6a96835ff4b2abf10e514363677a70e0f",
+          "bytes": 10328
+        },
+        {
+          "path": "entity-epsilon-terminal/result.md",
+          "sha256": "ba64a22fedba0ed325fa1e476b4c16c89869a57e255ccf1a11c067cd64c2f478",
+          "bytes": 5919
+        },
+        {
+          "path": "external-responses/report.md",
+          "sha256": "58a1a61389a69ebcf28052c9499c7e85b63807f88fa6fe380729a78b414cc5c2",
+          "bytes": 6319
+        },
+        {
+          "path": "face-inherited-census/result.md",
+          "sha256": "bb88cb41e3917a8856de806dd01317676d501399e976015925e64329fce62cee",
+          "bytes": 10985
+        },
+        {
+          "path": "fence-wall-independent-recheck/derived-states.tsv",
+          "sha256": "1de38dbd5e9c4a271413b6c0ca49b03d4ddf9ee150229ff720cf9a5383ba45f3",
+          "bytes": 61559
+        },
+        {
+          "path": "fence-wall-independent-recheck/result.md",
+          "sha256": "dfd7b97f4ca9ebca1b2173319d33158c267c18fff1a480e648684872c4c2bd36",
+          "bytes": 6639
+        },
+        {
+          "path": "fluid-face-boundary/result.md",
+          "sha256": "6734efee052e65cb48815b95a1a2c03f1ac0e14e429734aa8cbd285d2d990311",
+          "bytes": 5588
+        },
+        {
+          "path": "fluid-face-current-terminal/result.md",
+          "sha256": "619aa8ba3875cecbe930ddb56876004e32b0184502c93160121b95e3e201a793",
+          "bytes": 8537
+        },
+        {
+          "path": "fluid-face-masonry/result.md",
+          "sha256": "97e2a7e75417e70911c894053fae0040312784a9b59214c3062ccc9cc34e803c",
+          "bytes": 11234
+        },
+        {
+          "path": "fluid-face-remaining-static/result.md",
+          "sha256": "e3454465a99c199386366d9e3be3137bab1d2356df9d9099ca3aa2bac4109c68",
+          "bytes": 10140
+        },
+        {
+          "path": "fluid-face-remaining-static/source-hashes.tsv",
+          "sha256": "0ef4829b49e94a7336f0fac9810aad65cbea99705916e4c6f143d62928612b2b",
+          "bytes": 8266
+        },
+        {
+          "path": "fluid-face-remaining-static/state-face-results.tsv",
+          "sha256": "eca3946b891e008da26e8448f0da9b1a41da1683c8bc2c8322574a8520b27739",
+          "bytes": 134240
+        },
+        {
+          "path": "fluid-face-slab-trapdoor-snow/result.md",
+          "sha256": "769d96cb79792a3a465a68a4bb0f13c20cd64eab0a09e57b3c30e3f80f87db78",
+          "bytes": 9778
+        },
+        {
+          "path": "fluid-face-unpaired-closure/result.md",
+          "sha256": "334ab8492b0232f20cce63bb93bcad8cc590dc872879158930ca927f44bb5221",
+          "bytes": 19657
+        },
+        {
+          "path": "fluid-impulse-independent-review/review.md",
+          "sha256": "e32d3f8d661bb668e8d536a52c94715dbe8883cd646c62d9151d0063b83144ab",
+          "bytes": 4692
+        },
+        {
+          "path": "horizontal-flag-independent-review/review.md",
+          "sha256": "7470b0590334bcc8e1a2512f46430df2d1ebd4a6f9f87adc19a118b4f9ae72b2",
+          "bytes": 4183
+        },
+        {
+          "path": "independent-audit/report.md",
+          "sha256": "325ca7a91fb71ae9f478b399a450211001e597c0ced331180d5b4708badc7c3a",
+          "bytes": 14896
+        },
+        {
+          "path": "independent-audit-final/audit-crosswalk.md",
+          "sha256": "e2651ca1e9204a93e3195265c230794beab75ac7ff5445fad71e010afec60b9f",
+          "bytes": 39168
+        },
+        {
+          "path": "independent-audit-final/result.md",
+          "sha256": "20e28fe2e8ec117860ea1d0185d4eeb92cec8dc8834e64f3c43fe681b7f70e02",
+          "bytes": 20696
+        },
+        {
+          "path": "independent-audit-final/roster.md",
+          "sha256": "8f7ec47e212156e0a6800e545277ea670c39fde0dab2d8890beb1f55b3b30f59",
+          "bytes": 6226
+        },
+        {
+          "path": "independent-audit-final/tick-staging-crosscheck.md",
+          "sha256": "cea3d1b47f6add6268afe3ef8be25eee4d66f45e84b4581c9beffbf013f74ac1",
+          "bytes": 4161
+        },
+        {
+          "path": "independent-audit-round2/result.md",
+          "sha256": "fa40e049d12a9f8b2653301ed68574de3d3ae8894f9b265d58507ffb7862307c",
+          "bytes": 11588
+        },
+        {
+          "path": "independent-audit-round2/roster.md",
+          "sha256": "766e599b2fde62a6945afb2649af40ad6afc059ef8b3882408548e837e9a9ea0",
+          "bytes": 7803
+        },
+        {
+          "path": "independent-audit-v2/report.md",
+          "sha256": "43b16144ce819835d4d14932ede74999706965d3f46d3b316d750a329aa5102b",
+          "bytes": 29256
+        },
+        {
+          "path": "independent-audit-v2/report.sha256",
+          "sha256": "0443207681fbd02aa7498a3ce85088a196b3f0cb9bc66ba7ea234792ffd11ba5",
+          "bytes": 77
+        },
+        {
+          "path": "independent-audit-v3/report.md",
+          "sha256": "e7b47bfc1a1e9b4eaa09169842d5eccee36358161e06eef793ddba6884bb4932",
+          "bytes": 19576
+        },
+        {
+          "path": "independent-audit-v4/erratum.md",
+          "sha256": "c6342ba3b9320aef556fc2f7fc83754c9aaef2da1655a8c76be9b5be9dd3bdcc",
+          "bytes": 8591
+        },
+        {
+          "path": "independent-audit-v4/report.md",
+          "sha256": "cf914274341540d4de412bb8539553ac80a603fcc54d30e2e23bbb1f81465e80",
+          "bytes": 17131
+        },
+        {
+          "path": "inherited-face-independent-recheck/result.md",
+          "sha256": "5d02aec0a8f9fb086c2d85237b4a4cc5d5d2036d936cecfc0d35d1f8e1cbeb0c",
+          "bytes": 6793
+        },
+        {
+          "path": "inherited-glass-face-current-independent-review/review.md",
+          "sha256": "7df7a116d63adaaed69b149697cea3e63b89e9ef21ae9a7339550b0ba8485377",
+          "bytes": 3451
+        },
+        {
+          "path": "inherited-glass-face-current-witness/candidate.md",
+          "sha256": "71347cb8388b31b7b4d085a8577acbde315fa1748c7d6997af26a7ba333419f6",
+          "bytes": 2236
+        },
+        {
+          "path": "inherited-glass-face-current-witness/result.md",
+          "sha256": "8ae3ca25a95eefddad07817d7e5c601d9879c25578c05e71eb86b0c4224ae1d7",
+          "bytes": 6469
+        },
+        {
+          "path": "intermediate-boundaries/accepted-candidates/result.md",
+          "sha256": "a792aba930560e332618c74108a7d9fabadd5a1112daa39fcf1f7aa906e4dcc9",
+          "bytes": 18880
+        },
+        {
+          "path": "intermediate-boundaries/cauldron/result.md",
+          "sha256": "0dede83c8cdf0018ef05869d3aa037972da84059fc5cd0b581da43e72503ce52",
+          "bytes": 2309
+        },
+        {
+          "path": "intermediate-boundaries/horizontal-collision-flag/result.md",
+          "sha256": "7660e647f3548a4c76d954160afcf0d53a22a3c5056f16d3eb202f57c7d3c64d",
+          "bytes": 3101
+        },
+        {
+          "path": "intermediate-boundaries/horizontal-flag/result.md",
+          "sha256": "fbd6fa8246009040bb9c17c34307155d31d7fec481ff75f41b5bf5e4c1da856b",
+          "bytes": 2042
+        },
+        {
+          "path": "intermediate-boundaries/ordinary-candidate-boundaries.md",
+          "sha256": "aa79998477a1bb0071003a07382557dff6b4b951dc0e8c8c36bdaf1dc777d7b9",
+          "bytes": 11791
+        },
+        {
+          "path": "intermediate-boundaries/piston-micro/result.md",
+          "sha256": "70d9745981bcc303318c070a713ea8ee64dfadfde1dca70c97ca912ba699723f",
+          "bytes": 2928
+        },
+        {
+          "path": "intermediate-boundaries/postmove-chunk-gravity/result.md",
+          "sha256": "d79040d62a5344c3eeb5e14db606baa216c4b988e1a53199c38391c1d1fd3a29",
+          "bytes": 3243
+        },
+        {
+          "path": "intermediate-boundaries/push-away-response/result.md",
+          "sha256": "0ae8ec622daac7703b72b88dbdaab88d4f219a17b5fd5c0745b618e8f2670478",
+          "bytes": 4100
+        },
+        {
+          "path": "intermediate-boundaries/resolver-axis-order/result.md",
+          "sha256": "54b2ccc09c95d86b1dbfdd6d8eac4e06d3529d5c6f4f80f1bf4dfb60646bac69",
+          "bytes": 2837
+        },
+        {
+          "path": "intermediate-boundaries/respawn-sleep-state/result.md",
+          "sha256": "e9f340bb75523a670381a9d0fbabc13bbfda890cef055ac35e0251cde501be2d",
+          "bytes": 4145
+        },
+        {
+          "path": "intermediate-boundaries/sneaking-pose/result.md",
+          "sha256": "32def438b913784e492b8b29021565d65924f0fb4405aad7932efe21e3c53350",
+          "bytes": 2951
+        },
+        {
+          "path": "intermediate-boundaries/sneaking-pose-accepted/result.md",
+          "sha256": "15a55e6f04e815615c8c0b221bd212126bf956b744cdbe3f0109cad6e3199c2c",
+          "bytes": 3306
+        },
+        {
+          "path": "intermediate-boundaries/step-and-axis-accepted/result.md",
+          "sha256": "73dd361e50996a444d773c356fc941b212742b26afadbced4cf8cb5e223f87fb",
+          "bytes": 6483
+        },
+        {
+          "path": "intermediate-boundaries/step-entity-list-reuse/result.md",
+          "sha256": "db1c3aa25e9202bd3794fdacc64f105a61c4e8442b6b3befe6fcbc1458584790",
+          "bytes": 5334
+        },
+        {
+          "path": "intermediate-boundaries/world-border-terminal/result.md",
+          "sha256": "141612f76619de29928fe3df96032e8c578e41c16c64a84150a742fd5d21a240",
+          "bytes": 2894
+        },
+        {
+          "path": "iron-door-shape-pairing/result.md",
+          "sha256": "abea9730ff794b521e4d280db23aaac9d62c2252fd04d37ebef50c0f594085a8",
+          "bytes": 5881
+        },
+        {
+          "path": "iron-door-shape-pairing/source-hashes.tsv",
+          "sha256": "4b65e8dc6c9c77af4b450754b22617b5384c8943c6ac56a2860f41d5c1bf42c1",
+          "bytes": 1789
+        },
+        {
+          "path": "iron-door-shape-pairing/states.tsv",
+          "sha256": "029deafb4f16fb3e4f37d44ae939b4b2e7138c31afcf89c589ed0a725194834e",
+          "bytes": 25572
+        },
+        {
+          "path": "jump-boost-independent-review/review.md",
+          "sha256": "9b189acdcd487ce21f2aea9aef29180ff1e2a7560044046a42dd545553b66daf",
+          "bytes": 4891
+        },
+        {
+          "path": "jump-boost-independent-review-v2/review.md",
+          "sha256": "ec7a70dd28a7df0a25901b0fd6b6d2226f808acda789a3cf576bf509361bfa62",
+          "bytes": 3614
+        },
+        {
+          "path": "large-shape-boundary-candidate-closure/result.md",
+          "sha256": "b006f8220fbed9a73db8dbe8ea25df82c1ff645d6cbde5856bd75e786a829ce9",
+          "bytes": 19827
+        },
+        {
+          "path": "large-shape-boundary-candidate-closure/roster.md",
+          "sha256": "7a6c3b7fe998d48419724c0403c8fe0365e2a5c25cf38013fcb25b64858292ae",
+          "bytes": 5302
+        },
+        {
+          "path": "liquid-callback-independent-review/review.md",
+          "sha256": "67987db5b6769181cf93209f78a456d6658b5a293790008057d11edd76526c3d",
+          "bytes": 5990
+        },
+        {
+          "path": "liquid-callback-movement-terminal/result.md",
+          "sha256": "cef3485ccb54a5f83a8186631df3fe138245100c79ab70ae1d5367168b3ee003",
+          "bytes": 4836
+        },
+        {
+          "path": "local-player-pose-lifecycle-closure/report.md",
+          "sha256": "0544acf3ea91c71194460c9947633201fd6c4b7a0ab052bce9133078b26bef18",
+          "bytes": 7056
+        },
+        {
+          "path": "local-player-reset-pairing/report.md",
+          "sha256": "c449abea73a5511aa547c8cd0b6a96155db7bc770bf8185a4ce80e5be0e5fd48",
+          "bytes": 11143
+        },
+        {
+          "path": "moving-piston-cauldron-independent-review/review.md",
+          "sha256": "4dc7dce9fcb8eaa4ab340b1e4dc647f41953c12432ec606fc9203a99b530e796",
+          "bytes": 7140
+        },
+        {
+          "path": "moving-piston-nested-shape-closure/report.md",
+          "sha256": "d6033b942ad5c22cbf9eef4c109ef7a0d9116e69add337714ed56c66917fd640",
+          "bytes": 12909
+        },
+        {
+          "path": "moving-piston-nested-shape-closure/source-hashes.tsv",
+          "sha256": "c8bd15e6b7854e63cad5d22226e029872c2100519a79c064a9d7c42c5af7d752",
+          "bytes": 2151
+        },
+        {
+          "path": "moving-piston-nested-terminal-closure/recursive-equality-addendum.md",
+          "sha256": "7723034c4d7b8bc99f1e0826116f5e9e201f707ca500862ec1ee1cb5adb9a0f3",
+          "bytes": 3504
+        },
+        {
+          "path": "moving-piston-nested-terminal-closure/report.md",
+          "sha256": "cc84ca5dd1dcaffb3a22e7457437d8d9759497fa13eae5a8226a31f44b29e325",
+          "bytes": 12019
+        },
+        {
+          "path": "moving-piston-nested-terminal-closure/report.sha256",
+          "sha256": "c21488bf7116f9564e3946ab3f6dad4abb7e2e0d74d9f3a4bf0e3604565a9a6b",
+          "bytes": 77
+        },
+        {
+          "path": "non-oak-slab-trapdoor-shapes/artifact-hashes.tsv",
+          "sha256": "881eba6bb38ebaa61be464ca1f1144a416d95ca16dadf7b6f694c5a15568f2ea",
+          "bytes": 520
+        },
+        {
+          "path": "non-oak-slab-trapdoor-shapes/fluid-face-pairing.tsv",
+          "sha256": "3ad36e3e2bd58e3879d3cb3c119f7e3e2f96cb40f56b8e87d0ff2225f91e8fe3",
+          "bytes": 314589
+        },
+        {
+          "path": "non-oak-slab-trapdoor-shapes/registrations.tsv",
+          "sha256": "5d2b3d987056b5dec42c47e994a746a82001305f2866c02785e716bbbe410df6",
+          "bytes": 2152
+        },
+        {
+          "path": "non-oak-slab-trapdoor-shapes/residual-registrations.tsv",
+          "sha256": "ab736b587fab01b192ca0568b6055110013aaf33ad8c2d388ec742408120c7ba",
+          "bytes": 1526
+        },
+        {
+          "path": "non-oak-slab-trapdoor-shapes/result.md",
+          "sha256": "ea974934da3ec34c720a2cdcc3732aba52f997e196862a8f534f004b9834faa4",
+          "bytes": 7922
+        },
+        {
+          "path": "non-oak-slab-trapdoor-shapes/source-hashes.tsv",
+          "sha256": "8e3f1b0294107fe2baa5e631164d85d23488d5d1a7c04880d7844abcd1fececd",
+          "bytes": 3134
+        },
+        {
+          "path": "non-oak-slab-trapdoor-shapes/state-pairing.tsv",
+          "sha256": "110cfd9d4050bcffbfca998a6a9af2f7da6147b6c4f0f270b174264940b7083b",
+          "bytes": 94452
+        },
+        {
+          "path": "nonblock-face-state-independent-recheck/result.md",
+          "sha256": "2c7506a7997ed726e71458957ce7de43f7a56be1ee0f36682de92451a96af7bc",
+          "bytes": 7097
+        },
+        {
+          "path": "ordinary-boundary-audit.md",
+          "sha256": "e39ea6b1ba338d2ed6de0d50d844563b5e1b06a77908d1faf6ca0e09f3e3ca97",
+          "bytes": 6333
+        },
+        {
+          "path": "ordinary-gates/ordinary-gate-followup.md",
+          "sha256": "21fee32838adb08830391399fc766c248a7164e997c03424d15af8c96fbf7585",
+          "bytes": 8711
+        },
+        {
+          "path": "ordinary-method-hashes/method-hashes.md",
+          "sha256": "04281813108d6ae9cd3333954e0ba420681f1ae0af5ebb8d31ee5a5c05b9155e",
+          "bytes": 5580
+        },
+        {
+          "path": "ordinary-method-hashes/method-hashes.tsv",
+          "sha256": "ec38654a235dd82dfc16ea4af0d4cef9f40e65e18df562221418929aecfc8497",
+          "bytes": 5883
+        },
+        {
+          "path": "ordinary-tick-staging-full-pair/result.md",
+          "sha256": "059b0225637c69883e0b4dc8ab5ae6547ac777b55e2a600872aefe868af7092f",
+          "bytes": 12919
+        },
+        {
+          "path": "overlap-excludeblock-fixture/candidate.md",
+          "sha256": "1174ac51022d5c4658d6961ebdbeb049e39e8bd14a56bd543c2af37c1f18781b",
+          "bytes": 1912
+        },
+        {
+          "path": "overlap-excludeblock-fixture/report.md",
+          "sha256": "b201fccf56fa57556d0a7b2e4dfbf4b5b2f9c124ca7ca1851c128f9a9499b3b5",
+          "bytes": 10285
+        },
+        {
+          "path": "overlap-excludeblock-independent-review/review-renewal-2.md",
+          "sha256": "b4297fdfe346bf83baac37ab2fcdd61dac700bd4f588a5df2c9b1a76956f6ed4",
+          "bytes": 2567
+        },
+        {
+          "path": "overlap-excludeblock-independent-review/review-renewal.md",
+          "sha256": "8766a10f92e8ff5241eb43ca021a90d0a7d7b29866cdfa105cc7f618fdd1c7a0",
+          "bytes": 3288
+        },
+        {
+          "path": "overlap-excludeblock-independent-review/review.md",
+          "sha256": "127165bb818b99e2061d022808f7161abad4e6539b8517a8a18b044670aca3a9",
+          "bytes": 6662
+        },
+        {
+          "path": "pane-snow-fence-shape-pairing/result.md",
+          "sha256": "31f7e2e5fa169557469327d68f14e6d3732e8ca3d5c86c69eaebd29e44fc0b46",
+          "bytes": 8776
+        },
+        {
+          "path": "piston-micro-independent-review/review.md",
+          "sha256": "ed98b42f0e71b4cbc72a915c4d231149bc279d3e9b8513e6a61105f6087b2b77",
+          "bytes": 4262
+        },
+        {
+          "path": "piston-micro-independent-review-v2/review.md",
+          "sha256": "a6ea03b0da59587182c9b2a9b036eccfe501914cc59208c08d8ac77b11f6c8b7",
+          "bytes": 3780
+        },
+        {
+          "path": "piston-shape-pairing/result.md",
+          "sha256": "1f288c9c75a144a84b3ccbff70939114807e0add8c551586ce70659c1f46010e",
+          "bytes": 9686
+        },
+        {
+          "path": "piston-tiny-request-terminal/result.md",
+          "sha256": "63d3db6365784ba2a8c065ca97bff37ba43b7a8197ae7a2a00f573d1974522a8",
+          "bytes": 4458
+        },
+        {
+          "path": "plant-crop-shapes-pairing/result.md",
+          "sha256": "8e3c15c98f4daebb9d6af99ce03dc2b424a46cb125e59f2d3750fce7e733a8aa",
+          "bytes": 15346
+        },
+        {
+          "path": "pose-fit-entity-response-independent-review/review.md",
+          "sha256": "5f8a311c5abe5c9808ad9938bc2ee1647dc483010ee48b831bb861d79d92fee3",
+          "bytes": 4553
+        },
+        {
+          "path": "pose-fit-entity-response-terminal/candidate.md",
+          "sha256": "8e7fc1d39c87bac9f276206bdd421ed60a4c16b74caff5fa7321ac1984879926",
+          "bytes": 1697
+        },
+        {
+          "path": "pose-fit-entity-response-terminal/result.md",
+          "sha256": "7a7dacdf2b47138b996465cb539d6c6f553d2713960deedcb75ec8a3cb3be140",
+          "bytes": 9453
+        },
+        {
+          "path": "prev-position-consumer-pairing/report.md",
+          "sha256": "fcdd7875b71b5fef31eaffa0fd870f2b783650c4a0056c44e1c867a506442057",
+          "bytes": 6538
+        },
+        {
+          "path": "provider-state-pairing/result.md",
+          "sha256": "a123849d7e113ae2d561021d6b297de1a2e394534839fa3fb912adc855b5cbbf",
+          "bytes": 10703
+        },
+        {
+          "path": "providers/fluid-face-shape-providers.tsv",
+          "sha256": "dd6cebcbf8be7c4ccf51c2fa23a45115c3cd19b5aecaa64a2bdeaef44038fb20",
+          "bytes": 13857
+        },
+        {
+          "path": "providers/inventory.md",
+          "sha256": "97631f9563a94cd08d470f5d4483d3960498b2d0ee9bfcde9a977de54e949480",
+          "bytes": 16793
+        },
+        {
+          "path": "providers/shape-provider-overrides.tsv",
+          "sha256": "84000a32434dd95817fb6ba6b4834c001fc22ec113272fa536638041df71acad",
+          "bytes": 43302
+        },
+        {
+          "path": "push-away-response-independent-review/review-addendum.md",
+          "sha256": "9df4c17938335f2f677d4dfd64b4602607d6e050e0f36a174ba0923d7234c5e6",
+          "bytes": 3098
+        },
+        {
+          "path": "push-away-response-independent-review/review.md",
+          "sha256": "bbd241451399e86eb750334c0d17710f003dc77ad76e2189f8ae2b624da3f9fa",
+          "bytes": 6272
+        },
+        {
+          "path": "push-away-response-witness/candidate.md",
+          "sha256": "ae6fa929b0f60929f7fc7d57b3e33693e892edb84781bbee318de66c90f61b87",
+          "bytes": 2324
+        },
+        {
+          "path": "push-away-response-witness/report.md",
+          "sha256": "c8fa891ccd32764ac60b0807801718ef2c0ee74f173c3738336a10ad980bcc02",
+          "bytes": 9232
+        },
+        {
+          "path": "rail-redstone-shape-pairing/result.md",
+          "sha256": "5aff7653750de1b88226f9edb3e40004ad115f200ee4421380469377b544ee4f",
+          "bytes": 12585
+        },
+        {
+          "path": "remaining-collision-provider-tranche/registrations.tsv",
+          "sha256": "6a027274248d2e078c392f110595e709e08e330a188bca2c56a1f2e504a0883c",
+          "bytes": 2598
+        },
+        {
+          "path": "remaining-collision-provider-tranche/result.md",
+          "sha256": "912ea17299a7ba4d15b44c7394a08f3758cd50e9146dfd44fe1a16c92b1de36a",
+          "bytes": 9768
+        },
+        {
+          "path": "remaining-collision-provider-tranche/states.tsv",
+          "sha256": "cd3ba2bf223db827f6263a2032c57753ba7147fdad82448c25912ff57af9ab9c",
+          "bytes": 197388
+        },
+        {
+          "path": "residual-23-provider-state-closure/result.md",
+          "sha256": "3de5b5bddad70ac2aa02c6120c7bc4c47f885b1626ddc002ea5b01a7533bc111",
+          "bytes": 11451
+        },
+        {
+          "path": "residual-23-provider-state-closure/source-hashes.tsv",
+          "sha256": "bd9ae2c0a8351384f09547a06f6a61cf2a65eac6e96dc70fea0f9d13c59e8de6",
+          "bytes": 2894
+        },
+        {
+          "path": "residual-23-provider-state-closure/state-coverage.tsv",
+          "sha256": "6d7a6309f45d5c23c0991e088b788ea7378436f385558da0b3b6b3044f476d82",
+          "bytes": 253041
+        },
+        {
+          "path": "residual23-independent-recheck/result.md",
+          "sha256": "000e46a110f129d50cd4565e1f9c2531618ab8c505d1e3d818d762335bbded08",
+          "bytes": 4753
+        },
+        {
+          "path": "resolver-axis-clip-core-pairing/report.md",
+          "sha256": "9edcd4d1a7f3eedc18fcd2fae51a4e0be313988e20d280f772bfce160a5cc3f4",
+          "bytes": 5612
+        },
+        {
+          "path": "resolver-axis-clip-independent-review/review.md",
+          "sha256": "8c9a53da184bc04d84a19b3a4fe6be422788f5baa5d0f7cd3ffbad424e7219bd",
+          "bytes": 3993
+        },
+        {
+          "path": "resolver-context-terminals-followup/report.md",
+          "sha256": "ad3f3f38e2c2a5e26e1b2844872676ead088acd037015bf81c138332510b6df4",
+          "bytes": 8536
+        },
+        {
+          "path": "resolver-query-branch-closure/report.md",
+          "sha256": "fd762f6149aee069b81188b15bf701313a4afe8ed2b5914a4babf64c9c76b169",
+          "bytes": 7950
+        },
+        {
+          "path": "respawn-first-tick-followup/result.md",
+          "sha256": "f1bc052ac06185d24047267fe51584a20b366a3aee4774fd6728da2ebe7d6e7a",
+          "bytes": 8348
+        },
+        {
+          "path": "respawn-first-tick-water-independent-review/result.md",
+          "sha256": "89093726e7bef545cae24cbf4073a58c5ce07f3c18c6155e5cc98f383f15a7e9",
+          "bytes": 4547
+        },
+        {
+          "path": "respawn-first-tick-water-sample/result.md",
+          "sha256": "71ca3217064cdd3c8074ec23a751cad556d8f99cf228226b91a85715b9bd3d9e",
+          "bytes": 6389
+        },
+        {
+          "path": "respawn-sleep-independent-review/review.md",
+          "sha256": "9e44b52ab3a0d9c362851e3cacaa558b22d82a51ba357bd19815586c22eac527",
+          "bytes": 4986
+        },
+        {
+          "path": "respawn-sleep-independent-review-v2/review.md",
+          "sha256": "d6b33b30fdbd6655e1e2d2bb7e38583a3d9168f5e99740330c66d37a21356c5b",
+          "bytes": 4400
+        },
+        {
+          "path": "shape-context-gap-closure/result.md",
+          "sha256": "9a534873b9e233987bade5515defab0dc4591b479c6d5072467644f56cbd4879",
+          "bytes": 5919
+        },
+        {
+          "path": "shape-provider-residual/result.md",
+          "sha256": "638c0414b750cce3bad977f5bd98d6106d5bf08099f73cd4faa2a5dcccf0aa05",
+          "bytes": 7093
+        },
+        {
+          "path": "shape-provider-residual/states.tsv",
+          "sha256": "0fe3f19ad3a14b578ca7131c06fa1c70793e798ba1eddc051cd99f3ee96a3b7c",
+          "bytes": 41556
+        },
+        {
+          "path": "shulker-collision-pairing/result.md",
+          "sha256": "e39bd80f80271c48560f0c85d17531be25f847f58b484809481e2e757d84e3de",
+          "bytes": 8314
+        },
+        {
+          "path": "shulker-dynamic-provider-independent-recheck/result.md",
+          "sha256": "c2925f3dc0ba598e7d7805d662634b9ebe0838b985684bc1aa7a6141bd96812a",
+          "bytes": 7246
+        },
+        {
+          "path": "sign-skull-banner-shapes/result.md",
+          "sha256": "92502be6782eddcb247e91f52035082096887960177bd2aca8bc3e1fb0ac2b3f",
+          "bytes": 11014
+        },
+        {
+          "path": "slab-trapdoor-independent-recheck/result.md",
+          "sha256": "6f2fdd45444e1d3088e228e76e36f3c692eb6a98c8f4c1ebd5d1809e7f7e04f8",
+          "bytes": 4774
+        },
+        {
+          "path": "sleep-position-boundary/boundary-check.md",
+          "sha256": "ae1a244a078afea53eb1a4d18969b3e7d64be2b88465b7d242141b98c5727c32",
+          "bytes": 4996
+        },
+        {
+          "path": "sleep-position-independent-review/review.md",
+          "sha256": "2b789c3e8654ff6d5f6f6cc1a6bf64c3efe62b7cfbffcb457fb3fe7db7a28476",
+          "bytes": 3288
+        },
+        {
+          "path": "sleep-sneak-gate-followup/report.md",
+          "sha256": "e02a9cb175e7b856d9718c65d50c979bb5bba08ab03dc39994d8a9db0bd39fa0",
+          "bytes": 7951
+        },
+        {
+          "path": "small-collider-shapes/result.md",
+          "sha256": "9247c411555ecc6ac6f38615245ded0c4fea2e7b9d43949a95da72844323f74a",
+          "bytes": 7646
+        },
+        {
+          "path": "special-block-shape-pairing/result.md",
+          "sha256": "67b34f800d1b37349036a1263ec81ff313661851ddcb56c09eea1c5eb1cbd536",
+          "bytes": 7493
+        },
+        {
+          "path": "stair-face-full-state-closure/result.md",
+          "sha256": "96bbf29aaf598b99612077328d8b85746ea0adf68e1fb14517eefa219edea902",
+          "bytes": 10611
+        },
+        {
+          "path": "step-candidate-rebuild-terminal/result.md",
+          "sha256": "a0a759157627856ea456eab4e8f0c8c3a1488588050571c23d390fc9f64b854a",
+          "bytes": 7242
+        },
+        {
+          "path": "step-independent-review/review.md",
+          "sha256": "d1626942b25eab68a0fd9a451e0d045cc4219484ee3069ee18196cc7597d2b58",
+          "bytes": 4404
+        },
+        {
+          "path": "step-only-entity-candidate-terminal/result.md",
+          "sha256": "0d35292ee9b72894b49181d3c7a9619fad37b4a30ae143d01838b0ffabc7d43a",
+          "bytes": 8843
+        },
+        {
+          "path": "step-only-entity-independent-review/review.md",
+          "sha256": "eba52b43327f53a8c5483cbb0c8457f949aa2cb759ece03dbc5257645fda9770",
+          "bytes": 4426
+        },
+        {
+          "path": "step-resolution-pairing/report.md",
+          "sha256": "e1ecad8d9e7bf8e2ca22a2910a2bd5497fb155d8272733eb014b486670dea832",
+          "bytes": 12359
+        },
+        {
+          "path": "support-predicate-pairing/result.md",
+          "sha256": "cbb52f203bd4b8c94dd8afa5ee3ca62ab75e6649504acfb7b8647adee207e9be",
+          "bytes": 9386
+        },
+        {
+          "path": "synced-pose-independent-review/review.md",
+          "sha256": "c7595f7306942e8529bdb941b1986e88ae7d85a1966435b084353a3f7b375a35",
+          "bytes": 3677
+        },
+        {
+          "path": "synced-pose-response-pairing/result.md",
+          "sha256": "62f3fdfab1f83d3bfe24f4b9aee8e30dd9716d26f581b96f7e0a495fc886f5f2",
+          "bytes": 10619
+        },
+        {
+          "path": "terrain-small-shapes/result.md",
+          "sha256": "ba22a0391bfacad12980772f686398bfd54c5c52f73f543451a1b8566af503c6",
+          "bytes": 8658
+        },
+        {
+          "path": "terrain-small-shapes/states.tsv",
+          "sha256": "f3a529c6c83e7af8c674b596aedd86faf80f69d20fbcb8d32a1c22d28d37b41a",
+          "bytes": 17220
+        },
+        {
+          "path": "tracked-state-pairing/report.md",
+          "sha256": "618da47e4e656ffe1d699f33399f9346c1d5e81b25b041645f0ca256ecadc99b",
+          "bytes": 15083
+        },
+        {
+          "path": "travel-postmove-chunk-closure/result.md",
+          "sha256": "594dbc20b88f38c0eff034677a79af0e1564c834a335a0167c4d640684a6ca92",
+          "bytes": 8960
+        },
+        {
+          "path": "travel-postmove-chunk-independent-review/review.md",
+          "sha256": "27e3fd59e59abb9ef2ebce29e4cb68c1086ec546dbd66f60a3147f1c1a76f18d",
+          "bytes": 2773
+        },
+        {
+          "path": "travel-terminal-pairing/report.md",
+          "sha256": "666f513a0558515b310044c7b1b06a1a049a4cc284715adfd6e7e3fbcaf04fff",
+          "bytes": 17874
+        },
+        {
+          "path": "wake-partial-shape-independent-review/review.md",
+          "sha256": "3b45d2f311e6c4b18fc503ac5fb39a16af557046a19d54097d23a614c2b0fa0b",
+          "bytes": 3130
+        },
+        {
+          "path": "wake-partial-shape-provider-pairing/candidate.md",
+          "sha256": "21dd0a25323e4cd225285f098ef02e21ff993170ef337218f33efd87b4b282cd",
+          "bytes": 2015
+        },
+        {
+          "path": "wake-partial-shape-provider-pairing/report.md",
+          "sha256": "05d0e73e1dc96961472dbae3685f5cd3875b87cce892ce440d1f8a8e72b7ffe9",
+          "bytes": 8108
+        },
+        {
+          "path": "wall-shape-pairing/result.md",
+          "sha256": "1828116132e02faddc0fbfdfbda5a5974071377d56e277becc804be3005d5277",
+          "bytes": 9390
+        },
+        {
+          "path": "wall-shape-pairing/states.tsv",
+          "sha256": "388fddfe8584ab7f1fb622973f6b44fd5a95e6602f2ca2cea8e9e1a9a32d848b",
+          "bytes": 3476
+        },
+        {
+          "path": "wood-door-gate-independent-recheck/result.md",
+          "sha256": "00e6bb9e846b0da31ca020e444a55518db039464c03b6b7099dfd5e2fbe9c9ca",
+          "bytes": 4094
+        },
+        {
+          "path": "wood-door-gate-shape-tranche/result.md",
+          "sha256": "587da635cd6c8b4fdcfc259f8f17cd03d677ed276830f3641026a88cbf6a1390",
+          "bytes": 8169
+        },
+        {
+          "path": "wood-door-gate-shape-tranche/states.tsv",
+          "sha256": "8fe0eb2067d66967a80eea940bb4613b3d94be297d81f37cbd4311b667334898",
+          "bytes": 189444
+        }
+      ]
+    },
+    {
+      "source": ".native-source/20261031/116-minor-chain59",
+      "archive": "development/research/source-evidence/20261031/checkpoint67/116-minor-chain59.zip",
+      "sha256": "2af0bede2314067f86cdd2bf4eb4560fc1ab34a8e2065a150c80af20de1f0bd4",
+      "files": [
+        {
+          "path": "1161-1162/block-provider-diff-summary.txt",
+          "sha256": "74ac3a273f61dde388e21179be8e3c341a2249415aef4a757098025b624041b3",
+          "bytes": 107170
+        },
+        {
+          "path": "1161-1162/changed-path-inventory.ps1",
+          "sha256": "f4f3417b90ad8f0e0c8ed28dc947dbcabba73424f3cd470b097a1357821a4435",
+          "bytes": 4537
+        },
+        {
+          "path": "1161-1162/changed-path-inventory.tsv",
+          "sha256": "2a4d1371076bebd5176ad802280edc32282d94341f53e30b588b2a9f69e2d60c",
+          "bytes": 609924
+        },
+        {
+          "path": "1161-1162/closure-appendix.md",
+          "sha256": "8d040c6abc4d070b648248083c77d7883e805c7b7d1e140d60f2b5069aafdef0",
+          "bytes": 14515
+        },
+        {
+          "path": "1161-1162/compare-block-bodies.ps1",
+          "sha256": "f45f44ea5527a1aa386e8e7f426c8da21c26b3f025441e50d226cd08dbdcee9f",
+          "bytes": 1471
+        },
+        {
+          "path": "1161-1162/coverage.md",
+          "sha256": "1187d8c14f2033170e04ef499645abc05a98bbc8f4fda23fb373bbf3747c262c",
+          "bytes": 21596
+        },
+        {
+          "path": "1161-1162/entity-route-digests.ps1",
+          "sha256": "d423132a404e9e0f32e13a5cd1950d290b54b9d73f874d073258ad02a77f73dc",
+          "bytes": 2865
+        },
+        {
+          "path": "1161-1162/entity-route-method-changes.tsv",
+          "sha256": "cbed07df165ead6671aa5428f319a130926336dd3b3b63b8509b3cd521434929",
+          "bytes": 8942
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/bed-exit-position-and-facing.md",
+          "sha256": "3aebfe238895fb8c926d5519506549b845715b3173dd919e5aeae7d22c2a433e",
+          "bytes": 2492
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/boat-passenger-eye-water-sprint-gate.md",
+          "sha256": "a8724e8003c6770685266d34cd275e00ace6a8a9330426d7c0835ebc922307ee",
+          "bytes": 2694
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/chain-collision-axis-shape.md",
+          "sha256": "0772c6e57df83624090f26321c3a0f7838afc039de71f91d7ec411f40f83ce6d",
+          "bytes": 1604
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/client-teleport-near-coordinate-fallback.md",
+          "sha256": "05a28ee31bbdb94704cbc3d0dbcbcb4caa52f2173f0c653bc65c0674a9f97447",
+          "bytes": 1674
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/dimension-scaled-world-border-collision.md",
+          "sha256": "1fd6cae3d8f23f371d98cbf31b1bada7f778a17c5cc49b02b08d90710764c77b",
+          "bytes": 2186
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/in-rain-riptide-client-movement-gate.md",
+          "sha256": "9a93545e0417d5cff25ca4ffd592384627133a058b9a4e4ef3555d328afedead",
+          "bytes": 7779
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/lava-pushing-in-water.md",
+          "sha256": "68cbfcb21722890575bd25c632f9728e3ab6e31df74ef881c8e9dc9f7b9fa208",
+          "bytes": 2681
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/local-player-suffocation-escape.md",
+          "sha256": "e605f68c1c2ca0cb3174fab01885e77ef8bde0fd9a189c949ff108a4308b8953",
+          "bytes": 2389
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/rejected-block-action-player-rollback.md",
+          "sha256": "941644d0ab9e228e5c5849332e2687b0fc08d791183f813daa247641907825bf",
+          "bytes": 1767
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/relative-move-zero-delta-coordinate-retention.md",
+          "sha256": "bebfda256500cd1d2e4c7eb4dbb428e6cd089223c9368533aeeacf40d8c6ce03",
+          "bytes": 2021
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/sneak-edge-backoff-near-ground.md",
+          "sha256": "020f0291b4eccdfb4a88a9bef534e02ac3363c040b6431e4a9c22c7d187b9391",
+          "bytes": 1357
+        },
+        {
+          "path": "1161-1162/findings/1.16.1--1.16.2/soul-speed-support-position.md",
+          "sha256": "7d3d5e78e079076d58a7d6ae5009c26c0666bbdc63ccf89d609be953cc3bdfdf",
+          "bytes": 1614
+        },
+        {
+          "path": "1161-1162/movement-method-digests.tsv",
+          "sha256": "0ea1ad1128e593f72d9872aa1c6b1e5507107f5b0db2eb5fcb0a3ed962c8675b",
+          "bytes": 611579
+        },
+        {
+          "path": "1161-1162/movement-method-hashes.ps1",
+          "sha256": "6d53ba95355349eb320dc005520211f8a0cc41015658fd8c2889ae02d2516e74",
+          "bytes": 1939
+        },
+        {
+          "path": "1161-1162/packet-method-hashes.ps1",
+          "sha256": "ed237afc6ec1e8750586be8fc6b185034c4763b13259d7553c98a19b1a5dbabe",
+          "bytes": 1611
+        },
+        {
+          "path": "1161-1162/recompute-method-digests.ps1",
+          "sha256": "52b5a07e8c3678937d25b02ce2156435f97cec560fd857b92a3b9d2b1713e73c",
+          "bytes": 6507
+        },
+        {
+          "path": "adjacent-source-coverage.md",
+          "sha256": "94710939e45581425ea28a7accce590a52c21d9a5be860960a25c2f90160aed2",
+          "bytes": 8397
+        },
+        {
+          "path": "changed-block-method-candidates.tsv",
+          "sha256": "528a2afb40ee049a73e80a647b8edda9cf09baa8c685e71e5e2749d1ce07eddc",
+          "bytes": 69148
+        },
+        {
+          "path": "final-independent-audit/audit.md",
+          "sha256": "e92f495d851d5db77a3a093e009efed497e4d7bf56f4557f8576483980acd9d5",
+          "bytes": 14419
+        },
+        {
+          "path": "independent-audit/audit.md",
+          "sha256": "54de7af75dc2d9391997db45ba22a2818520433297d3284dc83f90f718058b29",
+          "bytes": 14170
+        },
+        {
+          "path": "movement-route-hashes.csv",
+          "sha256": "e01df0c2ce7256973455e7c33e9164e40c00adb928631b6be74c8af66cf91361",
+          "bytes": 18307
+        },
+        {
+          "path": "static-hashes.csv",
+          "sha256": "7abfd6187b86396d00156f5352e1188acafbdb0e9c69e0628f0e244d3a95e282",
+          "bytes": 3026091
+        }
+      ]
+    },
+    {
+      "source": ".native-source/20261031/1194-1204-pool54",
+      "archive": "development/research/source-evidence/20261031/checkpoint67/1194-1204-pool54.zip",
+      "sha256": "08e8ff9b0bfcad947497a2114219427053c06f8aab7c42eeddbc597fd18f4482",
+      "files": [
+        {
+          "path": "attribute-equipment-independent-review/review.md",
+          "sha256": "0d43206f4677b0636a1359f22d5a589aa84fe71579e548182630cb9fe164d570",
+          "bytes": 6892
+        },
+        {
+          "path": "block-callback-census/callback-census.md",
+          "sha256": "6d0b56ddc792f00e179df9a5e8d6cd098ac6c7f311716b25c885c3af0481fa78",
+          "bytes": 10911
+        },
+        {
+          "path": "block-callback-census/remaining-callbacks.md",
+          "sha256": "47df2baf8f18eee28c7b4c19854630a054d8a7ca205bd322276672319b588d19",
+          "bytes": 8225
+        },
+        {
+          "path": "block-callback-census/slowdown-continuation.md",
+          "sha256": "9c57b1656e7b94156fecc71b8858149df39ae9ef72b39406ddbbd25a523c8bb6",
+          "bytes": 7910
+        },
+        {
+          "path": "block-movement-factor-inventory/jump-boost-float-rounding.md",
+          "sha256": "3613e8278a5b75d2af0ae22f80317e6b2faecf58a444cec45a984981d1efcf5b",
+          "bytes": 1319
+        },
+        {
+          "path": "block-registration-helpers/helpers.md",
+          "sha256": "54bdd2b17718720f1bcef9be71be4bc39ee6a47e2847125556166d55e36d0bd7",
+          "bytes": 9542
+        },
+        {
+          "path": "block-responses-residual/sticky-piston-edge-support.md",
+          "sha256": "e53178bd29564a699c778c857214a6fd69f071d42049f720b3aca3a4e30d32b3",
+          "bytes": 1271
+        },
+        {
+          "path": "block-shape-residual/barrier-waterlogged-flow-push.md",
+          "sha256": "e2492e2e710e4189d17d9d9449b2e092a4921a504b91ff8fe38efbc545a0524a",
+          "bytes": 5390
+        },
+        {
+          "path": "block-shape-residual/barrier-waterlogged-scope-erratum.md",
+          "sha256": "fa3a3fe15fa530c31b76977d8b7fa5ae437fd56fa569e99dd94c23a328454e86",
+          "bytes": 1243
+        },
+        {
+          "path": "block-shape-residual/fluid-trapdoor-predicate-erratum.md",
+          "sha256": "a831bb3562522683dc3fc10941e045dcf966af4724b69ea9a1acc4e92de74c08",
+          "bytes": 1835
+        },
+        {
+          "path": "blocks-motion-fixed-default-residual/baseline.md",
+          "sha256": "dc3cb94e219aaee3f734e55e31405a9f110809cfd0a5ed0e4438bc4e89bfb9e8",
+          "bytes": 3446
+        },
+        {
+          "path": "blocks-motion-fixed-default-residual/class-provider-chains.csv",
+          "sha256": "e2c4f6b356be4c992fd38fd074b6021a5bda5daf314a5c82694ad871eb826313",
+          "bytes": 92519
+        },
+        {
+          "path": "blocks-motion-fixed-default-residual/fixed-default-reconciliation.csv",
+          "sha256": "99c41ab3d3bdf69632fac1e11ee40e6f1250ef68210c758b847fe01549e8779c",
+          "bytes": 758901
+        },
+        {
+          "path": "blocks-motion-fixed-default-residual/reconciliation.md",
+          "sha256": "8a47a88908c10909c94028db5f00532017565e7acb26b4c927db3b7bddf3fe48",
+          "bytes": 3703
+        },
+        {
+          "path": "blocks-motion-fixed-partial/fixed-partial-shapes.md",
+          "sha256": "238c1e584ad7048fc09a1e816ee265efab7650f6828638000f701a38855a9067",
+          "bytes": 5815
+        },
+        {
+          "path": "blocks-motion-fixed-partial/fixed-partial-state-table.csv",
+          "sha256": "1420535122ee9033a4296b12f1c73c006316efa33d753ec9ba827f8e83bda24f",
+          "bytes": 5356
+        },
+        {
+          "path": "blocks-motion-fixed-partial/remaining-unclassified-ids.csv",
+          "sha256": "9fa40da6fe39aa9d11cf86d6ef01fbc1f06081c9ebe410fb85e099f6e6819b1c",
+          "bytes": 73411
+        },
+        {
+          "path": "blocks-motion-fixed-partial/source-hashes.csv",
+          "sha256": "d67ce916637825ad2d9750e115d90996695b1c8072b7e9a9aeb48ca5ea105e56",
+          "bytes": 11058
+        },
+        {
+          "path": "blocks-motion-fixed-special/blocks-motion-fixed-special.md",
+          "sha256": "5253ecaef6a1ea648fc14e4f1aae8e22a872762079ae487682c52ff5c6f85846",
+          "bytes": 3161
+        },
+        {
+          "path": "blocks-motion-fixed-special/family-counts.csv",
+          "sha256": "0d86d505a10176b52aee9398160ff93ef1e023df14875a6e8ec8805fe80c60ad",
+          "bytes": 207
+        },
+        {
+          "path": "blocks-motion-fixed-special/fixed-full-cube-parity.csv",
+          "sha256": "1dd4a1c2e374c144df0ccbbd7aa9452d216b45cdf0834d59902a589380589799",
+          "bytes": 174898
+        },
+        {
+          "path": "blocks-motion-state-shapes/dynamic-shape-ids.csv",
+          "sha256": "8529a4b3bad168b084b485661ec5988c6a9b6866166b0f638167554c16bb66a1",
+          "bytes": 12996
+        },
+        {
+          "path": "blocks-motion-state-shapes/fixed-default-provider-handoff.csv",
+          "sha256": "a14ec49b4dde151711c74440e508e0ada5410d6f73e4bf444ae23acfa8865ec7",
+          "bytes": 151194
+        },
+        {
+          "path": "blocks-motion-state-shapes/remaining-constructor-groups.csv",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        {
+          "path": "blocks-motion-state-shapes/stateful-provider-review.md",
+          "sha256": "7c6249f3087e29b7c15b2016ae9e9b5310b5c1fe37636ead0f1bf6643e6d6d1d",
+          "bytes": 32751
+        },
+        {
+          "path": "blocks-motion-state-shapes/verify-fixed-default-provider-debug.ps1",
+          "sha256": "d1e01e8831dc9d6a1be99625d369a010240c20e48ae1775bf704eb272dc85fe2",
+          "bytes": 2474
+        },
+        {
+          "path": "blocks-motion-state-shapes/verify-fixed-default-provider.ps1",
+          "sha256": "bc77679f69cd56e26e7fda5142df6d6933141ccc77cfed4712559136305fa5c2",
+          "bytes": 2502
+        },
+        {
+          "path": "blocks-motion-state-shapes/verify-source-provenance.ps1",
+          "sha256": "8d9372962dd89c3cd1ded5f2d95853bbc58e862d97ea5e722b019ecf8f1441f2",
+          "bytes": 1916
+        },
+        {
+          "path": "blocks-motion-static-shapes/base-block-collision-parity.csv",
+          "sha256": "5dd174de3fedf4f44eb691dedc89b576f4fad3d2358c411b7bab36a11af03e52",
+          "bytes": 125375
+        },
+        {
+          "path": "blocks-motion-static-shapes/blocks-motion-static-shapes.md",
+          "sha256": "5b46cd443a93733df8b325d16ddc7b089c77ef20fe18de54d0acec719e96d28e",
+          "bytes": 3889
+        },
+        {
+          "path": "blocks-motion-static-shapes/shape-provider-residual.csv",
+          "sha256": "b5ed33bdbd04f23d79954520c35e8ddc7fc0548fabe1bbfd51288eb9e29af72f",
+          "bytes": 910168
+        },
+        {
+          "path": "candidate-review/barrier-waterlogged-review.md",
+          "sha256": "7ff8fcee174cab3409e6d15047ea398c256ccccabb092d34c6e99662b6068ec4",
+          "bytes": 2265
+        },
+        {
+          "path": "candidate-review/flowing-fluid-review.md",
+          "sha256": "4d16aacfcdb289f460db0e0ba244d0fa6f962bf1fe29d323c65c614e1778bc4c",
+          "bytes": 9386
+        },
+        {
+          "path": "candidate-review/review.md",
+          "sha256": "92a8baf1c858eec1d69b9de17ce139e572b06b0c9d6e89818645df3dc9ffe7cb",
+          "bytes": 10284
+        },
+        {
+          "path": "candidate-review/sticky-piston-review.md",
+          "sha256": "b7f8447f8f11b6ec9efd61260eb01f68f07df2e8ba2970af0e216d18bb314269",
+          "bytes": 6321
+        },
+        {
+          "path": "direct-player-response-closure/closure.md",
+          "sha256": "ace138c2a1a3654eafb103355f050d42d9b01ef8f4f58857d66a010596cea9ef",
+          "bytes": 14222
+        },
+        {
+          "path": "direct-response-independent-review/review.md",
+          "sha256": "0e0054a9eef36cdc6436baf6f3da487ab553e2b41b1de69438a95ba980027f3a",
+          "bytes": 3926
+        },
+        {
+          "path": "dynamic-provider-full-closure/closure.md",
+          "sha256": "2321a127b0b7351da598af5c31e6e8b6ce406aec149d1ffa73b761dfc421ef35",
+          "bytes": 19914
+        },
+        {
+          "path": "dynamic-provider-full-closure/source-file-hashes.csv",
+          "sha256": "5159217947e29ce3e64303d179c97cef33ed22338c405a0030d791d711f320db",
+          "bytes": 9550
+        },
+        {
+          "path": "dynamic-provider-independent-review/review.md",
+          "sha256": "cd85ed45facf093f1da3c54e5d622bf66ed0801027e0f5cd793d88c0427bbd60",
+          "bytes": 12083
+        },
+        {
+          "path": "effect-attribute-residual/coverage-continuation.md",
+          "sha256": "89c81610341f5ce924bca80342a02348e0a67e6f5e8f2d637d92f2fc12fa098f",
+          "bytes": 13817
+        },
+        {
+          "path": "effect-attribute-residual/jump-boost-addition-precision.md",
+          "sha256": "a44bc42653ec56e687d96d3ae6e52f2ba6229eca33b84e59ef84224e3e255712",
+          "bytes": 1637
+        },
+        {
+          "path": "fixed-default-independent-review/audit-results.txt",
+          "sha256": "fc31267b66cc3bc3d95726d4567f95317f0350d70ad78fdae1c901ec46974947",
+          "bytes": 7461
+        },
+        {
+          "path": "fixed-default-independent-review/audit.py",
+          "sha256": "2f8a94c93ad4756dd28ec813f63397019d95f2af7c845d18aa36537e2abfd152",
+          "bytes": 24970
+        },
+        {
+          "path": "fluid-blocks-motion-audit/audit.md",
+          "sha256": "53e83b85835fccad1b384287f193dada0f51bf79314ad7bde8efd4cefec492ab",
+          "bytes": 8755
+        },
+        {
+          "path": "fluid-blocks-motion-audit/flowing-fluid-neighbor-motion-predicate.md",
+          "sha256": "a60af01182ccf3ae0eb3a168f1629c36cb5c6b2117958c4509c10ca98a9888ea",
+          "bytes": 3624
+        },
+        {
+          "path": "fluid-blocks-motion-audit/truth-table-supplement.md",
+          "sha256": "c6a62e490c6c9207d139650ea5c9998eea7f1dca8d8c2aac23adbe1406c396fc",
+          "bytes": 9522
+        },
+        {
+          "path": "fluid-material-lineage/audit.md",
+          "sha256": "4bb3e4b5f1d09a3b67502411f21a4a352538750cdfd8928daa0c1bca355cfa49",
+          "bytes": 12950
+        },
+        {
+          "path": "fluid-material-lineage/census.py",
+          "sha256": "0576e0af7eb18034c8e4adb4156f6414abaa37f69fdb000f11b4dc57f4c5e4b4",
+          "bytes": 14054
+        },
+        {
+          "path": "fluid-material-lineage/material-lineage.tsv",
+          "sha256": "6999790ff9dfff5a972f95fa906309f304eef0e44be96e2ec9d7c1199210435a",
+          "bytes": 161231
+        },
+        {
+          "path": "fluid-material-lineage/registration-roster.tsv",
+          "sha256": "d21294061fd0b84dae71b6857ad589862e95f7da6d51074e22a88a1134ddbe45",
+          "bytes": 190280
+        },
+        {
+          "path": "fluid-material-lineage/resourcekey-bridges.tsv",
+          "sha256": "c91cbf6cf691494e4eb18c837db99a51790042a94fa64ead470ce451165aea23",
+          "bytes": 5579
+        },
+        {
+          "path": "fluid-material-lineage/source-hashes.tsv",
+          "sha256": "7c40816972c80602ad6480abac3eef9055aef66544dd5c201d034dbe0bf2ebbb",
+          "bytes": 39656
+        },
+        {
+          "path": "fluid-predicate-candidate-review/fluid-predicate-candidate-review.md",
+          "sha256": "71296622339d3148540e70c152ba9ea17f3c0a997a86a5e8a4b5f16baacae12e",
+          "bytes": 9528
+        },
+        {
+          "path": "fluid-predicate-registration-census/checkpoint.md",
+          "sha256": "df4d700ade2ebea0c3d91a5bd07d8d571d86b40b231a2c314eb6d9eb676bef29",
+          "bytes": 3555
+        },
+        {
+          "path": "fluid-predicate-registration-census/source-roster.md",
+          "sha256": "fb0b0b94d1053de4857549cc5e77a6d792bd5e45c4843e2f1ff90ab340a12659",
+          "bytes": 4568
+        },
+        {
+          "path": "fluid-provider-closure/fluid-provider-closure.md",
+          "sha256": "9003eaefb41aee91aa788dcf663f20716a6471941e38d130a153139d8f3936e1",
+          "bytes": 8368
+        },
+        {
+          "path": "full-pair-audit.md",
+          "sha256": "1065961ceb087790a488a2af025a0c070766c887f1d7c2a90414cc2eb2346f61",
+          "bytes": 10239
+        },
+        {
+          "path": "full-player-graph-closure/closure-report.md",
+          "sha256": "37e48511dd6de65bf0df19a5662afee67a87aa705c66a7e35e42f81e75039af1",
+          "bytes": 12576
+        },
+        {
+          "path": "full-player-graph-closure/dependency-identities.txt",
+          "sha256": "12e2b5ae95ab11aa287d33bae180fbcb04d004f84815149901059f17e4be61a8",
+          "bytes": 6876
+        },
+        {
+          "path": "full-player-graph-closure/diff_selected.py",
+          "sha256": "e54bf486465f929eee6aee0263d69248e7765e03ca86aa53dce34ff7aedf3a20",
+          "bytes": 3430
+        },
+        {
+          "path": "full-player-graph-closure/method-caller-matrix.txt",
+          "sha256": "ba62c41d5c2c486fe29b0060e92ac8e62b7a3e1e3a4fabc396b2002d6d802c71",
+          "bytes": 688827
+        },
+        {
+          "path": "full-player-graph-closure/method_diff.py",
+          "sha256": "54555d26f5be6d0a23e6de451738a5637e1ec43d49c5c38c2faec213444d4fe0",
+          "bytes": 3104
+        },
+        {
+          "path": "full-player-graph-closure/relevant-method-diffs.txt",
+          "sha256": "152737d1934c16045d7291eda0fc7eabcc6f6bf92e24108e4027b256fa0021a8",
+          "bytes": 65963
+        },
+        {
+          "path": "full-player-graph-closure/source-identities.txt",
+          "sha256": "dbbce22f543595775b80805b7049d9b849f4398ba48fb7b73f3302bff2a24156",
+          "bytes": 7198
+        },
+        {
+          "path": "full-player-graph-closure/verify_dependencies.ps1",
+          "sha256": "d3ae66e05063441a210290ee15548729f5139492c330cd38ccedde7d973ff07d",
+          "bytes": 1768
+        },
+        {
+          "path": "full-player-graph-closure/verify_sources.py",
+          "sha256": "ac7c73bb498ed1e9bfd070830e348e7a38f928ea974cd777411a280ac577506a",
+          "bytes": 2480
+        },
+        {
+          "path": "independent-blocks-motion-audit/alias-helper-lineage.csv",
+          "sha256": "8db6acc25034c8536d0675e222635b4ff20262550678bfdb471e61f0f3f06378",
+          "bytes": 372385
+        },
+        {
+          "path": "independent-blocks-motion-audit/audit.md",
+          "sha256": "282e61c8dbb66208ea3c4c12386f6af6b1696ecee49e9924d20104041381aad4",
+          "bytes": 10364
+        },
+        {
+          "path": "independent-blocks-motion-audit/derive-state-roster.ps1",
+          "sha256": "10f079070cb442b200e186da50207c47e132c3bffcce5a890c87cfca95d49bf6",
+          "bytes": 8048
+        },
+        {
+          "path": "independent-blocks-motion-audit/emit-geometry-state-matrix.ps1",
+          "sha256": "a0286aedc9b4dde2f290acf60d6aed0690d56d84ef40e07d31c7443e2c1bf800",
+          "bytes": 4878
+        },
+        {
+          "path": "independent-blocks-motion-audit/extract-rosters.ps1",
+          "sha256": "d7bced64bd7ee6a94f1c03854c0867812f710532feb3ce8760ebee90f271db11",
+          "bytes": 3544
+        },
+        {
+          "path": "independent-blocks-motion-audit/geometry-residual-matrix.csv",
+          "sha256": "70aba17e17b099e86d87b613f225ea10938e08cd0d3deddba7f88bb241528675",
+          "bytes": 1057927
+        },
+        {
+          "path": "independent-blocks-motion-audit/geometry-state-matrix.md",
+          "sha256": "ed9f163047939cb9e156069d8e07365c923565f75c9d05d969359f5d7088aedb",
+          "bytes": 27676
+        },
+        {
+          "path": "independent-blocks-motion-audit/registration-expressions.json",
+          "sha256": "1a9ee39cb47c4b26d8633ecffd635c5463e93c1cc4ac242d643a25912d4e0842",
+          "bytes": 2317188
+        },
+        {
+          "path": "independent-blocks-motion-audit/registration-expressions.ps1",
+          "sha256": "4d3c3d22cc4d023f913952ee79b3fdb5a6201a02a544278f981ce312ce0d70cf",
+          "bytes": 2445
+        },
+        {
+          "path": "independent-blocks-motion-audit/registration-rosters.json",
+          "sha256": "79c7064725deaaa997871e24f9fe61de88ffebb49ec7d4e3096a024bfe77f437",
+          "bytes": 789317
+        },
+        {
+          "path": "independent-blocks-motion-audit/SHA256SUMS.txt",
+          "sha256": "dd3ea56b0ffb467ea4e9a860c2745e5c17d5a09f52e3e102b004d0b6cc9db54f",
+          "bytes": 1102
+        },
+        {
+          "path": "independent-blocks-motion-audit/source-hashes.json",
+          "sha256": "bf825b2d01a199d8a0ca010174204ea2f9680279fc1acda132393972ece45909",
+          "bytes": 22163
+        },
+        {
+          "path": "independent-blocks-motion-audit/state-domain-roster.json",
+          "sha256": "ce08fad89e0102e58c52628f18302cf2053e2608dee81f8fa6cae124d8b01698",
+          "bytes": 3975433
+        },
+        {
+          "path": "independent-blocks-motion-audit/supplement-state-audit.md",
+          "sha256": "f548c691b1f578e625e4eb7977d5b8c361fb23ef7f3f38d3a8008d7a9d1e3273",
+          "bytes": 7108
+        },
+        {
+          "path": "independent-provider-context-audit/audit.md",
+          "sha256": "6ad9b51a68285d9eb7ff24899e90ba46e234b142c6041e53d4d65942cac00612",
+          "bytes": 11216
+        },
+        {
+          "path": "independent-provider-context-audit/provider-methods.csv",
+          "sha256": "47cb266d57e4648c7dafeb1c9b371f1bf330bf2312af6e7d76f6cf43fd058a85",
+          "bytes": 166530
+        },
+        {
+          "path": "independent-provider-context-audit/unexamined-provider-classes.txt",
+          "sha256": "92025716b371125f3771ee696add208791d403f87da9515f0371a3cbf78d767d",
+          "bytes": 2611
+        },
+        {
+          "path": "independent-residual-cover/audit.md",
+          "sha256": "f8b3e96283f5186f64a79eb51b98ec41d9ebc58a42eff67fae72bfadad58739c",
+          "bytes": 6722
+        },
+        {
+          "path": "localplayer-pose-travel-residual/jump-boost-float-rounding.md",
+          "sha256": "5c25fb2f3bf7cb4d737865d24345986d658c768aea33cdd7d3e58a1e5fd158e3",
+          "bytes": 1094
+        },
+        {
+          "path": "localplayer-pose-travel-residual/spectator-transition-vertical-velocity.md",
+          "sha256": "ba1f72bb2db23cc5b661e3784ce679e4c5cb9a044181b1a4ef97abf96c66de21",
+          "bytes": 888
+        },
+        {
+          "path": "localplayer-pose-travel-residual/support-block-movement-factor.md",
+          "sha256": "c8020417bd4bb0507bf903e5ab76fdfa27a4f31bc20da4fda13cf5810b2825bc",
+          "bytes": 2039
+        },
+        {
+          "path": "localplayer-pose-travel-residual/support-fallback-threshold-supplement.md",
+          "sha256": "e5598fb7843e891500348e2e60088a8827cac6dc84f4f014044d747b5eb225fe",
+          "bytes": 6110
+        },
+        {
+          "path": "localplayer-tick-authority/authority-closure.md",
+          "sha256": "9b0ce43f976cba4965a2411953b2deff54b5e4a694a27de24bded0a467ee232b",
+          "bytes": 17361
+        },
+        {
+          "path": "modifiers-effects/coverage.md",
+          "sha256": "b836fb00a5513933fa62a9a3bf1f237f8666ada77aa792247a113661d035122f",
+          "bytes": 7251
+        },
+        {
+          "path": "modifiers-effects/jump-boost-precision.md",
+          "sha256": "8e19c2cf4153373063ba60a1f0478b4347bb982bbbfddc59a4ca544a71ceefec",
+          "bytes": 1457
+        },
+        {
+          "path": "modifiers-effects/local-player-spectator-velocity.md",
+          "sha256": "f4a9e79a4bbf6afcbafb6302b2175782619ff1fe3de89dc3ec8df897e60a6d16",
+          "bytes": 2128
+        },
+        {
+          "path": "movement-attribute-equipment-closure/closure.md",
+          "sha256": "bf26c261a344e33916e3c0016c938237c2a26e982c0b4a1cc91a0107a1466aa3",
+          "bytes": 10227
+        },
+        {
+          "path": "orchestrator-audit/attribute-lane-wording-correction.md",
+          "sha256": "fb50194e65c86d4672e7e027c40bc393f9a47c47c2a26d1e8f1af6ae312d3750",
+          "bytes": 920
+        },
+        {
+          "path": "orchestrator-audit/fluid-census-provenance-location-correction.md",
+          "sha256": "9156dec10fa912d363bb4fbc948b735b4a657abe53bc2239a322dea7890df1d8",
+          "bytes": 1247
+        },
+        {
+          "path": "orchestrator-audit/fluid-provider-witness-correction.md",
+          "sha256": "9e06927810bdaff8dead3cb768fcd0f8149a51f360e9a16bee16d631d62ae804",
+          "bytes": 1232
+        },
+        {
+          "path": "orchestrator-audit/fluid-review-status-erratum.md",
+          "sha256": "1edd49b581b4112e91bf92bf75397be6db527ea6243fec32a1a95d760e555afc",
+          "bytes": 1211
+        },
+        {
+          "path": "orchestrator-audit/jump-boost-combination-precision.md",
+          "sha256": "8ca5534979543888949210fc47885546d37d1d40778046b592ad52cdae8e668a",
+          "bytes": 1374
+        },
+        {
+          "path": "orchestrator-audit/provider-audit-provenance-erratum.md",
+          "sha256": "4381cf87ea03879dfb4cd6f54261f73f645ba3b7a566fbcbb8db717a0d5859ef",
+          "bytes": 1641
+        },
+        {
+          "path": "orchestrator-audit/registration-count-erratum.md",
+          "sha256": "5e5b352bd31793ce66e4d5bc00ad3b95af1d748dd11555c96efc0989978a981b",
+          "bytes": 1984
+        },
+        {
+          "path": "orchestrator-audit/slowfall-order-erratum.md",
+          "sha256": "15ba65eeb167a5550f3c0281dafe165e490dc1ea44279810d149a7ef2b1e7380",
+          "bytes": 1638
+        },
+        {
+          "path": "pane-bar-flow-review/review.md",
+          "sha256": "1a5f91675002d6e588dd38a1f976ff9b7d94885b97c405755737f338114f190d",
+          "bytes": 10302
+        },
+        {
+          "path": "player-graph-independent-review/review-report.md",
+          "sha256": "e812a3bd700d30836c478c6672cbc04a9a7d740f0b0201a7f595409ca5c1c0cc",
+          "bytes": 7839
+        },
+        {
+          "path": "shape-state-census/enumerate-all-shape-methods.ps1",
+          "sha256": "3bd25fbd777a19a930c824b2b17edcfd7742f12470424bbf8a0cb4b4e8f44451",
+          "bytes": 2534
+        },
+        {
+          "path": "shape-state-census/enumerate-block-registrations.ps1",
+          "sha256": "7af6bb68ddfddabf75abe217d3c4ca0d310c4921ccbf9816d6b8c26bf566b59a",
+          "bytes": 1428
+        },
+        {
+          "path": "shape-state-census/enumerate-shape-provider-methods.ps1",
+          "sha256": "c606fe92535932e1d0df7e05c8ed2f4d6e1ad3b0401140f2b50c7c06c5393ea2",
+          "bytes": 2568
+        },
+        {
+          "path": "shape-state-census/enumerate-shape-state-fields.ps1",
+          "sha256": "9846e98704762cefd6b7b41d78f44be1490b188cfb8853ef2d41a2a2396dc60f",
+          "bytes": 1464
+        },
+        {
+          "path": "shape-state-census/shape-state-census.md",
+          "sha256": "8c35d78ffa66726326e259294818fae4ec8d85805b4ddcd96fe8a285325bd9a8",
+          "bytes": 9657
+        },
+        {
+          "path": "slowfall-movement-reaudit/audit.md",
+          "sha256": "303fb8454be5ed723bef4e4580df981057c4a3cd27b030f0da78ee1b32d52f48",
+          "bytes": 8540
+        },
+        {
+          "path": "stateful-shape-independent-review/re-review.md",
+          "sha256": "d64b83d06ea10bf9c81870d2f148098c223fd00f1f45311569b50aeacef6d8fc",
+          "bytes": 5842
+        },
+        {
+          "path": "stateful-shape-independent-review/review.md",
+          "sha256": "44256762a9bad5f7bfb955a3b99463f21dc277f0c67c3fb5311953dfb39a6c65",
+          "bytes": 10555
+        },
+        {
+          "path": "support-fallback-independent-review/review.md",
+          "sha256": "f8d62f8a754f38accb37682e2ff2b983ae85a0703061c4877c5d017e467377c6",
+          "bytes": 6193
+        },
+        {
+          "path": "tick-core/crouch-passenger-coverage.md",
+          "sha256": "cb32c2cfc314b3f2625a6e910742c6bdfed361fdde5283da2f187d5121bee31e",
+          "bytes": 3759
+        },
+        {
+          "path": "world-shapes/fluid-flow-partial-block-solidity-erratum.md",
+          "sha256": "07cd82bb9120d6f283a08281bffee8968407fb6f2661f8a3002eec319854404a",
+          "bytes": 1358
+        },
+        {
+          "path": "world-shapes/fluid-flow-partial-block-solidity.md",
+          "sha256": "4c7cb11eb9c2b9ca3bfca73d0ddcdcef818c88518a5bd0fb226599a29c0ff24d",
+          "bytes": 2399
+        }
+      ]
+    },
+    {
+      "source": ".native-source/20261031/189-194-finish57",
+      "archive": "development/research/source-evidence/20261031/checkpoint67/189-194-finish57.zip",
+      "sha256": "55a6c1f56b3151f9087495176eec8e4093500e027ab632d8192f603a29930c8a",
+      "files": [
+        {
+          "path": "border-scan-audit/audit.md",
+          "sha256": "b339cd8d70f9aca7a6bb1ec889be01b0c9492a96775a8af8a631dd0086d1cb1d",
+          "bytes": 10039
+        },
+        {
+          "path": "collision-list-inventory/player-passenger-filter.draft.md",
+          "sha256": "54e41e98e4691a3030d85397994ebd70098e479dc6b647a3ca63e729ecfb0821",
+          "bytes": 2720
+        },
+        {
+          "path": "collision-list-inventory/player-passenger-filter.md",
+          "sha256": "7c29d40474016dc9a0e16bc455269b2512a322b0d5f39059a77116e284c5ee9d",
+          "bytes": 6913
+        },
+        {
+          "path": "collision-list-inventory/report.md",
+          "sha256": "68901c16aac946daa65ca1647e4eebd3031b56a102fa824f585a790efee64a30",
+          "bytes": 16359
+        },
+        {
+          "path": "collision-list-inventory/source-census.json",
+          "sha256": "2765bf05d672660153d1885becdd1f7f1ecdbd0c903bdc1a71823802c36db518",
+          "bytes": 70038
+        },
+        {
+          "path": "external-residual/report.md",
+          "sha256": "7b7c1e37d2e99720671829dd3a17eef4ffcc4e04475e6fdc274e4727e4410208",
+          "bytes": 13873
+        },
+        {
+          "path": "external-writer-census/report.md",
+          "sha256": "5ebcde68931f9c3b01b375633e69f3124be6e3336eda63343246c31e11e91323",
+          "bytes": 11329
+        },
+        {
+          "path": "external-writer-census/writer-reader-caller-matrix.tsv",
+          "sha256": "1909fdee41e137bb55143a009822374e43a09cb848786574a55119c2f0644632",
+          "bytes": 12337
+        },
+        {
+          "path": "external-writer-inventory/INV-EXTERNAL.md",
+          "sha256": "b920e5c6163dd3c729f9b1ba21231044632a9578364d0804fa79ea6020df26ae",
+          "bytes": 22171
+        },
+        {
+          "path": "fence-wall-neighbor-closure-fresh/mask-routes.tsv",
+          "sha256": "09a1e18be7c06181deb416d26296c71ce03000c47278ce6e094b821514e5af81",
+          "bytes": 35334
+        },
+        {
+          "path": "fence-wall-neighbor-closure-fresh/report.md",
+          "sha256": "c74dce48ddcb44624a71c350773ea2f4a29b456510b3634981404631fa2f51a1",
+          "bytes": 7376
+        },
+        {
+          "path": "fence-wall-neighbor-closure-fresh/source-identities.tsv",
+          "sha256": "8cf74f5d8bce409107fba3e87d8f276aa8f845812959ac4bbc4eb2ad012c85df",
+          "bytes": 4491
+        },
+        {
+          "path": "fixed-inherited-provider-lists/outputs.tsv",
+          "sha256": "17c3958c0bdfc30f89e2a141be9b27eae658f241f82ac188bf034a426b54c797",
+          "bytes": 8671
+        },
+        {
+          "path": "fixed-inherited-provider-lists/report.md",
+          "sha256": "2a16175d281a83a385ca7518cd8335e2ca9a5ad8ec1144dd264f78515dc45c96",
+          "bytes": 10108
+        },
+        {
+          "path": "fixed-provider-state-lists/outputs.tsv",
+          "sha256": "df19183a5c213a6ee42c115d3c3510e8c1011d1f65af9591df5e642a9f10716f",
+          "bytes": 3107
+        },
+        {
+          "path": "fixed-provider-state-lists/report.md",
+          "sha256": "4993dda1a94d72ceb5a5abcd0fe235c9d6deac7b6132f86c10550f57db2fcca6",
+          "bytes": 7096
+        },
+        {
+          "path": "fresh-pair-audit/independent-report.md",
+          "sha256": "554a403af98a9ef4ab807965876021ab2ad4e8fcc117e13ddb1f05e4a52bd744",
+          "bytes": 13927
+        },
+        {
+          "path": "inputs/historical-source-run.md",
+          "sha256": "d327b5d673c455f4f2d390c52e1e4f9bbbfc9c0c1202490f725a8f207c099d29",
+          "bytes": 234060
+        },
+        {
+          "path": "lilypad-terminal-clip/report.md",
+          "sha256": "63453fe3fef80a37190d1593e37ec2005da59dd720e12513e0857f53a05e17cd",
+          "bytes": 6382
+        },
+        {
+          "path": "modifier-inventory/INV-MODIFIERS.md",
+          "sha256": "04d65218003349912b5f63b9c6aed38d4a4dc3d62960da1ee522d2522364e5cf",
+          "bytes": 18644
+        },
+        {
+          "path": "property-value-domains/direction-domain-evidence.tsv",
+          "sha256": "df47375c0707700a3d2fe22f7f6edef16dd4a78712cd78d9d0a1749d9d0762e7",
+          "bytes": 845
+        },
+        {
+          "path": "property-value-domains/helper-route-evidence.tsv",
+          "sha256": "f58cb00727431ff692d6eb6f0f72e7c3d0ddbbad7785b5a9e979d2373b919db4",
+          "bytes": 54958
+        },
+        {
+          "path": "property-value-domains/property-domains-by-release.tsv",
+          "sha256": "a5c18db383428397ff39ebb840a748d317de9fba277c86928524b7e84ec8cc25",
+          "bytes": 124706
+        },
+        {
+          "path": "property-value-domains/report.md",
+          "sha256": "56c38a1e769fb577825304cb310ca5f8b35538a7a1b26e324ab5831e3ad1cf50",
+          "bytes": 8457
+        },
+        {
+          "path": "provider-body-cutovers/direct-method-bodies.tsv",
+          "sha256": "9d1e08242be4177b6c725b3bdee89f6affab39baff9c09eadfe740f121f45e35",
+          "bytes": 70443
+        },
+        {
+          "path": "provider-body-cutovers/dispatch-defaults.tsv",
+          "sha256": "44515a4009af1453bbbdc1a097d343b54408cbd496b8666dd20b931cf39a8ea1",
+          "bytes": 6742
+        },
+        {
+          "path": "provider-body-cutovers/provider-route-dispositions.tsv",
+          "sha256": "a6f3494e8fd728e8a0d68876abeebfac775fd323e4af0fc5001921b1e1cf3b9d",
+          "bytes": 8257
+        },
+        {
+          "path": "provider-body-cutovers/replacement-shapes.tsv",
+          "sha256": "bfa7e9e4c79984c057e98ded6e6113d875b2d94228a10e4eec54b911dd61fe75",
+          "bytes": 15323
+        },
+        {
+          "path": "provider-body-cutovers/report.md",
+          "sha256": "1565fe967c062800651f6ddf233ba345178756b3210d107566d07f09847c1981",
+          "bytes": 11126
+        },
+        {
+          "path": "provider-state-census/registered-route-matrix.tsv",
+          "sha256": "86568a5337d92c4b3abdfd08051ec5bc9a4eaf6169a17e29b5b69df5d8f0a1b3",
+          "bytes": 332220
+        },
+        {
+          "path": "provider-state-census/report.md",
+          "sha256": "d2fd6e266ab08ccbd742892315955b169cd74b8b992db6ec45db66c035566d84",
+          "bytes": 7768
+        },
+        {
+          "path": "provider-state-census/wake-floor-routes.tsv",
+          "sha256": "1ac865deb8f657122600c39af5a615e5cec01c3734b1b29d9d7859f511567bab",
+          "bytes": 1238
+        },
+        {
+          "path": "provider-state-domains/provider-method-readsets.tsv",
+          "sha256": "97a76e2db1b84b96b774fe3d68d98e0908bfc56d137c2a982f5de1534a0147c0",
+          "bytes": 72179
+        },
+        {
+          "path": "provider-state-domains/provider-method-transitive-hooks.tsv",
+          "sha256": "4fc1e0dcc43c8e87e05a94f67f445ff189563675cc064b3a04d42912a3409e2a",
+          "bytes": 69061
+        },
+        {
+          "path": "provider-state-domains/report.md",
+          "sha256": "245463aac48547e0808fda6cd89b35c1de5628cd10ce19a41c88f4716900530b",
+          "bytes": 5362
+        },
+        {
+          "path": "release-190-cutover-audit/report.md",
+          "sha256": "5af7410843c41b9a125964350795d92c8671e9e50bd30b156940cd4e50c4db66",
+          "bytes": 10068
+        },
+        {
+          "path": "stairs-neighbor-state-closure/stairs-neighbor-state-closure.md",
+          "sha256": "ec6b62148cdf74d0c04b3903b344e42503abd5501fc716bf01bc1a1b8c488138",
+          "bytes": 11935
+        },
+        {
+          "path": "tick-state-residual/report.md",
+          "sha256": "cdcd0974b0352e464fd1534a80c71a0395fbca494f5012890f894391f768de10",
+          "bytes": 12791
+        },
+        {
+          "path": "tick-state-residual/tick-state-coverage.tsv",
+          "sha256": "c599fb705debef280ab5c8716e86747618ac6132b2dc24453cbf716ced0b337a",
+          "bytes": 2408
+        },
+        {
+          "path": "world-27-client-gate/client-coordinate-gate.draft.md",
+          "sha256": "f300c862fa8e222bda63eb3742837026e86affd7627d35af4bfd6a0e9097183f",
+          "bytes": 4068
+        },
+        {
+          "path": "world-27-client-gate/client-coordinate-gate.md",
+          "sha256": "39cb9c17482091dce30f4284e592b0d4a9e63ab79f0877347563a9deee68456c",
+          "bytes": 7431
+        }
+      ]
+    },
+    {
+      "source": ".native-source/20261031/2612-262-finish61",
+      "archive": "development/research/source-evidence/20261031/checkpoint67/2612-262-finish61.zip",
+      "sha256": "ec2e375c9e2bdf8725037d7c2a8f7a55e6e6ba876b559469e3b0f41ee447cdbe",
+      "files": [
+        {
+          "path": "coverage.md",
+          "sha256": "65fca961de65467f42a97a57fb6a1da05980908df5449801d05d3452db43d32b",
+          "bytes": 13331
+        },
+        {
+          "path": "external-player-response-followup/census.md",
+          "sha256": "2b7908221cb0e8df2090a13be567ddbcf822d4f50073aaf6841a72961727a7cb",
+          "bytes": 16582
+        },
+        {
+          "path": "external-player-response-followup/entity-push-census.md",
+          "sha256": "e2e3c4291dc3920284412b4c76c15667a05a07a914251015212f9a07e30f1e4c",
+          "bytes": 12761
+        },
+        {
+          "path": "external-player-response-followup/independent-review.md",
+          "sha256": "5dcfae495de38a84e3658498a49ae4f3da06448b1811a21646c8dd99d45bc0ed",
+          "bytes": 13610
+        },
+        {
+          "path": "external-player-response-followup/renewed-blind-review/checkpoint.md",
+          "sha256": "4d75d2f26403984a990605a269e558ec9dd40abec8f02da40a939d3320a25869",
+          "bytes": 12761
+        },
+        {
+          "path": "external-player-response-followup/renewed-blind-review/roster.md",
+          "sha256": "726ed431c462308e9a5829b99a7e7aa5723246307e495b91bad758c65b2cc252",
+          "bytes": 3186
+        },
+        {
+          "path": "external-player-response-followup/roster.md",
+          "sha256": "f9e8f14b147112ba0f3ffee1afc77f1951a1ef43949c8d3810f82f4261bc7280",
+          "bytes": 3933
+        },
+        {
+          "path": "worker-external-push/report.md",
+          "sha256": "c4944a11fbda813f515151dc1655457e64570962e517db032c63a44674e1a6fe",
+          "bytes": 7273
+        },
+        {
+          "path": "worker-independent-audit/audit.md",
+          "sha256": "c09c36630398236157b265cf8c844b72bd6f66bd57a5ab692393e691ebddd713",
+          "bytes": 14432
+        },
+        {
+          "path": "worker-independent-audit/roster.md",
+          "sha256": "9264da60e927ff2521519161ee8d4ec8c46307a0a75714ea909296d750868903",
+          "bytes": 3923
+        },
+        {
+          "path": "worker-modifiers/modifiers-effects-pose.md",
+          "sha256": "7db85b6f18bae6c87b876e62f7926d9d12c81b822c5ed2c3c03bda10409ef3c8",
+          "bytes": 10608
+        }
+      ]
+    }
+  ],
+  "pendingCandidates": [
+    {
+      "repository": ".native-candidates/shortpose-query66",
+      "neutralCommit": "2fc9fd56815e2cc9b5cbe8bc9ca62561e6f8a771",
+      "candidateCommit": "8af81d46919924880d7e3f62b49f26eaee7ce7af",
+      "patch": "development/research/source-evidence/20261031/checkpoint67/shortpose-query66.patch",
+      "patchSha256": "3db1de6c9637517ff57cf4a6e93b40c520d09b4e9dda582acb89b01fb612aee2",
+      "infrastructure": "development/research/source-evidence/20261031/checkpoint67/shortpose-query66-infrastructure.json",
+      "state": "Encoding candidate accepted; no product integration. Narrow gates and old grid planes must be preserved."
+    },
+    {
+      "repository": ".native-candidates/honey-piston65",
+      "neutralCommit": "8b9fb6ab7a2c9ba8fc2358b75902ab84a6a1dbb1",
+      "candidateCommit": "f244977cf32213acbec6fc624045656e74078b9f",
+      "patch": "development/research/source-evidence/20261031/checkpoint67/honey-piston65.patch",
+      "patchSha256": "19bfc990b0ff156d87b8bf5b48b84143c4051eede431e817609002d44efcf152",
+      "infrastructure": "development/research/source-evidence/20261031/checkpoint67/honey-piston65-infrastructure.json",
+      "state": "UNREVIEWED candidate. Known range concern: V1_19_4 alone also resolves older profiles; add/review V1_19_3 lower preservation before integration."
+    }
+  ],
+  "limits": "Archives preserve raw unnormalized partial source reports, historical verdicts and corrections. No new pair freeze or blanket finding acceptance. No tests/game/runtime. Existing endpoint freezes stay valid; additional adjacent minor inventories remain separate."
+}

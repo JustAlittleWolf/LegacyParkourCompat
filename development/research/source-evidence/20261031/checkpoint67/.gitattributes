@@ -1,0 +1,3 @@
+# Preserve immutable archive and git-format-patch evidence byte for byte.
+*.patch -text -diff
+*.zip -text -diff

@@ -1,0 +1,95 @@
+From f244977cf32213acbec6fc624045656e74078b9f Mon Sep 17 00:00:00 2001
+From: JustAlittleWolf <jakobi5000@gmail.com>
+Date: Sat, 31 Oct 2026 04:00:32 +0100
+Subject: [PATCH] Restore legacy honey piston carry admission
+
+---
+ .../v1_19_4/StickyHoneyCarryCandidate.java    | 46 +++++++++++++++++++
+ .../piston/StickyHoneyCarryCandidateHook.java | 22 +++++++++
+ 2 files changed, 68 insertions(+)
+ create mode 100644 src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/StickyHoneyCarryCandidate.java
+ create mode 100644 src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/piston/StickyHoneyCarryCandidateHook.java
+
+diff --git a/src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/StickyHoneyCarryCandidate.java b/src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/StickyHoneyCarryCandidate.java
+new file mode 100644
+index 0000000..4746270
+--- /dev/null
++++ b/src/main/java/me/wolfii/legacyparkourcompat/change/v1_19_4/StickyHoneyCarryCandidate.java
+@@ -0,0 +1,46 @@
++package me.wolfii.legacyparkourcompat.change.v1_19_4;
++
++import me.wolfii.legacyparkourcompat.api.ParkourVersion;
++import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.hook.piston.StickyHoneyCarryCandidateHook;
++import net.minecraft.core.BlockPos;
++import net.minecraft.world.entity.Entity;
++import net.minecraft.world.level.material.PushReaction;
++import net.minecraft.world.phys.AABB;
++
++/**
++ * Restores the 1.19.4 honey-piston candidate scan for the local player.
++ * In 1.19.4 Mojmap,
++ * {@code PistonMovingBlockEntity.moveStuckEntities} builds a local box ending
++ * at 1.5000000999999998 before {@code moveByPositionAndProgress}, and
++ * {@code matchesStickyCritera} admits normally pushable, on-ground entities
++ * whose center X/Z lies in that box. In 1.20 Mojmap, the same class members
++ * raise the local upper bound to 1.5000010000000001 and also admit entities
++ * supported by the moving block; these method bodies persist through 1.20.4.
++ * In 26.2 unobfuscated, those same members retain the broader native query and
++ * predicate, so the query is a superset from which this change filters the
++ * historical results.
++ */
++@MovementChange(emulates = ParkourVersion.V1_19_4)
++public final class StickyHoneyCarryCandidate implements StickyHoneyCarryCandidateHook {
++    private static final double LEGACY_SCAN_MAX_Y = 1.5000000999999998;
++
++    @Override
++    public boolean isCarryCandidate(AABB nativeScanBounds, Entity entity, BlockPos pistonPos) {
++        AABB legacyScanBounds = new AABB(
++            nativeScanBounds.minX,
++            nativeScanBounds.minY,
++            nativeScanBounds.minZ,
++            nativeScanBounds.maxX,
++            pistonPos.getY() + LEGACY_SCAN_MAX_Y,
++            nativeScanBounds.maxZ
++        );
++        return entity.getPistonPushReaction() == PushReaction.NORMAL
++            && entity.onGround()
++            && entity.getBoundingBox().intersects(legacyScanBounds)
++            && entity.getX() >= legacyScanBounds.minX
++            && entity.getX() <= legacyScanBounds.maxX
++            && entity.getZ() >= legacyScanBounds.minZ
++            && entity.getZ() <= legacyScanBounds.maxZ;
++    }
++}
+diff --git a/src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/piston/StickyHoneyCarryCandidateHook.java b/src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/piston/StickyHoneyCarryCandidateHook.java
+new file mode 100644
+index 0000000..551d4b1
+--- /dev/null
++++ b/src/main/java/me/wolfii/legacyparkourcompat/mechanic/hook/piston/StickyHoneyCarryCandidateHook.java
+@@ -0,0 +1,22 @@
++package me.wolfii.legacyparkourcompat.mechanic.hook.piston;
++
++import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
++import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
++import net.minecraft.core.BlockPos;
++import net.minecraft.world.entity.Entity;
++import net.minecraft.world.phys.AABB;
++
++/**
++ * Resolves whether a client player found by the native sticky-honey scan is
++ * admitted for carrying. The native scan must remain the producer of candidates.
++ */
++@MechanicType("piston.sticky_honey_carry_candidate")
++public interface StickyHoneyCarryCandidateHook extends VersionedMechanic {
++    /**
++     * Returns whether the entity would have been returned and admitted by the
++     * selected release's sticky-honey scan. {@code nativeScanBounds} is the
++     * current native query box; modern query boxes are a superset of the 1.19.4
++     * query because the later scan only raised its upper Y bound.
++     */
++    boolean isCarryCandidate(AABB nativeScanBounds, Entity entity, BlockPos pistonPos);
++}
+-- 
+2.53.0.windows.2
+
