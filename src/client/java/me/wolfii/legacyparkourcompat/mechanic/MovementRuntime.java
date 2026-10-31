@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -198,6 +199,25 @@ public final class MovementRuntime {
         return CURRENT_ENTITY.get();
     }
 
+    /** Runs one query with a movement entity installed, restoring any outer scope afterwards. */
+    public static <T> T withEntityContext(Entity entity, VanillaFn<T> query) {
+        Entity previous = CURRENT_ENTITY.get();
+        if (appliesTo(entity)) {
+            CURRENT_ENTITY.set(entity);
+        } else {
+            CURRENT_ENTITY.remove();
+        }
+        try {
+            return query.get();
+        } finally {
+            if (previous == null) {
+                CURRENT_ENTITY.remove();
+            } else {
+                CURRENT_ENTITY.set(previous);
+            }
+        }
+    }
+
     /**
      * Scopes a native fluid-flow calculation to the local player's fluid scan.
      * Nested calls and exceptions restore the previous player context.
@@ -244,6 +264,64 @@ public final class MovementRuntime {
 
     public static <T extends VersionedMechanic> Optional<T> find(Class<T> type, Block block, @Nullable Entity entity) {
         return find(type, blockId(block), entity);
+    }
+
+    /**
+     * Admit the bounded 1.16 bed-wake query only when its complete read envelope
+     * is air, stone, or a bed whose current 26.2 shape matches the 1.16.1
+     * Mojmap BedBlock#getShape union of BASE and its two facing legs. Other
+     * providers and blocks restart the whole native search.
+     */
+    public static boolean supportsBedWakeSearch(Entity entity, CollisionGetter level, BlockPos bedPosition) {
+        if (currentEntity() != entity || !appliesTo(entity)) {
+            return false;
+        }
+        int minX = bedPosition.getX() - 3;
+        int maxX = bedPosition.getX() + 4;
+        int minY = bedPosition.getY() - 3;
+        int maxY = bedPosition.getY() + 3;
+        int minZ = bedPosition.getZ() - 3;
+        int maxZ = bedPosition.getZ() + 4;
+        if (minY < level.getMinY() || maxY > level.getMaxY()
+            || !level.getWorldBorder().isWithinBounds(new AABB(minX, minY, minZ, maxX, maxY, maxZ))) {
+            return false;
+        }
+
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
+                for (int z = minZ; z < maxZ; z++) {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    BlockState state = level.getBlockState(pos);
+                    if (find(BlockCollisionShapeHook.class, state.getBlock(), entity).isPresent()) {
+                        return false;
+                    }
+                    if (state.isAir() || state.is(Blocks.STONE)) {
+                        continue;
+                    }
+                    if (!(state.getBlock() instanceof BedBlock) || !bedShapeMatches116(state, level, pos)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private static boolean bedShapeMatches116(BlockState state, BlockGetter level, BlockPos pos) {
+        VoxelShape base = Block.box(0.0, 3.0, 0.0, 16.0, 9.0, 16.0);
+        VoxelShape northWest = Block.box(0.0, 0.0, 0.0, 3.0, 3.0, 3.0);
+        VoxelShape southWest = Block.box(0.0, 0.0, 13.0, 3.0, 3.0, 16.0);
+        VoxelShape northEast = Block.box(13.0, 0.0, 0.0, 16.0, 3.0, 3.0);
+        VoxelShape southEast = Block.box(13.0, 0.0, 13.0, 16.0, 3.0, 16.0);
+        VoxelShape historical = switch (BedBlock.getConnectedDirection(state).getOpposite()) {
+            case NORTH -> Shapes.or(base, northWest, northEast);
+            case SOUTH -> Shapes.or(base, southWest, southEast);
+            case WEST -> Shapes.or(base, northWest, southWest);
+            case EAST -> Shapes.or(base, northEast, southEast);
+            default -> throw new IllegalStateException("Unexpected bed direction");
+        };
+        VoxelShape current = state.getCollisionShape(level, pos);
+        return !Shapes.joinIsNotEmpty(current, historical, BooleanOp.NOT_SAME);
     }
 
     public static @Nullable Entity playerFrom(CollisionContext context) {
