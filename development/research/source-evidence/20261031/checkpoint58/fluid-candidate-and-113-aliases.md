@@ -1,0 +1,66 @@
+# Fluid stair candidate review 53
+
+## Verdict
+
+**Commit `275a3d2ddebe0fdf56a35b28ed9ac9994e10aecb`: conditional accept for the isolated fluid-face delta; not ready to integrate as written.** The keyed change matches the historical horizontal stair-face result, and its 26.2 redirect target is real. Two integration gates remain: the exported code never establishes `MovementRuntime.currentEntity`, and the `V1_13_1` annotation also resolves for every older selectable profile. The latter needs earlier-source proof or an explicit lower applicability barrier. No upper native barrier is needed.
+
+## Source behavior
+
+- In exact 1.13.1 and 1.13.2 Ornithe Feather source, `net/minecraft/fluid/FlowingFluid.java`, `getFlow(WorldView, BlockPos, FluidState)` iterates `Direction.Plane.HORIZONTAL` and invokes `isSolidFace` for the neighbor and its cell above. `isSolidFace(BlockView, BlockPos, Direction)` returns false for `StairsBlock` after its same-fluid, UP-face, and ice gates. Since the `getFlow` callers pass horizontal directions, the candidate's unconditional false result for a stair key matches the historical stair result at this operation.
+- In 1.14.4 Ornithe Feather, the same `FlowingFluid.getFlow` route calls `isSolidFace`, whose horizontal result uses collision-face solidity and has no stair-class exclusion. The accompanying 1.14.0–1.14.4 face-boundary evidence verifies this behavior and that old stair IDs have a collision face which can pass. The candidate therefore represents the applicable 1.13.1/1.13.2 side of the boundary.
+- Both 1.13.1 and 1.13.2 `WaterFluid` and `LavaFluid` extend `FlowingFluid`; 26.2 `WaterFluid` and `LavaFluid` do too. Thus the override is deliberately fluid-generic: it affects water and lava `getFlow` calls that reach this shared method. The cited player-current witness establishes water applicability only; it does not establish that lava contributes to the historical player-current update.
+- In canonical 26.2 unobfuscated source, `FlowingFluid.getFlow(BlockGetter, BlockPos, FluidState)` has descriptor `(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/material/FluidState;)Lnet/minecraft/world/phys/Vec3;` and calls `this.isSolidFace(BlockGetter, BlockPos, Direction)` at lines 92–93. The invocation owner is `net/minecraft/world/level/material/FlowingFluid`; its descriptor is `(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction;)Z`. `FlowingFluid.isSolidFace` is protected at line 106. `FluidState.getFlow(BlockGetter, BlockPos)` delegates to its fluid type, and `EntityFluidInteraction.update(Entity, boolean)` calls the fluid-state method at line 74. The candidate redirect target owner and descriptor match this invocation.
+
+## Resolver and key audit
+
+- `LegacyStairFluidFace` implements one `@MechanicType` hook, supplies a public static class-local `@MovementChange.Factory`, and returns 17 keyed instances. The IDs match the pre-1.14 stair domain listed in the supplied independent addendum. Other block IDs have no registered variant, so the mixin's `orElseGet` preserves the native predicate for them, including 1.14-only stair IDs.
+- `ChangeResolver.resolve` selects the smallest `emulates` version that is greater than or equal to the selected profile. `V1_13_1` therefore applies to profiles through 1.13.2 and does not apply to 1.14 or newer. This is the right upper cutoff; adding a native barrier above 1.13.2 would be redundant.
+- The same resolver rule also applies this change to 1.13 and every older enum profile (down to 1.8). This commit and its supplied evidence establish the old categorical stair-face rule only for 1.13.1/1.13.2. Earlier releases have not been proven here. Either verify the earlier eras and their stair-key domains, or add an explicit lower applicability boundary so profiles older than the proven range fall through natively.
+
+## Integration blocker: current entity context
+
+The redirect dispatches with `MovementRuntime.currentEntity()`. In the candidate export, `MovementRuntime.enter(Entity)` and `exit()` are defined, but there are no calls to either method in `src`. Consequently the thread-local remains null on the exported call path; `MovementRuntime.find` returns empty and the historical hook never runs. 26.2's `EntityFluidInteraction.update(Entity, boolean)` is the concrete owner that calls `FluidState.getFlow`; integration must provide a scoped player context around that operation (and restore/clear it reliably). The existing `MovementRuntime.appliesTo` client-side player gate will then preserve native behavior for logical servers and non-player callers. This is a required integration change, not evidence against the face arithmetic.
+
+## Evidence reviewed
+
+- Candidate commit: `275a3d2ddebe0fdf56a35b28ed9ac9994e10aecb`.
+- `change/v1_13_1/flow/LegacyStairFluidFace.java`, `mechanic/hook/fluid/FlowingFluidStairFaceHook.java`, `mixin/FlowingFluidMixin.java`, and client `MovementChangeDiscovery`, `MovementRuntime`, plus `ChangeResolver` and `ParkourVersion` from the sanitized export.
+- Supplied independent evidence: `.native-source/20261031/1132-1144-finish46/fluid-impulse-independent-review/review.md`, `.native-source/20261031/1132-1144-finish46/fluid-face-boundary/result.md`, and `.native-source/20261031/fluid-stair-alias50/addendum-1.md`.
+- Canonical local source checked read-only: `decompiled_minecraft/1.13.1/ornithe-feather`, `1.13.2/ornithe-feather`, `1.14.4/ornithe-feather`, and `26.2/unobfuscated`.
+
+No build, tests, game launch, or source edits were performed.
+
+## Final candidate review: commit `f7089f1cb00044a0004d66ecf99b804397109f49`
+
+**Final verdict: reject the version-gating correction as historically inaccurate at `V1_13`; accept the shared keyed hook shape and the `V1_13_1` false override for the proven 1.13.1/1.13.2 behavior.** The separate current-entity-context integration dependency from the preceding verdict remains open and is outside this isolated candidate judgment.
+
+The correction adds a `V1_13` `NativeStairFluidFace` for the same 17 stair keys, returning `Optional.empty()`, and changes the `V1_13_1` class to return `Optional.of(false)`. Under `ChangeResolver`, that makes `V1_13` and older selections choose the empty override, `V1_13_1` choose false, and `V1_14` or newer select no change. The resolver structure is valid: keyed entries for different emulation versions coexist, the lower version acts as a resolver boundary, and no upper native barrier is needed. The optional result correctly distinguishes “preserve vanilla” from the historical Boolean `false`.
+
+However, exact 1.13 Ornithe Feather source contradicts the new native behavior for the `V1_13` profile. In `decompiled_minecraft/1.13/ornithe-feather/net/minecraft/fluid/FlowingFluid.java`, `getFlow` calls `isSolidFace` for horizontal directions (lines 39–75); `isSolidFace` rejects `StairsBlock` (lines 90–107), just as 1.13.1/1.13.2 do. The candidate's empty override instead calls the 26.2 native predicate, which can accept the corresponding full stair face: 26.2 `FlowingFluid.isSolidFace` delegates to `BlockState.isFaceSturdy` at lines 106–115; `StairBlock` uses its bottom straight shape at lines 41 and 74–79, and the default support shape is the collision shape (`BlockBehaviour.java:291`). Thus the lower barrier must not classify the known `V1_13` behavior as native. The correction should have the false override cover `V1_13` as well; any still-earlier range needs its own exact-source proof or an explicitly scoped native boundary that does not override the proven 1.13 behavior.
+
+For profiles older than `V1_13`, the new barrier avoids applying the false override, but the sources reviewed here do not establish that the running 26.2 predicate matches those historical profiles. The commit therefore does not close parity for that range. It does correctly leave 1.14+ native because the legacy emulation version is older than the selected profile.
+
+The `currentEntity()` issue remains unchanged: the candidate mixin still relies on scoped runtime context which its export does not establish. Per the integration instruction, the product integration must reuse its existing fluid-query context and per-block `FallingFluidFaceSturdyHook`; this candidate verdict does not authorize using the candidate mixin or claim that context integration is solved.
+
+## Source-bound applicability extension: 1.13
+
+**Final addendum, bound to candidate commit `f7089f1cb00044a0004d66ecf99b804397109f49`: ACCEPT applicability of the single false stair-face override to `V1_13`, `V1_13_1`, and its 1.13.2 patch. Do not retain a `V1_13` native-preservation provider.** Put the native-preservation barrier at the existing `V1_12` enum boundary, where it preserves the prior partial behavior for 1.12 and older selections. This barrier is a resolver fence, not a claim that 26.2 native behavior has historical parity for those older profiles. Keep one false provider annotated `V1_13_1`; the resolver selects it for `V1_13`, `V1_13_1`, and 1.13.2. No second false provider is needed.
+
+### Exact sources and integrity
+
+All three roots are exact `1.13`, `1.13.1`, and `1.13.2` releases in Ornithe Feather Gen2 build 2. For each root, the computed SHA-256 of the sibling source manifest matches the `.ready.json` `sourceManifestSha256`; the seven source files used below also match their entries in that manifest.
+
+| Release | Mapping artifacts | Source manifest SHA-256 | `Blocks.java` | `FlowingFluid.java` | `Entity.java` |
+|---|---|---|---|---|---|
+| 1.13 | `feather-gen2-1.13+build.2` mergedv2 jar and tiny | `0509c2614b0bb0e616e2ebc6382f8eb5d031b5d86b834a4a6ed7fd96b6d68f1a` | `8e66b1ad391d61f4e42fecb313f99299810493cb87525493f9ace8a1eb7cd000` | `da81f379a77ef5da26e87503a1f605df4efbf5d5c02e6b6f68a916dc327df5dd` | `09514488d9055449c47e2e4bcd23b5773203ca634b7ecba2323a99d0ae016642` |
+| 1.13.1 | `feather-gen2-1.13.1+build.2` mergedv2 jar and tiny | `21770b01ff3bf443db2e9e1b6df7db25d2fd6b7a72a86228259269c932d3abba` | `3e128c9a4f6b53e1037fb85269c4d00bc85112ae52fe48f9534232e13ee2a303` | `2398d109ddc5785cb1bc8872b8c157319137df8957faf8a03581a8f68afb1253` | `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269` |
+| 1.13.2 | `feather-gen2-1.13.2+build.2` mergedv2 jar and tiny | `2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211` | `3e128c9a4f6b53e1037fb85269c4d00bc85112ae52fe48f9534232e13ee2a303` | `2398d109ddc5785cb1bc8872b8c157319137df8957faf8a03581a8f68afb1253` | `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269` |
+
+### Stair domain and player operation route
+
+- Exact `Blocks.java` sources have precisely the same 17 `_stairs` registry keys in all three releases, and those keys match `FlowingFluidStairFaceHook.V1_13_STAIR_IDS`: oak, cobblestone, brick, stone brick, nether brick, sandstone, spruce, birch, jungle, quartz, acacia, dark oak, prismarine, prismarine brick, dark prismarine, red sandstone, and purpur stairs. There are no extra 1.13 stair keys requiring additional variants.
+- In 1.13 `FlowingFluid.getFlow(WorldView, BlockPos, FluidState)` calls `isSolidFace` on horizontal directions (`FlowingFluid.java:39–75`); `isSolidFace(BlockView, BlockPos, Direction)` categorically rejects `StairsBlock` after the same-fluid, UP-face, and ice gates (`FlowingFluid.java:90–107`). The 1.13.1/1.13.2 sources have the same operation; their `FlowingFluid.java` hashes are identical. This establishes the same false stair-face result throughout the 1.13 enum range.
+- In each release, `Entity.tick` calls `baseTick` (`Entity.java:337`), `baseTick` calls `checkWaterState` (1.13 line 947; 1.13.1/1.13.2 line 948), and `checkWaterState` calls `m_69693160(FluidTags.WATER)` (1.13 line 963; 1.13.1/1.13.2 line 964). That body-fluid scan calls `FluidState.getFlow` for qualifying water cells, scales contributors only below the 0.4 immersion threshold, averages them, skips normalization for `PlayerEntity`, and adds each component times `0.014` to entity velocity (`Entity.java:2507–2564` in 1.13; `2509–2566` in 1.13.1/1.13.2). Thus the changed shared flow predicate reaches the player-current writer in all three versions.
+- The local client-player inheritance path exists in every release: `LocalClientPlayerEntity` extends `ClientPlayerEntity`, which extends `PlayerEntity`; `PlayerEntity` extends `LivingEntity`, which extends `Entity`. The player therefore inherits this scan and impulse writer. `LivingEntity` also owns the ordinary `moveRelative` and travel path that consumes the resulting velocity. Entity fluid accumulation and relevant hierarchy/member sources were checked in all three exact roots; 1.13.1 and 1.13.2 have identical `Entity.java`, `LivingEntity.java`, `ClientPlayerEntity.java`, and `LocalClientPlayerEntity.java` bytes, while 1.13 uses its own verified versions.
+
+This closes source applicability for 1.13–1.13.2 and supports a single `@MovementChange(emulates = ParkourVersion.V1_13_1)` false provider. It does not establish historical behavior earlier than 1.13. Preserve the earlier unresolved state behind `V1_12` rather than letting the candidate's false provider or a `V1_13` native variant decide that range.

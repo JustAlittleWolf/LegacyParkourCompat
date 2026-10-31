@@ -1,0 +1,98 @@
+
+> Configure project :tas-client
+[Unimined] Plugin Version: 1.4.1
+[Unimined/Minecraft ::main] Applying minecraft config for source set 'main'
+[Unimined/MinecraftDownloader] retrieving version metadata
+[Unimined/Minecraft ::main] Applying OfficialFabricMinecraftTransformer
+[Unimined/Minecraft ::main] Applying run configs
+[Unimined/ModRemapper] Remapping mods from intermediary to mojmap
+[Unimined/ModRemapper] No mods found for remapping
+
+> Task :buildSrc:compileJava
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes
+> Task :buildSrc:jar
+
+> Configure project :
+Fabric Loom: 1.17.21
+
+> Task :testing:compileJava
+> Task :testing:processResources NO-SOURCE
+> Task :testing:classes
+> Task :testing:jar
+> Task :testing:startScripts
+> Task :testing:distTar
+> Task :testing:distZip
+> Task :testing:assemble
+> Task :testing:check
+> Task :testing:build
+
+> Task :parkourgym-server:compileJava
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :parkourgym-server:processResources
+> Task :parkourgym-server:classes
+> Task :parkourgym-server:jar
+> Task :parkourgym-server:assemble
+> Task :parkourgym-server:check
+> Task :parkourgym-server:build
+
+> Task :compileJava
+Note: C:\Users\Wolfi\.codex\worktrees\56a8\LegacyParkourCompat\.native-integrations\lookat-fluid55\src\main\java\me\wolfii\legacyparkourcompat\mechanic\fluid\PlayerEyeWaterSampler.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :processResources
+> Task :classes
+
+> Task :compileClientJava
+C:\Users\Wolfi\.codex\worktrees\56a8\LegacyParkourCompat\.native-integrations\lookat-fluid55\src\client\java\me\wolfii\legacyparkourcompat\change\v1_12\NativeStairFluidFace.java:28: error: cannot find symbol
+    public static List<NativeStairFluidFace> variants() {
+                  ^
+  symbol:   class List
+  location: class NativeStairFluidFace
+C:\Users\Wolfi\.codex\worktrees\56a8\LegacyParkourCompat\.native-integrations\lookat-fluid55\src\client\java\me\wolfii\legacyparkourcompat\change\v1_13_1\LegacyStairFluidFace.java:29: error: cannot find symbol
+    public static List<LegacyStairFluidFace> variants() {
+                  ^
+  symbol:   class List
+  location: class LegacyStairFluidFace
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+2 errors
+
+> Task :compileClientJava FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/Wolfi/.codex/worktrees/56a8/LegacyParkourCompat/.native-integrations/lookat-fluid55/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileClientJava' (registered by plugin class 'org.gradle.api.plugins.JavaBasePlugin').
+> Compilation failed; see the compiler output below.
+  Note: Recompile with -Xlint:deprecation for details.
+  C:\Users\Wolfi\.codex\worktrees\56a8\LegacyParkourCompat\.native-integrations\lookat-fluid55\src\client\java\me\wolfii\legacyparkourcompat\change\v1_12\NativeStairFluidFace.java:28: error: cannot find symbol
+      public static List<NativeStairFluidFace> variants() {
+                    ^
+    symbol:   class List
+    location: class NativeStairFluidFace
+  C:\Users\Wolfi\.codex\worktrees\56a8\LegacyParkourCompat\.native-integrations\lookat-fluid55\src\client\java\me\wolfii\legacyparkourcompat\change\v1_13_1\LegacyStairFluidFace.java:29: error: cannot find symbol
+      public static List<LegacyStairFluidFace> variants() {
+                    ^
+    symbol:   class List
+    location: class LegacyStairFluidFace
+  Note: Some input files use or override a deprecated API.
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 13s
+13 actionable tasks: 13 executed
