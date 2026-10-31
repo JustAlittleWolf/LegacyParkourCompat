@@ -287,6 +287,14 @@ public final class MovementRuntime {
             return false;
         }
 
+        // noCollision also reads entity shapes. That historical provider domain
+        // is not established here, so keep the complete native search near others.
+        AABB envelope = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+        if (!(level instanceof Level queryLevel) || queryLevel != entity.level()
+            || !queryLevel.getEntities(entity, envelope, other -> true).isEmpty()) {
+            return false;
+        }
+
         for (int x = minX; x < maxX; x++) {
             for (int y = minY; y < maxY; y++) {
                 for (int z = minZ; z < maxZ; z++) {
