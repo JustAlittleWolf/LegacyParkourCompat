@@ -1,0 +1,7 @@
+version	file	method anchors
+1.16.5	net/minecraft/world/item/enchantment/EnchantmentHelper.java	34,161,191,195,215,219,223,226,227,231,250
+1.16.5	net/minecraft/util/Mth.java	33,374
+1.17	net/minecraft/world/item/enchantment/EnchantmentHelper.java	34,161,191,195,215,219,223,226,227,231,250
+1.17	net/minecraft/util/Mth.java	51,481
+1.17.1	net/minecraft/world/item/enchantment/EnchantmentHelper.java	62,185,215,219,239,243,247,250,251,255,274
+1.17.1	net/minecraft/util/Mth.java	51,481

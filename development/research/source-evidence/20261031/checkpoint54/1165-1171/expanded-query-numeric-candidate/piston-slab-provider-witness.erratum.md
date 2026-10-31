@@ -1,0 +1,9 @@
+# Erratum: retract the moving-slab provider witness
+
+This corrects the witness claim in `piston-slab-provider-witness.md` (prior report SHA-256 `721F50A69D77AE49752D2B4F7F5D614AB1DB5E2E6D9DCAB5923CB3C0C0A37F43`). Its query-bound quantization is real, but the claimed new provider admission and resulting Y clip are false.
+
+The missing step was `Shapes.joinIsNotEmpty`'s `IndirectMerger`. For provider Y coordinates `[-0.3749999403953552, 0.12500005960464478]` with one filled interval, the new query's 1/8 grid coordinates `[0, 0.125, 0.25, ..., 1]` with filled interval indices `[1,6)`, the exact 1.17 IndirectMerger comparisons coalesce the 0.125 query edge and provider top because their separation is only `5.9604644775390625e-8 < 1.0e-7`. The emitted merged indices then have no interval where both discrete shapes are full. The Boolean AND callback returns empty. The old raw query's start is `0.12500008`, also within `1.0e-7` of the provider top, and its AND callback is empty as well. The moving slab is not emitted to `Entity.collideBoundingBoxLegacy`, so the proposed clip response does not occur.
+
+The recorded line-faithful replay of the IndirectMerger index-construction and `forMergedIndexes` callback is in `merge-index-replay.md` with its adjacent mechanical output hash. The replay derives from exact source anchors in both endpoint `IndirectMerger.java` and `Shapes.java`, and uses the source-created shape coordinate and occupancy lists described above; it is a numeric source-algorithm reconstruction, not a game/runtime run.
+
+Disposition: **withdraw the provider witness**. Keep `piston-slab-provider-witness.md` immutable as the superseded body, with this erratum as its controlling disposition. The confirmed `Entity → CollisionGetter → CollisionSpliterator → Shapes.create` call chain and raw-versus-quantized query-bound difference remain valid. This audit does not close the full pair gap or prove all collision-provider consequences equivalent.

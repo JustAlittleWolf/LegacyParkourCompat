@@ -1,0 +1,36 @@
+# Independent pose refresh and wake-route audit
+
+## Verdict
+
+**The isolated `refreshDimensions()` difference is not a changed direct player movement response on the inspected sleep/wake routes.** A sleep-to-standing `DATA_POSE` update temporarily gives the 1.16.5 player a different horizontal box placement than 1.17/1.17.1. The reachable `LivingEntity.stopSleeping()` route immediately follows `setPose(STANDING)` with `setPos(current position)`, which reconstructs the box from the new dimensions in all three releases. The player wake packet dispatches to this same method. Bed-entry eligibility and server/state production are excluded. No changed stand-up position algorithm was found in these endpoints.
+
+This closes only the assigned pose/wake candidate. It is source analysis, with no runtime or trajectory claim.
+
+## Evidence identity
+
+Exact Mojmap trees: `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\{1.16.5,1.17,1.17.1}\mojmap`. The assigned inventory records the 1.16.5 and 1.17.1 source-manifest SHA-256 values as `9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b` and `93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b`; the 1.17 provenance SHA-256 is `afc9dc30cd8f6406d8ea306e64cc0b3601cc8d7c7bcd314f737573d830a79357`. The assigned inventory rehashed all 4,141 1.17 Java files against that provenance source table. This audit independently SHA-256 hashed the directly compared Java files:
+
+| Relative path | 1.16.5 | 1.17 | 1.17.1 |
+|---|---|---|---|
+| `net/minecraft/world/entity/Entity.java` | `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666` | `81231ad8ac1b9a7a9f7ee186352c7e73c0c5211a3034c3a35c04badc6914c8ef` | `ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de` |
+| `net/minecraft/world/entity/LivingEntity.java` | `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88` | `8e81e5f1317d154fa41b676721ff581badd46296f77bcebcadb3c63448e528ed` | `33fd081aadb2b6fdc9ebf487db6da5b38c54f4b8676572790ee2203690d15e6f` |
+| `net/minecraft/world/entity/player/Player.java` | `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960` | `9ad4c439814caf5f51cf6da9a86c5d22906b0a28b5b606bdeb1b770617d90516` | `724bb298499dabe489dffd5ce7ec81c9773619a8d2c70044911eae4c9e8ff481` |
+| `net/minecraft/client/multiplayer/ClientPacketListener.java` | `a1c3ea65f40a527d92b1e4d637cad4a8293fdddd1a9d530d778bf39cc2d8670e` | `394b6fd04134212fb08eba2498b9bccc2baadf5ae08a64dea9f4c8a52a34e6f5` | `a59ba067bb0b9cdf026159a87534fd456ed766ec287cfd23e24356f84f078a5a` |
+| `net/minecraft/world/level/block/BedBlock.java` | `32cff55596d10fb86bb8bd3fb9769df0df9826b8bd449fd4d70fb4d6f3868ced` | `385bfc7f5c916fa897f34e5f2bb0311c4fc872733436a1a1fa2c8edf44c234a3` | `385bfc7f5c916fa897f34e5f2bb0311c4fc872733436a1a1fa2c8edf44c234a3` |
+| `net/minecraft/world/entity/EntityDimensions.java` | `6a4ded79d936bb740232ae923372e47d24a297a35eaba22e9d18fbd637a7eedf` | same | same |
+
+## Pose refresh difference and reachability
+
+- `Entity.setPose` writes `DATA_POSE` in all versions (1.16.5 `Entity.java:311–313`; 1.17/1.17.1 `:340–342`). `Entity.onSyncedDataUpdated` refreshes dimensions for this key (1.16.5 `:2300–2304`; 1.17 `:2467–2471`; 1.17.1 `:2469–2473`).
+- The exact standalone resize behavior differs. In 1.16.5 `Entity.refreshDimensions()` (`:2306–2334`), widening preserves the prior box minimum corner. Growing from sleeping width `0.2` to standing width `0.6` therefore places the wider box `0.2` farther on positive X/Z at the same position. In 1.17 and 1.17.1 (`Entity.java:2475–2497`), it assigns dimensions and calls `reapplyPosition()`, rebuilding around the unchanged entity position. The later free-position correction is gated to non-client, non-first-tick, non-no-physics **non-players**. Existing player pose dimensions otherwise match: standing `0.6 × 1.8`, sleeping fixed `0.2 × 0.2`, fall-flying/swimming/spin `0.6 × 0.6`, crouching `0.6 × 1.5`, dying fixed `0.2 × 0.2`; `Player.POSES` is at 1.16.5 `Player.java:112–121`, 1.17/1.17.1 `:124–133`. `EntityDimensions.java` is byte-identical across the triple.
+- In all three versions, `LivingEntity.stopSleeping()` uses the same loaded sleeping-position / bed gate, stand-up lookup and fallback-position structure, then executes `setPose(Pose.STANDING)` and `setPos(vec3.x, vec3.y, vec3.z)` consecutively (1.16.5 `LivingEntity.java:3032–3051`; 1.17 `:3150–3169`; 1.17.1 `:3154–3173`). `Entity.setPos` reconstructs the bounding box from current dimensions and the supplied position (1.16.5 `Entity.java:331–334`; 1.17/1.17.1 `:364–367`). Thus the older min-corner expansion is overwritten in the same call stack before the wake route returns.
+- The normal clientbound wake route also matches: `ClientPacketListener.handleAnimate` dispatches action `2` to `Player.stopSleepInBed(false, false)` (1.16.5 `ClientPacketListener.java:890–910`, call at `:902–904`; 1.17 `:766–786`, call at `:778–780`; 1.17.1 `:765–785`, call at `:777–779`). `Player.stopSleepInBed` calls `super.stopSleeping()` in all three (1.16.5 `Player.java:1296–1303`; 1.17 `:1327–1334`; 1.17.1 `:1318–1325`). The client route therefore reaches the rebuilding `setPos` tail.
+- The matching sleep-entry implementation also calls `setPose(SLEEPING)` before `setPosToBed`, and `setPosToBed` calls `setPos` (1.16.5 `LivingEntity.java:3007–3025`; 1.17 `:3125–3143`; 1.17.1 `:3129–3147`). That route likewise rebuilds the box after the pose update. Whether entry is allowed remains excluded.
+
+## Direct position response and exclusions
+
+The player wake response can change world position through `BedBlock.findStandUpPosition`, so it is considered separately from bed-entry eligibility. Its ordered candidate search, danger retries, bunk-bed offsets and candidate delegation to `DismountHelper.findSafeDismountLocation` match across the three sources: 1.16.5 `BedBlock.java:233–290`, offsets `:338–359`, `DismountHelper.java:82–98`; 1.17 `BedBlock.java:235–292`, offsets `:340–361`, `DismountHelper.java:74–91`; 1.17.1 those same later ranges. The non-bunk candidate order and bunk-bed fallback groups match; 1.17.1 `BedBlock.java` is byte-identical to 1.17. The player entity-type dimensions passed to the helper remain `0.6F × 1.8F` (1.16.5 `EntityType.java:479–481`; 1.17/1.17.1 `:504–506`). No world-border candidate gate is present in these three helpers. The unchanged `LivingEntity.stopSleeping()` candidate call means no direct wake-position difference is found here.
+
+The bed-entry eligibility checks which lead to `startSleepInBed` / `startSleeping` are not accepted as movement deltas. Server sleeping-player bookkeeping, occupancy updates and other world-state production are also outside this decision. A pose-only metadata update that bypassed the ordinary synchronous `stopSleeping()`/`setPos` wake route is not established as a player movement route by the inspected evidence; the listed local client wake route is explicit and complete for this candidate.
+
+**Disposition:** close the sleeping-pose AABB candidate as no changed direct player movement response on the enumerated normal sleep/wake routes. No runtime witness was sought. This does not close the full 1.16.5→1.17→1.17.1 pair or the other unresolved provider candidates in `providers-callbacks/inventory.md`.

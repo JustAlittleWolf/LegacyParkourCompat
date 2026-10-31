@@ -1,0 +1,980 @@
+version	file	line	nearestMethod	statement
+1.16.5	net/minecraft/world/entity/Entity.java	201	public Entity(EntityType<?> entityType, Level level) {	this.setPos(0.0, 0.0, 0.0);
+1.16.5	net/minecraft/world/entity/Entity.java	216	public boolean isColliding(BlockPos blockPos, BlockState blockState) {	VoxelShape voxelShape2 = voxelShape.move(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+1.16.5	net/minecraft/world/entity/Entity.java	296	protected void resetPos() {	this.setPos(this.getX(), d, this.getZ());
+1.16.5	net/minecraft/world/entity/Entity.java	302	protected void resetPos() {	this.setDeltaMovement(Vec3.ZERO);
+1.16.5	net/minecraft/world/entity/Entity.java	311	public void setPose(Pose pose) {	public void setPose(Pose pose) {
+1.16.5	net/minecraft/world/entity/Entity.java	326	protected void setRot(float f, float g) {	protected void setRot(float f, float g) {
+1.16.5	net/minecraft/world/entity/Entity.java	331	public void setPos(double d, double e, double f) {	public void setPos(double d, double e, double f) {
+1.16.5	net/minecraft/world/entity/Entity.java	333	public void setPos(double d, double e, double f) {	this.setBoundingBox(this.dimensions.makeBoundingBox(d, e, f));
+1.16.5	net/minecraft/world/entity/Entity.java	337	protected void reapplyPosition() {	this.setPos(this.position.x, this.position.y, this.position.z);
+1.16.5	net/minecraft/world/entity/Entity.java	340	public void turn(double d, double e) {	public void turn(double d, double e) {
+1.16.5	net/minecraft/world/entity/Entity.java	356	public void tick() {	this.setSharedFlag(6, this.isGlowing());
+1.16.5	net/minecraft/world/entity/Entity.java	363	public void baseTick() {	this.level.getProfiler().push("entityBaseTick");
+1.16.5	net/minecraft/world/entity/Entity.java	382	public void baseTick() {	this.updateSwimming();
+1.16.5	net/minecraft/world/entity/Entity.java	387	public void baseTick() {	this.setRemainingFireTicks(this.remainingFireTicks - 4);
+1.16.5	net/minecraft/world/entity/Entity.java	393	public void baseTick() {	this.hurt(DamageSource.ON_FIRE, 1.0F);
+1.16.5	net/minecraft/world/entity/Entity.java	396	public void baseTick() {	this.setRemainingFireTicks(this.remainingFireTicks - 1);
+1.16.5	net/minecraft/world/entity/Entity.java	410	public void baseTick() {	this.setSharedFlag(0, this.remainingFireTicks > 0);
+1.16.5	net/minecraft/world/entity/Entity.java	438	protected void lavaHurt() {	this.hurt(DamageSource.LAVA, 4.0F);
+1.16.5	net/minecraft/world/entity/Entity.java	449	public void setSecondsOnFire(int i) {	this.setRemainingFireTicks(j);
+1.16.5	net/minecraft/world/entity/Entity.java	453	public void setRemainingFireTicks(int i) {	public void setRemainingFireTicks(int i) {
+1.16.5	net/minecraft/world/entity/Entity.java	462	public void clearFire() {	this.setRemainingFireTicks(0);
+1.16.5	net/minecraft/world/entity/Entity.java	470	public boolean isFree(double d, double e, double f) {	return this.isFree(this.getBoundingBox().move(d, e, f));
+1.16.5	net/minecraft/world/entity/Entity.java	477	public void setOnGround(boolean bl) {	public void setOnGround(boolean bl) {
+1.16.5	net/minecraft/world/entity/Entity.java	478	public void setOnGround(boolean bl) {	this.onGround = bl;
+1.16.5	net/minecraft/world/entity/Entity.java	485	public void move(MoverType moverType, Vec3 vec3) {	public void move(MoverType moverType, Vec3 vec3) {
+1.16.5	net/minecraft/world/entity/Entity.java	487	public void move(MoverType moverType, Vec3 vec3) {	this.setBoundingBox(this.getBoundingBox().move(vec3));
+1.16.5	net/minecraft/world/entity/Entity.java	497	public void move(MoverType moverType, Vec3 vec3) {	this.level.getProfiler().push("move");
+1.16.5	net/minecraft/world/entity/Entity.java	501	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(Vec3.ZERO);
+1.16.5	net/minecraft/world/entity/Entity.java	507	public void move(MoverType moverType, Vec3 vec3) {	this.setBoundingBox(this.getBoundingBox().move(vec32));
+1.16.5	net/minecraft/world/entity/Entity.java	512	public void move(MoverType moverType, Vec3 vec3) {	this.level.getProfiler().push("rest");
+1.16.5	net/minecraft/world/entity/Entity.java	513	public void move(MoverType moverType, Vec3 vec3) {	this.horizontalCollision = !Mth.equal(vec3.x, vec32.x) || !Mth.equal(vec3.z, vec32.z);
+1.16.5	net/minecraft/world/entity/Entity.java	514	public void move(MoverType moverType, Vec3 vec3) {	this.verticalCollision = vec3.y != vec32.y;
+1.16.5	net/minecraft/world/entity/Entity.java	515	public void move(MoverType moverType, Vec3 vec3) {	this.onGround = this.verticalCollision && vec3.y < 0.0;
+1.16.5	net/minecraft/world/entity/Entity.java	521	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(0.0, vec33.y, vec33.z);
+1.16.5	net/minecraft/world/entity/Entity.java	525	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(vec33.x, vec33.y, 0.0);
+1.16.5	net/minecraft/world/entity/Entity.java	577		this.setDeltaMovement(this.getDeltaMovement().multiply(i, 1.0, i));
+1.16.5	net/minecraft/world/entity/Entity.java	582		this.setRemainingFireTicks(-this.getFireImmuneTicks());
+1.16.5	net/minecraft/world/entity/Entity.java	587		this.setRemainingFireTicks(-this.getFireImmuneTicks());
+1.16.5	net/minecraft/world/entity/Entity.java	689	private Vec3 collide(Vec3 vec3) {	this, new Vec3(vec3.x, 0.0, vec3.z), aABB.move(vec34), this.level, collisionContext, rewindableStream
+1.16.5	net/minecraft/world/entity/Entity.java	700	private Vec3 collide(Vec3 vec3) {	this, new Vec3(0.0, -vec33.y + vec3.y, 0.0), aABB.move(vec33), this.level, collisionContext, rewindableStream
+1.16.5	net/minecraft/world/entity/Entity.java	736	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(0.0, e, 0.0);
+1.16.5	net/minecraft/world/entity/Entity.java	744	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(0.0, 0.0, f);
+1.16.5	net/minecraft/world/entity/Entity.java	751	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(d, 0.0, 0.0);
+1.16.5	net/minecraft/world/entity/Entity.java	771	public static Vec3 collideBoundingBox(	aABB = aABB.move(0.0, e, 0.0);
+1.16.5	net/minecraft/world/entity/Entity.java	779	public static Vec3 collideBoundingBox(	aABB = aABB.move(0.0, 0.0, f);
+1.16.5	net/minecraft/world/entity/Entity.java	786	public static Vec3 collideBoundingBox(	aABB = aABB.move(d, 0.0, 0.0);
+1.16.5	net/minecraft/world/entity/Entity.java	886	public void setNoGravity(boolean bl) {	public void setNoGravity(boolean bl) {
+1.16.5	net/minecraft/world/entity/Entity.java	900	protected void checkFallDamage(double d, boolean bl, BlockState blockState, BlockPos blockPos) {	this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/Entity.java	902	protected void checkFallDamage(double d, boolean bl, BlockState blockState, BlockPos blockPos) {	this.fallDistance = (float)(this.fallDistance - d);
+1.16.5	net/minecraft/world/entity/Entity.java	949	public void updateSwimming() {	public void updateSwimming() {
+1.16.5	net/minecraft/world/entity/Entity.java	951	public void updateSwimming() {	this.setSwimming(this.isSprinting() && this.isInWater() && !this.isPassenger());
+1.16.5	net/minecraft/world/entity/Entity.java	953	public void updateSwimming() {	this.setSwimming(this.isSprinting() && this.isUnderWater() && !this.isPassenger());
+1.16.5	net/minecraft/world/entity/Entity.java	967	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = false;
+1.16.5	net/minecraft/world/entity/Entity.java	973	protected boolean updateInWaterStateAndDoFluidPushing() {	this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/Entity.java	974	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = true;
+1.16.5	net/minecraft/world/entity/Entity.java	977	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = false;
+1.16.5	net/minecraft/world/entity/Entity.java	982	private void updateFluidOnEyes() {	this.wasEyeInWater = this.isEyeInFluid(FluidTags.WATER);
+1.16.5	net/minecraft/world/entity/Entity.java	1077	public void moveRelative(float f, Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().add(vec32));
+1.16.5	net/minecraft/world/entity/Entity.java	1120	public void absMoveTo(double d, double e, double f) {	this.setPos(g, e, h);
+1.16.5	net/minecraft/world/entity/Entity.java	1180	public void push(Entity entity) {	public void push(Entity entity) {
+1.16.5	net/minecraft/world/entity/Entity.java	1202	public void push(Entity entity) {	this.push(-d, 0.0, -e);
+1.16.5	net/minecraft/world/entity/Entity.java	1206	public void push(Entity entity) {	entity.push(d, 0.0, e);
+1.16.5	net/minecraft/world/entity/Entity.java	1213	public void push(double d, double e, double f) {	public void push(double d, double e, double f) {
+1.16.5	net/minecraft/world/entity/Entity.java	1214	public void push(double d, double e, double f) {	this.setDeltaMovement(this.getDeltaMovement().add(d, e, f));
+1.16.5	net/minecraft/world/entity/Entity.java	1222	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.16.5	net/minecraft/world/entity/Entity.java	1419	public void load(CompoundTag compoundTag) {	this.setDeltaMovement(Math.abs(d) > 10.0 ? 0.0 : d, Math.abs(e) > 10.0 ? 0.0 : e, Math.abs(f) > 10.0 ? 0.0 : f);
+1.16.5	net/minecraft/world/entity/Entity.java	1427	public void load(CompoundTag compoundTag) {	this.fallDistance = compoundTag.getFloat("FallDistance");
+1.16.5	net/minecraft/world/entity/Entity.java	1430	public void load(CompoundTag compoundTag) {	this.onGround = compoundTag.getBoolean("OnGround");
+1.16.5	net/minecraft/world/entity/Entity.java	1444	public void load(CompoundTag compoundTag) {	this.setRot(this.yRot, this.xRot);
+1.16.5	net/minecraft/world/entity/Entity.java	1457	public void load(CompoundTag compoundTag) {	this.setNoGravity(compoundTag.getBoolean("NoGravity"));
+1.16.5	net/minecraft/world/entity/Entity.java	1561	public boolean isInWall() {	AABB aABB = AABB.ofSize(g, 0.1F, g).move(this.getX(), this.getEyeY(), this.getZ());
+1.16.5	net/minecraft/world/entity/Entity.java	1578	public void rideTick() {	this.setDeltaMovement(Vec3.ZERO);
+1.16.5	net/minecraft/world/entity/Entity.java	1627	public boolean startRiding(Entity entity, boolean bl) {	this.setPose(Pose.STANDING);
+1.16.5	net/minecraft/world/entity/Entity.java	1688	public void lerpTo(double d, double e, double f, float g, float h, int i, boolean bl) {	this.setPos(d, e, f);
+1.16.5	net/minecraft/world/entity/Entity.java	1689	public void lerpTo(double d, double e, double f, float g, float h, int i, boolean bl) {	this.setRot(g, h);
+1.16.5	net/minecraft/world/entity/Entity.java	1733	protected void handleNetherPortal() {	this.level.getProfiler().push("portal");
+1.16.5	net/minecraft/world/entity/Entity.java	1759	public void lerpMotion(double d, double e, double f) {	public void lerpMotion(double d, double e, double f) {
+1.16.5	net/minecraft/world/entity/Entity.java	1760	public void lerpMotion(double d, double e, double f) {	this.setDeltaMovement(d, e, f);
+1.16.5	net/minecraft/world/entity/Entity.java	1806	public void setShiftKeyDown(boolean bl) {	this.setSharedFlag(1, bl);
+1.16.5	net/minecraft/world/entity/Entity.java	1837	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.16.5	net/minecraft/world/entity/Entity.java	1838	public void setSprinting(boolean bl) {	this.setSharedFlag(3, bl);
+1.16.5	net/minecraft/world/entity/Entity.java	1853	public void setSwimming(boolean bl) {	public void setSwimming(boolean bl) {
+1.16.5	net/minecraft/world/entity/Entity.java	1854	public void setSwimming(boolean bl) {	this.setSharedFlag(4, bl);
+1.16.5	net/minecraft/world/entity/Entity.java	1864	public void setGlowing(boolean bl) {	this.setSharedFlag(6, this.glowing);
+1.16.5	net/minecraft/world/entity/Entity.java	1895	public void setInvisible(boolean bl) {	this.setSharedFlag(5, bl);
+1.16.5	net/minecraft/world/entity/Entity.java	1902	protected void setSharedFlag(int i, boolean bl) {	protected void setSharedFlag(int i, boolean bl) {
+1.16.5	net/minecraft/world/entity/Entity.java	1924	public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {	this.setRemainingFireTicks(this.remainingFireTicks + 1);
+1.16.5	net/minecraft/world/entity/Entity.java	1929	public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {	this.hurt(DamageSource.LIGHTNING_BOLT, 5.0F);
+1.16.5	net/minecraft/world/entity/Entity.java	1941	public void onAboveBubbleCol(boolean bl) {	this.setDeltaMovement(vec3.x, d, vec3.z);
+1.16.5	net/minecraft/world/entity/Entity.java	1953	public void onInsideBubbleColumn(boolean bl) {	this.setDeltaMovement(vec3.x, d, vec3.z);
+1.16.5	net/minecraft/world/entity/Entity.java	1954	public void onInsideBubbleColumn(boolean bl) {	this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/Entity.java	1983	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(k * j, vec32.y, vec32.z);
+1.16.5	net/minecraft/world/entity/Entity.java	1985	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(vec32.x, k * j, vec32.z);
+1.16.5	net/minecraft/world/entity/Entity.java	1987	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(vec32.x, vec32.y, k * j);
+1.16.5	net/minecraft/world/entity/Entity.java	1992	public void makeStuckInBlock(BlockState blockState, Vec3 vec3) {	this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/Entity.java	2079	public Entity changeDimension(ServerLevel serverLevel) {	this.level.getProfiler().push("changeDimension");
+1.16.5	net/minecraft/world/entity/Entity.java	2081	public Entity changeDimension(ServerLevel serverLevel) {	this.level.getProfiler().push("reposition");
+1.16.5	net/minecraft/world/entity/Entity.java	2092	public Entity changeDimension(ServerLevel serverLevel) {	entity.setDeltaMovement(portalInfo.speed);
+1.16.5	net/minecraft/world/entity/Entity.java	2277	public final void teleportToWithTicket(double d, double e, double f) {	this.teleportTo(d, e, f);
+1.16.5	net/minecraft/world/entity/Entity.java	2281	public void teleportTo(double d, double e, double f) {	public void teleportTo(double d, double e, double f) {
+1.16.5	net/minecraft/world/entity/Entity.java	2302	public void onSyncedDataUpdated(EntityDataAccessor<?> entityDataAccessor) {	this.refreshDimensions();
+1.16.5	net/minecraft/world/entity/Entity.java	2306	public void refreshDimensions() {	public void refreshDimensions() {
+1.16.5	net/minecraft/world/entity/Entity.java	2314	public void refreshDimensions() {	this.setBoundingBox(
+1.16.5	net/minecraft/world/entity/Entity.java	2319	public void refreshDimensions() {	this.setBoundingBox(
+1.16.5	net/minecraft/world/entity/Entity.java	2331	public void refreshDimensions() {	this.move(MoverType.SELF, new Vec3(f, 0.0, f));
+1.16.5	net/minecraft/world/entity/Entity.java	2368	public void setBoundingBox(AABB aABB) {	public void setBoundingBox(AABB aABB) {
+1.16.5	net/minecraft/world/entity/Entity.java	2701	public boolean updateFluidHeightAndDoFluidPushing(Tag<Fluid> tag, double d) {	this.setDeltaMovement(this.getDeltaMovement().add(vec3));
+1.16.5	net/minecraft/world/entity/Entity.java	2742	public void setDeltaMovement(Vec3 vec3) {	public void setDeltaMovement(Vec3 vec3) {
+1.16.5	net/minecraft/world/entity/Entity.java	2746	public void setDeltaMovement(double d, double e, double f) {	public void setDeltaMovement(double d, double e, double f) {
+1.16.5	net/minecraft/world/entity/Entity.java	2747	public void setDeltaMovement(double d, double e, double f) {	this.setDeltaMovement(new Vec3(d, e, f));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	229	public void kill() {	this.hurt(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	300	public void baseTick() {	this.level.getProfiler().push("livingEntityBaseTick");
+1.16.5	net/minecraft/world/entity/LivingEntity.java	304	public void baseTick() {	this.hurt(DamageSource.IN_WALL, 1.0F);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	310	public void baseTick() {	this.hurt(DamageSource.IN_WALL, Math.max(1, Mth.floor(-d * e)));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	337	public void baseTick() {	this.hurt(DamageSource.DROWN, 2.0F);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	630	public void readAdditionalSaveData(CompoundTag compoundTag) {	this.setAbsorptionAmount(compoundTag.getFloat("AbsorptionAmount"));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	664	public void readAdditionalSaveData(CompoundTag compoundTag) {	this.setSharedFlag(7, true);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	919	public void heal(float f) {	public void heal(float f) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	939	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	957	public boolean hurt(DamageSource damageSource, float f) {	this.stopSleeping();
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1212	public void die(DamageSource damageSource) {	this.stopSleeping();
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1227	public void die(DamageSource damageSource) {	this.setPose(Pose.DYING);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1325	public void knockback(float f, double d, double e) {	this.setDeltaMovement(vec3.x / 2.0 - vec32.x, this.onGround ? Math.min(0.4, vec3.y / 2.0 + f) : vec3.y, vec3.z / 2.0 - vec32.z);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1352	public void setOnGround(boolean bl) {	public void setOnGround(boolean bl) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1353	public void setOnGround(boolean bl) {	super.setOnGround(bl);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1409	public boolean causeFallDamage(float f, float g) {	this.hurt(DamageSource.FALL, i);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1500	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - (g - f));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1510	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - f);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1616	public void handleEntityEvent(byte b) {	this.hurt(DamageSource.GENERIC, 0.0F);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1723	protected void outOfWorld() {	this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1829	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1830	public void setSprinting(boolean bl) {	super.setSprinting(bl);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1856	public void push(Entity entity) {	public void push(Entity entity) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1858	public void push(Entity entity) {	super.push(entity);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1870	private void dismountVehicle(Entity entity) {	this.teleportTo(vec32.x, vec32.y, vec32.z);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1882	protected void jumpFromGround() {	protected void jumpFromGround() {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1889	protected void jumpFromGround() {	this.setDeltaMovement(vec3.x, f, vec3.z);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1892	protected void jumpFromGround() {	this.setDeltaMovement(this.getDeltaMovement().add(-Mth.sin(g) * 0.2F, 0.0, Mth.cos(g) * 0.2F));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1899	protected void goDownInWater() {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.04F, 0.0));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1903	protected void jumpInLiquid(net.minecraft.tags.Tag<Fluid> tag) {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.04F, 0.0));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1914	public void travel(Vec3 vec3) {	public void travel(Vec3 vec3) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1920	public void travel(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1947	public void travel(Vec3 vec3) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1953	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec32.multiply(f, 0.8F, f));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1955	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1957	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33.x, 0.3F, vec33.z);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1962	public void travel(Vec3 vec3) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1964	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().multiply(0.5, 0.8F, 0.5));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1966	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec34);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1968	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().scale(0.5));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1972	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, -d / 4.0, 0.0));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1977	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec35.x, 0.3F, vec35.z);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	1982	public void travel(Vec3 vec3) {	this.fallDistance = 1.0F;
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2007		this.setDeltaMovement(vec36.multiply(0.99F, 0.98F, 0.99F));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2008		this.move(MoverType.SELF, this.getDeltaMovement());
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2015		this.hurt(DamageSource.FLY_INTO_WALL, s);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2020		this.setSharedFlag(7, false);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2030		this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2041		this.setDeltaMovement(vec38.x * u, v * 0.98F, vec38.z * u);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2064	public Vec3 handleRelativeFrictionAndCalculateMovement(Vec3 vec3, float f) {	this.setDeltaMovement(this.handleOnClimbable(this.getDeltaMovement()));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2065	public Vec3 handleRelativeFrictionAndCalculateMovement(Vec3 vec3, float f) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2091	private Vec3 handleOnClimbable(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2114	public void setSpeed(float f) {	public void setSpeed(float f) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2161	public void tick() {	this.setSharedFlag(6, bl);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2166	public void tick() {	this.stopSleeping();
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2199	public void tick() {	this.level.getProfiler().push("headTurn");
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2202	public void tick() {	this.level.getProfiler().push("rangeChecks");
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2386	public void aiStep() {	this.setPos(d, e, f);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2387	public void aiStep() {	this.setRot(this.yRot, this.xRot);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2389	public void aiStep() {	this.setDeltaMovement(this.getDeltaMovement().scale(0.98));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2413	public void aiStep() {	this.setDeltaMovement(h, i, j);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2414	public void aiStep() {	this.level.getProfiler().push("ai");
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2420	public void aiStep() {	this.level.getProfiler().push("newAi");
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2426	public void aiStep() {	this.level.getProfiler().push("jump");
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2440	public void aiStep() {	this.jumpFromGround();
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2454		this.level.getProfiler().push("travel");
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2459		this.travel(new Vec3(this.xxa, this.yya, this.zza));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2461		this.level.getProfiler().push("push");
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2470		this.hurt(DamageSource.DROWN, 1.0F);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2495	private void updateFallFlying() {	this.setSharedFlag(7, bl);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2516	protected void pushEntities() {	this.hurt(DamageSource.CRAMMING, 6.0F);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2536	protected void checkAutoSpinAttack(AABB aABB, AABB aABB2) {	this.setDeltaMovement(this.getDeltaMovement().scale(-0.2));
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2550	protected void doPush(Entity entity) {	entity.push(this);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2581	public void rideTick() {	this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2600	public void setJumping(boolean bl) {	public void setJumping(boolean bl) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2686	public void setAbsorptionAmount(float f) {	public void setAbsorptionAmount(float f) {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2927	public boolean randomTeleport(double d, double e, double f, boolean bl) {	this.teleportTo(d, j, f);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	2935	public boolean randomTeleport(double d, double e, double f, boolean bl) {	this.teleportTo(g, h, i);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	3017	public void startSleeping(BlockPos blockPos) {	this.setPose(Pose.SLEEPING);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	3020	public void startSleeping(BlockPos blockPos) {	this.setDeltaMovement(Vec3.ZERO);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	3025	private void setPosToBed(BlockPos blockPos) {	this.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.6875, blockPos.getZ() + 0.5);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	3032	public void stopSleeping() {	public void stopSleeping() {
+1.16.5	net/minecraft/world/entity/LivingEntity.java	3043	public void stopSleeping() {	this.setPos(vec3x.x, vec3x.y, vec3x.z);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	3049	public void stopSleeping() {	this.setPose(Pose.STANDING);
+1.16.5	net/minecraft/world/entity/LivingEntity.java	3050	public void stopSleeping() {	this.setPos(vec3.x, vec3.y, vec3.z);
+1.16.5	net/minecraft/world/entity/player/Player.java	210	public void tick() {	this.onGround = false;
+1.16.5	net/minecraft/world/entity/player/Player.java	261	public void tick() {	this.setPos(d, this.getY(), e);
+1.16.5	net/minecraft/world/entity/player/Player.java	376	protected void updatePlayerPose() {	this.setPose(pose7);
+1.16.5	net/minecraft/world/entity/player/Player.java	469	public void resetPos() {	this.setPose(Pose.STANDING);
+1.16.5	net/minecraft/world/entity/player/Player.java	490	public void aiStep() {	this.heal(1.0F);
+1.16.5	net/minecraft/world/entity/player/Player.java	506	public void aiStep() {	this.setSpeed((float)this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+1.16.5	net/minecraft/world/entity/player/Player.java	591	public void die(DamageSource damageSource) {	this.setDeltaMovement(
+1.16.5	net/minecraft/world/entity/player/Player.java	597	public void die(DamageSource damageSource) {	this.setDeltaMovement(0.0, 0.1, 0.0);
+1.16.5	net/minecraft/world/entity/player/Player.java	604	public void die(DamageSource damageSource) {	this.setSharedFlag(0, false);
+1.16.5	net/minecraft/world/entity/player/Player.java	675	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	itemEntity.setDeltaMovement(-Mth.sin(g) * f, 0.2F, Mth.cos(g) * f);
+1.16.5	net/minecraft/world/entity/player/Player.java	684	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	itemEntity.setDeltaMovement(
+1.16.5	net/minecraft/world/entity/player/Player.java	812	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.16.5	net/minecraft/world/entity/player/Player.java	841	public boolean hurt(DamageSource damageSource, float f) {	return f == 0.0F ? false : super.hurt(damageSource, f);
+1.16.5	net/minecraft/world/entity/player/Player.java	899	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - (g - f));
+1.16.5	net/minecraft/world/entity/player/Player.java	1018	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (d != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(d, -this.maxUpStep, 0.0))) {
+1.16.5	net/minecraft/world/entity/player/Player.java	1028	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (e != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(0.0, -this.maxUpStep, e))) {
+1.16.5	net/minecraft/world/entity/player/Player.java	1038	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (d != 0.0 && e != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(d, -this.maxUpStep, e))) {
+1.16.5	net/minecraft/world/entity/player/Player.java	1064	private boolean isAboveGround() {	|| this.fallDistance < this.maxUpStep && !this.level.noCollision(this, this.getBoundingBox().move(0.0, this.fallDistance - this.maxUpStep, 0.0));
+1.16.5	net/minecraft/world/entity/player/Player.java	1129	public void attack(Entity entity) {	boolean bl6 = entity.hurt(DamageSource.playerAttack(this), f);
+1.16.5	net/minecraft/world/entity/player/Player.java	1136	public void attack(Entity entity) {	entity.push(
+1.16.5	net/minecraft/world/entity/player/Player.java	1141	public void attack(Entity entity) {	this.setDeltaMovement(this.getDeltaMovement().multiply(0.6, 1.0, 0.6));
+1.16.5	net/minecraft/world/entity/player/Player.java	1142	public void attack(Entity entity) {	this.setSprinting(false);
+1.16.5	net/minecraft/world/entity/player/Player.java	1157		livingEntity.hurt(DamageSource.playerAttack(this), m);
+1.16.5	net/minecraft/world/entity/player/Player.java	1169		entity.setDeltaMovement(vec3);
+1.16.5	net/minecraft/world/entity/player/Player.java	1297	public void stopSleepInBed(boolean bl, boolean bl2) {	super.stopSleeping();
+1.16.5	net/minecraft/world/entity/player/Player.java	1306	public void stopSleeping() {	public void stopSleeping() {
+1.16.5	net/minecraft/world/entity/player/Player.java	1376	public void jumpFromGround() {	public void jumpFromGround() {
+1.16.5	net/minecraft/world/entity/player/Player.java	1377	public void jumpFromGround() {	super.jumpFromGround();
+1.16.5	net/minecraft/world/entity/player/Player.java	1387	public void travel(Vec3 vec3) {	public void travel(Vec3 vec3) {
+1.16.5	net/minecraft/world/entity/player/Player.java	1398	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec32.add(0.0, (g - vec32.y) * h, 0.0));
+1.16.5	net/minecraft/world/entity/player/Player.java	1406	public void travel(Vec3 vec3) {	super.travel(vec3);
+1.16.5	net/minecraft/world/entity/player/Player.java	1408	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33.x, i * 0.6, vec33.z);
+1.16.5	net/minecraft/world/entity/player/Player.java	1410	public void travel(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.16.5	net/minecraft/world/entity/player/Player.java	1411	public void travel(Vec3 vec3) {	this.setSharedFlag(7, false);
+1.16.5	net/minecraft/world/entity/player/Player.java	1413	public void travel(Vec3 vec3) {	super.travel(vec3);
+1.16.5	net/minecraft/world/entity/player/Player.java	1420	public void updateSwimming() {	public void updateSwimming() {
+1.16.5	net/minecraft/world/entity/player/Player.java	1422	public void updateSwimming() {	this.setSwimming(false);
+1.16.5	net/minecraft/world/entity/player/Player.java	1424	public void updateSwimming() {	super.updateSwimming();
+1.16.5	net/minecraft/world/entity/player/Player.java	1533	public void startFallFlying() {	this.setSharedFlag(7, true);
+1.16.5	net/minecraft/world/entity/player/Player.java	1537	public void stopFallFlying() {	this.setSharedFlag(7, true);
+1.16.5	net/minecraft/world/entity/player/Player.java	1538	public void stopFallFlying() {	this.setSharedFlag(7, false);
+1.16.5	net/minecraft/world/entity/player/Player.java	1772	private void respawnEntityOnShoulder(CompoundTag compoundTag) {	entity.setPos(this.getX(), this.getY() + 0.7F, this.getZ());
+1.16.5	net/minecraft/world/entity/player/Player.java	1832	public void setAbsorptionAmount(float f) {	public void setAbsorptionAmount(float f) {
+1.16.5	net/minecraft/world/entity/player/Player.java	1925	public void setRemainingFireTicks(int i) {	public void setRemainingFireTicks(int i) {
+1.16.5	net/minecraft/world/entity/player/Player.java	1926	public void setRemainingFireTicks(int i) {	super.setRemainingFireTicks(this.abilities.invulnerable ? Math.min(i, 1) : i);
+1.16.5	net/minecraft/client/player/LocalPlayer.java	140	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.16.5	net/minecraft/client/player/LocalPlayer.java	145	public void heal(float f) {	public void heal(float f) {
+1.16.5	net/minecraft/client/player/LocalPlayer.java	435	private void moveTowardsClosestSpace(double d, double e) {	this.setDeltaMovement(0.1 * direction.getStepX(), vec3.y, vec3.z);
+1.16.5	net/minecraft/client/player/LocalPlayer.java	437	private void moveTowardsClosestSpace(double d, double e) {	this.setDeltaMovement(vec3.x, vec3.y, 0.1 * direction.getStepZ());
+1.16.5	net/minecraft/client/player/LocalPlayer.java	450	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.16.5	net/minecraft/client/player/LocalPlayer.java	451	public void setSprinting(boolean bl) {	super.setSprinting(bl);
+1.16.5	net/minecraft/client/player/LocalPlayer.java	679	public void aiStep() {	this.setSprinting(true);
+1.16.5	net/minecraft/client/player/LocalPlayer.java	690	public void aiStep() {	this.setSprinting(true);
+1.16.5	net/minecraft/client/player/LocalPlayer.java	698	public void aiStep() {	this.setSprinting(false);
+1.16.5	net/minecraft/client/player/LocalPlayer.java	701	public void aiStep() {	this.setSprinting(false);
+1.16.5	net/minecraft/client/player/LocalPlayer.java	756		this.setDeltaMovement(this.getDeltaMovement().add(0.0, j * this.abilities.getFlyingSpeed() * 3.0F, 0.0));
+1.16.5	net/minecraft/client/player/LocalPlayer.java	863	public void move(MoverType moverType, Vec3 vec3) {	public void move(MoverType moverType, Vec3 vec3) {
+1.16.5	net/minecraft/client/player/LocalPlayer.java	866	public void move(MoverType moverType, Vec3 vec3) {	super.move(moverType, vec3);
+1.17	net/minecraft/world/entity/Entity.java	242	public Entity(EntityType<?> entityType, Level level) {	this.setPos(0.0, 0.0, 0.0);
+1.17	net/minecraft/world/entity/Entity.java	248	public boolean isColliding(BlockPos blockPos, BlockState blockState) {	VoxelShape voxelShape2 = voxelShape.move(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+1.17	net/minecraft/world/entity/Entity.java	340	public void setPose(Pose pose) {	public void setPose(Pose pose) {
+1.17	net/minecraft/world/entity/Entity.java	355	protected void setRot(float f, float g) {	protected void setRot(float f, float g) {
+1.17	net/minecraft/world/entity/Entity.java	356	protected void setRot(float f, float g) {	this.setYRot(f % 360.0F);
+1.17	net/minecraft/world/entity/Entity.java	357	protected void setRot(float f, float g) {	this.setXRot(g % 360.0F);
+1.17	net/minecraft/world/entity/Entity.java	360	public final void setPos(Vec3 vec3) {	public final void setPos(Vec3 vec3) {
+1.17	net/minecraft/world/entity/Entity.java	361	public final void setPos(Vec3 vec3) {	this.setPos(vec3.x(), vec3.y(), vec3.z());
+1.17	net/minecraft/world/entity/Entity.java	364	public void setPos(double d, double e, double f) {	public void setPos(double d, double e, double f) {
+1.17	net/minecraft/world/entity/Entity.java	366	public void setPos(double d, double e, double f) {	this.setBoundingBox(this.makeBoundingBox());
+1.17	net/minecraft/world/entity/Entity.java	374	protected void reapplyPosition() {	this.setPos(this.position.x, this.position.y, this.position.z);
+1.17	net/minecraft/world/entity/Entity.java	377	public void turn(double d, double e) {	public void turn(double d, double e) {
+1.17	net/minecraft/world/entity/Entity.java	380	public void turn(double d, double e) {	this.setXRot(this.getXRot() + f);
+1.17	net/minecraft/world/entity/Entity.java	381	public void turn(double d, double e) {	this.setYRot(this.getYRot() + g);
+1.17	net/minecraft/world/entity/Entity.java	382	public void turn(double d, double e) {	this.setXRot(Mth.clamp(this.getXRot(), -90.0F, 90.0F));
+1.17	net/minecraft/world/entity/Entity.java	396	public void baseTick() {	this.level.getProfiler().push("entityBaseTick");
+1.17	net/minecraft/world/entity/Entity.java	406	public void baseTick() {	this.xRotO = this.getXRot();
+1.17	net/minecraft/world/entity/Entity.java	407	public void baseTick() {	this.yRotO = this.getYRot();
+1.17	net/minecraft/world/entity/Entity.java	417	public void baseTick() {	this.updateSwimming();
+1.17	net/minecraft/world/entity/Entity.java	422	public void baseTick() {	this.setRemainingFireTicks(this.remainingFireTicks - 4);
+1.17	net/minecraft/world/entity/Entity.java	428	public void baseTick() {	this.hurt(DamageSource.ON_FIRE, 1.0F);
+1.17	net/minecraft/world/entity/Entity.java	431	public void baseTick() {	this.setRemainingFireTicks(this.remainingFireTicks - 1);
+1.17	net/minecraft/world/entity/Entity.java	455	public void setSharedFlagOnFire(boolean bl) {	this.setSharedFlag(0, bl || this.hasVisualFire);
+1.17	net/minecraft/world/entity/Entity.java	485	public void lavaHurt() {	if (this.hurt(DamageSource.LAVA, 4.0F)) {
+1.17	net/minecraft/world/entity/Entity.java	498	public void setSecondsOnFire(int i) {	this.setRemainingFireTicks(j);
+1.17	net/minecraft/world/entity/Entity.java	502	public void setRemainingFireTicks(int i) {	public void setRemainingFireTicks(int i) {
+1.17	net/minecraft/world/entity/Entity.java	511	public void clearFire() {	this.setRemainingFireTicks(0);
+1.17	net/minecraft/world/entity/Entity.java	519	public boolean isFree(double d, double e, double f) {	return this.isFree(this.getBoundingBox().move(d, e, f));
+1.17	net/minecraft/world/entity/Entity.java	526	public void setOnGround(boolean bl) {	public void setOnGround(boolean bl) {
+1.17	net/minecraft/world/entity/Entity.java	527	public void setOnGround(boolean bl) {	this.onGround = bl;
+1.17	net/minecraft/world/entity/Entity.java	534	public void move(MoverType moverType, Vec3 vec3) {	public void move(MoverType moverType, Vec3 vec3) {
+1.17	net/minecraft/world/entity/Entity.java	536	public void move(MoverType moverType, Vec3 vec3) {	this.setPos(this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z);
+1.17	net/minecraft/world/entity/Entity.java	546	public void move(MoverType moverType, Vec3 vec3) {	this.level.getProfiler().push("move");
+1.17	net/minecraft/world/entity/Entity.java	550	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(Vec3.ZERO);
+1.17	net/minecraft/world/entity/Entity.java	556	public void move(MoverType moverType, Vec3 vec3) {	this.setPos(this.getX() + vec32.x, this.getY() + vec32.y, this.getZ() + vec32.z);
+1.17	net/minecraft/world/entity/Entity.java	560	public void move(MoverType moverType, Vec3 vec3) {	this.level.getProfiler().push("rest");
+1.17	net/minecraft/world/entity/Entity.java	561	public void move(MoverType moverType, Vec3 vec3) {	this.horizontalCollision = !Mth.equal(vec3.x, vec32.x) || !Mth.equal(vec3.z, vec32.z);
+1.17	net/minecraft/world/entity/Entity.java	562	public void move(MoverType moverType, Vec3 vec3) {	this.verticalCollision = vec3.y != vec32.y;
+1.17	net/minecraft/world/entity/Entity.java	563	public void move(MoverType moverType, Vec3 vec3) {	this.onGround = this.verticalCollision && vec3.y < 0.0;
+1.17	net/minecraft/world/entity/Entity.java	572	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(0.0, vec33.y, vec33.z);
+1.17	net/minecraft/world/entity/Entity.java	576	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(vec33.x, vec33.y, 0.0);
+1.17	net/minecraft/world/entity/Entity.java	631		this.setDeltaMovement(this.getDeltaMovement().multiply(i, 1.0, i));
+1.17	net/minecraft/world/entity/Entity.java	636		this.setRemainingFireTicks(-this.getFireImmuneTicks());
+1.17	net/minecraft/world/entity/Entity.java	645		this.setRemainingFireTicks(-this.getFireImmuneTicks());
+1.17	net/minecraft/world/entity/Entity.java	771	private Vec3 collide(Vec3 vec3) {	this, new Vec3(vec3.x, 0.0, vec3.z), aABB.move(vec34), this.level, collisionContext, rewindableStream
+1.17	net/minecraft/world/entity/Entity.java	782	private Vec3 collide(Vec3 vec3) {	this, new Vec3(0.0, -vec33.y + vec3.y, 0.0), aABB.move(vec33), this.level, collisionContext, rewindableStream
+1.17	net/minecraft/world/entity/Entity.java	814	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(0.0, e, 0.0);
+1.17	net/minecraft/world/entity/Entity.java	822	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(0.0, 0.0, f);
+1.17	net/minecraft/world/entity/Entity.java	829	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(d, 0.0, 0.0);
+1.17	net/minecraft/world/entity/Entity.java	849	public static Vec3 collideBoundingBox(	aABB = aABB.move(0.0, e, 0.0);
+1.17	net/minecraft/world/entity/Entity.java	857	public static Vec3 collideBoundingBox(	aABB = aABB.move(0.0, 0.0, f);
+1.17	net/minecraft/world/entity/Entity.java	864	public static Vec3 collideBoundingBox(	aABB = aABB.move(d, 0.0, 0.0);
+1.17	net/minecraft/world/entity/Entity.java	986	public void setNoGravity(boolean bl) {	public void setNoGravity(boolean bl) {
+1.17	net/minecraft/world/entity/Entity.java	1007	protected void checkFallDamage(double d, boolean bl, BlockState blockState, BlockPos blockPos) {	this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/Entity.java	1009	protected void checkFallDamage(double d, boolean bl, BlockState blockState, BlockPos blockPos) {	this.fallDistance = (float)(this.fallDistance - d);
+1.17	net/minecraft/world/entity/Entity.java	1056	public void updateSwimming() {	public void updateSwimming() {
+1.17	net/minecraft/world/entity/Entity.java	1058	public void updateSwimming() {	this.setSwimming(this.isSprinting() && this.isInWater() && !this.isPassenger());
+1.17	net/minecraft/world/entity/Entity.java	1060	public void updateSwimming() {	this.setSwimming(this.isSprinting() && this.isUnderWater() && !this.isPassenger());
+1.17	net/minecraft/world/entity/Entity.java	1074	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = false;
+1.17	net/minecraft/world/entity/Entity.java	1080	protected boolean updateInWaterStateAndDoFluidPushing() {	this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/Entity.java	1081	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = true;
+1.17	net/minecraft/world/entity/Entity.java	1084	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = false;
+1.17	net/minecraft/world/entity/Entity.java	1089	private void updateFluidOnEyes() {	this.wasEyeInWater = this.isEyeInFluid(FluidTags.WATER);
+1.17	net/minecraft/world/entity/Entity.java	1175	public void moveRelative(float f, Vec3 vec3) {	Vec3 vec32 = getInputVector(vec3, f, this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	1176	public void moveRelative(float f, Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().add(vec32));
+1.17	net/minecraft/world/entity/Entity.java	1199	public void absMoveTo(double d, double e, double f, float g, float h) {	this.setYRot(g % 360.0F);
+1.17	net/minecraft/world/entity/Entity.java	1200	public void absMoveTo(double d, double e, double f, float g, float h) {	this.setXRot(Mth.clamp(h, -90.0F, 90.0F) % 360.0F);
+1.17	net/minecraft/world/entity/Entity.java	1201	public void absMoveTo(double d, double e, double f, float g, float h) {	this.yRotO = this.getYRot();
+1.17	net/minecraft/world/entity/Entity.java	1202	public void absMoveTo(double d, double e, double f, float g, float h) {	this.xRotO = this.getXRot();
+1.17	net/minecraft/world/entity/Entity.java	1211	public void absMoveTo(double d, double e, double f) {	this.setPos(g, e, h);
+1.17	net/minecraft/world/entity/Entity.java	1219	public void moveTo(double d, double e, double f) {	this.moveTo(d, e, f, this.getYRot(), this.getXRot());
+1.17	net/minecraft/world/entity/Entity.java	1228	public void moveTo(double d, double e, double f, float g, float h) {	this.setYRot(g);
+1.17	net/minecraft/world/entity/Entity.java	1229	public void moveTo(double d, double e, double f, float g, float h) {	this.setXRot(h);
+1.17	net/minecraft/world/entity/Entity.java	1244	public final void setOldPosAndRot() {	this.yRotO = this.getYRot();
+1.17	net/minecraft/world/entity/Entity.java	1245	public final void setOldPosAndRot() {	this.xRotO = this.getXRot();
+1.17	net/minecraft/world/entity/Entity.java	1276	public void push(Entity entity) {	public void push(Entity entity) {
+1.17	net/minecraft/world/entity/Entity.java	1296	public void push(Entity entity) {	this.push(-d, 0.0, -e);
+1.17	net/minecraft/world/entity/Entity.java	1300	public void push(Entity entity) {	entity.push(d, 0.0, e);
+1.17	net/minecraft/world/entity/Entity.java	1307	public void push(double d, double e, double f) {	public void push(double d, double e, double f) {
+1.17	net/minecraft/world/entity/Entity.java	1308	public void push(double d, double e, double f) {	this.setDeltaMovement(this.getDeltaMovement().add(d, e, f));
+1.17	net/minecraft/world/entity/Entity.java	1316	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.17	net/minecraft/world/entity/Entity.java	1330	public float getViewXRot(float f) {	return f == 1.0F ? this.getXRot() : Mth.lerp(f, this.xRotO, this.getXRot());
+1.17	net/minecraft/world/entity/Entity.java	1334	public float getViewYRot(float f) {	return f == 1.0F ? this.getYRot() : Mth.lerp(f, this.yRotO, this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	1445	public CompoundTag saveWithoutId(CompoundTag compoundTag) {	compoundTag.put("Rotation", this.newFloatList(this.getYRot(), this.getXRot()));
+1.17	net/minecraft/world/entity/Entity.java	1526	public void load(CompoundTag compoundTag) {	this.setDeltaMovement(Math.abs(d) > 10.0 ? 0.0 : d, Math.abs(e) > 10.0 ? 0.0 : e, Math.abs(f) > 10.0 ? 0.0 : f);
+1.17	net/minecraft/world/entity/Entity.java	1528	public void load(CompoundTag compoundTag) {	this.setYRot(listTag3.getFloat(0));
+1.17	net/minecraft/world/entity/Entity.java	1529	public void load(CompoundTag compoundTag) {	this.setXRot(listTag3.getFloat(1));
+1.17	net/minecraft/world/entity/Entity.java	1531	public void load(CompoundTag compoundTag) {	this.setYHeadRot(this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	1532	public void load(CompoundTag compoundTag) {	this.setYBodyRot(this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	1533	public void load(CompoundTag compoundTag) {	this.fallDistance = compoundTag.getFloat("FallDistance");
+1.17	net/minecraft/world/entity/Entity.java	1539	public void load(CompoundTag compoundTag) {	this.onGround = compoundTag.getBoolean("OnGround");
+1.17	net/minecraft/world/entity/Entity.java	1551	public void load(CompoundTag compoundTag) {	if (Double.isFinite(this.getYRot()) && Double.isFinite(this.getXRot())) {
+1.17	net/minecraft/world/entity/Entity.java	1553	public void load(CompoundTag compoundTag) {	this.setRot(this.getYRot(), this.getXRot());
+1.17	net/minecraft/world/entity/Entity.java	1566	public void load(CompoundTag compoundTag) {	this.setNoGravity(compoundTag.getBoolean("NoGravity"));
+1.17	net/minecraft/world/entity/Entity.java	1688	public void rideTick() {	this.setDeltaMovement(Vec3.ZERO);
+1.17	net/minecraft/world/entity/Entity.java	1741	public boolean startRiding(Entity entity, boolean bl) {	this.setPose(Pose.STANDING);
+1.17	net/minecraft/world/entity/Entity.java	1817	public void lerpTo(double d, double e, double f, float g, float h, int i, boolean bl) {	this.setPos(d, e, f);
+1.17	net/minecraft/world/entity/Entity.java	1818	public void lerpTo(double d, double e, double f, float g, float h, int i, boolean bl) {	this.setRot(g, h);
+1.17	net/minecraft/world/entity/Entity.java	1830	public Vec3 getLookAngle() {	return this.calculateViewVector(this.getXRot(), this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	1834	public Vec2 getRotationVector() {	return new Vec2(this.getXRot(), this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	1862	protected void handleNetherPortal() {	this.level.getProfiler().push("portal");
+1.17	net/minecraft/world/entity/Entity.java	1888	public void lerpMotion(double d, double e, double f) {	public void lerpMotion(double d, double e, double f) {
+1.17	net/minecraft/world/entity/Entity.java	1889	public void lerpMotion(double d, double e, double f) {	this.setDeltaMovement(d, e, f);
+1.17	net/minecraft/world/entity/Entity.java	1935	public void setShiftKeyDown(boolean bl) {	this.setSharedFlag(1, bl);
+1.17	net/minecraft/world/entity/Entity.java	1966	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.17	net/minecraft/world/entity/Entity.java	1967	public void setSprinting(boolean bl) {	this.setSharedFlag(3, bl);
+1.17	net/minecraft/world/entity/Entity.java	1982	public void setSwimming(boolean bl) {	public void setSwimming(boolean bl) {
+1.17	net/minecraft/world/entity/Entity.java	1983	public void setSwimming(boolean bl) {	this.setSharedFlag(4, bl);
+1.17	net/minecraft/world/entity/Entity.java	1992	public final void setGlowingTag(boolean bl) {	this.setSharedFlag(6, this.isCurrentlyGlowing());
+1.17	net/minecraft/world/entity/Entity.java	2031	public void setInvisible(boolean bl) {	this.setSharedFlag(5, bl);
+1.17	net/minecraft/world/entity/Entity.java	2038	protected void setSharedFlag(int i, boolean bl) {	protected void setSharedFlag(int i, boolean bl) {
+1.17	net/minecraft/world/entity/Entity.java	2081	public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {	this.setRemainingFireTicks(this.remainingFireTicks + 1);
+1.17	net/minecraft/world/entity/Entity.java	2086	public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {	this.hurt(DamageSource.LIGHTNING_BOLT, 5.0F);
+1.17	net/minecraft/world/entity/Entity.java	2098	public void onAboveBubbleCol(boolean bl) {	this.setDeltaMovement(vec3.x, d, vec3.z);
+1.17	net/minecraft/world/entity/Entity.java	2110	public void onInsideBubbleColumn(boolean bl) {	this.setDeltaMovement(vec3.x, d, vec3.z);
+1.17	net/minecraft/world/entity/Entity.java	2111	public void onInsideBubbleColumn(boolean bl) {	this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/Entity.java	2140	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(k * j, vec32.y, vec32.z);
+1.17	net/minecraft/world/entity/Entity.java	2142	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(vec32.x, k * j, vec32.z);
+1.17	net/minecraft/world/entity/Entity.java	2144	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(vec32.x, vec32.y, k * j);
+1.17	net/minecraft/world/entity/Entity.java	2149	public void makeStuckInBlock(BlockState blockState, Vec3 vec3) {	this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/Entity.java	2222	public void copyPosition(Entity entity) {	this.moveTo(entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
+1.17	net/minecraft/world/entity/Entity.java	2236	public Entity changeDimension(ServerLevel serverLevel) {	this.level.getProfiler().push("changeDimension");
+1.17	net/minecraft/world/entity/Entity.java	2238	public Entity changeDimension(ServerLevel serverLevel) {	this.level.getProfiler().push("reposition");
+1.17	net/minecraft/world/entity/Entity.java	2248	public Entity changeDimension(ServerLevel serverLevel) {	entity.moveTo(portalInfo.pos.x, portalInfo.pos.y, portalInfo.pos.z, portalInfo.yRot, entity.getXRot());
+1.17	net/minecraft/world/entity/Entity.java	2249	public Entity changeDimension(ServerLevel serverLevel) {	entity.setDeltaMovement(portalInfo.speed);
+1.17	net/minecraft/world/entity/Entity.java	2312	protected PortalInfo findDimensionEntryPoint(ServerLevel serverLevel) {	this.getYRot(),
+1.17	net/minecraft/world/entity/Entity.java	2313	protected PortalInfo findDimensionEntryPoint(ServerLevel serverLevel) {	this.getXRot()
+1.17	net/minecraft/world/entity/Entity.java	2327	protected PortalInfo findDimensionEntryPoint(ServerLevel serverLevel) {	new Vec3(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5), this.getDeltaMovement(), this.getYRot(), this.getXRot()
+1.17	net/minecraft/world/entity/Entity.java	2444	public final void teleportToWithTicket(double d, double e, double f) {	this.teleportTo(d, e, f);
+1.17	net/minecraft/world/entity/Entity.java	2449	public void dismountTo(double d, double e, double f) {	this.teleportTo(d, e, f);
+1.17	net/minecraft/world/entity/Entity.java	2452	public void teleportTo(double d, double e, double f) {	public void teleportTo(double d, double e, double f) {
+1.17	net/minecraft/world/entity/Entity.java	2454	public void teleportTo(double d, double e, double f) {	this.moveTo(d, e, f, this.getYRot(), this.getXRot());
+1.17	net/minecraft/world/entity/Entity.java	2469	public void onSyncedDataUpdated(EntityDataAccessor<?> entityDataAccessor) {	this.refreshDimensions();
+1.17	net/minecraft/world/entity/Entity.java	2473	public void refreshDimensions() {	public void refreshDimensions() {
+1.17	net/minecraft/world/entity/Entity.java	2493	public void refreshDimensions() {	.ifPresent(vec3x -> this.setPos(vec3x.add(0.0, -entityDimensions2.height / 2.0, 0.0)));
+1.17	net/minecraft/world/entity/Entity.java	2498	public Direction getDirection() {	return Direction.fromYRot(this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	2530	public final void setBoundingBox(AABB aABB) {	public final void setBoundingBox(AABB aABB) {
+1.17	net/minecraft/world/entity/Entity.java	2590	public float rotate(Rotation rotation) {	float f = Mth.wrapDegrees(this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	2604	public float mirror(Mirror mirror) {	float f = Mth.wrapDegrees(this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	2764	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.setXRot(Mth.wrapDegrees((float)(-(Mth.atan2(e, g) * 180.0F / (float)Math.PI))));
+1.17	net/minecraft/world/entity/Entity.java	2765	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.setYRot(Mth.wrapDegrees((float)(Mth.atan2(f, d) * 180.0F / (float)Math.PI) - 90.0F));
+1.17	net/minecraft/world/entity/Entity.java	2766	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.setYHeadRot(this.getYRot());
+1.17	net/minecraft/world/entity/Entity.java	2767	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.xRotO = this.getXRot();
+1.17	net/minecraft/world/entity/Entity.java	2768	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.yRotO = this.getYRot();
+1.17	net/minecraft/world/entity/Entity.java	2831	public boolean updateFluidHeightAndDoFluidPushing(Tag<Fluid> tag, double d) {	this.setDeltaMovement(this.getDeltaMovement().add(vec3));
+1.17	net/minecraft/world/entity/Entity.java	2894	public void setDeltaMovement(Vec3 vec3) {	public void setDeltaMovement(Vec3 vec3) {
+1.17	net/minecraft/world/entity/Entity.java	2898	public void setDeltaMovement(double d, double e, double f) {	public void setDeltaMovement(double d, double e, double f) {
+1.17	net/minecraft/world/entity/Entity.java	2899	public void setDeltaMovement(double d, double e, double f) {	this.setDeltaMovement(new Vec3(d, e, f));
+1.17	net/minecraft/world/entity/Entity.java	2986	public void recreateFromPacket(ClientboundAddEntityPacket clientboundAddEntityPacket) {	this.setXRot(clientboundAddEntityPacket.getxRot() * 360 / 256.0F);
+1.17	net/minecraft/world/entity/Entity.java	2987	public void recreateFromPacket(ClientboundAddEntityPacket clientboundAddEntityPacket) {	this.setYRot(clientboundAddEntityPacket.getyRot() * 360 / 256.0F);
+1.17	net/minecraft/world/entity/Entity.java	3005	public float getYRot() {	public float getYRot() {
+1.17	net/minecraft/world/entity/Entity.java	3009	public void setYRot(float f) {	public void setYRot(float f) {
+1.17	net/minecraft/world/entity/Entity.java	3017	public float getXRot() {	public float getXRot() {
+1.17	net/minecraft/world/entity/Entity.java	3021	public void setXRot(float f) {	public void setXRot(float f) {
+1.17	net/minecraft/world/entity/LivingEntity.java	237	protected LivingEntity(EntityType<? extends LivingEntity> entityType, Level level) {	this.setYRot((float)(Math.random() * (float) (Math.PI * 2)));
+1.17	net/minecraft/world/entity/LivingEntity.java	238	protected LivingEntity(EntityType<? extends LivingEntity> entityType, Level level) {	this.yHeadRot = this.getYRot();
+1.17	net/minecraft/world/entity/LivingEntity.java	258	public void kill() {	this.hurt(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
+1.17	net/minecraft/world/entity/LivingEntity.java	329	public void baseTick() {	this.level.getProfiler().push("livingEntityBaseTick");
+1.17	net/minecraft/world/entity/LivingEntity.java	333	public void baseTick() {	this.hurt(DamageSource.IN_WALL, 1.0F);
+1.17	net/minecraft/world/entity/LivingEntity.java	339	public void baseTick() {	this.hurt(DamageSource.IN_WALL, Math.max(1, Mth.floor(-d * e)));
+1.17	net/minecraft/world/entity/LivingEntity.java	366	public void baseTick() {	this.hurt(DamageSource.DROWN, 2.0F);
+1.17	net/minecraft/world/entity/LivingEntity.java	428		this.yRotO = this.getYRot();
+1.17	net/minecraft/world/entity/LivingEntity.java	429		this.xRotO = this.getXRot();
+1.17	net/minecraft/world/entity/LivingEntity.java	685	public void readAdditionalSaveData(CompoundTag compoundTag) {	this.setAbsorptionAmount(compoundTag.getFloat("AbsorptionAmount"));
+1.17	net/minecraft/world/entity/LivingEntity.java	719	public void readAdditionalSaveData(CompoundTag compoundTag) {	this.setSharedFlag(7, true);
+1.17	net/minecraft/world/entity/LivingEntity.java	811	private void updateGlowingStatus() {	this.setSharedFlag(6, bl);
+1.17	net/minecraft/world/entity/LivingEntity.java	993	public void heal(float f) {	public void heal(float f) {
+1.17	net/minecraft/world/entity/LivingEntity.java	1013	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.17	net/minecraft/world/entity/LivingEntity.java	1031	public boolean hurt(DamageSource damageSource, float f) {	this.stopSleeping();
+1.17	net/minecraft/world/entity/LivingEntity.java	1130		this.hurtDir = (float)(Mth.atan2(k, j) * 180.0F / (float)Math.PI - this.getYRot());
+1.17	net/minecraft/world/entity/LivingEntity.java	1278	public void die(DamageSource damageSource) {	this.stopSleeping();
+1.17	net/minecraft/world/entity/LivingEntity.java	1293	public void die(DamageSource damageSource) {	this.setPose(Pose.DYING);
+1.17	net/minecraft/world/entity/LivingEntity.java	1385	public void knockback(double d, double e, double f) {	this.setDeltaMovement(vec3.x / 2.0 - vec32.x, this.onGround ? Math.min(0.4, vec3.y / 2.0 + d) : vec3.y, vec3.z / 2.0 - vec32.z);
+1.17	net/minecraft/world/entity/LivingEntity.java	1412	public void setOnGround(boolean bl) {	public void setOnGround(boolean bl) {
+1.17	net/minecraft/world/entity/LivingEntity.java	1413	public void setOnGround(boolean bl) {	super.setOnGround(bl);
+1.17	net/minecraft/world/entity/LivingEntity.java	1464	public boolean causeFallDamage(float f, float g, DamageSource damageSource) {	this.hurt(damageSource, i);
+1.17	net/minecraft/world/entity/LivingEntity.java	1558	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - (g - f));
+1.17	net/minecraft/world/entity/LivingEntity.java	1568	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - f);
+1.17	net/minecraft/world/entity/LivingEntity.java	1674	public void handleEntityEvent(byte b) {	this.hurt(DamageSource.GENERIC, 0.0F);
+1.17	net/minecraft/world/entity/LivingEntity.java	1798	protected void outOfWorld() {	this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
+1.17	net/minecraft/world/entity/LivingEntity.java	1911	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.17	net/minecraft/world/entity/LivingEntity.java	1912	public void setSprinting(boolean bl) {	super.setSprinting(bl);
+1.17	net/minecraft/world/entity/LivingEntity.java	1938	public void push(Entity entity) {	public void push(Entity entity) {
+1.17	net/minecraft/world/entity/LivingEntity.java	1940	public void push(Entity entity) {	super.push(entity);
+1.17	net/minecraft/world/entity/LivingEntity.java	1967	protected void jumpFromGround() {	protected void jumpFromGround() {
+1.17	net/minecraft/world/entity/LivingEntity.java	1974	protected void jumpFromGround() {	this.setDeltaMovement(vec3.x, f, vec3.z);
+1.17	net/minecraft/world/entity/LivingEntity.java	1976	protected void jumpFromGround() {	float g = this.getYRot() * (float) (Math.PI / 180.0);
+1.17	net/minecraft/world/entity/LivingEntity.java	1977	protected void jumpFromGround() {	this.setDeltaMovement(this.getDeltaMovement().add(-Mth.sin(g) * 0.2F, 0.0, Mth.cos(g) * 0.2F));
+1.17	net/minecraft/world/entity/LivingEntity.java	1984	protected void goDownInWater() {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.04F, 0.0));
+1.17	net/minecraft/world/entity/LivingEntity.java	1988	protected void jumpInLiquid(net.minecraft.tags.Tag<Fluid> tag) {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.04F, 0.0));
+1.17	net/minecraft/world/entity/LivingEntity.java	1999	public void travel(Vec3 vec3) {	public void travel(Vec3 vec3) {
+1.17	net/minecraft/world/entity/LivingEntity.java	2005	public void travel(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/LivingEntity.java	2032	public void travel(Vec3 vec3) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.17	net/minecraft/world/entity/LivingEntity.java	2038	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec32.multiply(f, 0.8F, f));
+1.17	net/minecraft/world/entity/LivingEntity.java	2040	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33);
+1.17	net/minecraft/world/entity/LivingEntity.java	2042	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33.x, 0.3F, vec33.z);
+1.17	net/minecraft/world/entity/LivingEntity.java	2047	public void travel(Vec3 vec3) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.17	net/minecraft/world/entity/LivingEntity.java	2049	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().multiply(0.5, 0.8F, 0.5));
+1.17	net/minecraft/world/entity/LivingEntity.java	2051	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec34);
+1.17	net/minecraft/world/entity/LivingEntity.java	2053	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().scale(0.5));
+1.17	net/minecraft/world/entity/LivingEntity.java	2057	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, -d / 4.0, 0.0));
+1.17	net/minecraft/world/entity/LivingEntity.java	2062	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec35.x, 0.3F, vec35.z);
+1.17	net/minecraft/world/entity/LivingEntity.java	2067	public void travel(Vec3 vec3) {	this.fallDistance = 1.0F;
+1.17	net/minecraft/world/entity/LivingEntity.java	2071	public void travel(Vec3 vec3) {	float j = this.getXRot() * (float) (Math.PI / 180.0);
+1.17	net/minecraft/world/entity/LivingEntity.java	2092		this.setDeltaMovement(vec36.multiply(0.99F, 0.98F, 0.99F));
+1.17	net/minecraft/world/entity/LivingEntity.java	2093		this.move(MoverType.SELF, this.getDeltaMovement());
+1.17	net/minecraft/world/entity/LivingEntity.java	2100		this.hurt(DamageSource.FLY_INTO_WALL, s);
+1.17	net/minecraft/world/entity/LivingEntity.java	2105		this.setSharedFlag(7, false);
+1.17	net/minecraft/world/entity/LivingEntity.java	2115		this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/LivingEntity.java	2127		this.setDeltaMovement(vec38.x, v, vec38.z);
+1.17	net/minecraft/world/entity/LivingEntity.java	2129		this.setDeltaMovement(vec38.x * u, v * 0.98F, vec38.z * u);
+1.17	net/minecraft/world/entity/LivingEntity.java	2153	public Vec3 handleRelativeFrictionAndCalculateMovement(Vec3 vec3, float f) {	this.setDeltaMovement(this.handleOnClimbable(this.getDeltaMovement()));
+1.17	net/minecraft/world/entity/LivingEntity.java	2154	public Vec3 handleRelativeFrictionAndCalculateMovement(Vec3 vec3, float f) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.17	net/minecraft/world/entity/LivingEntity.java	2181	private Vec3 handleOnClimbable(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/LivingEntity.java	2204	public void setSpeed(float f) {	public void setSpeed(float f) {
+1.17	net/minecraft/world/entity/LivingEntity.java	2249	public void tick() {	this.stopSleeping();
+1.17	net/minecraft/world/entity/LivingEntity.java	2265	public void tick() {	float m = Mth.abs(Mth.wrapDegrees(this.getYRot()) - l);
+1.17	net/minecraft/world/entity/LivingEntity.java	2274	public void tick() {	g = this.getYRot();
+1.17	net/minecraft/world/entity/LivingEntity.java	2282	public void tick() {	this.level.getProfiler().push("headTurn");
+1.17	net/minecraft/world/entity/LivingEntity.java	2285	public void tick() {	this.level.getProfiler().push("rangeChecks");
+1.17	net/minecraft/world/entity/LivingEntity.java	2287	public void tick() {	while (this.getYRot() - this.yRotO < -180.0F) {
+1.17	net/minecraft/world/entity/LivingEntity.java	2291	public void tick() {	while (this.getYRot() - this.yRotO >= 180.0F) {
+1.17	net/minecraft/world/entity/LivingEntity.java	2303		while (this.getXRot() - this.xRotO < -180.0F) {
+1.17	net/minecraft/world/entity/LivingEntity.java	2307		while (this.getXRot() - this.xRotO >= 180.0F) {
+1.17	net/minecraft/world/entity/LivingEntity.java	2328		this.setXRot(0.0F);
+1.17	net/minecraft/world/entity/LivingEntity.java	2429	protected float tickHeadTurn(float f, float g) {	float i = Mth.wrapDegrees(this.getYRot() - this.yBodyRot);
+1.17	net/minecraft/world/entity/LivingEntity.java	2439	protected float tickHeadTurn(float f, float g) {	this.yBodyRot = this.getYRot() - i;
+1.17	net/minecraft/world/entity/LivingEntity.java	2465	public void aiStep() {	double g = Mth.wrapDegrees(this.lerpYRot - this.getYRot());
+1.17	net/minecraft/world/entity/LivingEntity.java	2466	public void aiStep() {	this.setYRot(this.getYRot() + (float)g / this.lerpSteps);
+1.17	net/minecraft/world/entity/LivingEntity.java	2467	public void aiStep() {	this.setXRot(this.getXRot() + (float)(this.lerpXRot - this.getXRot()) / this.lerpSteps);
+1.17	net/minecraft/world/entity/LivingEntity.java	2469	public void aiStep() {	this.setPos(d, e, f);
+1.17	net/minecraft/world/entity/LivingEntity.java	2470	public void aiStep() {	this.setRot(this.getYRot(), this.getXRot());
+1.17	net/minecraft/world/entity/LivingEntity.java	2472	public void aiStep() {	this.setDeltaMovement(this.getDeltaMovement().scale(0.98));
+1.17	net/minecraft/world/entity/LivingEntity.java	2496	public void aiStep() {	this.setDeltaMovement(h, i, j);
+1.17	net/minecraft/world/entity/LivingEntity.java	2497	public void aiStep() {	this.level.getProfiler().push("ai");
+1.17	net/minecraft/world/entity/LivingEntity.java	2503	public void aiStep() {	this.level.getProfiler().push("newAi");
+1.17	net/minecraft/world/entity/LivingEntity.java	2509	public void aiStep() {	this.level.getProfiler().push("jump");
+1.17	net/minecraft/world/entity/LivingEntity.java	2523	public void aiStep() {	this.jumpFromGround();
+1.17	net/minecraft/world/entity/LivingEntity.java	2537		this.level.getProfiler().push("travel");
+1.17	net/minecraft/world/entity/LivingEntity.java	2542		this.travel(new Vec3(this.xxa, this.yya, this.zza));
+1.17	net/minecraft/world/entity/LivingEntity.java	2544		this.level.getProfiler().push("freezing");
+1.17	net/minecraft/world/entity/LivingEntity.java	2559		this.hurt(DamageSource.FREEZE, o);
+1.17	net/minecraft/world/entity/LivingEntity.java	2563		this.level.getProfiler().push("push");
+1.17	net/minecraft/world/entity/LivingEntity.java	2572		this.hurt(DamageSource.DROWN, 1.0F);
+1.17	net/minecraft/world/entity/LivingEntity.java	2603	private void updateFallFlying() {	this.setSharedFlag(7, bl);
+1.17	net/minecraft/world/entity/LivingEntity.java	2624	protected void pushEntities() {	this.hurt(DamageSource.CRAMMING, 6.0F);
+1.17	net/minecraft/world/entity/LivingEntity.java	2644	protected void checkAutoSpinAttack(AABB aABB, AABB aABB2) {	this.setDeltaMovement(this.getDeltaMovement().scale(-0.2));
+1.17	net/minecraft/world/entity/LivingEntity.java	2658	protected void doPush(Entity entity) {	entity.push(this);
+1.17	net/minecraft/world/entity/LivingEntity.java	2689	public void rideTick() {	this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/LivingEntity.java	2708	public void setJumping(boolean bl) {	public void setJumping(boolean bl) {
+1.17	net/minecraft/world/entity/LivingEntity.java	2800	public void setAbsorptionAmount(float f) {	public void setAbsorptionAmount(float f) {
+1.17	net/minecraft/world/entity/LivingEntity.java	2936	private void spawnItemParticles(ItemStack itemStack, int i) {	vec3 = vec3.xRot(-this.getXRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/LivingEntity.java	2937	private void spawnItemParticles(ItemStack itemStack, int i) {	vec3 = vec3.yRot(-this.getYRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/LivingEntity.java	2940	private void spawnItemParticles(ItemStack itemStack, int i) {	vec32 = vec32.xRot(-this.getXRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/LivingEntity.java	2941	private void spawnItemParticles(ItemStack itemStack, int i) {	vec32 = vec32.yRot(-this.getYRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/LivingEntity.java	3045	public boolean randomTeleport(double d, double e, double f, boolean bl) {	this.teleportTo(d, j, f);
+1.17	net/minecraft/world/entity/LivingEntity.java	3053	public boolean randomTeleport(double d, double e, double f, boolean bl) {	this.teleportTo(g, h, i);
+1.17	net/minecraft/world/entity/LivingEntity.java	3135	public void startSleeping(BlockPos blockPos) {	this.setPose(Pose.SLEEPING);
+1.17	net/minecraft/world/entity/LivingEntity.java	3138	public void startSleeping(BlockPos blockPos) {	this.setDeltaMovement(Vec3.ZERO);
+1.17	net/minecraft/world/entity/LivingEntity.java	3143	private void setPosToBed(BlockPos blockPos) {	this.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.6875, blockPos.getZ() + 0.5);
+1.17	net/minecraft/world/entity/LivingEntity.java	3150	public void stopSleeping() {	public void stopSleeping() {
+1.17	net/minecraft/world/entity/LivingEntity.java	3155	public void stopSleeping() {	Vec3 vec3x = (Vec3)BedBlock.findStandUpPosition(this.getType(), this.level, blockPos, this.getYRot()).orElseGet(() -> {
+1.17	net/minecraft/world/entity/LivingEntity.java	3161	public void stopSleeping() {	this.setPos(vec3x.x, vec3x.y, vec3x.z);
+1.17	net/minecraft/world/entity/LivingEntity.java	3162	public void stopSleeping() {	this.setYRot(f);
+1.17	net/minecraft/world/entity/LivingEntity.java	3163	public void stopSleeping() {	this.setXRot(0.0F);
+1.17	net/minecraft/world/entity/LivingEntity.java	3167	public void stopSleeping() {	this.setPose(Pose.STANDING);
+1.17	net/minecraft/world/entity/LivingEntity.java	3168	public void stopSleeping() {	this.setPos(vec3.x, vec3.y, vec3.z);
+1.17	net/minecraft/world/entity/LivingEntity.java	3336	public void recreateFromPacket(ClientboundAddMobPacket clientboundAddMobPacket) {	float g = clientboundAddMobPacket.getyRot() * 360 / 256.0F;
+1.17	net/minecraft/world/entity/LivingEntity.java	3337	public void recreateFromPacket(ClientboundAddMobPacket clientboundAddMobPacket) {	float h = clientboundAddMobPacket.getxRot() * 360 / 256.0F;
+1.17	net/minecraft/world/entity/LivingEntity.java	3344	public void recreateFromPacket(ClientboundAddMobPacket clientboundAddMobPacket) {	this.setDeltaMovement(clientboundAddMobPacket.getXd() / 8000.0F, clientboundAddMobPacket.getYd() / 8000.0F, clientboundAddMobPacket.getZd() / 8000.0F);
+1.17	net/minecraft/world/entity/player/Player.java	223	public void tick() {	this.onGround = false;
+1.17	net/minecraft/world/entity/player/Player.java	275	public void tick() {	this.setPos(d, this.getY(), e);
+1.17	net/minecraft/world/entity/player/Player.java	390	protected void updatePlayerPose() {	this.setPose(pose7);
+1.17	net/minecraft/world/entity/player/Player.java	485	protected void serverAiStep() {	this.yHeadRot = this.getYRot();
+1.17	net/minecraft/world/entity/player/Player.java	496	public void aiStep() {	this.heal(1.0F);
+1.17	net/minecraft/world/entity/player/Player.java	512	public void aiStep() {	this.setSpeed((float)this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+1.17	net/minecraft/world/entity/player/Player.java	604	public void die(DamageSource damageSource) {	this.setDeltaMovement(
+1.17	net/minecraft/world/entity/player/Player.java	605	public void die(DamageSource damageSource) {	-Mth.cos((this.hurtDir + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F,
+1.17	net/minecraft/world/entity/player/Player.java	607	public void die(DamageSource damageSource) {	-Mth.sin((this.hurtDir + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F
+1.17	net/minecraft/world/entity/player/Player.java	610	public void die(DamageSource damageSource) {	this.setDeltaMovement(0.0, 0.1, 0.0);
+1.17	net/minecraft/world/entity/player/Player.java	690	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	itemEntity.setDeltaMovement(-Mth.sin(g) * f, 0.2F, Mth.cos(g) * f);
+1.17	net/minecraft/world/entity/player/Player.java	693	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	float i = Mth.sin(this.getXRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/player/Player.java	694	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	float j = Mth.cos(this.getXRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/player/Player.java	695	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	float k = Mth.sin(this.getYRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/player/Player.java	696	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	float l = Mth.cos(this.getYRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/player/Player.java	699	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	itemEntity.setDeltaMovement(
+1.17	net/minecraft/world/entity/player/Player.java	818	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.17	net/minecraft/world/entity/player/Player.java	847	public boolean hurt(DamageSource damageSource, float f) {	return f == 0.0F ? false : super.hurt(damageSource, f);
+1.17	net/minecraft/world/entity/player/Player.java	915	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - (g - f));
+1.17	net/minecraft/world/entity/player/Player.java	1034	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (d != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(d, -this.maxUpStep, 0.0))) {
+1.17	net/minecraft/world/entity/player/Player.java	1044	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (e != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(0.0, -this.maxUpStep, e))) {
+1.17	net/minecraft/world/entity/player/Player.java	1054	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (d != 0.0 && e != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(d, -this.maxUpStep, e))) {
+1.17	net/minecraft/world/entity/player/Player.java	1080	private boolean isAboveGround() {	|| this.fallDistance < this.maxUpStep && !this.level.noCollision(this, this.getBoundingBox().move(0.0, this.fallDistance - this.maxUpStep, 0.0));
+1.17	net/minecraft/world/entity/player/Player.java	1145	public void attack(Entity entity) {	boolean bl6 = entity.hurt(DamageSource.playerAttack(this), f);
+1.17	net/minecraft/world/entity/player/Player.java	1151	public void attack(Entity entity) {	j * 0.5F, Mth.sin(this.getYRot() * (float) (Math.PI / 180.0)), -Mth.cos(this.getYRot() * (float) (Math.PI / 180.0))
+1.17	net/minecraft/world/entity/player/Player.java	1154	public void attack(Entity entity) {	entity.push(
+1.17	net/minecraft/world/entity/player/Player.java	1155	public void attack(Entity entity) {	-Mth.sin(this.getYRot() * (float) (Math.PI / 180.0)) * j * 0.5F,
+1.17	net/minecraft/world/entity/player/Player.java	1157	public void attack(Entity entity) {	Mth.cos(this.getYRot() * (float) (Math.PI / 180.0)) * j * 0.5F
+1.17	net/minecraft/world/entity/player/Player.java	1161	public void attack(Entity entity) {	this.setDeltaMovement(this.getDeltaMovement().multiply(0.6, 1.0, 0.6));
+1.17	net/minecraft/world/entity/player/Player.java	1162	public void attack(Entity entity) {	this.setSprinting(false);
+1.17	net/minecraft/world/entity/player/Player.java	1175		0.4F, Mth.sin(this.getYRot() * (float) (Math.PI / 180.0)), -Mth.cos(this.getYRot() * (float) (Math.PI / 180.0))
+1.17	net/minecraft/world/entity/player/Player.java	1177		livingEntity.hurt(DamageSource.playerAttack(this), m);
+1.17	net/minecraft/world/entity/player/Player.java	1189		entity.setDeltaMovement(vec3);
+1.17	net/minecraft/world/entity/player/Player.java	1283	public void sweepAttack() {	double d = -Mth.sin(this.getYRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/player/Player.java	1284	public void sweepAttack() {	double e = Mth.cos(this.getYRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/world/entity/player/Player.java	1328	public void stopSleepInBed(boolean bl, boolean bl2) {	super.stopSleeping();
+1.17	net/minecraft/world/entity/player/Player.java	1337	public void stopSleeping() {	public void stopSleeping() {
+1.17	net/minecraft/world/entity/player/Player.java	1407	public void jumpFromGround() {	public void jumpFromGround() {
+1.17	net/minecraft/world/entity/player/Player.java	1408	public void jumpFromGround() {	super.jumpFromGround();
+1.17	net/minecraft/world/entity/player/Player.java	1418	public void travel(Vec3 vec3) {	public void travel(Vec3 vec3) {
+1.17	net/minecraft/world/entity/player/Player.java	1429	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec32.add(0.0, (g - vec32.y) * h, 0.0));
+1.17	net/minecraft/world/entity/player/Player.java	1437	public void travel(Vec3 vec3) {	super.travel(vec3);
+1.17	net/minecraft/world/entity/player/Player.java	1439	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33.x, i * 0.6, vec33.z);
+1.17	net/minecraft/world/entity/player/Player.java	1441	public void travel(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.17	net/minecraft/world/entity/player/Player.java	1442	public void travel(Vec3 vec3) {	this.setSharedFlag(7, false);
+1.17	net/minecraft/world/entity/player/Player.java	1444	public void travel(Vec3 vec3) {	super.travel(vec3);
+1.17	net/minecraft/world/entity/player/Player.java	1451	public void updateSwimming() {	public void updateSwimming() {
+1.17	net/minecraft/world/entity/player/Player.java	1453	public void updateSwimming() {	this.setSwimming(false);
+1.17	net/minecraft/world/entity/player/Player.java	1455	public void updateSwimming() {	super.updateSwimming();
+1.17	net/minecraft/world/entity/player/Player.java	1564	public void startFallFlying() {	this.setSharedFlag(7, true);
+1.17	net/minecraft/world/entity/player/Player.java	1568	public void stopFallFlying() {	this.setSharedFlag(7, true);
+1.17	net/minecraft/world/entity/player/Player.java	1569	public void stopFallFlying() {	this.setSharedFlag(7, false);
+1.17	net/minecraft/world/entity/player/Player.java	1801	private void respawnEntityOnShoulder(CompoundTag compoundTag) {	entity.setPos(this.getX(), this.getY() + 0.7F, this.getZ());
+1.17	net/minecraft/world/entity/player/Player.java	1861	public void setAbsorptionAmount(float f) {	public void setAbsorptionAmount(float f) {
+1.17	net/minecraft/world/entity/player/Player.java	1910	public void setRemainingFireTicks(int i) {	public void setRemainingFireTicks(int i) {
+1.17	net/minecraft/world/entity/player/Player.java	1911	public void setRemainingFireTicks(int i) {	super.setRemainingFireTicks(this.abilities.invulnerable ? Math.min(i, 1) : i);
+1.17	net/minecraft/world/entity/player/Player.java	2028	public Vec3 getRopeHoldPosition(float f) {	float g = Mth.lerp(f * 0.5F, this.getXRot(), this.xRotO) * (float) (Math.PI / 180.0);
+1.17	net/minecraft/client/player/LocalPlayer.java	146	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.17	net/minecraft/client/player/LocalPlayer.java	151	public void heal(float f) {	public void heal(float f) {
+1.17	net/minecraft/client/player/LocalPlayer.java	166	public boolean startRiding(Entity entity, boolean bl) {	this.yRotO = entity.getYRot();
+1.17	net/minecraft/client/player/LocalPlayer.java	167	public boolean startRiding(Entity entity, boolean bl) {	this.setYRot(entity.getYRot());
+1.17	net/minecraft/client/player/LocalPlayer.java	168	public boolean startRiding(Entity entity, boolean bl) {	this.setYHeadRot(entity.getYRot());
+1.17	net/minecraft/client/player/LocalPlayer.java	182	public float getViewXRot(float f) {	return this.getXRot();
+1.17	net/minecraft/client/player/LocalPlayer.java	187	public float getViewYRot(float f) {	return this.isPassenger() ? super.getViewYRot(f) : this.getYRot();
+1.17	net/minecraft/client/player/LocalPlayer.java	195	public void tick() {	this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround));
+1.17	net/minecraft/client/player/LocalPlayer.java	244	private void sendPosition() {	double g = this.getYRot() - this.yRotLast;
+1.17	net/minecraft/client/player/LocalPlayer.java	245	private void sendPosition() {	double h = this.getXRot() - this.xRotLast;
+1.17	net/minecraft/client/player/LocalPlayer.java	251	private void sendPosition() {	this.connection.send(new ServerboundMovePlayerPacket.PosRot(vec3.x, -999.0, vec3.z, this.getYRot(), this.getXRot(), this.onGround));
+1.17	net/minecraft/client/player/LocalPlayer.java	255	private void sendPosition() {	.send(new ServerboundMovePlayerPacket.PosRot(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot(), this.onGround));
+1.17	net/minecraft/client/player/LocalPlayer.java	259	private void sendPosition() {	this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround));
+1.17	net/minecraft/client/player/LocalPlayer.java	272	private void sendPosition() {	this.yRotLast = this.getYRot();
+1.17	net/minecraft/client/player/LocalPlayer.java	273	private void sendPosition() {	this.xRotLast = this.getXRot();
+1.17	net/minecraft/client/player/LocalPlayer.java	442	private void moveTowardsClosestSpace(double d, double e) {	this.setDeltaMovement(0.1 * direction.getStepX(), vec3.y, vec3.z);
+1.17	net/minecraft/client/player/LocalPlayer.java	444	private void moveTowardsClosestSpace(double d, double e) {	this.setDeltaMovement(vec3.x, vec3.y, 0.1 * direction.getStepZ());
+1.17	net/minecraft/client/player/LocalPlayer.java	457	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.17	net/minecraft/client/player/LocalPlayer.java	458	public void setSprinting(boolean bl) {	super.setSprinting(bl);
+1.17	net/minecraft/client/player/LocalPlayer.java	623	public void serverAiStep() {	this.xBob = (float)(this.xBob + (this.getXRot() - this.xBob) * 0.5);
+1.17	net/minecraft/client/player/LocalPlayer.java	624	public void serverAiStep() {	this.yBob = (float)(this.yBob + (this.getYRot() - this.yBob) * 0.5);
+1.17	net/minecraft/client/player/LocalPlayer.java	633	public void resetPos() {	this.setPose(Pose.STANDING);
+1.17	net/minecraft/client/player/LocalPlayer.java	636	public void resetPos() {	this.setPos(this.getX(), d, this.getZ());
+1.17	net/minecraft/client/player/LocalPlayer.java	642	public void resetPos() {	this.setDeltaMovement(Vec3.ZERO);
+1.17	net/minecraft/client/player/LocalPlayer.java	643	public void resetPos() {	this.setXRot(0.0F);
+1.17	net/minecraft/client/player/LocalPlayer.java	703	public void aiStep() {	this.setSprinting(true);
+1.17	net/minecraft/client/player/LocalPlayer.java	714	public void aiStep() {	this.setSprinting(true);
+1.17	net/minecraft/client/player/LocalPlayer.java	722	public void aiStep() {	this.setSprinting(false);
+1.17	net/minecraft/client/player/LocalPlayer.java	725	public void aiStep() {	this.setSprinting(false);
+1.17	net/minecraft/client/player/LocalPlayer.java	780		this.setDeltaMovement(this.getDeltaMovement().add(0.0, j * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
+1.17	net/minecraft/client/player/LocalPlayer.java	895	public void move(MoverType moverType, Vec3 vec3) {	public void move(MoverType moverType, Vec3 vec3) {
+1.17	net/minecraft/client/player/LocalPlayer.java	898	public void move(MoverType moverType, Vec3 vec3) {	super.move(moverType, vec3);
+1.17	net/minecraft/client/player/LocalPlayer.java	917	protected void updateAutoJump(float f, float g) {	float l = Mth.sin(this.getYRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/client/player/LocalPlayer.java	918	protected void updateAutoJump(float f, float g) {	float m = Mth.cos(this.getYRot() * (float) (Math.PI / 180.0));
+1.17	net/minecraft/client/player/LocalPlayer.java	1070	public Vec3 getRopeHoldPosition(float f) {	float g = Mth.lerp(f * 0.5F, this.getYRot(), this.yRotO) * (float) (Math.PI / 180.0);
+1.17	net/minecraft/client/player/LocalPlayer.java	1071	public Vec3 getRopeHoldPosition(float f) {	float h = Mth.lerp(f * 0.5F, this.getXRot(), this.xRotO) * (float) (Math.PI / 180.0);
+1.17.1	net/minecraft/world/entity/Entity.java	242	public Entity(EntityType<?> entityType, Level level) {	this.setPos(0.0, 0.0, 0.0);
+1.17.1	net/minecraft/world/entity/Entity.java	248	public boolean isColliding(BlockPos blockPos, BlockState blockState) {	VoxelShape voxelShape2 = voxelShape.move(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+1.17.1	net/minecraft/world/entity/Entity.java	340	public void setPose(Pose pose) {	public void setPose(Pose pose) {
+1.17.1	net/minecraft/world/entity/Entity.java	355	protected void setRot(float f, float g) {	protected void setRot(float f, float g) {
+1.17.1	net/minecraft/world/entity/Entity.java	356	protected void setRot(float f, float g) {	this.setYRot(f % 360.0F);
+1.17.1	net/minecraft/world/entity/Entity.java	357	protected void setRot(float f, float g) {	this.setXRot(g % 360.0F);
+1.17.1	net/minecraft/world/entity/Entity.java	360	public final void setPos(Vec3 vec3) {	public final void setPos(Vec3 vec3) {
+1.17.1	net/minecraft/world/entity/Entity.java	361	public final void setPos(Vec3 vec3) {	this.setPos(vec3.x(), vec3.y(), vec3.z());
+1.17.1	net/minecraft/world/entity/Entity.java	364	public void setPos(double d, double e, double f) {	public void setPos(double d, double e, double f) {
+1.17.1	net/minecraft/world/entity/Entity.java	366	public void setPos(double d, double e, double f) {	this.setBoundingBox(this.makeBoundingBox());
+1.17.1	net/minecraft/world/entity/Entity.java	374	protected void reapplyPosition() {	this.setPos(this.position.x, this.position.y, this.position.z);
+1.17.1	net/minecraft/world/entity/Entity.java	377	public void turn(double d, double e) {	public void turn(double d, double e) {
+1.17.1	net/minecraft/world/entity/Entity.java	380	public void turn(double d, double e) {	this.setXRot(this.getXRot() + f);
+1.17.1	net/minecraft/world/entity/Entity.java	381	public void turn(double d, double e) {	this.setYRot(this.getYRot() + g);
+1.17.1	net/minecraft/world/entity/Entity.java	382	public void turn(double d, double e) {	this.setXRot(Mth.clamp(this.getXRot(), -90.0F, 90.0F));
+1.17.1	net/minecraft/world/entity/Entity.java	396	public void baseTick() {	this.level.getProfiler().push("entityBaseTick");
+1.17.1	net/minecraft/world/entity/Entity.java	406	public void baseTick() {	this.xRotO = this.getXRot();
+1.17.1	net/minecraft/world/entity/Entity.java	407	public void baseTick() {	this.yRotO = this.getYRot();
+1.17.1	net/minecraft/world/entity/Entity.java	417	public void baseTick() {	this.updateSwimming();
+1.17.1	net/minecraft/world/entity/Entity.java	422	public void baseTick() {	this.setRemainingFireTicks(this.remainingFireTicks - 4);
+1.17.1	net/minecraft/world/entity/Entity.java	428	public void baseTick() {	this.hurt(DamageSource.ON_FIRE, 1.0F);
+1.17.1	net/minecraft/world/entity/Entity.java	431	public void baseTick() {	this.setRemainingFireTicks(this.remainingFireTicks - 1);
+1.17.1	net/minecraft/world/entity/Entity.java	455	public void setSharedFlagOnFire(boolean bl) {	this.setSharedFlag(0, bl || this.hasVisualFire);
+1.17.1	net/minecraft/world/entity/Entity.java	485	public void lavaHurt() {	if (this.hurt(DamageSource.LAVA, 4.0F)) {
+1.17.1	net/minecraft/world/entity/Entity.java	498	public void setSecondsOnFire(int i) {	this.setRemainingFireTicks(j);
+1.17.1	net/minecraft/world/entity/Entity.java	502	public void setRemainingFireTicks(int i) {	public void setRemainingFireTicks(int i) {
+1.17.1	net/minecraft/world/entity/Entity.java	511	public void clearFire() {	this.setRemainingFireTicks(0);
+1.17.1	net/minecraft/world/entity/Entity.java	519	public boolean isFree(double d, double e, double f) {	return this.isFree(this.getBoundingBox().move(d, e, f));
+1.17.1	net/minecraft/world/entity/Entity.java	526	public void setOnGround(boolean bl) {	public void setOnGround(boolean bl) {
+1.17.1	net/minecraft/world/entity/Entity.java	527	public void setOnGround(boolean bl) {	this.onGround = bl;
+1.17.1	net/minecraft/world/entity/Entity.java	534	public void move(MoverType moverType, Vec3 vec3) {	public void move(MoverType moverType, Vec3 vec3) {
+1.17.1	net/minecraft/world/entity/Entity.java	536	public void move(MoverType moverType, Vec3 vec3) {	this.setPos(this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z);
+1.17.1	net/minecraft/world/entity/Entity.java	546	public void move(MoverType moverType, Vec3 vec3) {	this.level.getProfiler().push("move");
+1.17.1	net/minecraft/world/entity/Entity.java	550	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(Vec3.ZERO);
+1.17.1	net/minecraft/world/entity/Entity.java	556	public void move(MoverType moverType, Vec3 vec3) {	this.setPos(this.getX() + vec32.x, this.getY() + vec32.y, this.getZ() + vec32.z);
+1.17.1	net/minecraft/world/entity/Entity.java	560	public void move(MoverType moverType, Vec3 vec3) {	this.level.getProfiler().push("rest");
+1.17.1	net/minecraft/world/entity/Entity.java	561	public void move(MoverType moverType, Vec3 vec3) {	this.horizontalCollision = !Mth.equal(vec3.x, vec32.x) || !Mth.equal(vec3.z, vec32.z);
+1.17.1	net/minecraft/world/entity/Entity.java	562	public void move(MoverType moverType, Vec3 vec3) {	this.verticalCollision = vec3.y != vec32.y;
+1.17.1	net/minecraft/world/entity/Entity.java	563	public void move(MoverType moverType, Vec3 vec3) {	this.onGround = this.verticalCollision && vec3.y < 0.0;
+1.17.1	net/minecraft/world/entity/Entity.java	572	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(0.0, vec33.y, vec33.z);
+1.17.1	net/minecraft/world/entity/Entity.java	576	public void move(MoverType moverType, Vec3 vec3) {	this.setDeltaMovement(vec33.x, vec33.y, 0.0);
+1.17.1	net/minecraft/world/entity/Entity.java	631		this.setDeltaMovement(this.getDeltaMovement().multiply(i, 1.0, i));
+1.17.1	net/minecraft/world/entity/Entity.java	636		this.setRemainingFireTicks(-this.getFireImmuneTicks());
+1.17.1	net/minecraft/world/entity/Entity.java	645		this.setRemainingFireTicks(-this.getFireImmuneTicks());
+1.17.1	net/minecraft/world/entity/Entity.java	771	private Vec3 collide(Vec3 vec3) {	this, new Vec3(vec3.x, 0.0, vec3.z), aABB.move(vec34), this.level, collisionContext, rewindableStream
+1.17.1	net/minecraft/world/entity/Entity.java	782	private Vec3 collide(Vec3 vec3) {	this, new Vec3(0.0, -vec33.y + vec3.y, 0.0), aABB.move(vec33), this.level, collisionContext, rewindableStream
+1.17.1	net/minecraft/world/entity/Entity.java	814	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(0.0, e, 0.0);
+1.17.1	net/minecraft/world/entity/Entity.java	822	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(0.0, 0.0, f);
+1.17.1	net/minecraft/world/entity/Entity.java	829	public static Vec3 collideBoundingBoxLegacy(Vec3 vec3, AABB aABB, RewindableStream<VoxelShape> rewindableStream) {	aABB = aABB.move(d, 0.0, 0.0);
+1.17.1	net/minecraft/world/entity/Entity.java	849	public static Vec3 collideBoundingBox(	aABB = aABB.move(0.0, e, 0.0);
+1.17.1	net/minecraft/world/entity/Entity.java	857	public static Vec3 collideBoundingBox(	aABB = aABB.move(0.0, 0.0, f);
+1.17.1	net/minecraft/world/entity/Entity.java	864	public static Vec3 collideBoundingBox(	aABB = aABB.move(d, 0.0, 0.0);
+1.17.1	net/minecraft/world/entity/Entity.java	986	public void setNoGravity(boolean bl) {	public void setNoGravity(boolean bl) {
+1.17.1	net/minecraft/world/entity/Entity.java	1007	protected void checkFallDamage(double d, boolean bl, BlockState blockState, BlockPos blockPos) {	this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/Entity.java	1009	protected void checkFallDamage(double d, boolean bl, BlockState blockState, BlockPos blockPos) {	this.fallDistance = (float)(this.fallDistance - d);
+1.17.1	net/minecraft/world/entity/Entity.java	1056	public void updateSwimming() {	public void updateSwimming() {
+1.17.1	net/minecraft/world/entity/Entity.java	1058	public void updateSwimming() {	this.setSwimming(this.isSprinting() && this.isInWater() && !this.isPassenger());
+1.17.1	net/minecraft/world/entity/Entity.java	1060	public void updateSwimming() {	this.setSwimming(
+1.17.1	net/minecraft/world/entity/Entity.java	1076	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = false;
+1.17.1	net/minecraft/world/entity/Entity.java	1082	protected boolean updateInWaterStateAndDoFluidPushing() {	this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/Entity.java	1083	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = true;
+1.17.1	net/minecraft/world/entity/Entity.java	1086	protected boolean updateInWaterStateAndDoFluidPushing() {	this.wasTouchingWater = false;
+1.17.1	net/minecraft/world/entity/Entity.java	1091	private void updateFluidOnEyes() {	this.wasEyeInWater = this.isEyeInFluid(FluidTags.WATER);
+1.17.1	net/minecraft/world/entity/Entity.java	1177	public void moveRelative(float f, Vec3 vec3) {	Vec3 vec32 = getInputVector(vec3, f, this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1178	public void moveRelative(float f, Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().add(vec32));
+1.17.1	net/minecraft/world/entity/Entity.java	1201	public void absMoveTo(double d, double e, double f, float g, float h) {	this.setYRot(g % 360.0F);
+1.17.1	net/minecraft/world/entity/Entity.java	1202	public void absMoveTo(double d, double e, double f, float g, float h) {	this.setXRot(Mth.clamp(h, -90.0F, 90.0F) % 360.0F);
+1.17.1	net/minecraft/world/entity/Entity.java	1203	public void absMoveTo(double d, double e, double f, float g, float h) {	this.yRotO = this.getYRot();
+1.17.1	net/minecraft/world/entity/Entity.java	1204	public void absMoveTo(double d, double e, double f, float g, float h) {	this.xRotO = this.getXRot();
+1.17.1	net/minecraft/world/entity/Entity.java	1213	public void absMoveTo(double d, double e, double f) {	this.setPos(g, e, h);
+1.17.1	net/minecraft/world/entity/Entity.java	1221	public void moveTo(double d, double e, double f) {	this.moveTo(d, e, f, this.getYRot(), this.getXRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1230	public void moveTo(double d, double e, double f, float g, float h) {	this.setYRot(g);
+1.17.1	net/minecraft/world/entity/Entity.java	1231	public void moveTo(double d, double e, double f, float g, float h) {	this.setXRot(h);
+1.17.1	net/minecraft/world/entity/Entity.java	1246	public final void setOldPosAndRot() {	this.yRotO = this.getYRot();
+1.17.1	net/minecraft/world/entity/Entity.java	1247	public final void setOldPosAndRot() {	this.xRotO = this.getXRot();
+1.17.1	net/minecraft/world/entity/Entity.java	1278	public void push(Entity entity) {	public void push(Entity entity) {
+1.17.1	net/minecraft/world/entity/Entity.java	1298	public void push(Entity entity) {	this.push(-d, 0.0, -e);
+1.17.1	net/minecraft/world/entity/Entity.java	1302	public void push(Entity entity) {	entity.push(d, 0.0, e);
+1.17.1	net/minecraft/world/entity/Entity.java	1309	public void push(double d, double e, double f) {	public void push(double d, double e, double f) {
+1.17.1	net/minecraft/world/entity/Entity.java	1310	public void push(double d, double e, double f) {	this.setDeltaMovement(this.getDeltaMovement().add(d, e, f));
+1.17.1	net/minecraft/world/entity/Entity.java	1318	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.17.1	net/minecraft/world/entity/Entity.java	1332	public float getViewXRot(float f) {	return f == 1.0F ? this.getXRot() : Mth.lerp(f, this.xRotO, this.getXRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1336	public float getViewYRot(float f) {	return f == 1.0F ? this.getYRot() : Mth.lerp(f, this.yRotO, this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1447	public CompoundTag saveWithoutId(CompoundTag compoundTag) {	compoundTag.put("Rotation", this.newFloatList(this.getYRot(), this.getXRot()));
+1.17.1	net/minecraft/world/entity/Entity.java	1528	public void load(CompoundTag compoundTag) {	this.setDeltaMovement(Math.abs(d) > 10.0 ? 0.0 : d, Math.abs(e) > 10.0 ? 0.0 : e, Math.abs(f) > 10.0 ? 0.0 : f);
+1.17.1	net/minecraft/world/entity/Entity.java	1530	public void load(CompoundTag compoundTag) {	this.setYRot(listTag3.getFloat(0));
+1.17.1	net/minecraft/world/entity/Entity.java	1531	public void load(CompoundTag compoundTag) {	this.setXRot(listTag3.getFloat(1));
+1.17.1	net/minecraft/world/entity/Entity.java	1533	public void load(CompoundTag compoundTag) {	this.setYHeadRot(this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1534	public void load(CompoundTag compoundTag) {	this.setYBodyRot(this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1535	public void load(CompoundTag compoundTag) {	this.fallDistance = compoundTag.getFloat("FallDistance");
+1.17.1	net/minecraft/world/entity/Entity.java	1541	public void load(CompoundTag compoundTag) {	this.onGround = compoundTag.getBoolean("OnGround");
+1.17.1	net/minecraft/world/entity/Entity.java	1553	public void load(CompoundTag compoundTag) {	if (Double.isFinite(this.getYRot()) && Double.isFinite(this.getXRot())) {
+1.17.1	net/minecraft/world/entity/Entity.java	1555	public void load(CompoundTag compoundTag) {	this.setRot(this.getYRot(), this.getXRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1568	public void load(CompoundTag compoundTag) {	this.setNoGravity(compoundTag.getBoolean("NoGravity"));
+1.17.1	net/minecraft/world/entity/Entity.java	1690	public void rideTick() {	this.setDeltaMovement(Vec3.ZERO);
+1.17.1	net/minecraft/world/entity/Entity.java	1743	public boolean startRiding(Entity entity, boolean bl) {	this.setPose(Pose.STANDING);
+1.17.1	net/minecraft/world/entity/Entity.java	1819	public void lerpTo(double d, double e, double f, float g, float h, int i, boolean bl) {	this.setPos(d, e, f);
+1.17.1	net/minecraft/world/entity/Entity.java	1820	public void lerpTo(double d, double e, double f, float g, float h, int i, boolean bl) {	this.setRot(g, h);
+1.17.1	net/minecraft/world/entity/Entity.java	1832	public Vec3 getLookAngle() {	return this.calculateViewVector(this.getXRot(), this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1836	public Vec2 getRotationVector() {	return new Vec2(this.getXRot(), this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	1864	protected void handleNetherPortal() {	this.level.getProfiler().push("portal");
+1.17.1	net/minecraft/world/entity/Entity.java	1890	public void lerpMotion(double d, double e, double f) {	public void lerpMotion(double d, double e, double f) {
+1.17.1	net/minecraft/world/entity/Entity.java	1891	public void lerpMotion(double d, double e, double f) {	this.setDeltaMovement(d, e, f);
+1.17.1	net/minecraft/world/entity/Entity.java	1937	public void setShiftKeyDown(boolean bl) {	this.setSharedFlag(1, bl);
+1.17.1	net/minecraft/world/entity/Entity.java	1968	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.17.1	net/minecraft/world/entity/Entity.java	1969	public void setSprinting(boolean bl) {	this.setSharedFlag(3, bl);
+1.17.1	net/minecraft/world/entity/Entity.java	1984	public void setSwimming(boolean bl) {	public void setSwimming(boolean bl) {
+1.17.1	net/minecraft/world/entity/Entity.java	1985	public void setSwimming(boolean bl) {	this.setSharedFlag(4, bl);
+1.17.1	net/minecraft/world/entity/Entity.java	1994	public final void setGlowingTag(boolean bl) {	this.setSharedFlag(6, this.isCurrentlyGlowing());
+1.17.1	net/minecraft/world/entity/Entity.java	2033	public void setInvisible(boolean bl) {	this.setSharedFlag(5, bl);
+1.17.1	net/minecraft/world/entity/Entity.java	2040	protected void setSharedFlag(int i, boolean bl) {	protected void setSharedFlag(int i, boolean bl) {
+1.17.1	net/minecraft/world/entity/Entity.java	2083	public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {	this.setRemainingFireTicks(this.remainingFireTicks + 1);
+1.17.1	net/minecraft/world/entity/Entity.java	2088	public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {	this.hurt(DamageSource.LIGHTNING_BOLT, 5.0F);
+1.17.1	net/minecraft/world/entity/Entity.java	2100	public void onAboveBubbleCol(boolean bl) {	this.setDeltaMovement(vec3.x, d, vec3.z);
+1.17.1	net/minecraft/world/entity/Entity.java	2112	public void onInsideBubbleColumn(boolean bl) {	this.setDeltaMovement(vec3.x, d, vec3.z);
+1.17.1	net/minecraft/world/entity/Entity.java	2113	public void onInsideBubbleColumn(boolean bl) {	this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/Entity.java	2142	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(k * j, vec32.y, vec32.z);
+1.17.1	net/minecraft/world/entity/Entity.java	2144	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(vec32.x, k * j, vec32.z);
+1.17.1	net/minecraft/world/entity/Entity.java	2146	protected void moveTowardsClosestSpace(double d, double e, double f) {	this.setDeltaMovement(vec32.x, vec32.y, k * j);
+1.17.1	net/minecraft/world/entity/Entity.java	2151	public void makeStuckInBlock(BlockState blockState, Vec3 vec3) {	this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/Entity.java	2224	public void copyPosition(Entity entity) {	this.moveTo(entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
+1.17.1	net/minecraft/world/entity/Entity.java	2238	public Entity changeDimension(ServerLevel serverLevel) {	this.level.getProfiler().push("changeDimension");
+1.17.1	net/minecraft/world/entity/Entity.java	2240	public Entity changeDimension(ServerLevel serverLevel) {	this.level.getProfiler().push("reposition");
+1.17.1	net/minecraft/world/entity/Entity.java	2250	public Entity changeDimension(ServerLevel serverLevel) {	entity.moveTo(portalInfo.pos.x, portalInfo.pos.y, portalInfo.pos.z, portalInfo.yRot, entity.getXRot());
+1.17.1	net/minecraft/world/entity/Entity.java	2251	public Entity changeDimension(ServerLevel serverLevel) {	entity.setDeltaMovement(portalInfo.speed);
+1.17.1	net/minecraft/world/entity/Entity.java	2314	protected PortalInfo findDimensionEntryPoint(ServerLevel serverLevel) {	this.getYRot(),
+1.17.1	net/minecraft/world/entity/Entity.java	2315	protected PortalInfo findDimensionEntryPoint(ServerLevel serverLevel) {	this.getXRot()
+1.17.1	net/minecraft/world/entity/Entity.java	2329	protected PortalInfo findDimensionEntryPoint(ServerLevel serverLevel) {	new Vec3(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5), this.getDeltaMovement(), this.getYRot(), this.getXRot()
+1.17.1	net/minecraft/world/entity/Entity.java	2446	public final void teleportToWithTicket(double d, double e, double f) {	this.teleportTo(d, e, f);
+1.17.1	net/minecraft/world/entity/Entity.java	2451	public void dismountTo(double d, double e, double f) {	this.teleportTo(d, e, f);
+1.17.1	net/minecraft/world/entity/Entity.java	2454	public void teleportTo(double d, double e, double f) {	public void teleportTo(double d, double e, double f) {
+1.17.1	net/minecraft/world/entity/Entity.java	2456	public void teleportTo(double d, double e, double f) {	this.moveTo(d, e, f, this.getYRot(), this.getXRot());
+1.17.1	net/minecraft/world/entity/Entity.java	2471	public void onSyncedDataUpdated(EntityDataAccessor<?> entityDataAccessor) {	this.refreshDimensions();
+1.17.1	net/minecraft/world/entity/Entity.java	2475	public void refreshDimensions() {	public void refreshDimensions() {
+1.17.1	net/minecraft/world/entity/Entity.java	2495	public void refreshDimensions() {	.ifPresent(vec3x -> this.setPos(vec3x.add(0.0, -entityDimensions2.height / 2.0, 0.0)));
+1.17.1	net/minecraft/world/entity/Entity.java	2500	public Direction getDirection() {	return Direction.fromYRot(this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	2532	public final void setBoundingBox(AABB aABB) {	public final void setBoundingBox(AABB aABB) {
+1.17.1	net/minecraft/world/entity/Entity.java	2592	public float rotate(Rotation rotation) {	float f = Mth.wrapDegrees(this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	2606	public float mirror(Mirror mirror) {	float f = Mth.wrapDegrees(this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	2766	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.setXRot(Mth.wrapDegrees((float)(-(Mth.atan2(e, g) * 180.0F / (float)Math.PI))));
+1.17.1	net/minecraft/world/entity/Entity.java	2767	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.setYRot(Mth.wrapDegrees((float)(Mth.atan2(f, d) * 180.0F / (float)Math.PI) - 90.0F));
+1.17.1	net/minecraft/world/entity/Entity.java	2768	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.setYHeadRot(this.getYRot());
+1.17.1	net/minecraft/world/entity/Entity.java	2769	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.xRotO = this.getXRot();
+1.17.1	net/minecraft/world/entity/Entity.java	2770	public void lookAt(EntityAnchorArgument.Anchor anchor, Vec3 vec3) {	this.yRotO = this.getYRot();
+1.17.1	net/minecraft/world/entity/Entity.java	2833	public boolean updateFluidHeightAndDoFluidPushing(Tag<Fluid> tag, double d) {	this.setDeltaMovement(this.getDeltaMovement().add(vec3));
+1.17.1	net/minecraft/world/entity/Entity.java	2896	public void setDeltaMovement(Vec3 vec3) {	public void setDeltaMovement(Vec3 vec3) {
+1.17.1	net/minecraft/world/entity/Entity.java	2900	public void setDeltaMovement(double d, double e, double f) {	public void setDeltaMovement(double d, double e, double f) {
+1.17.1	net/minecraft/world/entity/Entity.java	2901	public void setDeltaMovement(double d, double e, double f) {	this.setDeltaMovement(new Vec3(d, e, f));
+1.17.1	net/minecraft/world/entity/Entity.java	2988	public void recreateFromPacket(ClientboundAddEntityPacket clientboundAddEntityPacket) {	this.setXRot(clientboundAddEntityPacket.getxRot() * 360 / 256.0F);
+1.17.1	net/minecraft/world/entity/Entity.java	2989	public void recreateFromPacket(ClientboundAddEntityPacket clientboundAddEntityPacket) {	this.setYRot(clientboundAddEntityPacket.getyRot() * 360 / 256.0F);
+1.17.1	net/minecraft/world/entity/Entity.java	3007	public float getYRot() {	public float getYRot() {
+1.17.1	net/minecraft/world/entity/Entity.java	3011	public void setYRot(float f) {	public void setYRot(float f) {
+1.17.1	net/minecraft/world/entity/Entity.java	3019	public float getXRot() {	public float getXRot() {
+1.17.1	net/minecraft/world/entity/Entity.java	3023	public void setXRot(float f) {	public void setXRot(float f) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	237	protected LivingEntity(EntityType<? extends LivingEntity> entityType, Level level) {	this.setYRot((float)(Math.random() * (float) (Math.PI * 2)));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	238	protected LivingEntity(EntityType<? extends LivingEntity> entityType, Level level) {	this.yHeadRot = this.getYRot();
+1.17.1	net/minecraft/world/entity/LivingEntity.java	258	public void kill() {	this.hurt(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	329	public void baseTick() {	this.level.getProfiler().push("livingEntityBaseTick");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	333	public void baseTick() {	this.hurt(DamageSource.IN_WALL, 1.0F);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	339	public void baseTick() {	this.hurt(DamageSource.IN_WALL, Math.max(1, Mth.floor(-d * e)));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	366	public void baseTick() {	this.hurt(DamageSource.DROWN, 2.0F);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	428		this.yRotO = this.getYRot();
+1.17.1	net/minecraft/world/entity/LivingEntity.java	429		this.xRotO = this.getXRot();
+1.17.1	net/minecraft/world/entity/LivingEntity.java	685	public void readAdditionalSaveData(CompoundTag compoundTag) {	this.setAbsorptionAmount(compoundTag.getFloat("AbsorptionAmount"));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	719	public void readAdditionalSaveData(CompoundTag compoundTag) {	this.setSharedFlag(7, true);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	811	private void updateGlowingStatus() {	this.setSharedFlag(6, bl);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	993	public void heal(float f) {	public void heal(float f) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1013	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1031	public boolean hurt(DamageSource damageSource, float f) {	this.stopSleeping();
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1130		this.hurtDir = (float)(Mth.atan2(k, j) * 180.0F / (float)Math.PI - this.getYRot());
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1278	public void die(DamageSource damageSource) {	this.stopSleeping();
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1297	public void die(DamageSource damageSource) {	this.setPose(Pose.DYING);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1389	public void knockback(double d, double e, double f) {	this.setDeltaMovement(vec3.x / 2.0 - vec32.x, this.onGround ? Math.min(0.4, vec3.y / 2.0 + d) : vec3.y, vec3.z / 2.0 - vec32.z);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1416	public void setOnGround(boolean bl) {	public void setOnGround(boolean bl) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1417	public void setOnGround(boolean bl) {	super.setOnGround(bl);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1468	public boolean causeFallDamage(float f, float g, DamageSource damageSource) {	this.hurt(damageSource, i);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1562	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - (g - f));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1572	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - f);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1678	public void handleEntityEvent(byte b) {	this.hurt(DamageSource.GENERIC, 0.0F);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1802	protected void outOfWorld() {	this.hurt(DamageSource.OUT_OF_WORLD, 4.0F);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1915	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1916	public void setSprinting(boolean bl) {	super.setSprinting(bl);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1942	public void push(Entity entity) {	public void push(Entity entity) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1944	public void push(Entity entity) {	super.push(entity);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1975	protected void jumpFromGround() {	protected void jumpFromGround() {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1978	protected void jumpFromGround() {	this.setDeltaMovement(vec3.x, d, vec3.z);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1980	protected void jumpFromGround() {	float f = this.getYRot() * (float) (Math.PI / 180.0);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1981	protected void jumpFromGround() {	this.setDeltaMovement(this.getDeltaMovement().add(-Mth.sin(f) * 0.2F, 0.0, Mth.cos(f) * 0.2F));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1988	protected void goDownInWater() {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.04F, 0.0));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	1992	protected void jumpInLiquid(net.minecraft.tags.Tag<Fluid> tag) {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.04F, 0.0));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2003	public void travel(Vec3 vec3) {	public void travel(Vec3 vec3) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2009	public void travel(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2036	public void travel(Vec3 vec3) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2042	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec32.multiply(f, 0.8F, f));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2044	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2046	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33.x, 0.3F, vec33.z);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2051	public void travel(Vec3 vec3) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2053	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().multiply(0.5, 0.8F, 0.5));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2055	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec34);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2057	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().scale(0.5));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2061	public void travel(Vec3 vec3) {	this.setDeltaMovement(this.getDeltaMovement().add(0.0, -d / 4.0, 0.0));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2066	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec35.x, 0.3F, vec35.z);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2071	public void travel(Vec3 vec3) {	this.fallDistance = 1.0F;
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2075	public void travel(Vec3 vec3) {	float j = this.getXRot() * (float) (Math.PI / 180.0);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2096		this.setDeltaMovement(vec36.multiply(0.99F, 0.98F, 0.99F));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2097		this.move(MoverType.SELF, this.getDeltaMovement());
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2104		this.hurt(DamageSource.FLY_INTO_WALL, s);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2109		this.setSharedFlag(7, false);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2119		this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2131		this.setDeltaMovement(vec38.x, v, vec38.z);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2133		this.setDeltaMovement(vec38.x * u, v * 0.98F, vec38.z * u);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2157	public Vec3 handleRelativeFrictionAndCalculateMovement(Vec3 vec3, float f) {	this.setDeltaMovement(this.handleOnClimbable(this.getDeltaMovement()));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2158	public Vec3 handleRelativeFrictionAndCalculateMovement(Vec3 vec3, float f) {	this.move(MoverType.SELF, this.getDeltaMovement());
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2185	private Vec3 handleOnClimbable(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2208	public void setSpeed(float f) {	public void setSpeed(float f) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2253	public void tick() {	this.stopSleeping();
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2269	public void tick() {	float m = Mth.abs(Mth.wrapDegrees(this.getYRot()) - l);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2278	public void tick() {	g = this.getYRot();
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2286	public void tick() {	this.level.getProfiler().push("headTurn");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2289	public void tick() {	this.level.getProfiler().push("rangeChecks");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2291	public void tick() {	while (this.getYRot() - this.yRotO < -180.0F) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2295	public void tick() {	while (this.getYRot() - this.yRotO >= 180.0F) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2307		while (this.getXRot() - this.xRotO < -180.0F) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2311		while (this.getXRot() - this.xRotO >= 180.0F) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2332		this.setXRot(0.0F);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2433	protected float tickHeadTurn(float f, float g) {	float i = Mth.wrapDegrees(this.getYRot() - this.yBodyRot);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2443	protected float tickHeadTurn(float f, float g) {	this.yBodyRot = this.getYRot() - i;
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2469	public void aiStep() {	double g = Mth.wrapDegrees(this.lerpYRot - this.getYRot());
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2470	public void aiStep() {	this.setYRot(this.getYRot() + (float)g / this.lerpSteps);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2471	public void aiStep() {	this.setXRot(this.getXRot() + (float)(this.lerpXRot - this.getXRot()) / this.lerpSteps);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2473	public void aiStep() {	this.setPos(d, e, f);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2474	public void aiStep() {	this.setRot(this.getYRot(), this.getXRot());
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2476	public void aiStep() {	this.setDeltaMovement(this.getDeltaMovement().scale(0.98));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2500	public void aiStep() {	this.setDeltaMovement(h, i, j);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2501	public void aiStep() {	this.level.getProfiler().push("ai");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2507	public void aiStep() {	this.level.getProfiler().push("newAi");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2513	public void aiStep() {	this.level.getProfiler().push("jump");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2527	public void aiStep() {	this.jumpFromGround();
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2541		this.level.getProfiler().push("travel");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2546		this.travel(new Vec3(this.xxa, this.yya, this.zza));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2548		this.level.getProfiler().push("freezing");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2563		this.hurt(DamageSource.FREEZE, o);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2567		this.level.getProfiler().push("push");
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2576		this.hurt(DamageSource.DROWN, 1.0F);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2607	private void updateFallFlying() {	this.setSharedFlag(7, bl);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2628	protected void pushEntities() {	this.hurt(DamageSource.CRAMMING, 6.0F);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2648	protected void checkAutoSpinAttack(AABB aABB, AABB aABB2) {	this.setDeltaMovement(this.getDeltaMovement().scale(-0.2));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2662	protected void doPush(Entity entity) {	entity.push(this);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2693	public void rideTick() {	this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2712	public void setJumping(boolean bl) {	public void setJumping(boolean bl) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2804	public void setAbsorptionAmount(float f) {	public void setAbsorptionAmount(float f) {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2940	private void spawnItemParticles(ItemStack itemStack, int i) {	vec3 = vec3.xRot(-this.getXRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2941	private void spawnItemParticles(ItemStack itemStack, int i) {	vec3 = vec3.yRot(-this.getYRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2944	private void spawnItemParticles(ItemStack itemStack, int i) {	vec32 = vec32.xRot(-this.getXRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	2945	private void spawnItemParticles(ItemStack itemStack, int i) {	vec32 = vec32.yRot(-this.getYRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3049	public boolean randomTeleport(double d, double e, double f, boolean bl) {	this.teleportTo(d, j, f);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3057	public boolean randomTeleport(double d, double e, double f, boolean bl) {	this.teleportTo(g, h, i);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3139	public void startSleeping(BlockPos blockPos) {	this.setPose(Pose.SLEEPING);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3142	public void startSleeping(BlockPos blockPos) {	this.setDeltaMovement(Vec3.ZERO);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3147	private void setPosToBed(BlockPos blockPos) {	this.setPos(blockPos.getX() + 0.5, blockPos.getY() + 0.6875, blockPos.getZ() + 0.5);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3154	public void stopSleeping() {	public void stopSleeping() {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3159	public void stopSleeping() {	Vec3 vec3x = (Vec3)BedBlock.findStandUpPosition(this.getType(), this.level, blockPos, this.getYRot()).orElseGet(() -> {
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3165	public void stopSleeping() {	this.setPos(vec3x.x, vec3x.y, vec3x.z);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3166	public void stopSleeping() {	this.setYRot(f);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3167	public void stopSleeping() {	this.setXRot(0.0F);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3171	public void stopSleeping() {	this.setPose(Pose.STANDING);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3172	public void stopSleeping() {	this.setPos(vec3.x, vec3.y, vec3.z);
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3340	public void recreateFromPacket(ClientboundAddMobPacket clientboundAddMobPacket) {	float g = clientboundAddMobPacket.getyRot() * 360 / 256.0F;
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3341	public void recreateFromPacket(ClientboundAddMobPacket clientboundAddMobPacket) {	float h = clientboundAddMobPacket.getxRot() * 360 / 256.0F;
+1.17.1	net/minecraft/world/entity/LivingEntity.java	3348	public void recreateFromPacket(ClientboundAddMobPacket clientboundAddMobPacket) {	this.setDeltaMovement(clientboundAddMobPacket.getXd() / 8000.0F, clientboundAddMobPacket.getYd() / 8000.0F, clientboundAddMobPacket.getZd() / 8000.0F);
+1.17.1	net/minecraft/world/entity/player/Player.java	223	public void tick() {	this.onGround = false;
+1.17.1	net/minecraft/world/entity/player/Player.java	275	public void tick() {	this.setPos(d, this.getY(), e);
+1.17.1	net/minecraft/world/entity/player/Player.java	390	protected void updatePlayerPose() {	this.setPose(pose7);
+1.17.1	net/minecraft/world/entity/player/Player.java	485	protected void serverAiStep() {	this.yHeadRot = this.getYRot();
+1.17.1	net/minecraft/world/entity/player/Player.java	496	public void aiStep() {	this.heal(1.0F);
+1.17.1	net/minecraft/world/entity/player/Player.java	512	public void aiStep() {	this.setSpeed((float)this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+1.17.1	net/minecraft/world/entity/player/Player.java	604	public void die(DamageSource damageSource) {	this.setDeltaMovement(
+1.17.1	net/minecraft/world/entity/player/Player.java	605	public void die(DamageSource damageSource) {	-Mth.cos((this.hurtDir + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F,
+1.17.1	net/minecraft/world/entity/player/Player.java	607	public void die(DamageSource damageSource) {	-Mth.sin((this.hurtDir + this.getYRot()) * (float) (Math.PI / 180.0)) * 0.1F
+1.17.1	net/minecraft/world/entity/player/Player.java	610	public void die(DamageSource damageSource) {	this.setDeltaMovement(0.0, 0.1, 0.0);
+1.17.1	net/minecraft/world/entity/player/Player.java	681	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	itemEntity.setDeltaMovement(-Mth.sin(g) * f, 0.2F, Mth.cos(g) * f);
+1.17.1	net/minecraft/world/entity/player/Player.java	684	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	float i = Mth.sin(this.getXRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/player/Player.java	685	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	float j = Mth.cos(this.getXRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/player/Player.java	686	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	float k = Mth.sin(this.getYRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/player/Player.java	687	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	float l = Mth.cos(this.getYRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/player/Player.java	690	public ItemEntity drop(ItemStack itemStack, boolean bl, boolean bl2) {	itemEntity.setDeltaMovement(
+1.17.1	net/minecraft/world/entity/player/Player.java	809	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.17.1	net/minecraft/world/entity/player/Player.java	838	public boolean hurt(DamageSource damageSource, float f) {	return f == 0.0F ? false : super.hurt(damageSource, f);
+1.17.1	net/minecraft/world/entity/player/Player.java	906	protected void actuallyHurt(DamageSource damageSource, float f) {	this.setAbsorptionAmount(this.getAbsorptionAmount() - (g - f));
+1.17.1	net/minecraft/world/entity/player/Player.java	1025	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (d != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(d, -this.maxUpStep, 0.0))) {
+1.17.1	net/minecraft/world/entity/player/Player.java	1035	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (e != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(0.0, -this.maxUpStep, e))) {
+1.17.1	net/minecraft/world/entity/player/Player.java	1045	protected Vec3 maybeBackOffFromEdge(Vec3 vec3, MoverType moverType) {	while (d != 0.0 && e != 0.0 && this.level.noCollision(this, this.getBoundingBox().move(d, -this.maxUpStep, e))) {
+1.17.1	net/minecraft/world/entity/player/Player.java	1071	private boolean isAboveGround() {	|| this.fallDistance < this.maxUpStep && !this.level.noCollision(this, this.getBoundingBox().move(0.0, this.fallDistance - this.maxUpStep, 0.0));
+1.17.1	net/minecraft/world/entity/player/Player.java	1136	public void attack(Entity entity) {	boolean bl6 = entity.hurt(DamageSource.playerAttack(this), f);
+1.17.1	net/minecraft/world/entity/player/Player.java	1142	public void attack(Entity entity) {	j * 0.5F, Mth.sin(this.getYRot() * (float) (Math.PI / 180.0)), -Mth.cos(this.getYRot() * (float) (Math.PI / 180.0))
+1.17.1	net/minecraft/world/entity/player/Player.java	1145	public void attack(Entity entity) {	entity.push(
+1.17.1	net/minecraft/world/entity/player/Player.java	1146	public void attack(Entity entity) {	-Mth.sin(this.getYRot() * (float) (Math.PI / 180.0)) * j * 0.5F,
+1.17.1	net/minecraft/world/entity/player/Player.java	1148	public void attack(Entity entity) {	Mth.cos(this.getYRot() * (float) (Math.PI / 180.0)) * j * 0.5F
+1.17.1	net/minecraft/world/entity/player/Player.java	1152	public void attack(Entity entity) {	this.setDeltaMovement(this.getDeltaMovement().multiply(0.6, 1.0, 0.6));
+1.17.1	net/minecraft/world/entity/player/Player.java	1153	public void attack(Entity entity) {	this.setSprinting(false);
+1.17.1	net/minecraft/world/entity/player/Player.java	1166		0.4F, Mth.sin(this.getYRot() * (float) (Math.PI / 180.0)), -Mth.cos(this.getYRot() * (float) (Math.PI / 180.0))
+1.17.1	net/minecraft/world/entity/player/Player.java	1168		livingEntity.hurt(DamageSource.playerAttack(this), m);
+1.17.1	net/minecraft/world/entity/player/Player.java	1180		entity.setDeltaMovement(vec3);
+1.17.1	net/minecraft/world/entity/player/Player.java	1274	public void sweepAttack() {	double d = -Mth.sin(this.getYRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/player/Player.java	1275	public void sweepAttack() {	double e = Mth.cos(this.getYRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/world/entity/player/Player.java	1319	public void stopSleepInBed(boolean bl, boolean bl2) {	super.stopSleeping();
+1.17.1	net/minecraft/world/entity/player/Player.java	1328	public void stopSleeping() {	public void stopSleeping() {
+1.17.1	net/minecraft/world/entity/player/Player.java	1398	public void jumpFromGround() {	public void jumpFromGround() {
+1.17.1	net/minecraft/world/entity/player/Player.java	1399	public void jumpFromGround() {	super.jumpFromGround();
+1.17.1	net/minecraft/world/entity/player/Player.java	1409	public void travel(Vec3 vec3) {	public void travel(Vec3 vec3) {
+1.17.1	net/minecraft/world/entity/player/Player.java	1420	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec32.add(0.0, (g - vec32.y) * h, 0.0));
+1.17.1	net/minecraft/world/entity/player/Player.java	1428	public void travel(Vec3 vec3) {	super.travel(vec3);
+1.17.1	net/minecraft/world/entity/player/Player.java	1430	public void travel(Vec3 vec3) {	this.setDeltaMovement(vec33.x, i * 0.6, vec33.z);
+1.17.1	net/minecraft/world/entity/player/Player.java	1432	public void travel(Vec3 vec3) {	this.fallDistance = 0.0F;
+1.17.1	net/minecraft/world/entity/player/Player.java	1433	public void travel(Vec3 vec3) {	this.setSharedFlag(7, false);
+1.17.1	net/minecraft/world/entity/player/Player.java	1435	public void travel(Vec3 vec3) {	super.travel(vec3);
+1.17.1	net/minecraft/world/entity/player/Player.java	1442	public void updateSwimming() {	public void updateSwimming() {
+1.17.1	net/minecraft/world/entity/player/Player.java	1444	public void updateSwimming() {	this.setSwimming(false);
+1.17.1	net/minecraft/world/entity/player/Player.java	1446	public void updateSwimming() {	super.updateSwimming();
+1.17.1	net/minecraft/world/entity/player/Player.java	1555	public void startFallFlying() {	this.setSharedFlag(7, true);
+1.17.1	net/minecraft/world/entity/player/Player.java	1559	public void stopFallFlying() {	this.setSharedFlag(7, true);
+1.17.1	net/minecraft/world/entity/player/Player.java	1560	public void stopFallFlying() {	this.setSharedFlag(7, false);
+1.17.1	net/minecraft/world/entity/player/Player.java	1792	private void respawnEntityOnShoulder(CompoundTag compoundTag) {	entity.setPos(this.getX(), this.getY() + 0.7F, this.getZ());
+1.17.1	net/minecraft/world/entity/player/Player.java	1852	public void setAbsorptionAmount(float f) {	public void setAbsorptionAmount(float f) {
+1.17.1	net/minecraft/world/entity/player/Player.java	1901	public void setRemainingFireTicks(int i) {	public void setRemainingFireTicks(int i) {
+1.17.1	net/minecraft/world/entity/player/Player.java	1902	public void setRemainingFireTicks(int i) {	super.setRemainingFireTicks(this.abilities.invulnerable ? Math.min(i, 1) : i);
+1.17.1	net/minecraft/world/entity/player/Player.java	2019	public Vec3 getRopeHoldPosition(float f) {	float g = Mth.lerp(f * 0.5F, this.getXRot(), this.xRotO) * (float) (Math.PI / 180.0);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	146	public boolean hurt(DamageSource damageSource, float f) {	public boolean hurt(DamageSource damageSource, float f) {
+1.17.1	net/minecraft/client/player/LocalPlayer.java	151	public void heal(float f) {	public void heal(float f) {
+1.17.1	net/minecraft/client/player/LocalPlayer.java	166	public boolean startRiding(Entity entity, boolean bl) {	this.yRotO = entity.getYRot();
+1.17.1	net/minecraft/client/player/LocalPlayer.java	167	public boolean startRiding(Entity entity, boolean bl) {	this.setYRot(entity.getYRot());
+1.17.1	net/minecraft/client/player/LocalPlayer.java	168	public boolean startRiding(Entity entity, boolean bl) {	this.setYHeadRot(entity.getYRot());
+1.17.1	net/minecraft/client/player/LocalPlayer.java	182	public float getViewXRot(float f) {	return this.getXRot();
+1.17.1	net/minecraft/client/player/LocalPlayer.java	187	public float getViewYRot(float f) {	return this.isPassenger() ? super.getViewYRot(f) : this.getYRot();
+1.17.1	net/minecraft/client/player/LocalPlayer.java	195	public void tick() {	this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround));
+1.17.1	net/minecraft/client/player/LocalPlayer.java	244	private void sendPosition() {	double g = this.getYRot() - this.yRotLast;
+1.17.1	net/minecraft/client/player/LocalPlayer.java	245	private void sendPosition() {	double h = this.getXRot() - this.xRotLast;
+1.17.1	net/minecraft/client/player/LocalPlayer.java	251	private void sendPosition() {	this.connection.send(new ServerboundMovePlayerPacket.PosRot(vec3.x, -999.0, vec3.z, this.getYRot(), this.getXRot(), this.onGround));
+1.17.1	net/minecraft/client/player/LocalPlayer.java	255	private void sendPosition() {	.send(new ServerboundMovePlayerPacket.PosRot(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot(), this.onGround));
+1.17.1	net/minecraft/client/player/LocalPlayer.java	259	private void sendPosition() {	this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround));
+1.17.1	net/minecraft/client/player/LocalPlayer.java	272	private void sendPosition() {	this.yRotLast = this.getYRot();
+1.17.1	net/minecraft/client/player/LocalPlayer.java	273	private void sendPosition() {	this.xRotLast = this.getXRot();
+1.17.1	net/minecraft/client/player/LocalPlayer.java	440	private void moveTowardsClosestSpace(double d, double e) {	this.setDeltaMovement(0.1 * direction.getStepX(), vec3.y, vec3.z);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	442	private void moveTowardsClosestSpace(double d, double e) {	this.setDeltaMovement(vec3.x, vec3.y, 0.1 * direction.getStepZ());
+1.17.1	net/minecraft/client/player/LocalPlayer.java	455	public void setSprinting(boolean bl) {	public void setSprinting(boolean bl) {
+1.17.1	net/minecraft/client/player/LocalPlayer.java	456	public void setSprinting(boolean bl) {	super.setSprinting(bl);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	621	public void serverAiStep() {	this.xBob = (float)(this.xBob + (this.getXRot() - this.xBob) * 0.5);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	622	public void serverAiStep() {	this.yBob = (float)(this.yBob + (this.getYRot() - this.yBob) * 0.5);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	631	public void resetPos() {	this.setPose(Pose.STANDING);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	634	public void resetPos() {	this.setPos(this.getX(), d, this.getZ());
+1.17.1	net/minecraft/client/player/LocalPlayer.java	640	public void resetPos() {	this.setDeltaMovement(Vec3.ZERO);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	641	public void resetPos() {	this.setXRot(0.0F);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	701	public void aiStep() {	this.setSprinting(true);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	712	public void aiStep() {	this.setSprinting(true);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	720	public void aiStep() {	this.setSprinting(false);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	723	public void aiStep() {	this.setSprinting(false);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	778		this.setDeltaMovement(this.getDeltaMovement().add(0.0, j * this.getAbilities().getFlyingSpeed() * 3.0F, 0.0));
+1.17.1	net/minecraft/client/player/LocalPlayer.java	893	public void move(MoverType moverType, Vec3 vec3) {	public void move(MoverType moverType, Vec3 vec3) {
+1.17.1	net/minecraft/client/player/LocalPlayer.java	896	public void move(MoverType moverType, Vec3 vec3) {	super.move(moverType, vec3);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	915	protected void updateAutoJump(float f, float g) {	float l = Mth.sin(this.getYRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/client/player/LocalPlayer.java	916	protected void updateAutoJump(float f, float g) {	float m = Mth.cos(this.getYRot() * (float) (Math.PI / 180.0));
+1.17.1	net/minecraft/client/player/LocalPlayer.java	1068	public Vec3 getRopeHoldPosition(float f) {	float g = Mth.lerp(f * 0.5F, this.getYRot(), this.yRotO) * (float) (Math.PI / 180.0);
+1.17.1	net/minecraft/client/player/LocalPlayer.java	1069	public Vec3 getRopeHoldPosition(float f) {	float h = Mth.lerp(f * 0.5F, this.getXRot(), this.xRotO) * (float) (Math.PI / 180.0);

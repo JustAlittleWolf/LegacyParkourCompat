@@ -1,0 +1,1 @@
+Frozen roster correction: `core-roster.tsv` listed `world/phys/shapes/CollisionSpliterator.java` as a guessed path. Exact source inspection confirmed the class is `world/level/CollisionSpliterator.java` in all three Mojmap roots. The initial roster file is preserved as frozen; this addendum records the corrected actual path. No prior source report informed the correction.

@@ -1,0 +1,46 @@
+# Collision query / LocalPlayer witness gate
+
+## Verdict
+
+No accepted source-backed changed Boolean-AND result or clipped displacement was found in this slice. The remaining open gate is narrow: a collision-enabled, non-full-block vanilla provider state must expose a finite face within the `1e-7` merge band around a quantized endpoint of a short-pose, three-axis swept player AABB, with old overlap width greater than `1e-7` and new overlap width at most `1e-7` (or an equivalent cell-partition change). The exact player query transformation is real and reachable as a `LocalPlayer` `SELF` move, but the checked ordinary provider faces are grid/dyadic or farther away; the prior End Rod candidate is closed. I did not exhaust every possible moving-block-entity moved state/property combination, so this does not close the full vanilla provider gate.
+
+No runtime trajectory, test, build, game launch, or implementation claim is made. Server/world-state production is held equal and excluded; input-device and logical-input production are also excluded.
+
+## Frozen roster and source identity
+
+The source roster was frozen in `roster.md`, `core-roster.tsv`, and `provider-roster.tsv` before reading the prior collision reports. `provider-roster.tsv` is the 131-file union of exact block Java sources declaring one of the four requested shape-provider methods. A path correction is recorded separately in `roster-addendum.md`; the original roster is preserved.
+
+Read-only source roots:
+
+- `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.16.5\mojmap`
+- `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.17\mojmap`
+- `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\1.17.1\mojmap`
+
+Older/later endpoint sidecars: 1.16.5 `mojmap.sources.sha256` SHA-256 `9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b`, `mojmap.ready.json` SHA-256 `e9dd4397c6ade5f68d27f50baf285086dc367b56d2119b03a116cf3cf3b23fee`; 1.17.1 source manifest `93270d229acfb751bf56daf1e7be26ce3dcff26b29e94aa157de621405a3463b`, ready `c7180dce94d7b57b53a964445b0c788c71f23ba3ba40eea593c11cc939185e9b`. The 1.17 embedded `.decompile-provenance.json` SHA-256 is `afc9dc30cd8f6406d8ea306e64cc0b3601cc8d7c7bcd314f737573d830a79357`; it embeds the 1.17 source hash map. All 36 selected source hashes in `source-hashes.csv` were recomputed and matched their respective manifest entry.
+
+## Exact swept-query witness (query-shape delta only)
+
+For a player in `Pose.FALL_FLYING`, both 1.16.5 and 1.17 use `EntityDimensions.scalable(0.6F, 0.6F)` (`world/entity/player/Player.java:116` old, `:128` new). Let the player AABB be `[0.125, 0.7250000238418579]` on each axis, which is produced by center coordinate `0.42500001192092896` and width `(double)0.6F`. Take a finite all-positive SELF displacement of `(0.0250000261581421, 0.0250000261581421, 0.0250000261581421)`. The multi-axis heuristic then asks `getBlockCollisions` for the AABB expanded toward that vector (`Entity.java:713-723` old; `:791-801` new), and `CollisionGetter.getBlockCollisions` forwards that exact AABB to `CollisionSpliterator` (`CollisionGetter.java:58-67` old; `:61-70` new).
+
+The swept query is `[0.125, 0.75000005]` on all axes. In old `Shapes.findBits`, the scale-8 endpoint is `6.0000004`, whose distance `4e-7` from the integer exceeds the fixed `1e-7` test, so it falls back to `ArrayVoxelShape` with the exact endpoint. New `findBits` accepts that endpoint because the scaled tolerance is `8e-7`, rounds it to `6`, and creates the 1/8-grid interval ending at `0.75`. This is a query-shape encoding delta only; it does not establish a provider result.
+
+The move route is real: `LocalPlayer.aiStep` delegates to `super.aiStep` (old `LocalPlayer.java:788`, new `:812`); `LivingEntity.aiStep` calls `travel` (old `LivingEntity.java:2459`, new `:2542`); applicable `LivingEntity.travel` branches call `move(MoverType.SELF, getDeltaMovement())` (old `:1947,1962,2008,2065`, new `:2032,2047,2093,2154`). A falling/fall-flying player with nonzero horizontal and vertical velocity can enter the multi-axis collision heuristic. This is source reachability, not a reproduced trajectory.
+
+## Collision consumers checked
+
+- **Block providers:** non-full shapes in `CollisionSpliterator` are admitted only through `Shapes.joinIsNotEmpty(providerShape, entityShape, BooleanOp.AND)` (old `CollisionSpliterator.java:82`; new `:85`). Full `Shapes.block()` bypasses this gate and uses the unchanged raw `AABB.intersects` branch (old `:76-79`; new `:78-82`). `CollisionSpliterator` constructs `entityShape = Shapes.create(aabb)` in both versions (old `:41`; new `:44`). `IndirectMerger` coalesces coordinate gaps at `1e-7` in both versions. Consequently a provider face exactly at `0.75`, including the old-only query sliver, is suppressed in both. The earlier end-rod fixture at `0.87500005` is not revived.
+- **Conditional block response that remains possible:** if a reachable non-full block collision shape has a face at `0.749999925` and overlaps the other two axes, old query overlap is `1.25e-7`, while snapped query overlap is `0.75e-7`. That straddles the merger tolerance and can change the AND admission; if admitted, `Shapes.collide` can clip the old SELF displacement at the face. This is a condition, not an identified vanilla provider state. Static provider coordinates and the ordinary half-tick moving-piston case checked in the paired provider report do not supply this face. The open portion is the remaining dynamic moved-state/provider combination space and any state-dependent exact boundary that falls in this band.
+- **World border:** `Entity.collide` tests the current, unexpanded player box deflated by `1e-7` against the world-border shape (`Entity.java:671-673` old; `:753-755` new). The pose extents are `0.6F`, `1.8F`, `1.5F`, or `0.2F`; this unexpanded/deflated box cannot have both endpoints on the 1/8 grid within `1e-7`, so `Shapes.create` remains the same exact array encoding at this call site. No border `Shapes.create` result difference was identified.
+- **Entity collision inputs:** `Entity.collide` passes the raw swept AABB to `getEntityCollisions` (`Entity.java:675` old; `:757` new). `EntityGetter.getEntityCollisions` inflates it by `1e-7`, prefilters by raw AABB intersection and collision eligibility, then maps each candidate entity's own bounding box through `Shapes.create` (`EntityGetter.java:61-75` old; `:66-80` new); it does not AND the player swept shape with the entity shape. In 1.16.5, only Boat and Shulker override `canBeCollidedWith` in the entity package (`Boat.java:126`, `Shulker.java:377`); Boat's 1.375-wide box is always outside the `Shapes.create` unit-range acceptance and thus remains an exact array shape in both versions. A Shulker's 1.0 dimensions can be accepted only with endpoints spanning the unit interval; the old and new grid representation then agrees, and positions outside that range fall back to exact arrays. No changed candidate entity shape or clipping consequence was found. This closes the ordinary entity-provider path for the `findBits` delta.
+
+## Remaining precise gate
+
+The unresolved domain is **stateful non-full-block collision shapes used by the swept `CollisionSpliterator` AND path**, not ordinary entity collision filtering or the unexpanded border test. To close it requires either (a) identify a vanilla provider state whose finite face and other-axis occupancy meet the band condition above and trace its exact provider into `Shapes.collide`, or (b) finish the remaining provider/moved-state source enumeration and prove all reachable bounds lie outside that condition. The previous source work covers registered ordinary providers, the identified contextual applicability cases, and a reachable half-step moving End Rod, but explicitly did not enumerate every possible moving piston `movedState`/progress/direction combination. Modded providers and server/input production remain outside the assigned scope.
+
+## References
+
+- 1.16.5 Mojmap: `world/phys/shapes/Shapes.java:51-105,161-202`; `world/phys/shapes/IndirectMerger.java:23-58`; `world/level/CollisionGetter.java:55-67`; `world/level/CollisionSpliterator.java:37-85`; `world/level/EntityGetter.java:61-75`; `world/entity/Entity.java:485-530,668-723`; `world/entity/LivingEntity.java:1914-2070,2368-2460`; `client/player/LocalPlayer.java:627-788`; `world/entity/player/Player.java:110-122`.
+- 1.17 Mojmap: `world/phys/shapes/Shapes.java:53-118,170-206`; `world/phys/shapes/IndirectMerger.java:14-86`; `world/level/CollisionGetter.java:58-70`; `world/level/CollisionSpliterator.java:40-86`; `world/level/EntityGetter.java:66-80`; `world/entity/Entity.java:534-570,750-801`; `world/entity/player/Player.java:121-132`; `client/player/LocalPlayer.java:651-812`; `world/entity/LivingEntity.java:1999-2155,2451-2545`.
+- 1.17.1 selected core sources were hash-verified; the relevant query/collision route and `findBits`/merger contracts were retained from 1.17.1 in the prior pair report. The open provider-state gate is not closed by that endpoint retention.
+
+No project code, docs outside `.native-source`, game/build/test execution, source generation, or shared decompilation output was modified.
