@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.CollisionBorderShapeContext;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.BorderCollisionAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.WorldBorderCollisionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.worldborder.StaticWorldBorderCollisionShapeHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
@@ -66,7 +67,19 @@ public abstract class EntityBorderCollisionMixin {
         Operation<VoxelShape> original, @Local(argsOnly = true) Entity source) {
         var frame = CollisionBorderShapeContext.current();
         var historicalCollision = frame == null ? null : frame.historicalCollision(source);
-        VoxelShape shape = historicalCollision == null ? original.call(border) : historicalCollision.shape();
+        VoxelShape shape;
+        if (historicalCollision != null) {
+            shape = historicalCollision.shape();
+        } else if (MovementRuntime.appliesTo(source)
+            && border.getLerpTime() == 0L && border.getLerpSpeed() == 0.0) {
+            shape = MovementRuntime.find(StaticWorldBorderCollisionShapeHook.class, source)
+                .flatMap(hook -> hook.collisionShape(
+                    border.getCenterX(), border.getCenterZ(), border.getSize(), border.getAbsoluteMaxSize()
+                ))
+                .orElseGet(() -> original.call(border));
+        } else {
+            shape = original.call(border);
+        }
         if (frame != null) {
             frame.recordShape(source, shape);
         }

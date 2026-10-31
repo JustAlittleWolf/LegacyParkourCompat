@@ -1,0 +1,16 @@
+package me.wolfii.legacyparkourcompat.mixin.collision;
+
+import net.minecraft.world.phys.shapes.ArrayVoxelShape;
+import net.minecraft.world.phys.shapes.DiscreteVoxelShape;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
+
+@Mixin(ArrayVoxelShape.class)
+public interface ArrayVoxelShapeInvoker {
+    @Invoker("<init>")
+    static ArrayVoxelShape legacyparkourcompat$create(
+        DiscreteVoxelShape shape, double[] xs, double[] ys, double[] zs
+    ) {
+        throw new AssertionError();
+    }
+}
