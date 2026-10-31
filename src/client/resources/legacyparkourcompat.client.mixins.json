@@ -21,6 +21,7 @@
     "collision.WorldBorderCollisionMarginMixin",
     "border.LivingEntityWakeContextMixin",
     "border.DismountHelperWakeBorderMixin",
+    "LivingEntityBedWakeMixin",
     "LivingEntityMixin",
     "LivingEntityJumpAdmissionMixin",
     "LivingEntityJumpBoostAmplifierMixin",
