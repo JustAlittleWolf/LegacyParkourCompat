@@ -1,0 +1,1 @@
+PASS: 144 selected Java source files matched their per-release source sidecar or embedded source map; all 8 release trees identify the assigned exact release and Mojmap mapping.

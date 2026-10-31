@@ -1,0 +1,5 @@
+# Roster erratum 3 — candidate classification and old short-pose box construction
+
+The final route check also binds `net/minecraft/core/Cursor3D.java` (the cursor type consumed by `CollisionSpliterator`'s admission gates) and `net/minecraft/world/level/block/Blocks.java` (the `MOVING_PISTON` identity tested by that gate). It binds `PistonMovingBlockEntity.load` to confirm that the conditional progress is consumed as the same raw float on each release.
+
+For swimming-box context, `Player.java` retains `Pose.SWIMMING` scalable `0.6F × 0.6F` dimensions across the assigned releases. `EntityDimensions.makeBoundingBox` is not present in 1.16.0 or 1.16.1: those releases build the current box in `Entity.setPos` from `dimensions.width / 2.0F`, `dimensions.height`, and the same six AABB endpoints. Later releases delegate to `EntityDimensions.makeBoundingBox`, whose body uses those same typed operations. Therefore the roster's BB helper is only hashed where it exists; the actual pre-query box construction route is recorded across all releases.
