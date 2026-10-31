@@ -6,11 +6,14 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.FullCubeOverlapHook
 import net.minecraft.world.phys.AABB;
 
 /**
- * Recreates the 1.15.2 query-shape encoding and AND admission used for block collisions.
- * Mojmap 1.15.2 CollisionGetter.getBlockCollisions and Shapes.create/findBits/
- * joinIsNotEmpty/createIndexMerger (IndirectMerger); 1.16.5 Mojmap
- * CollisionSpliterator.collisionCheck instead uses strict AABB.intersects for
- * Shapes.block(), with that AABB member supplying the predicate.
+ * Recreates the query-shape encoding and AND admission shared by exact 1.15,
+ * 1.15.1, and 1.15.2 Mojmap CollisionGetter.getBlockCollisions and
+ * Shapes.create/findBits/joinIsNotEmpty/createIndexMerger (IndirectMerger).
+ * 1.16.5 Mojmap CollisionSpliterator.collisionCheck instead uses strict
+ * AABB.intersects for Shapes.block(), with that AABB member supplying the
+ * predicate. Selections before 1.15 retain the preceding product operation
+ * through the separate V1_14_2 preservation entry, without a source-parity
+ * claim for every earlier profile.
  */
 @MovementChange(emulates = ParkourVersion.V1_15_2)
 public final class FullCubeOverlap implements FullCubeOverlapHook {
