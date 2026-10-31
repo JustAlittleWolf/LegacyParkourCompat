@@ -2498,7 +2498,7 @@
       "patch": "development/research/source-evidence/20261031/checkpoint67/shortpose-query66.patch",
       "patchSha256": "3db1de6c9637517ff57cf4a6e93b40c520d09b4e9dda582acb89b01fb612aee2",
       "infrastructure": "development/research/source-evidence/20261031/checkpoint67/shortpose-query66-infrastructure.json",
-      "state": "Encoding candidate accepted; no product integration. Narrow gates and old grid planes must be preserved."
+      "state": "Encoding math accepted, NOT integration-ready: candidate contains only V1_16_2 implementation and its new hook. No V1_15_2 preservation entry exists for this operation; add/review lower fence before product integration. Reviewer assumed an independent older implementation. Preserve exact grid planes/cell indices and narrow caller gates."
     },
     {
       "repository": ".native-candidates/honey-piston65",
