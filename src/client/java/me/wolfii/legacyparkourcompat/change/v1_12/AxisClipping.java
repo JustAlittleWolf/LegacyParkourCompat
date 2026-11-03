@@ -5,6 +5,7 @@ import java.util.Set;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.StrictAxisClipping;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -252,7 +253,30 @@ public final class AxisClipping implements AxisClippingHook {
     );
 
     @Override
-    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance) {
+    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
+                               CollisionAxisOrderContext.HistoricalAxisCandidates candidates) {
+        if (candidates != null) {
+            // 1.12.2 Ornithe Feather Entity#move visits block boxes before entity boxes;
+            // Box#intersectX/intersectY/intersectZ clips each against strict transverse overlap.
+            double offset = distance;
+            Direction.Axis firstOther = axis == Direction.Axis.X ? Direction.Axis.Y : Direction.Axis.X;
+            Direction.Axis secondOther = axis == Direction.Axis.Z ? Direction.Axis.Y : Direction.Axis.Z;
+            if (axis == Direction.Axis.Y) secondOther = Direction.Axis.Z;
+            for (AABB candidate : candidates.orderedBoxes()) {
+                if (candidate.max(firstOther) <= moving.min(firstOther)
+                    || candidate.min(firstOther) >= moving.max(firstOther)
+                    || candidate.max(secondOther) <= moving.min(secondOther)
+                    || candidate.min(secondOther) >= moving.max(secondOther)) continue;
+                if (offset > 0.0 && candidate.max(axis) <= moving.min(axis)) {
+                    double gap = moving.min(axis) - candidate.max(axis);
+                    if (gap < offset) offset = gap;
+                } else if (offset < 0.0 && candidate.min(axis) >= moving.max(axis)) {
+                    double gap = moving.max(axis) - candidate.min(axis);
+                    if (gap > offset) offset = gap;
+                }
+            }
+            return OptionalDouble.of(offset);
+        }
         return StrictAxisClipping.clip(axis, moving, shapes, distance,
             state -> FULL_CUBE_PROVIDERS.contains(BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString()));
     }

@@ -4,6 +4,7 @@ import java.util.OptionalDouble;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.StrictAxisClipping;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
@@ -22,7 +23,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 @MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class AxisClipping implements AxisClippingHook {
     @Override
-    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance) {
+    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
+                               CollisionAxisOrderContext.HistoricalAxisCandidates candidates) {
         return StrictAxisClipping.clip(axis, moving, shapes, distance, state -> state.is(Blocks.STONE));
     }
 }

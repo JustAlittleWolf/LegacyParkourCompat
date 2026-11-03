@@ -14,6 +14,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -423,6 +425,27 @@ public final class MovementRuntime {
         VanillaFn<Iterable<VoxelShape>> vanilla
     ) {
         CollisionAxisOrderContext.clearCollectedBlockShape();
+        CollisionAxisOrderContext.clearHistoricalAxisCandidates();
+        if (entity instanceof LocalPlayer player && Minecraft.getInstance().player == player
+            && find(AxisClippingHook.class, player).isPresent()
+            && entityCandidates.size() == 1) {
+            var movement = CollisionAxisOrderContext.movementQuery();
+            if (movement != null && movement.entity() == entity && movement.unadjustedPrimaryMovement()
+                && movement.moverType() == MoverType.SELF
+                && movement.requestedMovement().lengthSqr() != 0.0
+                && !entity.noPhysics && !player.isShiftKeyDown() && !player.isPassenger() && !entity.onGround()
+                && movement.requestedMovement().y >= 0.0
+                && movement.startingBox().equals(entity.getBoundingBox())
+                && movement.sweptBox().equals(sweptBox)
+                && !CollisionAxisOrderContext.blockCollectionDisabled()
+                && context instanceof MovementCollisionContext movementContext
+                && movementContext.query().equals(sweptBox)) {
+                List<VoxelShape> nativeBlocks = new ArrayList<>();
+                vanilla.get().forEach(nativeBlocks::add);
+                captureHistoricalAxisCandidates(player, level, sweptBox, entityCandidates, nativeBlocks);
+                return nativeBlocks;
+            }
+        }
         if (!(entity instanceof LocalPlayer)
             || !appliesTo(entity)
             || CollisionAxisOrderContext.blockCollectionDisabled()
@@ -513,6 +536,84 @@ public final class MovementRuntime {
             CollisionAxisOrderContext.collectedBlockShape(historical.get().getFirst());
         }
         return historical.get();
+    }
+
+    private static void captureHistoricalAxisCandidates(LocalPlayer player, Level level, AABB query,
+                                                        List<VoxelShape> entityCandidates,
+                                                        List<VoxelShape> blockCandidates) {
+        // 1.13.1 Ornithe Feather EntityView#getEntityCollisions expands by 0.25, excludes
+        // the source/same vehicle and keeps intersecting entity collision boxes after blocks.
+        // 26.2 unobfuscated EntityGetter#getEntityCollisions uses a 1.0E-7 envelope and
+        // canCollideWith, while Entity#collectCollidersIgnoringWorldBorder orders entities first.
+        // Admit this bounded stone/closed default-size entity geometry only when both entity
+        // queries return the same sole live candidate and the native shape is its exact box.
+        if (!appliesTo(player) || entityCandidates.size() != 1 || blockCandidates.size() != 1) return;
+        var border = level.getWorldBorder();
+        if (!border.isWithinBounds(player.getBoundingBox()) || border.isInsideCloseToBorder(player, query)) return;
+
+        VoxelShape blockShape = blockCandidates.getFirst();
+        List<AABB> blockBoxes = blockShape.toAabbs();
+        if (blockBoxes.size() != 1) return;
+        AABB stoneBox = blockBoxes.getFirst();
+        if (stoneBox.getXsize() != 1.0 || stoneBox.getYsize() != 1.0 || stoneBox.getZsize() != 1.0
+            || stoneBox.minX != Math.floor(stoneBox.minX) || stoneBox.minY != Math.floor(stoneBox.minY)
+            || stoneBox.minZ != Math.floor(stoneBox.minZ)) return;
+        BlockPos stonePos = BlockPos.containing(stoneBox.minX, stoneBox.minY, stoneBox.minZ);
+        if (!loadedStoneAirEnvelope(level, query, stonePos)) return;
+
+        AABB oldEntityEnvelope = query.inflate(0.25);
+        AABB nativeEntityEnvelope = query.inflate(1.0E-7);
+        List<Entity> oldEnvelopeEntities = level.getEntities(player, oldEntityEnvelope,
+            other -> !other.isSpectator());
+        List<Entity> nativeEntities = level.getEntities(player, nativeEntityEnvelope,
+            other -> !other.isSpectator() && player.canCollideWith(other));
+        if (oldEnvelopeEntities.size() != 1 || nativeEntities.size() != 1
+            || oldEnvelopeEntities.getFirst() != nativeEntities.getFirst()) return;
+
+        Entity candidate = oldEnvelopeEntities.getFirst();
+        AABB entityBox = candidate.getBoundingBox();
+        if (!candidate.isAlive() || !(candidate instanceof LivingEntity living) || player.hasSameVehicle(candidate)
+            || living.getScale() != 1.0F
+            || !candidate.getBoundingBox().intersects(query)
+            || entityBox.getXsize() != 1.0 || entityBox.getYsize() != 1.0 || entityBox.getZsize() != 1.0
+            || candidate.getBbWidth() != 1.0F || candidate.getBbHeight() != 1.0F) return;
+        List<AABB> nativeEntityBoxes = entityCandidates.getFirst().toAabbs();
+        if (nativeEntityBoxes.size() != 1 || !nativeEntityBoxes.getFirst().equals(candidate.getBoundingBox())) return;
+
+        List<VoxelShape> historicalOrder = List.of(blockShape, entityCandidates.getFirst());
+        List<AABB> orderedBoxes = new ArrayList<>(2);
+        orderedBoxes.addAll(blockBoxes);
+        orderedBoxes.addAll(nativeEntityBoxes);
+        VoxelShape entityUnion = Shapes.joinUnoptimized(Shapes.empty(), entityCandidates.getFirst(), BooleanOp.OR);
+        VoxelShape unionShape = Shapes.joinUnoptimized(blockShape, entityUnion, BooleanOp.OR);
+        CollisionAxisOrderContext.historicalAxisCandidates(new CollisionAxisOrderContext.HistoricalAxisCandidates(
+            query, List.of(entityCandidates.getFirst(), blockShape), historicalOrder, orderedBoxes, unionShape));
+    }
+
+    private static boolean loadedStoneAirEnvelope(Level level, AABB query, BlockPos expectedStone) {
+        int minX = Mth.floor(query.minX);
+        int minY = Mth.floor(query.minY);
+        int minZ = Mth.floor(query.minZ);
+        int maxX = Mth.floor(Math.nextDown(query.maxX));
+        int maxY = Mth.floor(Math.nextDown(query.maxY));
+        int maxZ = Mth.floor(Math.nextDown(query.maxZ));
+        int stones = 0;
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    if (!level.hasChunkAt(pos)) return false;
+                    var state = level.getBlockState(pos);
+                    if (state.is(Blocks.STONE)) {
+                        if (!pos.equals(expectedStone)) return false;
+                        stones++;
+                    } else if (!state.isAir()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return stones == 1;
     }
 
     private static final Map<String, String> CURRENT_TO_LEGACY_113_SLAB_KEYS = Map.ofEntries(
@@ -815,12 +916,31 @@ public final class MovementRuntime {
                                           VanillaFn<Double> vanilla) {
         var hook = find(AxisClippingHook.class, entity);
         if (hook.isPresent()) {
-            var clipped = hook.get().clip(axis, moving, shapes, distance);
-            if (clipped.isPresent()) {
-                return clipped.getAsDouble();
+            var candidates = CollisionAxisOrderContext.historicalAxisCandidates();
+            if (candidates != null && entity instanceof LocalPlayer player
+                && Minecraft.getInstance().player == player) {
+                var movement = CollisionAxisOrderContext.movementQuery();
+                List<VoxelShape> nativeShapes = new ArrayList<>();
+                shapes.forEach(nativeShapes::add);
+                if (movement != null && candidates.sweptBox().equals(movement.sweptBox())
+                    && sameShapeOrder(candidates.nativeOrder(), nativeShapes)) {
+                    var clipped = hook.get().clip(axis, moving, nativeShapes, distance, candidates);
+                    if (clipped.isPresent()) return clipped.getAsDouble();
+                    return vanilla.get();
+                }
+                return hook.get().clip(axis, moving, nativeShapes, distance, null).orElseGet(vanilla::get);
             }
+            return hook.get().clip(axis, moving, shapes, distance, null).orElseGet(vanilla::get);
         }
         return vanilla.get();
+    }
+
+    private static boolean sameShapeOrder(List<VoxelShape> expected, List<VoxelShape> actual) {
+        if (expected.size() != actual.size()) return false;
+        for (int i = 0; i < expected.size(); i++) {
+            if (expected.get(i) != actual.get(i)) return false;
+        }
+        return true;
     }
 
     public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement,
