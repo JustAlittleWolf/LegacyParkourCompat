@@ -49,6 +49,13 @@ public final class SuffocationProbe implements SuffocationProbeHook {
         return SuffocationProbeColumn.any(player, pos, cursor -> this.isSuffocating(player, target, cursor));
     }
 
+    @Override
+    public boolean suffocatesAt(Player player, ParkourVersion target, BlockPos pos,
+                                int minY, int maxYExclusive, VanillaFn<Boolean> vanilla) {
+        return SuffocationProbeColumn.any(pos, minY, maxYExclusive,
+            cursor -> this.isSuffocating(player, target, cursor));
+    }
+
     private boolean isSuffocating(Player player, ParkourVersion target, BlockPos pos) {
         var blockState = player.level().getBlockState(pos);
         // The resolved old probe includes 1.14 and 1.15, not just the latest endpoint.
