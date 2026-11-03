@@ -1,0 +1,145 @@
+[
+  {
+    "source": ".native-source/20261103/1122-clip-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/1122-clip-new.zip",
+    "sha256": "f645e0e3442219d30daa52e31a429b4662b114ce7e9bf1806c1c63bb79745c7b",
+    "files": [
+      {
+        "path": "applicability-first-version.md",
+        "sha256": "b38614dab81a4e4d393ec1c69718b7e0e9c58d4197024a2c1d59738785c19b48"
+      },
+      {
+        "path": "collision-clipping-comparison.md",
+        "sha256": "4fe2c050da409a72b99c2987ac9c614987507ac9dabbbc33292f096dcedb31f0"
+      },
+      {
+        "path": "comparisondata/boundary-verdict.md",
+        "sha256": "c1f144d41d0b161f7704650d3c1598ad20dc4a80335aeda0109db4136b5beee6"
+      },
+      {
+        "path": "comparisondata/correctedfinding.md",
+        "sha256": "078dc9084383c6c86d5db7f29304b28b37f86a6f78c18fc2e0de886a12fcf019"
+      },
+      {
+        "path": "findings/move-collision-offset-threshold.md",
+        "sha256": "338e73c40bb2b2a8bf6e76ca237d6dcb67dd338359f9e69259dc449886ffc79b"
+      },
+      {
+        "path": "tiny-offset-reachability.md",
+        "sha256": "75cf63c09ef31f305657d780a3d8ddb257f334d1fdbd4b9b882c1916bec8ac87"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1132-autojump-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/1132-autojump-review.zip",
+    "sha256": "135a9b2227b35f3b38a79ac6c7b59d3a3dbd86e25a263eae1e999c3650a0c8aa",
+    "files": [
+      {
+        "path": "auto-jump-collision-candidate-order.md",
+        "sha256": "a97a8a16e0a5578052fc995dbff84e70c0d9f9703026767083c005b7d07df358"
+      },
+      {
+        "path": "boundary-review.md",
+        "sha256": "f8de697b84fe30eeefeb553aace3daf83f43ed2677f4a2cf08ff11e276a1121b"
+      },
+      {
+        "path": "review.md",
+        "sha256": "42cfc6c9c66a81bfc13ef8735f3b1b14dc711195f68bedbfa741f15eb6e5293c"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/autojump-renewed-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/autojump-renewed-review.zip",
+    "sha256": "e139483389a210dfc1348e0eee0db4c8df9bf76f2fb65597c68f471e3c52225a",
+    "files": [
+      {
+        "path": "comparison-data.md",
+        "sha256": "4b9675e43da3c46f6de9654c34c29ae8a3bd2716f3b633670804e30d6fc5dfd4"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1194-levitation-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/1194-levitation-review.zip",
+    "sha256": "29c83e15421ce3bf37b1423e879ab01c77a24206b7cc1b27713d84e6fcf340d3",
+    "files": [
+      {
+        "path": "development/research/findings/1.19.4--1.20/levitation-arrival-fall-distance-reset.md",
+        "sha256": "e41b4608a615a12634a0269c73e6c868bbb74a239ff6002d706eceaa1840e039"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/levitation-finding-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/levitation-finding-review.zip",
+    "sha256": "0dc6d734aca9b946d6c56d5c2cf69c9ec77dd5d4f6b3f4035e24fb1c5491e3c3",
+    "files": [
+      {
+        "path": "source-roster.md",
+        "sha256": "74861a80a993cb3a32db9abd5eb9b6980781651a940e7a0b1e67250d354a0ac0"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/powdersnow-inside-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/powdersnow-inside-review.zip",
+    "sha256": "414dfad63c66f072661a78d30f451f3e09d6cfc7a452035b4d73e015b46e74e2",
+    "files": [
+      {
+        "path": "comparisondata/corrected-finding.md",
+        "sha256": "d4d52e9ba8db61762b86625ecd0c9c81f7fbaf54b64a1908dd7ab5bdb43ecb43"
+      },
+      {
+        "path": "comparisondata/review.md",
+        "sha256": "0078252fb76204a171395354c0b6b74eaf04fa6293e061374379d365a8fc857e"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/powder-corrected-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/powder-corrected-review.zip",
+    "sha256": "a42f3ba82b7452870fd7a702573783a171016a6b6cc9322584126b0f5e572d9c",
+    "files": [
+      {
+        "path": "comparisondata/independent-source-roster.md",
+        "sha256": "700b0dacbcf197579a05415f81eb9dde6f39143504af5b41423fe7ddfc4e31e2"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/glide-vines-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/glide-vines-review.zip",
+    "sha256": "31f08e2c8a4156fa915e9ddb990851a53ee74893ae316b57cef7ed3b626045b4",
+    "files": [
+      {
+        "path": "comparison.md",
+        "sha256": "f6bc8b42f07f6a92d1459a71641c2c36adbd1e828f4163d9b36c50315f9f328d"
+      },
+      {
+        "path": "genuine-corrected-finding.md",
+        "sha256": "118ebc3d5b8cbf6cb3b6d804cdc8f99576a3595d3a5668ad221d0145baa4cd71"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1215-provider-pool",
+    "archive": "development/research/source-evidence/20261103/checkpoint03/1215-provider-pool.zip",
+    "sha256": "028328e74c86bf3ec3b2be3526d17dc774d08a67faf6e4b0609c1fd77f4d95a4",
+    "files": [
+      {
+        "path": "movement_segment_reachability/evidence.md",
+        "sha256": "93221853176cbf834595c2b70d16ad294244b41949436f75de55c6b976e310b7"
+      },
+      {
+        "path": "provider_shapes/nether-portal-inside-shape.md",
+        "sha256": "05a7e375b946eacee5d8ddaf71b4d5bb92dd267ba72f80cf4eb380a30993a169"
+      },
+      {
+        "path": "resource_tag_closure/evidence.md",
+        "sha256": "43e1091d20c175425dfecfda34f950ea537ec3e05757b3a5ad3b84d93a9469a3"
+      }
+    ]
+  }
+]

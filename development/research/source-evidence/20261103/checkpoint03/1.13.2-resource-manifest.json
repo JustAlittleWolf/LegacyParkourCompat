@@ -1,0 +1,290 @@
+{
+  "version": "1.13.2",
+  "clientSha256": "3410887ba652f25792c7675bfaf9140e73b60e93cfbf113a803f8a98cb05c0f9",
+  "historicalMetadataSha256": "26ddcd28289a44d4ae4179307b7193ce0227d2da57350e717ff1d8c6e27e8c95",
+  "currentMetadataSha256": "26ddcd28289a44d4ae4179307b7193ce0227d2da57350e717ff1d8c6e27e8c95",
+  "historicalMetadataMatch": true,
+  "identity": "Client bytes match the historical source-publication SHA-256 pin. Current catalog metadata is only a download locator, not a replacement historical metadata identity.",
+  "files": [
+    {
+      "path": "data/minecraft/tags/blocks/acacia_logs.json",
+      "sha256": "1189b4bdd3dd91f525d487f1b57c079942274e4c4e6ae7451401c588135064c4"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/anvil.json",
+      "sha256": "8f5766f6f65e2daf2df9185d9fe99cb4f7b21077b5e3facaf7c2333f7c8f19a1"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/banners.json",
+      "sha256": "4eec08671d813fefaac56d8d46459b94c74328fbaac7bfbc6c064e21889e82a5"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/birch_logs.json",
+      "sha256": "b2c2fd19386d85a9ce4d21945b2ec05c8aec11da7f113b85b2480d2b8e0a9217"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/buttons.json",
+      "sha256": "3ddea4ed60149243506761b8b38af0eb831f8cc15d18d2a2526d2f433d99827a"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/carpets.json",
+      "sha256": "57176b0a9e5bba0507d333303f61a00506f64b3edc2c89e27ec7219e1f8b3e5e"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/coral_blocks.json",
+      "sha256": "cd52b6e0e98b580ee34896f56006b015796bfc48b4051f4b1189ed76bb75bbc9"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/coral_plants.json",
+      "sha256": "df4885a2b47ac9d318e97c6620c3cbe2b46abe9a78cdf255e02d5f571c6de22d"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/corals.json",
+      "sha256": "8f8a276990a5be14480ee2b86323a83b4fc8ac43be0bfc066e80850a0f30f87c"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/dark_oak_logs.json",
+      "sha256": "1c245a3959d2ac84fdf853bfde6cf6d3ed4086c4c0cc73277fad98d1cf8dfaf2"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/doors.json",
+      "sha256": "5132a37a97839559a4a2223918421597b95b569aa99f327d7eba6f9a648a0295"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/enderman_holdable.json",
+      "sha256": "4db8b165c9f7a8f291330ecc3437461718c6cb0a8bf665d6cdc2cdcd9250a2fc"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/flower_pots.json",
+      "sha256": "b1a04e8139ff92bfb10e30e20a21238001022ffc90d90456a9d1f9e79922c8c1"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/ice.json",
+      "sha256": "801d74e956b208f0c5106d6fdfef47d249145948793eae454c3bef80b7c8d2a6"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/impermeable.json",
+      "sha256": "aa30cf66c550f9d708059017f89978e5d1d4b85920cd52388db9cee994f14ba4"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/jungle_logs.json",
+      "sha256": "32f5bee837e52eda98c136b076ab34fa57068dd2443e8ba5f0f4f41d35ae4a31"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/leaves.json",
+      "sha256": "c09bb9af30197720b232b9c84079039d4f344bfc2970fa0d02a1b43bc091b991"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/logs.json",
+      "sha256": "ca3514f58b46a5b1864cba420583d28dcbd6596cf7388895fe56093bcaf92477"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/oak_logs.json",
+      "sha256": "5f1d6736cfb85c0d249e95e8ba0bd30bed54bf8af70596d900d7d804661f2bad"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/planks.json",
+      "sha256": "6d53aac1d2d6a96f5715a92a95d5f5d9750b349ce223c0ea8f8a4d79d8bbc078"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/rails.json",
+      "sha256": "780e63860d349246605b951519883d95edd2d75962962881ffed15420e61585d"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/sand.json",
+      "sha256": "515a260c9c911f16b6318afda3570a9783773f777f7ccd0c4824c1f12df8c3ba"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/saplings.json",
+      "sha256": "95b8e66170ffdb4fd9b46fc445f37a9a0d286c44eac31374e327973b5fe47505"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/slabs.json",
+      "sha256": "a94185a83940ee9ee1f62e5fed3bd7b3aa4d714ee3a0243cb56e2b8b3c6f44f0"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/spruce_logs.json",
+      "sha256": "62de42ab612d0b7c7ae86f4c18672115aa91269943ac33d3372849fd2b554f01"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/stairs.json",
+      "sha256": "1a487adc9a1a4560535646212586a86534f1f0a3a8dc87c38be76721d669ce60"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/stone_bricks.json",
+      "sha256": "e3c90e847ac5abc2bcab935541a659fd295cad21d5e0254675aa51e1d226d30a"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/trapdoors.json",
+      "sha256": "28ec57f8f65230f1986233787e6557017d0595630165be778c0c505e7e452781"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/underwater_bonemeals.json",
+      "sha256": "cc7e93bcd1019e10edd35e5254d6128861c3f87971e2e184a6ece4432583528c"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/valid_spawn.json",
+      "sha256": "ae02dd4c5665d24ccf0f2d1240a23680f5a1878b6365b34097178620dc1b3f75"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/wall_corals.json",
+      "sha256": "9c983afb6921de310770888220182c3081e08a28a010d7230d9ce768ed889eca"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/wooden_buttons.json",
+      "sha256": "cf9d8832b2609989d351da2ca94e3de6f0dc783203fd50a0cb1bca7bfa7e9350"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/wooden_doors.json",
+      "sha256": "40f6a7aeca3a34ab8151be151c549236864f3459387ff22b5125b50b7519650b"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/wooden_pressure_plates.json",
+      "sha256": "bd7c63d8733fb62c47fbfac572609c43e694a13873d80c72718216124f817f07"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/wooden_slabs.json",
+      "sha256": "ecc07a0aae853c9599b91a519479a0e7b53698b0873bb52504061ba7cb1f3dc4"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/wooden_stairs.json",
+      "sha256": "b3d4b9bb681d0b89dbe27e2b46f095eb742427cc7e855d947063c71f9179c9b7"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/wooden_trapdoors.json",
+      "sha256": "2432277bfdfc0feefac67ae96e95324d222e249772dcb864c5a3c2af3ce0dfc4"
+    },
+    {
+      "path": "data/minecraft/tags/blocks/wool.json",
+      "sha256": "679f65e2674fced5590456a0949e2657d1f63a7c8257386a4118b675db9a93bf"
+    },
+    {
+      "path": "data/minecraft/tags/fluids/lava.json",
+      "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
+    },
+    {
+      "path": "data/minecraft/tags/fluids/water.json",
+      "sha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18"
+    },
+    {
+      "path": "data/minecraft/tags/items/acacia_logs.json",
+      "sha256": "1189b4bdd3dd91f525d487f1b57c079942274e4c4e6ae7451401c588135064c4"
+    },
+    {
+      "path": "data/minecraft/tags/items/anvil.json",
+      "sha256": "8f5766f6f65e2daf2df9185d9fe99cb4f7b21077b5e3facaf7c2333f7c8f19a1"
+    },
+    {
+      "path": "data/minecraft/tags/items/banners.json",
+      "sha256": "e6082bf09e0461c51303770afcb056c3a1b50e1285ba68de3853456e8132ad27"
+    },
+    {
+      "path": "data/minecraft/tags/items/birch_logs.json",
+      "sha256": "b2c2fd19386d85a9ce4d21945b2ec05c8aec11da7f113b85b2480d2b8e0a9217"
+    },
+    {
+      "path": "data/minecraft/tags/items/boats.json",
+      "sha256": "56eb445db48748e766314fbc000e68328e7cc8ddf4c12186190d6876eafbcffd"
+    },
+    {
+      "path": "data/minecraft/tags/items/buttons.json",
+      "sha256": "3ddea4ed60149243506761b8b38af0eb831f8cc15d18d2a2526d2f433d99827a"
+    },
+    {
+      "path": "data/minecraft/tags/items/carpets.json",
+      "sha256": "57176b0a9e5bba0507d333303f61a00506f64b3edc2c89e27ec7219e1f8b3e5e"
+    },
+    {
+      "path": "data/minecraft/tags/items/dark_oak_logs.json",
+      "sha256": "1c245a3959d2ac84fdf853bfde6cf6d3ed4086c4c0cc73277fad98d1cf8dfaf2"
+    },
+    {
+      "path": "data/minecraft/tags/items/doors.json",
+      "sha256": "5132a37a97839559a4a2223918421597b95b569aa99f327d7eba6f9a648a0295"
+    },
+    {
+      "path": "data/minecraft/tags/items/fishes.json",
+      "sha256": "1c8309eb4c87bdca5e640d91f5c3897dc095561343b100d7573cc3c6d19492b8"
+    },
+    {
+      "path": "data/minecraft/tags/items/jungle_logs.json",
+      "sha256": "32f5bee837e52eda98c136b076ab34fa57068dd2443e8ba5f0f4f41d35ae4a31"
+    },
+    {
+      "path": "data/minecraft/tags/items/leaves.json",
+      "sha256": "c09bb9af30197720b232b9c84079039d4f344bfc2970fa0d02a1b43bc091b991"
+    },
+    {
+      "path": "data/minecraft/tags/items/logs.json",
+      "sha256": "ca3514f58b46a5b1864cba420583d28dcbd6596cf7388895fe56093bcaf92477"
+    },
+    {
+      "path": "data/minecraft/tags/items/oak_logs.json",
+      "sha256": "5f1d6736cfb85c0d249e95e8ba0bd30bed54bf8af70596d900d7d804661f2bad"
+    },
+    {
+      "path": "data/minecraft/tags/items/planks.json",
+      "sha256": "6d53aac1d2d6a96f5715a92a95d5f5d9750b349ce223c0ea8f8a4d79d8bbc078"
+    },
+    {
+      "path": "data/minecraft/tags/items/rails.json",
+      "sha256": "780e63860d349246605b951519883d95edd2d75962962881ffed15420e61585d"
+    },
+    {
+      "path": "data/minecraft/tags/items/sand.json",
+      "sha256": "515a260c9c911f16b6318afda3570a9783773f777f7ccd0c4824c1f12df8c3ba"
+    },
+    {
+      "path": "data/minecraft/tags/items/saplings.json",
+      "sha256": "95b8e66170ffdb4fd9b46fc445f37a9a0d286c44eac31374e327973b5fe47505"
+    },
+    {
+      "path": "data/minecraft/tags/items/slabs.json",
+      "sha256": "a94185a83940ee9ee1f62e5fed3bd7b3aa4d714ee3a0243cb56e2b8b3c6f44f0"
+    },
+    {
+      "path": "data/minecraft/tags/items/spruce_logs.json",
+      "sha256": "62de42ab612d0b7c7ae86f4c18672115aa91269943ac33d3372849fd2b554f01"
+    },
+    {
+      "path": "data/minecraft/tags/items/stairs.json",
+      "sha256": "1a487adc9a1a4560535646212586a86534f1f0a3a8dc87c38be76721d669ce60"
+    },
+    {
+      "path": "data/minecraft/tags/items/stone_bricks.json",
+      "sha256": "e3c90e847ac5abc2bcab935541a659fd295cad21d5e0254675aa51e1d226d30a"
+    },
+    {
+      "path": "data/minecraft/tags/items/trapdoors.json",
+      "sha256": "28ec57f8f65230f1986233787e6557017d0595630165be778c0c505e7e452781"
+    },
+    {
+      "path": "data/minecraft/tags/items/wooden_buttons.json",
+      "sha256": "cf9d8832b2609989d351da2ca94e3de6f0dc783203fd50a0cb1bca7bfa7e9350"
+    },
+    {
+      "path": "data/minecraft/tags/items/wooden_doors.json",
+      "sha256": "40f6a7aeca3a34ab8151be151c549236864f3459387ff22b5125b50b7519650b"
+    },
+    {
+      "path": "data/minecraft/tags/items/wooden_pressure_plates.json",
+      "sha256": "bd7c63d8733fb62c47fbfac572609c43e694a13873d80c72718216124f817f07"
+    },
+    {
+      "path": "data/minecraft/tags/items/wooden_slabs.json",
+      "sha256": "ecc07a0aae853c9599b91a519479a0e7b53698b0873bb52504061ba7cb1f3dc4"
+    },
+    {
+      "path": "data/minecraft/tags/items/wooden_stairs.json",
+      "sha256": "b3d4b9bb681d0b89dbe27e2b46f095eb742427cc7e855d947063c71f9179c9b7"
+    },
+    {
+      "path": "data/minecraft/tags/items/wooden_trapdoors.json",
+      "sha256": "2432277bfdfc0feefac67ae96e95324d222e249772dcb864c5a3c2af3ce0dfc4"
+    },
+    {
+      "path": "data/minecraft/tags/items/wool.json",
+      "sha256": "679f65e2674fced5590456a0949e2657d1f63a7c8257386a4118b675db9a93bf"
+    }
+  ]
+}

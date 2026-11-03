@@ -47,8 +47,8 @@ import net.minecraft.world.phys.Vec2;
  *   aiStep.
  * 1.21.5/mojmap/net/minecraft/world/phys/Vec2.java:
  *   normalized.
- * No exact independently accepted source binding is established for this operation.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * Digital diagonals keep the old 0.98F axis scaling before Entity#getInputVector
+ * normalizes in double precision, instead of normalizing the input as a Vec2 first.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class KeyboardDiagonalInput implements KeyboardDiagonalInputHook {
