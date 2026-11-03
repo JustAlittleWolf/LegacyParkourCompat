@@ -11,6 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -68,7 +69,8 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
             return null;
         }
         AABB entityEnvelope = query.inflate(0.25);
-        if (!level.getEntities(player, entityEnvelope, entity -> entity != player).isEmpty()) {
+        if (!(level instanceof Level world)
+            || !world.getEntities(player, entityEnvelope, entity -> entity != player).isEmpty()) {
             return null;
         }
 
