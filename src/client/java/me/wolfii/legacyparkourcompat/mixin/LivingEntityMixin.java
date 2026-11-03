@@ -286,7 +286,7 @@ abstract class LivingEntityMixin {
         if (entity instanceof LocalPlayer player && MovementRuntime.appliesTo(player)) {
             baseGravity.set(entity.getGravity());
             sampledY.set(entity.getDeltaMovement().y);
-            slowFalling.set(sampledY.get() <= 0.0 && entity.hasEffect(MobEffects.SLOW_FALLING));
+            slowFalling.set(entity.hasEffect(MobEffects.SLOW_FALLING));
             active.set(true);
         }
     }
