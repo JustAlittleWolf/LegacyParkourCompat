@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.change.v1_14;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.common.AutoJumpCollisionCandidates;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
@@ -23,6 +24,7 @@ import java.util.List;
 /**
  * Reproduces the old AutoJump full-cube grid aggregate only when its complete
  * query envelope is loaded, interior, entity-free, and contains only Stone/air.
+ * Cells where the 1.13 and 1.13.1 pruning rules disagree must be air.
  * Other queries retain the native iterable and object identities.
  *
  * <p>Source: exact 1.13, 1.13.1 and 1.13.2 Ornithe Feather Gen2 build 2,
@@ -42,14 +44,27 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
     public Iterable<VoxelShape> autoJumpCollisions(Player player, CollisionGetter level, AABB query,
                                                    ParkourVersion selected,
                                                    VanillaFn<Iterable<VoxelShape>> vanilla) {
-        List<VoxelShape> aggregate = aggregate(player, level, query);
-        return aggregate == null ? vanilla.get() : aggregate;
+        List<VoxelShape> aggregate = aggregate(player, level, query, selected);
+        return aggregate == null
+            ? AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla)
+            : aggregate;
     }
 
-    private static List<VoxelShape> aggregate(Player player, CollisionGetter level, AABB query) {
+    private static List<VoxelShape> aggregate(Player player, CollisionGetter level, AABB query,
+                                               ParkourVersion selected) {
         if (query.getXsize() <= 0.0 || query.getYsize() <= 0.0 || query.getZsize() <= 0.0
             || !Double.isFinite(query.minX) || !Double.isFinite(query.minY) || !Double.isFinite(query.minZ)
             || !Double.isFinite(query.maxX) || !Double.isFinite(query.maxY) || !Double.isFinite(query.maxZ)) {
+            return null;
+        }
+        if (!axisBoundsRepresentedExactly(query.minX, query.maxX)
+            || !axisBoundsRepresentedExactly(query.minY, query.maxY)
+            || !axisBoundsRepresentedExactly(query.minZ, query.maxZ)) {
+            return null;
+        }
+        if (!intSafe(query.minX) || !intSafe(query.maxX)
+            || !intSafe(query.minY) || !intSafe(query.maxY)
+            || !intSafe(query.minZ) || !intSafe(query.maxZ)) {
             return null;
         }
         AABB entityEnvelope = query.inflate(0.25);
@@ -63,15 +78,20 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         int maxX = Mth.ceil(query.maxX) + 1;
         int maxY = Mth.ceil(query.maxY) + 1;
         int maxZ = Mth.ceil(query.maxZ) + 1;
-        int sizeX = maxX - minX;
-        int sizeY = maxY - minY;
-        int sizeZ = maxZ - minZ;
-        if (minY < level.getMinY() || maxY > level.getMinY() + level.getHeight()) {
+        long sizeXLong = (long) maxX - minX;
+        long sizeYLong = (long) maxY - minY;
+        long sizeZLong = (long) maxZ - minZ;
+        if (minY < 0 || maxY > 256 || sizeXLong <= 0 || sizeYLong <= 0 || sizeZLong <= 0
+            || sizeXLong > 16_384L || sizeYLong > 16_384L || sizeZLong > 16_384L
+            || sizeXLong * sizeYLong * sizeZLong > 16_384L) {
             return null;
         }
+        int sizeX = (int) sizeXLong;
+        int sizeY = (int) sizeYLong;
+        int sizeZ = (int) sizeZLong;
         var border = level.getWorldBorder();
-        if (minX < border.getMinX() || maxX > border.getMaxX()
-            || minZ < border.getMinZ() || maxZ > border.getMaxZ()) {
+        if (minX <= border.getMinX() || maxX >= border.getMaxX()
+            || minZ <= border.getMinZ() || maxZ >= border.getMaxZ()) {
             return null;
         }
 
@@ -82,13 +102,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
             boolean edgeX = x == minX || x == maxX - 1;
             for (int z = minZ; z < maxZ; z++) {
                 boolean edgeZ = z == minZ || z == maxZ - 1;
-                if (edgeX && edgeZ) {
-                    continue;
-                }
                 for (int y = minY; y < maxY; y++) {
-                    if ((edgeX || edgeZ) && y == maxY - 1) {
-                        continue;
-                    }
                     pos.set(x, y, z);
                     BlockGetter chunk = level.getChunkForCollisions(
                         SectionPos.blockToSectionCoord(x), SectionPos.blockToSectionCoord(z));
@@ -103,7 +117,17 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                         || state.getCollisionShape(level, pos, context) != Shapes.block()) {
                         return null;
                     }
-                    fullCells.add(new Cell(x, y, z));
+                    boolean edgeY = y == minY || y == maxY - 1;
+                    boolean includesV1_13 = !(edgeX && edgeZ) && (!(edgeX || edgeZ) || y != maxY - 1);
+                    boolean includesV1_13_1 = !(edgeX && edgeY || edgeY && edgeZ || edgeZ && edgeX);
+                    if (includesV1_13 != includesV1_13_1) {
+                        return null;
+                    }
+                    boolean includedForSelected = selected == ParkourVersion.V1_13
+                        ? includesV1_13 : includesV1_13_1;
+                    if (includedForSelected) {
+                        fullCells.add(new Cell(x, y, z));
+                    }
                 }
             }
         }
@@ -176,5 +200,30 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
     private static void clear(BitSet cells, int sy, int sz, int x, int y, int start, int end) {
         int base = (x * sy + y) * sz;
         cells.clear(base + start, base + end);
+    }
+
+    private static boolean intSafe(double coordinate) {
+        return coordinate >= Integer.MIN_VALUE + 2.0 && coordinate <= Integer.MAX_VALUE - 2.0;
+    }
+
+    private static boolean axisBoundsRepresentedExactly(double min, double max) {
+        // VoxelShapes.block(Box) uses exact raw coordinates when an endpoint is
+        // outside [-1.0E-7, 1.0000001]. Otherwise both endpoints must be exactly
+        // representable at one of its 1/1, 1/2, 1/4, or 1/8 grid resolutions.
+        if (min < -1.0E-7 || max > 1.0000001) {
+            return true;
+        }
+        for (int bits = 0; bits <= 3; bits++) {
+            double scale = 1 << bits;
+            if (voxelAligned(min, scale) && voxelAligned(max, scale)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean voxelAligned(double coordinate, double scale) {
+        double scaled = coordinate * scale;
+        return Math.abs(scaled - Math.floor(scaled)) < 1.0E-7;
     }
 }
