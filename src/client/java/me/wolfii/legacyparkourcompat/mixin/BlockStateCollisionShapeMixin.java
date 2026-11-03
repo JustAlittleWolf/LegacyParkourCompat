@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.LegacyFenceWallNeighbor
 import me.wolfii.legacyparkourcompat.mechanic.hook.fence.FenceGlassCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.piston.MovingPistonCollisionShapeHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
@@ -39,7 +40,7 @@ abstract class BlockStateCollisionShapeMixin {
         CallbackInfoReturnable<VoxelShape> cir
     ) {
         var player = MovementRuntime.playerFrom(context);
-        if (player == null) {
+        if (!(player instanceof LocalPlayer) || !MovementRuntime.appliesTo(player)) {
             return;
         }
 
