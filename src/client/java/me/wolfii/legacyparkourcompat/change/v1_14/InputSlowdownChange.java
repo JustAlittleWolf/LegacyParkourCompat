@@ -16,7 +16,7 @@ import net.minecraft.world.entity.player.Player;
  * in this pre-poll pose predicate. Continuity: Minecraft 1.14
  * (Ornithe Feather), LocalClientPlayerEntity.m_63723874 and .mobTick.
  */
-@MovementChange(emulates = ParkourVersion.V1_14)
+@MovementChange(emulates = ParkourVersion.V1_14_1)
 public final class InputSlowdownChange implements InputSlowdownHook {
     @Override
     public boolean samplePoseSlowdown(Player player) {

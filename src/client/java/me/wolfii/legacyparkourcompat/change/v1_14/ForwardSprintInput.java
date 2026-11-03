@@ -13,7 +13,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook
  * compares the promoted forward float with the double 0.8 otherwise.
  * Sprint retention is a separate operation with its own applicability boundary.
  */
-@MovementChange(emulates = ParkourVersion.V1_14)
+@MovementChange(emulates = ParkourVersion.V1_14_1)
 public final class ForwardSprintInput implements ForwardSprintInputHook {
     @Override
     public boolean hasEnoughForwardInput(float storedForwardInput, boolean cachedEyeUnderwater) {

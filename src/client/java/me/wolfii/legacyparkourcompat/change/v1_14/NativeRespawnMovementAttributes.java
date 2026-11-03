@@ -10,7 +10,7 @@ import net.minecraft.client.player.LocalPlayer;
  * The 1.14.4 Mojmap ClientPacketListener.handleRespawn path supports the reset delta;
  * earlier source states are not yet proven, so they retain native attribute copying.
  */
-@MovementChange(emulates = ParkourVersion.V1_14)
+@MovementChange(emulates = ParkourVersion.V1_14_1)
 public final class NativeRespawnMovementAttributes implements RespawnMovementAttributeHook {
     @Override
     public void afterRespawn(LocalPlayer replacementPlayer) {

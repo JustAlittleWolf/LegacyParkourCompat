@@ -22,7 +22,7 @@ import net.minecraft.world.phys.AABB;
  * No exact independently accepted source binding is established for this operation.
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_14)
+@MovementChange(emulates = ParkourVersion.V1_14_1)
 public final class PortalDismountChange implements PortalDismountHook {
     private static final int[][] DISMOUNT_OFFSETS = {
         {0, 1}, {0, -1}, {-1, 1}, {-1, -1}, {1, 1}, {1, -1}, {-1, 0}, {1, 0}, {0, 1}

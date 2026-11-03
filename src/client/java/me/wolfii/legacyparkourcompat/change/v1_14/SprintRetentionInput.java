@@ -15,7 +15,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.SprintRetentionInputHo
  * ClientInput#hasForwardImpulse (moveVector.y > 1.0E-5F), the native fallback
  * when no historical stored-input provider resolves.
  */
-@MovementChange(emulates = ParkourVersion.V1_14)
+@MovementChange(emulates = ParkourVersion.V1_14_1)
 public final class SprintRetentionInput implements SprintRetentionInputHook {
     @Override
     public boolean shouldStopSprinting(float storedForwardInput) {
