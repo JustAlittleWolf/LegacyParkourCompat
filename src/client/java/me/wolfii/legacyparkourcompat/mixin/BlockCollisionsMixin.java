@@ -57,7 +57,7 @@ abstract class BlockCollisionsMixin<T> {
     @WrapOperation(method = "<init>(Lnet/minecraft/world/level/CollisionGetter;Lnet/minecraft/world/phys/shapes/CollisionContext;Lnet/minecraft/world/phys/AABB;ZLjava/util/function/BiFunction;)V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/Shapes;create(Lnet/minecraft/world/phys/AABB;)Lnet/minecraft/world/phys/shapes/VoxelShape;"))
     private VoxelShape legacyparkourcompat$shortPoseQueryShape(AABB query, Operation<VoxelShape> original,
-        @Local(argsOnly = true, index = 3) boolean onlySuffocatingBlocks) {
+        @Local(argsOnly = true, ordinal = 0) boolean onlySuffocatingBlocks) {
         return MovementRuntime.collisionQueryShape(this.context, query, onlySuffocatingBlocks,
             () -> original.call(query));
     }
