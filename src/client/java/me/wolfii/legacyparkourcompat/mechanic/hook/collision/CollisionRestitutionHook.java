@@ -18,6 +18,20 @@ import net.minecraft.world.phys.Vec3;
 @FunctionalInterface
 @MechanicType("entity.restitution")
 public interface CollisionRestitutionHook extends VersionedMechanic {
+    /**
+     * Selects the complete native restitution operation when nonzero entity
+     * restitution is active for this collision. The caller evaluates this only
+     * inside the native simulation gate and before historical velocity changes.
+     */
+    default boolean shouldUseNativeRestitution(
+        double entityBounciness,
+        boolean movedVertically,
+        boolean verticalCollision,
+        boolean horizontalCollision
+    ) {
+        return false;
+    }
+
     void restituteAfterCollisions(
         Entity entity,
         BlockState effectState,

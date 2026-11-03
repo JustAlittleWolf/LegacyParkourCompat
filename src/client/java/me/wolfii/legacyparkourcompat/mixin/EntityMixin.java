@@ -479,19 +479,31 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         ((MovementCallbackSegmentsAccess)entity).legacyparkourcompat$addMovementCallbackBatch(segments);
     }
 
-    @Inject(method = "move", at = @At(value = "INVOKE",
+    @ModifyExpressionValue(method = "move", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/Entity;canSimulateMovement()Z"))
-    private void legacyparkourcompat$horizontalVelocityBeforeRestitution(CallbackInfo ci,
+    private boolean legacyparkourcompat$horizontalVelocityBeforeRestitution(boolean canSimulateMovement,
+        @Local(name = "movedVertically") boolean movedVertically,
         @Share("requestedMovement") LocalRef<Vec3> requested,
         @Share("resolvedMovement") LocalRef<Vec3> resolved,
-        @Share("historicalHorizontalVelocity") LocalBooleanRef handled) {
+        @Share("historicalHorizontalVelocity") LocalBooleanRef handled,
+        @Share("nativeCollisionRestitution") LocalBooleanRef nativeRestitution) {
         Entity entity = (Entity) (Object) this;
         if (MovementRuntime.appliesTo(entity)) {
             if (requested.get() == null || resolved.get() == null) {
                 throw new IllegalStateException("Collision velocity dispatch has no movement vectors");
             }
-            handled.set(MovementRuntime.clearHorizontalCollisionVelocity(entity, requested.get(), resolved.get()));
+            if (canSimulateMovement) {
+                nativeRestitution.set(MovementRuntime.find(CollisionRestitutionHook.class, entity)
+                    .map(hook -> hook.shouldUseNativeRestitution(
+                        ((EntityInvoker)(Object)entity).legacyparkourcompat$invokeGetEntityBounciness(),
+                        movedVertically, entity.verticalCollision, entity.horizontalCollision))
+                    .orElse(false));
+            }
+            if (!nativeRestitution.get()) {
+                handled.set(MovementRuntime.clearHorizontalCollisionVelocity(entity, requested.get(), resolved.get()));
+            }
         }
+        return canSimulateMovement;
     }
 
     @WrapOperation(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;equal(DD)Z"))
@@ -687,8 +699,19 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         Vec3 movement,
         MoverType moverType,
         Vec3 requestedMovement,
-        @Share("historicalHorizontalVelocity") LocalBooleanRef handled
+        @Share("historicalHorizontalVelocity") LocalBooleanRef handled,
+        @Share("nativeCollisionRestitution") LocalBooleanRef nativeRestitution
     ) {
+        if (nativeRestitution.get()) {
+            this.legacyparkourcompat$nativeCollisionRestitutionDepth++;
+            try {
+                ((EntityInvoker)(Object)entity).legacyparkourcompat$invokeRestituteMovementAfterCollisions(
+                    effectState, xCollision, zCollision, movement);
+            } finally {
+                this.legacyparkourcompat$nativeCollisionRestitutionDepth--;
+            }
+            return;
+        }
         boolean restituteX = !handled.get() && xCollision;
         boolean restituteZ = !handled.get() && zCollision;
         VanillaCall vanilla = () -> ((EntityInvoker)(Object)entity)
@@ -704,6 +727,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
             );
     }
 
+    @Unique
+    private int legacyparkourcompat$nativeCollisionRestitutionDepth;
+
     @ModifyReturnValue(method = "getGravity", at = @At("RETURN"))
     private double legacyparkourcompat$historicalPlayerGravity(double vanilla) {
         Entity entity = (Entity)(Object)this;
@@ -718,6 +744,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         cancellable = true
     )
     private void legacyparkourcompat$blockBounce(Block block, CallbackInfoReturnable<Double> callback) {
+        if (this.legacyparkourcompat$nativeCollisionRestitutionDepth > 0) {
+            return;
+        }
         Entity entity = (Entity)(Object)this;
         MovementRuntime.find(BlockBounceHook.class, block, entity)
             .ifPresent(behavior -> callback.setReturnValue(

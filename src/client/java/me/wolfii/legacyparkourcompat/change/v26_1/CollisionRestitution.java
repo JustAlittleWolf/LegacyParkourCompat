@@ -110,6 +110,17 @@ import net.minecraft.world.phys.Vec3;
 @MovementChange(emulates = ParkourVersion.V26_1)
 public final class CollisionRestitution implements CollisionRestitutionHook {
     @Override
+    public boolean shouldUseNativeRestitution(
+        double entityBounciness,
+        boolean movedVertically,
+        boolean verticalCollision,
+        boolean horizontalCollision
+    ) {
+        return entityBounciness != 0.0
+            && ((movedVertically && verticalCollision) || horizontalCollision);
+    }
+
+    @Override
     public void restituteAfterCollisions(
         Entity entity,
         BlockState effectState,

@@ -48,6 +48,9 @@ public interface EntityInvoker {
         Vec3 movement
     );
 
+    @Invoker("getEntityBounciness")
+    double legacyparkourcompat$invokeGetEntityBounciness();
+
     @Invoker("checkInsideBlocks")
     int legacyparkourcompat$invokeCheckInsideBlocks(
         Vec3 from,
