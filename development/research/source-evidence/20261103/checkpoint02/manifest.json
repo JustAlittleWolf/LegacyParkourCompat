@@ -1,0 +1,323 @@
+[
+  {
+    "source": ".native-source/20261103/1132-autojump-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1132-autojump-review.zip",
+    "sha256": "80d57e120b5a9a7ab589258b8fb940c6a3311554c29d3025b64dc58b418866c1",
+    "files": [
+      {
+        "path": "auto-jump-collision-candidate-order.md",
+        "sha256": "a97a8a16e0a5578052fc995dbff84e70c0d9f9703026767083c005b7d07df358"
+      },
+      {
+        "path": "boundary-review.md",
+        "sha256": "f8de697b84fe30eeefeb553aace3daf83f43ed2677f4a2cf08ff11e276a1121b"
+      },
+      {
+        "path": "review.md",
+        "sha256": "42cfc6c9c66a81bfc13ef8735f3b1b14dc711195f68bedbfa741f15eb6e5293c"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/autojump-renewed-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/autojump-renewed-review.zip",
+    "sha256": "1458d5349bd38085664f5be7cc9eb312bee42247fecb1ee1e86de7a986720a2d",
+    "files": [
+      {
+        "path": "comparison-data.md",
+        "sha256": "4b9675e43da3c46f6de9654c34c29ae8a3bd2716f3b633670804e30d6fc5dfd4"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1132-boundaries-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1132-boundaries-new.zip",
+    "sha256": "31208d9631cdd1e30c4bae68f2b0c2f8449bd85882237051126cfaa84526d82f",
+    "files": [
+      {
+        "path": "comparison.md",
+        "sha256": "3f62435fda9a94387bb88468d65464c56395b2d7f2710852ab0e001a446b9aa5"
+      },
+      {
+        "path": "moving-piston-corner-shell.md",
+        "sha256": "8b3351b4d4cc7d445e558ca858ff63b197e238e4913882d375a5f048aa7e7af1"
+      },
+      {
+        "path": "oak-fence-excludeBlock.md",
+        "sha256": "6469209bcb92620eab44d22e73d79e35d02a385403bf17492fd478f394502ec9"
+      },
+      {
+        "path": "redstone-push-away-predicate.md",
+        "sha256": "1858b96a49c1a1d4facea0fcc51a675ee4822d5d78e05a691ef5ee77c411956f"
+      },
+      {
+        "path": "source-hashes.tsv",
+        "sha256": "8f4580261d8c0e262760bcffeb8ad508b919ef83eee0e1dfdfe68f146bb6b3f5"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/116-chain-audit",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/116-chain-audit.zip",
+    "sha256": "0baa11f59d645a30672eb4bc81438868b7eaf05218d1317dc397a0e864272080",
+    "files": [
+      {
+        "path": "rain-riptide-review.md",
+        "sha256": "a4db60ad8584cee63ef68eeb30fb3552cbff9573253136120e4d7377d8b306aa"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/116-claim-renewal",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/116-claim-renewal.zip",
+    "sha256": "7e579b313e98aad021a16b42dc881e8e537103e203940635a62c4b620806c37b",
+    "files": [
+      {
+        "path": "claim-review.md",
+        "sha256": "74c08a7c60e45681b8ad97195d93d5112e540b1c1679d63969277192b7713af6"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/resetpos-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/resetpos-review.zip",
+    "sha256": "3368ec0978e2b3d10a784f65182ab37e8a3def4f6b593517f3ebc470f59456b3",
+    "files": [
+      {
+        "path": "verdict.md",
+        "sha256": "a3aa73fe87d6b182dff5b79be42be59ca2268abdb6a3fd957038107a536b43e4"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1211-external-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1211-external-new.zip",
+    "sha256": "ae49a9f5967389a3440f54e27cdc7d20013b33e601955fd8bb6b31e2497731b8",
+    "files": [
+      {
+        "path": "coverage.md",
+        "sha256": "f3a02cb5f5140e741ec847213980346756fc4b7866c10597b79bca8394a1b5eb"
+      },
+      {
+        "path": "explosion-knockback-precision.md",
+        "sha256": "1415e49e99f748b688cb3ce5d0fe25b02eed5da6700c7bfc222d702eb28f9ef3"
+      },
+      {
+        "path": "player-position-correction.md",
+        "sha256": "0569586474d7b50b6b71afeb7d0d41dd5a87f22d454721a6075690836e7ae483"
+      },
+      {
+        "path": "removed-vehicle-teleport-fallback.md",
+        "sha256": "6c40add44149b15d24beed713f51ae6dd57134aa823e571aa857a6a469b96805"
+      },
+      {
+        "path": "respawn-keep-movement-state.md",
+        "sha256": "e0ca867828d6e35a729befe9e3a345f9633257ceb54f37e0fdcce3b4fa36d3ca"
+      },
+      {
+        "path": "standalone-player-rotation.md",
+        "sha256": "9719dacdab3d9a88abf4912a4e69bc4280b968cfc3eac8e1642a5edbf63fa3b5"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1213-inherited-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1213-inherited-new.zip",
+    "sha256": "2292255b035b3588ee2d027aced358c9dce10fbba4828cfb58206c1af2fccf5b",
+    "files": [
+      {
+        "path": "coverage.md",
+        "sha256": "35cdf2a388327df273d5898f7d87f27f55b1c483710c95be4b6db47acd501188"
+      },
+      {
+        "path": "registry-provider-census.csv",
+        "sha256": "2ed957b4171feb62b30f2b471400c6a14d9ed8a0c5977837d861cff24e4efaba"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1214-tick-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1214-tick-new.zip",
+    "sha256": "bc1f44b328086aa6886900e1e49edafe3609a4344f9be58e3371ee1411e3f65a",
+    "files": [
+      {
+        "path": "comparison.md",
+        "sha256": "cf58e82cb6c9cfa39e7d261144edbc5ae42501a5f61593b78393fe5a3e575a05"
+      },
+      {
+        "path": "coverage.md",
+        "sha256": "eadf9a945594e1ad40a6d1d3efbc350b9057ae11fe12e2865294e0db7a20cc30"
+      },
+      {
+        "path": "findings/keyboard-diagonal-input-rounding.md",
+        "sha256": "3dad70c87b0d5a3bd41aac8bac302e4560aab4b56be7a1d18d486e5b523ee8c3"
+      },
+      {
+        "path": "findings/local-player-sprint-lifecycle.md",
+        "sha256": "f0bc30c5a89f3f125db2bcab177718e70bc60453893feb659df557201e3cc6e5"
+      },
+      {
+        "path": "findings/player-horizontal-velocity-deadzone.md",
+        "sha256": "a6aee0952c3ac7dc36761906ae61c922dd3a24a0321d42e5127bb088af3ce326"
+      },
+      {
+        "path": "findings/player-pose-priority.md",
+        "sha256": "43ff812dd40a001d6874328e9e137d4cb3c7bc2697af0a3f0534c267d31d2903"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1214-stateblocks-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1214-stateblocks-new.zip",
+    "sha256": "996213e7ed6b6762a3e55506278e86301c215196e5cff0c987b99ab02e159e44",
+    "files": [
+      {
+        "path": "comparisons/provider-and-writer-inventory.csv",
+        "sha256": "5d2e6c974c15e96d2341bf2934a9be65b73e6ad6988efd5a94c1d7c8a902794d"
+      },
+      {
+        "path": "comparisons/provider-coverage.md",
+        "sha256": "a72c29140cd2fae2cfcf800e4338b1408b2ae01c5a0ad9fd49eeee22d88a5418"
+      },
+      {
+        "path": "comparisons/waterlogged-writer-coverage.md",
+        "sha256": "4e23a77743506c28e71bd8f8691866701acbe55a314587283ab20e0eaf487742"
+      },
+      {
+        "path": "findings/powder-snow-inside-contact-shape.md",
+        "sha256": "0e3bf4d330fb91365a9d7b5d37225504c9f116d84a000af6cea72a7b85b520d7"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1214-ordinary-review",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1214-ordinary-review.zip",
+    "sha256": "64beb4b90c0c4334e5c17ad01e9d23dac15f69c5c8efbc76c3488b91e9450869",
+    "files": [
+      {
+        "path": "comparison.md",
+        "sha256": "661e9570cb4954ff31a143e41a08269bc194a4884db3ca1000ab314a8967e45a"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1215-resources-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1215-resources-new.zip",
+    "sha256": "4e79a02480b32f977d73b8b4a8d3b43a999e74f1f30e1b2bd8d5558949bc5640",
+    "files": [
+      {
+        "path": "comparisons.md",
+        "sha256": "cdf6a883ad8dac3c0924c224a7a17bee7e707507aadc81da644ce5c8cdf9041f"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1215-travel-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1215-travel-new.zip",
+    "sha256": "09fa002b745e6c21633512b2809b91ce7f3a15a22998e46d166b9d54c8659dc4",
+    "files": [
+      {
+        "path": "comparison.md",
+        "sha256": "37c32003ee610ce4af49dfa5dcac0a74e3fa44ce6ef441a9388a034ae71a3b14"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1218-motion-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1218-motion-new.zip",
+    "sha256": "bdfdf67a794ad256630492cd792e6745c9cb6edfd087ae1b7cb05250a185b441",
+    "files": [
+      {
+        "path": "comparison-data.md",
+        "sha256": "c40c7e00c11edb9082575b559ef9112cee4308f5ca61d069d5454f79a6c7246e"
+      },
+      {
+        "path": "findings/sprint-eligibility-while-flying-in-shallow-water.md",
+        "sha256": "45903f94e7f6337f3597d24c69d5d81de6f5b16f894464fa79399de94aee5fac"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1218-collision-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1218-collision-new.zip",
+    "sha256": "d6416c899587720b6804070944cbc28473eb451d9a7f1bcb1f3c54ae274f3397",
+    "files": [
+      {
+        "path": "Entity-1.21.10-collision-slice.java",
+        "sha256": "fbefb1aa553d625bea241ae9c141970a75a2a833004a8533731470f1cb2b5339"
+      },
+      {
+        "path": "Entity-1.21.8-collision-slice.java",
+        "sha256": "aca46f10260b4195d04658c32757ec6abdfcfa873881edcf03bf91f01cf5b68e"
+      },
+      {
+        "path": "Entity-1218-1219.diff",
+        "sha256": "a1d4e328e4b974cb8835d5c70a79be11f52517c98e843ee35cb23a658acaf0bc"
+      },
+      {
+        "path": "findings/inside-block-traversal.md",
+        "sha256": "23beff36a868e4958c45c13f40e5a3155bc96ff00b43c79f3cf06e86ad3c05c1"
+      },
+      {
+        "path": "findings/moving-aabb-contact-epsilon.md",
+        "sha256": "2edad1a28dde5e4856bb1113b771ce0ae4dfb73cb832703e5b85d10a5a794cb2"
+      },
+      {
+        "path": "findings/no-physics-collision-flags.md",
+        "sha256": "109e37a4696d417bac539696392c3ace24ef7a5bea6b9c02872fb92b17633a2a"
+      },
+      {
+        "path": "findings/piston-stuck-movement.md",
+        "sha256": "f900ef7dcb20251acb9957379b71e2445f51cee5c425a891c0ca1cac5d8757c1"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/12110-tick-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/12110-tick-new.zip",
+    "sha256": "1570563929b4052b7df8685e51d4b012774b5f698fda4ffc30f56217cf7ca8e5",
+    "files": [
+      {
+        "path": "comparison.md",
+        "sha256": "a636e582425a2bed48d935f9122d2f49f9acad8cb061bb9b1a40ba894c02aed3"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/12110-travel-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/12110-travel-new.zip",
+    "sha256": "f439bb2ea085d8c43a2c16a96e03a62b477b3380b4821f70ccb252b5dc2280ee",
+    "files": [
+      {
+        "path": "comparison.md",
+        "sha256": "3b77b6c9d8cf78c859a6f9b3512a6ed841d3593d13e4f9759f0be5f667a0bb53"
+      },
+      {
+        "path": "findings/elytra-glide-through-climbables.md",
+        "sha256": "bce2f78e4a6e371f6a1ad8f28553f1a1a0e39f4cee400b252d2a0aba6605a9a6"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/262-packet-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/262-packet-new.zip",
+    "sha256": "f70c4e5edfd8f07405718fffd948cc22e6d2cfc39c2829edcc7a733caf3c8290",
+    "files": [
+      {
+        "path": "matrix.md",
+        "sha256": "987ac248a86ffea179b971919f2beb4a3fc025ef6a1688e0433e6c61ea95bf82"
+      }
+    ]
+  },
+  {
+    "source": ".native-source/20261103/1194-callback-new",
+    "archive": "development/research/source-evidence/20261103/checkpoint02/1194-callback-new.zip",
+    "sha256": "885c93c32a74c6f32e4db32dab48694b80b120e80dc8d49a1f3949e2ab239618",
+    "files": [
+      {
+        "path": "world-tick-direct-player-responses.md",
+        "sha256": "59c89611c07d7397c56b6d27ddd678dd5d370424f139aac23412ec2e6a919025"
+      }
+    ]
+  }
+]
