@@ -6,6 +6,9 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
@@ -32,6 +35,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpVerticalVelocityHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LavaGroundJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.LavaTravelHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.SleepPositionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.SlowFallingGravitySamplingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.LevitationFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.LevitationAmplifierHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.LiquidJumpGateHook;
@@ -54,6 +58,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.movement.access.WaterJumpDepthAccess;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -81,6 +86,8 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.OptionalDouble;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
@@ -263,6 +270,46 @@ abstract class LivingEntityMixin {
         LivingEntity entity = (LivingEntity)(Object)this;
         MovementRuntime.find(LevitationFallDistanceHook.class, entity)
             .ifPresent(behavior -> behavior.beforeAirTravel(entity));
+    }
+
+    @Inject(method = "travelInAir(Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"))
+    private void legacyparkourcompat$captureSlowFallingGravitySamples(
+        Vec3 input,
+        CallbackInfo ci,
+        @Share("slowFallingGravitySamplingActive") LocalBooleanRef active,
+        @Share("slowFallingGravitySamplingEffect") LocalBooleanRef slowFalling,
+        @Share("slowFallingGravitySamplingBase") LocalDoubleRef baseGravity,
+        @Share("slowFallingGravitySamplingY") LocalDoubleRef sampledY
+    ) {
+        active.set(false);
+        LivingEntity entity = (LivingEntity)(Object)this;
+        if (entity instanceof LocalPlayer player && MovementRuntime.appliesTo(player)) {
+            baseGravity.set(entity.getGravity());
+            slowFalling.set(entity.hasEffect(MobEffects.SLOW_FALLING));
+            sampledY.set(entity.getDeltaMovement().y);
+            active.set(true);
+        }
+    }
+
+    @ModifyExpressionValue(
+        method = "travelInAir(Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getEffectiveGravity()D")
+    )
+    private double legacyparkourcompat$slowFallingGravitySampling(
+        double vanilla,
+        @Share("slowFallingGravitySamplingActive") LocalBooleanRef active,
+        @Share("slowFallingGravitySamplingEffect") LocalBooleanRef slowFalling,
+        @Share("slowFallingGravitySamplingBase") LocalDoubleRef baseGravity,
+        @Share("slowFallingGravitySamplingY") LocalDoubleRef sampledY
+    ) {
+        if (!active.get()) {
+            return vanilla;
+        }
+        LivingEntity entity = (LivingEntity)(Object)this;
+        OptionalDouble historical = MovementRuntime.find(SlowFallingGravitySamplingHook.class, entity)
+            .map(hook -> hook.effectiveGravity(slowFalling.get(), baseGravity.get(), sampledY.get()))
+            .orElseGet(OptionalDouble::empty);
+        return historical.orElse(vanilla);
     }
 
     @ModifyExpressionValue(
