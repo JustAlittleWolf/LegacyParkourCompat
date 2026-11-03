@@ -599,18 +599,46 @@ public final class MovementRuntime {
     }
 
     private static boolean loadedStoneAirEnvelope(Level level, AABB query, BlockPos expectedStone) {
-        int minX = Mth.floor(query.minX);
-        int minY = Mth.floor(query.minY);
-        int minZ = Mth.floor(query.minZ);
-        int maxX = Mth.floor(Math.nextDown(query.maxX));
-        int maxY = Mth.floor(Math.nextDown(query.maxY));
-        int maxZ = Mth.floor(Math.nextDown(query.maxZ));
+        if (!finiteSafeQuery(query)) return false;
+        AABB paddedQuery = query.inflate(1.0E-7);
+        if (!finiteSafeQuery(paddedQuery)) return false;
+
+        // 1.12.2 Ornithe Feather net.minecraft.world.World#getCollisions scans
+        // floor(min)-1 .. ceil(max)+1 (exclusive), probes chunks at Y=64, and prunes
+        // X/Z corners. 1.13.1 Ornithe Feather net.minecraft.world.WorldView#getBlockCollisions
+        // uses the same bounds on the padded voxel query and prunes cells with any two
+        // boundary axes. 26.2 unobfuscated BlockCollisions#<init>/#computeNext use
+        // floor(min-1e-7)-1 through floor(max+1e-7)+1 inclusive and per-cell chunk lookup.
+        // This validates every cell in their union, including their differently pruned
+        // shells; all are loaded and air except for the sole stone, so pruning cannot hide
+        // a geometry candidate or change candidate ordering.
+        long minX = Math.min(Math.floor(query.minX) - 1.0,
+            Math.min(Math.floor(paddedQuery.minX) - 1.0, Math.floor(query.minX - 1.0E-7) - 1.0));
+        long minY = Math.min(Math.floor(query.minY) - 1.0,
+            Math.min(Math.floor(paddedQuery.minY) - 1.0, Math.floor(query.minY - 1.0E-7) - 1.0));
+        long minZ = Math.min(Math.floor(query.minZ) - 1.0,
+            Math.min(Math.floor(paddedQuery.minZ) - 1.0, Math.floor(query.minZ - 1.0E-7) - 1.0));
+        long endX = Math.max(Math.ceil(query.maxX) + 1.0,
+            Math.max(Math.ceil(paddedQuery.maxX) + 1.0, Math.floor(query.maxX + 1.0E-7) + 2.0));
+        long endY = Math.max(Math.ceil(query.maxY) + 1.0,
+            Math.max(Math.ceil(paddedQuery.maxY) + 1.0, Math.floor(query.maxY + 1.0E-7) + 2.0));
+        long endZ = Math.max(Math.ceil(query.maxZ) + 1.0,
+            Math.max(Math.ceil(paddedQuery.maxZ) + 1.0, Math.floor(query.maxZ + 1.0E-7) + 2.0));
+        if (minY < 0 || endY > 256 || level.getMinY() > 0 || level.getMaxY() < 256) return false;
+        long sizeX = endX - minX;
+        long sizeY = endY - minY;
+        long sizeZ = endZ - minZ;
+        if (sizeX <= 0 || sizeY <= 0 || sizeZ <= 0 || sizeX > 512 || sizeY > 512 || sizeZ > 512
+            || sizeX > 1_000_000 / sizeY || sizeX * sizeY > 1_000_000 / sizeZ) return false;
+
+        var border = level.getWorldBorder();
         int stones = 0;
-        for (int x = minX; x <= maxX; x++) {
-            for (int y = minY; y <= maxY; y++) {
-                for (int z = minZ; z <= maxZ; z++) {
-                    BlockPos pos = new BlockPos(x, y, z);
-                    if (!level.hasChunkAt(pos)) return false;
+        for (long x = minX; x < endX; x++) {
+            for (long y = minY; y < endY; y++) {
+                for (long z = minZ; z < endZ; z++) {
+                    BlockPos pos = new BlockPos((int) x, (int) y, (int) z);
+                    if (!level.hasChunkAt(pos) || !level.hasChunkAt(new BlockPos((int) x, 64, (int) z))
+                        || !border.isWithinBounds(new AABB(x, y, z, x + 1.0, y + 1.0, z + 1.0))) return false;
                     var state = level.getBlockState(pos);
                     if (state.is(Blocks.STONE)) {
                         if (!pos.equals(expectedStone)) return false;
@@ -622,6 +650,14 @@ public final class MovementRuntime {
             }
         }
         return stones == 1;
+    }
+
+    private static boolean finiteSafeQuery(AABB box) {
+        double limit = Integer.MAX_VALUE - 4.0;
+        return Double.isFinite(box.minX) && Double.isFinite(box.minY) && Double.isFinite(box.minZ)
+            && Double.isFinite(box.maxX) && Double.isFinite(box.maxY) && Double.isFinite(box.maxZ)
+            && box.minX > -limit && box.minY > -limit && box.minZ > -limit
+            && box.maxX < limit && box.maxY < limit && box.maxZ < limit;
     }
 
     private static final Map<String, String> CURRENT_TO_LEGACY_113_SLAB_KEYS = Map.ofEntries(
