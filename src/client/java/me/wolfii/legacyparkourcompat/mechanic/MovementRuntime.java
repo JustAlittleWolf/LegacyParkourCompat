@@ -14,7 +14,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.monster.Shulker;
@@ -553,6 +552,28 @@ public final class MovementRuntime {
         var border = level.getWorldBorder();
         if (!border.isWithinBounds(player.getBoundingBox()) || border.isInsideCloseToBorder(player, query)) return;
 
+        CollisionAxisOrderContext.MovementQuery movement = CollisionAxisOrderContext.movementQuery();
+        if (movement == null || movement.entity() != player || !movement.unadjustedPrimaryMovement()
+            || movement.moverType() != MoverType.SELF || movement.requestedMovement().lengthSqr() == 0.0) return;
+        AABB startBox = movement.startingBox();
+        Vec3 requested = movement.requestedMovement();
+        AABB paddedSweep = query.inflate(1.0E-7);
+        AABB shiftedStart = startBox.move(
+            requested.x > 0.0 ? -1.0E-7 : 1.0E-7,
+            requested.y > 0.0 ? -1.0E-7 : 1.0E-7,
+            requested.z > 0.0 ? -1.0E-7 : 1.0E-7
+        );
+        // 1.13.1 WorldView#getCollisions converts these exact three boxes with
+        // VoxelShapes.block and joins expanded-sweep ONLY_FIRST shifted-start.
+        // Keep only cases where source/current box conversion uses the same voxel bits.
+        if (!sourceBoxConversionMatches(startBox) || !sourceBoxConversionMatches(paddedSweep)
+            || !sourceBoxConversionMatches(shiftedStart)) return;
+        VoxelShape queryShape = Shapes.joinUnoptimized(
+            Shapes.create(paddedSweep), Shapes.create(shiftedStart), BooleanOp.ONLY_FIRST);
+        if (queryShape.isEmpty()) return;
+        AABB legacyQueryBounds = queryShape.bounds();
+        if (!sourceBoxConversionMatches(legacyQueryBounds)) return;
+
         VoxelShape blockShape = blockCandidates.getFirst();
         List<AABB> blockBoxes = blockShape.toAabbs();
         if (blockBoxes.size() != 1) return;
@@ -561,30 +582,49 @@ public final class MovementRuntime {
             || stoneBox.minX != Math.floor(stoneBox.minX) || stoneBox.minY != Math.floor(stoneBox.minY)
             || stoneBox.minZ != Math.floor(stoneBox.minZ)) return;
         BlockPos stonePos = BlockPos.containing(stoneBox.minX, stoneBox.minY, stoneBox.minZ);
-        if (!loadedStoneAirEnvelope(level, query, stonePos)) return;
+        if (startBox.intersects(stoneBox) || !loadedStoneAirEnvelope(level, query, legacyQueryBounds, stonePos)) return;
 
-        AABB oldEntityEnvelope = query.inflate(0.25);
+        // 1.13.1 World#getEntityCollisions queries shape.bounds().inflate(0.25)
+        // and then intersects the returned entity shape with shape.bounds().
+        AABB old112EntityEnvelope = query.inflate(0.25);
+        AABB old113EntityEnvelope = legacyQueryBounds.inflate(0.25);
         AABB nativeEntityEnvelope = query.inflate(1.0E-7);
-        // 1.13.1 WorldView#getEntityCollisions uses non-spectator getEntities, then
-        // excludes same-vehicle candidates. 26.2 EntityGetter adds canCollideWith to
-        // NO_SPECTATORS; equality of these post-filter sets is mandatory.
-        List<Entity> oldEnvelopeEntities = level.getEntities(player, oldEntityEnvelope,
-            other -> !other.isSpectator());
+        // 1.12.2 World#getCollisions does not spectator-filter its entity query;
+        // 1.13.1 EntityView#getEntityCollisions uses NO_SPECTATORS and excludes the
+        // same vehicle. Both release Entity#getCollisionAgainstShape implementations
+        // return null, while ShulkerEntity#getCollisionShape returns its stored shape
+        // only while alive. Require all release-specific query sets to be the same
+        // sole Shulker, stricter than each historical eligibility set.
+        List<Entity> old112Entities = level.getEntities(player, old112EntityEnvelope, other -> true);
+        List<Entity> old113Entities = level.getEntities(player, old113EntityEnvelope,
+            other -> !other.isSpectator() && !player.hasSameVehicle(other));
         List<Entity> nativeEntities = level.getEntities(player, nativeEntityEnvelope,
-            other -> !other.isSpectator() && player.canCollideWith(other));
-        if (oldEnvelopeEntities.size() != 1 || nativeEntities.size() != 1
-            || oldEnvelopeEntities.getFirst() != nativeEntities.getFirst()) return;
+            other -> !other.isSpectator() && !player.hasSameVehicle(other) && player.canCollideWith(other));
+        if (old112Entities.size() != 1 || old113Entities.size() != 1 || nativeEntities.size() != 1
+            || old112Entities.getFirst() != old113Entities.getFirst()
+            || old112Entities.getFirst() != nativeEntities.getFirst()) return;
 
-        Entity candidate = oldEnvelopeEntities.getFirst();
+        Entity candidate = old112Entities.getFirst();
         AABB entityBox = candidate.getBoundingBox();
-        if (!candidate.isAlive() || !(candidate instanceof LivingEntity living)
-            || !(candidate instanceof Shulker shulker)
+        if (!(candidate instanceof Shulker shulker) || !candidate.isAlive() || candidate.isSpectator()
+            || candidate.noPhysics || candidate.isPassenger()
             || ((ShulkerAccessor) shulker).legacyparkourcompat$rawPeekAmount() != 0
-            || player.hasSameVehicle(candidate)
-            || living.getScale() != 1.0F
-            || !candidate.getBoundingBox().intersects(query)
+            || player.hasSameVehicle(candidate) || shulker.getScale() != 1.0F
+            || !entityBox.intersects(query) || !entityBox.intersects(legacyQueryBounds)
             || entityBox.getXsize() != 1.0 || entityBox.getYsize() != 1.0 || entityBox.getZsize() != 1.0
             || candidate.getBbWidth() != 1.0F || candidate.getBbHeight() != 1.0F) return;
+        BlockPos shulkerPos = candidate.blockPosition();
+        Direction attachment = shulker.getAttachFace();
+        Vec3 anchoredPosition = new Vec3(shulkerPos.getX() + 0.5, shulkerPos.getY(), shulkerPos.getZ() + 0.5);
+        AABB closedSourceBox = new AABB(shulkerPos.getX(), shulkerPos.getY(), shulkerPos.getZ(),
+            shulkerPos.getX() + 1.0, shulkerPos.getY() + 1.0, shulkerPos.getZ() + 1.0);
+        // 1.12.2/1.13.1 ShulkerEntity#tick anchors at block center and computes
+        // closed progress d=0, so every attachment face has this unit collision box.
+        // The attached-face neighbor must be the sole stone, proving the source
+        // geometry and attachment rather than accepting an arbitrary unit entity.
+        if (!candidate.position().equals(anchoredPosition) || !entityBox.equals(closedSourceBox)
+            || !sourceBoxConversionMatches(entityBox)
+            || !shulkerPos.relative(attachment).equals(stonePos)) return;
         List<AABB> nativeEntityBoxes = entityCandidates.getFirst().toAabbs();
         if (nativeEntityBoxes.size() != 1 || !nativeEntityBoxes.getFirst().equals(candidate.getBoundingBox())) return;
 
@@ -598,10 +638,12 @@ public final class MovementRuntime {
             query, List.of(entityCandidates.getFirst(), blockShape), historicalOrder, orderedBoxes, unionShape));
     }
 
-    private static boolean loadedStoneAirEnvelope(Level level, AABB query, BlockPos expectedStone) {
+    private static boolean loadedStoneAirEnvelope(Level level, AABB query, AABB legacyQueryBounds,
+                                                  BlockPos expectedStone) {
         if (!finiteSafeQuery(query)) return false;
         AABB paddedQuery = query.inflate(1.0E-7);
         if (!finiteSafeQuery(paddedQuery)) return false;
+        if (!finiteSafeQuery(legacyQueryBounds)) return false;
 
         // 1.12.2 Ornithe Feather net.minecraft.world.World#getCollisions scans
         // floor(min)-1 .. ceil(max)+1 (exclusive), probes chunks at Y=64, and prunes
@@ -612,18 +654,21 @@ public final class MovementRuntime {
         // This validates every cell in their union, including their differently pruned
         // shells; all are loaded and air except for the sole stone, so pruning cannot hide
         // a geometry candidate or change candidate ordering.
-        long minX = Math.min(Math.floor(query.minX) - 1.0,
-            Math.min(Math.floor(paddedQuery.minX) - 1.0, Math.floor(query.minX - 1.0E-7) - 1.0));
-        long minY = Math.min(Math.floor(query.minY) - 1.0,
-            Math.min(Math.floor(paddedQuery.minY) - 1.0, Math.floor(query.minY - 1.0E-7) - 1.0));
-        long minZ = Math.min(Math.floor(query.minZ) - 1.0,
-            Math.min(Math.floor(paddedQuery.minZ) - 1.0, Math.floor(query.minZ - 1.0E-7) - 1.0));
+        long minX = Math.min(Math.floor(query.minX) - 1.0, Math.min(Math.floor(legacyQueryBounds.minX) - 1.0,
+            Math.min(Math.floor(paddedQuery.minX) - 1.0, Math.floor(query.minX - 1.0E-7) - 1.0)));
+        long minY = Math.min(Math.floor(query.minY) - 1.0, Math.min(Math.floor(legacyQueryBounds.minY) - 1.0,
+            Math.min(Math.floor(paddedQuery.minY) - 1.0, Math.floor(query.minY - 1.0E-7) - 1.0)));
+        long minZ = Math.min(Math.floor(query.minZ) - 1.0, Math.min(Math.floor(legacyQueryBounds.minZ) - 1.0,
+            Math.min(Math.floor(paddedQuery.minZ) - 1.0, Math.floor(query.minZ - 1.0E-7) - 1.0)));
         long endX = Math.max(Math.ceil(query.maxX) + 1.0,
-            Math.max(Math.ceil(paddedQuery.maxX) + 1.0, Math.floor(query.maxX + 1.0E-7) + 2.0));
+            Math.max(Math.ceil(legacyQueryBounds.maxX) + 1.0, Math.max(Math.ceil(paddedQuery.maxX) + 1.0,
+                Math.floor(query.maxX + 1.0E-7) + 2.0)));
         long endY = Math.max(Math.ceil(query.maxY) + 1.0,
-            Math.max(Math.ceil(paddedQuery.maxY) + 1.0, Math.floor(query.maxY + 1.0E-7) + 2.0));
+            Math.max(Math.ceil(legacyQueryBounds.maxY) + 1.0, Math.max(Math.ceil(paddedQuery.maxY) + 1.0,
+                Math.floor(query.maxY + 1.0E-7) + 2.0)));
         long endZ = Math.max(Math.ceil(query.maxZ) + 1.0,
-            Math.max(Math.ceil(paddedQuery.maxZ) + 1.0, Math.floor(query.maxZ + 1.0E-7) + 2.0));
+            Math.max(Math.ceil(legacyQueryBounds.maxZ) + 1.0, Math.max(Math.ceil(paddedQuery.maxZ) + 1.0,
+                Math.floor(query.maxZ + 1.0E-7) + 2.0)));
         if (minY < 0 || endY > 256 || level.getMinY() > 0 || level.getMaxY() < 256) return false;
         long sizeX = endX - minX;
         long sizeY = endY - minY;

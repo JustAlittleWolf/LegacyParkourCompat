@@ -12,11 +12,15 @@ import java.util.List;
 import java.util.OptionalDouble;
 
 /**
- * 1.13.1 and 1.13.2 Ornithe Feather net.minecraft.block.shape.VoxelShapes#calculateMaxOffset
- * return zero before folding the next streamed candidate below 1.0E-7. Compared
- * with 26.2 unobfuscated net.minecraft.world.entity.Entity#collideWithShapes and
- * net.minecraft.world.phys.shapes.Shapes#collide / VoxelShape#collide, the per-shape
- * offset math is retained while source candidate order and the pre-next cutoff differ.
+ * 1.13.1 and 1.13.2 Ornithe Feather
+ * {@code net.minecraft.world.World#getCollisions(Entity,VoxelShape,VoxelShape,Set)}
+ * concatenates {@code net.minecraft.world.EntityView#getEntityCollisions} after
+ * {@code WorldView#getBlockCollisions}; {@code net.minecraft.block.shape.VoxelShapes#calculateMaxOffset}
+ * returns zero before folding the next streamed candidate below 1.0E-7. Compared
+ * with 26.2 unobfuscated {@code net.minecraft.world.entity.Entity#collideWithShapes}
+ * and {@code net.minecraft.world.phys.shapes.Shapes#collide}/
+ * {@code VoxelShape#collide}, the per-shape offset math is retained while source
+ * candidate order and the pre-next cutoff differ.
  */
 @MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class OrderedShapeAxisClip implements AxisClippingHook {
