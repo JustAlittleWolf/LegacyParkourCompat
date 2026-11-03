@@ -26,7 +26,13 @@ import java.util.OptionalDouble;
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class AxisClipping implements AxisClippingHook {
     @Override
-    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance) {
+    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
+                               CollisionAxisOrderContext.HistoricalAxisCandidates candidates) {
+        if (candidates != null) {
+            // 1.13.0 Ornithe Feather WorldView#getCollisions joins the block union with
+            // the eligible entity union using joinUnoptimized(BooleanOp.OR) before clipping.
+            return OptionalDouble.of(candidates.unionShape().collide(axis, moving, distance));
+        }
         VoxelShape aggregate = CollisionAxisOrderContext.collectedBlockShape();
         if (aggregate == null) {
             return OptionalDouble.empty();

@@ -78,6 +78,7 @@
     "client.LocalPlayerAccessor",
     "client.ClientInputAccessor",
     "accessor.PistonMovingBlockEntityAccessor",
+    "accessor.ShulkerAccessor",
     "item.TridentItemMixin"
   ],
   "injectors": {

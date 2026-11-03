@@ -1,11 +1,13 @@
 package me.wolfii.legacyparkourcompat.mechanic;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.function.Supplier;
+import java.util.List;
 
 /** Keeps the entity scope limited to one collision resolution, including nested collisions. */
 public final class CollisionAxisOrderContext {
@@ -14,9 +16,21 @@ public final class CollisionAxisOrderContext {
     private static final ThreadLocal<MovementQuery> MOVEMENT_QUERY = new ThreadLocal<>();
     private static final ThreadLocal<VoxelShape> COLLECTED_BLOCK_SHAPE = new ThreadLocal<>();
     private static final ThreadLocal<Boolean> BLOCK_COLLECTION_DISABLED = new ThreadLocal<>();
+    private static final ThreadLocal<HistoricalAxisCandidates> HISTORICAL_AXIS_CANDIDATES = new ThreadLocal<>();
+
+    /** Candidate geometry proven equivalent to the bounded old query, in old block-first order. */
+    public record HistoricalAxisCandidates(AABB sweptBox, List<VoxelShape> nativeOrder,
+                                           List<VoxelShape> historicalOrder, List<AABB> orderedBoxes,
+                                           VoxelShape unionShape) {
+        public HistoricalAxisCandidates {
+            nativeOrder = List.copyOf(nativeOrder);
+            historicalOrder = List.copyOf(historicalOrder);
+            orderedBoxes = List.copyOf(orderedBoxes);
+        }
+    }
 
     /** Actual post-adjustment vector passed to the primary {@code Entity.collide} call. */
-    public record MovementQuery(Entity entity, AABB startingBox, Vec3 requestedMovement,
+    public record MovementQuery(Entity entity, MoverType moverType, AABB startingBox, Vec3 requestedMovement,
                                 boolean unadjustedPrimaryMovement) {
         public AABB sweptBox() {
             return this.startingBox.expandTowards(this.requestedMovement);
@@ -50,6 +64,18 @@ public final class CollisionAxisOrderContext {
         return COLLECTED_BLOCK_SHAPE.get();
     }
 
+    public static void historicalAxisCandidates(HistoricalAxisCandidates candidates) {
+        HISTORICAL_AXIS_CANDIDATES.set(candidates);
+    }
+
+    public static HistoricalAxisCandidates historicalAxisCandidates() {
+        return HISTORICAL_AXIS_CANDIDATES.get();
+    }
+
+    public static void clearHistoricalAxisCandidates() {
+        HISTORICAL_AXIS_CANDIDATES.remove();
+    }
+
     public static void clearCollectedBlockShape() {
         COLLECTED_BLOCK_SHAPE.remove();
     }
@@ -79,13 +105,15 @@ public final class CollisionAxisOrderContext {
         }
     }
 
-    public static <T> T withMovementEntity(Entity entity, AABB startingBox, Vec3 requestedMovement,
+    public static <T> T withMovementEntity(Entity entity, MoverType moverType, AABB startingBox, Vec3 requestedMovement,
                                           boolean unadjustedPrimaryMovement,
                                           Supplier<T> action) {
         MovementQuery previousQuery = MOVEMENT_QUERY.get();
         VoxelShape previousShape = COLLECTED_BLOCK_SHAPE.get();
-        MOVEMENT_QUERY.set(new MovementQuery(entity, startingBox, requestedMovement, unadjustedPrimaryMovement));
+        HistoricalAxisCandidates previousCandidates = HISTORICAL_AXIS_CANDIDATES.get();
+        MOVEMENT_QUERY.set(new MovementQuery(entity, moverType, startingBox, requestedMovement, unadjustedPrimaryMovement));
         COLLECTED_BLOCK_SHAPE.remove();
+        HISTORICAL_AXIS_CANDIDATES.remove();
         try {
             return withEntity(entity, action);
         } finally {
@@ -98,6 +126,11 @@ public final class CollisionAxisOrderContext {
                 COLLECTED_BLOCK_SHAPE.remove();
             } else {
                 COLLECTED_BLOCK_SHAPE.set(previousShape);
+            }
+            if (previousCandidates == null) {
+                HISTORICAL_AXIS_CANDIDATES.remove();
+            } else {
+                HISTORICAL_AXIS_CANDIDATES.set(previousCandidates);
             }
         }
     }

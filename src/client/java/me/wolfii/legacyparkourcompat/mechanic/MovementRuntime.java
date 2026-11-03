@@ -15,7 +15,9 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -57,6 +59,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
+import me.wolfii.legacyparkourcompat.mixin.accessor.ShulkerAccessor;
 
 import java.util.List;
 import java.util.HashMap;
@@ -466,6 +469,27 @@ public final class MovementRuntime {
         VanillaFn<Iterable<VoxelShape>> vanilla
     ) {
         CollisionAxisOrderContext.clearCollectedBlockShape();
+        CollisionAxisOrderContext.clearHistoricalAxisCandidates();
+        if (entity instanceof LocalPlayer player && Minecraft.getInstance().player == player
+            && find(AxisClippingHook.class, player).isPresent()
+            && entityCandidates.size() == 1) {
+            var movement = CollisionAxisOrderContext.movementQuery();
+            if (movement != null && movement.entity() == entity && movement.unadjustedPrimaryMovement()
+                && movement.moverType() == MoverType.SELF
+                && movement.requestedMovement().lengthSqr() != 0.0
+                && !entity.noPhysics && !player.isShiftKeyDown() && !player.isPassenger() && !entity.onGround()
+                && movement.requestedMovement().y >= 0.0
+                && movement.startingBox().equals(entity.getBoundingBox())
+                && movement.sweptBox().equals(sweptBox)
+                && !CollisionAxisOrderContext.blockCollectionDisabled()
+                && context instanceof MovementCollisionContext movementContext
+                && movementContext.query().equals(sweptBox)) {
+                List<VoxelShape> nativeBlocks = new ArrayList<>();
+                vanilla.get().forEach(nativeBlocks::add);
+                captureHistoricalAxisCandidates(player, level, sweptBox, entityCandidates, nativeBlocks);
+                return nativeBlocks;
+            }
+        }
         if (!(entity instanceof LocalPlayer)
             || !appliesTo(entity)
             || CollisionAxisOrderContext.blockCollectionDisabled()
@@ -556,6 +580,172 @@ public final class MovementRuntime {
             CollisionAxisOrderContext.collectedBlockShape(historical.get().getFirst());
         }
         return historical.get();
+    }
+
+    private static void captureHistoricalAxisCandidates(LocalPlayer player, Level level, AABB query,
+                                                        List<VoxelShape> entityCandidates,
+                                                        List<VoxelShape> blockCandidates) {
+        // 1.13.1 Ornithe Feather EntityView#getEntityCollisions expands by 0.25, excludes
+        // the source/same vehicle and keeps intersecting entity collision boxes after blocks.
+        // 26.2 unobfuscated EntityGetter#getEntityCollisions uses a 1.0E-7 envelope and
+        // canCollideWith, while Entity#collectCollidersIgnoringWorldBorder orders entities first.
+        // Admit this bounded stone/closed default-size entity geometry only when both entity
+        // queries return the same sole live candidate and the native shape is its exact box.
+        if (!appliesTo(player) || entityCandidates.size() != 1 || blockCandidates.size() != 1) return;
+        var border = level.getWorldBorder();
+        if (!border.isWithinBounds(player.getBoundingBox()) || border.isInsideCloseToBorder(player, query)) return;
+
+        CollisionAxisOrderContext.MovementQuery movement = CollisionAxisOrderContext.movementQuery();
+        if (movement == null || movement.entity() != player || !movement.unadjustedPrimaryMovement()
+            || movement.moverType() != MoverType.SELF || movement.requestedMovement().lengthSqr() == 0.0) return;
+        AABB startBox = movement.startingBox();
+        Vec3 requested = movement.requestedMovement();
+        AABB paddedSweep = query.inflate(1.0E-7);
+        AABB shiftedStart = startBox.move(
+            requested.x > 0.0 ? -1.0E-7 : 1.0E-7,
+            requested.y > 0.0 ? -1.0E-7 : 1.0E-7,
+            requested.z > 0.0 ? -1.0E-7 : 1.0E-7
+        );
+        // 1.13.1 WorldView#getCollisions converts these exact three boxes with
+        // VoxelShapes.block and joins expanded-sweep ONLY_FIRST shifted-start.
+        // Keep only cases where source/current box conversion uses the same voxel bits.
+        if (!sourceBoxConversionMatches(startBox) || !sourceBoxConversionMatches(paddedSweep)
+            || !sourceBoxConversionMatches(shiftedStart)) return;
+        VoxelShape queryShape = Shapes.joinUnoptimized(
+            Shapes.create(paddedSweep), Shapes.create(shiftedStart), BooleanOp.ONLY_FIRST);
+        if (queryShape.isEmpty()) return;
+        AABB legacyQueryBounds = queryShape.bounds();
+        if (!sourceBoxConversionMatches(legacyQueryBounds)) return;
+
+        VoxelShape blockShape = blockCandidates.getFirst();
+        List<AABB> blockBoxes = blockShape.toAabbs();
+        if (blockBoxes.size() != 1) return;
+        AABB stoneBox = blockBoxes.getFirst();
+        if (stoneBox.getXsize() != 1.0 || stoneBox.getYsize() != 1.0 || stoneBox.getZsize() != 1.0
+            || stoneBox.minX != Math.floor(stoneBox.minX) || stoneBox.minY != Math.floor(stoneBox.minY)
+            || stoneBox.minZ != Math.floor(stoneBox.minZ)) return;
+        BlockPos stonePos = BlockPos.containing(stoneBox.minX, stoneBox.minY, stoneBox.minZ);
+        if (startBox.intersects(stoneBox) || !loadedStoneAirEnvelope(level, query, legacyQueryBounds, stonePos)) return;
+
+        // 1.13.1 World#getEntityCollisions queries shape.bounds().inflate(0.25)
+        // and then intersects the returned entity shape with shape.bounds().
+        AABB old112EntityEnvelope = query.inflate(0.25);
+        AABB old113EntityEnvelope = legacyQueryBounds.inflate(0.25);
+        AABB nativeEntityEnvelope = query.inflate(1.0E-7);
+        // 1.12.2 World#getCollisions does not spectator-filter its entity query;
+        // 1.13.1 EntityView#getEntityCollisions uses NO_SPECTATORS and excludes the
+        // same vehicle. Both release Entity#getCollisionAgainstShape implementations
+        // return null, while ShulkerEntity#getCollisionShape returns its stored shape
+        // only while alive. Require all release-specific query sets to be the same
+        // sole Shulker, stricter than each historical eligibility set.
+        List<Entity> old112Entities = level.getEntities(player, old112EntityEnvelope, other -> true);
+        List<Entity> old113Entities = level.getEntities(player, old113EntityEnvelope,
+            other -> !other.isSpectator() && !player.hasSameVehicle(other));
+        List<Entity> nativeEntities = level.getEntities(player, nativeEntityEnvelope,
+            other -> !other.isSpectator() && !player.hasSameVehicle(other) && player.canCollideWith(other));
+        if (old112Entities.size() != 1 || old113Entities.size() != 1 || nativeEntities.size() != 1
+            || old112Entities.getFirst() != old113Entities.getFirst()
+            || old112Entities.getFirst() != nativeEntities.getFirst()) return;
+
+        Entity candidate = old112Entities.getFirst();
+        AABB entityBox = candidate.getBoundingBox();
+        if (!(candidate instanceof Shulker shulker) || !candidate.isAlive() || candidate.isSpectator()
+            || candidate.noPhysics || candidate.isPassenger()
+            || ((ShulkerAccessor) shulker).legacyparkourcompat$rawPeekAmount() != 0
+            || player.hasSameVehicle(candidate) || shulker.getScale() != 1.0F
+            || !entityBox.intersects(query) || !entityBox.intersects(legacyQueryBounds)
+            || entityBox.getXsize() != 1.0 || entityBox.getYsize() != 1.0 || entityBox.getZsize() != 1.0
+            || candidate.getBbWidth() != 1.0F || candidate.getBbHeight() != 1.0F) return;
+        BlockPos shulkerPos = candidate.blockPosition();
+        Direction attachment = shulker.getAttachFace();
+        Vec3 anchoredPosition = new Vec3(shulkerPos.getX() + 0.5, shulkerPos.getY(), shulkerPos.getZ() + 0.5);
+        AABB closedSourceBox = new AABB(shulkerPos.getX(), shulkerPos.getY(), shulkerPos.getZ(),
+            shulkerPos.getX() + 1.0, shulkerPos.getY() + 1.0, shulkerPos.getZ() + 1.0);
+        // 1.12.2/1.13.1 ShulkerEntity#tick anchors at block center and computes
+        // closed progress d=0, so every attachment face has this unit collision box.
+        // The attached-face neighbor must be the sole stone, proving the source
+        // geometry and attachment rather than accepting an arbitrary unit entity.
+        if (!candidate.position().equals(anchoredPosition) || !entityBox.equals(closedSourceBox)
+            || !sourceBoxConversionMatches(entityBox)
+            || !shulkerPos.relative(attachment).equals(stonePos)) return;
+        List<AABB> nativeEntityBoxes = entityCandidates.getFirst().toAabbs();
+        if (nativeEntityBoxes.size() != 1 || !nativeEntityBoxes.getFirst().equals(candidate.getBoundingBox())) return;
+
+        List<VoxelShape> historicalOrder = List.of(blockShape, entityCandidates.getFirst());
+        List<AABB> orderedBoxes = new ArrayList<>(2);
+        orderedBoxes.addAll(blockBoxes);
+        orderedBoxes.addAll(nativeEntityBoxes);
+        VoxelShape entityUnion = Shapes.joinUnoptimized(Shapes.empty(), entityCandidates.getFirst(), BooleanOp.OR);
+        VoxelShape unionShape = Shapes.joinUnoptimized(blockShape, entityUnion, BooleanOp.OR);
+        CollisionAxisOrderContext.historicalAxisCandidates(new CollisionAxisOrderContext.HistoricalAxisCandidates(
+            query, List.of(entityCandidates.getFirst(), blockShape), historicalOrder, orderedBoxes, unionShape));
+    }
+
+    private static boolean loadedStoneAirEnvelope(Level level, AABB query, AABB legacyQueryBounds,
+                                                  BlockPos expectedStone) {
+        if (!finiteSafeQuery(query)) return false;
+        AABB paddedQuery = query.inflate(1.0E-7);
+        if (!finiteSafeQuery(paddedQuery)) return false;
+        if (!finiteSafeQuery(legacyQueryBounds)) return false;
+
+        // 1.12.2 Ornithe Feather net.minecraft.world.World#getCollisions scans
+        // floor(min)-1 .. ceil(max)+1 (exclusive), probes chunks at Y=64, and prunes
+        // X/Z corners. 1.13.1 Ornithe Feather net.minecraft.world.WorldView#getBlockCollisions
+        // uses the same bounds on the padded voxel query and prunes cells with any two
+        // boundary axes. 26.2 unobfuscated BlockCollisions#<init>/#computeNext use
+        // floor(min-1e-7)-1 through floor(max+1e-7)+1 inclusive and per-cell chunk lookup.
+        // This validates every cell in their union, including their differently pruned
+        // shells; all are loaded and air except for the sole stone, so pruning cannot hide
+        // a geometry candidate or change candidate ordering.
+        long minX = Math.min(Math.floor(query.minX) - 1.0, Math.min(Math.floor(legacyQueryBounds.minX) - 1.0,
+            Math.min(Math.floor(paddedQuery.minX) - 1.0, Math.floor(query.minX - 1.0E-7) - 1.0)));
+        long minY = Math.min(Math.floor(query.minY) - 1.0, Math.min(Math.floor(legacyQueryBounds.minY) - 1.0,
+            Math.min(Math.floor(paddedQuery.minY) - 1.0, Math.floor(query.minY - 1.0E-7) - 1.0)));
+        long minZ = Math.min(Math.floor(query.minZ) - 1.0, Math.min(Math.floor(legacyQueryBounds.minZ) - 1.0,
+            Math.min(Math.floor(paddedQuery.minZ) - 1.0, Math.floor(query.minZ - 1.0E-7) - 1.0)));
+        long endX = Math.max(Math.ceil(query.maxX) + 1.0,
+            Math.max(Math.ceil(legacyQueryBounds.maxX) + 1.0, Math.max(Math.ceil(paddedQuery.maxX) + 1.0,
+                Math.floor(query.maxX + 1.0E-7) + 2.0)));
+        long endY = Math.max(Math.ceil(query.maxY) + 1.0,
+            Math.max(Math.ceil(legacyQueryBounds.maxY) + 1.0, Math.max(Math.ceil(paddedQuery.maxY) + 1.0,
+                Math.floor(query.maxY + 1.0E-7) + 2.0)));
+        long endZ = Math.max(Math.ceil(query.maxZ) + 1.0,
+            Math.max(Math.ceil(legacyQueryBounds.maxZ) + 1.0, Math.max(Math.ceil(paddedQuery.maxZ) + 1.0,
+                Math.floor(query.maxZ + 1.0E-7) + 2.0)));
+        if (minY < 0 || endY > 256 || level.getMinY() > 0 || level.getMaxY() < 256) return false;
+        long sizeX = endX - minX;
+        long sizeY = endY - minY;
+        long sizeZ = endZ - minZ;
+        if (sizeX <= 0 || sizeY <= 0 || sizeZ <= 0 || sizeX > 512 || sizeY > 512 || sizeZ > 512
+            || sizeX > 1_000_000 / sizeY || sizeX * sizeY > 1_000_000 / sizeZ) return false;
+
+        var border = level.getWorldBorder();
+        int stones = 0;
+        for (long x = minX; x < endX; x++) {
+            for (long y = minY; y < endY; y++) {
+                for (long z = minZ; z < endZ; z++) {
+                    BlockPos pos = new BlockPos((int) x, (int) y, (int) z);
+                    if (!level.hasChunkAt(pos) || !level.hasChunkAt(new BlockPos((int) x, 64, (int) z))
+                        || !border.isWithinBounds(new AABB(x, y, z, x + 1.0, y + 1.0, z + 1.0))) return false;
+                    var state = level.getBlockState(pos);
+                    if (state.is(Blocks.STONE)) {
+                        if (!pos.equals(expectedStone)) return false;
+                        stones++;
+                    } else if (!state.isAir()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return stones == 1;
+    }
+
+    private static boolean finiteSafeQuery(AABB box) {
+        double limit = Integer.MAX_VALUE - 4.0;
+        return Double.isFinite(box.minX) && Double.isFinite(box.minY) && Double.isFinite(box.minZ)
+            && Double.isFinite(box.maxX) && Double.isFinite(box.maxY) && Double.isFinite(box.maxZ)
+            && box.minX > -limit && box.minY > -limit && box.minZ > -limit
+            && box.maxX < limit && box.maxY < limit && box.maxZ < limit;
     }
 
     private static final Map<String, String> CURRENT_TO_LEGACY_113_SLAB_KEYS = Map.ofEntries(
@@ -858,12 +1048,31 @@ public final class MovementRuntime {
                                           VanillaFn<Double> vanilla) {
         var hook = find(AxisClippingHook.class, entity);
         if (hook.isPresent()) {
-            var clipped = hook.get().clip(axis, moving, shapes, distance);
-            if (clipped.isPresent()) {
-                return clipped.getAsDouble();
+            var candidates = CollisionAxisOrderContext.historicalAxisCandidates();
+            if (candidates != null && entity instanceof LocalPlayer player
+                && Minecraft.getInstance().player == player) {
+                var movement = CollisionAxisOrderContext.movementQuery();
+                List<VoxelShape> nativeShapes = new ArrayList<>();
+                shapes.forEach(nativeShapes::add);
+                if (movement != null && candidates.sweptBox().equals(movement.sweptBox())
+                    && sameShapeOrder(candidates.nativeOrder(), nativeShapes)) {
+                    var clipped = hook.get().clip(axis, moving, nativeShapes, distance, candidates);
+                    if (clipped.isPresent()) return clipped.getAsDouble();
+                    return vanilla.get();
+                }
+                return hook.get().clip(axis, moving, nativeShapes, distance, null).orElseGet(vanilla::get);
             }
+            return hook.get().clip(axis, moving, shapes, distance, null).orElseGet(vanilla::get);
         }
         return vanilla.get();
+    }
+
+    private static boolean sameShapeOrder(List<VoxelShape> expected, List<VoxelShape> actual) {
+        if (expected.size() != actual.size()) return false;
+        for (int i = 0; i < expected.size(); i++) {
+            if (expected.get(i) != actual.get(i)) return false;
+        }
+        return true;
     }
 
     public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement,
