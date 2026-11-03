@@ -1,0 +1,8 @@
+# Open gates after player-response residual closure
+
+1. **Full graph independent terminal audit remains open.** The tick graph and core method matrix are broad, but a distinct blind reviewer still needs to retrace every terminal LocalPlayer tick/pose/input/callback slice and dependencies before pair freeze. This residual packet sweep is not that audit.
+2. **External world callback inventory remains open.** Contact, scheduled world-tick, piston, support/shape, and fluid callbacks can affect later player movement. Existing callback census is explicitly partial; do not treat the listener closure as closing it.
+3. **Pose/AABB dependency closure remains provider-dependent.** LocalPlayer does not directly set its bounding box. `setPos`, `refreshDimensions`, pose dimensions, collision tests and synchronized entity-data callbacks are inherited paths whose geometry/state provider dependencies remain under collision/shape lanes.
+4. **Intermediate-boundary granularity.** Results compare the named exact releases. They do not establish patch cutovers within a larger interval or other stable releases.
+5. **Riding paths are bounded separately.** Passenger crouch/input reaches vehicle controls and vehicle-authored passenger placement; ordinary local-player on-foot closure does not accept it as player-owned locomotion. Local player yaw copied when attaching to a Boat is present in all checked ClientPacketListener versions and is not a position/velocity/AABB writer.
+6. **No whole-pair verdict.** Exact terminal coverage in this report is narrow evidence for packet/local-player direct writers. Do not freeze the 1.19.4→1.20.4 pair until provider, callback and independent complete-coverage gates close.

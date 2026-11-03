@@ -1,0 +1,13 @@
+# Frozen residual roster — 26.1.2 → 26.2
+
+Scope: source-only residual assigned for ordinary local-player suffocation escape and the paired collision/provider dependency graph, including fluid states, plus the separate classification of the newly introduced Potent Sulfur route. Exact pair roots are `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\26.1.2\unobfuscated` and `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\26.2\unobfuscated`. Ready records identify exact releases and `unobfuscated`; source manifest hashes are `54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0` and `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`. Mapping/decompiler inputs are as recorded in the pair ready/provenance sidecars. Sources are read-only.
+
+Frozen before examining paired source bodies:
+
+1. Trace `LocalPlayer.aiStep` suffocation call sites and `suffocatesAt` / `moveTowardsClosestSpace`, including exact gates, probe coordinates/order, position/box/fluid state reads, and movement-state writes.
+2. Trace `Level.collidesWithSuffocatingBlock` through collision iteration and `BlockState.isSuffocating` to the block/provider implementation. Pair the state-dependent suffocation predicate and all provider defaults/overrides reachable for existing blocks; inspect relevant registry defaults and state/tag dependencies for eligible old-feature states.
+3. Trace ordinary player collision collection from `Entity.move`/step through `Entity.collideBoundingBox`, collision context, `CollisionGetter`, `BlockCollisions`, block-state shape dispatch, block/fluid collision shapes, fluid block/provider registrations and neighboring-state dependencies. Include fluid-state behaviors only where they feed the player collision/provider query; separately record fluid-motion callbacks only when they are dependencies of these routes.
+4. Identify paired source changes and checked no-change terminal slices; do not infer eligibility from a 26.2-only state, registry, attribute, or feature. Do not repeat the already-closed friction <= 0.6 candidate or the unchanged pointed-dripstone shape relocation unless a dependency here reopens it.
+5. Separately trace the 26.2 Potent Sulfur entity launch source through its block-entity/block/registry/state and execution gates, and establish whether an equivalent 26.1.2 source/provider exists. Classify as modern-only if exact source evidence supports that; do not attribute it to fixed old-profile movement.
+
+Out of scope: product source, wiki inventory, Git history, intermediate releases, implementation, test/build/game/runtime, source generation, and claims of pair-wide coverage or runtime parity. This roster owns only this residual source comparison.
