@@ -5,16 +5,19 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.blockcallback.PistonCallbackScanOriginHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.piston.PistonStairPushHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.piston.StickyHoneyCarryCandidateHook;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,6 +29,21 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(PistonMovingBlockEntity.class)
 abstract class PistonMovingBlockEntityMixin {
     @Unique private static final ThreadLocal<ResponseContext> legacyparkourcompat$pistonResponseContext = new ThreadLocal<>();
+
+    @WrapMethod(
+        method = "matchesStickyCritera(Lnet/minecraft/world/phys/AABB;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/BlockPos;)Z"
+    )
+    private static boolean legacyparkourcompat$stickyHoneyCarryCandidate(
+        AABB scanBounds, Entity entity, BlockPos pistonPos, Operation<Boolean> original
+    ) {
+        boolean nativeCandidate = original.call(scanBounds, entity, pistonPos);
+        if (!(entity instanceof LocalPlayer) || Minecraft.getInstance().player != entity) {
+            return nativeCandidate;
+        }
+        return MovementRuntime.find(StickyHoneyCarryCandidateHook.class, entity)
+            .map(hook -> hook.isCarryCandidate(nativeCandidate, scanBounds, entity, pistonPos))
+            .orElse(nativeCandidate);
+    }
 
     @Unique
     private record ResponseContext(PistonMovingBlockEntity mover, BlockPos pos, float newProgress, Entity recipient,
