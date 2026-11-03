@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -56,6 +57,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
+import me.wolfii.legacyparkourcompat.mixin.accessor.ShulkerAccessor;
 
 import java.util.List;
 import java.util.HashMap;
@@ -563,6 +565,9 @@ public final class MovementRuntime {
 
         AABB oldEntityEnvelope = query.inflate(0.25);
         AABB nativeEntityEnvelope = query.inflate(1.0E-7);
+        // 1.13.1 WorldView#getEntityCollisions uses non-spectator getEntities, then
+        // excludes same-vehicle candidates. 26.2 EntityGetter adds canCollideWith to
+        // NO_SPECTATORS; equality of these post-filter sets is mandatory.
         List<Entity> oldEnvelopeEntities = level.getEntities(player, oldEntityEnvelope,
             other -> !other.isSpectator());
         List<Entity> nativeEntities = level.getEntities(player, nativeEntityEnvelope,
@@ -572,7 +577,10 @@ public final class MovementRuntime {
 
         Entity candidate = oldEnvelopeEntities.getFirst();
         AABB entityBox = candidate.getBoundingBox();
-        if (!candidate.isAlive() || !(candidate instanceof LivingEntity living) || player.hasSameVehicle(candidate)
+        if (!candidate.isAlive() || !(candidate instanceof LivingEntity living)
+            || !(candidate instanceof Shulker shulker)
+            || ((ShulkerAccessor) shulker).legacyparkourcompat$rawPeekAmount() != 0
+            || player.hasSameVehicle(candidate)
             || living.getScale() != 1.0F
             || !candidate.getBoundingBox().intersects(query)
             || entityBox.getXsize() != 1.0 || entityBox.getYsize() != 1.0 || entityBox.getZsize() != 1.0
