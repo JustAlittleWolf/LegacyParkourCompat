@@ -7,7 +7,9 @@ import me.wolfii.legacyparkourcompat.mechanic.network.LegacyPacketRotation;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientRelativeMoveTargetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.RelativePositionReconstructionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientTeleportTargetHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.network.PassengerPositionSyncInterpolationHook;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import net.minecraft.network.protocol.game.VecDeltaCodec;
@@ -71,6 +73,22 @@ public abstract class ClientPacketListenerMovementMixin {
             return false;
         }
         return entity.isLocalInstanceAuthoritative();
+    }
+
+    @Redirect(
+        method = "handleEntityPositionSync",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;isInterpolating()Z",
+            ordinal = 0
+        )
+    )
+    private boolean legacyparkourcompat$useHistoricalPassengerInterpolationGate(Entity vehicle) {
+        boolean nativeValue = vehicle.isInterpolating();
+        var localPlayer = Minecraft.getInstance().player;
+        return MovementRuntime.find(PassengerPositionSyncInterpolationHook.class, localPlayer)
+            .map(change -> change.interpolationOperand(nativeValue))
+            .orElse(nativeValue);
     }
 
     @Redirect(
