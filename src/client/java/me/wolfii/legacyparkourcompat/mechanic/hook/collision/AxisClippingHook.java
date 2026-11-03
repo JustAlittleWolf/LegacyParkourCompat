@@ -13,5 +13,5 @@ import org.jspecify.annotations.Nullable;
 @MechanicType("collision.axis_clipping")
 public interface AxisClippingHook extends VersionedMechanic {
     OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
-                        @Nullable CollisionAxisOrderContext.HistoricalAxisCandidates candidates);
+                        CollisionAxisOrderContext.@Nullable HistoricalAxisCandidates candidates);
 }

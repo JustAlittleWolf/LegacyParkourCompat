@@ -597,9 +597,9 @@ public final class MovementRuntime {
         // sole Shulker, stricter than each historical eligibility set.
         List<Entity> old112Entities = level.getEntities(player, old112EntityEnvelope, other -> true);
         List<Entity> old113Entities = level.getEntities(player, old113EntityEnvelope,
-            other -> !other.isSpectator() && !player.hasSameVehicle(other));
+            other -> !other.isSpectator() && !player.isPassengerOfSameVehicle(other));
         List<Entity> nativeEntities = level.getEntities(player, nativeEntityEnvelope,
-            other -> !other.isSpectator() && !player.hasSameVehicle(other) && player.canCollideWith(other));
+            other -> !other.isSpectator() && !player.isPassengerOfSameVehicle(other) && player.canCollideWith(other));
         if (old112Entities.size() != 1 || old113Entities.size() != 1 || nativeEntities.size() != 1
             || old112Entities.getFirst() != old113Entities.getFirst()
             || old112Entities.getFirst() != nativeEntities.getFirst()) return;
@@ -609,7 +609,7 @@ public final class MovementRuntime {
         if (!(candidate instanceof Shulker shulker) || !candidate.isAlive() || candidate.isSpectator()
             || candidate.noPhysics || candidate.isPassenger()
             || ((ShulkerAccessor) shulker).legacyparkourcompat$rawPeekAmount() != 0
-            || player.hasSameVehicle(candidate) || shulker.getScale() != 1.0F
+            || player.isPassengerOfSameVehicle(candidate) || shulker.getScale() != 1.0F
             || !entityBox.intersects(query) || !entityBox.intersects(legacyQueryBounds)
             || entityBox.getXsize() != 1.0 || entityBox.getYsize() != 1.0 || entityBox.getZsize() != 1.0
             || candidate.getBbWidth() != 1.0F || candidate.getBbHeight() != 1.0F) return;
@@ -654,21 +654,21 @@ public final class MovementRuntime {
         // This validates every cell in their union, including their differently pruned
         // shells; all are loaded and air except for the sole stone, so pruning cannot hide
         // a geometry candidate or change candidate ordering.
-        long minX = Math.min(Math.floor(query.minX) - 1.0, Math.min(Math.floor(legacyQueryBounds.minX) - 1.0,
-            Math.min(Math.floor(paddedQuery.minX) - 1.0, Math.floor(query.minX - 1.0E-7) - 1.0)));
-        long minY = Math.min(Math.floor(query.minY) - 1.0, Math.min(Math.floor(legacyQueryBounds.minY) - 1.0,
-            Math.min(Math.floor(paddedQuery.minY) - 1.0, Math.floor(query.minY - 1.0E-7) - 1.0)));
-        long minZ = Math.min(Math.floor(query.minZ) - 1.0, Math.min(Math.floor(legacyQueryBounds.minZ) - 1.0,
-            Math.min(Math.floor(paddedQuery.minZ) - 1.0, Math.floor(query.minZ - 1.0E-7) - 1.0)));
-        long endX = Math.max(Math.ceil(query.maxX) + 1.0,
-            Math.max(Math.ceil(legacyQueryBounds.maxX) + 1.0, Math.max(Math.ceil(paddedQuery.maxX) + 1.0,
-                Math.floor(query.maxX + 1.0E-7) + 2.0)));
-        long endY = Math.max(Math.ceil(query.maxY) + 1.0,
-            Math.max(Math.ceil(legacyQueryBounds.maxY) + 1.0, Math.max(Math.ceil(paddedQuery.maxY) + 1.0,
-                Math.floor(query.maxY + 1.0E-7) + 2.0)));
-        long endZ = Math.max(Math.ceil(query.maxZ) + 1.0,
-            Math.max(Math.ceil(legacyQueryBounds.maxZ) + 1.0, Math.max(Math.ceil(paddedQuery.maxZ) + 1.0,
-                Math.floor(query.maxZ + 1.0E-7) + 2.0)));
+        long minX = Math.min((long) Math.floor(query.minX) - 1L, Math.min((long) Math.floor(legacyQueryBounds.minX) - 1L,
+            Math.min((long) Math.floor(paddedQuery.minX) - 1L, (long) Math.floor(query.minX - 1.0E-7) - 1L)));
+        long minY = Math.min((long) Math.floor(query.minY) - 1L, Math.min((long) Math.floor(legacyQueryBounds.minY) - 1L,
+            Math.min((long) Math.floor(paddedQuery.minY) - 1L, (long) Math.floor(query.minY - 1.0E-7) - 1L)));
+        long minZ = Math.min((long) Math.floor(query.minZ) - 1L, Math.min((long) Math.floor(legacyQueryBounds.minZ) - 1L,
+            Math.min((long) Math.floor(paddedQuery.minZ) - 1L, (long) Math.floor(query.minZ - 1.0E-7) - 1L)));
+        long endX = Math.max((long) Math.ceil(query.maxX) + 1L,
+            Math.max((long) Math.ceil(legacyQueryBounds.maxX) + 1L, Math.max((long) Math.ceil(paddedQuery.maxX) + 1L,
+                (long) Math.floor(query.maxX + 1.0E-7) + 2L)));
+        long endY = Math.max((long) Math.ceil(query.maxY) + 1L,
+            Math.max((long) Math.ceil(legacyQueryBounds.maxY) + 1L, Math.max((long) Math.ceil(paddedQuery.maxY) + 1L,
+                (long) Math.floor(query.maxY + 1.0E-7) + 2L)));
+        long endZ = Math.max((long) Math.ceil(query.maxZ) + 1L,
+            Math.max((long) Math.ceil(legacyQueryBounds.maxZ) + 1L, Math.max((long) Math.ceil(paddedQuery.maxZ) + 1L,
+                (long) Math.floor(query.maxZ + 1.0E-7) + 2L)));
         if (minY < 0 || endY > 256 || level.getMinY() > 0 || level.getMaxY() < 256) return false;
         long sizeX = endX - minX;
         long sizeY = endY - minY;
