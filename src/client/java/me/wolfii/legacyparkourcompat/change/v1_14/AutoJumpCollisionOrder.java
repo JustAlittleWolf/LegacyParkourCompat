@@ -24,11 +24,23 @@ import java.util.List;
 
 /**
  * Reproduces the old AutoJump full-cube grid aggregate only when its complete
- * query envelope is loaded, interior, entity-free, and contains only Stone/air.
+ * query envelope is loaded, interior, entity-free, and contains only Stone,
+ * Dirt, Cobblestone, Oak Planks, or air.
  * Cells where the 1.13 and 1.13.1 pruning rules disagree must be air.
  * Other queries retain the native iterable and object identities.
  *
- * <p>Source: exact 1.13, 1.13.1 and 1.13.2 Ornithe Feather Gen2 build 2,
+ * <p>For the supported block providers, exact 1.14 Ornithe Feather Gen2 build 2,
+ * {@code net.minecraft.block.Block.getShape} returns the shared
+ * {@code VoxelShapes.block()} singleton and {@code Block.getCollisionShape}
+ * returns that shape for collidable blocks. {@code Blocks} registers
+ * {@code dirt}, {@code cobblestone} and {@code oak_planks} as ordinary
+ * {@code Block} instances. Exact 1.14.1
+ * Yarn build 10, {@code Block.getOutlineShape} and {@code Block.getCollisionShape}
+ * use the shared {@code VoxelShapes.fullCube()} singleton; {@code Blocks}'
+ * registrations for {@code dirt}, {@code cobblestone} and {@code oak_planks}
+ * likewise use ordinary {@code Block} instances. Runtime checks keep the
+ * product's canonical {@code Shapes.block()} identity requirement. Exact 1.13,
+ * 1.13.1 and 1.13.2 Ornithe Feather Gen2 build 2,
  * {@code net.minecraft.world.WorldView.getBlockCollisions}, and exact 1.14
  * Ornithe Feather Gen2 build 2, {@code net.minecraft.world.WorldView.getCollisions};
  * each accumulates full cubes on the padded integer grid and emits an
@@ -115,7 +127,8 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                     if (state.isAir()) {
                         continue;
                     }
-                    if (!state.is(Blocks.STONE)
+                    if (!(state.is(Blocks.STONE) || state.is(Blocks.DIRT)
+                        || state.is(Blocks.COBBLESTONE) || state.is(Blocks.OAK_PLANKS))
                         || state.getCollisionShape(level, pos, context) != Shapes.block()) {
                         return null;
                     }
