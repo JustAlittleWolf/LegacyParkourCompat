@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic;
 
 import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MovementController;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistory;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistoryAccess;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepDescentHook;
@@ -32,6 +33,8 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
 import net.minecraft.core.Direction;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityWriteHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.PushAwayProbeRangeHook;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
@@ -138,6 +141,46 @@ public final class MovementRuntime {
         return find(StepDescentHook.class, entity)
             .map(hook -> hook.downwardReturn(nativeDescent, configuredStepHeight))
             .orElse(nativeDescent);
+    }
+
+    /**
+     * Resolves the existing suffocation predicate with an independently selected
+     * push-away row range when the bounded stone/air witness applies.
+     */
+    public static boolean pushAwaySuffocatesAt(LocalPlayer player, BlockPos pos, VanillaFn<Boolean> vanilla) {
+        var predicate = find(SuffocationProbeHook.class, player);
+        if (predicate.isEmpty()) {
+            return vanilla.get();
+        }
+
+        ParkourVersion target = profile(player).target();
+        var rangeHook = find(PushAwayProbeRangeHook.class, player);
+        if (rangeHook.isEmpty() || player.isSwimming()) {
+            return predicate.get().suffocatesAt(player, target, pos, vanilla);
+        }
+
+        AABB box = player.getBoundingBox();
+        var selectedRange = rangeHook.get().probeRange(box.minY);
+        if (selectedRange.isEmpty() || !supportsStoneAirPushAwayWitness(player, pos, box, selectedRange.get())) {
+            return predicate.get().suffocatesAt(player, target, pos, vanilla);
+        }
+
+        var rows = selectedRange.get();
+        return predicate.get().suffocatesAt(
+            player, target, pos, rows.minY(), rows.maxYExclusive(), vanilla);
+    }
+
+    private static boolean supportsStoneAirPushAwayWitness(LocalPlayer player, BlockPos column, AABB box,
+                                                            PushAwayProbeRangeHook.ProbeRange range) {
+        int minY = Math.min(Mth.floor(box.minY), range.minY());
+        int maxY = Math.max(Mth.ceil(box.maxY), range.maxYExclusive());
+        for (int y = minY; y < maxY; y++) {
+            BlockState state = player.level().getBlockState(new BlockPos(column.getX(), y, column.getZ()));
+            if (!state.isAir() && !state.is(Blocks.STONE)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** Pure calculation, shared by movement bookkeeping and the eventual write. */

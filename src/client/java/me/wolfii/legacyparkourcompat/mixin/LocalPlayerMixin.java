@@ -669,14 +669,9 @@ abstract class LocalPlayerMixin {
     @Inject(method = "suffocatesAt", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$suffocationQuery(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        MovementRuntime.find(SuffocationProbeHook.class, player).ifPresent(behavior ->
-            callback.setReturnValue(behavior.suffocatesAt(
-                player,
-                MovementRuntime.profile(player).target(),
-                pos,
-                callback::getReturnValue
-            ))
-        );
+        if (MovementRuntime.find(SuffocationProbeHook.class, player).isPresent()) {
+            callback.setReturnValue(MovementRuntime.pushAwaySuffocatesAt(player, pos, callback::getReturnValue));
+        }
     }
 
     @Redirect(

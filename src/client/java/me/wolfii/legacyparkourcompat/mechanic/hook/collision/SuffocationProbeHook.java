@@ -12,4 +12,10 @@ import net.minecraft.world.entity.player.Player;
 @MechanicType("player.client_unstuck.suffocation")
 public interface SuffocationProbeHook extends VersionedMechanic {
     boolean suffocatesAt(Player player, ParkourVersion target, BlockPos pos, VanillaFn<Boolean> vanilla);
+
+    /** Applies this predicate to an explicitly selected vertical probe range. */
+    default boolean suffocatesAt(Player player, ParkourVersion target, BlockPos pos,
+                                 int minY, int maxYExclusive, VanillaFn<Boolean> vanilla) {
+        return this.suffocatesAt(player, target, pos, vanilla);
+    }
 }
