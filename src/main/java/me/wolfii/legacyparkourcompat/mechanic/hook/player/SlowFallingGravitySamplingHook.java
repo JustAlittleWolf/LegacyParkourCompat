@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.mechanic.hook.player;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
+import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 
 import java.util.OptionalDouble;
 
@@ -17,7 +18,7 @@ import java.util.OptionalDouble;
  * An empty result requests the native effective-gravity value instead.
  */
 @MechanicType("player.travel.slow_falling_gravity_sampling")
-public interface SlowFallingGravitySamplingHook {
+public interface SlowFallingGravitySamplingHook extends VersionedMechanic {
     /**
      * Returns the selected historical gravity, or empty to retain the native
      * effective-gravity result at the subtraction site.
