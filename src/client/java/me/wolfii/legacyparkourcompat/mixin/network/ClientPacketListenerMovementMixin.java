@@ -161,9 +161,11 @@ public abstract class ClientPacketListenerMovementMixin {
     private Vec3 legacyparkourcompat$captureRelativeDelta(VecDeltaCodec codec, long xa, long ya, long za) {
         Entity entity = LEGACY_RELATIVE_ENTITY.get();
         Vec3 base = codec.getBase();
-        Vec3 nativeTarget = MovementRuntime.find(RelativePositionReconstructionHook.class, entity)
-            .flatMap(hook -> hook.decode(base, xa, ya, za))
-            .orElseGet(() -> codec.decode(xa, ya, za));
+        Vec3 nativeTarget = ClientPacketMovementPolicy.isCurrentLocalPlayer(entity)
+            ? MovementRuntime.find(RelativePositionReconstructionHook.class, entity)
+                .flatMap(hook -> hook.decode(base, xa, ya, za))
+                .orElseGet(() -> codec.decode(xa, ya, za))
+            : codec.decode(xa, ya, za);
         long[] delta = LEGACY_RELATIVE_DELTA.get();
         delta[0] = xa;
         delta[1] = ya;
