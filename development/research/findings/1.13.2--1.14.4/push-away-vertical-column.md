@@ -1,0 +1,9 @@
+# Local-player push-away vertical-column probe
+
+Minecraft 1.13.2, Ornithe Feather: `client/entity/living/player/LocalClientPlayerEntity.java`, `pushAwayFrom` and `wouldCollideAt` (`:401–455`); `entity/living/player/PlayerEntity.java`, `doesNotSuffocate` and `shouldSuffocate` (`:1479–1485`).
+
+Minecraft 1.14.4, Ornithe Feather: `client/entity/living/player/LocalClientPlayerEntity.java`, `pushAwayFrom` and `wouldCollideAt` (`:389–447`); `entity/living/player/PlayerEntity.java`, `shouldSuffocate` (`:1420–1422`).
+
+Difference: the checked 1.13, 1.13.1, and 1.13.2 `pushAwayFrom`, `wouldCollideAt`, and player suffocation-predicate bodies are identical: the sampled block position at `floor(sampleY)` is checked, with the non-swimming predicate also checking the block above. 1.14.4 instead scans the sampled X/Z column over `floor(box.minY) <= y < ceil(box.maxY)`. The exact stable 1.14 release and 1.14.1–1.14.3 already use this vertical scan, through `ClientPlayerEntity.pushOutOfBlocks` → `cannotFitAt`; their `doesNotSuffocate` uses `BlockState.canSuffocate`, whereas 1.14.4 uses `isViewBlocking` through `shouldSuffocate`.
+
+Movement meaning: with a non-swimming local player at box `[0.16,0.76] × [0.8,2.6] × [0.2,0.8]`, center `(0.46,0.5)`, velocity `(0.25,0.3,0.4)`, `noClip=false`, stone at `(0,0,0)`, and air in the horizontal neighbor columns at Y=0,1,2, all four old-version samples floor to `(0,1,0)` and miss the lower stone, preserving velocity. The new scan sees that stone and the ordered four corner responses finish at `(-0.1,0.3,0.1)`. The witness is a conditional raw overlap input, not an asserted collision-free trajectory. The new probe is present in stable release 1.14; the cached exact release catalog lists no stable release between 1.13.2 and 1.14 (snapshots are out of scope), so 1.14 is the first stable release with the probe in this interval.

@@ -1,0 +1,70 @@
+From 2816124bb5237d7fb53f69b708c4b3891d668e69 Mon Sep 17 00:00:00 2001
+From: JustAlittleWolf <jakobi5000@gmail.com>
+Date: Tue, 3 Nov 2026 20:03:10 +0100
+Subject: [PATCH] Add legacy push-away probe range mechanic
+
+---
+ .../v1_13_1/player/PushAwayProbeRange.java    | 24 +++++++++++++++++++
+ .../hook/player/PushAwayProbeRangeHook.java   | 19 +++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/player/PushAwayProbeRange.java
+ create mode 100644 src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/player/PushAwayProbeRangeHook.java
+
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/player/PushAwayProbeRange.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/player/PushAwayProbeRange.java
+new file mode 100644
+index 0000000..7d38862
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/player/PushAwayProbeRange.java
+@@ -0,0 +1,24 @@
++package me.wolfii.legacyparkourcompat.change.v1_13_1.player;
++
++import me.wolfii.legacyparkourcompat.api.ParkourVersion;
++import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.hook.player.PushAwayProbeRangeHook;
++
++/**
++ * Keeps the pre-1.14 push-away probe at its sampled block row.
++ *
++ * <p>In Ornithe Feather 1.13.2, LocalClientPlayerEntity.tick passes
++ * {@code box.minY + 0.5} to pushAwayFrom; BlockPos(double, double, double)
++ * floors that sample, and wouldCollideAt tests the resulting position. In
++ * Ornithe Feather 1.14, LocalClientPlayerEntity.tick passes the same sample,
++ * while wouldCollideAt scans from floor(box.minY) through the rows below
++ * ceil(box.maxY). This hook selects the old sampled row; the caller retains the
++ * version-appropriate suffocation predicate.
++ */
++@MovementChange(emulates = ParkourVersion.V1_13_1)
++public final class PushAwayProbeRange implements PushAwayProbeRangeHook {
++    @Override
++    public ProbeRange probeRange(int sampledBlockY, double boxMinY, double boxMaxY) {
++        return new ProbeRange(sampledBlockY, sampledBlockY + 1);
++    }
++}
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/player/PushAwayProbeRangeHook.java b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/player/PushAwayProbeRangeHook.java
+new file mode 100644
+index 0000000..62542d9
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/player/PushAwayProbeRangeHook.java
+@@ -0,0 +1,19 @@
++package me.wolfii.legacyparkourcompat.mechanic.hook.player;
++
++import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
++import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
++
++/** Selects the vertical block rows checked by one local-player push-away probe. */
++@MechanicType("player.push-away.probe-range")
++public interface PushAwayProbeRangeHook extends VersionedMechanic {
++    /**
++     * Returns rows tested by one probe. {@code sampledBlockY} is the Y from the
++     * caller's already constructed sample BlockPos; predicate behavior remains
++     * the caller's responsibility.
++     */
++    ProbeRange probeRange(int sampledBlockY, double boxMinY, double boxMaxY);
++
++    /** Inclusive lower and exclusive upper block Y bounds. */
++    record ProbeRange(int minY, int maxYExclusive) {
++    }
++}
+-- 
+2.53.0.windows.2
+

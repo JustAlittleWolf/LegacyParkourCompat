@@ -1,0 +1,639 @@
+From 68f952c72e3573b09c71b038ae1b9f99be940a72 Mon Sep 17 00:00:00 2001
+From: JustAlittleWolf <jakobi5000@gmail.com>
+Date: Tue, 3 Nov 2026 19:45:29 +0100
+Subject: [PATCH 1/3] Integrate tiny-offset axis clipping context
+
+---
+ .../change/v1_11_2/AxisClipping.java          |   6 +-
+ .../change/v1_12/AxisClipping.java            |  28 +++-
+ .../change/v1_13/AxisClipping.java            |   8 +-
+ .../change/v1_13_1/OrderedShapeAxisClip.java  |  30 +++++
+ .../mechanic/CollisionAxisOrderContext.java   |  39 +++++-
+ .../mechanic/MovementRuntime.java             | 126 +++++++++++++++++-
+ .../hook/collision/AxisClippingHook.java      |   5 +-
+ .../mixin/EntityMixin.java                    |   5 +-
+ 8 files changed, 233 insertions(+), 14 deletions(-)
+ create mode 100644 src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/OrderedShapeAxisClip.java
+
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/AxisClipping.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/AxisClipping.java
+index 3532e771..e07bb1fc 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/AxisClipping.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/AxisClipping.java
+@@ -4,6 +4,7 @@ import java.util.OptionalDouble;
+ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+ import me.wolfii.legacyparkourcompat.change.common.StrictAxisClipping;
+ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
+ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
+ import net.minecraft.core.Direction;
+ import net.minecraft.world.level.block.Blocks;
+@@ -22,7 +23,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
+ @MovementChange(emulates = ParkourVersion.V1_11_2)
+ public final class AxisClipping implements AxisClippingHook {
+     @Override
+-    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance) {
++    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
++                               CollisionAxisOrderContext.HistoricalAxisCandidates candidates) {
+         return StrictAxisClipping.clip(axis, moving, shapes, distance, state -> state.is(Blocks.STONE));
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/AxisClipping.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/AxisClipping.java
+index 2d39662b..c6cbd478 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/AxisClipping.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/AxisClipping.java
+@@ -5,6 +5,7 @@ import java.util.Set;
+ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+ import me.wolfii.legacyparkourcompat.change.common.StrictAxisClipping;
+ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
+ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
+ import net.minecraft.core.Direction;
+ import net.minecraft.core.registries.BuiltInRegistries;
+@@ -252,8 +253,31 @@ public final class AxisClipping implements AxisClippingHook {
+     );
+ 
+     @Override
+-    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance) {
++    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
++                               CollisionAxisOrderContext.HistoricalAxisCandidates candidates) {
++        if (candidates != null) {
++            // 1.12.2 Ornithe Feather Entity#move visits block boxes before entity boxes;
++            // Box#intersectX/intersectY/intersectZ clips each against strict transverse overlap.
++            double offset = distance;
++            Direction.Axis firstOther = axis == Direction.Axis.X ? Direction.Axis.Y : Direction.Axis.X;
++            Direction.Axis secondOther = axis == Direction.Axis.Z ? Direction.Axis.Y : Direction.Axis.Z;
++            if (axis == Direction.Axis.Y) secondOther = Direction.Axis.Z;
++            for (AABB candidate : candidates.orderedBoxes()) {
++                if (candidate.max(firstOther) <= moving.min(firstOther)
++                    || candidate.min(firstOther) >= moving.max(firstOther)
++                    || candidate.max(secondOther) <= moving.min(secondOther)
++                    || candidate.min(secondOther) >= moving.max(secondOther)) continue;
++                if (offset > 0.0 && candidate.max(axis) <= moving.min(axis)) {
++                    double gap = moving.min(axis) - candidate.max(axis);
++                    if (gap < offset) offset = gap;
++                } else if (offset < 0.0 && candidate.min(axis) >= moving.max(axis)) {
++                    double gap = moving.max(axis) - candidate.min(axis);
++                    if (gap > offset) offset = gap;
++                }
++            }
++            return OptionalDouble.of(offset);
++        }
+         return StrictAxisClipping.clip(axis, moving, shapes, distance,
+             state -> FULL_CUBE_PROVIDERS.contains(BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString()));
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13/AxisClipping.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13/AxisClipping.java
+index 27bb2301..5e408369 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13/AxisClipping.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13/AxisClipping.java
+@@ -26,7 +26,13 @@ import java.util.OptionalDouble;
+ @MovementChange(emulates = ParkourVersion.V1_13)
+ public final class AxisClipping implements AxisClippingHook {
+     @Override
+-    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance) {
++    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
++                               CollisionAxisOrderContext.HistoricalAxisCandidates candidates) {
++        if (candidates != null) {
++            // 1.13.0 Ornithe Feather WorldView#getCollisions joins the block union with
++            // the eligible entity union using joinUnoptimized(BooleanOp.OR) before clipping.
++            return OptionalDouble.of(candidates.unionShape().collide(axis, moving, distance));
++        }
+         VoxelShape aggregate = CollisionAxisOrderContext.collectedBlockShape();
+         if (aggregate == null) {
+             return OptionalDouble.empty();
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/OrderedShapeAxisClip.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/OrderedShapeAxisClip.java
+new file mode 100644
+index 00000000..3f677f9a
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/OrderedShapeAxisClip.java
+@@ -0,0 +1,30 @@
++package me.wolfii.legacyparkourcompat.change.v1_13_1;
++
++import me.wolfii.legacyparkourcompat.api.ParkourVersion;
++import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
++import me.wolfii.legacyparkourcompat.mechanic.hook.collision.AxisClippingHook;
++import net.minecraft.core.Direction;
++import net.minecraft.world.phys.AABB;
++import net.minecraft.world.phys.shapes.VoxelShape;
++
++import java.util.List;
++import java.util.OptionalDouble;
++
++/** 1.13.1 Ornithe Feather VoxelShapes#calculateMaxOffset returns zero before folding a next shape below 1.0E-7. */
++@MovementChange(emulates = ParkourVersion.V1_13_1)
++public final class OrderedShapeAxisClip implements AxisClippingHook {
++    public OrderedShapeAxisClip() { }
++
++    @Override
++    public OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
++                               CollisionAxisOrderContext.HistoricalAxisCandidates candidates) {
++        if (candidates == null) return OptionalDouble.empty();
++        double offset = distance;
++        for (VoxelShape candidate : candidates.historicalOrder()) {
++            if (Math.abs(offset) < 1.0E-7) return OptionalDouble.of(0.0);
++            offset = candidate.collide(axis, moving, offset);
++        }
++        return OptionalDouble.of(offset);
++    }
++}
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/CollisionAxisOrderContext.java b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/CollisionAxisOrderContext.java
+index 5980f30f..e1cc3c3b 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/CollisionAxisOrderContext.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/CollisionAxisOrderContext.java
+@@ -1,11 +1,13 @@
+ package me.wolfii.legacyparkourcompat.mechanic;
+ 
+ import net.minecraft.world.entity.Entity;
++import net.minecraft.world.entity.MoverType;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ 
+ import java.util.function.Supplier;
++import java.util.List;
+ 
+ /** Keeps the entity scope limited to one collision resolution, including nested collisions. */
+ public final class CollisionAxisOrderContext {
+@@ -14,9 +16,21 @@ public final class CollisionAxisOrderContext {
+     private static final ThreadLocal<MovementQuery> MOVEMENT_QUERY = new ThreadLocal<>();
+     private static final ThreadLocal<VoxelShape> COLLECTED_BLOCK_SHAPE = new ThreadLocal<>();
+     private static final ThreadLocal<Boolean> BLOCK_COLLECTION_DISABLED = new ThreadLocal<>();
++    private static final ThreadLocal<HistoricalAxisCandidates> HISTORICAL_AXIS_CANDIDATES = new ThreadLocal<>();
++
++    /** Candidate geometry proven equivalent to the bounded old query, in old block-first order. */
++    public record HistoricalAxisCandidates(AABB sweptBox, List<VoxelShape> nativeOrder,
++                                           List<VoxelShape> historicalOrder, List<AABB> orderedBoxes,
++                                           VoxelShape unionShape) {
++        public HistoricalAxisCandidates {
++            nativeOrder = List.copyOf(nativeOrder);
++            historicalOrder = List.copyOf(historicalOrder);
++            orderedBoxes = List.copyOf(orderedBoxes);
++        }
++    }
+ 
+     /** Actual post-adjustment vector passed to the primary {@code Entity.collide} call. */
+-    public record MovementQuery(Entity entity, AABB startingBox, Vec3 requestedMovement,
++    public record MovementQuery(Entity entity, MoverType moverType, AABB startingBox, Vec3 requestedMovement,
+                                 boolean unadjustedPrimaryMovement) {
+         public AABB sweptBox() {
+             return this.startingBox.expandTowards(this.requestedMovement);
+@@ -50,6 +64,18 @@ public final class CollisionAxisOrderContext {
+         return COLLECTED_BLOCK_SHAPE.get();
+     }
+ 
++    public static void historicalAxisCandidates(HistoricalAxisCandidates candidates) {
++        HISTORICAL_AXIS_CANDIDATES.set(candidates);
++    }
++
++    public static HistoricalAxisCandidates historicalAxisCandidates() {
++        return HISTORICAL_AXIS_CANDIDATES.get();
++    }
++
++    public static void clearHistoricalAxisCandidates() {
++        HISTORICAL_AXIS_CANDIDATES.remove();
++    }
++
+     public static void clearCollectedBlockShape() {
+         COLLECTED_BLOCK_SHAPE.remove();
+     }
+@@ -79,13 +105,15 @@ public final class CollisionAxisOrderContext {
+         }
+     }
+ 
+-    public static <T> T withMovementEntity(Entity entity, AABB startingBox, Vec3 requestedMovement,
++    public static <T> T withMovementEntity(Entity entity, MoverType moverType, AABB startingBox, Vec3 requestedMovement,
+                                           boolean unadjustedPrimaryMovement,
+                                           Supplier<T> action) {
+         MovementQuery previousQuery = MOVEMENT_QUERY.get();
+         VoxelShape previousShape = COLLECTED_BLOCK_SHAPE.get();
+-        MOVEMENT_QUERY.set(new MovementQuery(entity, startingBox, requestedMovement, unadjustedPrimaryMovement));
++        HistoricalAxisCandidates previousCandidates = HISTORICAL_AXIS_CANDIDATES.get();
++        MOVEMENT_QUERY.set(new MovementQuery(entity, moverType, startingBox, requestedMovement, unadjustedPrimaryMovement));
+         COLLECTED_BLOCK_SHAPE.remove();
++        HISTORICAL_AXIS_CANDIDATES.remove();
+         try {
+             return withEntity(entity, action);
+         } finally {
+@@ -99,6 +127,11 @@ public final class CollisionAxisOrderContext {
+             } else {
+                 COLLECTED_BLOCK_SHAPE.set(previousShape);
+             }
++            if (previousCandidates == null) {
++                HISTORICAL_AXIS_CANDIDATES.remove();
++            } else {
++                HISTORICAL_AXIS_CANDIDATES.set(previousCandidates);
++            }
+         }
+     }
+ 
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
+index d7bbecf2..1a6c2777 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
+@@ -14,6 +14,8 @@ import net.minecraft.client.player.LocalPlayer;
+ import net.minecraft.core.registries.BuiltInRegistries;
+ import net.minecraft.resources.Identifier;
+ import net.minecraft.world.entity.Entity;
++import net.minecraft.world.entity.LivingEntity;
++import net.minecraft.world.entity.MoverType;
+ import net.minecraft.world.entity.Pose;
+ import net.minecraft.world.entity.EntityDimensions;
+ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+@@ -423,6 +425,27 @@ public final class MovementRuntime {
+         VanillaFn<Iterable<VoxelShape>> vanilla
+     ) {
+         CollisionAxisOrderContext.clearCollectedBlockShape();
++        CollisionAxisOrderContext.clearHistoricalAxisCandidates();
++        if (entity instanceof LocalPlayer player && Minecraft.getInstance().player == player
++            && find(AxisClippingHook.class, player).isPresent()
++            && entityCandidates.size() == 1) {
++            var movement = CollisionAxisOrderContext.movementQuery();
++            if (movement != null && movement.entity() == entity && movement.unadjustedPrimaryMovement()
++                && movement.moverType() == MoverType.SELF
++                && movement.requestedMovement().lengthSqr() != 0.0
++                && !entity.noPhysics && !player.isShiftKeyDown() && !player.isPassenger() && !entity.onGround()
++                && movement.requestedMovement().y >= 0.0
++                && movement.startingBox().equals(entity.getBoundingBox())
++                && movement.sweptBox().equals(sweptBox)
++                && !CollisionAxisOrderContext.blockCollectionDisabled()
++                && context instanceof MovementCollisionContext movementContext
++                && movementContext.query().equals(sweptBox)) {
++                List<VoxelShape> nativeBlocks = new ArrayList<>();
++                vanilla.get().forEach(nativeBlocks::add);
++                captureHistoricalAxisCandidates(player, level, sweptBox, entityCandidates, nativeBlocks);
++                return nativeBlocks;
++            }
++        }
+         if (!(entity instanceof LocalPlayer)
+             || !appliesTo(entity)
+             || CollisionAxisOrderContext.blockCollectionDisabled()
+@@ -515,6 +538,84 @@ public final class MovementRuntime {
+         return historical.get();
+     }
+ 
++    private static void captureHistoricalAxisCandidates(LocalPlayer player, Level level, AABB query,
++                                                        List<VoxelShape> entityCandidates,
++                                                        List<VoxelShape> blockCandidates) {
++        // 1.13.1 Ornithe Feather EntityView#getEntityCollisions expands by 0.25, excludes
++        // the source/same vehicle and keeps intersecting entity collision boxes after blocks.
++        // 26.2 unobfuscated EntityGetter#getEntityCollisions uses a 1.0E-7 envelope and
++        // canCollideWith, while Entity#collectCollidersIgnoringWorldBorder orders entities first.
++        // Admit this bounded stone/closed default-size entity geometry only when both entity
++        // queries return the same sole live candidate and the native shape is its exact box.
++        if (!appliesTo(player) || entityCandidates.size() != 1 || blockCandidates.size() != 1) return;
++        var border = level.getWorldBorder();
++        if (!border.isWithinBounds(player.getBoundingBox()) || border.isInsideCloseToBorder(player, query)) return;
++
++        VoxelShape blockShape = blockCandidates.getFirst();
++        List<AABB> blockBoxes = blockShape.toAabbs();
++        if (blockBoxes.size() != 1) return;
++        AABB stoneBox = blockBoxes.getFirst();
++        if (stoneBox.getXsize() != 1.0 || stoneBox.getYsize() != 1.0 || stoneBox.getZsize() != 1.0
++            || stoneBox.minX != Math.floor(stoneBox.minX) || stoneBox.minY != Math.floor(stoneBox.minY)
++            || stoneBox.minZ != Math.floor(stoneBox.minZ)) return;
++        BlockPos stonePos = BlockPos.containing(stoneBox.minX, stoneBox.minY, stoneBox.minZ);
++        if (!loadedStoneAirEnvelope(level, query, stonePos)) return;
++
++        AABB oldEntityEnvelope = query.inflate(0.25);
++        AABB nativeEntityEnvelope = query.inflate(1.0E-7);
++        List<Entity> oldEnvelopeEntities = level.getEntities(player, oldEntityEnvelope,
++            other -> !other.isSpectator());
++        List<Entity> nativeEntities = level.getEntities(player, nativeEntityEnvelope,
++            other -> !other.isSpectator() && player.canCollideWith(other));
++        if (oldEnvelopeEntities.size() != 1 || nativeEntities.size() != 1
++            || oldEnvelopeEntities.getFirst() != nativeEntities.getFirst()) return;
++
++        Entity candidate = oldEnvelopeEntities.getFirst();
++        AABB entityBox = candidate.getBoundingBox();
++        if (!candidate.isAlive() || !(candidate instanceof LivingEntity living) || player.hasSameVehicle(candidate)
++            || living.getScale() != 1.0F
++            || !candidate.getBoundingBox().intersects(query)
++            || entityBox.getXsize() != 1.0 || entityBox.getYsize() != 1.0 || entityBox.getZsize() != 1.0
++            || candidate.getBbWidth() != 1.0F || candidate.getBbHeight() != 1.0F) return;
++        List<AABB> nativeEntityBoxes = entityCandidates.getFirst().toAabbs();
++        if (nativeEntityBoxes.size() != 1 || !nativeEntityBoxes.getFirst().equals(candidate.getBoundingBox())) return;
++
++        List<VoxelShape> historicalOrder = List.of(blockShape, entityCandidates.getFirst());
++        List<AABB> orderedBoxes = new ArrayList<>(2);
++        orderedBoxes.addAll(blockBoxes);
++        orderedBoxes.addAll(nativeEntityBoxes);
++        VoxelShape entityUnion = Shapes.joinUnoptimized(Shapes.empty(), entityCandidates.getFirst(), BooleanOp.OR);
++        VoxelShape unionShape = Shapes.joinUnoptimized(blockShape, entityUnion, BooleanOp.OR);
++        CollisionAxisOrderContext.historicalAxisCandidates(new CollisionAxisOrderContext.HistoricalAxisCandidates(
++            query, List.of(entityCandidates.getFirst(), blockShape), historicalOrder, orderedBoxes, unionShape));
++    }
++
++    private static boolean loadedStoneAirEnvelope(Level level, AABB query, BlockPos expectedStone) {
++        int minX = Mth.floor(query.minX);
++        int minY = Mth.floor(query.minY);
++        int minZ = Mth.floor(query.minZ);
++        int maxX = Mth.floor(Math.nextDown(query.maxX));
++        int maxY = Mth.floor(Math.nextDown(query.maxY));
++        int maxZ = Mth.floor(Math.nextDown(query.maxZ));
++        int stones = 0;
++        for (int x = minX; x <= maxX; x++) {
++            for (int y = minY; y <= maxY; y++) {
++                for (int z = minZ; z <= maxZ; z++) {
++                    BlockPos pos = new BlockPos(x, y, z);
++                    if (!level.hasChunkAt(pos)) return false;
++                    var state = level.getBlockState(pos);
++                    if (state.is(Blocks.STONE)) {
++                        if (!pos.equals(expectedStone)) return false;
++                        stones++;
++                    } else if (!state.isAir()) {
++                        return false;
++                    }
++                }
++            }
++        }
++        return stones == 1;
++    }
++
+     private static final Map<String, String> CURRENT_TO_LEGACY_113_SLAB_KEYS = Map.ofEntries(
+         Map.entry("minecraft:oak_slab", "minecraft:oak_slab"),
+         Map.entry("minecraft:spruce_slab", "minecraft:spruce_slab"),
+@@ -815,14 +916,33 @@ public final class MovementRuntime {
+                                           VanillaFn<Double> vanilla) {
+         var hook = find(AxisClippingHook.class, entity);
+         if (hook.isPresent()) {
+-            var clipped = hook.get().clip(axis, moving, shapes, distance);
+-            if (clipped.isPresent()) {
+-                return clipped.getAsDouble();
++            var candidates = CollisionAxisOrderContext.historicalAxisCandidates();
++            if (candidates != null && entity instanceof LocalPlayer player
++                && Minecraft.getInstance().player == player) {
++                var movement = CollisionAxisOrderContext.movementQuery();
++                List<VoxelShape> nativeShapes = new ArrayList<>();
++                shapes.forEach(nativeShapes::add);
++                if (movement != null && candidates.sweptBox().equals(movement.sweptBox())
++                    && sameShapeOrder(candidates.nativeOrder(), nativeShapes)) {
++                    var clipped = hook.get().clip(axis, moving, nativeShapes, distance, candidates);
++                    if (clipped.isPresent()) return clipped.getAsDouble();
++                    return vanilla.get();
++                }
++                return hook.get().clip(axis, moving, nativeShapes, distance, null).orElseGet(vanilla::get);
+             }
++            return hook.get().clip(axis, moving, shapes, distance, null).orElseGet(vanilla::get);
+         }
+         return vanilla.get();
+     }
+ 
++    private static boolean sameShapeOrder(List<VoxelShape> expected, List<VoxelShape> actual) {
++        if (expected.size() != actual.size()) return false;
++        for (int i = 0; i < expected.size(); i++) {
++            if (expected.get(i) != actual.get(i)) return false;
++        }
++        return true;
++    }
++
+     public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement,
+                                                 List<VoxelShape> shapes, VanillaFn<Vec3> vanilla) {
+         // Use the exact admission decision and shape from this call, including
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/collision/AxisClippingHook.java b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/collision/AxisClippingHook.java
+index d84e7335..732160ac 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/collision/AxisClippingHook.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/collision/AxisClippingHook.java
+@@ -2,13 +2,16 @@ package me.wolfii.legacyparkourcompat.mechanic.hook.collision;
+ 
+ import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
+ import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
++import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
+ import net.minecraft.core.Direction;
+ import net.minecraft.world.phys.AABB;
+ import net.minecraft.world.phys.shapes.VoxelShape;
+ import java.util.OptionalDouble;
++import org.jspecify.annotations.Nullable;
+ 
+ /** Resolves one movement axis against supplied shapes; empty retains native clipping. */
+ @MechanicType("collision.axis_clipping")
+ public interface AxisClippingHook extends VersionedMechanic {
+-    OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance);
++    OptionalDouble clip(Direction.Axis axis, AABB moving, Iterable<VoxelShape> shapes, double distance,
++                        @Nullable CollisionAxisOrderContext.HistoricalAxisCandidates candidates);
+ }
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mixin/EntityMixin.java b/src/client/java/me/wolfii/legacyparkourcompat/mixin/EntityMixin.java
+index c8b53abb..39a40b9f 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mixin/EntityMixin.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mixin/EntityMixin.java
+@@ -416,12 +416,13 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
+         @Share("requestedMovement") LocalRef<Vec3> requested,
+         @Share("resolvedMovement") LocalRef<Vec3> resolved,
+         @Share("resolvedCollisionBox") LocalRef<AABB> resolvedBox,
+-        @Local(argsOnly = true) Vec3 movementAtMoveEntry) {
++        @Local(argsOnly = true) Vec3 movementAtMoveEntry,
++        @Local(argsOnly = true) MoverType moverType) {
+         requested.set(movement);
+         AABB startingBox = entity.getBoundingBox();
+         boolean unadjustedPrimaryMovement = movement.equals(movementAtMoveEntry);
+         Vec3 result = CollisionAxisOrderContext.withMovementEntity(
+-            entity, startingBox, movement, unadjustedPrimaryMovement, () -> {
++            entity, moverType, startingBox, movement, unadjustedPrimaryMovement, () -> {
+             Vec3 clipped = original.call(entity, movement);
+             resolvedBox.set(CollisionAxisOrderContext.resolvedBox());
+             return clipped;
+-- 
+2.53.0.windows.2
+
+
+From f7f7eee48596028df375c3156a1399a1f5aebd97 Mon Sep 17 00:00:00 2001
+From: JustAlittleWolf <jakobi5000@gmail.com>
+Date: Tue, 3 Nov 2026 19:47:22 +0100
+Subject: [PATCH 2/3] Restrict tiny-axis context to closed shulkers
+
+---
+ .../mechanic/MovementRuntime.java                    | 10 +++++++++-
+ .../mixin/accessor/ShulkerAccessor.java              | 12 ++++++++++++
+ .../resources/legacyparkourcompat.client.mixins.json |  1 +
+ 3 files changed, 22 insertions(+), 1 deletion(-)
+ create mode 100644 src/client/java/me/wolfii/legacyparkourcompat/mixin/accessor/ShulkerAccessor.java
+
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
+index 1a6c2777..9a138ead 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
+@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
+ import net.minecraft.world.entity.LivingEntity;
+ import net.minecraft.world.entity.MoverType;
+ import net.minecraft.world.entity.Pose;
++import net.minecraft.world.entity.monster.Shulker;
+ import net.minecraft.world.entity.EntityDimensions;
+ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+@@ -56,6 +57,7 @@ import net.minecraft.world.level.material.FluidState;
+ import net.minecraft.world.level.block.entity.BlockEntity;
+ import net.minecraft.world.phys.shapes.BooleanOp;
+ import net.minecraft.world.phys.shapes.Shapes;
++import me.wolfii.legacyparkourcompat.mixin.accessor.ShulkerAccessor;
+ 
+ import java.util.List;
+ import java.util.HashMap;
+@@ -563,6 +565,9 @@ public final class MovementRuntime {
+ 
+         AABB oldEntityEnvelope = query.inflate(0.25);
+         AABB nativeEntityEnvelope = query.inflate(1.0E-7);
++        // 1.13.1 WorldView#getEntityCollisions uses non-spectator getEntities, then
++        // excludes same-vehicle candidates. 26.2 EntityGetter adds canCollideWith to
++        // NO_SPECTATORS; equality of these post-filter sets is mandatory.
+         List<Entity> oldEnvelopeEntities = level.getEntities(player, oldEntityEnvelope,
+             other -> !other.isSpectator());
+         List<Entity> nativeEntities = level.getEntities(player, nativeEntityEnvelope,
+@@ -572,7 +577,10 @@ public final class MovementRuntime {
+ 
+         Entity candidate = oldEnvelopeEntities.getFirst();
+         AABB entityBox = candidate.getBoundingBox();
+-        if (!candidate.isAlive() || !(candidate instanceof LivingEntity living) || player.hasSameVehicle(candidate)
++        if (!candidate.isAlive() || !(candidate instanceof LivingEntity living)
++            || !(candidate instanceof Shulker shulker)
++            || ((ShulkerAccessor) shulker).legacyparkourcompat$rawPeekAmount() != 0
++            || player.hasSameVehicle(candidate)
+             || living.getScale() != 1.0F
+             || !candidate.getBoundingBox().intersects(query)
+             || entityBox.getXsize() != 1.0 || entityBox.getYsize() != 1.0 || entityBox.getZsize() != 1.0
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mixin/accessor/ShulkerAccessor.java b/src/client/java/me/wolfii/legacyparkourcompat/mixin/accessor/ShulkerAccessor.java
+new file mode 100644
+index 00000000..c742b2a2
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mixin/accessor/ShulkerAccessor.java
+@@ -0,0 +1,12 @@
++package me.wolfii.legacyparkourcompat.mixin.accessor;
++
++import net.minecraft.world.entity.monster.Shulker;
++import org.spongepowered.asm.mixin.Mixin;
++import org.spongepowered.asm.mixin.gen.Invoker;
++
++/** Reads the Shulker's authoritative closed-state byte without changing it. */
++@Mixin(Shulker.class)
++public interface ShulkerAccessor {
++    @Invoker("getRawPeekAmount")
++    int legacyparkourcompat$rawPeekAmount();
++}
+diff --git a/src/client/resources/legacyparkourcompat.client.mixins.json b/src/client/resources/legacyparkourcompat.client.mixins.json
+index 2e6011f8..6ad52331 100644
+--- a/src/client/resources/legacyparkourcompat.client.mixins.json
++++ b/src/client/resources/legacyparkourcompat.client.mixins.json
+@@ -78,6 +78,7 @@
+     "client.LocalPlayerAccessor",
+     "client.ClientInputAccessor",
+     "accessor.PistonMovingBlockEntityAccessor",
++    "accessor.ShulkerAccessor",
+     "item.TridentItemMixin"
+   ],
+   "injectors": {
+-- 
+2.53.0.windows.2
+
+
+From d7003cfdb6ffffd1e6d9996974d4443418929eee Mon Sep 17 00:00:00 2001
+From: JustAlittleWolf <jakobi5000@gmail.com>
+Date: Tue, 3 Nov 2026 19:57:23 +0100
+Subject: [PATCH 3/3] Guard tiny-axis scan envelope shells
+
+---
+ .../change/v1_13_1/OrderedShapeAxisClip.java  |  8 ++-
+ .../mechanic/MovementRuntime.java             | 58 +++++++++++++++----
+ 2 files changed, 54 insertions(+), 12 deletions(-)
+
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/OrderedShapeAxisClip.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/OrderedShapeAxisClip.java
+index 3f677f9a..2dc1f09a 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/OrderedShapeAxisClip.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_13_1/OrderedShapeAxisClip.java
+@@ -11,7 +11,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
+ import java.util.List;
+ import java.util.OptionalDouble;
+ 
+-/** 1.13.1 Ornithe Feather VoxelShapes#calculateMaxOffset returns zero before folding a next shape below 1.0E-7. */
++/**
++ * 1.13.1 and 1.13.2 Ornithe Feather net.minecraft.block.shape.VoxelShapes#calculateMaxOffset
++ * return zero before folding the next streamed candidate below 1.0E-7. Compared
++ * with 26.2 unobfuscated net.minecraft.world.entity.Entity#collideWithShapes and
++ * net.minecraft.world.phys.shapes.Shapes#collide / VoxelShape#collide, the per-shape
++ * offset math is retained while source candidate order and the pre-next cutoff differ.
++ */
+ @MovementChange(emulates = ParkourVersion.V1_13_1)
+ public final class OrderedShapeAxisClip implements AxisClippingHook {
+     public OrderedShapeAxisClip() { }
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
+index 9a138ead..e18439bd 100644
+--- a/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/mechanic/MovementRuntime.java
+@@ -599,18 +599,46 @@ public final class MovementRuntime {
+     }
+ 
+     private static boolean loadedStoneAirEnvelope(Level level, AABB query, BlockPos expectedStone) {
+-        int minX = Mth.floor(query.minX);
+-        int minY = Mth.floor(query.minY);
+-        int minZ = Mth.floor(query.minZ);
+-        int maxX = Mth.floor(Math.nextDown(query.maxX));
+-        int maxY = Mth.floor(Math.nextDown(query.maxY));
+-        int maxZ = Mth.floor(Math.nextDown(query.maxZ));
++        if (!finiteSafeQuery(query)) return false;
++        AABB paddedQuery = query.inflate(1.0E-7);
++        if (!finiteSafeQuery(paddedQuery)) return false;
++
++        // 1.12.2 Ornithe Feather net.minecraft.world.World#getCollisions scans
++        // floor(min)-1 .. ceil(max)+1 (exclusive), probes chunks at Y=64, and prunes
++        // X/Z corners. 1.13.1 Ornithe Feather net.minecraft.world.WorldView#getBlockCollisions
++        // uses the same bounds on the padded voxel query and prunes cells with any two
++        // boundary axes. 26.2 unobfuscated BlockCollisions#<init>/#computeNext use
++        // floor(min-1e-7)-1 through floor(max+1e-7)+1 inclusive and per-cell chunk lookup.
++        // This validates every cell in their union, including their differently pruned
++        // shells; all are loaded and air except for the sole stone, so pruning cannot hide
++        // a geometry candidate or change candidate ordering.
++        long minX = Math.min(Math.floor(query.minX) - 1.0,
++            Math.min(Math.floor(paddedQuery.minX) - 1.0, Math.floor(query.minX - 1.0E-7) - 1.0));
++        long minY = Math.min(Math.floor(query.minY) - 1.0,
++            Math.min(Math.floor(paddedQuery.minY) - 1.0, Math.floor(query.minY - 1.0E-7) - 1.0));
++        long minZ = Math.min(Math.floor(query.minZ) - 1.0,
++            Math.min(Math.floor(paddedQuery.minZ) - 1.0, Math.floor(query.minZ - 1.0E-7) - 1.0));
++        long endX = Math.max(Math.ceil(query.maxX) + 1.0,
++            Math.max(Math.ceil(paddedQuery.maxX) + 1.0, Math.floor(query.maxX + 1.0E-7) + 2.0));
++        long endY = Math.max(Math.ceil(query.maxY) + 1.0,
++            Math.max(Math.ceil(paddedQuery.maxY) + 1.0, Math.floor(query.maxY + 1.0E-7) + 2.0));
++        long endZ = Math.max(Math.ceil(query.maxZ) + 1.0,
++            Math.max(Math.ceil(paddedQuery.maxZ) + 1.0, Math.floor(query.maxZ + 1.0E-7) + 2.0));
++        if (minY < 0 || endY > 256 || level.getMinY() > 0 || level.getMaxY() < 256) return false;
++        long sizeX = endX - minX;
++        long sizeY = endY - minY;
++        long sizeZ = endZ - minZ;
++        if (sizeX <= 0 || sizeY <= 0 || sizeZ <= 0 || sizeX > 512 || sizeY > 512 || sizeZ > 512
++            || sizeX > 1_000_000 / sizeY || sizeX * sizeY > 1_000_000 / sizeZ) return false;
++
++        var border = level.getWorldBorder();
+         int stones = 0;
+-        for (int x = minX; x <= maxX; x++) {
+-            for (int y = minY; y <= maxY; y++) {
+-                for (int z = minZ; z <= maxZ; z++) {
+-                    BlockPos pos = new BlockPos(x, y, z);
+-                    if (!level.hasChunkAt(pos)) return false;
++        for (long x = minX; x < endX; x++) {
++            for (long y = minY; y < endY; y++) {
++                for (long z = minZ; z < endZ; z++) {
++                    BlockPos pos = new BlockPos((int) x, (int) y, (int) z);
++                    if (!level.hasChunkAt(pos) || !level.hasChunkAt(new BlockPos((int) x, 64, (int) z))
++                        || !border.isWithinBounds(new AABB(x, y, z, x + 1.0, y + 1.0, z + 1.0))) return false;
+                     var state = level.getBlockState(pos);
+                     if (state.is(Blocks.STONE)) {
+                         if (!pos.equals(expectedStone)) return false;
+@@ -624,6 +652,14 @@ public final class MovementRuntime {
+         return stones == 1;
+     }
+ 
++    private static boolean finiteSafeQuery(AABB box) {
++        double limit = Integer.MAX_VALUE - 4.0;
++        return Double.isFinite(box.minX) && Double.isFinite(box.minY) && Double.isFinite(box.minZ)
++            && Double.isFinite(box.maxX) && Double.isFinite(box.maxY) && Double.isFinite(box.maxZ)
++            && box.minX > -limit && box.minY > -limit && box.minZ > -limit
++            && box.maxX < limit && box.maxY < limit && box.maxZ < limit;
++    }
++
+     private static final Map<String, String> CURRENT_TO_LEGACY_113_SLAB_KEYS = Map.ofEntries(
+         Map.entry("minecraft:oak_slab", "minecraft:oak_slab"),
+         Map.entry("minecraft:spruce_slab", "minecraft:spruce_slab"),
+-- 
+2.53.0.windows.2
+
