@@ -9,7 +9,12 @@ import java.util.Optional;
 @MechanicType("player.push-away.probe-range")
 public interface PushAwayProbeRangeHook extends VersionedMechanic {
     /** Empty preserves the existing native and independently resolved predicate path. */
-    Optional<ProbeRange> probeRange(double boxMinY);
+    Optional<ProbeRange> probeRange(double boxMinY, ProbeRole role, boolean swimming);
+
+    enum ProbeRole {
+        ORIGIN,
+        CANDIDATE
+    }
 
     /** Inclusive lower and exclusive upper block Y bounds. */
     record ProbeRange(int minY, int maxYExclusive) {

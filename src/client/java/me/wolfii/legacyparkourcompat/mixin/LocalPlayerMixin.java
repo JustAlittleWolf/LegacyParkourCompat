@@ -5,6 +5,8 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.clientload.ClientLoadGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.LadderSlideSuppressionHook;
@@ -47,6 +49,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintTriggerHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintWindowHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.SwimSprintFoodStopHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.PushAwayProbeRangeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.VehicleSprintHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterDescentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSneakHook;
@@ -666,11 +669,47 @@ abstract class LocalPlayerMixin {
             .orElse(vanilla);
     }
 
+    @WrapOperation(
+        method = "moveTowardsClosestSpace(DD)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;suffocatesAt(Lnet/minecraft/core/BlockPos;)Z"),
+        ordinal = 0
+    )
+    private boolean legacyparkourcompat$pushAwayOrigin(
+        LocalPlayer player,
+        BlockPos pos,
+        Operation<Boolean> vanilla,
+        @Share("pushAwaySearchAdmitted") LocalBooleanRef searchAdmitted
+    ) {
+        searchAdmitted.set(MovementRuntime.admitsSwimmingPushAwaySearch(player, pos));
+        return MovementRuntime.pushAwaySuffocatesAt(player, pos,
+            PushAwayProbeRangeHook.ProbeRole.ORIGIN,
+            searchAdmitted.get(),
+            () -> vanilla.call(player, pos));
+    }
+
+    @WrapOperation(
+        method = "moveTowardsClosestSpace(DD)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;suffocatesAt(Lnet/minecraft/core/BlockPos;)Z"),
+        ordinal = 1
+    )
+    private boolean legacyparkourcompat$pushAwayCandidate(
+        LocalPlayer player,
+        BlockPos pos,
+        Operation<Boolean> vanilla,
+        @Share("pushAwaySearchAdmitted") LocalBooleanRef searchAdmitted
+    ) {
+        return MovementRuntime.pushAwaySuffocatesAt(player, pos,
+            PushAwayProbeRangeHook.ProbeRole.CANDIDATE,
+            searchAdmitted.get(),
+            () -> vanilla.call(player, pos));
+    }
+
     @Inject(method = "suffocatesAt", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$suffocationQuery(BlockPos pos, CallbackInfoReturnable<Boolean> callback) {
         LocalPlayer player = (LocalPlayer) (Object) this;
-        if (MovementRuntime.find(SuffocationProbeHook.class, player).isPresent()) {
-            callback.setReturnValue(MovementRuntime.pushAwaySuffocatesAt(player, pos, callback::getReturnValue));
+        if (!MovementRuntime.isRolelessSuffocationSuppressed(player)
+            && MovementRuntime.find(SuffocationProbeHook.class, player).isPresent()) {
+            callback.setReturnValue(MovementRuntime.rolelessSuffocatesAt(player, pos, callback::getReturnValue));
         }
     }
 

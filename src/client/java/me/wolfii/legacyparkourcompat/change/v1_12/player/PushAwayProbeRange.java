@@ -10,7 +10,7 @@ import java.util.Optional;
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class PushAwayProbeRange implements PushAwayProbeRangeHook {
     @Override
-    public Optional<ProbeRange> probeRange(double boxMinY) {
+    public Optional<ProbeRange> probeRange(double boxMinY, ProbeRole role, boolean swimming) {
         return Optional.empty();
     }
 }

@@ -76,6 +76,7 @@ import java.util.ArrayList;
 public final class MovementRuntime {
     private static final ThreadLocal<Entity> CURRENT_ENTITY = new ThreadLocal<>();
     private static final ThreadLocal<LocalPlayer> FLUID_CURRENT_PLAYER = new ThreadLocal<>();
+    private static final ThreadLocal<LocalPlayer> ROLELESS_SUFFOCATION_SUPPRESSED = new ThreadLocal<>();
 
     private MovementRuntime() {
     }
@@ -148,42 +149,122 @@ public final class MovementRuntime {
 
     /**
      * Resolves the existing suffocation predicate with an independently selected
-     * push-away row range when the bounded stone/air witness applies.
+     * push-away row range when the bounded stone/air/source-water witness applies.
      */
-    public static boolean pushAwaySuffocatesAt(LocalPlayer player, BlockPos pos, VanillaFn<Boolean> vanilla) {
+    public static boolean pushAwaySuffocatesAt(LocalPlayer player, BlockPos pos,
+                                               PushAwayProbeRangeHook.ProbeRole role,
+                                               boolean swimmingSearchAdmitted,
+                                               VanillaFn<Boolean> vanilla) {
         var predicate = find(SuffocationProbeHook.class, player);
-        if (predicate.isEmpty()) {
-            return vanilla.get();
-        }
-
         ParkourVersion target = profile(player).target();
         var rangeHook = find(PushAwayProbeRangeHook.class, player);
-        if (rangeHook.isEmpty() || player.isSwimming()) {
-            return predicate.get().suffocatesAt(player, target, pos, vanilla);
+        if (rangeHook.isEmpty()) {
+            return suffocationFallback(player, predicate, target, pos, vanilla);
         }
 
         AABB box = player.getBoundingBox();
-        var selectedRange = rangeHook.get().probeRange(box.minY);
-        if (selectedRange.isEmpty() || !supportsStoneAirPushAwayWitness(player, pos, box, selectedRange.get())) {
-            return predicate.get().suffocatesAt(player, target, pos, vanilla);
+        var selectedRange = rangeHook.get().probeRange(box.minY, role, player.isSwimming());
+        if (selectedRange.isEmpty()) {
+            return suffocationFallback(player, predicate, target, pos, vanilla);
+        }
+        if (player.isSwimming()) {
+            if (!swimmingSearchAdmitted) {
+                return suffocationFallback(player, predicate, target, pos, vanilla);
+            }
+        } else if (!supportsPushAwayWitness(player, pos, box, selectedRange.get())) {
+            return suffocationFallback(player, predicate, target, pos, vanilla);
         }
 
         var rows = selectedRange.get();
-        return predicate.get().suffocatesAt(
-            player, target, pos, rows.minY(), rows.maxYExclusive(), vanilla);
+        if (predicate.isPresent()) {
+            return runWithoutRolelessSuffocation(player,
+                () -> predicate.get().suffocatesAt(
+                    player, target, pos, rows.minY(), rows.maxYExclusive(), vanilla));
+        }
+        return runWithoutRolelessSuffocation(player, () -> vanilla.get());
     }
 
-    private static boolean supportsStoneAirPushAwayWitness(LocalPlayer player, BlockPos column, AABB box,
-                                                            PushAwayProbeRangeHook.ProbeRange range) {
+    /** Validates the complete origin-and-cardinal-candidate envelope before any swimming override. */
+    public static boolean admitsSwimmingPushAwaySearch(LocalPlayer player, BlockPos origin) {
+        if (!player.isSwimming()) {
+            return false;
+        }
+        var rangeHook = find(PushAwayProbeRangeHook.class, player);
+        if (rangeHook.isEmpty()) {
+            return false;
+        }
+
+        AABB box = player.getBoundingBox();
+        var originRange = rangeHook.get().probeRange(box.minY, PushAwayProbeRangeHook.ProbeRole.ORIGIN, true);
+        var candidateRange = rangeHook.get().probeRange(box.minY, PushAwayProbeRangeHook.ProbeRole.CANDIDATE, true);
+        if (originRange.isEmpty() || candidateRange.isEmpty()) {
+            return false;
+        }
+
+        int minY = Math.min(Mth.floor(box.minY),
+            Math.min(originRange.get().minY(), candidateRange.get().minY()));
+        int maxY = Math.max(Mth.ceil(box.maxY),
+            Math.max(originRange.get().maxYExclusive(), candidateRange.get().maxYExclusive()));
+        return supportsPushAwayCells(player,
+            List.of(origin, origin.west(), origin.east(), origin.north(), origin.south()), minY, maxY);
+    }
+
+    private static boolean suffocationFallback(LocalPlayer player, Optional<SuffocationProbeHook> predicate,
+                                               ParkourVersion target, BlockPos pos,
+                                               VanillaFn<Boolean> vanilla) {
+        if (predicate.isPresent()) {
+            return runWithoutRolelessSuffocation(player,
+                () -> predicate.get().suffocatesAt(player, target, pos, vanilla));
+        }
+        return runWithoutRolelessSuffocation(player, vanilla);
+    }
+
+    private static boolean supportsPushAwayWitness(LocalPlayer player, BlockPos column, AABB box,
+                                                    PushAwayProbeRangeHook.ProbeRange range) {
         int minY = Math.min(Mth.floor(box.minY), range.minY());
         int maxY = Math.max(Mth.ceil(box.maxY), range.maxYExclusive());
+        return supportsPushAwayCells(player, List.of(column), minY, maxY);
+    }
+
+    private static boolean supportsPushAwayCells(LocalPlayer player, List<BlockPos> columns, int minY, int maxY) {
+        if (minY < player.level().getMinY() || maxY > player.level().getMaxY()) {
+            return false;
+        }
         for (int y = minY; y < maxY; y++) {
-            BlockState state = player.level().getBlockState(new BlockPos(column.getX(), y, column.getZ()));
-            if (!state.isAir() && !state.is(Blocks.STONE)) {
-                return false;
+            for (BlockPos column : columns) {
+                BlockPos pos = new BlockPos(column.getX(), y, column.getZ());
+                if (!player.level().isInWorldBounds(pos) || !player.level().hasChunkAt(pos)) {
+                    return false;
+                }
+                BlockState state = player.level().getBlockState(pos);
+                if (!state.isAir() && !state.is(Blocks.STONE)
+                    && !(state.is(Blocks.WATER) && state.getFluidState().isSource())) {
+                    return false;
+                }
             }
         }
         return true;
+    }
+
+    private static boolean runWithoutRolelessSuffocation(LocalPlayer player, VanillaFn<Boolean> query) {
+        LocalPlayer previous = ROLELESS_SUFFOCATION_SUPPRESSED.get();
+        ROLELESS_SUFFOCATION_SUPPRESSED.set(player);
+        try {
+            return query.get();
+        } finally {
+            if (previous == null) ROLELESS_SUFFOCATION_SUPPRESSED.remove();
+            else ROLELESS_SUFFOCATION_SUPPRESSED.set(previous);
+        }
+    }
+
+    public static boolean isRolelessSuffocationSuppressed(LocalPlayer player) {
+        return ROLELESS_SUFFOCATION_SUPPRESSED.get() == player;
+    }
+
+    public static boolean rolelessSuffocatesAt(LocalPlayer player, BlockPos pos, VanillaFn<Boolean> vanilla) {
+        return find(SuffocationProbeHook.class, player)
+            .map(hook -> hook.suffocatesAt(player, profile(player).target(), pos, vanilla))
+            .orElseGet(vanilla::get);
     }
 
     /** Pure calculation, shared by movement bookkeeping and the eventual write. */
