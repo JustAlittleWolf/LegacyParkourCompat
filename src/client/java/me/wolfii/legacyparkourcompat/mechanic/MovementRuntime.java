@@ -14,6 +14,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -39,6 +40,8 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionCollectionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockMovementCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.BlockComponentClipHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.shape.CollisionQueryShapeHook;
+import me.wolfii.legacyparkourcompat.mechanic.collision.CollisionQueryShapeMaterializer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.BlockGetter;
@@ -352,6 +355,40 @@ public final class MovementRuntime {
             ? new MovementCollisionContext(original, player, query) : original;
     }
 
+    /**
+     * Resolves the query shape only for the accepted short-pose primary SELF
+     * movement witness. Every other BlockCollisions use keeps native encoding.
+     */
+    public static VoxelShape collisionQueryShape(CollisionContext context, AABB query,
+                                                 boolean onlySuffocatingBlocks,
+                                                 VanillaFn<VoxelShape> vanilla) {
+        if (onlySuffocatingBlocks || !(context instanceof MovementCollisionContext movementContext)
+            || !movementContext.query().equals(query)) {
+            return vanilla.get();
+        }
+        Entity entity = playerFrom(context);
+        if (!(entity instanceof LocalPlayer player)
+            || CollisionAxisOrderContext.currentEntity() != player
+            || player.getPose() != Pose.SWIMMING
+            || player.noPhysics || player.isShiftKeyDown() || player.onGround()) {
+            return vanilla.get();
+        }
+        CollisionAxisOrderContext.MovementQuery movement = CollisionAxisOrderContext.movementQuery();
+        if (movement == null || movement.entity() != player || !movement.unadjustedPrimaryMovement()
+            || !movement.sweptBox().equals(query)
+            || movement.requestedMovement().x == 0.0
+            || movement.requestedMovement().y == 0.0
+            || movement.requestedMovement().z == 0.0
+            || !Double.isFinite(movement.requestedMovement().x)
+            || !Double.isFinite(movement.requestedMovement().y)
+            || !Double.isFinite(movement.requestedMovement().z)) {
+            return vanilla.get();
+        }
+        return find(CollisionQueryShapeHook.class, player)
+            .flatMap(hook -> hook.encode(query))
+            .map(CollisionQueryShapeMaterializer::materialize)
+            .orElseGet(vanilla::get);
+    }
     public static VoxelShape collectMovementBlock(CollisionContext context, BlockState state,
                                                  CollisionGetter level, BlockPos pos, VoxelShape nativeShape) {
         if (!(context instanceof MovementCollisionContext movement)) {
