@@ -1050,6 +1050,52 @@
           "Other providers, complete paired tick/provider coverage, implementation acceptance, and runtime parity remain open."
         ],
         "statusBoundary": "This candidate is pinned to the exact post-Sea-Pickle live coverage-row revision above. Apply only as a sibling provider-result coverage item after a separate final patch review, and only while the exact checklist repair commit 831ef6005c8742f21c3a15006fcd65ab168c51e6 is reachable from main and the tracked checklist file's SHA-256 and Git blob match the accepted value 1D5F3142CB9411E6C508D8EB945749ED1934654E85B5ADD4D4735DEDC6711003. Preserve all existing row fields, open dependencies, unexamined slices, evidence associations, source-coverage and dependency-closure states, audit status, and finding, implementation, runtime, and pair-completion statuses. Reuse the already tracked exact crosswalk/checklist evidence paths; publish the proposal and provider note atomically at the planned development/research/source-evidence/20261104 paths with unchanged basenames only after review."
+      },
+      "chestPairingGeometry20261104": {
+        "pinStatus": "pinned to live coverage-row revision after the predecessor queue",
+        "targetRowRevision": "7beec5dd33dc8dfc6ebe1c15645b7d9aa035ab8d604b3d68b43517781ab9d81a",
+        "coverageStatus": "accepted-bounded-chest-provider-geometry-coverage",
+        "proposal": {
+          "path": "build/source-drafts/chest-pairing-geometry-coverage-proposal.md",
+          "sha256": "FE138321E9161DE30D97B9839598867F16943599690EFF48C0730BDFCAF3959B"
+        },
+        "acceptedInputs": [
+          {
+            "path": "development/research/source-evidence/20261104/chest-pairing-collision-geometry.md",
+            "sha256": "00209B2E85EA6D7D1A18DCCF212FC7D4FA5D746125802B383676119AA9893FE6",
+            "reviewer": "source_1202_1204_contact",
+            "decision": "PASS",
+            "reviewedScratchPath": "build/source-drafts/chest-pairing-collision-geometry.md"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/chest-pairing-state-coverage.md",
+            "sha256": "05DC658DC7D7D473E6D468F0E1B1CC6E8A4CB2D17BD677610AD35B5E473E96E6",
+            "role": "separate state-producer and persistence context",
+            "reviewedScratchPath": "build/source-drafts/chest-pairing-state-coverage.md"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/residual-common-collision-a.md",
+            "sha256": "4F822062F3E07E4D79E5A5FB976CCD1573D3036EE3F734504D6389845770A668",
+            "role": "accepted E1 A provider context",
+            "reviewedScratchPath": "build/source-drafts/residual-common-collision-a.md"
+          }
+        ],
+        "scope": "Exact 1.12.2 and 1.13.2 Ornithe Feather Gen2 build.2 sources; normal and trapped chests; one legal single chest or one legal ordinary same-type pair with exactly one partner. Paired 1.13.2 TYPE/FACING must be valid and updated so getConnectedDirection(state) points at the actual partner. Normal and trapped chests do not pair.",
+        "coverageItem": "For the scoped legal states, the old neighbor-selected Box and new state-selected VoxelShape have equal per-block cuboid bounds: the single shape or the matching directional shape for the partner side. The old provider reads live same-instance neighbors; the new provider reads stored TYPE/FACING, so the paired-state precondition is essential. This is provider geometry only, not collector or movement equivalence.",
+        "interpretationLimit": "Bounded effective-provider geometry coverage only. No new finding ID or shape-difference claim; no collision response, trajectory, implementation, runtime, pair-closure, or full-pair-audit claim.",
+        "openDependencies": [
+          "Malformed/stale TYPE, multiply-adjacent states, and any state arrangement outside the legal preconditions remain open.",
+          "Chunk-load pair reconstruction and cross-version datafix/migration remain open; neither the separate state-producer row nor this geometry slice closes them.",
+          "Old Box callback and new VoxelShape collector filtering, touch/overlap behavior, candidate ordering, aggregation with other blocks/entities, and collision response remain open.",
+          "Player reachability, trajectory, runtime parity, complete paired tick/provider coverage, dependency closure, and independent full-pair audit remain open."
+        ],
+        "requiredBeforeApplying": [
+          "Copy the accepted geometry audit byte-for-byte from its reviewed scratch path to development/research/source-evidence/20261104/chest-pairing-collision-geometry.md and verify SHA-256 00209B2E85EA6D7D1A18DCCF212FC7D4FA5D746125802B383676119AA9893FE6; preserve its exact independent verdict alongside it.",
+          "Reuse the existing tracked state-producer audit at development/research/source-evidence/20261104/chest-pairing-state-coverage.md (Git blob SHA-256 05DC658DC7D7D473E6D468F0E1B1CC6E8A4CB2D17BD677610AD35B5E473E96E6) and provider context at development/research/source-evidence/20261104/residual-common-collision-a.md (committed Git blob SHA-256 4F822062F3E07E4D79E5A5FB976CCD1573D3036EE3F734504D6389845770A668; the checked-out file has CRLF line endings).",
+          "Re-read the live 1.12.2--1.13.2 coverage row before applying; the pinned revision is the exact revision supplied after predecessor updates and can still become stale.",
+          "Keep this geometry item separate from chestPairingState20261104; do not replace, merge, or close that state-producer/persistence item."
+        ],
+        "statusBoundary": "This pending additive sibling slice changes no existing coverage fields, sourceCoverage, dependencyClosure, nextAction, historical evidence, finding acceptance, implementation status, runtime parity, or pair-audit status. Preserve partial pair status and every unrelated supplement/open dependency."
       }
     },
     {
