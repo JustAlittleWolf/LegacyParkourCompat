@@ -857,6 +857,44 @@
           "Provider behavior, collision eligibility, shape geometry, neighbor/support behavior, movement consequences, and full-pair coverage remain open."
         ],
         "statusBoundary": "Add only this sibling supplement to the current row. Preserve every existing row field, including registryDispatchCrosswalk20261104, fenceWallEligibility20261104, openDependencies, examined/unexamined slices, sourceCoverage, dependencyClosure, findings, implementation, and runtime status. The frozen crosswalk file and its exact-key statuses/counts remain unchanged: standing_sign and sign retain their unmatched rows; wall_sign remains EXACT_KEY_ONLY."
+      },
+      "woodenDoorMigrationCoverage": {
+        "targetRowRevision": "74d53b07f5e69f2bdf55d3ab2fcdefeca60cb24fda0803d3b82373cb5302d5d4",
+        "bindingStatus": "bound-to-post-sign-live-pin",
+        "proposal": {
+          "path": "build/source-drafts/wooden-door-migration-coverage-proposal.md",
+          "sha256": "42B5EE2ED335BBDD0B264A4D742C189DC4D330A914161FEADE290BBB36235DB2",
+          "review": "PASS"
+        },
+        "frozenCrosswalk": {
+          "path": "build/source-drafts/registry-collision-crosswalk.md",
+          "sha256": "BBB1C099DC384489DBB219DAA90F797649FC0C8094E5931A68A0C2997F32280A",
+          "rowRefs": {
+            "oldWoodenDoor": 118,
+            "newOakDoor": 548
+          },
+          "frozenDisposition": "Exact-key join only: wooden_door is old-only and oak_door is new-only; both remain UNMATCHED_ALIAS_UNRESOLVED in this immutable snapshot."
+        },
+        "acceptedInputs": [
+          {
+            "path": "build/source-drafts/registry-door-key-correspondence.md",
+            "sha256": "D67002EBFA763528AB6046F50D2248947883474C1269C813D18D36C262928720",
+            "role": "Registration identity context: old wooden_door / ID 64 and new oak_door share the Blocks.WOODEN_DOOR binding."
+          },
+          {
+            "path": "build/source-drafts/wooden-door-serialized-migration.md",
+            "sha256": "81E335C1BA620D02B04A5FB1EB46909CEB4110B53932435A2A6CE9B213F46312",
+            "role": "1.13.2 DataFixer source trace for numeric legacy chunk-state upgrade and separate exact full-state alias route."
+          }
+        ],
+        "coverage": {
+          "exactRegistryKeyEquality": "Frozen crosswalk remains unchanged; old and new keys are separate rows.",
+          "registrationIdentity": "Source-backed wooden_door to oak_door registration alias candidate.",
+          "legacyChunkNumericState": "Block ID 64 and metadata map through numeric keys 1024-1039 to canonical oak_door block states.",
+          "serializedFullStateAlias": "Exact complete wooden_door block-state dynamics are canonicalized by the 1.13.2 structure-template state fix.",
+          "arbitraryNameOnlyOccurrence": "Unresolved; cited generic block-name renamer does not include wooden_door, and these inputs do not establish a universal string rewrite."
+        },
+        "statusBoundary": "Additive evidence only. Do not mutate the frozen crosswalk or infer collision, shape, movement, implementation, or runtime-parity conclusions. Bind targetRowRevision only to the integrator's exact post-sign live pin."
       }
     },
     {
