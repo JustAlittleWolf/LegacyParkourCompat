@@ -1,1 +1,2 @@
 development/parkourgym-server/worlds/*.polar filter=lfs diff=lfs merge=lfs -text
+development/research/source-evidence/20261104/*.md -text
