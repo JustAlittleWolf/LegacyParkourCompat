@@ -895,6 +895,56 @@
           "arbitraryNameOnlyOccurrence": "Unresolved; cited generic block-name renamer does not include wooden_door, and these inputs do not establish a universal string rewrite."
         },
         "statusBoundary": "Additive evidence only. Do not mutate the frozen crosswalk or infer collision, shape, movement, implementation, or runtime-parity conclusions. Bind targetRowRevision only to the integrator's exact post-sign live pin."
+      },
+      "movingPistonMigrationCoverage": {
+        "targetRowRevision": "d97d7aee2ce612e9dd519784a05f6ad5788bca5107c9e04b73b75859ba675309",
+        "bindingStatus": "bound-to-post-wooden-door-live-pin",
+        "coverageStatus": "accepted-bounded-registration-and-serialized-chunk-migration-supplement",
+        "proposal": {
+          "path": "build/source-drafts/moving-piston-migration-coverage-proposal.md",
+          "sha256": "b17d67f9bc961ecfbf0951bfb4dbcdbc9ec3f4d0f25f8e294159d41b7f0da1e5",
+          "reviewer": "review_negative_chunk_composition",
+          "review": "PASS for this exact proposal revision"
+        },
+        "frozenCrosswalk": {
+          "path": "build/source-drafts/registry-collision-crosswalk.md",
+          "sha256": "bbb1c099dc384489dbb219daa90f797649fc0c8094e5931a68a0c2997f32280a",
+          "exactKeyDisposition": "Keep minecraft:piston_extension and minecraft:moving_piston as separate unmatched rows in the frozen exact-key join; this supplement does not reinterpret that join."
+        },
+        "acceptedInputs": [
+          {
+            "path": "build/source-drafts/registry-moving-piston-correspondence.md",
+            "sha256": "42bcc9985da2fb975648f1e750141639db761b33755a6355f2a4c02323a51cb7",
+            "review": "Accepted bounded registration/runtime correspondence: old piston_extension and new moving_piston resolve to the piston moving-block role (Blocks.MOVING_BLOCK / MovingBlock); piston paths create MovingBlockEntity; the block-entity key remains piston. This is not a general alias or save-migration guarantee."
+          },
+          {
+            "path": "build/source-drafts/moving-piston-serialized-migration.md",
+            "sha256": "88cc0f63f9ab829f6b3c4cc883481c9cc35238f44ceb372d6179f1f2082b9d55",
+            "review": "Independent PASS from source_1132_1144_tick_writers, bound to this exact note revision; limited to the stated 1.13.2 CHUNK DataFixer conversion gates and listed old ID-36 metadata states."
+          }
+        ],
+        "sourcePair": {
+          "older": "1.12.2 Ornithe Feather Gen2 build.2",
+          "olderManifestSha256": "b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da",
+          "newer": "1.13.2 Ornithe Feather Gen2 build.2",
+          "newerManifestSha256": "2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211"
+        },
+        "coverage": {
+          "exactRegistryKeyEquality": "Frozen exact-key result remains unchanged; piston_extension and moving_piston remain separate unmatched keys.",
+          "registrationIdentity": "Source-backed piston moving-block role correspondence for the evidenced Blocks.MOVING_BLOCK / MovingBlock paths, with MovingBlockEntity construction and piston block-entity key context.",
+          "legacyChunkNumericState": "The pinned 1.13.2 CHUNK DataFixer path converts the listed old block-ID-36 palette metadata states to minecraft:moving_piston states.",
+          "serializedFullStateAlias": "The accepted trace distinguishes exact full-state alias normalization from the numeric legacy-palette conversion; neither is a universal registry-key alias rule."
+        },
+        "interpretationLimits": [
+          "The legacy chunk result applies only to old Blocks representations that enter the 1.13.2 CHUNK DataFixer path; it does not establish persistence of every transient moving-piston state or unsaved in-memory state.",
+          "Piston block-entity blockId/blockData conversion is a separate embedded-payload transformation and does not rename the containing chunk cell.",
+          "The runtime correspondence and serialized DataFixer conversion are distinct evidence slices; neither establishes a universal alias, arbitrary old-name lookup, collision geometry, or player movement behavior."
+        ],
+        "openDependencies": [
+          "The frozen crosswalk remains exact-key based; preserve its key counts and both unmatched rows.",
+          "Save frequency, transient unsaved states, arbitrary runtime name lookup, geometry, movement consequences, implementation, runtime parity, and full-pair completion remain open or outside this coverage item."
+        ],
+        "statusBoundary": "Add only this bounded coverage item after the integrator pins the exact live row revision following the wooden-door update. Preserve all existing coverage fields, earlier sign/door entries, crosswalk data, dependency closure, findings, implementation and runtime states. This is not a new movement finding or pair-freeze claim."
       }
     },
     {
