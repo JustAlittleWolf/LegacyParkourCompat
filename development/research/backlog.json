@@ -978,6 +978,42 @@
           "Geometry, collision output, player trajectory, complete paired tick/provider coverage, and independent full-pair audit remain open."
         ],
         "statusBoundary": "Add only this sibling coverage item after the integrator supplies and binds the exact current row revision. Preserve every existing row field, historical E1 A review, crosswalk, sign/fence-wall supplements, sourceCoverage, dependencyClosure, finding acceptance, implementation acceptance, runtime parity, and pair-audit status."
+      },
+      "seaPickleProvider20261104": {
+        "targetRowRevision": "0ecd6451eee8eeb0122b9bee1b81be6eeaa9a3443ba271c0b95f7982a16dccfa",
+        "pinStatus": "bound-to-exact-post-chest-live-coverage-row-revision",
+        "coverageStatus": "accepted-bounded-one-sided-collision-provider-coverage",
+        "proposal": {
+          "path": "development/research/source-evidence/20261104/sea-pickle-provider-coverage-proposal.md",
+          "sha256": "F2BA2C79171EB0CD2339047D0C08ED1BE806EE01E02212AC1C907CC9A5BA1E86",
+          "review": "PASS for this exact proposal hash"
+        },
+        "acceptedInputs": [
+          {
+            "path": "development/research/source-evidence/20261104/sea-pickle-source-note.md",
+            "sha256": "B69DFB4476989DBC9CE47D222A7ED6715EF34F013007C38467F800C5C3707824",
+            "status": "independently-reviewed-source-audit"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/registry-collision-crosswalk.md",
+            "sha256": "BBB1C099DC384489DBB219DAA90F797649FC0C8094E5931A68A0C2997F32280A",
+            "status": "frozen-registry-crosswalk"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/plant-collision-dependency-checklist.md",
+            "sha256": "1D5F3142CB9411E6C508D8EB945749ED1934654E85B5ADD4D4735DEDC6711003",
+            "status": "accepted-dependency-checklist"
+          }
+        ],
+        "scope": "Exact 1.12.2 to 1.13.2 Ornithe Feather Gen2 build 2 pair; additive source-slice coverage for the registered 1.13.2 Sea Pickle collision gate and effective movement-collision getter route, plus exact-key endpoint inventory only.",
+        "coverageItem": "1.13.2 minecraft:sea_pickle registration, collision eligibility, and effective movement-collision getter route: registration uses SeaPickleBlock without .noCollision(), so the base hasCollision gate remains enabled; Block.getCollisionShape delegates through BlockState.getShape to SeaPickleBlock.getShape. The getter selects among four declared shapes from legal PICKLES=1..4 and does not read world, position, WATERLOGGED, neighbors, fluids, entity, or block-entity context. Exact 1.12.2 has no SeaPickleBlock class or registration; the frozen crosswalk marks the key UNMATCHED_ALIAS_UNRESOLVED.",
+        "interpretationLimit": "One-sided provider coverage only. No historical alias, old-side provider, old/new shape parity, gameplay applicability, collision trajectory, implementation, or pair-completion claim.",
+        "openDependencies": [
+          "Legacy-state aliasing or migration for sea_pickle remains unresolved.",
+          "Other PlantBlock descendants and the generic provider inventory remain with their bounded owners.",
+          "World collision collection, provider reachability beyond the stated route, player trajectory, complete paired tick/provider coverage, and independent full-pair audit remain open."
+        ],
+        "statusBoundary": "This candidate is pinned to the exact post-chest live coverage-row revision above. Apply only as an additive sibling coverage item after a separate final patch review. Preserve every existing row field, sourceCoverage, dependencyClosure, independentCoverageAudit, nextAction, evidence, openDependencies, unexaminedSlices, historical reviews, crosswalk, and all finding, implementation, runtime, and pair-audit statuses. The planned durable evidence paths use unchanged basenames and exact copied-byte hashes; publish them atomically only after review."
       }
     },
     {
