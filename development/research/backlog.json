@@ -1014,6 +1014,42 @@
           "World collision collection, provider reachability beyond the stated route, player trajectory, complete paired tick/provider coverage, and independent full-pair audit remain open."
         ],
         "statusBoundary": "This candidate is pinned to the exact post-chest live coverage-row revision above. Apply only as an additive sibling coverage item after a separate final patch review. Preserve every existing row field, sourceCoverage, dependencyClosure, independentCoverageAudit, nextAction, evidence, openDependencies, unexaminedSlices, historical reviews, crosswalk, and all finding, implementation, runtime, and pair-audit statuses. The planned durable evidence paths use unchanged basenames and exact copied-byte hashes; publish them atomically only after review."
+      },
+      "lilyPadProvider20261104": {
+        "targetRowRevision": "30039584b5861775a8399d7bd5f1f4b11ddbb8236f6f91e46b2c6ea87c9291bd",
+        "pinStatus": "bound-to-exact-post-sea-pickle-live-coverage-row-revision",
+        "coverageStatus": "accepted-bounded-provider-result-coverage",
+        "proposal": {
+          "path": "development/research/source-evidence/20261104/lily-pad-provider-coverage-proposal.md",
+          "sha256": "A366B655D2E6ACE38F75D327E2DDB4B132C9A35872C1A4BDA0D329E129319065",
+          "review": "PASS for this exact proposal hash per parent assignment"
+        },
+        "acceptedInputs": [
+          {
+            "path": "development/research/source-evidence/20261104/lily-pad-effective-provider.md",
+            "sha256": "084FAAB0940C829DE76B99B1D786129ED0BE2E50034451F6677063B560BF3C8E",
+            "status": "independently-reviewed-source-audit"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/plant-collision-dependency-checklist.md",
+            "sha256": "1D5F3142CB9411E6C508D8EB945749ED1934654E85B5ADD4D4735DEDC6711003",
+            "status": "accepted dependency checklist; exact bytes verified in main commit 831ef6005c8742f21c3a15006fcd65ab168c51e6"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/registry-collision-crosswalk.md",
+            "sha256": "BBB1C099DC384489DBB219DAA90F797649FC0C8094E5931A68A0C2997F32280A",
+            "status": "frozen-registry-crosswalk"
+          }
+        ],
+        "scope": "Exact 1.12.2 to 1.13.2 Ornithe Feather Gen2 build 2 pair; additive source-slice coverage for the LilyPad movement-collision provider result for an ordinary player only.",
+        "coverageItem": "The old LilyPadBlock.addCollisions callback supplies its static local box for non-BoatEntity entities; the ordinary player does not meet the boat exclusion. The new registered LilyPadBlock keeps the base collision gate enabled and its getShape getter supplies a static box. Both provider paths produce local bounds (1/16, 0, 1/16) to (15/16, 3/32, 15/16). This is provider-result coverage only; the boat-specific old exclusion is outside player scope.",
+        "interpretationLimit": "Equal ordinary-player provider bounds do not establish equal world collision collection, axis resolution, or movement. No registry alias, migration, full provider inventory, pair-completion, implementation, or runtime-parity claim.",
+        "openDependencies": [
+          "World collision collection, candidate-region and exclusion semantics, query flags, and collision-axis resolution remain open.",
+          "Registry alias semantics for old waterlily and new lily_pad remain unresolved.",
+          "Other providers, complete paired tick/provider coverage, implementation acceptance, and runtime parity remain open."
+        ],
+        "statusBoundary": "This candidate is pinned to the exact post-Sea-Pickle live coverage-row revision above. Apply only as a sibling provider-result coverage item after a separate final patch review, and only while the exact checklist repair commit 831ef6005c8742f21c3a15006fcd65ab168c51e6 is reachable from main and the tracked checklist file's SHA-256 and Git blob match the accepted value 1D5F3142CB9411E6C508D8EB945749ED1934654E85B5ADD4D4735DEDC6711003. Preserve all existing row fields, open dependencies, unexamined slices, evidence associations, source-coverage and dependency-closure states, audit status, and finding, implementation, runtime, and pair-completion statuses. Reuse the already tracked exact crosswalk/checklist evidence paths; publish the proposal and provider note atomically at the planned development/research/source-evidence/20261104 paths with unchanged basenames only after review."
       }
     },
     {
