@@ -781,6 +781,39 @@
           "Complete paired tick/provider coverage and independent full-pair audit."
         ],
         "statusBoundary": "This additive evidence does not change sourceCoverage, dependencyClosure, nextAction, historical evidence, finding acceptance, implementation acceptance, or runtime parity. It does not establish pair closure, a movement finding, or implementation authorization."
+      },
+      "fenceWallEligibility20261104": {
+        "targetRowRevision": "5b6ca0b1267ea87ab4f5886ff13bce637d95fb91eb854b3ce7aec0626190263e",
+        "coverageStatus": "accepted-bounded-eligibility-coverage",
+        "proposal": {
+          "path": "build/source-drafts/fence-wall-eligibility-coverage-proposal.md",
+          "sha256": "A6E5555C31FB2F68084534286152D3516845A770E01AA35F14FB627C6C8CE35E",
+          "reviewer": "record_three_integrations",
+          "review": "PASS for this exact proposal revision"
+        },
+        "acceptedInputs": [
+          {
+            "path": "build/source-drafts/registry-collision-crosswalk.md",
+            "sha256": "BBB1C099DC384489DBB219DAA90F797649FC0C8094E5931A68A0C2997F32280A",
+            "review": "PASS"
+          },
+          {
+            "path": "build/source-drafts/registry-fence-wall-collision-eligibility.md",
+            "sha256": "AFDFFBAD96B0D3F7DF3ADB4834CEF0DBF30BBA19987485D4DD4D9EB0E1F68DFA"
+          }
+        ],
+        "scope": "Exact 1.12.2 to 1.13.2 Feather Gen2 build 2 pair; 1.13.2 eligibility/property and selected collision-getter dispatch only for exact shared keys minecraft:nether_brick_fence and minecraft:cobblestone_wall.",
+        "coverageItem": "For both registrations, hasCollision is true. The selected collision getter is PaneBlock.getCollisionShape for nether_brick_fence and WallBlock.getCollisionShape for cobblestone_wall; neither selected route reaches the base Block.getCollisionShape boolean gate.",
+        "claimSeparation": [
+          "The registered constructor/property value hasCollision=true for each exact key.",
+          "The selected getter route bypasses the base Block hasCollision boolean gate for each exact key."
+        ],
+        "interpretationLimit": "These are separate registration-property and selected-dispatch facts. They do not establish returned geometry, state or neighbor-dependent output, old-side behavior, collision equivalence, or player movement behavior.",
+        "openDependencies": [
+          "Returned fence and wall shapes, state/neighbor inputs, and movement effects remain open.",
+          "Old-side provider behavior, aliases beyond the accepted exact-key crosswalk, complete paired tick/provider coverage, and full-pair audit remain open."
+        ],
+        "statusBoundary": "Add this as one bounded checked slice only. Preserve all existing coverage fields, including registryDispatchCrosswalk20261104, openDependencies, unexaminedSlices, evidence associations, sourceCoverage, dependencyClosure, and pair-audit state. This item does not establish a paired no-difference result or pair closure."
       }
     },
     {
