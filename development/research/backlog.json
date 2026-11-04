@@ -1334,7 +1334,8 @@
         ],
         "partial": [
           "S5-02: Registered block getShape providers and feature-gated content [line 231]",
-          "S7-08B: Server packet movement fall and ground-state writes [line 487]"
+          "S7-08B: Server packet movement fall and ground-state writes [line 487]",
+          "S5-02 bounded FarmBlock support-solid predicate slice: 1.19.4 Mojmap FarmBlock.canSurvive tests upper-state Material.isSolid; 1.20.1 tests BlockState.isSolid. The inspected updateShape/scheduled tick/turnToDirt path can replace farmland and update collision geometry, but no differing vanilla support-state witness or player-movement difference was established. Snow-layer support is false on both sides (old Material.TOP_SNOW.nonSolid; new Blocks.SNOW.forceSolidOff). Accepted source note: build/source-drafts/1194-1201-farmblock-support.md SHA-256 9B6383FA2E5B74A8C07DE0BA41D5EF65D682F7CBA3944DC1037149C4C25FFD9F; proposal SHA-256 3F468B333590F434AF4043DFCE16FB8B0D4F43408B56CC136E16A23EE73B9F17. This bounded method/state check does not close the broader D3 support-state census or mapping/classification, S5-02 registration/default/resource dependencies, D2 resource/tag/synchronized-input dependencies, other open movement slices, or pair coverage/audit."
         ]
       },
       "unexaminedSlices": [],
