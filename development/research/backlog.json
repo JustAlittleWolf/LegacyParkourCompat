@@ -730,6 +730,57 @@
         "callbackAuditSha256": "0aa423e87d3eef26947e5a7f5b1d3048eecc97cf1e47deea5992931f621f20e",
         "rejectedWaterloggedClaim": "28759748efa33e0aa77dcc190e036e492a22b43eeb2d34ea56e77fc4be766361 establishes fluid-state effects only, no independent static collision geometry claim",
         "remaining": "Stair state-index exhaustive proof, slab/wall state migrations, pumpkin mapping, rail/button/lever/pressure-plate collision registration, dynamic piston shape/push, broader plants/neighbors and full tick/item/entity/external inventory remain partial. No full-pair freeze."
+      },
+      "registryDispatchCrosswalk20261104": {
+        "targetRowRevision": "7924e3c6a1770b37c30c9763da5237a12de81e906d3e3e23cdec5955f236acaa",
+        "coverageStatus": "independently-reviewed-registry-coverage",
+        "proposal": {
+          "path": "build/source-drafts/registry-dispatch-coverage-proposal.md",
+          "sha256": "1C9BCAAA749C41105BE1C8BAF569495FBDC1F3452A064C732F66C6A8C7970298",
+          "review": "PASS"
+        },
+        "acceptedInputs": [
+          {
+            "path": "build/source-drafts/registry-collision-1122.md",
+            "sha256": "29278A0C2B0899866F444296BAE8575BC6E039C3BBE419D0C51051077C1624A2",
+            "sourceManifestSha256": "b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da"
+          },
+          {
+            "path": "build/source-drafts/registry-collision-1132.md",
+            "sha256": "D9BAE34A1B4F02A5AB00F7CE7909F420663625C145C328FC5F332A9957A2B139",
+            "sourceManifestSha256": "2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211"
+          },
+          {
+            "path": "build/source-drafts/registry-collision-crosswalk.md",
+            "sha256": "BBB1C099DC384489DBB219DAA90F797649FC0C8094E5931A68A0C2997F32280A",
+            "review": "PASS"
+          },
+          {
+            "path": "build/source-drafts/stair-provider-coverage-ledger.md",
+            "sha256": "AE11D9BE99623991B02A2CCBEDAF561DE59FDC34696260D1DEF7B0AA5BF9B1AC"
+          }
+        ],
+        "scope": "Ornithe Feather Gen2 build 2; registrations and effective collision-dispatch declarations joined only on exact registry-key equality after independent endpoint inventory acceptance.",
+        "counts": {
+          "registeredKeys1122": 254,
+          "registeredKeys1132": 598,
+          "exactKeyIntersections": 184,
+          "oldOnlyUnmatchedAliasUnresolved": 70,
+          "newOnlyUnmatchedAliasUnresolved": 414,
+          "unionRows": 668,
+          "sameConcreteClassLabelOnSharedKeys": 167,
+          "changedConcreteClassLabelOnSharedKeys": 17,
+          "unmatchedAliasRows": 484
+        },
+        "interpretationLimit": "Registry identity and frozen effective-dispatch declarations only. Class-label matches or changes do not establish shape, collision, or movement equivalence.",
+        "openDependencies": [
+          "Resolve old-only and new-only key aliases, renames, splits, or merges from separately bounded evidence; all 70 old-only and 414 new-only rows remain UNMATCHED_ALIAS_UNRESOLVED.",
+          "Complete the old-side per-key secondary getShape route where the effective getCollisionShape owner is base Block.",
+          "Compare provider bodies, shape decomposition/order, state and per-instance hasCollision gates, world/position/neighbor/block-entity context, fluids, tags, and resources.",
+          "Close transient, virtual-neighbor, block-entity, Shulker, bespoke-provider, and other movement-relevant provider dependencies under their separately owned reviewed packets.",
+          "Complete paired tick/provider coverage and independent full-pair audit."
+        ],
+        "statusBoundary": "This additive evidence does not change sourceCoverage, dependencyClosure, nextAction, historical evidence, finding acceptance, implementation acceptance, or runtime parity. It does not establish pair closure, a movement finding, or implementation authorization."
       }
     },
     {
