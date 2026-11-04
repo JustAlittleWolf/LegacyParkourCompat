@@ -945,6 +945,39 @@
           "Save frequency, transient unsaved states, arbitrary runtime name lookup, geometry, movement consequences, implementation, runtime parity, and full-pair completion remain open or outside this coverage item."
         ],
         "statusBoundary": "Add only this bounded coverage item after the integrator pins the exact live row revision following the wooden-door update. Preserve all existing coverage fields, earlier sign/door entries, crosswalk data, dependency closure, findings, implementation and runtime states. This is not a new movement finding or pair-freeze claim."
+      },
+      "chestPairingState20261104": {
+        "bindingStatus": "bound-to-post-moving-piston-live-pin",
+        "targetRowRevision": "e4558e1845e262168c3ba5db4722fb48b9f9c599c92584c6a8bb2eda2057ef71",
+        "coverageStatus": "accepted-bounded-state-producer-and-persistence-coverage",
+        "proposal": {
+          "path": "development/research/source-evidence/20261104/chest-pairing-coverage-proposal.md",
+          "sha256": "970798620F3D4A18BA6F98C686818A4B5D9630ED581F1E2C7837092623E21485",
+          "reviewedScratchPath": "build/source-drafts/chest-pairing-coverage-proposal.md"
+        },
+        "acceptedInputs": [
+          {
+            "path": "development/research/source-evidence/20261104/chest-pairing-state-coverage.md",
+            "sha256": "05DC658DC7D7D473E6D468F0E1B1CC6E8A4CB2D17BD677610AD35B5E473E96E6",
+            "status": "reviewed-source-audit",
+            "reviewedScratchPath": "build/source-drafts/chest-pairing-state-coverage.md"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/residual-common-collision-a.md",
+            "sha256": "4F822062F3E07E4D79E5A5FB976CCD1573D3036EE3F734504D6389845770A668",
+            "status": "accepted-provider-context",
+            "reviewedScratchPath": "build/source-drafts/residual-common-collision-a.md"
+          }
+        ],
+        "scope": "Exact 1.12.2 to 1.13.2 Feather Gen2 build 2 pair; additive source-slice coverage for ordinary/trapped chest state production, pair maintenance, and persistence only.",
+        "coverageItem": "The bounded audit traces old FACING-only chest blockstate and neighbor-derived pairing through old onAdded/updateState/neighborChanged paths, contrasted with 1.13.2 FACING/TYPE/WATERLOGGED chunk blockstate, placement/neighbor-shape TYPE production, and separate block-entity inventory/custom-name persistence. This records state producers and persistence; it does not establish collision output equivalence across all world arrangements.",
+        "interpretationLimit": "No new finding ID, no collision or trajectory conclusion, no geometry review, and no pair-freeze claim.",
+        "openDependencies": [
+          "Stale or malformed TYPE arrangements, multiply-adjacent arrangements, exact pair reconstruction during chunk load, and cross-version datafix/migration remain open.",
+          "The accepted chest provider context retains its valid-updated-pair precondition; provider equivalence is not established for other arrangements.",
+          "Geometry, collision output, player trajectory, complete paired tick/provider coverage, and independent full-pair audit remain open."
+        ],
+        "statusBoundary": "Add only this sibling coverage item after the integrator supplies and binds the exact current row revision. Preserve every existing row field, historical E1 A review, crosswalk, sign/fence-wall supplements, sourceCoverage, dependencyClosure, finding acceptance, implementation acceptance, runtime parity, and pair-audit status."
       }
     },
     {

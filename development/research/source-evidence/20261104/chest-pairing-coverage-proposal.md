@@ -1,0 +1,14 @@
+# Additive coverage proposal: chest pairing state producers and persistence
+
+Propose one additive entry in the existing `1.12.2--1.13.2` pair coverage record. This is source-slice coverage only; it proposes no new finding ID and does not revise the accepted chest collision-provider claim.
+
+- **Reviewed source audit:** `build/source-drafts/chest-pairing-state-coverage.md`, SHA-256 `05DC658DC7D7D473E6D468F0E1B1CC6E8A4CB2D17BD677610AD35B5E473E96E6`.
+- **Accepted provider context:** `build/source-drafts/residual-common-collision-a.md`, SHA-256 `4F822062F3E07E4D79E5A5FB976CCD1573D3036EE3F734504D6389845770A668` (E1 A). Its chest result remains that the old provider reads live neighbor block identities while the new provider reads stored chest-pair state; it requires valid, updated pair state for equivalence.
+- **Exact sources:** local 1.12.2 and 1.13.2 Ornithe Feather Gen2 build.2 identities and source-manifest hashes are recorded in the audit. Every cited source-file hash in that audit was checked against the respective manifest.
+- **Examined slice:** ordinary and trapped chest registrations; placement state production; old `onAdded`/`updateState` and `neighborChanged` state/cache paths; new `getPlacementState` and `updateShape` pair-state paths; blockstate chunk encoding and chest block-entity NBT fields.
+- **Bounded result:** 1.12.2 has only persistent `FACING` for chest blockstate and derives pairing from neighboring same-instance blocks; its block-entity neighbor/double-chest fields are transient. 1.13.2 stores `FACING`, `TYPE`, and `WATERLOGGED` in the chunk blockstate palette, derives `TYPE` during placement and neighbor-shape updates, and keeps inventory/custom-name data in the block entity. This records where pairing state is produced and saved; it does not establish output equivalence across every world arrangement.
+- **Partial / unexamined:** stale or malformed `TYPE` arrangements, multiply-adjacent arrangements, exact pair reconstruction during chunk load, and cross-version datafix/migration are not closed. The audit deliberately does not re-review geometry, collision output, or player trajectory. No general claim about collision equivalence or player reachability follows from the state-producer slice.
+- **Next action:** retain the chest provider's valid-updated-pair precondition as open until a separate source review closes state validity for ordinary placement, neighbor mutation and load paths in the supported scope, then review the existing collision-provider claim against that result. Preserve the malformed/stale-state, migration, geometry and trajectory gates unless their own evidence is accepted.
+- **Status boundary:** additive state-producer/persistence coverage only; no finding acceptance change, no implementation/runtime claim, and no pair-freeze or pair-completion claim.
+
+This proposal supplements the pair's coverage record without changing the historical E1 A review or its limits.
