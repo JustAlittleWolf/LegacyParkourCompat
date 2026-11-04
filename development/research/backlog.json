@@ -814,6 +814,49 @@
           "Old-side provider behavior, aliases beyond the accepted exact-key crosswalk, complete paired tick/provider coverage, and full-pair audit remain open."
         ],
         "statusBoundary": "Add this as one bounded checked slice only. Preserve all existing coverage fields, including registryDispatchCrosswalk20261104, openDependencies, unexaminedSlices, evidence associations, sourceCoverage, dependencyClosure, and pair-audit state. This item does not establish a paired no-difference result or pair closure."
+      },
+      "registrySignKeySupplement20261104": {
+        "targetRowRevision": "95acaa4ce9d146be32ab0fe4316d3d4db073e4e43e341095396e9d70593c4b1a",
+        "coverageStatus": "accepted-bounded-key-correspondence-supplement",
+        "proposal": {
+          "path": "build/source-drafts/registry-sign-coverage-proposal.md",
+          "sha256": "E1C791D8BBE85E94DE3FD44795FF5B813EBE32451167C227E8BF1AA7B5F181C9",
+          "reviewer": "source_12111_always_flying",
+          "review": "PASS for this exact proposal revision"
+        },
+        "acceptedInputs": [
+          {
+            "path": "build/source-drafts/registry-sign-key-correspondence.md",
+            "sha256": "3AED02A38223C649802BA578D1BF2506B1D96C702075C80C4C2E60BC16AEE432",
+            "review": "accepted source-backed correspondence"
+          },
+          {
+            "path": "build/source-drafts/registry-collision-crosswalk.md",
+            "sha256": "BBB1C099DC384489DBB219DAA90F797649FC0C8094E5931A68A0C2997F32280A",
+            "review": "PASS; frozen exact-key baseline"
+          }
+        ],
+        "scope": "Ornithe Feather Gen2 build 2; separate, narrowly bounded relation evidence for standing-sign registration rename and wall-sign exact-key control only.",
+        "relations": [
+          {
+            "oldKey": "minecraft:standing_sign",
+            "newKey": "minecraft:sign",
+            "relation": "source-backed-block-name-migration",
+            "evidence": "1.12.2 Block.java:888 and Blocks.java:347; 1.13.2 Block.java:1003 and Blocks.java:799; BlockNameFlatteningFix use at 1.13.2 C_66595058.java:20-33 and 16 rotation-state pairs at C_80754635.java:2995-3010."
+          },
+          {
+            "oldKey": "minecraft:wall_sign",
+            "newKey": "minecraft:wall_sign",
+            "relation": "exact-key-control",
+            "evidence": "1.12.2 Block.java:893 and Blocks.java:357; 1.13.2 Block.java:1008 and Blocks.java:809; same-name migration entries at C_80754635.java:3213-3216."
+          }
+        ],
+        "interpretationLimit": "The supplement records only these exact key relations. It establishes no shape, collision, support, provider-body, or movement equivalence.",
+        "openDependencies": [
+          "All aliases and renames outside standing_sign-to-sign remain unresolved under their separately bounded evidence.",
+          "Provider behavior, collision eligibility, shape geometry, neighbor/support behavior, movement consequences, and full-pair coverage remain open."
+        ],
+        "statusBoundary": "Add only this sibling supplement to the current row. Preserve every existing row field, including registryDispatchCrosswalk20261104, fenceWallEligibility20261104, openDependencies, examined/unexamined slices, sourceCoverage, dependencyClosure, findings, implementation, and runtime status. The frozen crosswalk file and its exact-key statuses/counts remain unchanged: standing_sign and sign retain their unmatched rows; wall_sign remains EXACT_KEY_ONLY."
       }
     },
     {
