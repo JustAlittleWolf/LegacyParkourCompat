@@ -1836,15 +1836,51 @@
         ],
         "scope": "Exact 1.20.1 and 1.20.2 Mojmap sources; player collision/support route inventory covering Entity.move/step/axis order, Player edge back-off, support tracking/selection, pose-fit collision queries, local-player auto-jump, collision composition and effective block-shape dispatch.",
         "coverageItem": "The paired source audit found no route change in ordinary move/step-up, edge-back-off, support tracking/selection, pose fit, or auto-jump query behavior. Pink Petals has a changed shape getter but remains .noCollission() at both endpoints, so the shared collision provider returns empty in both. The 1.20.2 block-only collision helper is used by Camel pose validation, not a local-player route in this pair.",
-        "passengerGateBoundary": "The 1.20.2 LocalPlayer.aiStep adds !isPassenger() to the crouching expression before pose-fit checks; record this only as a source-level eligibility difference. Keep applicability and downstream movement consequence pending a separate trace; do not infer crouching reachability or a trajectory here.",
+        "passengerGateBoundary": "The 1.20.2 LocalPlayer.aiStep adds !isPassenger() to the crouching expression before pose-fit checks; the separately accepted applicability trace (development/research/source-evidence/20261104/1201-1202-passenger-crouch-applicability.md, SHA-256 0DEEAE8F51C2B3401418F094D75B6EC672476CDC0BB0A17A14808F73F7F06781) establishes only conditional local input scaling: old 1.20.1 crouching predicate true, passenger true, visual crawling false, and for numeric impulse difference a clamped multiplier below 1 with a nonzero input. The trace does not prove passenger displacement.",
         "openDependencies": [
           "D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, and D-EXTERNAL remain open; preserve their current wording and ownership.",
           "Resource/tag membership and synchronized datapack state are not established by this source inventory.",
           "Dynamic/context-sensitive block providers and block entities, chunk availability, world border/state, entity membership, pose dimensions/attributes, fluids, modifiers, and external movement inputs remain open.",
-          "The passenger crouching-gate applicability/consequence trace remains open as a separate task.",
+          "The bounded passenger crouching-gate applicability/input-scaling trace is reviewed and recorded separately; mount/dismount-to-aiStep/input/movement scheduling, passenger-control/travel consumption, and resulting displacement remain open.",
           "Runtime parity and the independent full-pair audit remain open."
         ],
-        "statusBoundary": "Add this as one bounded source-route inventory slice only. It does not close sourceCoverage, dependencyClosure, nextAction, the existing passenger-gate finding, implementation, runtime parity, or pair-audit status. Preserve all existing row fields and evidence."
+        "statusBoundary": "This remains one bounded source-route inventory slice, separate from the accepted conditional passenger input-scaling trace. It does not close sourceCoverage, dependencyClosure, nextAction, implementation, runtime parity, or pair-audit status."
+      },
+      "passengerCrouchApplicability20261104": {
+        "coverageStatus": "accepted-bounded-local-input-scaling-applicability",
+        "proposal": {
+          "path": "build/source-drafts/1201-1202-passenger-crouch-coverage-proposal.md",
+          "sha256": "81F70CBA9379819948802BCFD4300FC2708638C499F9F3D8942C44ED62F07D45"
+        },
+        "acceptedInputs": [
+          {
+            "path": "development/research/source-evidence/20261104/1201-1202-passenger-crouch-applicability.md",
+            "sha256": "0DEEAE8F51C2B3401418F094D75B6EC672476CDC0BB0A17A14808F73F7F06781",
+            "reviewedScratchPath": "build/source-drafts/1201-1202-passenger-crouch-applicability.md",
+            "reviewer": "source_1202_1204_contact",
+            "decision": "PASS",
+            "expectedGitBlobSha1": "76aec3e0c06135351a74dbd9da838e9d6f7d93d7",
+            "stagedGitBlobSha1": "76aec3e0c06135351a74dbd9da838e9d6f7d93d7",
+            "gitBlobCheck": "verified staged in the integrator's product checkout: git ls-files --stage reports the expected blob SHA-1 and staged bytes rehash to the accepted SHA-256"
+          },
+          {
+            "release": "1.20.1",
+            "sourceManifestSha256": "858b56764113e591c60d09bc63e4d90f9c1d67a705645f0c793e8b28f2378465"
+          },
+          {
+            "release": "1.20.2",
+            "sourceManifestSha256": "e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887"
+          }
+        ],
+        "scope": "Exact 1.20.1 and 1.20.2 Mojmap sources; LocalPlayer passenger crouch-field eligibility, its direct slow-input consumer, keyboard input scaling, serverAiStep impulse copy, and vehicle state transition writes. This is separate from the collision/support route inventory.",
+        "coverageItem": "1.20.2 adds !isPassenger() to LocalPlayer.aiStep's crouching predicate. A difference from 1.20.1 requires the old predicate otherwise true. When the player is a passenger and isVisuallyCrawling() is false, the new guard turns the slow-input boolean false through the crouching branch. A numeric left/forward impulse difference additionally requires the clamped sneak multiplier to be below 1 and the affected input impulse to be nonzero. This is a conditional local input-scaling witness only; it does not prove passenger displacement.",
+        "openDependencies": [
+          "The schedule from mount/dismount vehicle-state writes through LocalPlayer.aiStep, keyboard input sampling, and movement consumption remains open; the crouching field can retain its previous value until recomputation.",
+          "Whether passenger movement consumes these impulses and any resulting displacement or trajectory effect remain open; no vehicle physics or general mounted-movement claim is made.",
+          "Visual-crawling state being false, computed clamped sneak multiplier below 1, and a nonzero input impulse are gates for a numerical KeyboardInput.tick impulse difference. Controlled-camera selection gates the later serverAiStep forwarding of those impulses to xxa/zza; it is not a gate for the numeric impulse delta inside KeyboardInput.tick.",
+          "D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, and D-EXTERNAL remain open; resource/tag state, dynamic providers, world/chunk/border inputs, entity membership, fluids, and external movement modifiers are unaffected by this bounded trace."
+        ],
+        "statusBoundary": "Add this as a separate conditional local input-scaling applicability slice. Do not replace the existing S1-PASSENGER-CROUCH-INPUT entry or the collision/support route supplement. Preserve sourceCoverage: partial, dependencyClosure: incomplete, independentCoverageAudit: not complete, nextAction, findings, all open dependencies, implementation/runtime state, and all unrelated evidence. This slice does not establish passenger displacement, close broader dependencies, or complete the pair."
       }
     },
     {
