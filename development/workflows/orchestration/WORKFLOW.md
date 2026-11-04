@@ -5,17 +5,17 @@ Use this procedure when coordinating an authorized discovery, implementation or 
 ## Establish the assignment
 
 1. Reconcile the request with project scope and existing evidence. Reuse prior decisions and authorization; ask necessary unresolved questions together while continuing independent preparation.
-2. State allowed phases, deliverable, resource budget, deadline and closing window in the coordinating chat. A workflow review does not authorize a movement campaign.
+2. State allowed phases, deliverable, resource budget, deadline and closing window in the coordinating chat. A workflow review does not authorize a movement campaign. Before dispatch, make each assignment executable from its message: state role and delegation rights, bounded scope, exact input identities and locations, expected output format/schema and destination, owned paths, isolation, review bounds, allowed checks, budget/deadline and stop condition. Workers should not need to infer a missing handoff contract.
 3. Query the [backlog](#backlog-commands) for reusable evidence and open gates. Do not restart discovery merely because a chat is new.
 4. For release planning, select the newest bugfix in each minor line from 1.8 through 1.20, relevant movement boundaries within 1.21, then the newest bugfix in each 26.x line through `gradle.properties`' exact target. Resolve exact releases and source readiness before dispatch. Refine toward all stable releases over time; endpoint pairs do not prove intermediate patch boundaries.
 
 ## Assign roles and capacity
 
-Use native subagents for delegated work, including direct workers and any explicitly assigned suborchestrators. Give each suborchestrator explicit delegation rights and a maximum local worker count. Workers must not delegate. Count direct workers and suborchestrators in the master's global concurrency pool; suborchestrators manage their separately assigned local pools. Account for all descendants against actual host capacity and overall time/resource budgets. Separate user chats are not required for delegation.
+The coordinator owns assignments, exclusive ownership, queue priorities, phase gates, reviews and handoffs. Delegate bounded investigations and fixes; spend coordinator time reconciling evidence and closing gates. Use native subagents, including direct workers and explicitly assigned suborchestrators. Give each suborchestrator explicit delegation rights and a maximum local worker count; workers must not delegate. Count direct workers and suborchestrators in the master's global pool; suborchestrators manage their assigned local pools. Account for descendants against host capacity and the overall budget. Separate user chats are not required.
 
-Use the cheapest modern model suitable for the task; in Codex, follow the model policy below. Determine supported native concurrency with bounded probes and obey the user's worker limit. Reserve capacity for independent review and serial integration. Assign one canonical source-preparation writer and one product integration/build owner.
+Use the cheapest modern model suitable for the task; in Codex, follow the model policy below. Determine supported native concurrency with bounded probes and obey the user's worker target. A target is a ceiling to fill with useful, ready work, not a permanent default or a reason to invent assignments. Reserve capacity for independent review and integration. Assign one canonical source-preparation writer and one product integration/build owner; the integrator batches coherent ready changes while independent discovery continues.
 
-Send assignments directly in chat with role/delegation limits, bounded action, exact inputs, branch or working directory, owned paths, isolation, budget/deadline, authorized checks and expected finding or commit. Do not create assignment templates or per-worker status files.
+Send assignments directly in chat with role/delegation limits, bounded action, exact input identities, branch or working directory, owned paths, isolation, expected output format/schema and location, review bounds, budget/deadline, authorized checks and completion/stop condition. Do not create assignment templates or per-worker status files.
 
 Before dispatching a lane, read its procedure in full and supply only its permitted inputs:
 
@@ -27,12 +27,14 @@ Start blind workers/reviewers and independent implementers with fresh permitted 
 
 ## Dispatch and completion loop
 
-1. While workers run, prepare a small ready queue in chat from the backlog. Check exact inputs, authorization, dependency gates, exclusive ownership and isolation. Recheck these at dispatch.
-2. Dispatch the highest-priority ready assignment within capacity and budget. When discovery and implementation are both authorized, accepted implementation takes the next free slot; do not interrupt running work.
-3. Wait for the first completion or actionable event across active workers, not for the whole batch or one worker at a time.
-4. Inspect the result, update ownership and central records, then refill free capacity without waiting for unrelated reviews or integration. An attention request neither releases a slot nor closes a gate. A subworker releases its local slot; its suborchestrator retains its global slot until its assignment and descendants finish.
+1. Keep a short, ordered ready queue in chat, containing only useful work with exact inputs, authorization, closed prerequisites, exclusive ownership and isolation. Recheck those gates at dispatch.
+2. Dispatch the highest-priority ready assignment within the authorized target and budget. Refill useful capacity as slots open, while preserving review/integration capacity; do not create speculative work to hit a number. When accepted implementation and independent discovery are both ready, assign available capacity to both as possible. Integration batches coherent ready work and does not hold up independent discovery.
+3. Wait for a completion or actionable event across active workers, not for the whole batch or one worker at a time. Avoid unchanged periodic polling and repeated status requests. If an event makes no new action possible, acknowledge it once and resume waiting.
+4. Inspect the result, update ownership and central records, then refill useful free capacity without waiting for unrelated reviews or integration. An attention request neither releases a slot nor closes a gate. A subworker releases its local slot; its suborchestrator retains its global slot until its assignment and descendants finish.
 5. Preserve separate finding acceptance, pair coverage/dependencies/audit, implementation and runtime states. Require complete tick/inventory coverage, closed dependencies and independent blind audit before pair freeze. Early implementation needs an independently accepted immutable finding with closed dependencies and proven applicability; keep its source pair blind until freeze.
-6. Replenish the queue and resume waiting. If nothing is ready, record the blocker and wait for evidence that can resolve it. Apply this loop within every suborchestrator's assigned scope.
+6. Replenish the queue and resume event-driven waiting. If nothing is ready, record the specific blocker and wait for evidence that can resolve it. Apply this loop within every suborchestrator's assigned scope.
+
+Measure progress by substantive accepted findings, closed dependencies, integrated deltas and resolved blockers. Review and commit counts describe activity, not throughput. For independent review, identify the immutable claim/evidence revision and the bounded acceptance criteria. Reuse a verdict while those inputs and dependencies remain unchanged; reopen review only for a changed claim, evidence, applicability boundary or dependency. If a reviewer handoff includes JSON, statically check it parses and matches its expected shape. If it includes hashes, verify them against exact payload bytes and the declared encoding/line-ending contract. Keep patch/finding payload distinct from wrapper metadata such as provenance or transport fields; do not add tooling for these checks. Do not repeatedly re-pin or republish unchanged evidence/verdicts.
 
 Honor review/integration reservations and the closing window before each dispatch. At the closing window, stop assigning work, collect coherent commits/checkpoints and exact open blockers, and verify descendants have finished or stopped before responding. Forward pause/stop instructions to all active descendants; do not start replacement work or silently extend budgets.
 
@@ -65,7 +67,7 @@ These choices apply to all Codex delegations and do not grant additional delegat
 
 In coverage entries, name examined slices including no-difference checks, partial/unexamined areas, exact Git evidence and the next bounded action. Preserve historical audit verdicts bound to their inputs. Keep active ownership, allowed phase, pool limits, budgets and closing times only while relevant. Keep `wikiHints.minecraftWiki` and `wikiHints.mcpkWiki` separate, with checked pages, hints, source links, gaps and reconciliation state. Send blind source workers only their source coverage and exact inputs; never expose this mixed store to them.
 
-Have suborchestrators and workers report bounded updates, reviewer verdicts and commits in chat. Maintain no nested trackers, handoff reports or implementation status files. Preserve confirmed findings after integration. Remove completed temporary reports after transferring unique evidence and open gates; Git retains history. Keep necessary reference/comparison data in the authorized lab and only concise result associations centrally. Test execution reports failures only.
+Have suborchestrators and workers report bounded updates, reviewer verdicts and commits in chat. Send a final only when the assignment is complete, blocked, or needs a decision; it should state the result, evidence/output identity and remaining blocker, not repeat an unchanged status. Maintain no nested trackers, handoff reports or implementation status files. Preserve confirmed findings after integration. Remove completed temporary reports after transferring unique evidence and open gates; Git retains history. Keep necessary reference/comparison data in the authorized lab and only concise result associations centrally. Test execution reports failures only.
 
 ## Backlog commands
 
@@ -96,7 +98,7 @@ py -3 development/workflows/orchestration/backlog.py validate
 
 ### Preview and apply a targeted update
 
-Read the entry and use the returned revision as `--expect`. Put only the changed fields in a small UTF-8 JSON merge-patch file outside the tracked research tree. For example, a coverage update file might contain:
+Read the entry and use the returned revision as `--expect`. Coalesce routine changes for the same entry into one small UTF-8 JSON merge-patch file outside the tracked research tree; preserve every unchanged evidence/verdict field. Keep this patch payload separate from command arguments and wrapper/provenance metadata. Parse and inspect the patch shape before preview. For example, a coverage update file might contain:
 
 ```json
 {
@@ -114,7 +116,7 @@ Without `--apply`, mutation commands validate and preview only. `--file -` reads
 
 `add <section> <id> --file <record.json>` previews a complete new entry and rejects duplicate IDs. `delete <section> <id> --expect <revision>` previews deletion of a resolved `unresolvedClaims` or `implementationEvidenceGaps` entry. Both need `--apply` to write. Preserve unique evidence before deleting a resolved temporary entry. Permanent findings, coverage and scope dispositions cannot be deleted through this tool.
 
-Writes acquire an exclusive lock, reject stale entry revisions, validate the complete proposed store and atomically replace the storage file. Updates to unrelated entries do not invalidate a previously read entry revision; they are preserved. If a crashed writer leaves `backlog.json.lock`, verify that its recorded process has stopped before removing the lock. Do not bypass an active writer.
+Writes acquire an exclusive lock, reject stale entry revisions, validate the complete proposed store and atomically replace the storage file using UTF-8 and LF line endings. Updates to unrelated entries do not invalidate a previously read entry revision; they are preserved. Batch same-entry field changes into one update, but apply separate entries with their own current revisions. If a crashed writer leaves `backlog.json.lock`, verify that its recorded process has stopped before removing the lock. Do not bypass an active writer.
 
 `development/research/backlog.json` remains machine-managed, Git-readable storage. Agents do not need to load or hand-edit that large file; ordinary reads and edits use this interface. Existing records and evidence are preserved without a data migration. The serializer keeps one-record diffs for compact sections and readable coverage records. Commit the resulting focused storage diff normally. JSON patches are transient command input, not new reports or trackers.
 
