@@ -1513,6 +1513,58 @@
       "openDependencies": [
         "DEP-02 broad remaining movement tag/default/registry/resource inputs; source worker. Independent review of F-S7.4-BOAT-RIDER-ROTATION is pending; reviewer not yet assigned",
         "exact source publication is validated; most source inventory remains open and no whole-run equivalence claim has been made"
+      ],
+      "baseRevision": "5e804310a688cc5ba703f41e54f2912dc93cc9641dad772e661d2232c59fc8cb",
+      "mergePatch": {
+        "examinedSlices": {
+          "partial": [
+            "S1.1: client input sample and local tick/superclass/travel order [line 64]",
+            "S1.2: directional input conversion, yaw-relative vector math, diagonal normalization and input slowdown [line 75]",
+            "S1.3: sprint start/stop predicates, timers and stored sprint state [line 86]",
+            "S1.4: jump request, cooldown, jump timing and jump input gates [line 97]",
+            "S1.5: flight toggles, vertical input, ability state and flight-speed selection [line 108]",
+            "S1.6: auto-jump and input/tick unstuck probes [line 119]",
+            "S1.7: riding gates and rider input handoff relevant to player movement [line 130]",
+            "S2.1: player state defaults, initialization, reset and movement-relevant writers [line 141]",
+            "S2.2: pose choice, dimensions, eye height and resize/collision timing [line 153]",
+            "S2.3: swimming/crawling and active-use movement state [line 165]",
+            "S2.4: player edge sneaking and player-specific movement gates [line 177]",
+            "S3.1: travel dispatch and branch predicates before motion [line 189]",
+            "S3.2: ground acceleration, support friction and speed-factor selection [line 212]",
+            "S3.3: air acceleration, velocity cutoff/threshold and air-control math [line 224]",
+            "S3.4: jump power, sprint-jump impulse and velocity thresholds [line 236]",
+            "S3.5: climbing travel and vertical/horizontal clamps [line 248]",
+            "S3.6: water travel, fluid gravity/drag, swimming and water-jump gates [line 260]",
+            "S3.7: lava travel, fluid gravity/drag and fluid transition gates [line 272]",
+            "S3.8: fall-flying/gliding travel and look/velocity transforms [line 284]",
+            "S3.9: gravity, drag, levitation/slow-fall and post-travel updates [line 296]",
+            "S4.1: bounding-box movement entry, position update and query timing [line 308]",
+            "S4.2: axis collision order, clipping and velocity cancellation/restitution [line 320]",
+            "S4.3: step-up candidate generation, selection and tie-breaking [line 332]",
+            "S4.4: edge restraint/support probing and stored on-ground state [line 344]",
+            "S4.5: collision-shape lookup, context, AABB/voxel operations and candidate ordering [line 356]",
+            "S4.6: block collision callbacks, inside-block effects and movement callbacks [line 368]",
+            "S4.7: fluid contact/current checks during movement and collision [line 380]",
+            "S4.8: collision/support shape context from pose, neighboring blocks and repeated queries [line 392]",
+            "S5.5: climbables, bubble columns, pistons and neighboring-state movement effects [line 452]",
+            "S7.1: incoming player velocity and position corrections [line 549]",
+            "S7.2: player knockback, push and explosion movement writers [line 561]",
+            "S7.3: piston displacement and launch-item movement paths [line 573]",
+            "S7.4: mount, rider and dismount transitions affecting player movement [line 586]",
+            "S5.2 bounded no-difference addendum: direct getCollisionShape/getBlockSupportShape provider bodies in the exact 28-file roster were compared for 1.20.2 Mojmap vs 1.20.4 Mojmap; no body difference (only line offsets). Accepted source audit: build/source-drafts/1202-1204-direct-collision-support.md SHA-256 1F55EB21F488A83ADACD93545E44637F6FFA7672BA02D2CECC219918B8613967; coverage proposal: build/source-drafts/1202-1204-provider-coverage-proposal.md SHA-256 F852BEC3A6CD69E151DB81EDB07A6136A79A374ACB6B6E1D3131BEF86C424204. Pinned manifests: 1.20.2 E439FF7E1D3F1D31E01BE1EDD141F94D917A9DC7FA0DE5F69904544CBBE62887; 1.20.4 FD3C8668483E5FF208C847474F6CBD3952A909C4AA602ED98B24E3D11A9602A1. This partial method-body slice does not close callers/reachability, registration/default/resource DEP-02, getShape expansion, residual provider inventory or intermediate releases; no finding or movement/parity claim."
+          ]
+        }
+      },
+      "preserveUnchanged": [
+        "sourceCoverage",
+        "dependencyClosure",
+        "independentCoverageAudit",
+        "nextAction",
+        "evidence",
+        "recordLimit",
+        "examinedSlices.excluded",
+        "unexaminedSlices",
+        "openDependencies"
       ]
     },
     {
