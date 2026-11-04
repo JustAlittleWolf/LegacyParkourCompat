@@ -1764,7 +1764,41 @@
       "openDependencies": [
         "D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, D-EXTERNAL; all owned by this worker. D-LIVING-TRAVEL is resolved to S3/S14, with cross-inventory inputs still open. D-LIVING-AISTEP is resolved to S4/S5/S6/S16/S17/S18 for direct tick order; cross-inventory inputs remain open. S12 call-site/writer and packaged vanilla server tag comparison are closed; runtime datapack/synchronized tag state remains unobserved. S13/S20 close the named vanilla effect chains only; S21 closes the vanilla piston movement route; broader external and modifier inventories remain open",
         "source comparison is in progress; collision movement axes/steps/support, block/fluid providers and resources, modifiers, full state-writer graph, runtime datapack/synchronized knockback tag state and remaining local-player impulse/transition inputs are not closed. RemotePlayer findings concern client-side Player entities receiving server targets, not local-player trajectory or vehicle physics"
-      ]
+      ],
+      "collisionSupportRoutes20261104": {
+        "coverageStatus": "accepted-bounded-source-route-inventory",
+        "proposal": {
+          "path": "build/source-drafts/1201-1202-collision-support-coverage-proposal.md",
+          "sha256": "9E19E08C9BE93B616FE0080B5A35923CDBC9797B25EB63D7AE1BECC79E83EE9C"
+        },
+        "acceptedInputs": [
+          {
+            "path": "development/research/source-evidence/20261104/1201-1202-collision-support-routes.md",
+            "sha256": "32835A030F5618BCEF17FBE82577FEB1FD8F7DB35DED6AC839A83EA86F6CDC4A",
+            "reviewer": "source_1202_1204_contact",
+            "decision": "PASS"
+          },
+          {
+            "release": "1.20.1",
+            "sourceManifestSha256": "858b56764113e591c60d09bc63e4d90f9c1d67a705645f0c793e8b28f2378465"
+          },
+          {
+            "release": "1.20.2",
+            "sourceManifestSha256": "e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887"
+          }
+        ],
+        "scope": "Exact 1.20.1 and 1.20.2 Mojmap sources; player collision/support route inventory covering Entity.move/step/axis order, Player edge back-off, support tracking/selection, pose-fit collision queries, local-player auto-jump, collision composition and effective block-shape dispatch.",
+        "coverageItem": "The paired source audit found no route change in ordinary move/step-up, edge-back-off, support tracking/selection, pose fit, or auto-jump query behavior. Pink Petals has a changed shape getter but remains .noCollission() at both endpoints, so the shared collision provider returns empty in both. The 1.20.2 block-only collision helper is used by Camel pose validation, not a local-player route in this pair.",
+        "passengerGateBoundary": "The 1.20.2 LocalPlayer.aiStep adds !isPassenger() to the crouching expression before pose-fit checks; record this only as a source-level eligibility difference. Keep applicability and downstream movement consequence pending a separate trace; do not infer crouching reachability or a trajectory here.",
+        "openDependencies": [
+          "D-COLLISION, D-WORLD-MOVEMENT, D-MODIFIERS, and D-EXTERNAL remain open; preserve their current wording and ownership.",
+          "Resource/tag membership and synchronized datapack state are not established by this source inventory.",
+          "Dynamic/context-sensitive block providers and block entities, chunk availability, world border/state, entity membership, pose dimensions/attributes, fluids, modifiers, and external movement inputs remain open.",
+          "The passenger crouching-gate applicability/consequence trace remains open as a separate task.",
+          "Runtime parity and the independent full-pair audit remain open."
+        ],
+        "statusBoundary": "Add this as one bounded source-route inventory slice only. It does not close sourceCoverage, dependencyClosure, nextAction, the existing passenger-gate finding, implementation, runtime parity, or pair-audit status. Preserve all existing row fields and evidence."
+      }
     },
     {
       "pair": "1.20.2--1.20.4",
