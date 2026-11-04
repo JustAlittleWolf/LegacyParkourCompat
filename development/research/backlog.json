@@ -1096,6 +1096,72 @@
           "Keep this geometry item separate from chestPairingState20261104; do not replace, merge, or close that state-producer/persistence item."
         ],
         "statusBoundary": "This pending additive sibling slice changes no existing coverage fields, sourceCoverage, dependencyClosure, nextAction, historical evidence, finding acceptance, implementation status, runtime parity, or pair-audit status. Preserve partial pair status and every unrelated supplement/open dependency."
+      },
+      "chestPairingMigration20261104": {
+        "bindingStatus": "bound-to-post-chest-geometry-live-pin",
+        "targetRowRevision": "9401c061977d26483e3b13394e4320086d9982c0e40293acf81e491104fc4ddf",
+        "coverageStatus": "accepted-bounded-serialized-migration-and-chunk-upgrade-coverage",
+        "proposal": {
+          "path": "development/research/source-evidence/20261104/chest-migration-coverage-proposal.md",
+          "sha256": "E415C03499538842C98BAFEDFD10B0262105F39A73BC70B0DC455629F32D0D8F",
+          "reviewer": "source_12111_always_flying",
+          "review": "PASS bound to this exact proposal revision",
+          "reviewedScratchPath": "build/source-drafts/chest-migration-coverage-proposal.md"
+        },
+        "acceptedInputs": [
+          {
+            "path": "development/research/source-evidence/20261104/chest-pairing-serialized-migration.md",
+            "sha256": "15338DAC1941F3072E7583AD38DFE4DBBE52F5CBB7EA5EB591AFD7B64DDE15E6",
+            "status": "independent-source-review-pass",
+            "reviewer": "source_12111_always_flying",
+            "reviewedScratchPath": "build/source-drafts/chest-pairing-serialized-migration.md"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/chest-pairing-state-coverage.md",
+            "sha256": "05DC658DC7D7D473E6D468F0E1B1CC6E8A4CB2D17BD677610AD35B5E473E96E6",
+            "role": "separate bounded state-producer and persistence context",
+            "reviewedScratchPath": "build/source-drafts/chest-pairing-state-coverage.md"
+          },
+          {
+            "path": "development/research/source-evidence/20261104/residual-common-collision-a.md",
+            "sha256": "4F822062F3E07E4D79E5A5FB976CCD1573D3036EE3F734504D6389845770A668",
+            "role": "accepted provider context; valid-updated-pair precondition remains bounded",
+            "reviewedScratchPath": "build/source-drafts/residual-common-collision-a.md"
+          }
+        ],
+        "sourcePair": {
+          "older": "1.12.2 Ornithe Feather Gen2 build.2",
+          "olderManifestSha256": "b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da",
+          "newer": "1.13.2 Ornithe Feather Gen2 build.2",
+          "newerManifestSha256": "2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211"
+        },
+        "scope": "Normal and trapped chests; legacy serialized blockstate conversion, trapped-chest block-entity identity repair, UpgradeData candidate/edge bookkeeping, and gated chunk-upgrade pair reconstruction only.",
+        "coverageItem": "The 1.13.2 datafix maps legacy chest IDs 54/146 plus horizontal facing metadata to single states while retaining interior positions and edge sides in UpgradeData. Under the observed status/eight-neighbor post-processing path, the dedicated chest fixer reconstructs complementary TYPE only when current and neighbor blocks are the same chest block, both TYPE=SINGLE, horizontal neighbors, matching facing, and perpendicular to that facing. It handles normal and trapped chest block identities separately; a distinct fix repairs trapped-chest block-entity IDs. Pair sides are reconstructed from old adjacency/facing rather than read from an old serialized pair-side field.",
+        "siblingCoverage": {
+          "chestPairingState20261104": {
+            "role": "Separate state producer/persistence slice; do not overwrite or merge."
+          },
+          "chestPairingGeometry20261104": {
+            "role": "Separate bounded provider-geometry slice; do not overwrite or infer geometry equivalence from migration."
+          }
+        },
+        "interpretationLimits": [
+          "Source mechanism coverage only; this is not a migration-failure, collision-equivalence, player-movement, implementation, or runtime-parity claim.",
+          "The upgrade is gated by chunk status and the eight-neighbor post-processing path; the audit does not claim it runs for every saved chunk or at an immediate load point.",
+          "No real save file or runtime migration was exercised."
+        ],
+        "openDependencies": [
+          "Malformed/stale chest states, multiply-adjacent layouts, missing/nonstandard block entities, and cases failing the current-plus-neighbor TYPE=SINGLE guard remain open.",
+          "Chunks outside the demonstrated status/eight-neighbor upgrade path and broader datafix/save compatibility remain open.",
+          "The state-producer and provider-geometry items retain their own acceptance preconditions; migration evidence does not close either scope.",
+          "Collector behavior, player reachability/trajectory, implementation, runtime parity, complete pair dependencies, and independent full-pair audit remain open."
+        ],
+        "requiredBeforeApplying": [
+          "Copy proposal and accepted evidence byte-for-byte to the planned development/research/source-evidence/20261104 paths and verify every SHA-256.",
+          "Apply only against exact live 1.12.2--1.13.2 coverage-row revision `9401c061977d26483e3b13394e4320086d9982c0e40293acf81e491104fc4ddf`, which follows the chest-geometry predecessor.",
+          "Preserve the existing state-producer and geometry sibling entries, all other row fields, and the pair's partial status."
+        ],
+        "statusBoundary": "Bound to exact live-row revision `9401c061977d26483e3b13394e4320086d9982c0e40293acf81e491104fc4ddf` after chest geometry. This staged item changes no shared coverage record, finding acceptance, implementation, runtime parity, dependency closure, or pair-audit status; it is not a pair-freeze claim."
       }
     },
     {
