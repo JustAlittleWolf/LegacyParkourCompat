@@ -27,10 +27,12 @@ Start blind source auditors and independent implementers with fresh permitted co
 
 1. Keep a short, ordered ready queue in chat, containing only useful work with exact inputs, authorization, closed prerequisites, exclusive ownership and isolation. Recheck those gates at dispatch.
 2. Dispatch the highest-priority ready assignment within the authorized target and budget. Refill useful capacity as slots open, while preserving source-audit/integration capacity; do not create speculative work to hit a number. When accepted implementation and independent discovery are both ready, assign available capacity to both as possible. Integration batches coherent ready work and does not hold up independent discovery.
-3. Wait for a completion or actionable event across active workers, not for the whole batch or one worker at a time. Avoid unchanged periodic polling and repeated status requests. If an event makes no new action possible, acknowledge it once and resume waiting.
-4. Inspect the result, update ownership and central records, then refill useful free capacity without waiting for unrelated source audits or integration. An attention request neither releases a slot nor closes a gate. A subworker releases its local slot; its suborchestrator retains its global slot until its assignment and descendants finish.
+3. Make each assignment self-contained and executable from its stated inputs, scope, permissions, owned paths, output and stop condition. Workers complete all authorized work autonomously and notify the coordinator during the assignment only about an organizational blocker they cannot resolve. Resolve technical questions within the stated scope using project evidence and judgment. End with one terminal result, `COMPLETED` or `FAILED`, identifying the output and any remaining blocker.
+4. Wait for a terminal result or organizational blocker across active workers, not for the whole batch or one worker at a time. Avoid unchanged periodic polling and repeated status requests. Refill a released slot from the ready queue without rechecking completed technical work; preserve explicit independent acceptance and audit gates for work that still depends on them. An attention request neither releases a slot nor closes a gate. A subworker releases its local slot; its suborchestrator retains its global slot until its assignment and descendants finish.
 5. Preserve separate finding acceptance, pair coverage/dependencies/audit, implementation and runtime states. Require complete tick/inventory coverage, closed dependencies and independent blind audit before pair freeze. Early implementation needs an independently accepted immutable finding with closed dependencies and proven applicability; keep its source pair blind until freeze.
 6. Replenish the queue and resume event-driven waiting. If nothing is ready, record the specific blocker and wait for evidence that can resolve it. Apply this loop within every suborchestrator's assigned scope.
+
+The master owns central records and may explicitly assign one recordkeeper as its delegate for exclusive central writes. While that assignment is active, other workers send terminal outcomes to the recordkeeper and do not write central records or create parallel trackers. Without an assigned delegate, workers send terminal outcomes to the master.
 
 Measure progress by substantive accepted findings, closed dependencies, integrated deltas and resolved blockers. Audit and commit counts describe activity, not throughput. For each independent source audit, identify the immutable claim/evidence revision and bounded acceptance criteria. Reuse its verdict while those inputs and dependencies remain unchanged; reopen the audit only for a changed claim, evidence, applicability boundary or dependency. If a source-audit handoff includes JSON, statically check it parses and matches its expected shape. If it includes hashes, verify them against exact payload bytes and the declared encoding/line-ending contract. Keep finding payload distinct from wrapper metadata such as provenance or transport fields; do not add tooling for these checks. Do not repeatedly republish unchanged evidence or verdicts.
 
@@ -57,7 +59,7 @@ These choices apply to all Codex delegations and do not grant additional delegat
 
 | Record | Writer | Retain |
 | --- | --- | --- |
-| `development/research/backlog.json` | Master, through the commands below | Finding revisions, independent verdicts/evidence, open applicability gates, code/commit associations, runtime evidence; pair coverage, dependencies, audits and next actions |
+| `development/research/backlog.json` | Master, or one explicitly assigned recordkeeper acting on the master's behalf, through the commands below | Finding revisions, independent verdicts/evidence, open applicability gates, code/commit associations, runtime evidence; pair coverage, dependencies, audits and next actions |
 | `development/research/findings/<older>--<newer>/<topic>.md` | Assigned discovery writer | Permanent source difference in the discovery format; no progress status |
 | `development/research/decisions.md` | Master | Scope exclusions and invalid witnesses needed to prevent unsupported work |
 | `development/research/README.md` | Master | Record navigation and enduring limitations; no copied progress totals |
@@ -71,7 +73,7 @@ Use chat for actionable changes, verdicts and commits; routine coordination and 
 
 Run from the repository root with Python 3.10 or newer, using only the standard library. On Windows use `py -3`; on Linux/macOS use `python3`.
 
-The master orchestrator is the sole writer. Workers send bounded updates in chat; they do not run write commands or create parallel trackers. Source workers must not query this mixed-lane store: the master supplies only their allowed source inputs and coverage. The tool is a convenience and consistency boundary, not an access-control system.
+The master orchestrator is the sole owner of the central record. It may assign one recordkeeper as its exclusive writer; that delegate uses the commands below until the assignment ends. Other workers send terminal outcomes to the recordkeeper and do not run write commands or create parallel trackers. Source workers must not query this mixed-lane store: the master supplies only their allowed source inputs and coverage. The tool is a convenience and consistency boundary, not an access-control system.
 
 ### Read only what is needed
 

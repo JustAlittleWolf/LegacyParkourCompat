@@ -13,9 +13,9 @@ The preparation owner must:
 
 ## Implement and return the candidate
 
-Design the minimal delta and operation contract from the assigned evidence. Follow the exported `AGENTS.md`; do not inspect excluded product code or transplant complete movement loops. Report missing neutral capabilities to the integrator.
+The assignment must provide enough evidence, scope, authorization, owned paths, output and stop condition for the worker to finish independently. Design the minimal delta and operation contract from the assigned evidence. Follow the exported `AGENTS.md`; do not inspect excluded product code or transplant complete movement loops. Resolve technical questions within the assignment using its evidence and project rules; contact the coordinator only for an organizational blocker that cannot be resolved from those inputs. Do not wait for progress checks or additional permission for already authorized work.
 
-Document behavior and both exact source references in Change comments: release, mapping family, class and member. Omit hashes and provenance boilerplate; line ranges are optional. Commit the narrow patch on the candidate branch and return its commit, integration needs and unresolved assumptions in chat. Do not create implementation, handoff, status or completion files, or merge product history into the candidate repository.
+Document behavior and both exact source references in Change comments: release, mapping family, class and member. Omit hashes and provenance boilerplate; line ranges are optional. Commit the narrow patch on the candidate branch and return its commit, integration needs and unresolved assumptions in chat. End with one terminal result, `COMPLETED` or `FAILED`, identifying the candidate commit/output and any remaining blocker. The coordinator may refill the released slot without repeating completed technical review; source acceptance, applicability and other explicit independent gates remain separate and must still be satisfied before integration. Do not create implementation, handoff, status or completion files, or merge product history into the candidate repository.
 
 ## Integrate and verify
 
