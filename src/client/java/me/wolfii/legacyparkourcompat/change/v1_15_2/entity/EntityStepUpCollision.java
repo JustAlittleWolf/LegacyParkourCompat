@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_14_2.entity;
+package me.wolfii.legacyparkourcompat.change.v1_15_2.entity;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -7,18 +7,19 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Uses the 1.14 step routes with the independently resolved requested-Y return.
+ * Resolves historical step-up routes for profiles through 1.15.2.
  *
- * <p>1.14.4 Ornithe Feather {@code net.minecraft.entity.Entity.m_72373519}
- * tests the same grounded-or-downward-clipped gate, step-height bound, two
- * candidates and strict horizontal-distance comparisons as 1.13.2 Ornithe
- * Feather {@code net.minecraft.entity.Entity.move}; its final vertical return adds the clipped
- * {@code -routeY + requestedY} correction. The formula and route gates persist
- * in 1.14.0–1.14.4. This provider is annotated at V1_14_2: earlier selected
- * profiles retain V1_13_1, and profiles from V1_15 onward retain the later
- * V1_20_2 provider until a separate source boundary is accepted.
+ * <p>Mojmap {@code net.minecraft.world.entity.Entity#collide(Vec3)} uses the
+ * same step-up gates, two candidate routes, strict horizontal-distance
+ * comparisons and requested-Y correction in 1.14.4, 1.15, 1.15.1 and 1.15.2.
+ * Mojmap {@code Entity#move(MoverType, Vec3)} calls {@code collide} after
+ * {@code applySneaking} in 1.14.4 and after {@code maybeBackOffFromEdge} in
+ * the 1.15 releases. The collision hook receives that post-caller movement;
+ * the separately resolved player edge operation remains in effect. This
+ * provider supplies the nearest later implementation where no closer step-up
+ * provider applies.
  */
-@MovementChange(emulates = ParkourVersion.V1_14_2)
+@MovementChange(emulates = ParkourVersion.V1_15_2)
 public final class EntityStepUpCollision implements StepUpCollisionHook {
     @Override
     public Result resolveStepUp(Vec3 requested, Vec3 ordinary, AABB box,

@@ -360,7 +360,7 @@
     {"finding": "development/research/findings/1.21.1--1.21.3/direct-player-position-correction.md", "implementation": "open", "changes": [], "runtimeParity": "unverified", "sourceReviews": [{"decision": "ACCEPT", "reviewer": "/root/draft_mounted_toggle_evidence", "sha256": "2D272D1EB7255FC8F89B971E7D559734A7D849E19E7BBDAA1CE8F9C23F521756", "path": "build/source-drafts/direct-correction-canonical-candidate.md", "proposalSha256": "16BED678591E9700F6BB4F0BC23A6C41283F0F39F6AE7F777E863FAFDF78E436", "sourceEvidenceSha256": "159D0FCA1BB7EEE62C3497A3BBDF753C593CE4250A6C8572AEA1FBDE9173E3E0", "sourceEvidencePath": "build/source-drafts/1.21.1--1.21.3-direct-player-position-correction.md"}], "currentPublication": {"sha256": "2D272D1EB7255FC8F89B971E7D559734A7D849E19E7BBDAA1CE8F9C23F521756", "sourceSnapshotSha256": "159D0FCA1BB7EEE62C3497A3BBDF753C593CE4250A6C8572AEA1FBDE9173E3E0", "normalization": "UTF-8 LF"}, "openIssues": [{"missing": "Implementation of direct local-player correction behavior", "next_action": "Keep implementation open pending separately authorized integration after exact source acceptance."}, {"missing": "Runtime parity for direct local-player correction behavior", "next_action": "Keep runtime parity unverified; any runtime verification requires separate authorization."}, {"missing": "Adjacent correction paths and relative-velocity flag combinations", "next_action": "Retain the finding's bounded exclusions; assess entity synchronization, removed-vehicle handling, respawn, standalone rotation, and individual relative-velocity combinations under separate source assignments."}]},
     {"finding": "development/research/findings/1.8--1.9/ladder-collision-thickness.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_8/LadderCollisionShape.java"], "sourceReview": "ACCEPT bounded exact 1.8/1.9 ladder-width claim; no pair-freeze or runtime-parity claim.", "sourceReviews": [{"decision": "ACCEPT bounded exact-source claim", "reviewer": "/root/mcpk_independent_review", "claim": "Ladder collision width changes from 0.125 in exact 1.8 to 0.1875 in exact 1.9.", "snapshot": {"path": "build/mcpk-20261116/climbables/inventory.md", "sha256": "64C457A86C5185A772024A184EB0258865A634A42A6D7EC971087F54F5D89907", "verifiedPair": ["1.8", "1.9"], "mapping": "Ornithe Feather", "sourceManifests": {"1.8": "52C8312C34A1A491D4A200C84E90F5D8D95C7E5CAA9571F864D8E70F9737DB05", "1.9": "8DAACB7AF8F210E716EE4B34C43B8A5D6F6B4B19831D2FD725CBE16ECF330A1A"}}, "limits": ["Exact 1.8/1.9 endpoints only; first changed stable patch release is unknown.", "No full-pair source coverage or freeze.", "No runtime parity claim."]}], "applicability": "Exact V1_8 behavior repaired; other profiles preserved. Runtime parity remains unverified.", "integratedCommit": "7a2fc1df693da9962a3decfe5e2b655157598055", "implementationReview": {"reviewer": "/root/review_mcpk_ladder_integration", "decision": "PASS", "commit": "7a2fc1df693da9962a3decfe5e2b655157598055", "candidate": "d556812c84e11244ad5f0f4ac7cb151e62c90b59", "scope": "Exact V1_8 ladder collision-width implementation; other profiles preserved."}, "runtimeParity": "unverified", "openIssues": []},
     {"finding": "development/research/findings/1.8--1.9/sneak-pose-collision-query.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_9/player/PlayerPoseCollision.java"], "sourceReview": "PASS bounded exact source claim: 1.8 has no tick-time sneak resize/query; 1.9 conditionally changes dimensions only when the candidate box has no block collision; pose/query/resize bodies are identical in exact 1.9 through 1.9.4. No full-pair freeze or runtime parity claim.", "sourceReviews": [{"decision": "PASS bounded source claim", "reviewer": "/root/mcpk_independent_review", "snapshot": {"path": "development/research/findings/1.8--1.9/sneak-pose-collision-query.md", "sha256": "07961b5252e79fa5e27018e42a6a6e6723cc69bd2142df6cbd69602e622edecf"}, "draft": {"path": "build/mcpk-20261116/sneaking/inventory.md", "sha256": "9769c156cac4022e41137b6e558cd636cc86b585c275ecc1b9b8a08cae19c856", "verifiedPair": ["1.8", "1.9"], "mapping": "Ornithe Feather"}, "applicabilityAudit": {"path": "build/mcpk-20261116/sneak-1.9-boundary/comparison.md", "sha256": "3b9ea05d9f604c0a72b2d092bf6c87bcb7f6048eb331a6c5018667c7590ef23a", "reviewer": "/root/mcpk_independent_review", "scope": "Exact 1.9 through 1.9.4 pose, setSize and world-collision operations equivalent; bounded applicability only, no all-pair freeze."}}], "applicability": "Exact 1.8-to-1.9 difference: 1.8 has no tick-time sneak-pose resize; in 1.9 pose selection builds the candidate box, queries block collision, and resizes only when the candidate is collision-free. The 1.9 through 1.9.4 pose/query/resize operation is equivalent per independent review.", "currentPublication": {"path": "development/research/findings/1.8--1.9/sneak-pose-collision-query.md", "sha256": "07961b5252e79fa5e27018e42a6a6e6723cc69bd2142df6cbd69602e622edecf"}, "implementationEvidence": "Independent source-fidelity and product technical review PASS. The exact 1.9 profile uses the historical dimension comparison, box anchoring, block-only empty-context query, rejection state and eye-height order. Scoped shape-owner lookup preserves historical block shapes without enabling movement scanners.", "openIssues": [], "runtimeParity": "unverified", "integratedCommit": "a15e83dd908803d980243df7bddda4423ed4dd21", "implementationReview": {"product": "a15e83dd908803d980243df7bddda4423ed4dd21", "decision": "PASS", "candidate": "9a0315f862b042923178b77ad52d556f12d7b377", "reviewer": "/root/review_pose_product"}},
-    {"sourceReview": "ACCEPT bounded exact-source vertical correction; first stable 1.14 and persistence through 1.14.4 independently checked.", "applicability": "Verified 1.14 stable patch family only for the pending new delta; preserve other profile behavior until separately checked.", "implementationPreparation": {"branch": "fix/mcpk-step-vertical-1-14", "status": "independent candidate in progress", "export": "build/mcpk-20261116/step-vertical-implementation-base", "baseCommit": "177ef96662d74c6e6a46c62f0cb00983ba5428fa"}, "runtimeParity": "unverified", "currentPublication": {"sha256": "39ad3d8f6af0d685ab6a2912a0588a74d75e4f32b182c841ae71a84e8bc5deb5", "path": "development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md"}, "sourceReviews": [{"reviewer": "/root/mcpk_review_dispatch", "applicability": {"verifiedReleases": ["1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"], "firstNewRelease": "1.14"}, "decision": "ACCEPT bounded", "claim": "1.13.2 offsets achieved rise before clipping; 1.14 applies -routeY+requestedY then collision-clips. No guaranteed un-clipped trajectory.", "snapshot": {"sha256": "39ad3d8f6af0d685ab6a2912a0588a74d75e4f32b182c841ae71a84e8bc5deb5", "path": "development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md"}}], "implementation": "open", "finding": "development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md", "openIssues": [{"next_action": "Review the independent neutral candidate, reconcile with product step hooks, then obtain independent technical review.", "missing": "Historical input-Y-aware step-return behavior in the 1.14 profile family."}], "changes": []}
+    {"sourceReview": "ACCEPT bounded exact-source vertical correction; first stable 1.14 and persistence through 1.14.4 independently checked.", "applicability": "Verified 1.14 stable patch family only for the pending new delta; preserve other profile behavior until separately checked.", "runtimeParity": "unverified", "currentPublication": {"sha256": "39ad3d8f6af0d685ab6a2912a0588a74d75e4f32b182c841ae71a84e8bc5deb5", "path": "development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md"}, "sourceReviews": [{"reviewer": "/root/mcpk_review_dispatch", "applicability": {"verifiedReleases": ["1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4"], "firstNewRelease": "1.14"}, "decision": "ACCEPT bounded", "claim": "1.13.2 offsets achieved rise before clipping; 1.14 applies -routeY+requestedY then collision-clips. No guaranteed un-clipped trajectory.", "snapshot": {"sha256": "39ad3d8f6af0d685ab6a2912a0588a74d75e4f32b182c841ae71a84e8bc5deb5", "path": "development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md"}}], "implementation": "present", "finding": "development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md", "openIssues": [], "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/entity/EntityStepUpCollision.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/entity/StepAssistVerticalReturn.java"], "implementationReview": {"reviewer": "/root/review_step_product", "decision": "PASS", "candidate": "08f7ed7514d8fb86229f2ca719499744f94426a3", "scope": "Verified 1.14 stable patch family; clipped correction and net-vector/box settlement, old and later resolver rows preserved.", "product": "8d8787de271bfa240bab7c7b2468e776bdb558dd"}, "integratedCommit": "8d8787de271bfa240bab7c7b2468e776bdb558dd"}
   ],
   "unresolvedClaims": [
     {"pair": "1.8.9--1.9.4", "claim": "WORLD-07-nether-portal-entity-eligibility", "evidence": {"sources": [{"version": "1.8.9", "mapping": "ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny", "path": "1.8.9/ornithe-feather/net/minecraft/block/PortalBlock.java", "member": "public void onEntityCollision(World world, BlockPos pos, BlockState state, Entity entity) {", "lines": "162-166", "status": "verified-content", "detail": "Canonical file SHA-256 bb9d2cba26df71c8383408fcccc93b849eebecd3d36924a63ee80cba8734867e; matches an archived source-file digest. Checked full declaration/body; snippet SHA-256 ea72fa6c3bf26f0135cb762e47b7f8ddd344f0495f5115c02ff9883da264351c."}, {"version": "1.8.9", "mapping": "ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny", "path": "1.8.9/ornithe-feather/net/minecraft/entity/Entity.java", "member": "Entity#canUsePortals", "lines": null, "status": "different", "detail": "Checked complete canonical file SHA-256 d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b (matches an archived source-file digest); named declaration absent. Named declaration is absent in this checked canonical file; paired existing declaration/range is retained separately, so this is an explicit addition/removal or mapping correspondence limit, not an invented line."}, {"version": "1.9.4", "mapping": "ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny", "path": "1.9.4/ornithe-feather/net/minecraft/block/PortalBlock.java", "member": "public void onEntityCollision(World world, BlockPos pos, BlockState state, Entity entity) {", "lines": "170-174", "status": "verified-content", "detail": "Canonical file SHA-256 8f6c4502a2b910ad8eaaefed19d162a3319e9afc6802c8ccb3e7e05b3987c598; matches an archived source-file digest. Checked full declaration/body; snippet SHA-256 f0a645d052ee72f4733bd812337f072983d0e61f89079b2189150e5cff5791e6."}, {"version": "1.9.4", "mapping": "ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny", "path": "1.9.4/ornithe-feather/net/minecraft/entity/Entity.java", "member": "public boolean canUsePortals() {", "lines": "1895-1897", "status": "verified-content", "detail": "Canonical file SHA-256 bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0; matches an archived source-file digest. Checked full declaration/body; snippet SHA-256 5e4539512b0df9a1df1bb642ca79455eb1d6304404c6ce04a99249731de74c9a."}], "sourceReviews": [], "implementation": "not admitted", "runtime": "unverified"}, "openIssues": "- Later applicability gate: exact introduction of campaign-WORLD-07-nether-portal-entity-eligibility is unknown within (1.8.9, 1.9.4] Next: Preserve any exact historical verdict for its bounded assertion; verify intervening releases separately before assigning a new implementation range. Formatting alone requires no renewed acceptance.\n- Current implementation of campaign-WORLD-07-nether-portal-entity-eligibility Next: After expert scope review and independent source acceptance, assign this specific operation to the separate implementation phase.\n- Player-specific difference in canUsePortals and passenger-state applicability Next: Resolve the archived conditional player reachability claim from existing source evidence before accepting an implementable operation."}
@@ -1354,16 +1354,55 @@
               "id": "sneaking-dives-pitch-claim",
               "page": "Version_Differences",
               "section": "1.13 Movement",
-              "claim": "The wiki's sneaking-dives hint implies sneaking selects a dive pitch/state response.",
+              "claim": "Sneaking-dives hint; exact Version_Differences clause attachment is pending.",
               "versions": [
                 "1.13.2"
               ],
-              "sourceDisposition": "contradicted by the inspected pitch gate; modern-only swimming pose/pitch/state are not accepted compatibility deltas",
+              "sourceDisposition": "Source-confirmed raw-sneak body-water downforce: the -0.04F path is present in exact 1.13, 1.13.1, and 1.13.2 and absent in exact 1.12.2. Exact Version_Differences clause association remains pending.",
               "sourceFinding": null,
-              "implementationResult": "no compatibility implementation warranted from this contradicted hint",
+              "implementationResult": "COVERED_NO_CODE: /root/vd_product_owner verified profiles 1.13 and 1.13.1 resolve WaterDescentHook@V1_15_2 to mayDescend=true (closest applicable annotated change). LocalPlayerMixin.waterDescentGate redirects isAffectedByFluids with true; native aiStep raw-sneak plus body-water reaches goDownInWater with -0.04F. WaterSneakHook has no eligible provider for profiles 1.13 and 1.13.1, so its native fallback returns true and the native call is retained. No code change required.",
               "limits": [
-                "only the inspected pitch gate is disposed; broader fluid-flow behavior is not covered"
-              ]
+                "No pitch, eye-height, swim-state, or swimming-pose compatibility claim.",
+                "No broader fluid-flow claim.",
+                "Exact Version_Differences clause association remains pending.",
+                "No runtime parity claim."
+              ],
+              "historicalDisposition": {
+                "status": "superseded interpretation",
+                "supersededReason": "The earlier pitch/state interpretation is retained as history only; the renewed source fact concerns the distinct raw-sneak body-water downforce path and does not establish a pitch, eye-height, or swim-state compatibility delta.",
+                "claim": "The wiki's sneaking-dives hint implies sneaking selects a dive pitch/state response.",
+                "sourceDisposition": "contradicted by the inspected pitch gate; modern-only swimming pose/pitch/state are not accepted compatibility deltas",
+                "implementationResult": "no compatibility implementation warranted from this contradicted hint",
+                "limits": [
+                  "only the inspected pitch gate is disposed; broader fluid-flow behavior is not covered"
+                ]
+              },
+              "sourceReview": {
+                "reviewer": "/root/vd_review_dispatch",
+                "draft": "build/mcpk-20261116/vd-dive-confirmation/source-facts.md",
+                "sha256": "BA7DF5A1D22AB61E63B5BFA0CD82FB12D10C9ABCF1F040D4B4BD7EE9560026B7",
+                "verifiedReleases": [
+                  "1.12.2",
+                  "1.13",
+                  "1.13.1",
+                  "1.13.2"
+                ]
+              },
+              "implementationPaths": [
+                "src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/WaterDescent.java",
+                "src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java"
+              ],
+              "implementationReview": {
+                "reviewer": "/root/vd_product_owner",
+                "decision": "COVERED_NO_CODE",
+                "scope": "Existing provider resolution and native raw-sneak body-water downforce path for profiles 1.13 and 1.13.1.",
+                "evidence": [
+                  "WaterDescentHook@V1_15_2 resolves as the closest applicable annotated change and returns mayDescend=true.",
+                  "LocalPlayerMixin.waterDescentGate redirects isAffectedByFluids with true.",
+                  "Native aiStep raw-sneak plus body-water reaches goDownInWater with -0.04F.",
+                  "WaterSneakHook has no eligible provider for 1.13/1.13.1; native fallback returns true and retains the native call."
+                ]
+              }
             },
             {
               "id": "water-current-flow-hint",
@@ -1375,7 +1414,7 @@
               ],
               "sourceDisposition": "corrected bounded exact-source response claim independently accepted; exact MCPK hint page attribution remains open",
               "sourceFinding": null,
-              "implementationResult": "The ordinary unmounted player response is covered by existing native response, depth, and cutoff hooks for the inspected route. A mounted non-boat weak-current route remains an unconfirmed applicability gap under separate source review. The flow-field calculator is a dependency and is not accepted here as an independent player response change.",
+              "implementationResult": "CLOSED_NO_CODE for the reviewed direct response, including the mounted sample: historical depth-origin and minimum-impulse hooks already apply to passengers. The weak-current cutoff difference yields no retained tiny-flow counterexample after the old player deadband. No general flow-field calculator parity is claimed.",
               "gap": "Current-flow claim has not been reviewed in this bounded pass.",
               "sourceReview": {
                 "reviewer": "/root/mcpk_review_dispatch",
@@ -1391,14 +1430,25 @@
                 "Exact 1.12.2/1.13.2 endpoint response only; no patch cutover asserted.",
                 "Ordinary unmounted direct player response only; mounted non-boat weak-current applicability remains open.",
                 "No calculator claim and no runtime parity claim."
-              ]
+              ],
+              "mountedFollowup": {
+                "decision": "Historical-vs-native source witness valid, but current product depth and minimum hooks already cover it; no new canonical finding or code.",
+                "sourceVersions": [
+                  "1.13",
+                  "1.13.1",
+                  "1.13.2"
+                ],
+                "productReviewer": "/root/check_flow_product",
+                "sourceReviewer": "/root/mcpk_review_dispatch",
+                "nativeReference": "26.2"
+              }
             }
           ],
           "gaps": [
             "The MCPK page/section for the direct water-current hint remains unverified.",
             "Mounted non-boat weak-current player response applicability remains open pending a fresh source audit."
           ],
-          "reconciliation": "Preserve the existing ordinary-water-gravity, sprint-water and contradicted sneaking-pitch claims. The corrected exact-source player current response is accepted for its bounded ordinary unmounted route; keep wiki attribution and mounted non-boat applicability open. No calculator-level claim or pair/runtime status change."
+          "reconciliation": "Bounded direct water-response claims are implemented; the mounted follow-up is closed without code. The source-confirmed raw-sneak body-water downforce path is covered by existing 1.13/1.13.1 product routes without a code change; exact Version_Differences clause association remains pending. Current-field calculator parity and exact wiki Y=256 causal attribution are not established by the earlier direct-response review; runtime parity remains unverified."
         }
       }
     },
@@ -1666,7 +1716,7 @@
                 "1.13.2",
                 "1.14.4"
               ],
-              "wikiClaimDisposition": "contradicted by the independently reviewed source comparison; the Version_Differences page agrees with source",
+              "wikiClaimDisposition": "Historical individual-page comparison (Collisions), outside the active Version_Differences-only checklist. No current contradiction is asserted; current Version_Differences content is assumed truthful.",
               "sourceReview": {
                 "reviewer": "/root/mcpk_independent_review",
                 "draft": "build/mcpk-20261116/collisions/discovery.md",
@@ -1684,7 +1734,8 @@
               "sourceFinding": null,
               "limits": [
                 "Page disagreement retained explicitly; no new source finding or old acceptance renewal."
-              ]
+              ],
+              "historicalDisposition": "Prior verdict for the individual Collisions page only: contradicted by the independently reviewed source comparison; the Version_Differences page agrees with source. Retained as historical evidence; it does not dispose of a current Version_Differences clause."
             },
             {
               "id": "step-assist-vertical-return-includes-requested-y",
@@ -1705,7 +1756,7 @@
                 ]
               },
               "sourceFinding": "development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md",
-              "implementationResult": "Missing for the independently verified 1.14 family; a neutral independent implementation candidate is in progress. Vanilla 26.2 differs on the reviewed static clear-return witness.",
+              "implementationResult": "present for the independently verified 1.14 family at 8d8787de; custom route calls clipped -rise+requestedY and returns the net vector without applying the settled box twice. Later-family extension remains separately gated.",
               "limits": [
                 "Exact 1.13.2/1.14.4 endpoints only; no patch cutoff asserted.",
                 "No runtime parity claim."
@@ -1728,7 +1779,7 @@
             "This bounded claim does not independently establish the first changed stable patch release.",
             "MCPK hint-level page attribution remains open; implementation reconciliation and exact 1.14 boundary audit remain pending."
           ],
-          "reconciliation": "The bounded step vertical-return claim is accepted and remains pending product reconciliation. No implementation absence is concluded while the static witness review and patch-boundary audit remain open; existing collision-axis claims and pair source status are unchanged."
+          "reconciliation": "Reviewed collision-axis and 1.14 step-return operations are implemented. The Version_Differences axis-order claim is treated as truthful; the prior Collisions-page reversal verdict is retained only as historical individual-page evidence outside the active Version_Differences-only checklist. Later step-family extension is separate source work."
         }
       }
     },
@@ -4741,5 +4792,5 @@
   "sourceCheckpoint0220261103": "{\"productRevision\": \"a45daed5e44404be649e739305a5f6156f38eaf1\", \"archives\": \"development/research/source-evidence/20261103/checkpoint02/manifest.json\", \"sourceLimits\": \"All source archives bounded/partial; no new wholepairfreeze. Source116prior11bindinggap: freshrenewalreadclaims beforeownroster, corrected suffocation authoredbyreviewer needsindependentclosure. ResetPosShulker/vinewitnessREJECT unsupportedvine/shulkerstate. AutoJump1.14\\u21921.14.1 boundedclaimrenewalaccept but reviewerreadpriorreviewprose, notstrictblindcoverage. 1214poseprioritydraftREJECT missingdesiredposefitgate. 12110UseEffects candidatesexcluded modern-onlyspearcapability; existingitemsdefaultsame.\", \"activeNext\": \"Keep native Luna/high workersbusy, no tests/runtime. Source1122tiny firstdivergence correctedto1.13.1, renewedboundaryreviewactive. Levitationarrivalfindingindependentlyaccepted; productreconciliationactive.1214sprint/deadzone/diagonal claimsaccepted, productreconciliationactive. Modernproviderunderorchestrator4childrenauthorized.\", \"validation\": \"Combined producttestdisabledbuild6s; defaultmainancestor, no textualmergeconflicts. Shortposeconstructorlocalordinalcorrected beforeintegration; actualstartupnotrun.\"}",
   "sourceCheckpoint0320261103": "{\"archives\": \"development/research/source-evidence/20261103/checkpoint03/manifest.json\", \"resourceInputs\": \"RecoveredexactclientbytesmatchhistoricalclientSHA256pins for1.13.2/1.14.4/1.21.5/1.21.8/1.21.10/1.21.11. Currentversionmetadatahashdiffershistorical; useddownloadlocatoronly, storedseparately. Resource-manifestscommitted; nojarbinariesinGit.\", \"resourceClosure\": \"1.21.5-.8 movementtagdefaults equal; outerresourcesgatesclosed independently. Bounded100segmentcase ordinarytick+packetresponsesdoesnotreachcap, broaderdirectblock/entitycallerseparate.\", \"acceptedAlreadyCovered\": \"Read-onlyproductreconciliation confirmsLevitationarrival,1.21.4sprint/deadzone/keyboardrounding,PowderSnowshape/priorlatch,glidevineexceptionand1.21.10loadfallback/tracker alreadyhavecorrespondingcode; individualnewsourcebindingsremainseparatefromwholepairfreeze. Reconcileworkerincorrectpowderresolvergapwithdrawn afterrootactualresolvercheck.\", \"profileSplit\": {\"commit\": \"67db6072\", \"review\": \"ACCEPT native /root/review_profile_1141\", \"build\": \"BUILD SUCCESSFUL10s everyGradleTestdisabledand-x test\", \"preservation\": \"Existing6V1_14registrationsretargetV1_14_1,preservingformer1.14/.1groupbehavior. Resolveralgorithmunchanged.\"}, \"liveWork\": \"TinyoldaxisprovenanceintegrationandAutoJumpaggregatecandidateactive; freshfullsourceaudits1.13.2\\u21921.14.4,1.21.1\\u21921.21.3,1.21.8\\u21921.21.10,1.21.10\\u21921.21.11. NativeLuna/high only, rootsoleintegration/build/backlogowner. No tests/runtime/push.\"}",
   "userStop20261103": "{\"state\": \"PAUSED by explicit user stop relay\", \"lastProduct\": \"67db6072 profile split, reviewed and compiled with all Gradle Test tasks disabled\", \"archives\": [{\"archive\": \"1211-full-audit.zip\", \"sha256\": \"b359384e28f1c21ac650bfa4394f48e444bf662d92243150bc1cc6ad280336d8\"}, {\"archive\": \"1215-full-audit.zip\", \"sha256\": \"df558b5b28c379ca14f80ca70a01cada7e257c2f8f48545a4e9580bff253361e\"}, {\"archive\": \"1218-full-audit.zip\", \"sha256\": \"63d118dab071e351ec65b3201e0c01ccbc314596381a82988046ed7284759fbb\"}, {\"archive\": \"12110-full-audit.zip\", \"sha256\": \"fadd832b9273f9c7213bbd70f61c88ddc29cf5ce0015eecc10f2d4fa803c7224\"}, {\"archive\": \"1132-final-inventory.zip\", \"sha256\": \"05be8e55fa29ece88b798af6f7a407a013bb9ca91a3638399495eca9235355ac\"}, {\"archive\": \"pushaway-column-review.zip\", \"sha256\": \"004dc2774b857205816a780f8c4c2799a8644c0dfc4c1dae2ca7b5bee1439c88\"}, {\"archive\": \"autojump-aggregate-aliases.zip\", \"sha256\": \"7066e37bcb5ec2508e35a895e2d47d4eb1a8abe9bd870a4e16059b053616b1df\"}], \"patches\": \"development/research/source-evidence/20261103/stop/patches.json\", \"pending\": {\"tinyAxis\": \"d7003cfd review rejected: need historical excludeBlock and source entity-shape bounds proof, renew anchored Shulker witness; no latest edits\", \"autojump\": \"d2aa9765 product adaptation not independently reviewed or compiled; candidate dd907abc accepted; verify old query grid/alias gates\", \"pushaway\": \"2816124 candidate needs two-cell range and lower fence\"}, \"scope\": \"No new pair freeze. 1.21.10\\u21921.21.11 provisional freeze suspended: mounted LocalPlayer flight toggle is potentially eligible. Other source audits remain partial; see archives and latest appendices. No tests, runtime launches or push.\"}",
-  "mcpkWikiPriority": "MCPK Wiki leads have highest priority. Confirm exact-version source, check existing implementation, implement accepted missing behavior, otherwise stop that item. The 1.9 pose-query fix is implemented and independently reviewed at a15e83dd. Next source gates concern step-return applicability, shared anvil/chest bounds producer lifecycle, and the proposed mounted shallow-current response; do not implement speculative gaps or repeat covered claims. Keep source acceptance, product correspondence and runtime parity separate."
+  "mcpkWikiPriority": "MCPK Wiki leads have highest priority. Confirm exact-version source, check existing implementation, implement accepted missing behavior, otherwise stop that item. The 1.9 pose-query fix is implemented and independently reviewed at a15e83dd. Next source gates concern step-return applicability, shared anvil/chest bounds producer lifecycle, and the proposed mounted shallow-current response; do not implement speculative gaps or repeat covered claims. Keep source acceptance, product correspondence and runtime parity separate. Active MCPK reconciliation is Version_Differences-only and treats its current text as truthful; individual-page comparisons remain origin-bound historical evidence and do not adjudicate current Version_Differences claims absent mapped context."
 }
