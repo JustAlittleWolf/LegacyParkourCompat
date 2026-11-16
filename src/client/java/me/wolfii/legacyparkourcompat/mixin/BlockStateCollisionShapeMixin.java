@@ -39,7 +39,7 @@ abstract class BlockStateCollisionShapeMixin {
         CollisionContext context,
         CallbackInfoReturnable<VoxelShape> cir
     ) {
-        var player = MovementRuntime.playerFrom(context);
+        var player = MovementRuntime.blockShapePlayerFrom(context);
         if (!(player instanceof LocalPlayer) || !MovementRuntime.appliesTo(player)) {
             return;
         }

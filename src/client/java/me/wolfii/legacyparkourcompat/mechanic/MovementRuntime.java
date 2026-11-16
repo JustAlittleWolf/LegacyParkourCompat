@@ -68,6 +68,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.function.Supplier;
 
 /**
  * Mixin-facing lookup. Change authors should not call this; they implement
@@ -77,6 +78,7 @@ public final class MovementRuntime {
     private static final ThreadLocal<Entity> CURRENT_ENTITY = new ThreadLocal<>();
     private static final ThreadLocal<LocalPlayer> FLUID_CURRENT_PLAYER = new ThreadLocal<>();
     private static final ThreadLocal<LocalPlayer> ROLELESS_SUFFOCATION_SUPPRESSED = new ThreadLocal<>();
+    private static final ThreadLocal<LocalPlayer> HISTORICAL_BLOCK_SHAPE_PLAYER = new ThreadLocal<>();
 
     private MovementRuntime() {
     }
@@ -468,6 +470,36 @@ public final class MovementRuntime {
             return isPlayer(entity) ? entity : null;
         }
         return null;
+    }
+
+    /**
+     * Keeps an old null-source block fit query's empty collision context while
+     * exposing its client player only to the per-block historical shape hook.
+     */
+    public static <T> T withHistoricalBlockShapePlayer(Player player, Supplier<T> query) {
+        if (!(player instanceof LocalPlayer localPlayer) || !appliesTo(localPlayer)) {
+            return query.get();
+        }
+        LocalPlayer previous = HISTORICAL_BLOCK_SHAPE_PLAYER.get();
+        HISTORICAL_BLOCK_SHAPE_PLAYER.set(localPlayer);
+        try {
+            return query.get();
+        } finally {
+            if (previous == null) {
+                HISTORICAL_BLOCK_SHAPE_PLAYER.remove();
+            } else {
+                HISTORICAL_BLOCK_SHAPE_PLAYER.set(previous);
+            }
+        }
+    }
+
+    /** Resolves only the empty context of a scoped historical block-fit query. */
+    public static @Nullable Entity blockShapePlayerFrom(CollisionContext context) {
+        Entity contextualPlayer = playerFrom(context);
+        if (contextualPlayer != null) {
+            return contextualPlayer;
+        }
+        return context == CollisionContext.empty() ? HISTORICAL_BLOCK_SHAPE_PLAYER.get() : null;
     }
 
     public static String blockId(Block block) {

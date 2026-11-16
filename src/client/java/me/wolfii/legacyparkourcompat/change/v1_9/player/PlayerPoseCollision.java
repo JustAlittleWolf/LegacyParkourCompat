@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_9.player;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerDimensionsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import me.wolfii.legacyparkourcompat.mixin.EntityPoseDimensionsAccessor;
@@ -63,7 +64,9 @@ public final class PlayerPoseCollision implements PlayerDimensionsHook, PlayerPo
 
         AABB candidateBox = new AABB(previousBox.minX, previousBox.minY, previousBox.minZ,
             previousBox.minX + width, previousBox.minY + height, previousBox.minZ + width);
-        if (!player.level().noBlockCollision(null, candidateBox)) {
+        boolean clear = MovementRuntime.withHistoricalBlockShapePlayer(player,
+            () -> player.level().noBlockCollision(null, candidateBox));
+        if (!clear) {
             restorePreviousState(player, dimensions, previousDimensions, previousBox,
                 legacyEyeHeight(player, oldHeight));
             return true;
