@@ -7,6 +7,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Direction;
 import org.jspecify.annotations.Nullable;
 
+import java.util.function.DoubleUnaryOperator;
+
 /** Selects the historical step-up result while the mixin owns collision collection. */
 @MechanicType("entity.step_up_collision")
 public interface StepUpCollisionHook extends VersionedMechanic {
@@ -32,6 +34,10 @@ public interface StepUpCollisionHook extends VersionedMechanic {
         default double downwardReturn(double nativeDescent, float configuredStepHeight) {
             return nativeDescent;
         }
+
+        /** Resolve the selected step's net vertical return through its historical correction hook. */
+        double stepAssistVerticalReturn(double achievedStepY, double requestedY,
+                                        DoubleUnaryOperator correctionClipper);
 
         /** Collect once from this sweep, then reuse for both routes and the settling pass. */
         AxisCollisionCall sweep(Vec3 movement, AABB box);

@@ -8,6 +8,7 @@ import me.wolfii.legacyparkourcompat.mechanic.BorderAdmissionContext;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.StaticWorldBorderCollisionShape;
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.BorderCollisionAdmissionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepAssistVerticalReturnHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepUpCollisionHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
@@ -17,6 +18,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.List;
+import java.util.function.DoubleUnaryOperator;
 
 @Mixin(Entity.class)
 abstract class EntityStepUpCollisionMixin {
@@ -54,6 +56,16 @@ abstract class EntityStepUpCollisionMixin {
                     @Override
                     public double downwardReturn(double nativeDescent, float configuredStepHeight) {
                         return MovementRuntime.downwardStepReturn(nativeDescent, configuredStepHeight, entity);
+                    }
+
+                    @Override
+                    public double stepAssistVerticalReturn(double achievedStepY, double requestedY,
+                                                          DoubleUnaryOperator correctionClipper) {
+                        return MovementRuntime.find(StepAssistVerticalReturnHook.class, entity)
+                            .map(hook -> hook.verticalReturn(achievedStepY, requestedY,
+                                correctionClipper::applyAsDouble))
+                            .orElseThrow(() -> new IllegalStateException(
+                                "Step-assist vertical-return hook is missing for the selected movement profile"));
                     }
 
                     @Override
