@@ -5,23 +5,33 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionHeightHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionShapeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.LegacyFenceWallNeighborConnectionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallNeighborMaskHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.wall.WallPaneAttachmentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.wall.WallSoulSandConnectionHook;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.WallSide;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.function.Function;
 
 @Mixin(WallBlock.class)
 public abstract class WallBlockMixin {
+    @Shadow @Final private Function<BlockState, VoxelShape> collisionShapes;
+
     @Inject(
         method = "getCollisionShape(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
         at = @At("RETURN"),
@@ -39,11 +49,35 @@ public abstract class WallBlockMixin {
             return;
         }
 
-        VoxelShape vanillaShape = callback.getReturnValue();
+        BlockState shapeState = state;
+        if (player instanceof LocalPlayer localPlayer && MovementRuntime.appliesTo(localPlayer)) {
+            var selected = MovementRuntime.profile(localPlayer).target();
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                EnumProperty<WallSide> sideProperty = WallBlock.PROPERTY_BY_DIRECTION.get(direction);
+                if (shapeState.getValue(sideProperty) == WallSide.NONE) {
+                    continue;
+                }
+                BlockState neighbor = level.getBlockState(pos.relative(direction));
+                boolean suppressPane = MovementRuntime.find(WallPaneAttachmentHook.class, localPlayer)
+                    .map(hook -> hook.suppressAttachment(neighbor, selected))
+                    .orElse(false);
+                boolean suppressSoulSand = MovementRuntime.find(WallSoulSandConnectionHook.class, localPlayer)
+                    .map(hook -> hook.suppressConnection(neighbor, selected))
+                    .orElse(false);
+                if (suppressPane || suppressSoulSand) {
+                    shapeState = shapeState.setValue(sideProperty, WallSide.NONE);
+                }
+            }
+        }
+
+        BlockState collisionState = shapeState;
+        VoxelShape vanillaShape = collisionState == state
+            ? callback.getReturnValue()
+            : this.collisionShapes.apply(collisionState);
         var neighborMaskHook = MovementRuntime.find(WallNeighborMaskHook.class, player);
         OptionalInt selectedHistoricalMask = OptionalInt.empty();
         if (neighborMaskHook.isPresent() && neighborMaskHook.get().suppliesHistoricalMask()) {
-            selectedHistoricalMask = neighborMaskHook.get().selectMask(state, level, pos);
+            selectedHistoricalMask = neighborMaskHook.get().selectMask(collisionState, level, pos);
             if (selectedHistoricalMask.isEmpty()) {
                 callback.setReturnValue(vanillaShape);
                 return;
@@ -51,19 +85,19 @@ public abstract class WallBlockMixin {
         }
         OptionalInt completeHistoricalMask = selectedHistoricalMask;
 
-        var heightHook = MovementRuntime.find(WallCollisionHeightHook.class, state.getBlock(), player);
+        var heightHook = MovementRuntime.find(WallCollisionHeightHook.class, collisionState.getBlock(), player);
         VoxelShape heightAdjustedShape = heightHook
-            .map(hook -> hook.applyHeight(vanillaShape, state))
+            .map(hook -> hook.applyHeight(vanillaShape, collisionState))
             .orElse(vanillaShape);
         OptionalDouble historicalMaxY = heightHook
-            .map(hook -> OptionalDouble.of(hook.maxY(state)))
+            .map(hook -> OptionalDouble.of(hook.maxY(collisionState)))
             .orElseGet(() -> vanillaShape.isEmpty() ? OptionalDouble.empty()
                 : OptionalDouble.of(vanillaShape.max(Direction.Axis.Y)));
         int restoredConnections = MovementRuntime.find(LegacyFenceWallNeighborConnectionHook.class, player)
             .map(hook -> hook.restoredConnectionMask(level, pos))
             .orElse(0);
-        VoxelShape historicalShape = MovementRuntime.find(WallCollisionShapeHook.class, state.getBlock(), player)
-            .flatMap(hook -> hook.horizontalCollisionShape(state, level, pos, heightAdjustedShape,
+        VoxelShape historicalShape = MovementRuntime.find(WallCollisionShapeHook.class, collisionState.getBlock(), player)
+            .flatMap(hook -> hook.horizontalCollisionShape(collisionState, level, pos, heightAdjustedShape,
                 historicalMaxY, restoredConnections, completeHistoricalMask))
             .orElseGet(() -> completeHistoricalMask.isPresent() ? vanillaShape : heightAdjustedShape);
         callback.setReturnValue(historicalShape);
