@@ -13,13 +13,8 @@ import net.minecraft.world.phys.AABB;
 /**
  * Minecraft 1.8.9, Ornithe Feather Gen2 build 2,
  * PlayerEntity.getEyeHeight starts at 1.62F and subtracts 0.08F while sneaking;
- * PlayerEntity.tick has no sneaking size write.
- * Minecraft 1.9.4, Ornithe Feather Gen2 build 2, PlayerEntity.updatePlayerPose
- * adds the collision-gated 1.65F crouch body; PlayerEntity.getEyeHeight also
- * subtracts 0.08F for sneaking. Sleep and modern special poses stay native.
- * Remaining source/applicability gates:
- *   Later applicability gate: exact introduction of campaign-STATE-03-sneak-collision-height is unknown within (1.8.9, 1.9.4]
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * PlayerEntity.tick has no sneaking size write. The independently resolved
+ * 1.9 PlayerPoseCollision supplies the later collision-gated resize.
  */
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class SneakingDimensions implements PlayerDimensionsHook, PlayerPoseHook {
