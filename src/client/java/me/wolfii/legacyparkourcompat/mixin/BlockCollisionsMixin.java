@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.WorldBlockQueryBoundsContext;
 import me.wolfii.legacyparkourcompat.mechanic.CollisionShapeSourceContext;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.PistonHeadCollisionScanner;
@@ -70,6 +71,17 @@ abstract class BlockCollisionsMixin<T> {
             return;
         }
         Entity player = MovementRuntime.playerFrom(context);
+        if (player != null) {
+            var queryBounds = WorldBlockQueryBoundsContext.forQuery(collisionGetter, player, box);
+            if (queryBounds != null) {
+                // The LocalPlayer auto-jump wrapper scopes this replacement; the
+                // native query box and all per-cell filters remain unchanged.
+                this.cursor = new Cursor3D(
+                    queryBounds.minX(), queryBounds.minY(), queryBounds.minZ(),
+                    queryBounds.maxX(), queryBounds.maxY(), queryBounds.maxZ());
+                return;
+            }
+        }
         this.legacyparkourcompat$scan = MovementRuntime.find(BlockCollisionScanHook.class, player)
             .flatMap(hook -> hook.scan(box)).orElse(null);
         if (this.legacyparkourcompat$scan != null) {

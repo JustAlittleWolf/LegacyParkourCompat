@@ -8,6 +8,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.WorldBlockQueryBoundsContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.clientload.ClientLoadGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.LadderSlideSuppressionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
@@ -17,6 +18,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHo
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpBorderCandidateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpFallbackTrigHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpInverseSqrtHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.world.WorldBlockQueryBoundsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.FlightActivationJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.FlightSneakInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SimultaneousFlightInputHook;
@@ -514,10 +516,15 @@ abstract class LocalPlayerMixin {
         Operation<Iterable<VoxelShape>> vanilla
     ) {
         Player player = (Player) (Object) this;
-        Iterable<VoxelShape> candidates = MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
-            .map(change -> change.autoJumpCollisions(player, level, query,
-                MovementRuntime.profile(player).target(), () -> vanilla.call(level, source, query)))
-            .orElseGet(() -> vanilla.call(level, source, query));
+        java.util.function.Supplier<Iterable<VoxelShape>> resolveCandidates = () ->
+            MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
+                .map(change -> change.autoJumpCollisions(player, level, query,
+                    MovementRuntime.profile(player).target(), () -> vanilla.call(level, source, query)))
+                .orElseGet(() -> vanilla.call(level, source, query));
+        Iterable<VoxelShape> candidates = MovementRuntime.find(WorldBlockQueryBoundsHook.class, player)
+            .flatMap(change -> change.bounds(query))
+            .map(bounds -> WorldBlockQueryBoundsContext.with(level, player, query, bounds, resolveCandidates))
+            .orElseGet(resolveCandidates);
         return MovementRuntime.find(AutoJumpBorderCandidateHook.class, player)
             .flatMap(change -> change.borderCandidate(player, MovementRuntime.profile(player).target()))
             .<Iterable<VoxelShape>>map(border -> com.google.common.collect.Iterables.concat(
