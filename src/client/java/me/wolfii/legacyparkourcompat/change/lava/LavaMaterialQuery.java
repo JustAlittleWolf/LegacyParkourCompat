@@ -1,8 +1,7 @@
 package me.wolfii.legacyparkourcompat.change.lava;
 
+import me.wolfii.legacyparkourcompat.mechanic.LavaPresenceScan;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.LavaMaterialScanUpperBoundHook;
-import net.minecraft.core.BlockPos;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
@@ -30,17 +29,6 @@ public final class LavaMaterialQuery {
         int maxY = scanUpperBound.exclusiveUpperBound(bounds.maxY);
         int minZ = Mth.floor(bounds.minZ);
         int maxZ = scanUpperBound.exclusiveUpperBound(bounds.maxZ);
-        BlockPos.MutableBlockPos position = new BlockPos.MutableBlockPos();
-
-        for (int x = minX; x < maxX; x++) {
-            for (int y = minY; y < maxY; y++) {
-                for (int z = minZ; z < maxZ; z++) {
-                    if (entity.level().getBlockState(position.set(x, y, z)).getFluidState().is(FluidTags.LAVA)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return LavaPresenceScan.contains(entity, minX, minY, minZ, maxX, maxY, maxZ, false);
     }
 }
