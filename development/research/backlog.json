@@ -1756,10 +1756,11 @@
                 ]
               },
               "sourceFinding": "development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md",
-              "implementationResult": "present for the independently verified 1.14 family at 8d8787de; custom route calls clipped -rise+requestedY and returns the net vector without applying the settled box twice. Later-family extension remains separately gated.",
+              "implementationResult": "Independent product PASS: the relocated V1_15_2 provider set extends the accepted 1.14 behavior through 1.15.2, and selected-profile resolver behavior is correct. Source commit 7c118c2d3b41df366242469065098817793b6af3 is pushed and remote-confirmed at origin/main. Runtime parity remains unverified.",
               "limits": [
                 "Exact 1.13.2/1.14.4 endpoints only; no patch cutoff asserted.",
-                "No runtime parity claim."
+                "No runtime parity claim.",
+                "Step-return provider applicability independently reviewed through exact 1.15.2; caller edge handling differs by release."
               ],
               "applicabilityAudit": {
                 "decision": "PASS bounded formula/gates/patch group; native-gap witness independently reviewed",
@@ -1771,15 +1772,75 @@
                   "1.14.2",
                   "1.14.3",
                   "1.14.4"
-                ]
+                ],
+                "familyExtensionReview": {
+                  "decision": "PASS bounded exact-source formula/gates/collide-body review through 1.15.2; caller edge operation is distinct by release",
+                  "reviewer": "/root/vd_review_dispatch/review_step_prefix",
+                  "verifiedReleases": [
+                    "1.14.4",
+                    "1.15",
+                    "1.15.1",
+                    "1.15.2"
+                  ],
+                  "method": "Entity.collide(Vec3)",
+                  "methodBodySha256": "3E4DE2FF08260BDBD47B1C2466B988485800DCC714237213B13296EA50C17224",
+                  "sourceFiles": [
+                    {
+                      "release": "1.14.4",
+                      "path": "decompiled_minecraft/1.14.4/mojmap/net/minecraft/world/entity/Entity.java",
+                      "sha256": "31C6BE42D165102D3E6DC4295FDFEF6E8971FC3AEA13F938A5B3A33B91D524A7"
+                    },
+                    {
+                      "release": "1.15",
+                      "path": "decompiled_minecraft/1.15/mojmap/net/minecraft/world/entity/Entity.java",
+                      "sha256": "191B3AD3E7348C9BAC1E703FFF896706D23A751BF15162AACF676F5F97C0A10E"
+                    },
+                    {
+                      "release": "1.15.1",
+                      "path": "decompiled_minecraft/1.15.1/mojmap/net/minecraft/world/entity/Entity.java",
+                      "sha256": "191B3AD3E7348C9BAC1E703FFF896706D23A751BF15162AACF676F5F97C0A10E"
+                    },
+                    {
+                      "release": "1.15.2",
+                      "path": "decompiled_minecraft/1.15.2/mojmap/net/minecraft/world/entity/Entity.java",
+                      "sha256": "191B3AD3E7348C9BAC1E703FFF896706D23A751BF15162AACF676F5F97C0A10E"
+                    }
+                  ],
+                  "callerDifference": "1.14.4 Entity.move uses applySneaking before collide; 1.15/1.15.1/1.15.2 use maybeBackOffFromEdge before collide. Exact 1.15-family step gates were checked; this is not a claim that caller edge operations are identical."
+                }
+              },
+              "implementationPaths": [
+                "src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/entity/EntityStepUpCollision.java",
+                "src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/entity/StepAssistVerticalReturn.java"
+              ],
+              "implementationReview": {
+                "reviewer": "/root/vd_review_dispatch/review_step_extension_product",
+                "productOwner": "/root/vd_product_owner",
+                "decision": "PASS",
+                "evidenceKind": "reviewer chat verdict; no report file created",
+                "scope": "Single relocated V1_15_2 provider set extends the accepted 1.14 operation through 1.15.2; selected-profile resolution is correct.",
+                "candidateClasses": [
+                  {
+                    "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/entity/EntityStepUpCollision.java",
+                    "sha256": "DE5AE4A17A0E9464ED6E6CBCF1DC4C5C11D5A0AB2DFF9283DC10619197FE39A3"
+                  },
+                  {
+                    "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/entity/StepAssistVerticalReturn.java",
+                    "sha256": "7385EBFAE593CB9831115F2B48981BF30D205288C1591096AA1C0D9D322DF890"
+                  }
+                ],
+                "commitSha": "7c118c2d3b41df366242469065098817793b6af3",
+                "commitStatus": "REMOTE_CONFIRMED",
+                "publicationStatus": "Pushed; owner confirmed HEAD and origin/main both at 7c118c2d3b41df366242469065098817793b6af3.",
+                "priorPublicationAttempt": "An earlier push attempt was blocked by automatic approval review; after user approval, the owner confirmed the successful push."
               }
             }
           ],
           "gaps": [
-            "This bounded claim does not independently establish the first changed stable patch release.",
-            "MCPK hint-level page attribution remains open; implementation reconciliation and exact 1.14 boundary audit remain pending."
+            "This bounded finding does not independently establish its first changed stable release; the separate 1.14 applicability audit is retained above.",
+            "MCPK hint-level page attribution remains open; provider extension commit is pushed and remote-confirmed."
           ],
-          "reconciliation": "Reviewed collision-axis and 1.14 step-return operations are implemented. The Version_Differences axis-order claim is treated as truthful; the prior Collisions-page reversal verdict is retained only as historical individual-page evidence outside the active Version_Differences-only checklist. Later step-family extension is separate source work."
+          "reconciliation": "Reviewed collision-axis and 1.14 step-return operations are implemented. The Version_Differences axis-order claim is treated as truthful; the prior Collisions-page reversal verdict is retained only as historical individual-page evidence outside the active Version_Differences-only checklist. Step-return formula/gates are source-reviewed through 1.15.2, and the relocated provider resolver extension is independently product-reviewed and pushed at 7c118c2d3b41df366242469065098817793b6af3, confirmed at origin/main. MCPK hint-level page attribution remains open."
         }
       }
     },
@@ -1975,24 +2036,79 @@
             {
               "id": "sneak-in-block-speed-115",
               "page": "Version_Differences",
-              "claim": "The wiki reports a sneak-in-block speed hint for 1.15; no exact source differential or cutover was verified in this pass.",
+              "claim": "Sneak-in-block speed hint for 1.15; exact Version_Differences clause attachment remains pending.",
               "versions": [
                 "1.15"
               ],
-              "sourceDisposition": "unverified hint; retain open without claiming a paired source difference",
+              "sourceDisposition": "PASS bounded exact-source review: awake blocked-standing/clear-crouch keeps the 0.3 scalar, affected axes, and overlap math; 1.15 adds !isSleeping() around automatic clearance. Manual-shift slowdown press onset is one input tick later in 1.15+; the one-tick release tail is present in both releases. Exact Version_Differences clause association remains pending; no runtime timing claim.",
               "hintReport": {
                 "path": "build/mcpk-20261116/final-sneak-in-block-115/report.md",
                 "sha256": "0549074571F7C61297030777BCA244A29754E066086C564259608CB3A50D9B43"
               },
               "sourceFinding": null,
-              "implementationResult": "not checked",
-              "gap": "Verify exact source claim and applicability before implementation."
+              "implementationResult": "COVERED_NO_CODE: /root/vd_product_owner verified existing per-profile input timing and forced-crouch clearance for V1_14/V1_14_1/V1_14_2 and V1_15/V1_15_2. InputSlowdownHook resolves the pre/current-key routes for 1.14 profiles and the pre-poll route for 1.15 profiles; existing forced-crouch behavior preserves both clearance cases. No slowdown code was introduced. Runtime parity remains unverified.",
+              "gap": "Exact Version_Differences clause attachment remains pending; no runtime timing/parity claim.",
+              "sourceReview": {
+                "reviewer": "/root/vd_review_dispatch",
+                "draft": "build/mcpk-20261116/vd-sneak-contact-source/source-facts-r2.md",
+                "sha256": "1591a35121e8d7384b7e1937c14ec80e61134a860a096959d0bc585020985a19",
+                "verifiedReleases": [
+                  "1.14.4",
+                  "1.15",
+                  "1.15.1",
+                  "1.15.2"
+                ],
+                "decision": "PASS bounded source transfer; independent diff check confirmed only the timing clarification changed.",
+                "scope": "Blocked-standing/clear-crouch clearance and manual-shift slowdown input onset/release timing. No MCPK clause judgment and no runtime timing claim."
+              },
+              "implementationPaths": [
+                "src/client/java/me/wolfii/legacyparkourcompat/change/v1_14/InputSlowdownChange.java",
+                "src/client/java/me/wolfii/legacyparkourcompat/change/v1_14_2/InputSlowdownChange.java",
+                "src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/PrePollInputSlowdown.java",
+                "src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java",
+                "src/client/java/me/wolfii/legacyparkourcompat/change/input/HistoricalInputSlowdown.java"
+              ],
+              "implementationReview": {
+                "reviewer": "/root/vd_product_owner",
+                "decision": "COVERED_NO_CODE",
+                "evidenceKind": "read-only product-owner chat; no report file or independent product-review artifact",
+                "scope": "Selected-profile input timing and forced-crouch clearance for V1_14, V1_14_1, V1_14_2, V1_15 and V1_15_2.",
+                "classHashes": [
+                  {
+                    "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_14/InputSlowdownChange.java",
+                    "sha256": "925AF6F6641AC71FA7489D7EB44B2FF26DD680866F4ED306CD6B313DFF4560E6"
+                  },
+                  {
+                    "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_14_2/InputSlowdownChange.java",
+                    "sha256": "B3EDEC292A697ABF4C7F26407939D53168BFD3F1F77195AFB5F5EE6BE093F802"
+                  },
+                  {
+                    "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_15_2/PrePollInputSlowdown.java",
+                    "sha256": "DE574FBC6DB9BA2DB55C690C69AB141AEF7051C0ED855FAF072A5EDD252EFE77"
+                  },
+                  {
+                    "path": "src/client/java/me/wolfii/legacyparkourcompat/mixin/LocalPlayerMixin.java",
+                    "sha256": "10A6D43735E9D9FE27E766EE4EE3BCBBB767A302C3044E1979C240CD24168DDD"
+                  },
+                  {
+                    "path": "src/client/java/me/wolfii/legacyparkourcompat/change/input/HistoricalInputSlowdown.java",
+                    "sha256": "9E50FC5329175D348549496B9BB61397F73ACA306C36F74366163A73DB3971D7"
+                  }
+                ],
+                "inspectedProductRevision": "7c118c2d3b41df366242469065098817793b6af3",
+                "inspectionNote": "Read-only inventory snapshot of existing behavior; this commit is not attributed as introducing slowdown behavior."
+              },
+              "limits": [
+                "Source facts are bounded to exact releases 1.14.4, 1.15, 1.15.1 and 1.15.2.",
+                "Exact Version_Differences clause attachment remains pending.",
+                "No runtime timing or parity claim."
+              ]
             }
           ],
           "gaps": [
-            "1.15 sneak-in-block speed hint remains unverified; no source difference or implementation claim."
+            "Exact Version_Differences clause attachment for the 1.15 sneak-in-block hint remains pending; runtime timing/parity is unverified."
           ],
-          "reconciliation": "Both bounded MCPK claims map to existing accepted findings and existing product implementations; no new code is required. This wiki lane annotation does not change the existing source-pair coverage or runtime status."
+          "reconciliation": "Elytra-start and grounded-friction claims remain reconciled to existing product implementations. The 1.15 sneak-in-block hint has a bounded independent source PASS and existing product behavior is verified COVERED_NO_CODE for selected 1.14 and 1.15 profiles; no slowdown code was introduced. Exact Version_Differences clause attachment and runtime parity remain open."
         }
       }
     },
