@@ -3,3 +3,4 @@ development/research/source-evidence/20261104/*.md -text
 development/research/findings/1.12.2--1.13.2/hopper-collision-funnel-and-facing.md -text
 /development/research/findings/1.8--1.9/ladder-collision-thickness.md -text whitespace=cr-at-eol,-blank-at-eof
 /development/research/findings/1.8--1.9/sneak-pose-collision-query.md -text whitespace=cr-at-eol,-blank-at-eof
+/development/research/findings/1.13.2--1.14.4/step-assist-vertical-return.md -text whitespace=cr-at-eol,-blank-at-eof
