@@ -1,0 +1,33 @@
+# Ordinary local-player entity push normalization comparison
+
+## Finding
+
+The threshold and horizontal absolute-maximum operation are unchanged across all nine checked releases. Each `Entity.push(Entity)` computes double `d = source.x - receiver.x` and `e = source.z - receiver.z`, sets `f` to the double `absMax(d, e)`, and enters normalization only for `f >= 0.01F`. Both helper families implement `absMax` by conditionally negating the first argument, then the second, then returning the greater absolute value; the operation order and double result are the same.
+
+For 1.9 through 1.16.5, `MathHelper.sqrt(double)` / `Mth.sqrt(double)` applies `Math.sqrt` and casts its result to `float`. Assigning that returned float to the local double `f` widens the rounded float back to double. In 1.17.1, `Entity.push` calls `Math.sqrt(f)` directly, retaining double precision. Thus the only normalization difference for a plain local-player receiver in these endpoints is the sqrt precision transition between 1.16.5 and 1.17.1. The precise introduction inside that interval is not established here.
+
+The remaining sequence is the same: divide `d` and `e` by `f`; compute `g = 1.0 / f`; cap `g` at `1.0`; multiply both deltas by `g`; then multiply by `0.05F`. Releases 1.9–1.13.2 additionally multiply by `1.0F - pushSpeedReduction`, and 1.14.4–1.16.5 use `1.0F - pushthrough`; the local player inherits these uninitialized float fields, so their ordinary value is zero and the factors are 1.0. 1.17.1 removes that factor. These spelling/presence differences do not change the plain local-player witness. Local-player awake state admits the later `LivingEntity.push` override to call `super.push`; the living collision callback dispatches `candidate.push(caller)` / `entity.push(this)`, making the local player the receiver when it is the candidate. The accepted earlier audit supplies the detailed 1.9 ordinary-mob/local-player route. This finding does not include attack knockback, team-specific collision, climbing pushability, riding, sleeping, or non-finite inputs.
+
+A finite reachable illustration is a normal, awake local player overlapping an ordinary living caller with horizontal separation `(0.3, 0.0)`, no shared vehicle, no no-clip/no-physics, and no team rule affecting eligibility. The threshold passes. The two sqrt results differ because `sqrt(0.3)` is not exactly representable as a float; the changed denominator therefore changes the local player's direct horizontal velocity increment. This is a source-level consequence, not a runtime measurement.
+
+## Exact source bounds and hashes
+
+Canonical local source files were SHA-256 checked against the per-tree source inventory (`*.sources.sha256`), or against the nested local provenance `sources` map for 1.9. The rows identify `Entity.push(Entity)` and the helper members used for its threshold/normalization. Hashes are of the complete source files.
+
+| Release | Mapping | `Entity.push(Entity)` | `Entity.java` SHA-256 | helper members | helper SHA-256 |
+|---|---|---:|---|---|---|
+| 1.9 | Ornithe Feather | `net/minecraft/entity/Entity.java:1057–1088` | `74d3ac34d7e6355c8fdcdd777dcd95ba9ef4626718c8772c1b58d0e28419e42a` | `MathHelper.sqrt(double):27–29`; `absMax(double,double):104–114` | `43b2a4e3931733dbc3538024b7182b024d874a5f22a269a6199c6b4ca8c59151` |
+| 1.10.2 | Ornithe Feather | `net/minecraft/entity/Entity.java:1085–1116` | `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77` | `MathHelper.sqrt(double):27–29`; `absMax(double,double):104–114` | `43b2a4e3931733dbc3538024b7182b024d874a5f22a269a6199c6b4ca8c59151` |
+| 1.11.2 | Ornithe Feather | `net/minecraft/entity/Entity.java:1153–1184` | `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440` | `MathHelper.sqrt(double):27–29`; `absMax(double,double):104–114` | `97aa2499681fdd8cee6564f777310ee396bc447fef78c2273a990e9202d9641b` |
+| 1.12.2 | Ornithe Feather | `net/minecraft/entity/Entity.java:1176–1207` | `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a` | `MathHelper.sqrt(double):27–29`; `absMax(double,double):104–114` | `579e05d110460f444bcac86729141545095cb5932c0f8d34c9a4dcfcd9a35e80` |
+| 1.13.2 | Ornithe Feather | `net/minecraft/entity/Entity.java:1186–1217` | `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269` | `MathHelper.sqrt(double):36–38`; `absMax(double,double):113–123` | `2211b0cb3da7d8789a4a4df96509b95e6b1be8b222be2f530e7bd0695573bd69` |
+| 1.14.4 | Mojmap | `net/minecraft/world/entity/Entity.java:1188–1219` | `31c6be42d165102d3e6dc4295fdfef6e8971fc3aea13f938a5b3a33b91d524a7` | `Mth.sqrt(double):37–39`; `absMax(double,double):114–124` | `57e0babfbc9ce864e539c7632ebb72c2e14a208c2db1c3a1bfc16ee0237ae576` |
+| 1.15.2 | Mojmap | `net/minecraft/world/entity/Entity.java:1156–1187` | `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e` | `Mth.sqrt(double):37–39`; `absMax(double,double):122–132` | `a842059e498147d368126c896f0036916a90bdd125a09b09f9fe6658f2aaf0a4` |
+| 1.16.5 | Mojmap | `net/minecraft/world/entity/Entity.java:1180–1211` | `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666` | `Mth.sqrt(double):37–39`; `absMax(double,double):118–128` | `0e4424ffa12923314c309ae13e012768271dfcace4b5a84727f74e8170afe290` |
+| 1.17.1 | Mojmap | `net/minecraft/world/entity/Entity.java:1278–1307` | `ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de` | `Entity` calls `Math.sqrt(f):1285`; `Mth.absMax(double,double):152–162` | `24515c4549e01e985017227dccf7159166a675b232be9135d5f896022a9cb113` |
+
+The local 1.9 source set records per-file hashes in `decompiled_minecraft/1.9/ornithe-feather/.decompile-provenance.json` (manifest SHA-256 `8daacb7af8f210e716ee4b34c43b8a5d6f6b4b19831d2fd725cbe16ecf330a1a`). Releases 1.10.2–1.17.1 carry per-file source inventory sidecars; every listed file hash matched its corresponding inventory entry. Mapping/source families: Ornithe Feather for 1.9–1.13.2 and Mojmap for 1.14.4–1.17.1.
+
+## Inputs and bounds
+
+The supplied early-client-push audit verdict was verified at SHA-256 `6998bb5f3b85f3c3528f616c616c6c601d738b360241a6474e4ab5237c30a3a5`. Its established ordinary living-caller/local-player witness is used only to bound the early client route. This comparison independently checks the normalization member and helper implementations in exact local canonical sources for 1.9, 1.10.2, 1.11.2, 1.12.2, 1.13.2, 1.14.4, 1.15.2, 1.16.5 and 1.17.1. It does not inspect attack knockback, team collision resolution, climbing pushability, non-finite gates, other releases, or intermediate patches; it makes no implementation, test, or runtime-parity claim.

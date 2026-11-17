@@ -1,0 +1,44 @@
+# 1.21.10 → 1.21.11 modifier lane source report
+
+Terminal: **COMPLETED** for the bounded Java-source comparison. **Open gate:** packaged default enchantment resource membership and values are not established from the locally available artifacts. No movement-difference finding draft was warranted by the checked Java members; no separate finding files were created. This is not a full-pair freeze or runtime-parity result.
+
+## Source identity and integrity
+
+Exact Mojmap/Vineflower source roots:
+
+- `decompiled_minecraft/1.21.10/mojmap/` — ready marker: 6,386 source files; client SHA-256 `e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482`; source-manifest SHA-256 `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`; artifact-manifest SHA-256 `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`.
+- `decompiled_minecraft/1.21.11/mojmap/` — ready marker: 6,622 source files; client SHA-256 `1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd`; source-manifest SHA-256 `0c4d83fef84c101d9db88f331acec7960f3c8346228c28995e6cf57bbfcae555`; artifact-manifest SHA-256 `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`.
+
+Both source and artifact manifest hashes match their `mojmap.ready.json` identities; both diagnostics hashes match as well. SHA-256 checks for each Java file listed below matched its exact-version `mojmap.sources.sha256` entry. Provenance manifests identify the pinned Mojmap/Vineflower runs and toolchain. No source was generated or modified.
+
+## Findings by assigned slice
+
+### 1) Movement attribute declarations, player defaults, and local effective reads
+
+No movement-behavior delta found in the examined Java members. In both releases `Attributes` registers `jump_strength` with `0.42F`, `movement_efficiency` with `0.0`, `movement_speed` with `0.7`, and `sneaking_speed` with `0.3`; `LivingEntity.createLivingAttributes()` includes jump strength and movement efficiency, and `Player.createAttributes()` supplies player movement speed `0.1F` plus sneaking speed. `DefaultAttributes` still maps `EntityType.PLAYER` to `Player.createAttributes().build()`. The only nearby default-map inventory change observed was an additional `CAMEL_HUSK` entry in 1.21.11, unrelated to player movement.
+
+Registration helper identifiers are renamed from `ResourceLocation` in 1.21.10 to `Identifier` in 1.21.11; the checked attribute IDs, values, ranges and syncability for these four movement attributes are unchanged.
+
+Local/effective reads checked: `LocalPlayer` reads `SNEAKING_SPEED` for slow movement; `LivingEntity` reads `MOVEMENT_EFFICIENCY` for block speed and `JUMP_STRENGTH` for jump power; jump boost adds `0.1F * (amplifier + 1.0F)`, slow falling caps effective gravity at `0.01` only while vertical movement is nonpositive, and levitation adjusts vertical velocity from amplifier and current Y velocity. Those checked expressions and their order match between endpoints. These are source-level default and read-path results only: `ClientPacketListener.handleUpdateAttributes` applies incoming snapshot base values and modifiers to an entity's attribute instances, so the local default suppliers do not prove the incoming player's actual/equivalent attribute state.
+
+Sources: `world/entity/ai/attributes/Attributes.java` (`JUMP_STRENGTH`, `MOVEMENT_EFFICIENCY`, `MOVEMENT_SPEED`, `SNEAKING_SPEED`, `register`); `world/entity/ai/attributes/DefaultAttributes.java` (`EntityType.PLAYER` entry); `world/entity/LivingEntity.java` (`createLivingAttributes`, `getBlockSpeedFactor`, `getJumpPower`, `getJumpBoostPower`, `getEffectiveGravity`, levitation travel branch); `world/entity/player/Player.java` (`createAttributes`, movement-speed access); `client/player/LocalPlayer.java` (sneaking-speed read); `client/multiplayer/ClientPacketListener.java` (`handleUpdateAttributes`).
+
+### 2) Speed, Slowness, Jump Boost, Levitation, and Slow Falling application/update/removal
+
+The checked Java defaults and lifecycle agree. `MobEffects` assigns Speed `MOVEMENT_SPEED` +`0.2F` with `ADD_MULTIPLIED_TOTAL`; Slowness assigns `MOVEMENT_SPEED` -`0.15F` with that operation; Jump Boost assigns `SAFE_FALL_DISTANCE` +`1.0` with `ADD_VALUE`. Levitation and Slow Falling have no Java-defined attribute modifier in these declarations. `MobEffect.AttributeTemplate.create(amplifier)` scales amount by `amplifier + 1`; add removes the same modifier ID before applying the new permanent modifier, and removal deletes that ID from any present attribute instance.
+
+`LivingEntity` adds those attribute modifiers on the server when an effect is added; when an update replaces effective strength it removes then adds the modifier and refreshes dirty attributes; removal deletes the modifier and refreshes dirty attributes. The client update handler constructs the received `MobEffectInstance`, preserves the `shouldBlend`/skip-blending gate, then calls `forceAddEffect`; the separate client attribute packet handler applies server attribute snapshots. Corresponding lifecycle and packet operations match across both endpoints. Identifier/ResourceLocation type names change with the API rename, without a checked value, operation, gate, or ordering change.
+
+Sources: `world/effect/MobEffects.java` (the five declarations above); `world/effect/MobEffect.java` (`addAttributeModifier`, `createModifiers`, `removeAttributeModifiers`, `addAttributeModifiers`, `AttributeTemplate.create`); `world/entity/LivingEntity.java` (`onEffectAdded`, `onEffectUpdated`, `onEffectsRemoved`, `refreshDirtyAttributes`); `client/multiplayer/ClientPacketListener.java` (`handleUpdateMobEffect`, `handleRemoveMobEffect`, `handleUpdateAttributes`).
+
+### 3) Equipment/enchantment modifier lifecycle and synchronization
+
+The examined Java lifecycle is behaviorally the same. `ItemStack.forEachModifier(EquipmentSlot)` enumerates item attribute modifiers and then `EnchantmentHelper.forEachModifier`; the helper visits enchantment `ATTRIBUTES` effects gated by the enchantment definition's slots (or `matchingSlot`). On equipment change, `LivingEntity.collectEquipmentChanges()` visits slots, stops old-stack location-dependent effects and calls `stopLocationBasedEffects`, which removes the old stack's item and enchantment attribute modifier IDs. It then enumerates modifiers from a nonempty, nonbroken replacement, removes each matching ID and adds the modifier transiently. Changed slot stacks are copied and sent in `ClientboundSetEquipmentPacket`. Dirty/syncable attributes are separately emitted through `ServerEntity` using `ClientboundUpdateAttributesPacket`; the client listener sets snapshot base values and applies the snapshot modifiers. The corresponding checked methods and gates match between endpoints.
+
+This does **not** establish the packaged vanilla enchantments that actually contribute movement modifiers, nor their values/slot coverage: the Java source contains the generic `ATTRIBUTES` effect mechanism, but the local decompiled source roots contain no default JSON/data-pack resources. The artifact manifests record raw client artifact hashes, but those JAR payloads were unavailable at the provenance cache path recorded by the manifest and no 1.21.10/1.21.11 cache directories were present in the shared cache. Keep actual resource membership/default-value applicability open pending exact local resource artifacts; do not infer it from the generic Java mechanism.
+
+Sources: `world/item/ItemStack.java` (`forEachModifier`); `world/item/enchantment/EnchantmentHelper.java` (`forEachModifier` overloads); `world/entity/LivingEntity.java` (`detectEquipmentUpdates`, `collectEquipmentChanges`, `stopLocationBasedEffects`, `handleEquipmentChanges`); `server/level/ServerEntity.java` (initial and dirty attribute synchronization); `client/multiplayer/ClientPacketListener.java` (`handleUpdateAttributes`).
+
+## Bounded coverage and next action
+
+Compared paired Java members for (a) movement attribute registration, player/default suppliers and direct local effective reads; (b) the five named effects' Java-defined movement modifiers, effect add/replace/remove, and received update/removal plus attribute-snapshot handlers; and (c) equipment/enchantment generic modifier enumeration, replacement/removal, and attribute/equipment synchronization. These checked Java slices produced no behavioral finding draft. Unexamined: packaged default enchantment data/resource contents and any movement modifier membership/values encoded there; unassigned movement topics and the rest of the pair-wide tick graph. Next bounded action: provide or restore the exact pinned 1.21.10 and 1.21.11 client-resource artifacts, then independently inspect the default enchantment data slice and reconcile it with these Java lifecycle findings.
