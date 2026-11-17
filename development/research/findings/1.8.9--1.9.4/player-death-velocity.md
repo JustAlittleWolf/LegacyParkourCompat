@@ -1,24 +1,6 @@
-# player death velocity uses a different angle conversion
+# Player death velocity angle precision
 
-1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java`, `public void die(DamageSource source) {`, lines 513-535.
-1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java`, `public void die(DamageSource source) {`, lines 484-506.
-
-Difference: The degree-to-radian conversion has a different floating-point operation order: 1.8.9 converts `Math.PI` to float before multiplication/division; 1.9.4 divides in double precision and casts the quotient to float before multiplying.
-
-The formula feeds the direct X/Z velocity assignment.
-
-Both endpoints preserve the same vertical `0.1F` write and the same null-source horizontal-zero branch.
-
-This records only a player velocity assignment in the death handler.
-
-Health and damage production, death/respawn lifecycle, and subsequent motion are not evaluated.
-
-Movement meaning: The degree-to-radian conversion has a different floating-point operation order: 1.8.9 converts `Math.PI` to float before multiplication/division; 1.9.4 divides in double precision and casts the quotient to float before multiplying.
-
-The formula feeds the direct X/Z velocity assignment.
-
-Both endpoints preserve the same vertical `0.1F` write and the same null-source horizontal-zero branch.
-
-This records only a player velocity assignment in the death handler.
-
-Health and damage production, death/respawn lifecycle, and subsequent motion are not evaluated.
+1.8.9, Ornithe Feather Gen2: `net/minecraft/entity/living/player/PlayerEntity.java`, `die(DamageSource)`, lines 513-535.
+1.9.0, Ornithe Feather Gen2: `net/minecraft/entity/living/player/PlayerEntity.java`, `die(DamageSource)`, lines 483-506.
+Difference: For a non-null source, 1.8.9 multiplies `(damagedSwingDir + yaw)` by `(float) Math.PI / 180.0F` before passing the angle to `cos` and `sin`; 1.9.0 uses `(float) (Math.PI / 180.0)`. These evaluate the radians factor with different float rounding. Both write `velocityY = 0.1F` first and use the same negative `cos`/`sin` expressions scaled by `0.1F`; the null-source horizontal fallback remains zero.
+Movement meaning: This is directly reachable on a local player from a received entity event 3. In 1.8.9, `ClientPlayNetworkHandler.handleEntityEvent` (lines 771-779) dispatches the event to `entity.doEvent`; `LivingEntity.doEvent` (lines 967-974) handles event 3 by setting health to zero and then calling `this.die(DamageSource.GENERIC)`. In 1.9.0 the corresponding ranges are `ClientPlayNetworkHandler.handleEntityEvent` (827-835) and `LivingEntity.doEvent` (1075-1082). Virtual dispatch reaches `PlayerEntity.die`, and the non-null generic source selects the changed X/Z calculation. The state order is health-to-zero, virtual death call, superclass death handling, resize/reposition, vertical velocity write, then horizontal velocity writes. A later separately received entity-velocity packet is applied by the generic handler through `Entity.lerpVelocity`: `ClientPlayNetworkHandler.handleEntityVelocity` lines 402-408 and `Entity.lerpVelocity` lines 1424-1428 in 1.8.9; lines 434-440 and 1556-1559 in 1.9.0. That later write assigns X, Y, and Z in that order and can overwrite these local values. The finding establishes the local event response and its arithmetic only; it does not establish a final observed trajectory or claim how a server produces death motion.
