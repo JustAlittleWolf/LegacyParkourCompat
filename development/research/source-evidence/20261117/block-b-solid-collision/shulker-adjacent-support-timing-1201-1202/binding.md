@@ -1,0 +1,11 @@
+# Shulker adjacent support timing in exact 1.20.1 to 1.20.2
+
+This closes the specific opening-time follow-up from the [S10 same-state provider review](../s10-provider-roster-1201-1202/binding.md). A closed east-facing Shulker Box supplies a full north support face to the oak fence north of it. In both releases, OPENING removes that support face and the neighbor-shape callback recomputes the fence's SOUTH property. After the property is recomputed the fence collision arm disappears. Direct support and collision shapes for the same state and progress, and the Shulker's push math, are unchanged.
+
+In 1.20.1 the open event enters OPENING and synchronously refreshes the adjacent fence via the shape-update sweep. In 1.20.2 the event enters OPENING, then the first block-entity animation tick performs that refresh after the entity phase. The added generic neighbor notification runs after the shape-update sweep and does not flip this fence property. The closing endpoint restores support and refreshes the fence in the same transition in both releases.
+
+On a client that processes the event before the entity pass, the 1.20.2 pass can still see the stale arm until the block entity advances, subject to when the corresponding authoritative state update is applied. There is no fixed local packet phase or measured trajectory in this source result. This is vanilla effective-state timing, with no historical server state, packet behavior, or movement implementation requested. Other Shulker adjacent reactions and the separate [diode server update route](../s10-provider-roster-1201-1202/diode-support-update-verdict.md) remain outside this closure.
+
+- [Author proof](author-proof.md), raw SHA-256 `4ccb4c3da8862948ee7cd74c0d4437e40c2ccd5749540e1128ebde89294d8749`.
+- [Independent verdict](verdict.md), raw SHA-256 `788b2cdd88fc7c999c6ce9a447f72733c7bb5c8dfa5cad45895e0be3066a6145`.
+- Source identity correction for the archival author proof. The exact 1.20.1 Mojmap file `net/minecraft/world/level/block/state/BlockBehaviour.java` rehashes to `5f37987191165379c222c412949a0c80a904bf78a453035b1f9d86c6454510fa`, matching the ready source manifest and the earlier S10 review. The digest in the author proof's evidence paragraph is incorrect. The targeted method and ordering checks were repeated using the manifest-verified file.
