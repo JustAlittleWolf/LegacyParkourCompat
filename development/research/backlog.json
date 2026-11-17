@@ -6909,7 +6909,50 @@
         "sourceDifference": "Knockback gate changes !IS_EXPLOSION to !NO_KNOCKBACK; successful server Player hit with markHurt sends SetEntityMotion to owning connection, whose client applies lerpMotion to local-player delta movement.",
         "limit": "LocalPlayer.hurt and logical-client LivingEntity.hurt exit before gate; this is server-authored but client-observed movement response. No runtime tag membership or trajectory.",
         "runtimeParity": "unverified"
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT bounded same-state ordinary solid collision/support coverage for the 135-path source provider roster. Shulker notification side effects and resource inputs remain open.",
+          "snapshot": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/s10-provider-roster-1201-1202/roster-closure-r2.md",
+            "sha256": "5ac942ddf73768702082b5652e16bc8b4ca7d68f5cf0c1357f8c42aa3c52037b"
+          },
+          "review": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/s10-provider-roster-1201-1202/roster-verdict.md",
+            "sha256": "ac2e47533becab042d5ad6a0f4a8adf7b0c15b5ed8cbf90fe61b203c0f4ea242"
+          },
+          "binding": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/s10-provider-roster-1201-1202/binding.md",
+            "sha256": "e3ad9cad20e5d574c5c70ca6831e7908399d54597b3e1585024ce00e4d9d5055"
+          },
+          "recoveredFileManifest": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/s10-provider-roster-1201-1202/group-2-file-manifest.csv",
+            "sha256": "751a441805f3cc3010893110c0e7f3c46e37c627b3ec693761a91867b66bd6f2"
+          }
+        },
+        {
+          "decision": "ACCEPT unchanged diode solid shape and rigid support predicate. The changed server shape-update flag has no established vanilla player-reachable trigger.",
+          "snapshot": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/s10-provider-roster-1201-1202/roster-closure-r2.md",
+            "sha256": "5ac942ddf73768702082b5652e16bc8b4ca7d68f5cf0c1357f8c42aa3c52037b"
+          },
+          "review": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/s10-provider-roster-1201-1202/diode-support-update-verdict.md",
+            "sha256": "99ca9dd1fb5b8fda6d13e43605c539e3872538a6c0104f059b84f8a8a680b522"
+          },
+          "binding": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/s10-provider-roster-1201-1202/binding.md",
+            "sha256": "e3ad9cad20e5d574c5c70ca6831e7908399d54597b3e1585024ce00e4d9d5055"
+          }
+        }
+      ]
     },
     {
       "pair": "1.20.2--1.20.4",
@@ -8532,6 +8575,42 @@
             "revision": "0246f02d717d3416bdcc970f567319098f7017dd",
             "path": "development/research/source-evidence/20261118/block-c-grouped-source-closures/c-queue-12110-12111-modifiers/verdict.md",
             "sha256": "e12525d72d6462c3e259f6902a20bc81a6989f7909ddf9c18103ac72c06d6012"
+          }
+        },
+        {
+          "decision": "ACCEPT no difference in the bounded ordinary loaded-interior, block-only, non-riding Entity clipping route. Moving borders, step, edge, piston, entities and arbitrary provider compositions remain separate.",
+          "snapshot": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/clip-core-12110-12111/source-report-r2.md",
+            "sha256": "0077f6feac7a15ff1f9829c4ff9197be664f07763dc365bc1082ae2116ef6e4c"
+          },
+          "review": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/clip-core-12110-12111/clip-core-verdict.md",
+            "sha256": "09f1c14ed82617952ef5213e15543b203b0ccfc1d4811ceaae48e68442fa96ba"
+          },
+          "binding": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/clip-core-12110-12111/binding.md",
+            "sha256": "b1d0c2cc13f650eba5434798af81c6c7d96abc2bd61f99284f59f16e0119a068"
+          }
+        },
+        {
+          "decision": "REJECT occupied-cell difference in the withdrawn rotation witness. The checked quarter-turn, crop and Door collision geometry outputs agree.",
+          "snapshot": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/clip-core-12110-12111/withdrawn-rotation-draft.md",
+            "sha256": "165530233bc4ee562f0e334d12a8f85b449933ba17a6cd82621736582d694547"
+          },
+          "review": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/clip-core-12110-12111/rotation-rejection.md",
+            "sha256": "2a6e4803d8fb93f02518bbaf85ecd82143ac4e7d844547edeff2e9eed828c8bf"
+          },
+          "binding": {
+            "revision": "529002c35b4d0122392613a0880d9429c475917e",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/clip-core-12110-12111/binding.md",
+            "sha256": "b1d0c2cc13f650eba5434798af81c6c7d96abc2bd61f99284f59f16e0119a068"
           }
         }
       ]
