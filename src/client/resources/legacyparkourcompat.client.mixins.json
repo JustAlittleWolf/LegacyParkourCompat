@@ -45,6 +45,7 @@
     "HoneyBlockMixin",
     "FarmlandBlockMixin",
     "EntityMixin",
+    "entity.EntityPushMixin",
     "EntityLookAtMixin",
     "EntityPassengerPlacementMixin",
     "EntitySweptShapeIntersectionMixin",
