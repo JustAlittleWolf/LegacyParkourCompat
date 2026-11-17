@@ -1,0 +1,3 @@
+# TripWire and pale moss carpet source binding
+
+The [independent paired review](verdict.md) supplements the existing [TripWire comparison](../tripwire_shape/report.md) and [pale moss carpet comparison](../mossy_carpet_shape/coverage.md). The retained author blobs have SHA-256 `b53dcbb92d5a1d509cc93cba7c8c45351f698368247cecc6c93df869b4943ada` and `13cd3aae56458d4c8b5dda2d569f344471d4ca81fb0336188e1fdbc5408e0018`, respectively. The two exact releases agree in the audited shape, support and connected-face selectors. Server trigger timing and other movement operations remain outside this coverage.
