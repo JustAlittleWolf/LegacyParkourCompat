@@ -1,0 +1,29 @@
+# Independent source audit: spectator dimension path
+
+## Terminal result
+
+**COMPLETED** — independently reviewed the immutable source comparison draft. Draft SHA-256: `ec2a056b3f4b618542a188f08be87ec1fc76d9b417a38fb72ad26b587e946304` (matches the assigned hash).
+
+## Verdicts
+
+1. **Equivalent player-position packet response has no version difference in direct local position/velocity/pose writes — SUPPORTED, with scope clarification.** In all four versions, `ClientPacketListener.handleMovePlayer` has the same non-passenger gate, passes `false` to `setValuesFromPositionPacket`, then acknowledges and reports the resulting player position/rotation. The helper’s direct branch calculates the absolute packet transform, writes position and delta movement, writes yaw and pitch, and refreshes old position/rotation; it does not write pose. The relevant helper and caller text is the same in 1.21.5 and 1.21.6; the 1.21.6, .7, and .8 `ClientPacketListener.java` files have the same SHA-256. This supports an equivalent-input source witness, not an exhaustive claim about every possible player response.
+
+2. **Respawn retain/reset response has no version difference in direct position/velocity/pose handling — SUPPORTED, with the entity-data qualification retained.** All four `handleRespawn` bodies use keep flag `0x02` to copy nondefault synchronized entity data, delta movement, yaw, and pitch; otherwise they call `resetPos()` and set yaw to `-180.0F`. The keep branch has no explicit position or `setPose` write. Copying nondefault entity data can carry synchronized entity state, so the safest claim is “no changed direct movement/pose writer in this handler,” not “respawn never preserves pose.” The inspected operation’s gate and order are unchanged in this sample.
+
+3. **Set-camera client response itself only selects a camera entity — SUPPORTED.** `handleSetCamera` resolves the packet entity in the current client level and calls `Minecraft.setCameraEntity` if present. That setter stores `cameraEntity` and checks the renderer post-effect; it does not write local-player position, velocity, or pose. The handler is unchanged across the four versions. This is a camera/render selection path, not a historical movement operation.
+
+4. **Server camera transfer is an authoritative transfer, not historical client movement replay — SUPPORTED AS A SCOPE DISPOSITION.** `ServerPlayer.setCamera` teleports the server player to the selected target’s level/coordinates and sends camera-selection state. Treat it as transfer/packet context rather than a client movement implementation. A generic clientbound position response remains eligible for a separate direct-response comparison; its exact movement writes are covered above.
+
+5. **Respawn changes the input-state argument beginning in the sampled 1.21.6 source — SUPPORTED AS A DISTINCT FOLLOW-UP CANDIDATE; movement consequence UNRESOLVED.** In 1.21.5, `handleRespawn` passes `getShiftKeyState()` and sprinting to `MultiPlayerGameMode.createPlayer`; the constructor stores the first value as `wasShiftKeyDown`. In 1.21.6–1.21.8 it passes `getLastSentInput()` and sprinting; the new `LocalPlayer` constructor stores that `Input` as `lastSentInput`. `LocalPlayer.tick` compares that baseline with `input.keyPresses` after `super.tick()` and sends `ServerboundPlayerInputPacket` only when they differ. This is a network input-send baseline change, not a direct local position/velocity/pose write, and the evidence here does not establish a trajectory change.
+
+   **Exact bounded follow-up:** compare 1.21.5 against 1.21.6, then confirm .7/.8 by source identity, tracing the respawn `getLastSentInput()` argument through `LocalPlayer` construction and the next `LocalPlayer.tick` comparison into `ServerboundPlayerInputPacket`; then inspect the matching server receiver (`ServerGamePacketListenerImpl.handlePlayerInput`) and the server player’s stored-input consumers across those versions. Determine whether suppressing/repeating the packet after respawn changes any eligible client-side movement response or only server-side authoritative state. Do not claim a movement finding until that chain and its in-scope effect are established. No exact patch boundary inside 1.21.5–1.21.6 is established.
+
+## Evidence identity and checked slices
+
+- Mojmap canonical sources under `decompiled_minecraft/<version>/mojmap/`; the assigned draft’s four `ClientPacketListener.java` and `ServerPlayer.java` file hashes match direct SHA-256 checks.
+- 1.21.5 and 1.21.8 exact-run provenance records identify Mojmap decompilations with Vineflower 1.12.0 and Mapping IO 0.9.1. 1.21.6 and 1.21.7 root `.decompile-provenance.json` records identify the corresponding source inputs; their client jar and mapping hashes match the assigned draft. Direct SHA-256 checks also match for `LocalPlayer.java` and `MultiPlayerGameMode.java` in the compared 1.21.5/1.21.6 sides.
+- Compared `ClientPacketListener.handleMovePlayer` / `setValuesFromPositionPacket`, `handleRespawn`, and `handleSetCamera` for 1.21.5, .6, .7, and .8; `Minecraft.setCameraEntity` for 1.21.5/.6 (the .6–.8 relevant sources are identical by source hash); `MultiPlayerGameMode.createPlayer`, `LocalPlayer` constructor, and `LocalPlayer.tick` for 1.21.5/.6. The helper/caller bodies were directly checked in the .5 and .6 files; .6/.7/.8 main listener hashes are identical.
+
+## Limits
+
+This is a bounded independent audit of the claims and adjacent input-state difference in the assigned draft, not a complete four-version movement tick inventory or pair freeze. I did not inspect wiki material, product code/history, findings/backlog, server input receivers/consumers, or intermediate releases; I did not implement, generate sources, launch, or test. The input-state candidate’s downstream effect remains open for the follow-up above.
