@@ -180,7 +180,7 @@ public final class WaterScan {
                     int liquidLevel = state.getValue(LiquidBlock.LEVEL);
                     boolean inContact = inContactBounds
                         && contactHook.includes(contactBounds.y1, y, liquidLevel);
-                    float fluidHeight = fluidState.getHeight();
+                    float fluidHeight = fluidState.getOwnHeight();
                     boolean inFlow = inFlowBounds && (aggregateHistoricalCurrent
                         ? y + fluidHeight >= flowBox.minY
                         : includesFlow(flowBounds.y1, y, liquidLevel));

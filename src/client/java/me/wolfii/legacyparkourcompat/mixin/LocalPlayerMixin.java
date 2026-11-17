@@ -678,8 +678,11 @@ abstract class LocalPlayerMixin {
 
     @WrapOperation(
         method = "moveTowardsClosestSpace(DD)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;suffocatesAt(Lnet/minecraft/core/BlockPos;)Z"),
-        ordinal = 0
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;suffocatesAt(Lnet/minecraft/core/BlockPos;)Z",
+            ordinal = 0
+        )
     )
     private boolean legacyparkourcompat$pushAwayOrigin(
         LocalPlayer player,
@@ -696,8 +699,11 @@ abstract class LocalPlayerMixin {
 
     @WrapOperation(
         method = "moveTowardsClosestSpace(DD)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;suffocatesAt(Lnet/minecraft/core/BlockPos;)Z"),
-        ordinal = 1
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;suffocatesAt(Lnet/minecraft/core/BlockPos;)Z",
+            ordinal = 1
+        )
     )
     private boolean legacyparkourcompat$pushAwayCandidate(
         LocalPlayer player,
