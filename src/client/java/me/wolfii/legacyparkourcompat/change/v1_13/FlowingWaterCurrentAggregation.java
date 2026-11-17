@@ -18,9 +18,11 @@ import net.minecraft.world.phys.Vec3;
  * contributors, and leaves the player vector unnormalized. In 1.12.2 the
  * operation used the rounded-top predicate and normalized its summed flow.
  */
-@MovementChange(emulates = ParkourVersion.V1_13)
+// V1_13_1 is the nearest later annotated profile that still covers the exact
+// 1.13.0 behavior; 1.13.1/1.13.2 were source-checked unchanged.
+@MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class FlowingWaterCurrentAggregation implements FluidCurrentAggregationHook {
-    private static final float SHALLOW_DEPTH = 0.4F;
+    private static final double SHALLOW_DEPTH = 0.4;
 
     public FlowingWaterCurrentAggregation() {
     }
@@ -32,7 +34,9 @@ public final class FlowingWaterCurrentAggregation implements FluidCurrentAggrega
         int contributors = 0;
 
         for (Contribution contribution : contributions) {
-            double surfaceY = (double) contribution.cellY() + contribution.fluidHeight();
+            // Keep the source int + float addition in float precision before
+            // widening it into this double local.
+            double surfaceY = contribution.cellY() + contribution.fluidHeight();
             if (surfaceY < boxMinY) {
                 continue;
             }

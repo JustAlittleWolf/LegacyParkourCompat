@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.FluidCurrentCutoffContext;
 import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
 import me.wolfii.legacyparkourcompat.mechanic.fluid.WaterFirstLavaProjectionContext;
 import me.wolfii.legacyparkourcompat.mechanic.fluid.LavaPresenceLatchContext;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.LavaPresenceHook;
 import me.wolfii.legacyparkourcompat.change.v1_16.fluid.LegacyWaterPresenceProbe;
 
@@ -789,8 +790,15 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     ) {
         var historicalWater = ((WaterContext)entity).legacyparkourcompat$waterScan();
         if (fluid.equals(FluidTags.WATER) && historicalWater != null && historicalWater.replacesCurrent()) {
-            // Historical flow was applied at the post-tracker, pre-contact seam;
-            // skip only this later duplicate of native water current.
+            // Historical flow was sampled after tracker update; apply the 1.13
+            // vector here, after native loaded-area admission, then skip native
+            // current application. Older replacements were already applied.
+            if (entity instanceof LocalPlayer player
+                && !MovementRuntime.profile(player).target().olderThan(ParkourVersion.V1_13)
+                && MovementRuntime.find(FluidCurrentAggregationHook.class, player).isPresent()
+                && !historicalWater.impulse().equals(Vec3.ZERO)) {
+                entity.setDeltaMovement(entity.getDeltaMovement().add(historicalWater.impulse()));
+            }
             return;
         }
         if (entity instanceof Player player

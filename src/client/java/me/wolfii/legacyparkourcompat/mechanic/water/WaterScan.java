@@ -1,11 +1,17 @@
 package me.wolfii.legacyparkourcompat.mechanic.water;
 
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.OptionalInt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -17,8 +23,6 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 /**
  * One shared water-only traversal; it never writes native trackers or velocity.
@@ -48,10 +52,14 @@ public final class WaterScan {
                                         Optional<WaterBodyContactAreaAdmissionHook> contactAdmission,
                                         Optional<WaterCurrentHook> current,
                                         Optional<WaterFlowScanBoundHook> flowBound,
-                                        Optional<FlowScanAreaAdmissionHook> flowAdmission) {
+                                        Optional<FlowScanAreaAdmissionHook> flowAdmission,
+                                        Optional<FluidCurrentAggregationHook> currentAggregation) {
+        boolean aggregateHistoricalCurrent = currentAggregation.isPresent()
+            && !MovementRuntime.profile(player).target().olderThan(ParkourVersion.V1_13);
         Optional<AABB> selected = body.flatMap(hook -> hook.probe(player.getBoundingBox()));
         boolean replacesContact = selected.isPresent();
-        AABB historicalFlowBox = flowBound.isPresent() ? legacyFlowQuery(player.getBoundingBox()) : null;
+        AABB historicalFlowBox = !aggregateHistoricalCurrent && flowBound.isPresent()
+            ? legacyFlowQuery(player.getBoundingBox()) : null;
         boolean hasHistoricalFlowBound = historicalFlowBox != null
             && hasHistoricalUpperBound(flowBound.get(), historicalFlowBox);
         Bounds historicalFlowBounds = hasHistoricalFlowBound
@@ -62,13 +70,16 @@ public final class WaterScan {
         )).orElse(false);
         boolean historicalFlowResolved = historicalFlowBounds != null && flowAdmission.isPresent();
         boolean historicalFlowRejectedByArea = historicalFlowResolved && !historicalFlowAdmitted;
-        AABB flowBox = historicalFlowResolved ? historicalFlowBox : selected.orElse(null);
+        AABB flowBox = aggregateHistoricalCurrent ? player.getBoundingBox().deflate(0.001)
+            : historicalFlowResolved ? historicalFlowBox : selected.orElse(null);
         Bounds flowBounds = historicalFlowResolved ? historicalFlowBounds
-            : flowBox == null ? null : bounds(flowBox, flowBound);
-        boolean currentResolved = current.filter(WaterCurrentHook::replacesNativeCurrent).isPresent()
+            : flowBox == null ? null : bounds(flowBox, aggregateHistoricalCurrent ? Optional.empty() : flowBound);
+        boolean currentResolved = aggregateHistoricalCurrent
+            || current.filter(WaterCurrentHook::replacesNativeCurrent).isPresent()
             && (historicalFlowResolved || (!hasHistoricalFlowBound && selected.isPresent()));
         boolean replacesCurrent = currentResolved;
-        if ((!replacesContact && !replacesCurrent) || !supportsFeatures(player)) return Optional.empty();
+        if ((!replacesContact && !replacesCurrent)
+            || (!supportsFeatures(player) && !aggregateHistoricalCurrent)) return Optional.empty();
         if (player.getVehicle() instanceof AbstractBoat) {
             return Optional.of(new Result(false, Vec3.ZERO, replacesContact, replacesCurrent));
         }
@@ -135,6 +146,8 @@ public final class WaterScan {
             : flowBounds == null ? 0 : flowBounds.y1;
         boolean contactFound = false;
         Vec3 total = Vec3.ZERO;
+        ArrayList<FluidCurrentAggregationHook.Contribution> currentContributions =
+            aggregateHistoricalCurrent ? new ArrayList<>() : null;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         // One union traversal feeds the independent contact and flow domains.
         for (int x = scanX0; x < scanX1; x++) {
@@ -142,7 +155,8 @@ public final class WaterScan {
                 for (int z = scanZ0; z < scanZ1; z++) {
                     pos.set(x, y, z);
                     BlockState state = level.getBlockState(pos);
-                    if (!state.getFluidState().is(FluidTags.WATER)) continue;
+                    var fluidState = state.getFluidState();
+                    if (!fluidState.is(FluidTags.WATER)) continue;
                     boolean inContactBounds = scannedContactBounds != null
                         && x >= scannedContactBounds.x0 && x < scannedContactBounds.x1
                         && y >= scannedContactBounds.y0 && y < scannedContactBounds.y1
@@ -166,7 +180,10 @@ public final class WaterScan {
                     int liquidLevel = state.getValue(LiquidBlock.LEVEL);
                     boolean inContact = inContactBounds
                         && contactHook.includes(contactBounds.y1, y, liquidLevel);
-                    boolean inFlow = inFlowBounds && includesFlow(flowBounds.y1, y, liquidLevel);
+                    float fluidHeight = fluidState.getHeight();
+                    boolean inFlow = inFlowBounds && (aggregateHistoricalCurrent
+                        ? y + fluidHeight >= flowBox.minY
+                        : includesFlow(flowBounds.y1, y, liquidLevel));
                     if (!inContact && !inFlow) continue;
                     if (inContact) {
                         // Falling (LEVEL >= 8) water remains valid for 1.8.9 contact;
@@ -175,22 +192,42 @@ public final class WaterScan {
                     }
                     // The existing current hook is bounded to nonfalling liquid.
                     // Reject current alone when a relevant cell needs native flow.
-                    if (inFlow && liquidLevel >= 8) {
+                    if (inFlow && !aggregateHistoricalCurrent && liquidLevel >= 8) {
                         replacesCurrent = false;
                         continue;
                     }
                     if (inFlow) {
-                        Optional<Vec3> flow = currentHook.flow(level, pos, state);
-                        if (flow.isEmpty()) {
-                            replacesCurrent = false;
-                            continue;
+                        if (aggregateHistoricalCurrent) {
+                            if (!(state.getBlock() instanceof LiquidBlock)) {
+                                replacesCurrent = false;
+                                continue;
+                            }
+                            if (!player.getAbilities().flying) {
+                                Vec3 flow = fluidState.getFlow(level, pos);
+                                currentContributions.add(new FluidCurrentAggregationHook.Contribution(
+                                    y, fluidHeight, flow));
+                            }
+                        } else {
+                            Optional<Vec3> flow = currentHook.flow(level, pos, state);
+                            if (flow.isEmpty()) {
+                                replacesCurrent = false;
+                                continue;
+                            }
+                            total = currentHook.accumulate(total, flow.get());
                         }
-                        total = currentHook.accumulate(total, flow.get());
                     }
                 }
             }
         }
-        Vec3 impulse = replacesCurrent ? currentHook.impulse(total, player.getAbilities().flying) : Vec3.ZERO;
+        Vec3 impulse = Vec3.ZERO;
+        if (replacesCurrent && aggregateHistoricalCurrent) {
+            Vec3 average = currentAggregation.orElseThrow().aggregate(flowBox.minY, currentContributions, true);
+            if (average.length() > 0.0 && !player.getAbilities().flying) {
+                impulse = average.scale(0.014);
+            }
+        } else if (replacesCurrent) {
+            impulse = currentHook.impulse(total, player.getAbilities().flying);
+        }
         return Optional.of(new Result(contactFound, impulse, replacesContact, replacesCurrent));
     }
 

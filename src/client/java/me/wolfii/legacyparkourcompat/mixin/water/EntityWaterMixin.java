@@ -1,7 +1,9 @@
 package me.wolfii.legacyparkourcompat.mixin.water;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBoundHook;
@@ -45,10 +47,13 @@ public abstract class EntityWaterMixin implements WaterContext {
         target = "Lnet/minecraft/world/entity/EntityFluidInteraction;isInFluid(Lnet/minecraft/tags/TagKey;)Z", ordinal = 0))
     private boolean legacyparkourcompat$contact(boolean nativeContact) {
         Entity entity = (Entity)(Object)this;
-        // The native tracker has finished updating eyes/depth/lava. Apply the
-        // old flow impulse before native water contact effects, then retain the
-        // independent contact/current decisions for later consumers.
+        // The native tracker has finished updating eyes/depth/lava. Capture the
+        // historical flow result here; current application remains at the
+        // later native current call, after its loaded-area gate.
         if (entity instanceof Player player) {
+            boolean aggregateHistoricalCurrent = !MovementRuntime.profile(player).target()
+                .olderThan(ParkourVersion.V1_13)
+                && MovementRuntime.find(FluidCurrentAggregationHook.class, player).isPresent();
             legacyparkourcompat$water = WaterScan.scan(
                 player,
                 MovementRuntime.find(WaterBodyContactHook.class, player),
@@ -56,9 +61,13 @@ public abstract class EntityWaterMixin implements WaterContext {
                 MovementRuntime.find(WaterBodyContactAreaAdmissionHook.class, player),
                 MovementRuntime.find(WaterCurrentHook.class, player),
                 MovementRuntime.find(WaterFlowScanBoundHook.class, player),
-                MovementRuntime.find(FlowScanAreaAdmissionHook.class, player)
+                MovementRuntime.find(FlowScanAreaAdmissionHook.class, player),
+                aggregateHistoricalCurrent
+                    ? MovementRuntime.find(FluidCurrentAggregationHook.class, player)
+                    : java.util.Optional.empty()
             ).orElse(null);
             if (legacyparkourcompat$water != null && legacyparkourcompat$water.replacesCurrent()
+                && !aggregateHistoricalCurrent
                 && !legacyparkourcompat$water.impulse().equals(net.minecraft.world.phys.Vec3.ZERO)) {
                 entity.setDeltaMovement(entity.getDeltaMovement().add(legacyparkourcompat$water.impulse()));
             }
