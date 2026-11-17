@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_20_2;
+package me.wolfii.legacyparkourcompat.change.v1_19_3;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -7,13 +7,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Retains the native step-up resolver for profiles before 1.20.5. The current
- * V1_20_2 group covers 1.20.2 through 1.20.4; earlier selected profiles also
- * resolve here until their collision providers have separate source-backed
- * integrations. The two-route resolver begins at V1_20_5 and candidate shape
- * heights begin at V1_21.
+ * Retains the earlier profile fallback below the verified two-route range.
+ * Mojmap 1.19.4 through 1.20.6 Entity.collide uses the fixed-height routes;
+ * Mojmap 1.21 Entity.collide and collectCandidateStepUpHeights use shape heights.
  */
-@MovementChange(emulates = ParkourVersion.V1_20_2)
+@MovementChange(emulates = ParkourVersion.V1_19_3)
 public final class NativeStepUpCollision implements StepUpCollisionHook {
     public NativeStepUpCollision() {
     }
