@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Ornithe Feather 1.8.9 {@code CauldronBlock.addCollisions} writes and tests
+ * Ornithe Feather 1.8 through 1.8.9 {@code CauldronBlock.addCollisions}
+ * writes and tests
  * the base, west, north, east and south boxes in that order, then resets its
  * bounds. Feather 1.9.4, 1.10.2, 1.11.2 and 1.12.2
  * {@code CauldronBlock.addCollisions} retain the same bounds and order.
  * Feather 1.13 and 1.13.2 {@code CauldronBlock.getShape} instead subtract the
  * upper interior from the full block. Preserve the old five component bounds
  * for empty and water cauldrons; level does not select collision geometry.
- * The native outline remains unchanged. The 1.8.0–1.8.8 range is not
- * established by this comparison and retains native behavior.
+ * The native outline remains unchanged.
  * Union decomposition and internal collision planes can differ from the old
  * collector's five separate boxes, so this does not claim strict clipping parity.
  */
