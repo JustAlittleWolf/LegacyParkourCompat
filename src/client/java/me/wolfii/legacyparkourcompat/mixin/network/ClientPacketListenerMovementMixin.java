@@ -1,5 +1,9 @@
 package me.wolfii.legacyparkourcompat.mixin.network;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import me.wolfii.legacyparkourcompat.mechanic.network.ClientPacketMovementPolicy;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientReceivedInterpolationHook;
 import me.wolfii.legacyparkourcompat.mechanic.network.ClientPacketPositionState;
@@ -7,7 +11,7 @@ import me.wolfii.legacyparkourcompat.mechanic.network.LegacyPacketRotation;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientRelativeMoveTargetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.RelativePositionReconstructionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ClientTeleportTargetHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.network.PassengerPositionSyncInterpolationHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.network.PassengerPositionSyncHook;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -75,20 +79,21 @@ public abstract class ClientPacketListenerMovementMixin {
         return entity.isLocalInstanceAuthoritative();
     }
 
-    @Redirect(
+    @WrapOperation(
         method = "handleEntityPositionSync",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;isInterpolating()Z",
-            ordinal = 0
-        )
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isInterpolating()Z")
     )
-    private boolean legacyparkourcompat$useHistoricalPassengerInterpolationGate(Entity vehicle) {
-        boolean nativeValue = vehicle.isInterpolating();
-        var localPlayer = Minecraft.getInstance().player;
-        return MovementRuntime.find(PassengerPositionSyncInterpolationHook.class, localPlayer)
-            .map(change -> change.interpolationOperand(nativeValue))
-            .orElse(nativeValue);
+    private boolean legacyparkourcompat$passengerSyncGate(
+        Entity vehicle, Operation<Boolean> vanilla,
+        @Share("passengerSyncSnapBranch") LocalBooleanRef snapBranch
+    ) {
+        boolean interpolating = vanilla.call(vehicle);
+        var player = Minecraft.getInstance().player;
+        // The caller negates this operand before checking indirect passenger membership.
+        return MovementRuntime.find(PassengerPositionSyncHook.class, player)
+            .map(change -> !change.shouldSyncPassenger(
+                MovementRuntime.profile(player).target(), snapBranch.get(), interpolating))
+            .orElse(interpolating);
     }
 
     @Redirect(
@@ -103,15 +108,17 @@ public abstract class ClientPacketListenerMovementMixin {
         }
     }
 
-    @Redirect(
+    @WrapOperation(
         method = "handleEntityPositionSync",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;snapTo(Lnet/minecraft/world/phys/Vec3;FF)V")
     )
     private void legacyparkourcompat$queueAbsolutePositionInsteadOfSnap(
-        Entity entity, Vec3 packetTarget, float yRot, float xRot
+        Entity entity, Vec3 packetTarget, float yRot, float xRot, Operation<Void> vanilla,
+        @Share("passengerSyncSnapBranch") LocalBooleanRef snapBranch
     ) {
+        snapBranch.set(true);
         if (!legacyparkourcompat$queueAbsolute(entity, packetTarget, yRot, xRot)) {
-            entity.snapTo(packetTarget, yRot, xRot);
+            vanilla.call(entity, packetTarget, yRot, xRot);
         }
     }
 
