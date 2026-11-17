@@ -25,6 +25,27 @@ public interface FallingFluidFaceSturdyHook extends VersionedMechanic {
         "minecraft:red_sandstone_stairs", "minecraft:purpur_stairs"
     );
 
+    /** Ordinary glass and the 16 full stained-glass keys in the 1.12–1.13.2 source domain. */
+    List<String> FULL_GLASS_IDS = List.of(
+        "minecraft:glass",
+        "minecraft:white_stained_glass",
+        "minecraft:orange_stained_glass",
+        "minecraft:magenta_stained_glass",
+        "minecraft:light_blue_stained_glass",
+        "minecraft:yellow_stained_glass",
+        "minecraft:lime_stained_glass",
+        "minecraft:pink_stained_glass",
+        "minecraft:gray_stained_glass",
+        "minecraft:light_gray_stained_glass",
+        "minecraft:cyan_stained_glass",
+        "minecraft:purple_stained_glass",
+        "minecraft:blue_stained_glass",
+        "minecraft:brown_stained_glass",
+        "minecraft:green_stained_glass",
+        "minecraft:red_stained_glass",
+        "minecraft:black_stained_glass"
+    );
+
     boolean isFaceSturdy(FlowingFluid fluid, Player player, BlockState state, BlockGetter level,
                          BlockPos pos, Direction direction, VanillaFn<Boolean> vanilla);
 }
