@@ -9,11 +9,11 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
 import org.jspecify.annotations.Nullable;
 
-/** Restores the elapsed-millisecond moving-border clock verified for 1.21.6–1.21.10. */
+/** Restores the elapsed-millisecond moving-border clock verified for 1.21.4–1.21.10. */
 @MovementChange(emulates = ParkourVersion.V1_21_10)
 public final class ElapsedWorldBorderCollision implements WorldBorderCollisionHook {
     /*
-     * 1.21.6–1.21.10 Mojmap WorldBorder.MovingBorderExtent#getSize/#getMinX/#getMinZ/#getMaxX/#getMaxZ/
+     * 1.21.4–1.21.10 Mojmap WorldBorder.MovingBorderExtent#getSize/#getMinX/#getMinZ/#getMaxX/#getMaxZ/
      * #getCollisionShape and Entity#collectColliders use Util#getMillis elapsed time. 1.21.11 Mojmap
      * WorldBorder.MovingBorderExtent#calculateSize/#update and #getMinX(float)/#getMinZ(float)/
      * #getMaxX(float)/#getMaxZ(float)/#getCollisionShape, plus Entity#collectColliders, use tick-cached
