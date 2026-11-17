@@ -5591,7 +5591,22 @@
         "limits": [
           "Input semantics only; no product eligibility or broader movement conclusion."
         ]
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT ordinary careful-edge no difference in pre-move local Player SELF/PLAYER gates, query, order and arithmetic. Resolved exact source/manifest attribution; raw prior artifact cache was not rehashed.",
+          "comparison": {
+            "revision": "11910da5ee5458b854d739c69ea61450784096f3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1144-1152/s-edge-backoff.md",
+            "sha256": "643cb33eb2d726a8dae42700692f858bb7728a4a364b75012f014328dbb5a4d2"
+          },
+          "review": {
+            "revision": "11910da5ee5458b854d739c69ea61450784096f3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1144-1152/verdict-r2.md",
+            "sha256": "ba2161aa07b52115c9b54fe776ce0f1b632f5c10a943a1293abb2d7011e3739a"
+          }
+        }
+      ]
     },
     {
       "pair": "1.15.2--1.16.5",
@@ -11189,6 +11204,29 @@
             "path": "development/research/source-evidence/20261117/block-c-player-movement-followup/item-input-dependencies/verdict.md",
             "sha256": "ef71e1542c1ac14f7698dcb385ae0d51c97a21f00b7ea1e6cac112db285dde71"
           }
+        },
+        {
+          "decision": "ACCEPT bounded unchanged TripWire and pale moss carpet shape, support and connected-face selectors at the exact endpoints. Server trigger timing remains excluded.",
+          "tripwire": {
+            "revision": "11910da5ee5458b854d739c69ea61450784096f3",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/26.1.2--26.2/tripwire_shape/report.md",
+            "sha256": "b53dcbb92d5a1d509cc93cba7c8c45351f698368247cecc6c93df869b4943ada"
+          },
+          "mossCarpet": {
+            "revision": "11910da5ee5458b854d739c69ea61450784096f3",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/26.1.2--26.2/mossy_carpet_shape/coverage.md",
+            "sha256": "13cd3aae56458d4c8b5dda2d569f344471d4ca81fb0336188e1fdbc5408e0018"
+          },
+          "binding": {
+            "revision": "11910da5ee5458b854d739c69ea61450784096f3",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/26.1.2--26.2/tripwire-moss-carpet-review/binding.md",
+            "sha256": "b8883edbb8d2c8d501bf2eda10d401691d474840747410a22e07d5ce7883d2a1"
+          },
+          "review": {
+            "revision": "11910da5ee5458b854d739c69ea61450784096f3",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/26.1.2--26.2/tripwire-moss-carpet-review/verdict.md",
+            "sha256": "087d73983607392eb41380dfc0c723e865beaeec7fe37010794779eedfae5fd2"
+          }
         }
       ]
     },
@@ -13469,7 +13507,22 @@
         "limits": [
           "Pair remains PARTIAL/UNFROZEN; no technical re-review or runtime claim."
         ]
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT bounded no difference in ordinary block collision math, collection order, step candidates and normal fallback. Signed-zero control flow remains a qualification with no proven reachable movement effect.",
+          "snapshot": {
+            "revision": "11910da5ee5458b854d739c69ea61450784096f3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/collision-resolver-1102-111/report.md",
+            "sha256": "d6e4dd9e2e17d9b422fd51553b1b48f002e935003e71b5da43cf3d5c4b35fcd9"
+          },
+          "review": {
+            "revision": "11910da5ee5458b854d739c69ea61450784096f3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/collision-resolver-1102-111/verdict.md",
+            "sha256": "039f3aa0e117d2c636c43b5d33f29b5b41daff607f000e167c99ada352318ebc"
+          }
+        }
+      ]
     },
     {
       "pair": "1.16.2--1.16.3",
