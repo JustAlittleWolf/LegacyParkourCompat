@@ -1,0 +1,28 @@
+# Blind review verdict: falling-water fence side cue
+
+**Verdict: ACCEPT for the exact 1.11.2 → 1.12.0 claim.** The canonical sources support the claim that the same dry horizontal oak-fence neighbor changes from eligible to ineligible for the falling-water side cue. The sampled endpoints establish a difference between these releases; this review does not independently establish the first onset among releases beyond this pair or verify later release claims in the author artifact.
+
+## Evidence identity
+
+The read-only 1.11.2 Ornithe Feather source tree is identified by its ready marker (`versionId=1.11.2`, `mapping=ornithe-feather`; source manifest digest `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0`) and the source entries match `ornithe-feather.sources.sha256`. The 1.12 Ornithe Feather tree's hidden `.decompile-provenance.json` pins 1.12 version metadata, its 1.12 client artifact and `feather-gen2-1.12+build.2`; each source hash below matches that manifest. Earlier freeze hashes for the topical roster: 1.11.2 `29cb41e253ced7fe78d4c84884ff3d541ad85f651058c67247ebc2f4f94af9fc`; 1.12 `36c54e063c4559f68000cfd3e4b673ba9cdd38a61888b3e51554a8d22b9e855b`.
+
+## Claim adjudication
+
+- **1.11.2 eligibility:** `block/LiquidBlock.java:83-91` first rejects the same liquid material, accepts `UP`, rejects `Material.ICE`, then delegates to `Block.isFaceSolid`. `block/Block.java:343-344` implements that base predicate as the neighbor material's `isSolid()`. `block/Block.java:927-935` registers numeric block 85, `fence`, as `FenceBlock(Material.WOOD, ...)`; `block/material/Material.java:9,63-65` shows `WOOD` and the default `isSolid() == true`. The queried horizontal dry oak fence therefore qualifies despite its partial shape.
+- **1.12.0 eligibility:** `block/LiquidBlock.java:82-100` preserves the same-material, `UP`, then `ICE` branch order, then rejects attachment exceptions/stairs and requires `blockState.getFaceShape(...) == FaceShape.SOLID`. `block/FenceBlock.java:202-204` returns `MIDDLE_POLE` for every horizontal face, which fails that check. `block/Block.java:946-954` still registers the oak fence as `FenceBlock(Material.WOOD, ...)`; registration/material did not cause the change. `block/state/StateDefinition.java:415-416` dispatches the state face-shape call to the block provider.
+- **Falling side query and vector:** The paired `LiquidBlock.getFlow` bodies (`1.11.2:131-171`, `1.12:139-179`) use the same `LEVEL >= 8` gate, iterate `Direction.Plane.HORIZONTAL`, query `pos + direction` and `pos + direction + UP` using that same direction as the face, and on the first hit evaluate `normalize().add(0.0, -6.0, 0.0)`, then normalize the final vector. With no horizontal depth gradient and no other qualifying side, an eligible fence makes the flow `(0,-1,0)` in 1.11.2; in 1.12.0 the zero vector remains zero. `util/math/Vec3d.java` returns `ZERO` when normalizing a near-zero vector in both versions, so the witness does not rely on NaN behavior.
+- **Ordinary LocalPlayer current vector:** `LocalClientPlayerEntity.tick()` (`1.11.2:159-162`; `1.12:164-167`) calls `super.tick()` when its chunk is loaded. It extends `ClientPlayerEntity → PlayerEntity → LivingEntity → Entity`. `Entity.tick()` calls `baseTick()`, where both versions call `checkWaterCollisions()` (`Entity.java:379` and `:382`). `checkWaterCollisions()` invokes `World.applyLiquidDrag` on the contracted player bounds. `World.applyLiquidDrag` (`1.11.2:1571-1612`; `1.12:1579-1620`) accumulates each intersecting liquid block's `applyMaterialDrag` result and, if nonzero and `hasLiquidCollision()` (true on Entity), normalizes it and adds `0.014 * (x,y,z)` to the current `velocityX/Y/Z`. `LiquidBlock.applyMaterialDrag` adds `getFlow` to its incoming vector. Thus the old witness changes the local player's current vertical velocity by `-0.014` during this client tick's water check; the new witness supplies no falling-side contribution. This verifies source-level player reachability, not a complete trajectory prediction.
+
+## Source identity for reviewed slices
+
+| Source | 1.11.2 SHA-256 | 1.12 SHA-256 |
+| --- | --- | --- |
+| `block/LiquidBlock.java` | `c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244` | `00f7995dd49a48bf97316e30b3d6e41d8ee1e65dd212f3dc64891883621c4260` |
+| `block/FenceBlock.java` | `856cb92d4613289747a34a6bc85f306ca9d44b7057a45c79f2020d13025d1cf7` | `633ad3b20250bd010a28d0b1362b24c81a5508be8a81a9d826953a3c9c4a703e` |
+| `block/Block.java` | `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a` | `e4a90eca411e7b0e14f5018f7385ec29891f6cdf1a1e917fa648b5712f9b33a1` |
+| `world/World.java` | `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58` | `f7ab7a34d456e720e7ee4f34fbd0eb10f7f96151596c8c615ab2edef05a884d8` |
+| `entity/Entity.java` | `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440` | `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a` |
+| `client/entity/living/player/LocalClientPlayerEntity.java` | `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed` | `d7237b8b9a68525bbfec6af1c234d2aafb1e4aa7d52059331d1d243313d6d7d1` |
+| `util/math/Vec3d.java` | `059dd21505c13b6febbbe880889f3aa6b00f7648ba1b770268eb8841674e90e8` | `059dd21505c13b6febbbe880889f3aa6b00f7648ba1b770268eb8841674e90e8` |
+
+The review is bounded to this exact pair and claim. No tests, build, runtime, network access, product files or canonical source writes were performed.
