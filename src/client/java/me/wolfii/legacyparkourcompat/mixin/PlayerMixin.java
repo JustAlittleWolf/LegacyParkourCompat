@@ -3,8 +3,11 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.BubbleColumnPlayerCallbackHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.LocalPlayerShiftDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerClimbabilityFlyingGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
@@ -16,6 +19,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQ
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeProbeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.SwimmingPitchHook;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
@@ -34,6 +38,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin {
+    @WrapOperation(
+        method = "rideTick()V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/player/Player;wantsToStopRiding()Z"
+        )
+    )
+    private boolean legacyparkourcompat$shiftDismountGate(Player player, Operation<Boolean> original) {
+        boolean vanilla = original.call(player);
+        if (!(player instanceof LocalPlayer localPlayer)) {
+            return vanilla;
+        }
+        return MovementRuntime.find(LocalPlayerShiftDismountHook.class, localPlayer)
+            .map(hook -> hook.shouldStopRiding(vanilla))
+            .orElse(vanilla);
+    }
+
     // Keep Player's native super calls intact, including the inside callback's fall-distance reset.
     @ModifyExpressionValue(
         method = "onAboveBubbleColumn(ZLnet/minecraft/core/BlockPos;)V",
