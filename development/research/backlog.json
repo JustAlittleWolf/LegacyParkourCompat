@@ -5626,6 +5626,20 @@
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1144-1152/verdict-r2.md",
             "sha256": "ba2161aa07b52115c9b54fe776ce0f1b632f5c10a943a1293abb2d7011e3739a"
           }
+        },
+        {
+          "decision": "ACCEPT bounded unchanged body/eye contact, already-latched lava travel/jump and LocalPlayer fluid-exit clearance. The client cache ignores the changed requested collision status for the checked non-loading request. Earlier lava-latch production and other releases remain separate.",
+          "exactPair": "1.14.4--1.15",
+          "snapshot": {
+            "revision": "91821c2a8c45428b4c49736808629af7f1b1ac0e",
+            "path": "development/research/source-evidence/20261117/block-a-1144-115-fluid-contact/comparison.md",
+            "sha256": "77ea75a9c6030541f1c2f6082358cd79a3aaf03bd3ad04d44b163e68874f821e"
+          },
+          "review": {
+            "revision": "91821c2a8c45428b4c49736808629af7f1b1ac0e",
+            "path": "development/research/source-evidence/20261117/block-a-1144-115-fluid-contact/verdict.md",
+            "sha256": "3d8099a6210e825fef1d4e1e12988e00b13fa91f46e15435ef7606945a4df6c4"
+          }
         }
       ]
     },
@@ -6730,6 +6744,22 @@
       "openDependencies": [
         "D3 remaining registered neighbor-state ranges and FarmBlock support-solid comparison; remaining S5-02 registration/default and neighbor-state ranges; D2 remaining resource/tag/synchronized inputs; reviewer assignment; all open tick, state, collision, environment, modifier, external-input and exclusion producer/consumer slices",
         "remaining navigation inventories, member correspondences, resources, findings and dependency closure; independent audit"
+      ],
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT bounded unchanged Web/Berry stored multiplier, Soul Sand/Magma speed-factor and Slime/Bed landing-Y and sneak-suppression operations for the checked client player routes.",
+          "exactPair": "1.19.4--1.20.1",
+          "snapshot": {
+            "revision": "139dd5f54ce62a025ef0b845b56594de23a3f23e",
+            "path": "development/research/source-evidence/20261117/block-a-1194-1201-block-contact/comparison.md",
+            "sha256": "5c07a69b69eba2d1f8859fff4655b21819da76afa08c135b79f8466cd0f16def"
+          },
+          "review": {
+            "revision": "139dd5f54ce62a025ef0b845b56594de23a3f23e",
+            "path": "development/research/source-evidence/20261117/block-a-1194-1201-block-contact/verdict.md",
+            "sha256": "3e5fc33642be324dba0c06428240ebd9e45465605e627c4b3949b0f4e461271f"
+          }
+        }
       ]
     },
     {
@@ -9684,6 +9714,25 @@
             "revision": "cb778049240b21989c6b159ffb1411a072ad48b9",
             "path": "development/research/source-evidence/20261117/block-c-player-followup/respawn-input-state/verdict.md",
             "sha256": "135f27e39becb20f913e80991f6b000e5286c89e0a314cf2eea34ed82931635c"
+          }
+        },
+        {
+          "decision": "ACCEPT bounded unchanged LocalPlayer contact/current sampling, cache and authority route, ordinary water/lava travel, vertical input response and exit clearance. Built-in WATER/LAVA tag member digests match their pins; exact 1.21.5 ZIP extraction is unavailable.",
+          "exactPair": "1.21.5--1.21.6",
+          "snapshot": {
+            "revision": "096085e406f41040589e25ad855e4a4163b1c5ea",
+            "path": "development/research/source-evidence/20261117/block-a-1215-1216-fluid-contact/comparison.md",
+            "sha256": "03a914cdb74599b81e28e69b808df17be523e66bcdbf7c615aec560f03282878"
+          },
+          "review": {
+            "revision": "096085e406f41040589e25ad855e4a4163b1c5ea",
+            "path": "development/research/source-evidence/20261117/block-a-1215-1216-fluid-contact/verdict.md",
+            "sha256": "836b4153c34e7be0e3654cef3de45f97c50b9b0dea3c8e22f36a68f05212dfad"
+          },
+          "tagComparison": {
+            "revision": "096085e406f41040589e25ad855e4a4163b1c5ea",
+            "path": "development/research/source-evidence/20261117/block-a-1215-1216-fluid-contact/fluid-tags-comparison.md",
+            "sha256": "068ca6a4d747d03f25ee7516c915dd525cb70d35c88a5c8010a70e1089c590fe"
           }
         }
       ]
