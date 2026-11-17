@@ -5,6 +5,6 @@ These are reusable instructions. Evidence and progress belong in [research](../r
 1. [Discovery](discovery/WORKFLOW.md): shared rules plus separate source, Minecraft Wiki and MCPK Wiki procedures.
 2. [Implementation](implementation/WORKFLOW.md): implement accepted deltas independently, then integrate them.
 3. [Testing](testing/WORKFLOW.md): establish recording/playback reliability before comparing historical and emulated movement.
-4. [Orchestration](orchestration/WORKFLOW.md): coordinate bounded work, authority, ownership and budgets.
+4. [Orchestration](orchestration/WORKFLOW.md): coordinate bounded work, authority, ownership and budgets. Use the [overnight start brief](orchestration/OVERNIGHT.md) for an explicitly started night run.
 
 Creating this structure does not authorize a campaign, tests or runtime launches.

@@ -15,6 +15,8 @@ Before many pair assignments, make one rough movement-area map to estimate size 
 
 ## Independent review and freeze
 
+For a bounded batch, follow shared callers and default inputs once and identify which evidence applies to each operation. Return one coverage update for the batch. An independent reviewer may retrace related operations together and give each claim its own verdict. Hand accepted operations with closed applicability to implementation while the same pair's outstanding claims continue in discovery.
+
 A different blind reviewer retraces the complete inventory and tick graph, including terminal slices without findings and dependency closure. Full-pair freeze requires complete inventories, paired evidence for every terminal slice, closed dependencies and that independent coverage audit. A worker completion message, self-review or an accepted individual finding does not close the pair.
 
 Bind each accepted finding to its immutable revision and exact evidence identity. Independently accepted findings with closed dependencies and established applicability may enter separately authorized implementation before pair freeze; source isolation continues unchanged. Unknown intermediate patch boundaries remain open.

@@ -19,6 +19,8 @@ Document behavior and both exact source references in Change comments: release, 
 
 ## Integrate and verify
 
+Keep one integration branch open across candidate arrivals within a coherent batch. Reconcile incoming operations against existing code before assigning a new candidate whenever the accepted evidence already identifies a likely match. Record an existing-code disposition only after checking the actual gates, math and resolver reach. Group candidates sharing hooks or dispatch paths for a single integration build. If one candidate blocks publication, isolate it and build the ready subset. The integrator performs the checks below as part of integration. Schedule separate product code reviews only when the assignment calls for them.
+
 The product integrator must:
 
 1. Create a dedicated product integration branch from the current `main`. Reconcile the candidate with existing code and accepted findings, consolidating duplicate operations and identical neutral helpers into the established product structure. Preserve evidence and explain replacements or no-code dispositions.
