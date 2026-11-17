@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.mechanic.HoneyContactScope;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.HoneySlideDeltaYHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.HoneySlideVelocityHook;
@@ -18,10 +19,24 @@ import org.spongepowered.asm.mixin.injection.At;
  * Mojmap 26.2 HoneyBlock.isSlidingDown(BlockPos, Entity) and
  * doSlideMovement(Entity) route their delta-Y gates and vertical write through
  * getOldDeltaY(double) and getNewDeltaY(double); wrap those calls while leaving
- * entityInside and the rest of the callback native.
+ * entityInside and the rest of the callback native except when the same move
+ * already used historical Honey contact timing.
  */
 @Mixin(HoneyBlock.class)
 abstract class HoneyBlockMixin {
+    @WrapOperation(
+        method = "entityInside(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/InsideBlockEffectApplier;Z)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/level/block/HoneyBlock;isSlidingDown(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)Z"
+        )
+    )
+    private boolean legacyparkourcompat$skipLateHoneySlide(
+        HoneyBlock block, BlockPos pos, Entity entity, Operation<Boolean> original
+    ) {
+        return !HoneyContactScope.suppressesLateHoney(entity) && original.call(block, pos, entity);
+    }
+
     @WrapOperation(
         method = "isSlidingDown(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)Z",
         at = @At(

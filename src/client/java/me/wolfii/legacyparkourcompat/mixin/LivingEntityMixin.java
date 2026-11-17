@@ -1,7 +1,9 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
+import me.wolfii.legacyparkourcompat.mechanic.HoneyContactScope;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -12,6 +14,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.HoneyContactTimingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.push.PlayerPushabilityHook;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.DismountPositionHook;
@@ -91,6 +94,23 @@ import java.util.OptionalDouble;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
+    @WrapMethod(method = "aiStep()V")
+    private void legacyparkourcompat$scopeHoneyBlockContact(Operation<Void> original) {
+        if ((Object)this instanceof LocalPlayer player) {
+            var timing = MovementRuntime.find(HoneyContactTimingHook.class, player);
+            if (timing.isPresent()) {
+                HoneyContactScope.duringAiStep(player, timing.get(), () -> original.call());
+                return;
+            }
+        }
+        original.call();
+    }
+
+    @WrapMethod(method = "travelInAir(Lnet/minecraft/world/phys/Vec3;)V")
+    private void legacyparkourcompat$scopeHoneyAirTravel(Vec3 input, Operation<Void> original) {
+        HoneyContactScope.duringAirTravel((LivingEntity)(Object)this, () -> original.call(input));
+    }
+
     @Inject(method = "isPushable()Z", at = @At("RETURN"), cancellable = true)
     private void legacyparkourcompat$playerPushability(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this instanceof Player player) {

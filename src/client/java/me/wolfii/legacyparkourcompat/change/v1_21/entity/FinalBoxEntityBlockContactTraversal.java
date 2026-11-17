@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.change.v1_21;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.mechanic.LoadedFinalBoxContactScan;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.EntityBlockContactTraversalHook;
 import net.minecraft.client.player.LocalPlayer;
@@ -8,8 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.InsideBlockEffectType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.AABB;
 
 import java.util.function.Consumer;
 
@@ -46,13 +45,6 @@ public final class FinalBoxEntityBlockContactTraversal implements EntityBlockCon
             return;
         }
 
-        AABB box = entity.getBoundingBox();
-        BlockPos min = BlockPos.containing(box.minX + 1.0E-7, box.minY + 1.0E-7, box.minZ + 1.0E-7);
-        BlockPos max = BlockPos.containing(box.maxX - 1.0E-7, box.maxY - 1.0E-7, box.maxZ - 1.0E-7);
-        if (!entity.level().hasChunksAt(min, max)) {
-            return;
-        }
-
         InsideBlockEffectApplier immediate = new InsideBlockEffectApplier() {
             @Override
             public void apply(InsideBlockEffectType type) {
@@ -70,20 +62,11 @@ public final class FinalBoxEntityBlockContactTraversal implements EntityBlockCon
             }
         };
 
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-        for (int x = min.getX(); x <= max.getX(); x++) {
-            for (int y = min.getY(); y <= max.getY(); y++) {
-                for (int z = min.getZ(); z <= max.getZ(); z++) {
-                    if (!entity.isAlive()) {
-                        return;
-                    }
-                    pos.set(x, y, z);
-                    BlockState state = entity.level().getBlockState(pos);
-                    state.entityInside(entity.level(), pos, entity, immediate, true);
-                    onInsideBlock.accept(state);
-                }
-            }
-        }
+        LoadedFinalBoxContactScan.visit(entity, 1.0E-7, pos -> {
+            BlockState state = entity.level().getBlockState(pos);
+            state.entityInside(entity.level(), pos, entity, immediate, true);
+            onInsideBlock.accept(state);
+        });
     }
 
     @Override
