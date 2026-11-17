@@ -20,9 +20,10 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
  * LivingEntity.travel(Vec3), reading EnchantmentHelper.getDepthStrider(LivingEntity),
  * both cap the equipped Depth Strider level at 3F, halve it off ground, and
  * multiply the water drag and acceleration interpolation differences by that
- * factor before dividing by 3F. The 1.8.9 water drag starts at 0.8F; Mojmap
- * 1.20.6 starts at sprinting ? 0.9F :
- * getWaterSlowDown() (0.8F for players). Mojmap 1.21.1 LivingEntity.travel(Vec3)
+ * factor before dividing by 3F. The 1.8.9 water drag starts at 0.8F.
+ * Ornithe Feather 1.13 LivingEntity.moveRelative and Mojmap 1.15.2 and
+ * 1.20.6 LivingEntity.travel select 0.9F while sprinting and 0.8F otherwise
+ * for ordinary players before Depth Strider. Mojmap 1.21.1 LivingEntity.travel(Vec3)
  * instead multiplies by the effective water-efficiency attribute with no final
  * division; 26.2 LivingEntity.travelInWater retains it. Depth Strider III can
  * therefore differ by one float ULP. Preserve the subsequent Dolphin's Grace
@@ -62,7 +63,7 @@ public final class WaterEnchantmentFactors implements WaterEnchantmentFactorsHoo
             }
         }
         float drag = 0.8F;
-        if (!selected.olderThan(ParkourVersion.V1_16) && player.isSprinting()) {
+        if (!selected.olderThan(ParkourVersion.V1_13) && player.isSprinting()) {
             drag = 0.9F;
         }
         float acceleration = 0.02F;
