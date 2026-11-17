@@ -11,8 +11,10 @@ import java.util.stream.Collectors;
  * selection without being older than it.
  *
  * <p>{@link ParkourVersion#CURRENT} resolves to no changes. Selecting 1.9
- * (which also covers 1.9.1 and 1.9.2) applies deltas that emulate 1.9 or later,
- * and when the same mechanic changed twice, only the one closest to 1.9.
+ * (which also covers 1.9.1 and 1.9.2) applies deltas that emulate 1.9 or later;
+ * selecting 1.9.3 (which also covers 1.9.4) starts at its dedicated profile
+ * boundary. When the same mechanic changed twice, only the change closest to
+ * the selected version is resolved.
  */
 final class ChangeResolver {
     private ChangeResolver() {
