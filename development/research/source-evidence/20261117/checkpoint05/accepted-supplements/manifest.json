@@ -1,0 +1,173 @@
+{
+  "schema": "source-evidence-checkpoint-manifest-v1",
+  "checkpoint": "20261117/checkpoint05/accepted-supplements",
+  "capturedAt": "2026-11-17",
+  "entryCount": 20,
+  "entries": [
+    {
+      "pair": "1.9.2--1.9.3",
+      "role": "accepted-report",
+      "sourcePath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/ordinary-player-border-ingress-followup.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-189-19-20261117/patches/1.9.2--1.9.3/ordinary-player-border-ingress-followup.md",
+      "sha256": "062f311ff5cbaeaeb22b6c2c97b6267d4f9fc86c9db96bd5338d239c13c067a4",
+      "bytes": 5218
+    },
+    {
+      "pair": "1.9.2--1.9.3",
+      "role": "accept-verdict",
+      "sourcePath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/ordinary-player-border-ingress-followup-audit/verdict.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-189-19-20261117/patches/1.9.2--1.9.3/ordinary-player-border-ingress-followup-audit/verdict.md",
+      "sha256": "22d3536f16ba60a82313ac3549e3a4e506fe7068134439405c54475a1339194b",
+      "bytes": 2764
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accepted-report",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/end-portal-frame-shapes.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/end-portal-frame-shapes.md",
+      "sha256": "1a4d5ae521f4719c0590513ffadbaaa6f62bf89960c5923ac63814e7f25d08dc",
+      "bytes": 4291
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accept-verdict",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/end-portal-frame-shapes-audit/verdict.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/end-portal-frame-shapes-audit/verdict.md",
+      "sha256": "37a6463369d5dfd50f68f88eee88049991bedfb92ed6c014f2378cd48547ed60",
+      "bytes": 3320
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accepted-report",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/hopper-shapes.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/hopper-shapes.md",
+      "sha256": "c0d079e5b918f7c23f09d3ae5a4a8150258644056f5d6c346f150f4c71f823a2",
+      "bytes": 4897
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accept-verdict",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/hopper-shapes-audit/verdict.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/hopper-shapes-audit/verdict.md",
+      "sha256": "0b76bf3ff183e22372e7b8d477bf41d5baec474e1840fc66d44b92fcf28ff766",
+      "bytes": 2115
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accepted-report",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/lily-flowerpot-shapes.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/lily-flowerpot-shapes.md",
+      "sha256": "aa2250078bd22d3aa06eeb731a366ad967fc8e9ffba62b9203ada5d7429e3da7",
+      "bytes": 4652
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accept-verdict",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/lily-flowerpot-shapes-audit/verdict.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/lily-flowerpot-shapes-audit/verdict.md",
+      "sha256": "0a24df5716b79cedd38c64d808a8a26265969c93b3163e8f3b67d0ecbc4595d8",
+      "bytes": 1923
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accepted-report",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/block-collision-api.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/block-collision-api.md",
+      "sha256": "cdd08f4d0db89f4f6f70f2c16683b8a02e105f5b1924fff223d8b80204fa4421",
+      "bytes": 6215
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accept-verdict",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/block-collision-api-audit/verdict.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/block-collision-api-audit/verdict.md",
+      "sha256": "a11e145241d30c37b794e943c07e5726b45d737bf89fdc03ab2d9844ac6f13af",
+      "bytes": 2167
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accepted-report",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/brewing-stand-shapes.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/brewing-stand-shapes.md",
+      "sha256": "ae395b5ec725cbf487b5d5d83018c986544d448a32c7052025ed508d88d1467c",
+      "bytes": 4478
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accept-verdict",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/providers/brewing-stand-shapes-audit/verdict.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/providers/brewing-stand-shapes-audit/verdict.md",
+      "sha256": "b6e6441f7aae687beeb55372a80405b546ebf744a0613b04f939c4efddd4becc",
+      "bytes": 1866
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accepted-report",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-consumers.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-consumers.md",
+      "sha256": "4f91c8c7d08e9ee7472db97f14291c9ef92d665bce26f2ee2338d0419297d6a1",
+      "bytes": 7492
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "correction",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-consumers-correction.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-consumers-correction.md",
+      "sha256": "8e661d4356996712db6104be46d0fd631411255e4af0626b2161ec024a5ee224",
+      "bytes": 2243
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "accept-verdict",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-consumers-correction-audit/verdict.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-consumers-correction-audit/verdict.md",
+      "sha256": "de62a2fee6ed4b86499ec30dab36cffe0438a775b403e6337b7f5ee2f0be0bef",
+      "bytes": 1485
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "corrected-report",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-producers-r2.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-producers-r2.md",
+      "sha256": "39a493f74452cf591b833deba802e123dc09673d54b4c626e9e7f0d052a74c66",
+      "bytes": 2924
+    },
+    {
+      "pair": "1.11--1.11.1",
+      "role": "correction-accept",
+      "sourcePath": "build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-producers-audit/verdict-r2-correction.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.11--1.11.1/responses/direct-player-response-producers-audit/verdict-r2-correction.md",
+      "sha256": "ce3818505fd5d80f6c7b36af3913a5c23916a6f312ab7269a30d566a6942f127",
+      "bytes": 1937
+    },
+    {
+      "pair": "1.12.1--1.12.2",
+      "role": "corrected-report",
+      "sourcePath": "build/source-early-patches-20261117/1.12.1--1.12.2/chunk-unload-player-overlap-r2.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.12.1--1.12.2/chunk-unload-player-overlap-r2.md",
+      "sha256": "20e166ea60e974db1f76781c121ec8095688173dcc41c1943fa6bb4272cf9835",
+      "bytes": 3332
+    },
+    {
+      "pair": "1.12.1--1.12.2",
+      "role": "correction-accept",
+      "sourcePath": "build/source-early-patches-20261117/1.12.1--1.12.2/chunk-unload-player-overlap-audit-r2/verdict.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/source-early-patches-20261117/1.12.1--1.12.2/chunk-unload-player-overlap-audit-r2/verdict.md",
+      "sha256": "80d3ec72eb1c893dab2e4c5e36d10e958818da5db7f2d2201b17296c336b92db",
+      "bytes": 2708
+    },
+    {
+      "pair": "1.11.1--1.11.2",
+      "role": "product-readiness",
+      "sourcePath": "build/product-readiness-20261117/wall-1111-exact-alias/correspondence.md",
+      "archivePath": "development/research/source-evidence/20261117/checkpoint05/accepted-supplements/artifacts/build/product-readiness-20261117/wall-1111-exact-alias/correspondence.md",
+      "sha256": "ce1d949b3f646c465aff184987e870a041a5378c2e370b0b4318ad8da38f9103",
+      "bytes": 3506
+    }
+  ],
+  "limits": [
+    "Only immutable accepted or correction-accepted bounded evidence linked by current central records is included.",
+    "Partial pair status is not promoted to freeze or runtime parity.",
+    "Build/temporary and product source files are excluded except the one explicit read-only readiness correspondence artifact."
+  ]
+}

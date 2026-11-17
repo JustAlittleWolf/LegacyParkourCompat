@@ -1,0 +1,37 @@
+# 1.11 → 1.11.1 direct local-player response consumers
+
+## Scope and identity
+
+This bounded report covers exact `ClientPlayNetworkHandler.java` incoming-client response paths that can directly set local-player position, velocity, on-ground/sleeping state, or passenger/respawn state. It does not audit server producers, other packet-family source changes, or the full movement dependency graph. The exact pair remains partial and unfrozen under the independently accepted `coverage-r2.md` / `audit-r2/full-pair-verdict.md`.
+
+Publication contract reused from the pair’s accepted coverage inventory:
+
+| Release | Namespace | Ready marker SHA-256 | Source-manifest SHA-256 | Manifest entries |
+| --- | --- | --- | --- | ---: |
+| 1.11 | `decompiled_minecraft/1.11/ornithe-feather/` | `3c4102230db2a0f9d2d07f752bbd2a19d2717375f6e31fb618c0450b7fd82bd45` | `8b3e5da58494f1dba77410960753b0bf646425a1ada491d8242cc71e6c7a59ca` | 1,918 |
+| 1.11.1 | `decompiled_minecraft/1.11.1/ornithe-feather/` | `454036a978074d3a34359dfebf03d6ef3e3335d1318b88d6b17e4f1f5ab566cf` | `0d5f4697d4e4ce53b36d0dbfec89d44830eb76753a6643b49e42f0857753066d` | 1,921 |
+
+The exact client-handler source SHA-256 is `cef5d643eca0b32119571eff5201705cc8c99125f8266f763172202d89e3a40b` for 1.11 and `65d362c00de1adfd55fae5f858b91bf9b227525b987c09a2d223279376a66175` for 1.11.1. Each value was rehashed locally and matches its corresponding `ornithe-feather.sources.sha256` row. The handler diff has two behavioral hunks: pickup sound selection/parameters and a new `MC|DebugNeighborsUpdate` renderer payload. Neither hunk writes local-player movement state. Pickup sound consumes two `this.random.nextFloat()` draws in each old/new branch, so draw count is unchanged; the handler’s other random use is particle packet sampling, an audiovisual path. The debug payload is renderer-only.
+
+## Direct response consumer inventory
+
+Exact source is `net/minecraft/client/network/handler/ClientPlayNetworkHandler.java` in both endpoint namespaces. All handlers below are unchanged between these two source files; this is a source comparison, not acceptance of server-side producer conditions.
+
+| Incoming handler | Local-player effect / gate | Pair disposition |
+| --- | --- | --- |
+| `handlePlayerMove(PlayerMoveS2CPacket)` (both files, line 565) | Binds `playerEntity = this.minecraft.player`. Relative X/Y/Z components add to current coordinates; each non-relative axis first zeroes that velocity component. Relative pitch/yaw add to current angle. It calls `updatePositionAndAngles`, sends teleport acknowledgment, then sends a position/angles response using shape `minY`; first-join handling seeds `lastX/Y/Z`. | Direct forced position/angle and conditional velocity-zero writer; unchanged. The operation/order remains as shown. Server producer reachability is outside this slice. |
+| `handleExplosion(ExplosionS2CPacket)` (1.11 line 905; 1.11.1 line 919) | After constructing/damaging the client explosion, adds packet X, Y, Z player-velocity components to `this.minecraft.player.velocityX/Y/Z`, in axis order. | Direct additive local-player velocity response; unchanged. Other explosion producer/state gates are not re-opened here. |
+| `handleEntityVelocity(EntityVelocityS2CPacket)` (line 451 both) | Resolves `packet.getId()` through `this.world.getEntity`; if non-null, passes all three packet components divided by `8000.0` to `Entity.lerpVelocity`, which assigns the three velocity fields. The handler has no local-player identity test, so it also applies if the resolved ID denotes the local player. | Generic direct velocity response with non-null-entity gate; unchanged. Whether a producer sends this packet for the local player remains unreviewed. |
+| `handleEntityTeleport(EntityTeleportS2CPacket)` and `handleEntityMove(EntityMoveS2CPacket)` (lines 495 and 526 both) | Resolve a generic entity; update tracked network coordinates, then apply interpolation/rotation and `onGround` only when `!entity.isLogicalSideForUpdatingMovement()`. `Entity.isLogicalSideForUpdatingMovement()` returns the controlling passenger’s `PlayerEntity.isLocal()` when applicable; `LocalClientPlayerEntity.isLocal()` is true in both versions. Thus the ordinary local-player instance is on the skip side for these interpolation/on-ground writes. | No direct local-player movement/flag application through these guarded branches; unchanged. The pre-guard tracked-coordinate call is present but not treated here as a movement-state write. |
+| `handlePlayerSleep(PlayerSleepS2CPacket)` (line 752 / 766) | Calls `packet.getPlayer(this.world).trySleep(packet.getPos())`; the packet-resolved player can be the local player. | Direct forced sleep-state/pose path; unchanged. Bed-entry eligibility is excluded from this report’s movement claim. |
+| `handleEntityAnimation(EntityAnimationS2CPacket)` (line 728 / 742) | Resolves an entity by packet ID; action `2` casts it to `PlayerEntity` and calls `wakeUp(false, false, false)`. That can be the local player and resets its size/sleeping state; `wakeUp` may place the player above the recorded bed when one is present. | Direct event-dispatched forced state/position path; unchanged. Server/event eligibility and bed-entry rules are not assessed. |
+| `handleEntityPassengers(EntityPassengersS2CPacket)` (line 810 / 824) | Resolves the mount, records whether local player was a passenger, clears passengers, then starts riding each resolved passenger ID; local player can be among those IDs. | Can force the local player’s mount/passenger relation, which affects movement control; unchanged. No server producer review here. |
+| `handlePlayerRespawn(PlayerRespawnS2CPacket)` (line 882 / 896) | On dimension change, changes client world/dimension state, then calls `minecraft.respawnPlayer(...)` and applies game mode. | Forced player replacement/reset boundary; unchanged. Internal respawn placement/order is not expanded into a movement finding here. |
+
+`handleEntityData(EntityDataS2CPacket)` updates synced-data entries on the entity found by ID, but does not itself identify the local player or directly assign movement fields. Its local-player synced-flag consumers are a separate dependency and remain unclosed. `handleVehicleMove` only writes a distinct vehicle under its vehicle/local-player and locally-updated-movement gates; vehicle physics are excluded. Health, hunger, XP, inventory, selected-slot, spawn-point, UI, and renderer handlers were excluded as outside this direct movement-response slice.
+
+## Result and remaining dependencies
+
+The pair-specific changed `ClientPlayNetworkHandler` has no changed direct local-player position, velocity, on-ground, sleeping, or passenger consumer. Existing handlers do show where incoming client packets can write such state, with the gates and order above, but unchanged consumers do not establish unchanged producer behavior. In particular, the previously accepted pair coverage report leaves the changed server transport paths `ServerPlayerEntity.java`, `ServerPlayNetworkHandler.java`, and `PlayerManager.java` unreviewed for client-visible direct responses. Changed client effects/items/enchantments and other response producers also remain outside this task’s source slice. No server-side trajectory or packet production conclusion, pair freeze, implementation-readiness claim, or runtime-parity claim follows from this report.
+
+No source generation, product/wiki/backlog review, build, test, game, or runtime activity was performed.
