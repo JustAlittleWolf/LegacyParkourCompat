@@ -9101,6 +9101,34 @@
             "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.11--26.1.2/collision_provider_residual/resource-audit/bindings.md",
             "sha256": "66d32449cfa321c4f8105484fb84f93e93120132134a54b279826b469008ea4f"
           }
+        },
+        {
+          "decision": "SOURCE COVERAGE: bounded support shapes and context readers in exact 1.21.11 and 26.1.2. Default hanging sign rotates 180 degrees with identical centered shape. The new dossier records endpoint checks without expanding the prior independent audit verdict.",
+          "scope": {
+            "revision": "6dca08b5e39e12bd8b696574ba13a0c0eb5ac6ac",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.11--26.1.2/support_state_provider_residual/support-shapes-and-context-coverage.md",
+            "sha256": "f609e3975e9b77827fe333a510f7df43d5c09deaee0e451c13aa722328004333"
+          },
+          "comparison": {
+            "revision": "6dca08b5e39e12bd8b696574ba13a0c0eb5ac6ac",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.11--26.1.2/support_state_provider_residual/support-shapes-and-context-dossier.md",
+            "sha256": "695969868a460da445d3eddb223f2c9a051f512321ff40d0dda9d14918fda5be"
+          },
+          "earlierInventory": {
+            "revision": "6dca08b5e39e12bd8b696574ba13a0c0eb5ac6ac",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.11--26.1.2/support_state_provider_residual/support-state-provider-residual-r2.md",
+            "sha256": "560302f10614c0bbb95f1b1a631b7d2da5237ac124f08b2fcb2e8a1540e6800b"
+          },
+          "earlierReview": {
+            "revision": "6dca08b5e39e12bd8b696574ba13a0c0eb5ac6ac",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.11--26.1.2/support_state_provider_residual/audit-r2/verdict.md",
+            "sha256": "bba06c1d59e2ed6e75fa8b4ded64a18e6bb52a173c609523d31b50862148d2f1"
+          },
+          "bundledTagReview": {
+            "revision": "6dca08b5e39e12bd8b696574ba13a0c0eb5ac6ac",
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.11--26.1.2/collision_provider_residual/resource-audit/verdict-r3.md",
+            "sha256": "44d0f3d4f1bab38131d8cfb7fd6f0fe7e53f17d14282bd7822b2e2e410167918"
+          }
         }
       ]
     },
