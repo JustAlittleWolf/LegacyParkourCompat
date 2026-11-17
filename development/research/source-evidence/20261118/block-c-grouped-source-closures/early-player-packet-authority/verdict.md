@@ -1,0 +1,27 @@
+# Early player correction authority audit
+
+Status: **COMPLETED**
+
+## Bound verdict
+
+Independently audited the fixed source comparison `early-player-packet-authority-source/comparison.md` (SHA-256 `2a072c27e8b4aa6da478b0c8c0a4891283438e9161f2725bf78102230976e43b`) against local exact Feather decompiles for 1.8.9, 1.9, 1.9.1, 1.9.2, 1.9.3, and 1.9.4. Scope: `PlayerMoveS2CPacket`, `ClientPlayNetworkHandler.handlePlayerMove`, `Entity.updatePositionAndAngles`, plus the direct server teleport sender/acknowledgment. This does not audit the full movement tick, server movement admission, unlisted packet writers, or runtime parity.
+
+Verdict: the direct player correction claims are **accepted within this bound**, with the mapping-provenance wording for the two endpoint versions clarified below. Exact compared source files matched their local source-hash sidecars/manifests: 1.8.9 and 1.9.4 use outer `ornithe-feather.sources.sha256`; 1.9.0–1.9.3 use nested `.decompile-provenance.json`. The endpoint source trees do not contain nested manifests, so their sources remain legacy/unverified as to generation provenance. Their outer run sidecars do identify Feather gen2 build.2 mapping artifacts for 1.8.9 and 1.9.4; therefore the mapping identity is locally recoverable from those sidecars, although not from a nested output manifest.
+
+## Claims checked
+
+- **Teleport ID protocol is transport/server bookkeeping.** 1.8.9 packet read/write ends after the unsigned relative-argument byte. 1.9.4 reads/writes a VarInt teleport ID after that byte. The client acknowledges the ID after applying the correction; the server assigns the requested ID and matches an acknowledgment. This is a wire-protocol and server confirmation delta, not historical client movement math or server-side historical simulation. The position/angle payload and five relative flags retain their meanings.
+- **Ordinary in-range correction has equivalent local movement state.** Both client handlers resolve XYZ relative flags against current coordinates; absolute coordinates zero only the corresponding velocity component. Relative yaw/pitch add current angles. Both call the same current/last state writer, shape placement and rotation path. For finite in-range values, the setter changes checked here do not alter the resulting player position, velocity resets/preservation, angles, or position/angle response values. The 1.9.4 acknowledgment is an additional transport side effect, so whole-handler side effects are not identical.
+- **Finite out-of-range position/pitch differs.** The 1.8.9 setter stores X/Z and pitch directly. The 1.9.4 setter clamps X/Z to ±3.0E7 and pitch to ±90 degrees, leaves Y unclamped, then places the shape and rotates. Thus an absolute X of 30,000,001 ends at 30,000,001 versus 30,000,000, and an absolute pitch of 120 ends at 120 versus 90. These are finite packet values and establish a direct client-side correction difference without asserting server reachability/admission.
+- **Conditional first-correction writes are scoped correctly.** In both handlers, `!started` gates the writes copying current XYZ into `lastX/Y/Z`, marks `started`, and closes the screen. `prevX/Y/Z` are not written by this path or `updatePositionAndAngles`. Each correction also sends a player position/angle response; only 1.9.4 sends the teleport acknowledgment before it. The explosion impulse handler is a distinct local velocity-addition writer; respawn is lifecycle replacement; vehicle correction updates a mounted non-player entity. Those are not the setter delta under review.
+- **Patch stability claim is supported within sampled releases.** The correction handler source is identical at 1.9.0–1.9.2 and its extracted correction method remains the same at 1.9.3–1.9.4; packet source is identical across 1.9.0–1.9.4. The entity files change in later patches but the examined setter behavior remains identical across the 1.9.x sources inspected. No inference is made about snapshots, other 1.8 patches, or releases outside this interval.
+
+## Evidence identity
+
+Compared source payload SHA-256 values (client handler / entity / packet / server handler):
+
+- 1.8.9: `7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3` / `d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b` / `3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf` / `47ef077a7fa0f74cf44e1c8bda449d1b220bf56503b2fef98fd8016e8092df5b`.
+- 1.9.0–1.9.2: `7f67bd2daa792cfc4aac1744d30f9cfdb28306ec55583d474ddc1a251561b1d6` / `74d3ac34d7e6355c8fdcdd777dcd95ba9ef4626718c8772c1b58d0e28419e42a` / `8bad09e146ce746085103081b7e3c6d09855114868267e12be8d869f34f0e77e` / `89609533320e02ed781c4aa87caf9eb55417756bba8a6b0ea53bb5f2e1836634`.
+- 1.9.3–1.9.4: `5a2fc039b81ec0e77df3354826aaaf00dfa6e0d1296cf111864900932e811a4c` / `bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0` / `8bad09e146ce746085103081b7e3c6d09855114868267e12be8d869f34f0e77e` / `f96587355f356f95362dbca2c57c043fdb3ee8ee2fe81589f4c3379ab1a0336b`.
+
+Relevant members: 1.8.9 `ClientPlayNetworkHandler.handlePlayerMove` lines 517–565 and `Entity.updatePositionAndAngles` around 876–893; 1.9.4 counterparts lines 546–595 and around 989–1007. Packet read/write and flags are in `PlayerMoveS2CPacket`; server `teleport` and `handleAcceptTeleport` provide the protocol acknowledgment path. The comparison's stated unexamined areas remain open.
