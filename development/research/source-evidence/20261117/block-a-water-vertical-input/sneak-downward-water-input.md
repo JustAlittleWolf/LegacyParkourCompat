@@ -1,0 +1,10 @@
+# Sneak input adds downward velocity in water
+
+**1.12.2, Ornithe Feather:** `decompiled_minecraft/1.12.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `mobTick`, lines 649–812. The checked local-player input-to-`super.mobTick()` path has no water-and-sneak vertical response.
+**1.13, Ornithe Feather:** `decompiled_minecraft/1.13/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `mobTick`, lines 649–833; `decompiled_minecraft/1.13/ornithe-feather/net/minecraft/entity/living/LivingEntity.java`, `knockDownwards`, lines 1447–1449.
+
+Difference: 1.13 adds a local-player pre-super step gated by `isInWater() && input.sneaking`, which calls `knockDownwards()` and subtracts `0.04F` from vertical velocity. The gate is any water contact plus held sneak; it does not require the newly introduced swimming pose/state. The local-player method then calls `super.mobTick()`, whose jump/travel work follows this input response. This is an input-side local-player operation; an ordinary unmounted local player satisfies the gate without any vehicle path.
+
+Movement meaning: holding sneak while the local player is in water adds a downward `0.04F` velocity response before living-entity travel. This operation is absent from the checked 1.12.2 local-player path.
+
+Checked follow-through: the same water-plus-sneak gate and `-0.04F` response remain in 1.13.1 (`LocalClientPlayerEntity.java` lines 653–837; `LivingEntity.java` lines 1466–1468), 1.13.2 (same lines), and 1.14 Feather (`LocalClientPlayerEntity.java` lines 619–774; `LivingEntity.java` lines 1767–1769). In 1.14.4 Mojmap the input field is `sneakKeyDown`, the gate remains `isInWater()`, and `goDownInWater()` adds `(0.0, -0.04F, 0.0)` before `super.aiStep()` (`LocalPlayer.java` lines 618–772; `LivingEntity.java` lines 1770–1772). 1.15.2 retains that gate and vector response (`LocalPlayer.java` lines 625–778; `LivingEntity.java` lines 1819–1821). No swimming-state gate or other later difference was found in this bounded operation.
