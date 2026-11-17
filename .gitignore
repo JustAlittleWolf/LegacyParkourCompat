@@ -46,3 +46,6 @@ replay_*.log
 # local decompiled Minecraft sources
 decompiled_minecraft/
 .minecraft-decompile-cache/
+
+# Generated research tables. Explicitly stage unique evidence when required.
+/development/research/**/*.tsv
