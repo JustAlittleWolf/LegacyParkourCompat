@@ -183,6 +183,19 @@ abstract class PlayerMixin {
             );
     }
 
+    @Inject(method = "travel(Lnet/minecraft/world/phys/Vec3;)V", at = @At("RETURN"))
+    private void legacyparkourcompat$resetCreativeFlightFallDistanceAfterTravel(
+        Vec3 input,
+        CallbackInfo callback
+    ) {
+        Player player = (Player) (Object) this;
+        if (!(player instanceof LocalPlayer)) {
+            return;
+        }
+        MovementRuntime.find(FlightFallDistanceHook.class, player)
+            .ifPresent(behavior -> behavior.afterTravel(player));
+    }
+
     @Redirect(
         method = "travel(Lnet/minecraft/world/phys/Vec3;)V",
         at = @At(

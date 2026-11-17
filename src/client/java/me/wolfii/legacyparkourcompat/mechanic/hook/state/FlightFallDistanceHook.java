@@ -10,4 +10,8 @@ import net.minecraft.world.entity.player.Player;
 @MechanicType("player.flight_fall_distance")
 public interface FlightFallDistanceHook extends VersionedMechanic {
     void beforeMovement(Player player, VanillaCall vanilla);
+
+    /** Applies a historical reset after inherited travel when that source order requires it. */
+    default void afterTravel(Player player) {
+    }
 }
