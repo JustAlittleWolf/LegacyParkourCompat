@@ -14737,6 +14737,24 @@
             "path": "development/research/source-evidence/20261117/block-c-player-followup/position-correction-producer/verdict.md",
             "sha256": "0c1105125e1ab355bb0e7604609972279c9eb08ff2dd3b0a228f76eda0a44601"
           }
+        },
+        {
+          "decision": "ACCEPT bounded no difference in exact Mojmap local solid player position/AABB writers, collision query, step and support. Sources and manifests verified; packaged resources and archived raw/mapped binaries outside the review.",
+          "snapshot": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/116-1161-box-writer-report.md",
+            "sha256": "a76f4cecb5ccb29a117d40fe386eaabcda0e4e57d81925d3336fbfa6f21a999d"
+          },
+          "review": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/116-1161-box-writer-verdict.md",
+            "sha256": "c4fa3c049d0a8d4514a8b67ffdb3f46d8e24bd45c424f7dcb780ed577c69815a"
+          },
+          "binding": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/binding.md",
+            "sha256": "9557e855f624e81372de7d9a7df2ed20f9902babcdf7ae4767f12a4622611df0"
+          }
         }
       ]
     },
@@ -14836,6 +14854,24 @@
             "path": "development/research/source-evidence/20261117/block-c-player-movement-followup/position-correct-receiver/verdict.md",
             "sha256": "6c0d828e8ff23e9485716089885097462d1ef1d76bf28fc0fabfb5a5b7b9c349"
           }
+        },
+        {
+          "decision": "ACCEPT no ordinary solid player collision or support difference in the exact Java roster comparison. The four modified files are outside that operation. Resource equality and the archived 1.16.5 raw artifact are outside the verified inputs.",
+          "snapshot": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/1164-1165-provider-roster-census.md",
+            "sha256": "94d80547b545f4653ea043409e9afe6557b51dab729b3a178f2b21e15d2c1b2e"
+          },
+          "review": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/1164-1165-provider-roster-verdict-r2.md",
+            "sha256": "cd5931f4ee202eb1a1a13691b29125b9d166880d7437309996e8e7c0db61fec9"
+          },
+          "binding": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/binding.md",
+            "sha256": "9557e855f624e81372de7d9a7df2ed20f9902babcdf7ae4767f12a4622611df0"
+          }
         }
       ]
     },
@@ -14933,6 +14969,29 @@
             "revision": "96f59a9302cb83f2b9387d875c216420f7970af3",
             "path": "development/research/source-evidence/20261117/block-a-11634-fluid-tags/comparison.md",
             "sha256": "5b9c7f48fce287a521d35653e07329c2ab6b6a1ec3fb3895438b2826d6da4ff0"
+          }
+        },
+        {
+          "decision": "ACCEPT no Java source delta for the bounded ordinary collision, step, support and AutoJump routes and 103 direct shape providers. The addendum additionally closes the four named shipped vanilla wall/fence tags and their 11 referenced tags.",
+          "snapshot": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/1163-1164-provider-source-proof.json",
+            "sha256": "8c4f665c6f876251eed6ec62fabd53b184712010c8ffe1ea5509b38d0fe3d8b7"
+          },
+          "review": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/1163-1164-provider-verdict.md",
+            "sha256": "e04c568fc7bf3f350d05baeb4b61897d5725c48fbb0c222ba030b44b6f114f57"
+          },
+          "binding": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/binding.md",
+            "sha256": "9557e855f624e81372de7d9a7df2ed20f9902babcdf7ae4767f12a4622611df0"
+          },
+          "resourceAddendum": {
+            "revision": "2287ce5aeed44024afe7b6416298ddd446f0ef1f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/solid-source-116-patch-closures/1163-1164-tag-resource-addendum.md",
+            "sha256": "e26fd1edbdd15f79270174ae38c48187621b7a8b45bc1bbe4780a18692f2c493"
           }
         }
       ]
