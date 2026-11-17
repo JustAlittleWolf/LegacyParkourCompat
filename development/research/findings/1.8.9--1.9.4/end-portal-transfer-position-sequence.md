@@ -22,3 +22,7 @@ The subsequent `PlayerManager` transfer helper replaces that position with the d
 The source establishes an extra intermediate position write and correction packet in 1.8.9; it does not establish a client tick or player trajectory between packets.
 
 The final destination position writer is the same.
+
+## Client packet application
+
+For exact 1.8.9 and 1.9–1.9.4, `ClientPlayNetworkHandler.handlePlayerRespawn` applies the packet dimension and calls `Minecraft.respawnPlayer`, which replaces the local player and calls `resetPos`. `ClientPlayNetworkHandler.handlePlayerMove` applies the packet coordinates and angles through `updatePositionAndAngles`. These handlers receive their inputs from the server. The independent callback review did not examine the player-manager transfer path, so the packet sequence caused by a particular overlap, the movement between packets, and the final arrival result remain outside its verdict. The endpoint transfer sequence above remains a separate source finding. [Independent verdict](../../source-evidence/20261117/block-a-early-end-portal/verdict.md).
