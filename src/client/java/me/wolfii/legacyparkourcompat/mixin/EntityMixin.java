@@ -577,10 +577,13 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     }
 
     @Unique
-    private boolean legacyparkourcompat$writeMovementPosition(double movementLength) {
+    private boolean legacyparkourcompat$writeMovementPosition(double movementLength,
+        Vec3 requestedMovement, Vec3 resolvedMovement) {
         Entity entity = (Entity)(Object)this;
         return MovementRuntime.find(MovementPositionWriteHook.class, entity)
-            .map(hook -> hook.shouldWrite(MovementRuntime.profile(entity).target(), movementLength))
+            .map(hook -> requestedMovement != null && resolvedMovement != null
+                ? hook.shouldWrite(MovementRuntime.profile(entity).target(), requestedMovement, resolvedMovement)
+                : hook.shouldWrite(MovementRuntime.profile(entity).target(), movementLength))
             .orElse(true);
     }
 
@@ -598,11 +601,14 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     @WrapOperation(method = "move", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/Entity;addMovementThisTick(Lnet/minecraft/world/entity/Entity$Movement;)V"))
     private void legacyparkourcompat$movementContactSegment(Entity entity, @Coerce Object movement,
-        Operation<Void> original, @Local(name = "movementLength") double movementLength) {
+        Operation<Void> original, @Local(name = "movementLength") double movementLength,
+        @Share("requestedMovement") LocalRef<Vec3> requested,
+        @Share("resolvedMovement") LocalRef<Vec3> resolved) {
         boolean suppressCallbackRecord = MovementRuntime.find(MovementCallbackRecordHook.class, entity)
             .map(hook -> hook.suppressMovementRecord(entity))
             .orElse(false);
-        if (!suppressCallbackRecord && this.legacyparkourcompat$writeMovementPosition(movementLength)) {
+        if (!suppressCallbackRecord && this.legacyparkourcompat$writeMovementPosition(
+            movementLength, requested.get(), resolved.get())) {
             original.call(entity, movement);
         }
     }
@@ -612,8 +618,11 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     private void legacyparkourcompat$movementPosition(Entity entity, Vec3 position,
         Operation<Void> original, @Local(name = "movementLength") double movementLength,
         @Local(name = "movement") Vec3 movement,
+        @Share("requestedMovement") LocalRef<Vec3> requested,
+        @Share("resolvedMovement") LocalRef<Vec3> resolved,
         @Share("resolvedCollisionBox") LocalRef<AABB> resolvedBox) {
-        if (this.legacyparkourcompat$writeMovementPosition(movementLength)) {
+        if (this.legacyparkourcompat$writeMovementPosition(
+            movementLength, requested.get(), resolved.get())) {
             MovementRuntime.writeMovementPosition(entity, movement, resolvedBox.get(), () -> original.call(entity, position));
         }
     }
