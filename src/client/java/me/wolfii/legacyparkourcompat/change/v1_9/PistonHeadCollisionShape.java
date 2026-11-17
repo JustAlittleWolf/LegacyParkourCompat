@@ -23,7 +23,7 @@ import java.util.Optional;
  * PistonHeadBlock.addCollisions and getArmShape, plus Block.addCollision.
  * 1.9.1 through 1.9.4/ornithe-feather retain these head and arm bounds.
  */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class PistonHeadCollisionShape implements BlockCollisionShapeHook {
     @Override
     public String blockId() {

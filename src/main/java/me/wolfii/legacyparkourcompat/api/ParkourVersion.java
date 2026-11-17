@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Selectable parkour versions. Patch releases that share the same parkour
  * mechanics belong to one constant (for example {@link #V1_9} covers
- * {@code 1.9} through {@code 1.9.4}). If a group has an unaudited patch-level
+ * {@code 1.9} through {@code 1.9.2}). If a group has an unaudited patch-level
  * movement difference, its registered behavior uses the latest-patch source
  * representative until a minor-version pass adds a dedicated constant.
  *
@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
  *   <li>{@link #V1_8_1} – 1.8.1 step descent uses clipped rise instead of configured step height</li>
  *   <li>{@link #V1_8_5} – exact 1.8.5 profile boundary</li>
  *   <li>{@link #V1_8_9} – exact 1.8.9 profile boundary</li>
+ *   <li>{@link #V1_9_3} – exact 1.9.3 X/Z collision-query boundary</li>
  *   <li>{@link #V1_10_1} – farmland collision 1.0 → 0.9375</li>
  *   <li>{@link #V1_11_1} – walls 1b high (MC-111645); restored in {@link #V1_11_2}</li>
  *   <li>{@link #V1_13_1} – exact 1.13.1 profile boundary</li>
@@ -67,7 +68,8 @@ public enum ParkourVersion {
     V1_8_1("1.8.1", "1.8.2", "1.8.3", "1.8.4"),
     V1_8_5("1.8.5", "1.8.6", "1.8.7", "1.8.8"),
     V1_8_9("1.8.9"),
-    V1_9("1.9", "1.9.1", "1.9.2", "1.9.3", "1.9.4"),
+    V1_9("1.9", "1.9.1", "1.9.2"),
+    V1_9_3("1.9.3", "1.9.4"),
     V1_10("1.10"),
     V1_10_1("1.10.1", "1.10.2"),
     V1_11("1.11"),
@@ -161,7 +163,8 @@ public enum ParkourVersion {
 
     /**
      * Maps a Minecraft version id onto a selectable version.
-     * {@code 1.9.2} becomes {@link #V1_9}; the running game version is {@link #CURRENT}.
+     * {@code 1.9.2} becomes {@link #V1_9}, and {@code 1.9.3} becomes
+     * {@link #V1_9_3}; the running game version is {@link #CURRENT}.
      */
     public static ParkourVersion of(String id) {
         String key = id.trim();

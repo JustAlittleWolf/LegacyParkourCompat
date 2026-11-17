@@ -11,6 +11,6 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fishing.FishingRetrievalTarge
  * 1.11–1.11.2 in the same mappings establishes only the 1.11 cutover.
  * No historical response is asserted for 1.9 or earlier.
  */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class UnprovenFishingRetrieval implements FishingRetrievalImpulseHook, FishingRetrievalTargetHook {
 }

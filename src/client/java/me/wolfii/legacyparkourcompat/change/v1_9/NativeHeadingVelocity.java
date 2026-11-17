@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 /** Keeps modern native movement after the 1.8.9 heading arithmetic boundary. */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class NativeHeadingVelocity implements HeadingVelocityHook {
     @Override
     public boolean apply(Player player, float speed, Vec3 input) {

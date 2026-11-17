@@ -14,7 +14,8 @@ import java.util.UUID;
  *
  * <p>The UI should list {@link #selectableVersions()}. Patch releases with the
  * same parkour mechanics share one {@link ParkourVersion}: selecting
- * {@link ParkourVersion#V1_9} also covers {@code 1.9.1} and {@code 1.9.2}.
+ * {@link ParkourVersion#V1_9} covers {@code 1.9.1} and {@code 1.9.2};
+ * {@link ParkourVersion#V1_9_3} covers {@code 1.9.3} and {@code 1.9.4}.
  *
  * <p>{@link ParkourVersion#CURRENT} (or {@link #disable()}) applies no historical
  * deltas. Mixins become no-ops, so Minecraft mechanics are unchanged. Switching

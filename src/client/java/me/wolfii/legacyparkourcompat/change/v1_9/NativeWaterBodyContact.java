@@ -8,7 +8,7 @@ import net.minecraft.world.phys.AABB;
 import java.util.Optional;
 
 /** Keeps 1.9 body contact native, after the bounded 1.8.0-1.8.9 range. */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class NativeWaterBodyContact implements WaterBodyContactHook {
     public NativeWaterBodyContact() {
     }

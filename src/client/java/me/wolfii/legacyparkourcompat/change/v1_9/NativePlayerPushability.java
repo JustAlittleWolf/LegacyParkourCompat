@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
  * Preserve 26.2 unobfuscated LivingEntity.isPushable there instead of extending
  * the later finding into unverified profiles through closest-later resolution.
  */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class NativePlayerPushability implements PlayerPushabilityHook {
     @Override
     public boolean isPushable(Player player, boolean vanilla) {

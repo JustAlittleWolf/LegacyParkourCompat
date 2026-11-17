@@ -18,16 +18,20 @@ import net.minecraft.world.entity.player.Player;
  *   Later applicability gate: exact introduction of campaign-F005-fall-flying-state-persists-across-player-load is unknown within (1.9.4, 1.10.2]
  * Source-content correspondence and compilation do not establish tick-level runtime parity.
  */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class FallFlyingSavedState implements FallFlyingSavedStateHook {
+    private static boolean isNineEra(ParkourVersion selected) {
+        return selected == ParkourVersion.V1_9 || selected == ParkourVersion.V1_9_3;
+    }
+
     @Override
     public boolean shouldPersistFallFlyingState(Player player, ParkourVersion selected) {
-        return selected != ParkourVersion.V1_9;
+        return !isNineEra(selected);
     }
 
     @Override
     public void afterFallFlyingStateLoaded(Player player, ParkourVersion selected) {
-        if (selected == ParkourVersion.V1_9) {
+        if (isNineEra(selected)) {
             ((EntityInvoker) player).legacyparkourcompat$setSharedFlag(7, false);
         }
     }

@@ -27,7 +27,7 @@ import net.minecraft.world.phys.AABB;
  * 1.9–1.9.4 pose selection, query, resize gate and eye-height order are
  * identical.
  */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class PlayerPoseCollision implements PlayerDimensionsHook, PlayerPoseHook {
     @Override
     public EntityDimensions dimensions(Player player, Pose pose, EntityDimensions vanilla) {

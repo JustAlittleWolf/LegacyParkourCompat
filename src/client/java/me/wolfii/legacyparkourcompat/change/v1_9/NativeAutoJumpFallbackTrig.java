@@ -20,7 +20,7 @@ import net.minecraft.util.Mth;
  * preserves the runtime's native lookup through 1.9.4; the V1_21_10 change is
  * then selected for profiles from 1.10 through 1.21.10.
  */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class NativeAutoJumpFallbackTrig implements AutoJumpFallbackTrigHook {
     @Override
     public float sin(float radians) {

@@ -14,7 +14,7 @@ import java.util.Optional;
  * {@code World#getBlockCollisions(Box)} define the historical bounds, X/Z/Y
  * visitation order, and pruning; 1.9.1 through 1.9.4 retain the 1.9 scan.
  */
-@MovementChange(emulates = ParkourVersion.V1_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class NeighborCollisionScan implements BlockCollisionScanHook {
     @Override
     public Optional<BlockCollisionScan> scan(AABB box) {
