@@ -1,0 +1,35 @@
+# Post-collision player position reconstruction
+
+## Result
+
+In the requested sampled sources, ordinary (`noClip`/`noPhysics` false) movement reconstructs entity position from the resulting bounding box in 1.13, 1.13.1, 1.13.2, 1.14 Yarn, 1.14.4, 1.15.2, and 1.16.5. In 1.17 and 1.17.1 it instead adds the clipped displacement to the current coordinates and calls `setPos`, which rebuilds the box from those coordinates and current dimensions. The exact patch boundary is **unknown within 1.16.5–1.17**; intermediate releases were not assigned or inspected.
+
+The earlier helper writes the box center back to position using `(minX + maxX) / 2.0`, `minY`, `(minZ + maxZ) / 2.0`. The later path adds the clipped movement vector to position. This changes double rounding and can change the final AABB by an ULP even when the same clipped displacement is applied.
+
+## Paired source evidence and local integrity
+
+- 1.13, Ornithe Feather (`feather-gen2-1.13+build.2`): `net/minecraft/entity/Entity.java`, `move` lines 473–676 and `setPositionFromShape` lines 782–787; client wrapper `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `move` lines 867–871. Entity source SHA-256 `09514488d9055449c47e2e4bcd23b5773203ca634b7ecba2323a99d0ae016642`, matching `ornithe-feather.sources.sha256`.
+- 1.13.1, Ornithe Feather (`feather-gen2-1.13.1+build.2`): same file/member ranges and wrapper lines 867–871. Entity source SHA-256 `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`, matching its source manifest.
+- 1.13.2, Ornithe Feather (`feather-gen2-1.13.2+build.2`): same file/member ranges and wrapper lines 871–875. Entity source SHA-256 `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`, matching its source manifest.
+- 1.14, Yarn (`net/minecraft` namespace): `net/minecraft/entity/Entity.java`, `move` lines 432 onward, including box-center update at 447–448, and `moveToBoundingBoxCenter`; `net/minecraft/client/network/ClientPlayerEntity.java`, `move` lines 835–839. Entity source SHA-256 `f52483d5e1434114b81b1c353e89f246d1557bda7a95400832f5650b89cc744a`, matching the version-local `.decompile-provenance.json` source entry.
+- 1.14.4, Mojmap: `net/minecraft/world/entity/Entity.java`, `move` lines 446–470, `setLocationFromBoundingbox` lines 791–795; local player wrapper `net/minecraft/client/player/LocalPlayer.java`, `move` lines 845–849. Entity source SHA-256 `31c6be42d165102d3e6dc4295fdfef6e8971fc3aea13f938a5b3a33b91d524a7`, matching `mojmap.sources.sha256`.
+- 1.15.2, Mojmap: same `Entity.java`, `move` lines 450–474 and helper lines 774–776; `LocalPlayer.java`, `move` lines 851–855. Entity source SHA-256 `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`, matching its source manifest.
+- 1.16.5, Mojmap: same `Entity.java`, `move` lines 485–509 and helper lines 801–804; `LocalPlayer.java`, `move` lines 863–867. Entity source SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`, matching its source manifest.
+- 1.17, Mojmap: same `Entity.java`, `move` lines 534–558; `setPos` lines 364–370 and `makeBoundingBox` show that setting the new position rebuilds `bb`. `LocalPlayer.java`, `move` lines 895–899. Entity source SHA-256 `81231ad8ac1b9a7a9f7ee186352c7e73c0c5211a3034c3a35c04badc6914c8ef`, matching the version-local `.decompile-provenance.json` source entry.
+- 1.17.1, Mojmap: same `Entity.java`, `move` lines 534–558 and helper lines 364–370; `LocalPlayer.java`, `move` lines 893–897. Entity source SHA-256 `ab28e1fba924771ec048140dfd293ee5a46a7dfe81f71a1a0b1aecc1927232de`, matching `mojmap.sources.sha256`.
+
+## Movement gates and ordering
+
+The 1.13 family first handles the no-clip branch by moving the shape and immediately calling `setPositionFromShape`; otherwise it applies piston/web/sneaking movement adjustments and collision/step resolution, then calls `setPositionFromShape` after the move profiler closes and before collision flags and block-position reads. The 1.14–1.16.5 sources likewise have a separate no-physics branch that moves the box and reconstructs coordinates; the ordinary branch limits pistons, applies stuck and edge/sneak adjustments, computes the clipped vector, and only translates the box/reconstructs coordinates when `vec32.lengthSqr() > 1.0E-7`. It then closes the movement profiler and updates collision flags and movement responses.
+
+In 1.17/1.17.1, no-physics calls `setPos(current + requested vector)` directly. Ordinary movement computes `vec32 = collide(vec3)` and, under the same `vec32.lengthSqr() > 1.0E-7` gate, calls `setPos(current + vec32)`; collision flags and responses follow after the profiler pop. Thus zero/small clipped displacements still skip the normal-physics position/box write, while no-physics remains a distinct path.
+
+The local-player overrides only snapshot old X/Z, call `super.move`, then pass the resulting X/Z differences cast to `float` into auto-jump logic. They do not do the post-collision position reconstruction themselves. The changed coordinate rounding is therefore visible to that downstream player response. The relevant box dimensions are player/entity dimensions; the old path preserves the translated box and derives coordinates from it, while the new `setPos` path recreates the box using current dimensions. Collision shape lookup and clipping determine `vec32`, but collision solving, step selection and version-specific block shape differences are outside this bounded slice.
+
+## Bit-distinct reachable witness
+
+Use a normal 0.6-wide player (the source dimensions are float `0.6F`), positioned at `x = 0.1`, in an empty air volume, with an unobstructed ordinary horizontal move whose clipped X displacement is exactly `0.3` (Y/Z displacement zero). The movement magnitude passes the `1.0E-7` write gate. For `halfWidth = (double)0.6F / 2.0`, the old translated bounds and midpoint produce X bits `0x3FD9999999999999`; direct `0.1 + 0.3` produces `0x3FD999999999999A`. Rebuilding the AABB from the latter coordinate also differs by one ULP on each X face in this witness. Such empty air and an unobstructed player move are era-existing vanilla conditions; this is a source-arithmetic witness, not a simulated trajectory claim.
+
+## Provenance limits
+
+The assigned canonical source files were read-only and every cited `Entity.java` SHA-256 matched its local source manifest/provenance entry. The 1.13.2, 1.14.4 and Mojmap 1.15.2/1.16.5/1.17.1 local provenance records are summary metadata rather than full retained original command/build logs; the 1.17 and 1.14 Yarn per-source provenance is local and records the source hash but does not present the same version/mapping metadata schema. The checked-out namespaces/version directories and mappings are recorded above, but these limits mean the local metadata alone does not independently re-establish every upstream artifact chain. No online mappings or concrete implementation were consulted.

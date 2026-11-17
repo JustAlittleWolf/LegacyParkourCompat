@@ -1,0 +1,28 @@
+# Independent source verdict: jump-boost addition precision
+
+**Disposition: ACCEPT THE ARITHMETIC FINDING; CORRECT THE 1.17 PROVENANCE CAVEAT BEFORE FREEZE.**
+
+Bound draft: `jump-boost-range-source/comparison.md`, SHA-256 `c3956b8d960cbf10f6c20e6ea2a56c108facff36da1e5d98baca16f73d5bb7de`.
+
+## Claim-by-claim review
+
+- **1.12.2 and 1.13.2 float addition — confirmed.** `LivingEntity.jump()` assigns `getJumpStrength()` (`0.42F`) to float `velocityY`, then adds `(amplifier + 1) * 0.1F` back into that float. The local release-root `ornithe-feather.ready.json` and `.provenance.json` identify the exact releases and Feather mapping builds; the source-manifest SHA-256 values in the draft match the ready records. The inspected `LivingEntity.java` hashes match the draft.
+- **1.14.4 float addition — confirmed.** The active-effect branch evaluates `getJumpStrength() + 0.1F * (amplifier + 1)` into float `f`; the non-effect branch assigns the float base. The draft's `ornithe-feather` source path, hash, and manifest digest match that exact locally ready mapping. (The release also has a ready Mojmap mapping, which is not the mapping cited for this check.)
+- **1.15.2, 1.16.5, and 1.17 float addition — confirmed.** In each inspected `LivingEntity.jumpFromGround()`, `f` and `getJumpPower()` are float; the `0.1F` product is float; compound assignment rounds into `f` before it is passed to the double-valued vector setter. The release-root Mojmap ready/provenance records and source-manifest digests support 1.15.2 and 1.16.5. For 1.17, see the necessary caveat correction below.
+- **1.17.1 binary64 addition with binary32 boost product — confirmed.** `getJumpBoostPower()` has return type `double`, but its conditional expression computes the nonzero product with `0.1F`; `jumpFromGround()` stores `getJumpPower() + getJumpBoostPower()` in `double d` and passes `d` to `setDeltaMovement`. Thus the float base and already-float-rounded boost are widened before the addition. The checked Mojmap file hash and ready source-manifest digest match.
+- **Effect gate and meaningful path — confirmed.** With no Jump Boost, the helper returns `0.0`; adding zero to the widened float base leaves it unchanged. With active Jump Boost amplifier 0, the float boost is nonzero and the precision distinction is reachable. The local-player input is copied to `jumping`, `LocalPlayer.aiStep()` calls `super.aiStep()`, and `Player.aiStep()` calls its superclass. `LivingEntity.aiStep()` invokes `jumpFromGround()` on the grounded jump branch when the jump delay is zero (subject to its fluid branch); the method writes the changed immediate vertical delta. No trajectory simulation follows from this review.
+- **Block-factor premise — confirmed for ordinary support.** `getJumpPower()` is `0.42F * getBlockJumpFactor()`. In 1.16.5/1.17/1.17.1, the entity method reads the current and movement-supporting blocks and falls back to the support block when the current block factor is 1.0. The normal full-block case yields factor 1.0, so the stated `0.42F` witness is reachable with ordinary vanilla state.
+- **Numeric witness — confirmed.** Binary32 operands are `0.41999998688697815` and `0.10000000149011612`. A float sum is `0.5199999809265137` (`0x3f051eb8`); widening and adding the operands in binary64 gives `0.5199999883770943` (`0x3fe0a3d704000000`). The difference is `7.450580596923828e-9`, one eighth of the binary32 ULP at that magnitude. These are immediate stored jump-velocity values, not simulated positions.
+- **Cutover and version scope — confirmed with bounded wording.** The checked predecessor body is float in 1.17, and the next release body is double-add in 1.17.1. This establishes the changed operation at the 1.17 → 1.17.1 boundary and supports the predecessor/successor cutover. It does not establish behavior in uninspected versions after 1.17.1 or make the sparse earlier samples continuous proof for every intervening release.
+
+## Required correction: 1.17 evidence
+
+The draft says 1.17 lacks `mojmap.ready.json`, `mojmap.provenance.json`, and `mojmap.sources.sha256`, and concludes its publication/decompile identity and whole-tree integrity cannot be confirmed. The three release-root files are indeed absent, but this conclusion overlooks `decompiled_minecraft/1.17/mojmap/.decompile-provenance.json`.
+
+That hidden record pins the 1.17 version manifest URL/hash (`.../1.17.json`, SHA-256 `537c6fa7e6ab13caa76ce2e84e4748882d36fcd5a076fa6903f894880e1df0f6`), client jar/hash, and Mojang mapping text/hash (`client.txt`). Its `sources` inventory has 4,141 entries and records `LivingEntity.java` SHA-256 `8e81e5f1317d154fa41b676721ff581badd46296f77bcebcadb3c63448e528ed`, matching both the local file and the draft. Thus the source is tied to an exact 1.17 input/mapping identity and the source tree has a per-file integrity inventory. The evidence format is a nested decompiler provenance record rather than the release-root ready marker/manifest used by adjacent versions; describe that distinction, but do not label 1.17 conditional or unidentified.
+
+## Final assessment
+
+The precision difference, operation ordering/types, reachability, numeric witness, and 1.17.1 boundary are source-grounded. Update the 1.17 paragraph to cite the hidden `.decompile-provenance.json` and remove the claim that its source identity/tree integrity are unconfirmed. Keep the conclusion bounded to checked versions and do not extrapolate beyond 1.17.1.
+
+Static source/provenance review only; no product files, wiki/backlog/history, tests, launches, or source generation were read or used.

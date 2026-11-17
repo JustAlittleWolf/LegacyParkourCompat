@@ -1,0 +1,35 @@
+# Spectator camera following across dimensions: source comparison
+
+Terminal status: **COMPLETED**
+
+## Scope and verdict
+
+Compared exact Mojmap decompilations for 1.21.5, 1.21.6, 1.21.7, and 1.21.8. The requested spectator-camera path does not contain a changed direct client-side writer of the local player’s position, velocity, or pose across these versions. The relevant client response is unchanged: a player-position packet applies absolute/relative position, velocity, and rotation to the local player when not riding; a respawn response recreates the local player and either retains movement/rotation state under keep flag `0x02` or resets position and yaw; a set-camera packet changes the camera entity after looking it up in the current client level.
+
+No pose write occurs in `handleMovePlayer`. Respawn’s keep branch copies nondefault entity data, which preserves nondefault synchronized entity data (no direct setPose call occurs in this handler), but the operation is present with the same gate and order at all four versions. The camera handler itself only delegates the entity as camera target; it does not write local player position, velocity, or pose.
+
+On the server, `ServerPlayer.setCamera` calls the server transfer operation with the selected target’s server level and coordinates, then sends the set-camera packet and resets connection tracking. `ServerPlayer.teleportTo` can reset the camera to the player when its reset-camera argument is true. These are authoritative server transfer/camera-selection operations, not client movement replay, and their relevant behavior is unchanged in this four-version sample. No independent changed client position/velocity/pose finding is supported here; no exact source cutover exists for the camera path.
+
+## Exact source identities
+
+All sides are the canonical `decompiled_minecraft/<version>/mojmap/` sources, Mojmap naming, with hashes checked against the source hash manifests or class-local `.decompile-provenance.json` `sources` entry. Versions 1.21.5 and 1.21.8 use the repository `mojmap.provenance.json` exact-run records (Vineflower 1.12.0, Mapping IO 0.9.1); 1.21.6 and 1.21.7 use their class-local provenance records (Vineflower 1.12.0, Mapping IO 0.9.1). The 1.21.6 client provenance identifies Mojang `client.jar` SHA-256 `9592df8587d6d3ec0334c873ad432dc76006d6129afdce9a7eac52638339a24a` and `client.txt` SHA-256 `2ff82b34ce5f849aaafdff51e23b9448c4263881238b780a441fe1061a6fc261`; 1.21.7 identifies `client.jar` `6d0aa64c6a0aee3270253317f51e9e816f94cd3b16b44f5d605615c39fc62fb9` and `client.txt` `328f2c5849c7c5fc4f2b1eae4f74a7cfe6bb337c7938242ac5c4f9eac89b1e50`.
+
+SHA-256 of inspected complete source files:
+
+| Version | `ClientPacketListener.java` | `ServerPlayer.java` |
+|---|---|---|
+| 1.21.5 | `284f34159a1baf30b6b540751ad2fa62344c179d5ed6a7bbc5c888665779617` | `81ec90de6bf1521f45f1552c60af1ebb1a83fbcfa2eefb41b99e25b99d2f0d1b` |
+| 1.21.6 | `a66556678a93c63c0ceb8953f25261b82bf3bb1971048fbc15b177c6dffea8cd` | `1933118f0445fcb08dcdd0a5abd9e658d8669c210ea8ce9dfbf206d6b7193612` |
+| 1.21.7 | `a66556678a93c63c0ceb8953f25261b82bf3bb1971048fbc15b177c6dffea8cd` | `1933118f0445fcb08dcdd0a5abd9e658d8669c210ea8ce9dfbf206d6b7193612` |
+| 1.21.8 | `a66556678a93c63c0ceb8953f25261b82bf3bb1971048fbc15b177c6dffea8cd` | `1933118f0445fcb08dcdd0a5abd9e658d8669c210ea8ce9dfbf206d6b7193612` |
+
+## Paired source evidence
+
+- **Clientbound player-position response:** `net/minecraft/client/multiplayer/ClientPacketListener.java`, `handleMovePlayer` and `setValuesFromPositionPacket`: 1.21.5 lines 720–750; 1.21.6/1.21.7/1.21.8 lines 769–799. On the same non-passenger gate, the handler calls `setValuesFromPositionPacket(change, relatives, player, false)`, acknowledges the teleport, and sends the resulting position/rotation. The helper calculates an absolute `PositionMoveRotation`; because the fourth argument is `false`, it takes the direct branch, writes position and delta movement, writes yaw and pitch, recalculates old position/rotation, and returns false. The complete method/helper bodies are byte-identical across all four versions’ `ClientPacketListener.java` files.
+- **Respawn retain/reset response:** same file, `handleRespawn`: 1.21.5 lines 1152–1227; 1.21.6/1.21.7/1.21.8 lines 1201–1277. Dimension inequality controls new client-level construction, not an alternate player movement procedure. The handler clears the camera entity before constructing the replacement local player, then sets both player and camera to the replacement. With keep flag `0x02`, it copies nondefault entity data, delta movement, yaw, and pitch. Without it, it calls `resetPos()` and sets yaw to `-180.0F`. This retain/reset behavior is unchanged across the sample. The `LocalPlayer` factory call does change: 1.21.5 passes current shift-key state and sprinting, while 1.21.6+ passes `getLastSentInput()` and sprinting. This is an adjacent input-state difference, first observed at 1.21.6; it is not a direct position/velocity/pose response to camera selection. No trajectory claim is made.
+- **Client camera target response:** same file, `handleSetCamera`: 1.21.5 lines 1689–1695; 1.21.6/1.21.7/1.21.8 lines 1753–1759. It resolves packet entity ID in `this.level` and calls `minecraft.setCameraEntity(entity)` only when resolution succeeds. It does not write the local player’s movement or pose state; this handler body is unchanged.
+- **Authoritative server camera transfer:** `net/minecraft/server/level/ServerPlayer.java`, `teleportTo(ServerLevel, ...)` and `setCamera`: 1.21.5 lines 1537–1550 and 1749–1763; 1.21.6/1.21.7/1.21.8 lines 1576–1589 and 1788–1802. `teleportTo` optionally invokes `setCamera(this)` before superclass transfer when its boolean flag is true. `setCamera` changes the target, teleports the server player to the target’s `ServerLevel` and coordinates when available, moves chunk tracking for a nonnull target, sends `ClientboundSetCameraPacket`, and resets server connection position tracking. This behavior is semantically unchanged in the four exact versions. It is authoritative transfer and packet setup rather than a historical client movement writer.
+
+## Bounded witness
+
+For the same non-passenger local client player and same `ClientboundPlayerPositionPacket` (`change`, `relatives`, and teleport ID), each inspected version executes the same helper and direct writes because the caller passes `false`; this witness needs no trajectory inference. For the same respawn packet and prior player state, each version clears then restores the camera to the newly created local player; the same keep-bit branch retains entity data/velocity/rotation or resets position/yaw. `handleSetCamera` adds only a camera-entity selection when the referenced entity exists in the current client level. Thus the observed camera-following path has no version-differing client position/velocity/pose response across the bounded sample.
