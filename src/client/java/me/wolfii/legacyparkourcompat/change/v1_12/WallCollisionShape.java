@@ -104,7 +104,7 @@ public final class WallCollisionShape implements WallCollisionShapeHook {
         if (historicalMaxY.isEmpty()) {
             throw new IllegalStateException("Historical wall collision height is unresolved at V1_12");
         }
-        VoxelShape oldShape = WallCollisionGeometry.shape(completeHistoricalMask.getAsInt());
+        VoxelShape oldShape = WallCollisionGeometry.shape(completeHistoricalMask.getAsInt() | restoredConnectionMask);
         return Optional.of(Shapes.box(
             oldShape.min(Direction.Axis.X), 0.0, oldShape.min(Direction.Axis.Z),
             oldShape.max(Direction.Axis.X), historicalMaxY.getAsDouble(), oldShape.max(Direction.Axis.Z)
