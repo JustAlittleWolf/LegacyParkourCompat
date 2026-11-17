@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.PlayerCorrectionContext;
+import me.wolfii.legacyparkourcompat.mechanic.hook.network.DirectPlayerPositionCorrectionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ForcedRotationPitchHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionPositionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionRotationHook;
@@ -17,11 +18,26 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.Set;
 
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin {
+    // 1.21.1 handleMovePlayer applies the correction regardless of riding state.
+    @Redirect(
+        method = "handleMovePlayer(Lnet/minecraft/network/protocol/game/ClientboundPlayerPositionPacket;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isPassenger()Z")
+    )
+    private boolean legacyParkourCompat$applyHistoricalPassengerGate(Entity entity) {
+        return MovementRuntime.find(DirectPlayerPositionCorrectionHook.class, entity)
+            .map(hook -> {
+                hook.preparePassengerCorrection(entity);
+                return hook.applyToPassenger() ? false : entity.isPassenger();
+            })
+            .orElseGet(entity::isPassenger);
+    }
+
     // Separate from position corrections: keep native yaw, old rotation and reply.
     @WrapOperation(
         method = "handleRotatePlayer(Lnet/minecraft/network/protocol/game/ClientboundPlayerRotationPacket;)V",
@@ -51,6 +67,10 @@ public abstract class ClientPacketListenerMixin {
     ) {
         LocalPlayer previous = PlayerCorrectionContext.player();
         PlayerCorrectionRotationHook.Angles historicalAngles = null;
+        DirectPlayerPositionCorrectionHook positionCorrection = entity instanceof LocalPlayer player
+            ? MovementRuntime.find(DirectPlayerPositionCorrectionHook.class, player).orElse(null)
+            : null;
+        Vec3 previousDeltaMovement = positionCorrection == null ? null : entity.getDeltaMovement();
         if (!interpolate && entity instanceof LocalPlayer player && MovementRuntime.appliesTo(player)) {
             PlayerCorrectionContext.set(player);
             historicalAngles = MovementRuntime.find(PlayerCorrectionRotationHook.class, player)
@@ -62,6 +82,9 @@ public abstract class ClientPacketListenerMixin {
         }
         try {
             boolean result = original.call(change, relatives, entity, interpolate);
+            if (positionCorrection != null) {
+                entity.setDeltaMovement(positionCorrection.correctedDeltaMovement(previousDeltaMovement, relatives));
+            }
             if (historicalAngles != null) {
                 entity.setYRot(historicalAngles.yRot());
                 entity.setXRot(historicalAngles.xRot());
