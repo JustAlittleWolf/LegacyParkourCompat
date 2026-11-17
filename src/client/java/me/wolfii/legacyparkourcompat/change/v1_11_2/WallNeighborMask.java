@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -14,13 +15,15 @@ import java.util.OptionalInt;
 import java.util.Set;
 
 /**
- * Selects the complete 1.11.2 wall mask for the mapped wall and stair domain.
+ * Selects the complete 1.11.2 wall mask for the mapped wall, stair and gate domain.
  *
  * <p>Ornithe Feather 1.11.2 and 1.12.2
  * {@code net.minecraft.block.WallBlock.shouldConnectTo} classify the four
- * neighbors before {@code getShapeIndex} consumes all four bits. For air and
- * mapped stairs the 1.11.2 {@code StairsBlock.isCube} result is false, so the
- * complete mask is zero. The 26.2 unobfuscated
+ * neighbors before {@code getShapeIndex} consumes all four bits. Its
+ * {@code shouldConnectTo(WorldView, BlockPos)} accepts every neighboring
+ * {@code FenceGateBlock} regardless of facing; the 1.12 overload adds a
+ * direction and accepts only the gate's matching axis. For air and mapped
+ * stairs the 1.11.2 {@code StairsBlock.isCube} result is false. The 26.2 unobfuscated
  * {@code BlockStateData.register/create} mappings identify the current wall
  * and stair keys. Current {@code WallBlock} and {@code StairBlock} defaults
  * plus the {@code BlockState.CODEC} decode path establish
@@ -58,20 +61,31 @@ public final class WallNeighborMask implements WallNeighborMaskHook {
         if (!TARGET_KEYS.contains(key(target)) || !isFalseWaterlogged(target)) {
             return OptionalInt.empty();
         }
-        if (!isAdmittedNeighbor(level.getBlockState(pos.north()))
-            || !isAdmittedNeighbor(level.getBlockState(pos.east()))
-            || !isAdmittedNeighbor(level.getBlockState(pos.south()))
-            || !isAdmittedNeighbor(level.getBlockState(pos.west()))) {
+        BlockState north = level.getBlockState(pos.north());
+        BlockState east = level.getBlockState(pos.east());
+        BlockState south = level.getBlockState(pos.south());
+        BlockState west = level.getBlockState(pos.west());
+        if (!isAdmittedNeighbor(north)
+            || !isAdmittedNeighbor(east)
+            || !isAdmittedNeighbor(south)
+            || !isAdmittedNeighbor(west)) {
             return OptionalInt.empty();
         }
 
-        // Every admitted old predicate result is false; return the complete mask.
-        return OptionalInt.of(0);
+        int mask = 0;
+        if (north.getBlock() instanceof FenceGateBlock) mask |= 1 << 2;
+        if (east.getBlock() instanceof FenceGateBlock) mask |= 1 << 3;
+        if (south.getBlock() instanceof FenceGateBlock) mask |= 1;
+        if (west.getBlock() instanceof FenceGateBlock) mask |= 1 << 1;
+        return OptionalInt.of(mask);
     }
 
     private static boolean isAdmittedNeighbor(BlockState state) {
         String key = key(state);
         if ("minecraft:air".equals(key)) {
+            return true;
+        }
+        if (state.getBlock() instanceof FenceGateBlock) {
             return true;
         }
         return STAIR_KEYS.contains(key) && isFalseWaterlogged(state);

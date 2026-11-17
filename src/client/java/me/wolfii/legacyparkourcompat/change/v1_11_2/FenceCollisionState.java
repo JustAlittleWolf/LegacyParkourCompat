@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.FenceCollisionStateHook
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.CrossCollisionBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +20,10 @@ import java.util.Set;
  *
  * <p>Ornithe Feather 1.11.2 {@code block/FenceBlock.java},
  * {@code addCollisions}, {@code shouldConnectTo} and {@code resolveVirtualProperties}
- * use the material/full-cube test; {@code block/StairsBlock.java},
+ * use the material/full-cube test and accept every {@code FenceGateBlock}
+ * without a facing check. In 1.12, {@code FenceBlock.shouldConnectTo} receives
+ * the adjacent direction and gates connect only on their matching axis.
+ * {@code block/StairsBlock.java},
  * {@code isCube}, rejects stairs. Ornithe Feather 1.12.2
  * {@code block/FenceBlock.java}, {@code shouldConnectTo} and
  * {@code block/StairsBlock.java}, {@code getFaceShape}, add the directional-face
@@ -90,6 +94,9 @@ public final class FenceCollisionState implements FenceCollisionStateHook {
             if (!(neighbor.getBlock() instanceof FenceBlock) || isWaterlogged(neighbor)) {
                 return null;
             }
+            return Connection.CONNECTED;
+        }
+        if (neighbor.getBlock() instanceof FenceGateBlock) {
             return Connection.CONNECTED;
         }
         if (LEGACY_STAIR_IDS.contains(id)) {
