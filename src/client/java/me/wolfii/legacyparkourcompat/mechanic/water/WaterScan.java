@@ -204,7 +204,8 @@ public final class WaterScan {
                                 continue;
                             }
                             if (!player.getAbilities().flying) {
-                                Vec3 flow = fluidState.getFlow(level, pos);
+                                Vec3 flow = MovementRuntime.withLocalPlayerFluidCurrent(player,
+                                    () -> fluidState.getFlow(level, pos));
                                 currentContributions.add(new FluidCurrentAggregationHook.Contribution(
                                     y, fluidHeight, flow));
                             }
