@@ -1,15 +1,9 @@
-# extended piston-base collision shape
+# Stationary extended piston-base collision provider
 
-1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/block/PistonBaseBlock.java`, `public Box getCollisionShape(World world, BlockPos pos, BlockState state) {`, lines 217-220.
-1.8.9, ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny: `1.8.9/ornithe-feather/net/minecraft/block/PistonBaseBlock.java`, `public void addCollisions(World world, BlockPos pos, BlockState state, Box shape, List<Box> collisions, Entity entity) {`, lines 211-214.
-1.9.4, ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny: `1.9.4/ornithe-feather/net/minecraft/block/PistonBaseBlock.java`, `public void addCollisions(BlockState state, World world, BlockPos pos, Box shape, List<Box> collisions, @Nullable Entity entity) {`, lines 76-78.
+1.8.9, Ornithe Feather Gen2 build 2. `net/minecraft/block/PistonBaseBlock.java`, `updateShape` 173–203, `addCollisions` 211–214 and `getCollisionShape` 217–219. `net/minecraft/block/Block.java`, `addCollisions` 339–344.
 
-Difference: - 1.8.9 source: `1.8.9/ornithe-feather/net/minecraft/block/PistonBaseBlock.java` `updateShape()` reads the live block state, and for an extended piston sets the bound 0.25 short of the facing side; otherwise it sets a full cube (174-203). `getCollisionShape()` calls that resolver (216-219).
+1.9 and 1.9.4, Ornithe Feather Gen2 build 2. `net/minecraft/block/PistonBaseBlock.java`, shape constants and `getShape` 29–66 / 30–67, and `addCollisions` 75–77 / 76–77. The relevant collision behavior persists through the checked 1.9 patch line.
 
-Its `addCollisions()` then dispatches through the collision method (211-214).
+In 1.8.9, collision collection resets the shared bounds and dispatches through the overridden collision method. That method refreshes the bounds from the live world state at the queried position before the base method builds the translated box. Starting in 1.9, `getShape` selects the same axis-aligned box from the queried state and `addCollisions` uses that shape.
 
-- 1.9.4 source: paired `PistonBaseBlock.java` no `getShape()`/`getCollisionShape()` override exists. 1.9.4 `addCollisions()` passes `state.getShape(world,pos)` to collision assembly (76-78), which reaches the inherited full-cube provider. 1.9.4 `Block.java` full-cube provider and registration are under
-
-Movement meaning: - Disposition: source-level collision-provider delta established for every extended facing.
-
-World list composition, adjacent piston-head geometry and final player clipping remain separate open dependencies.
+For a valid stationary piston or sticky-piston state, all six extended facings occupy the full block minus the facing-side quarter. Retracted pistons occupy a full cube. The provider architecture changes at 1.9. The occupied geometry agrees when the queried state matches the world state. Head and moving-piston shapes are separate operations.
