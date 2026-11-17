@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
 import me.wolfii.legacyparkourcompat.mechanic.EntityInsideBlocksQueryBoxContext;
 import me.wolfii.legacyparkourcompat.mechanic.FluidCurrentCutoffContext;
+import me.wolfii.legacyparkourcompat.mechanic.HoneyContactScope;
 import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
 import me.wolfii.legacyparkourcompat.mechanic.fluid.WaterFirstLavaProjectionContext;
 import me.wolfii.legacyparkourcompat.mechanic.fluid.LavaPresenceLatchContext;
@@ -90,7 +91,9 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Coerce;
@@ -110,6 +113,10 @@ import java.util.List;
 @Mixin(Entity.class)
 abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjectionContext,
     LavaPresenceLatchContext, MovementCallbackSegmentsAccess {
+    @Shadow
+    @Final
+    private ArrayDeque<?> movementThisTick;
+
     @Unique
     private Vec3 legacyparkourcompat$pistonStuckSpeedMultiplier;
 
@@ -330,7 +337,8 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
                 .map(hook -> hook.suppressPostTravel(entity))
                 .orElse(false);
         if (!historicalTraversal) {
-            original.call(entity, movements, effectCollector);
+            HoneyContactScope.duringInsideScan(entity, movements,
+                () -> original.call(entity, movements, effectCollector));
         }
     }
 
@@ -968,7 +976,11 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
             shift = At.Shift.BEFORE
         )
     )
-    private void legacyparkourcompat$applyHistoricalBlockCallbacks(MoverType moverType, Vec3 movement, CallbackInfo ci) {
+    private void legacyparkourcompat$applyHistoricalBlockCallbacks(
+        MoverType moverType, Vec3 movement, CallbackInfo ci,
+        @Share("requestedMovement") LocalRef<Vec3> requested,
+        @Share("resolvedMovement") LocalRef<Vec3> resolved
+    ) {
         Entity entity = (Entity)(Object)this;
         if (entity instanceof Player player && MovementRuntime.appliesTo(player)) {
             BlockPos onPos = new BlockPos(
@@ -1002,6 +1014,10 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
                     entity,
                     state -> ((EntityInvoker)(Object)entity).legacyparkourcompat$invokeOnInsideBlock(state)
                 ));
+            if (moverType == MoverType.SELF && requested.get() != null && requested.get().equals(resolved.get())
+                && !entity.onGround() && this.movementThisTick.size() == 1) {
+                HoneyContactScope.afterSingleMove(entity, this.movementThisTick.getFirst());
+            }
         }
         MovementRuntime.find(AfterCollisionHook.class, entity)
             .ifPresent(behavior -> behavior.afterCollision(entity));
