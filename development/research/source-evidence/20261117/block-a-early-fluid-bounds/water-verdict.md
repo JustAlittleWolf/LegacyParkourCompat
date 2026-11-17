@@ -1,0 +1,36 @@
+# Independent source verdict: early water drag
+
+**Verdict: ACCEPT the bounded water-current admission claim.** The exact source difference is present from 1.8.9 to 1.9, persists through 1.10.2, and directly changes the flow-vector contribution to a non-flying local player at an exact integral contracted upper face. I found no separate current-direction or accumulation change in the checked interval.
+
+## Immutable evidence and source identity
+
+The audited inputs were rehashed before reading and again at close:
+
+- `comparison.md`: `1ef1b91037d44fd17e64daadc8e29876420993cc1f525f7a95044f214febb9a4`
+- `findings/1.8.9--1.9/upper-bound-liquid-admission.md`: `a82ce04764f3d0c5f2155c0fda86b0cf29aa460d39be2ac3bd296baef32cd330`
+
+My frozen Feather source-roster SHA-256 is `ef0bc29a5207f50b59ea200a1ffd4ef60495fe5b113526b33a7403401b036b46`. The roster covers the sorted `.java` path/hash set, version-root sidecars, and in-tree provenance-manifest identities for `1.8.8`, `1.8.9`, `1.9`, `1.9.1`, `1.9.2`, `1.9.3`, `1.9.4`, and `1.10.2`, all under `ornithe-feather`. All 14,164 Java files matched their respective in-tree `.decompile-provenance.json` or version-root `ornithe-feather.sources.sha256` manifest, with no missing or extra source files. The cited `World.java`, `LiquidBlock.java`, `Entity.java`, `Box.java`, and `PlayerEntity.java` hashes match those manifests in each release.
+
+## Water admission and velocity result
+
+In 1.8.8/1.8.9, `Entity.checkWaterCollisions` passes `getShape().grown(0.0, -0.4F, 0.0).contract(0.001, 0.001, 0.001)` to `World.applyLiquidDrag` (`Entity.java:746–760`; `World.java:1486–1527`). The box contraction subtracts `0.001` from each maximum face (`Box.java:176–184`). `applyLiquidDrag` sets the exclusive maxima with `floor(bounds.max + 1.0)`, loops with `<`, checks the block material against `Material.WATER`, computes the liquid top as `p + 1 - getHeightLoss(level)`, and admits the block when `l >= d` (`World.java:1486–1527`).
+
+In 1.9 onward, the player still supplies the same grown-and-contracted box; uniform `contract(0.001)` delegates to `expand(-amount)` and `grown` (`Entity.java:845–861`; `Box.java:98–110, 222–224`). `World.applyLiquidDrag` instead sets each exclusive maximum to `ceil(bounds.max)` (`World.java:1554–1596 in 1.9–1.9.2; :1560–1602 in 1.9.3–1.9.4; :1570–1612 in 1.10.2`). The loop and liquid-height predicate otherwise retain the same order. Method-body hashes show the water-contact call is unchanged from 1.9 through 1.10.2; the 1.10.2 velocity write uses the `0.014` literal inline, with the same result.
+
+For an exact maximum coordinate `N`, the old maximum is `floor(N + 1) = N + 1`, so the loop visits cell coordinate `N`; the newer maximum is `ceil(N) = N`, so the exclusive loop skips that cell. The unchanged height-loss function maps level 1 to `(1 + 1) / 9.0F` (`LiquidBlock.java:41–47 in 1.8.x; :47–53 in 1.9–1.9.2; :49–55 in 1.9.3–1.10.2`). Thus the old vertical gate admits level-1 water at `y=N`, because `N+1 >= N+1-(2/9.0F)`. The newer scan omits the cell before reaching the height test.
+
+The admitted cell contributes `LiquidBlock.getFlow` to the accumulated vector. If that sum is nonzero and `entity.hasLiquidCollision()` is true, the world normalizes the sum and adds its components multiplied by `0.014` directly to velocity (`World.applyLiquidDrag` ranges above). For a level-1 cell next to a level-0 source, `getLiquidDepth` returns 1 for the cell and 0 for the source; the neighbor difference contributes a nonzero vector. The player override returns `!abilities.flying` in every checked release (`PlayerEntity.java:1617–1619 in 1.8.x; :1710–1712 in 1.9–1.9.2; :1717–1719 in 1.9.3–1.9.4; :1736–1738 in 1.10.2`).
+
+### Deterministic local-player witness
+
+The ordinary local-player call path reaches the inherited entity water check: `LocalClientPlayerEntity.tick()` calls `super.tick()` (1.8.9 `:105–108`, 1.9 `:141–144`); `PlayerEntity.tick()` and `LivingEntity.tick()` continue through their super calls. In 1.8.x the check occurs in `Entity.tick`; from 1.9 it occurs in `Entity.baseTick`, invoked by `Entity.tick`. `LocalClientPlayerEntity` extends `ClientPlayerEntity`, which extends `PlayerEntity`. The standing player size is `0.6F × 1.8F` (`PlayerEntity.java:417` in 1.8.9 and `:387` in 1.9), and `Entity.setPosition` constructs the shape using the supplied double position and height (`Entity.java:226–232` in 1.8.9; :274–280 in 1.9).
+
+A concrete static witness uses `x=z=0.5`, standing height `1.8F`, and `y=62.60100005364418`. The source-ordered double calculations produce shape max Y `64.40100000596047`, then max Y `64.001` after `.grown(0.0, -0.4F, 0.0)`, then exactly `64.0` after contraction. The contracted X/Z footprint remains inside cell `(0,64,0)`. Put level-1 water there and a level-0 source at `(1,64,0)`, with other neighboring/current cells empty and the area loaded. In the old scan only the level-1 cell contributes; its east-neighbor depth difference gives flow `(-1,0,0)`. For a non-flying player with initial velocity `(0,0,0)`, the direct water operation writes `(-0.014,0,0)`. The 1.9+ scan excludes that cell and leaves this operation's velocity contribution at zero. This is the deterministic velocity delta at the source operation; later same-tick travel can further process velocity.
+
+The flow calculation itself has no additional direction change in this interval. `Direction.Plane.HORIZONTAL` is ordered NORTH, EAST, SOUTH, WEST in all eight versions. The 1.8.x vector additions call immutable `Vec3d.add` in that order; 1.9 scalar component accumulation uses the same integer direction-offset products in the same order. `getHeightLoss` is unchanged. In 1.9.3, `getFlow` takes a `BlockState`; `applyMaterialDrag` supplies `world.getBlockState(pos)`, preserving the current cell state for a stable world snapshot (`LiquidBlock.java:131–177`). The neighboring-depth arithmetic, falling-liquid impulse, and final normalization match. The 1.10.2 direct `0.014` literal is numerically the same as its local constant.
+
+## Separate operation and unresolved gates
+
+Lava presence is a separate operation, not evidence for the water-current finding. `Entity.isInLava()` uses `World.containsMaterial` with a different box (`getShape().grown(-0.1F, -0.4F, -0.1F)`) and a material-presence loop; it does not call `applyLiquidDrag`, apply liquid-height admission, accumulate flow, or add the `0.014` velocity vector. Its own maximum-cell formula also changes from `floor(max + 1.0)` to `ceil(max)` at the same exact-integral boundary (`World.containsMaterial`: `1.8.x :1529–1549`, `1.9–1.9.2 :1598–1620`, `1.9.3–1.9.4 :1604–1626`, `1.10.2 :1614–1636`). That is a distinct material-presence/contact candidate and needs a separate disposition or bounded review; it should not be merged into this water-current claim.
+
+The 1.9+ boat guard in `checkWaterCollisions` is also separate from the non-riding local-player witness and was not evaluated as an on-boat operation. This verdict closes only the assigned water-current/contact-admission slice, not full tick coverage, pair freeze, runtime parity, or non-player callers of `applyLiquidDrag`. No implementation, build, tests, runtime, gameplay, decompilation, or network access was used.
