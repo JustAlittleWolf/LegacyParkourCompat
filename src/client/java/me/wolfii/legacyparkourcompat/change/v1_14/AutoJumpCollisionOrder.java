@@ -9,10 +9,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -24,22 +26,24 @@ import java.util.List;
 
 /**
  * Reproduces the old AutoJump full-cube grid aggregate only when its complete
- * query envelope is loaded, interior, entity-free, and contains only Stone,
- * Dirt, Cobblestone, Oak Planks, or air.
+ * query envelope is loaded, interior, entity-free, and contains only the
+ * supported ordinary full-cube blocks or air.
  * Cells where the 1.13 and 1.13.1 pruning rules disagree must be air.
  * Other queries retain the native iterable and object identities.
  *
  * <p>For the supported block providers, exact 1.14 Ornithe Feather Gen2 build 2,
  * {@code net.minecraft.block.Block.getShape} returns the shared
  * {@code VoxelShapes.block()} singleton and {@code Block.getCollisionShape}
- * returns that shape for collidable blocks. {@code Blocks} registers
- * {@code dirt}, {@code cobblestone} and {@code oak_planks} as ordinary
- * {@code Block} instances. Exact 1.14.1
+ * returns that shape for collidable blocks. {@code Blocks} registers the
+ * supported providers as ordinary full-cube blocks. Exact 1.14.1
  * Yarn build 10, {@code Block.getOutlineShape} and {@code Block.getCollisionShape}
- * use the shared {@code VoxelShapes.fullCube()} singleton; {@code Blocks}'
- * registrations for {@code dirt}, {@code cobblestone} and {@code oak_planks}
- * likewise use ordinary {@code Block} instances. Runtime checks keep the
- * product's canonical {@code Shapes.block()} identity requirement. Exact 1.13,
+ * use the shared {@code VoxelShapes.fullCube()} singleton, and
+ * {@code Blocks} registers the same providers. Sandstone, stone bricks,
+ * obsidian, iron, gold and diamond blocks, white wool and white concrete
+ * also have these default providers in the exact 1.13 through 1.13.2
+ * Ornithe Feather Gen2 build 2 {@code Block} registrations and
+ * {@code Block.getCollisionShape}. Runtime checks require the canonical
+ * {@code Shapes.block()} identity. Exact 1.13,
  * 1.13.1 and 1.13.2 Ornithe Feather Gen2 build 2,
  * {@code net.minecraft.world.WorldView.getBlockCollisions}, and exact 1.14
  * Ornithe Feather Gen2 build 2, {@code net.minecraft.world.WorldView.getCollisions};
@@ -127,8 +131,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                     if (state.isAir()) {
                         continue;
                     }
-                    if (!(state.is(Blocks.STONE) || state.is(Blocks.DIRT)
-                        || state.is(Blocks.COBBLESTONE) || state.is(Blocks.OAK_PLANKS))
+                    if (!isSupportedBlock(state)
                         || state.getCollisionShape(level, pos, context) != Shapes.block()) {
                         return null;
                     }
@@ -190,6 +193,14 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
             }
         }
         return List.copyOf(result);
+    }
+
+    private static boolean isSupportedBlock(BlockState state) {
+        return state.is(Blocks.STONE) || state.is(Blocks.DIRT)
+            || state.is(Blocks.COBBLESTONE) || state.is(Blocks.OAK_PLANKS)
+            || state.is(Blocks.STONE_BRICKS) || state.is(Blocks.SANDSTONE) || state.is(Blocks.OBSIDIAN)
+            || state.is(Blocks.GOLD_BLOCK) || state.is(Blocks.IRON_BLOCK) || state.is(Blocks.DIAMOND_BLOCK)
+            || state.is(Blocks.WOOL.pick(DyeColor.WHITE)) || state.is(Blocks.CONCRETE.pick(DyeColor.WHITE));
     }
 
     private static boolean contains(BitSet cells, int sx, int sy, int sz, int x, int y, int z) {
