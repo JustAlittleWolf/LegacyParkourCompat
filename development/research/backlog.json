@@ -2978,6 +2978,26 @@
             "revision": "e77ffaa5620c8308dc566121011f4745b443a479",
             "path": "development/research/source-evidence/20261117/block-c-player-movement-followup/glide-look-exact-range/verdict.md",
             "sha256": "1f0cc3e38af95aea5a386c729d6eafd1744775ffe83ad1a97ca0114a243eea9a"
+          },
+          "product": {
+            "disposition": "INTEGRATED AND COMPILED for the bounded classic client Elytra look-vector operation",
+            "implementationCommit": "50709449d250645a009ae506b921ac8a3774be21",
+            "integratedCommit": "03dc9f3b5d3ccd6c282cf8f0a1b2e0c8ccfb3ff9",
+            "changes": [
+              "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_10/FloatTableFallFlyingLook.java"
+            ],
+            "hook": "src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/travel/FallFlyingLookHook.java",
+            "compilation": {
+              "revision": "56585180f8984e3f3bb5c341232f902a7bd8e8b1",
+              "tree": "44a3822b7ff3233be3dc6e029ed06896a2a778d1",
+              "outcome": "BUILD SUCCESSFUL with every Gradle Test task disabled and -x test. Combined compile inputs identical."
+            },
+            "integrationReceipt": {
+              "revision": "66c4789b72164f2c2dfe55ed7384b548e0097440",
+              "path": "development/research/source-evidence/20261118/block-c-elytra-look-float-trig/integration-receipt.md",
+              "sha256": "10467bfe18fcfce5b8d05bb6af2d4c952d12bf3a14630ac8354decc053a7430f"
+            },
+            "runtimeParity": "unverified"
           }
         }
       ]
@@ -7459,6 +7479,26 @@
             "revision": "e77ffaa5620c8308dc566121011f4745b443a479",
             "path": "development/research/source-evidence/20261117/block-c-player-movement-followup/glide-trig-mid/verdict.md",
             "sha256": "5c7e5102aed63c8444cc2db765f135203c4ff15a7ceb6171191cf67955b7ec6d"
+          },
+          "product": {
+            "disposition": "INTEGRATED AND COMPILED for the bounded classic client Elytra look-vector operation",
+            "implementationCommit": "50709449d250645a009ae506b921ac8a3774be21",
+            "integratedCommit": "03dc9f3b5d3ccd6c282cf8f0a1b2e0c8ccfb3ff9",
+            "changes": [
+              "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_10/FloatTableFallFlyingLook.java"
+            ],
+            "hook": "src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/travel/FallFlyingLookHook.java",
+            "compilation": {
+              "revision": "56585180f8984e3f3bb5c341232f902a7bd8e8b1",
+              "tree": "44a3822b7ff3233be3dc6e029ed06896a2a778d1",
+              "outcome": "BUILD SUCCESSFUL with every Gradle Test task disabled and -x test. Combined compile inputs identical."
+            },
+            "integrationReceipt": {
+              "revision": "66c4789b72164f2c2dfe55ed7384b548e0097440",
+              "path": "development/research/source-evidence/20261118/block-c-elytra-look-float-trig/integration-receipt.md",
+              "sha256": "10467bfe18fcfce5b8d05bb6af2d4c952d12bf3a14630ac8354decc053a7430f"
+            },
+            "runtimeParity": "unverified"
           }
         },
         {
@@ -8583,7 +8623,7 @@
       },
       "boundedSourceVerdicts": [
         {
-          "decision": "ACCEPT exact observed 1.21.10 to 1.21.11 glide trig lookup operation change after checking listed intermediate releases. Product candidate pending.",
+          "decision": "ACCEPT exact observed 1.21.10 to 1.21.11 glide trig lookup operation change after checking listed intermediate releases.",
           "snapshot": {
             "revision": "e77ffaa5620c8308dc566121011f4745b443a479",
             "path": "development/research/source-evidence/20261117/block-c-player-movement-followup/glide-trig-later/comparison.md",
@@ -8593,6 +8633,26 @@
             "revision": "e77ffaa5620c8308dc566121011f4745b443a479",
             "path": "development/research/source-evidence/20261117/block-c-player-movement-followup/glide-trig-later/verdict.md",
             "sha256": "2669e3a9f3f2aa77ab997280054fa3d2eb75e4aa3dad49b2a7a5d18ef93da2a6"
+          },
+          "product": {
+            "disposition": "INTEGRATED AND COMPILED for the bounded classic client Elytra look-vector operation",
+            "implementationCommit": "50709449d250645a009ae506b921ac8a3774be21",
+            "integratedCommit": "03dc9f3b5d3ccd6c282cf8f0a1b2e0c8ccfb3ff9",
+            "changes": [
+              "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_10/FloatTableFallFlyingLook.java"
+            ],
+            "hook": "src/client/java/me/wolfii/legacyparkourcompat/mechanic/hook/travel/FallFlyingLookHook.java",
+            "compilation": {
+              "revision": "56585180f8984e3f3bb5c341232f902a7bd8e8b1",
+              "tree": "44a3822b7ff3233be3dc6e029ed06896a2a778d1",
+              "outcome": "BUILD SUCCESSFUL with every Gradle Test task disabled and -x test. Combined compile inputs identical."
+            },
+            "integrationReceipt": {
+              "revision": "66c4789b72164f2c2dfe55ed7384b548e0097440",
+              "path": "development/research/source-evidence/20261118/block-c-elytra-look-float-trig/integration-receipt.md",
+              "sha256": "10467bfe18fcfce5b8d05bb6af2d4c952d12bf3a14630ac8354decc053a7430f"
+            },
+            "runtimeParity": "unverified"
           }
         },
         {
