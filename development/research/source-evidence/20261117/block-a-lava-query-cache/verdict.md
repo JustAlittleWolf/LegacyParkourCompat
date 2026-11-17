@@ -1,0 +1,76 @@
+# Frozen source roster
+
+Frozen before receipt of immutable draft input. Fingerprint: SHA-256 of the exact UTF-8 LF entry block below (excluding this paragraph): `380c5d10153eac59e14df18f7ae560d5f20171c6385acf7620aaf2a467bf62bc`.
+
+Frozen scope: ordinary LocalPlayer lava-presence supplier query-to-callback/cache behavior; canonical versions/mappings only as assigned.
+1.13 ornithe-feather | net.ornithemc:feather-gen2:1.13+build.2 | sources.sha256=0509c2614b0bb0e616e2ebc6382f8eb5d031b5d86b834a4a6ed7fd96b6d68f1a | provenance=34652aeef6914b5cbff6619ae60a855aa676b2ae1f607eccdaa623ad09dc5e8d
+1.13.1 ornithe-feather | net.ornithemc:feather-gen2:1.13.1+build.2 | sources.sha256=21770b01ff3bf443db2e9e1b6df7db25d2fd6b7a72a86228259269c932d3abba | provenance=c28ed59f2c507b6133f7677742d316d38e9993eaf1fbb6c2054bd68d1085e904
+1.13.2 ornithe-feather | Feather build 2 (provenance mappingArtifacts names; verify exact mapping input after handoff) | sources.sha256=2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211 | provenance=e25950b7855fc4f2aee1a662f0be6b0af9f28788d9e27293075cfc5a3aa5d383
+1.14 ornithe-feather | net.ornithemc:feather-gen2:1.14+build.2 | sources.sha256=68bc39e38bc501e7c9af315de4678263e1a64606b0b9780099187c7984ccbc98 | provenance=bfb011801a64e9afaa4aca43e8a8ed40bf2a02f136ffc02e65b32e79315764fa
+1.14.1 yarn | Yarn 1.14.1+build.10 (intermediary 1.14.1-v2) | source-map-in-hidden-provenance=308537c5adec3104c5ca243eb5010554f00978635ed74f0d7801c804dd4d4907
+1.14.2 yarn | Yarn 1.14.2+build.7 (intermediary 1.14.2-v2) | source-map-in-hidden-provenance=786546f99684423cc2563be45c9c3334dfcc2c7db58ddb74ba39ce403bd0869a
+1.14.3 yarn | Yarn 1.14.3+build.13 (intermediary 1.14.3-v2) | source-map-in-hidden-provenance=81ea0021eb122d4e3340e20d47d6ecb7079365ba767a038d26a8264cddacc28a
+1.14.4 ornithe-feather | Feather build 2 (exact artifact names pinned in provenance) | sources.sha256=717b468536348557f9dae8cf57edccf80ad16eb65e5bef6c60bdb5ea3c9f75bc | provenance=7167b135e0222fcf58ff5f36a36fbb604d5068f63a59165c8c4d18ce7d9b21c9
+1.14.4 mojmap | official Mojang mappings | sources.sha256=af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b | provenance=9d1ad405e1e787d2fca5ed1897e6797b1f3cd79527da50d713232f46e2f30d97
+1.15.2 mojmap | official Mojang mappings | sources.sha256=cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7 | provenance=d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e
+Post-freeze identity check: all assigned roots and reviewed relevant files were verified against their frozen source manifest or embedded provenance source map; the complete source roster and sidecar/provenance digests are recorded below. The 1.13.2 Feather artifacts manifest identifies Feather Gen2 1.13.2+build.2 (client jar SHA-256 `317384d4faccc2939c3b14252993d31745eb42aad59f2f0ea78893cbe4e7283b`; Tiny mapping SHA-256 `b3fd787448aed2c6e115d965d9edbb437ce47794ba63c7883e9014fd41262f71`).
+
+# Independent source audit: lava query and cache
+
+## Audit result
+
+**Verdict:** accept the core 1.13.2 → 1.14 behavior change. Amend the local provenance caveat for 1.14.1–1.14.3: exact Yarn/source identities are available in each tree's hidden `.decompile-provenance.json`, and the reviewed source hashes match its embedded source map.
+
+## Immutable review inputs
+
+- `comparison.md`, SHA-256 `979135c7d5e7dbf100c989a99a0bd6b656b45f11029da20725dcb2183d8f6fde`.
+- `development/research/findings/1.13.2--1.14/lava-presence-collision-cache.md`, SHA-256 `f97b020eb6fad2e25bd05063fa10d90643836c85c53aa07d68eec52327310ee7`.
+- Frozen pre-input source-roster fingerprint: SHA-256 `380c5d10153eac59e14df18f7ae560d5f20171c6385acf7620aaf2a467bf62bc`. The exact roster block is retained below. Source manifests/provenance and both immutable inputs were rehashed after review; all matched the frozen/input digests.
+
+## Claim 1 — exact boundary and changed predicate
+
+**Accepted.** In 1.13, 1.13.1 and 1.13.2 Feather, `Entity.isInLava()` calls `world.containsMaterial(getShape().contract(0.1F, 0.4F, 0.1F), Material.LAVA)` (1.13: `Entity.java:1052–1054`; 1.13.1–1.13.2: `Entity.java:1053–1055`). `Box.contract(dx,dy,dz)` shrinks each side by those amounts (`util/math/Box.java:222–224`). In 1.13.2, `World.containsMaterial` floors each minimum, ceils each maximum, enumerates each axis with an exclusive upper bound, and returns on a `MaterialPredicate` match (`World.java:1310–1332`); `MaterialPredicate.test` compares `blockState.getMaterial() == material` (`block/state/predicate/MaterialPredicate.java:21–27`).
+
+At 1.14, `Entity` holds a boolean, clears it immediately before `checkBlockCollisions()` in the ordinary movement path (`Entity.java:151, 529–531`), exposes it through `isInLava()` (`1002–1008`), and repopulates it during the post-move block scan (`745–769`). `LiquidBlock.onEntityCollision` sets that boolean when its associated fluid matches `FluidTags.LAVA` (`LiquidBlock.java:168–171`). The reviewed 1.14.1–1.14.3 Yarn, 1.14.4 Feather/Mojmap and 1.15.2 Mojmap sources retain this reset → scan → callback → boolean getter operation. The first observed boundary in the assigned endpoints is therefore 1.13.2 → 1.14.
+
+The old query admits blocks inside a box contracted by 0.1 horizontally and 0.4 vertically on each side. The new scan creates positions at `box.min + 0.001` and `box.max − 0.001`, floors each coordinate (`BlockPos.PooledMutable.of/get(double...)`; 1.14.3 Yarn `BlockPos.java:392–394`), iterates both integer endpoints inclusively, and dispatches block callbacks. It only scans when `world.isAreaLoaded(lower, upper)`; because the flag was just cleared, an unloaded scan leaves it false. The collision scan has no fluid-height or contracted-box check. This is a spatial and sampling change; it does not require a new vanilla lava identity.
+
+## Claim 2 — cache lifetime and ordinary local-player witness
+
+**Accepted, with precise timing.** In 1.14.3 Yarn, `Entity.move()` handles the ordinary collision branch, updates the box/position, then clears `inLava` and scans that moved box (`Entity.java:441–545`). Its `noClip` branch returns through a separate box-offset path and skips this scan (`441–445`). A normal nonspectator `PlayerEntity.tick()` sets `noClip = isSpectator()`, hence false (`PlayerEntity.java:192–196`). `ClientPlayerEntity.move()` delegates to `super.move()` (`ClientPlayerEntity.java:834–839`).
+
+For the local camera player, `ClientPlayerEntity.tickNewAi()` copies `input.jumping` to `jumping` (`ClientPlayerEntity.java:588–600`). `LivingEntity.tick()` calls `super.tick()` and then `tickMovement()` (`LivingEntity.java:1972–1974, 2039`); its movement phase evaluates the jump gate before travel (`2197–2220`). Thus the cache written by one movement's post-move scan is consumed by the next movement tick's jump/travel checks. `Entity.setPosition()` rewrites coordinates and the bounding box without clearing or recomputing the cache (`Entity.java:305–312`). Base-tick fire/damage checks also read the prior flag; those effects are outside this witness.
+
+Concrete reachable witness: a nonspectator, nonflying, grounded camera player with no jump boost and jump cooldown zero ends a normal move with its box overlapping a lava voxel laterally by, for example, 0.05 blocks. The area is loaded, the overlap remains greater than 0.001, and it remains less than 0.1. The collision callback scan includes the lava voxel; the old contracted query excludes it horizontally. On the following movement tick, with jump input and no water height, 1.13.2 reaches `jump()` (`LivingEntity.java:1904–1910`; base jump strength `0.42F` at `1447–1454`), whereas the cached 1.14 path calls `swimUpward(FluidTags.LAVA)` (`LivingEntity.java:2197–2205`), which adds `0.04F` to vertical velocity (`1771–1773`). Travel also tests `isInLava()` before moving. This is a direct player movement response, independent of damage/fire. The same jump-in-liquid implementation remains a `+0.04F` vertical addition in 1.14.4 Feather/Mojmap and 1.15.2 Mojmap (`LivingEntity.java:1778–1779` / `1774–1776` / `1823–1825`; jump gates precede travel).
+
+## Claim 3 — vanilla material/tag membership
+
+**Accepted for vanilla states.** In 1.13.2, the vanilla lava block is constructed as `LiquidBlock(Fluids.LAVA, ... Material.LAVA)` (`block/Block.java:829–830`); lava fluid levels map back to `Blocks.LAVA` (`fluid/LavaFluid.java:144–150`). Thus the old `MaterialPredicate` admits every vanilla lava block-state level. The 1.13.2 vanilla fluid-tag provider separately lists both `Fluids.LAVA` and `Fluids.FLOWING_LAVA` in `FluidTags.LAVA` (`data/tag/FluidTagsProvider.java:17–20`), but `Entity.isInLava()` does not query that tag.
+
+In 1.14.3, `Blocks.LAVA` is a `FluidBlock` associated with `Fluids.LAVA` and `Material.LAVA` (`block/Blocks.java:98–103`); its state-to-fluid-state mapping is level-based (`FluidBlock.java:33–40, 63–65`). The vanilla provider puts both `Fluids.LAVA` and `Fluids.FLOWING_LAVA` in `FluidTags.LAVA` (`data/server/FluidTagsProvider.java:17–20`), and `LavaFluid.matchesType` recognizes both (`LavaFluid.java:144–151`). The collision callback tests the `FluidBlock`'s associated fluid against that tag (`FluidBlock.java:166–169`), not each state's height/level. The default vanilla still/flowing lava states are therefore covered by both membership schemes; the witness is caused by bounds/cache timing. This conclusion is limited to vanilla states and the pinned default tag provider.
+
+## Claim 4 — continuity and Yarn provenance correction
+
+**Accepted operation continuity.** The cache field/reset/scanner/getter and tag callback are present in 1.14.1, 1.14.2 and 1.14.3 Yarn; 1.14.4 Feather and Mojmap; and 1.15.2 Mojmap. The movement consumer also remains jump-before-travel. At 1.14.4 Mojmap onward the lava call is named `jumpInLiquid` rather than Yarn's `swimUpward`, but its implementation still adds `0.04F` to vertical velocity; do not imply the method name is unchanged.
+
+**Correct the identity caveat in `comparison.md`.** Literal-path reads found `decompiled_minecraft/1.14.1/yarn/.decompile-provenance.json`, `decompiled_minecraft/1.14.2/yarn/.decompile-provenance.json`, and `decompiled_minecraft/1.14.3/yarn/.decompile-provenance.json`. Each file embeds the complete source path→SHA-256 map and pinned exact input URLs/hashes. They identify Yarn 1.14.1+build.10 (Yarn artifact SHA-256 `f9462af25135abeb22cbdec829cc8618b1a8dd902f17259abfbe7399a222a630`; Intermediary `486f4e72a87d697c5d9e155a49158bec28117faa73e3f1201c3f8a616b42569d`), Yarn 1.14.2+build.7 (`3c91c928d10797ba688b1f7e61063fd4bc56a3ee0f66fa2609ef960ec08b239b`; Intermediary `f73883d007c64858ae0f26533fe47ec5d3a051cede6892c8d6531fc5122e459e`), and Yarn 1.14.3+build.13 (`ad9e77f907cfc6780fb348ad4b3a948ffc8cea3bfe50abcc792428645e49e06e`; Intermediary `f2e9990c00fa87ddc7158a95afb735a947ae26d1997b52916226e11c612542a9`). The matching source-file pins for the reviewed Entity, FluidBlock, LivingEntity, PlayerEntity and ClientPlayerEntity files all equal current file hashes. These three roots lack separate version-root `.ready.json`, `.sources.sha256` and `artifacts.sha256` sidecars, but it is incorrect to say their mapping/source identities cannot be authenticated from local evidence: the hidden in-tree provenance is the identity source.
+
+## Exact source hashes supporting the reviewed claims
+
+Every listed file hash matched its corresponding frozen source manifest or the `sources` map embedded in the hidden Yarn provenance. Version-root source-roster, provenance, and artifact-manifest hashes remained equal to the frozen roster after the review.
+
+| Exact source | SHA-256 |
+|---|---|
+| 1.13 Feather `Entity.java` | `09514488d9055449c47e2e4bcd23b5773203ca634b7ecba2323a99d0ae016642` |
+| 1.13.1 Feather `Entity.java` | `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269` |
+| 1.13.2 Feather `Entity.java`; `World.java`; `MaterialPredicate.java` | `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269`; `0023de30da608db73c6c6188334d2bb19039d86fe4d6f5e4ad79d732a5d2cd1a`; `1a8a9129667637ef5ccb217ad2b55fb2117653bedd19d2e62dbda04f285f1c54` |
+| 1.13.2 Feather `Block.java`; `LavaFluid.java`; `FluidTagsProvider.java`; `LivingEntity.java`; `Box.java` | `735030e8bb5fc7ead2d6dbcb1b262a36a414b4349daf197456337f460b444cd4`; `1db521d50ec5b5fa744b9a5151bd32e5282638355ecedb51c31e4e09f7fb2924`; `10ff8ccdde75f60999c88f16844c78e4419f94fcae3b1716634202b8f2ba671a`; `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c`; `0f573d00cc10386f94cf51671c62815979973053c9e67a806e9fee98e55a4d8d` |
+| 1.14 Feather `Entity.java`; `LiquidBlock.java`; `LivingEntity.java` | `15e9d4cde45d857ca3117ccfe2d5d9071c08e7ee4a67b4053f7b006fe7a4bfa9`; `bfbbe2997ce6c03224b5833176d6b19b4b4b4cbc3337960fb3d867de77519ca1`; `1db4dd1aa95a06c48511e5567c0d3836f2a6e5a12a5cf03ab5c892e429198b79` |
+| 1.14.1 Yarn `Entity.java`; `FluidBlock.java`; `LivingEntity.java` | `ce429699f2d8f0a54f4be516783a474c6c7808572950164508ceed0baf68ed5b`; `36fd9cd79c782357c2602917857bc2bdc05bb1d05fa6e1038f9a337028ca53b0`; `331e2d7dfa936a6f7197910ba374c4a60b479c8565ff7c64a4d6a9e1e8b52dda` |
+| 1.14.2 Yarn `Entity.java`; `FluidBlock.java`; `LivingEntity.java` | `7c0e9cab0842a45e42fa9f27c9661de3fd0fd076c35ff989aa0477198eb38edc`; `04daaa27738790478fe5fe98398262e5c8799d2afae872f9483a0ca397ceca67`; `e8224e7df98ccf0986bb390f35e64293263d17b9ab1dbdfeb661c65d28b6ee78` |
+| 1.14.3 Yarn `Entity.java`; `FluidBlock.java`; `LivingEntity.java`; `PlayerEntity.java`; `ClientPlayerEntity.java`; `BlockPos.java` | `9b204a5f9af6ca50c09db4b6185ff37c39980c1a8cd1b5fd004713ecffae5c14`; `d238a66239b9b27df18a210fea47784ca0338f542241efc79b021e90cbd05424`; `e8aed9c63c0dfbe88e4b9e11c58881bc6e04b9cbaecbde5e3606e3afa406d72b`; `e3f361ac4e369d01473f3d84044ee33f9685d182c4485e2e80b7f62756950963`; `28b6b4031e02afd4a2e6b4a80e5a7ca06f16dac42ca0f92cab25e2c2dc9e14ae`; `a647a0a2f8364f107ae0afdc48920406c2624a203644c4fa5065c331f5a8e1de` |
+| 1.14.3 Yarn `FluidTagsProvider.java`; `FluidTags.java`; `Fluids.java`; `LavaFluid.java`; `Blocks.java` | `b8d40b0ea26b94f5e11c42155668b26feba70c6e7bc97ef22d9df0021fc4c875`; `013c51a229044c30f2af790d1d72ac27b7822f50f8b1d5a04291b4e9292595a3`; `21d5c9e3cb06aa3899e65d00390f004a8bcbc657a662bc50a789f378cfdd1755`; `bcc389ad8afe3988a3a15fbe8bfae8f7fc6f02b172133db89e7b1b1001d86b04`; `d003f43e26e26190ed29b17cd3a0f16b0473b5b4b58d4dbd4a247974af8b0f71` |
+| 1.14.4 Feather `Entity.java`; `LiquidBlock.java`; `LivingEntity.java` | `7315a496c195da767de9d4936d3adb6efc3c419dc0f0e95d6f32781b0da1ba55`; `bfbbe2997ce6c03224b5833176d6b19b4b4b4cbc3337960fb3d867de77519ca1`; `2cccf4331ce9e62013eeb8e96163e5e146e1291619eb998ce9867daa87c02b61` |
+| 1.14.4 Mojmap `Entity.java`; `LiquidBlock.java`; `LivingEntity.java` | `31c6be42d165102d3e6dc4295fdfef6e8971fc3aea13f938a5b3a33b91d524a7`; `23412eb14108456da401a810e9acc18c8374c38a026075e7ee64c6d8fb25f34b`; `428762178a876efd4069086e6b7d51f571ea0401f44e7eff0927b7d26d9ef681` |
+| 1.15.2 Mojmap `Entity.java`; `LiquidBlock.java`; `LivingEntity.java` | `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`; `cc7638d876a7e70cd111891cdb7be424741a4a5bdd4851f3623881c30734c24e`; `46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54` |
+
