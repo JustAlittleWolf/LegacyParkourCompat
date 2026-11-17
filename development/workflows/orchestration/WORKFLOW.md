@@ -63,6 +63,8 @@ For product handoff, require the integrator to create an integration branch from
 
 ## Host mechanisms
 
+For a persistent campaign, put the role, stop condition and path to the authoritative launch brief in each native goal when creating it. Include any mandatory worker model or cost limit in the objective. For lead goals include exclusive block ownership and refill on the first worker completion. For coordinator goals include reservations, publication and stop propagation. When requirements change during an active goal, update the authoritative brief and give every affected chat its path and revision. After a restart or context loss, reload the current brief from the primary checkout before dispatch, including when a worker checkout is pinned to an older base.
+
 Use the host's supported native delegation, messaging and completion mechanisms. Report unavailable native delegation before substituting another mechanism.
 
 **Codex desktop:** Use `spawn_agent` for authorized delegation and native agent messaging and completion notifications to coordinate it. For fresh permitted context, use `fork_turns: "none"` and supply only the assignment's allowed inputs. Refill capacity when any worker finishes or produces an actionable event; do not wait for the whole batch. After a wait, inspect the event and dispatch explicitly; waiting does not run the ready queue. Existing separate chats may finish their interrupted assignments, but new delegated assignments use native subagents. Other hosts use equivalent supported mechanisms and their permission rules.
