@@ -7,8 +7,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import me.wolfii.legacyparkourcompat.change.common.AutoJumpCollisionCandidates;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import me.wolfii.legacyparkourcompat.mechanic.WorldBlockQueryBoundsContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.clientload.ClientLoadGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.LadderSlideSuppressionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.FallFlyingStartHook;
@@ -523,7 +523,7 @@ abstract class LocalPlayerMixin {
                 .orElseGet(() -> vanilla.call(level, source, query));
         Iterable<VoxelShape> candidates = MovementRuntime.find(WorldBlockQueryBoundsHook.class, player)
             .flatMap(change -> change.bounds(query))
-            .map(bounds -> WorldBlockQueryBoundsContext.with(level, player, query, bounds, resolveCandidates))
+            .map(bounds -> AutoJumpCollisionCandidates.withQueryBounds(player, level, query, bounds, resolveCandidates))
             .orElseGet(resolveCandidates);
         return MovementRuntime.find(AutoJumpBorderCandidateHook.class, player)
             .flatMap(change -> change.borderCandidate(player, MovementRuntime.profile(player).target()))
