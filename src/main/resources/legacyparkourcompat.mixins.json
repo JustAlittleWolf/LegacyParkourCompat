@@ -15,6 +15,7 @@
     "client.LevelLoadTrackerReadinessMixin",
     "LivingEntitySprintJumpTrigMixin",
     "network.ClientPacketListenerMovementMixin",
+    "ExplosionKnockbackMixin",
     "network.EntityLegacyRotationMixin",
     "network.LivingEntityPacketInterpolationMixin",
     "network.LocalPlayerPacketStateMixin"
