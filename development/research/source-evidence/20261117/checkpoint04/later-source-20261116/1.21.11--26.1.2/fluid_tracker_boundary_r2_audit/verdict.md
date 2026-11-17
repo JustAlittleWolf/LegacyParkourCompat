@@ -1,0 +1,22 @@
+# Independent source audit verdict — fluid tracker boundary r2
+
+Candidate: `build/later-source-20261116/1.21.11--26.1.2/fluid_tracker_boundary_revision/boundary-r2.md`
+
+Candidate SHA-256: `453AB6740E2D31F7F8CDD88F77D65212CC137A0E53B8A5E06DF666ACBE819760`
+
+## Verdict
+
+**ACCEPT the bounded source-identity correction and the existing behavioral/resource claims, with the report's stated limits.** This is an independent source-only verdict for this immutable candidate. It accepts no broader pair finding, full coverage, runtime parity, implementation decision, or previous finding's acceptance status.
+
+## Audit basis
+
+- The four canonical source trees are marked `ready`, with matching exact version IDs and mapping labels (`1.21.11`/`mojmap`; `26.1`, `26.1.1`, `26.1.2`/`unobfuscated`). Their source-manifest and artifact-manifest SHA-256 values match the ready markers and the candidate table. Each ready marker's client SHA-256 appears as the corresponding `client.jar` entry in its artifact manifest. The candidate's listed relevant source hashes match the decompiled files and each release's own source manifest, including separate checks of all three 26.1 manifests. The identical 26.1 source bodies are therefore established per release, not merely inferred from one tree.
+- Provenance supports the candidate's qualification: `26.1` and `26.1.1` record matching `originalClientJarSha256`; `1.21.11` and `26.1.2` provenance do not record that input hash. Their client identities are pinned by ready marker plus artifact manifest. The recorded cache paths are absent. These are evidence-source distinctions, not a contradiction of the source identities.
+- In `1.21.11` `Entity.updateFluidHeightAndDoFluidPushing`, matching fluid states contribute flow only when `isPushedByFluid()` is true; the method height-scales below `0.4`, sums and counts flow, gates application on `sum.length() > 0.0`, averages player flow by count, normalizes non-player flow, scales it, applies the minimum-impulse rule, then adds delta movement. `updateInWaterStateAndDoWaterCurrentPushing` supplies water scale `0.014`; `Player.isPushedByFluid()` returns false while flying.
+- In `26.1`, `Entity.baseTick()` calls `updateFluidInteraction()`. That method calls the collector with `!isPushedByFluid()`, then applies water current at `0.014` only when eligible. `EntityFluidInteraction.update` gathers `getFlow()` contributions and height-scales below `0.4`. `Tracker.applyCurrentTo` adds `currentCount != 0` and `!(accumulatedCurrent.lengthSqr() < 1.0E-5F)` before the old player-average/other-entity-normalize, scaling, minimum-impulse and delta-add operations. Thus, for a nonzero accumulated player current below the squared threshold, the new gate drops an effect admitted by the old positive-length gate. The three relevant source bodies are byte-identical in 26.1, 26.1.1 and 26.1.2; the candidate correctly limits this boundary to those inspected releases and leaves uninspected release IDs open.
+- In each inspected 26.1 source release, `FluidTagsProvider.addTags` adds both `Fluids.WATER` and `Fluids.FLOWING_WATER` to `FluidTags.WATER`. The tag key uses default namespace `minecraft`, the registry path is `fluid`, and the tag provider's registry-tag path generation places tag JSON under that registry path. `Fluids.FLOWING_WATER` is `WaterFluid.Flowing`; `FluidState.getFlow` delegates to the type, while `FlowingFluid.getFlow` derives horizontal components from non-equal neighboring heights and normalizes the resulting vector. This supports the report's source-level possibility of nonzero flow from a tagged flowing-water state; it is not a runtime witness.
+- The canonical source trees contain no `water.json`, and the checked build tree contains no matching cached client JAR. Accordingly, generated/default tag membership is source-supported, but direct archive-member bytes and the packaged tag membership of each pinned client JAR remain unverified. The candidate states this boundary accurately and does not overclaim those bytes.
+
+## Gates retained
+
+This verdict does **not** close archive-membership verification, intermediate release boundaries, full-pair inventory/dependency closure, independent full-pair coverage audit, runtime parity, or implementation status. The source boundary is accepted only as `1.21.11` versus the inspected `26.1` family, with patch-release persistence directly confirmed for `26.1.1` and `26.1.2`.

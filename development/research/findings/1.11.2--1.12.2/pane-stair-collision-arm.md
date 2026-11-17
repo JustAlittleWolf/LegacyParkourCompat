@@ -1,0 +1,6 @@
+# Pane collision connects to directional stair faces
+
+1.11.2, Ornithe Feather: `net/minecraft/block/PaneBlock.java`, `shouldConnectTo` (136–143); `net/minecraft/block/StairsBlock.java`, `isCube` (145–147).
+1.12.2, Ornithe Feather: `net/minecraft/block/PaneBlock.java`, `resolveVirtualProperties` (109–113), `shouldConnectTo` (136–160), `addCollisions` (54–76); `net/minecraft/block/StairsBlock.java`, `getFaceShape` (140–161); `net/minecraft/world/World.java`, `getCollisions` (964–1019). The same pane and stair provider sources are present in 1.12 and 1.12.1.
+Difference: 1.11.2 accepts cube providers and explicit exceptions, but stairs are not cubes. 1.12.2 resolves each pane side from the adjacent state's directional face shape and accepts an unexcluded `SOLID` face (or `MIDDLE_POLE_THIN`). A straight stair supplies `SOLID` on the queried horizontal face matching its `FACING`; inner stairs have directional solid faces, while outer stairs return `UNDEFINED`.
+Movement meaning: The ordinary player collision query resolves pane connections and adds a collision arm toward a qualifying stair face from 1.12. The 1.11.2 query does not add that arm. This concerns collision boxes, not outline geometry; the behavior is also present in 1.12.1 and 1.12.2, making 1.12 the first checked stable release.

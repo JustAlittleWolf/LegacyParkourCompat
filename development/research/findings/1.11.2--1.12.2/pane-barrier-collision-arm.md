@@ -1,0 +1,6 @@
+# Pane collision excludes barrier neighbors
+
+1.11.2, Ornithe Feather: `net/minecraft/block/PaneBlock.java`, `resolveVirtualProperties` (109–114), `shouldConnectTo` (136–143), `addCollisions` (54–76); `net/minecraft/block/BarrierBlock.java` (9–31); `net/minecraft/block/Block.java`, `isCube` (234–236).
+1.12.2, Ornithe Feather: `net/minecraft/block/PaneBlock.java`, `shouldConnectTo` (136–160), `addCollisions` (54–76); `net/minecraft/block/BarrierBlock.java` (9–31); `net/minecraft/block/Block.java`, `getFaceShape` (362–364); `net/minecraft/world/World.java`, `getCollisions` (964–1019). The same pane and barrier behavior is present in 1.12 and 1.12.1.
+Difference: 1.11.2 uses the inherited `Block.isCube == true` result for barriers, so a barrier neighbor sets the pane's corresponding connection property and collision arm. In 1.12.2, `PaneBlock.shouldConnectTo` explicitly excludes `Blocks.BARRIER` from the otherwise-solid-face branch; the barrier's inherited face shape is `SOLID`, but the exclusion prevents the pane arm.
+Movement meaning: For the same pane/barrier states, ordinary player collision includes a pane arm toward the barrier in 1.11.2 and omits it starting with the first checked changed release, 1.12. This covers collision geometry only, not rendering or barrier visibility.

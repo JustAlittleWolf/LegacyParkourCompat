@@ -1,0 +1,8 @@
+# Creative-flight fall-distance reset changes edge backoff
+
+1.21.1, mojmap: `1.21.1/mojmap/net/minecraft/world/entity/player/Player.java`, aiStep 513-534 and travel 1456-1477; `1.21.1/mojmap/net/minecraft/world/entity/player/Player.java`, isAboveGround/canFallAtLeast 1094-1127; `1.21.1/mojmap/net/minecraft/world/entity/Entity.java`, move fall-distance accumulation 1163-1178.
+1.21.2, mojmap: `1.21.2/mojmap/net/minecraft/world/entity/player/Player.java`, aiStep 543-555 and travel 1445-1466; `1.21.2/mojmap/net/minecraft/world/entity/player/Player.java`, isAboveGround/canFallAtLeast 1090-1124; `1.21.2/mojmap/net/minecraft/world/entity/Entity.java`, move fall-distance accumulation 1216-1231.
+
+Difference: In 1.21.1, non-passenger creative flight resets fall distance after inherited travel. In 1.21.2, `Player.aiStep` resets it before inherited movement, and the flight travel branch no longer resets it afterward. The shared `isAboveGround` edge-backoff predicate uses fall distance to reduce the downward support-probe depth. After an eligible 0.15-block descent, the old path probes 0.6 blocks while the new path probes 0.45 blocks.
+
+Movement meaning: In a constructed airborne, non-fall-flying state with feet at 0.525 above a full-block support edge at y=0, the 1.21.1 probe reaches below the support top and reports support; the 1.21.2 probe stays above it. For a non-flying, non-positive-Y SELF move that must stay on the ground surface, this can make the old edge-backoff loop suppress a small horizontal request that the new path passes to ordinary collision clipping. This is a source-derived static witness for the adjacent 1.21.1→1.21.2 boundary, not a runtime result or full-pair coverage claim.

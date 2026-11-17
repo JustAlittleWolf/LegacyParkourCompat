@@ -1,0 +1,87 @@
+# 1.20.2 → 1.20.4 post-move block callbacks (bounded NO_DIFF)
+
+## Verdict and boundary
+
+NO_DIFF for the assigned normal-player post-move contact slice: the `Entity.move` callback order, `checkInsideBlocks` block-cell scan, alive/chunk gates, and the movement-affecting vanilla block callbacks examined below preserve the same behavior between the exact endpoints. This is not a pair-coverage closure.
+
+In both versions, `Entity.move` stores grounded/collision state, invokes `updateEntityAfterFallOn` only when requested Y differs from collision-resolved Y, invokes `stepOn` only when on ground, then invokes `tryCheckInsideBlocks`, then applies the horizontal `getBlockSpeedFactor` multiplier. The scanned callback route is identical in order. `checkInsideBlocks` derives inclusive cell bounds from bounding-box min+`1.0E-7` and max-`1.0E-7`, requires `hasChunksAt`, scans x/y/z ascending, stops if `!isAlive()`, dispatches `BlockState.entityInside`, then `onInsideBlock`, and wraps callback failures in a reported exception. `onInsideBlock` is empty at both endpoints. `tryCheckInsideBlocks` and the exact `getBlockSpeedFactor` body were also compared and match.
+
+Normal local-player movement reaches this path through `LivingEntity.travel` → `move(MoverType.SELF, ...)`; `LocalPlayer.move` exists at both endpoints with identical source SHA, leaving the inherited `Entity.move` callback route in place.
+
+## Endpoint identities
+
+Both exact `mojmap` endpoint publications have ready markers and provenance records; the source trees are the canonical decompiled inputs and were read only.
+
+| Endpoint | Ready version/mapping | Source manifest SHA-256 | Artifact manifest SHA-256 | Client SHA-256 | Provenance |
+|---|---|---|---|---|---|
+| 1.20.2 | `1.20.2` / `mojmap` | `e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887` | `ee67da9733953b30ae4077c587184e59772b745d780abd27a7b023780b459f54` | `fa1a19be56a506426308abbc1cad85f299a7fc6dae4335559351ba0246713fda` | `decompiled_minecraft/1.20.2/mojmap.provenance.json` records the `decompileMinecraft --versions=1.20.1,1.20.2,1.20.4,1.20.6 --mappings=mojmap` run. |
+| 1.20.4 | `1.20.4` / `mojmap` | `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` | `ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948` | `9221ab461a491bf9661cd8e773a5e662aaa43d600fa7970b8c12bbfb0431b838` | `decompiled_minecraft/1.20.4/mojmap.provenance.json` records the same exact decompile run batch. |
+
+## Evidence anchors and source identities
+
+Line anchors are canonical relative paths. Source-file SHA-256 values below were checked against the actual files and their endpoint source manifests.
+
+| Source | 1.20.2 anchor / SHA-256 | 1.20.4 anchor / SHA-256 | Comparison |
+|---|---|---|---|
+| `net/minecraft/world/entity/Entity.java` | `move` 595–705; `checkInsideBlocks` 967–997; `onInsideBlock` 999–1000. `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8c8d5c23b01b` | `move` 596–706; `checkInsideBlocks` 968–998; `onInsideBlock` 1000–1001. `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` | Bodies and route/order match; only source line offsets differ. |
+| `net/minecraft/world/level/block/Block.java` | `stepOn` 341–342; `updateEntityAfterFallOn` 378–380. `0c2df3d958078929c4cc2985e0d6a6a766cbbbb02066e6c9ac471981aa858656` | `stepOn` 348–349; `updateEntityAfterFallOn` 385–387. `9a777d44c9c6b55677132fb5a56d46c9aa322e42faf956749ef80443817416c4` | The base ground callback is no-op and fall callback sets Y velocity to zero identically. |
+| `net/minecraft/world/level/block/SlimeBlock.java` | `updateEntityAfterFallOn` 27 onward; `stepOn` 44 onward. `f5ce06a58cb3e46e6f3c900bdf521e2984765846dc55ca701812194d09d65f54` | `updateEntityAfterFallOn` 35 onward; `stepOn` 52 onward. `62c1a543343cce23a47ff35ce51a4512637eda02c775db30bdefbe04d2673d46` | Both movement-changing callbacks compare equal. |
+| `net/minecraft/world/level/block/HoneyBlock.java` | `entityInside` 55 onward. `6e5a2780f8d17f3e606fdc0404201e6f58cff2df52c5cf44f61333e13d8995ce` | `entityInside` 62 onward. `77706436b221a2f0320dedb8852e458388131483e5e69669869a523a5703fbca` | Equal, including slide gate and velocity effects. |
+| `net/minecraft/world/level/block/BubbleColumnBlock.java` | `entityInside` 42 onward. `d50f3502727c7f0d42bbb1216c6f7683f032b88bac46c4ac33d081323272843e` | `entityInside` 49 onward. `f2a1d54d5590a0546c1ea7640e012086c922c1682c68a82b0e20a9d7bcae19af` | Equal; delegates to `Entity.onAboveBubbleCol`. |
+| `net/minecraft/world/level/block/WebBlock.java` | `entityInside` 16 onward. `eb8f4433705367aa7ce23c5a6071955b4d67728e299a2993285c6405ce638e49` | `entityInside` 24 onward. `87238b193dc86aa01fa70814bf5056a68392eeeb3afb8421e92c20868418a593` | Equal; sets the same stuck-movement multiplier. |
+| `net/minecraft/world/level/block/BigDripleafBlock.java` | `entityInside` 177 onward. `ca5892747404d11c09cd3eda093be12122406a1c1465dfed0077ae3bde3c8bc3` | `entityInside` 184 onward. `fb273abc814e61708fe0f19ecae2d15baf231f0c53fd3e5555a7e6e8cf3465c1` | Equal; server-side tilt/world-state path, not a player movement mutation. |
+| `net/minecraft/world/level/block/StairBlock.java` | `base` field 52–53; assignment 90–91; `stepOn` 144–145. `439bf404f76646daa6d71e14318ec688a7303134dec06ecadb6dcb5f60d85850` | No `stepOn` override. `e86fdf4eed2fa62eaaf7747a8001b98fc76cd5b4b93f6be0b48267465812e9e1` | 1.20.2 delegates to the constructor base block. The vanilla stair registrations in `net/minecraft/world/level/block/Blocks.java` use ordinary base blocks (source SHA-256 1.20.2 `75e8e77adab4a07b02ef95619be83a004f5f79810cf3f07157a713d714881253` and 1.20.4 `5392c4349317e55c2989865be38c17b94e6e0543e7017e6a2a64d79217e83643`); none uses `SlimeBlock`, the vanilla `stepOn` callback that mutates entity velocity. The removed delegation therefore adds no vanilla player movement effect in this slice. Mod-created `StairBlock` bases were not assessed. |
+| `net/minecraft/world/level/block/ButtonBlock.java` | `entityInside` 152 onward. `957f0a5b9b3d6835ee5db73f787693b14cf8bbe582e7c16a4a01cd09e5f1f0a2` | `entityInside` 178 onward. `3aef2a341e19591627a516cc0aeb1366fbd4b5efda48254e056b3ccbd0ccdc15` | Only differing `entityInside` override found in the endpoint block trees. The change activates a button from an arrow on the logical server (`!isClientSide`); it does not change local-player velocity, position, or movement flags. |
+| `net/minecraft/world/entity/LivingEntity.java` | `travel` 2038; SHA `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828` | `travel` 2035; SHA `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d` | Ordinary SELF-move call sites preserve their route into `Entity.move`. |
+| `net/minecraft/client/player/LocalPlayer.java` | `move` 871; SHA `bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5` | `move` 871; same SHA | Exact source file unchanged. |
+
+The endpoint-wide override inventory for `entityInside`, `stepOn`, and `updateEntityAfterFallOn` was searched. For `entityInside`, the only differing body was the server-side arrow/button callback above. The additional 1.20.4 `stepOn` overrides were inspected because they can be reached by grounded players:
+
+| Source | Earlier endpoint | Later endpoint | Effect in this slice |
+|---|---|---|---|
+| `net/minecraft/world/level/block/RedStoneOreBlock.java` | 39; `cb408bacffd402ead0e04ad0a64f190141c73fb33e060beac8ccb0818669e511` | 46; `5c466fe4427fd208a1d8015ac858c2c1497e2572460da9d89eb59deecea4aee1` | Existing callback activates redstone ore state/world effects; no player movement mutation. |
+| `net/minecraft/world/level/block/SculkSensorBlock.java` | 91; `e209030de0642f09a0c559426c704b84b9ab4bf59af448a21ee6b34db0417202` | 98; `0104163a740df7241ddf64d894c021966ab2b4da98bddace0e9ead214445ffdb` | Existing server-side vibration scheduling; no player movement mutation. |
+| `net/minecraft/world/level/block/SculkShriekerBlock.java` | 51; `ce5e8d02549845873b2bd6529e6b653437c1e3c76447bda4e3d1fbb25209f39f` | 58; `00bf7f06928e32ff081a49327863be26ca9fd569beed8fb1e70876259e3cdcdf` | Existing server-side shriek/world effects; no player movement mutation. |
+| `net/minecraft/world/level/block/TurtleEggBlock.java` | 47; `cd27b3cdf6c1fb145c35532d7ffc06fc0b79b67556c10895fd7aeff9dec33474` | 54; `6d6e49ecbb297598344ae3214d05b9f34dfdea927102da3d47bbf2026aa851c4` | Existing egg-destruction callback; outside movement scope. |
+
+The movement-changing slime callback is equal. `updateEntityAfterFallOn` overrides matched, including slime's bounce path and bed's out-of-scope eligibility handling.
+
+## Deliberate exclusions and remaining gates
+
+- Provider-specific block geometry/shape definitions and movement speed-factor values were not expanded; this slice compares callback dispatch and selected callback bodies, not historical shape parity.
+- Fall-damage, fire/lava damage, powder-snow status and particle effects, portal transitions, food/status production, and block/world-state effects are outside the requested movement callback scope, even where their callback is reached by a player. PowderSnowBlock.entityInside movement multiplier is included and compared below.
+- Packet/knockback paths and entity-entity collision paths were not examined.
+- Modded block callback overrides or mod-created stairs using a movement-mutating base are not covered.
+- This report does not assert pair completeness, freeze a pair, or establish implementation/runtime parity.
+## Revision r2: powder-snow callback and movement reachability
+
+The earlier scope exclusion of powder-snow movement effects is corrected. The direct player response in `PowderSnowBlock.entityInside` was compared with its consumer and the local-player call route. It is unchanged between these endpoints; the bounded NO_DIFF conclusion is retained for this slice with this added evidence.
+
+| Source | 1.20.2 anchor / SHA-256 | 1.20.4 anchor / SHA-256 | Finding |
+|---|---|---|---|
+| `net/minecraft/world/level/block/PowderSnowBlock.java` | `entityInside` 57–86; `f94f20b85520194757470722de071fb781107acdadee16598cf401d18248c09f` | `entityInside` 64–93; `302e784a106a37b00aafa0ff7ac5d638c78ccb61f34c2efac4d952f6a284a55c` | The method has the same player-relevant gate (`!LivingEntity || feet block is this`) and calls `makeStuckInBlock(state, Vec3(0.9F, 1.5, 0.9F))`. It then sets the powder-snow flag. Remaining client particles and server-side fire/world effects are excluded. |
+| `net/minecraft/world/entity/Entity.java` | `move` multiplier consume 608–612; `checkInsideBlocks` dispatch 967–997; `makeStuckInBlock` 2353–2356; SHA `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8c8d5c23b01b` | `move` multiplier consume 609–613; `checkInsideBlocks` 968–998; `makeStuckInBlock` 2354–2357; SHA `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` | Both endpoints store the supplied vector in `stuckSpeedMultiplier`. On a later `move` that reaches the multiplier gate with squared multiplier length above `1.0E-7`, requested movement is component-multiplied by it, the multiplier is cleared, and delta movement is zeroed. In both endpoint bodies, the `MoverType.PISTON` limit and zero-vector return occur before that gate, while `noPhysics` movement bypasses it; neither path consumes the stored vector. Each `makeStuckInBlock` call assigns the shared field, so another eligible block callback before consumption can replace its value. `checkInsideBlocks` walks the entity's occupied AABB cells after collision resolution and calls each `BlockState.entityInside`. |
+| `net/minecraft/world/entity/LivingEntity.java` | `travel` 2038 onward; ordinary SELF movement 2070, 2085, 2128, 2208; `aiStep` reaches `travel` at 2601; SHA `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828` | `travel` 2035 onward; ordinary SELF movement 2067, 2082, 2125, 2205; `aiStep` reaches `travel` at 2603; SHA `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d` | The local player inherits the living-entity movement path. A movement call enters `Entity.move`, which performs `tryCheckInsideBlocks` after the move. If the occupied cells include powder snow and the callback's feet gate holds, that invocation stores the multiplier. It is consumed only by a later call that enters the physics branch, passes any piston zero-vector early return, and reaches the multiplier gate with stored squared length above `1.0E-7`; intervening `makeStuckInBlock` callbacks can replace it. |
+| `net/minecraft/client/player/LocalPlayer.java` | `tick` 188–190; `aiStep` 646–800; SHA `bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5` | `tick` 188–190; `aiStep` 646–800; same SHA | LocalPlayer tick delegates to superclass tick and LocalPlayer aiStep delegates to `LivingEntity.aiStep`; the endpoint file is byte-identical. This establishes the ordinary local-player route to the callback and multiplier consumer, without relying on callback presence alone. |
+
+The new row changes scope evidence, not the result: the powder-snow movement callback and qualified multiplier-consumption behavior match. Powder-snow flag/status, snowflake particles, fire clearing/destruction, and any freezing/status consequences remain outside this movement comparison. This remains a bounded slice report, not pair closure or implementation/runtime parity.
+
+
+
+## Revision r3: Sweet Berry Bush callback and multiplier consumer
+
+This revision adds the omitted movement-affecting `entityInside` callback to the bounded contact slice. It does not change the NO_DIFF result: the callback, eligibility gate, multiplier, storage method, and qualified consumer gate are the same at both endpoints.
+
+| Source | 1.20.2 anchor / SHA-256 | 1.20.4 anchor / SHA-256 | Comparison |
+|---|---|---|---|
+| `net/minecraft/world/level/block/SweetBerryBushBlock.java` | `entityInside` 72–83; `73375b2cb49efcbc3e64b49cac0fad3b30dd6a583518242df13c221ad8844cf5` | `entityInside` 79–90; `9910ebffc04f6c935761d856e743e67fad3359d8ddb97ac99db9d41c0223cc48` | Both require `LivingEntity` and exclude `EntityType.FOX` and `EntityType.BEE`, then call `makeStuckInBlock(state, new Vec3(0.8F, 0.75, 0.8))`. Subsequent server-only age/movement checks cause berry damage and are outside this movement claim. |
+| `net/minecraft/world/entity/Entity.java` | `move` 600–613; `makeStuckInBlock` 2353–2356; `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8c8d5c23b01b` | `move` 601–613; `makeStuckInBlock` 2354–2357; `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` | `makeStuckInBlock` resets fall distance and assigns the supplied vector to `stuckSpeedMultiplier`. A later `move` consumes it only after the `noPhysics` branch is bypassed, the `MoverType.PISTON` limiter does not return `Vec3.ZERO`, and squared multiplier length exceeds `1.0E-7`; then requested movement is component-multiplied, the multiplier is cleared, and delta movement is zeroed before edge backoff and collision resolution. Another intervening callback calling `makeStuckInBlock` can replace the field. Both endpoint bodies and order match. |
+| `net/minecraft/world/entity/Entity.java` | `move` call 702; `tryCheckInsideBlocks` 755–758; `checkInsideBlocks` 967–997; same SHA above | `move` call 703; `tryCheckInsideBlocks` 756–759; `checkInsideBlocks` 968–998; same SHA above | `tryCheckInsideBlocks` dispatches occupied block contacts after collision resolution. A player-reachable callback can assign `stuckSpeedMultiplier` during that move; it persists until a later `move` reaches the qualified multiplier gate above, unless a subsequent callback assignment replaces it. The callback dispatch and consumer were already compared as identical in r2. |
+
+The `SweetBerryBushBlock.java` file hashes above were checked against the exact endpoint source manifests. The manifest and artifact-manifest hashes and ready/provenance identity pins remain those in the endpoint identity table above; the report's `Entity.java` hashes were likewise verified against the endpoint manifests. Canonical endpoint sources were read only.
+
+This completes evidence for the previously omitted Sweet Berry Bush multiplier in this bounded normal-player post-move block-contact slice. It does not close other callback categories or pair coverage, and it makes no implementation or runtime-parity claim.
+
+## Revision r4: consumer gate qualification
+
+This correction narrows the consumer claim without changing the paired callback comparison or bounded NO_DIFF result. At both endpoints, `Entity.move` first branches on `noPhysics`; in the physics branch a `MoverType.PISTON` call runs `limitPistonMovement` and returns immediately if the limited vector equals `Vec3.ZERO`, before `stuckSpeedMultiplier` is checked. Only a call that passes that return reaches the `lengthSqr() > 1.0E-7` gate and applies/clears the stored vector. The callback writes one shared field, so another callback invoking `makeStuckInBlock` before such consumption overwrites the previous vector. The claim is therefore conditional on that later eligible call and the value currently stored; it does not say the universally next movement call consumes the callback response. These gates and ordering are visible at 1.20.2 `Entity.java` 595–613 and `makeStuckInBlock` 2353–2356, and 1.20.4 `Entity.java` 596–613 and `makeStuckInBlock` 2354–2357; source hashes and exact endpoint identities remain as listed above.
