@@ -11,6 +11,7 @@
     "MinecraftMixin",
     "FishingRetrievalMixin",
     "PowderSnowBlockMixin",
+    "BlockStateBaseEntityInsideShapeMixin",
     "BubbleColumnBlockMixin",
     "network.ClientPacketListenerMixin",
     "network.PositionMoveRotationMixin",
