@@ -1,0 +1,32 @@
+# 26.2 death event delivery and movement-only applicability
+
+## Verdict
+
+**The ordinary 26.2 server death path does deliver entity event byte 3 to the controlling client Player.** A historical local velocity response can therefore use this received event as its trigger, provided the response is implemented as a movement-only velocity operation. It must not call `die`, set health, or recreate any historical client death handling. The current local player event handler excludes `Player` from the event-3 health/death branch; the event still reaches that handler. This closes the delivery/applicability dependency for the candidate's narrow movement response, not historical parity or a runtime result.
+
+## Exact server ordering and delivery
+
+In `26.2/unobfuscated/net/minecraft/server/level/ServerPlayer.java`, `ServerPlayer.die` sends `ClientboundPlayerCombatKillPacket` to `this.connection` first (lines 884-915; the `SHOW_DEATH_MESSAGES` branch chooses the actual or empty-message packet). After drops, score/death bookkeeping, and killer handling, it calls `this.level().broadcastEntityEvent(this, (byte)3)` (line 934). Only after that call and the remaining death bookkeeping does it call `this.connection.markClientUnloadedAfterDeath()` (line 943).
+
+`ServerLevel.broadcastEntityEvent` (lines 1197-1199) creates `ClientboundEntityEventPacket` and delegates to `sendToTrackingPlayersAndSelf`. `ChunkMap.TrackedEntity.sendToTrackingPlayersAndSelf` (lines 1351-1355) sends to tracking connections, then explicitly sends to `player.connection` when the event entity is a `ServerPlayer`. Therefore byte 3 is addressed to the dying player's controlling connection, after the combat-kill packet was enqueued there. `ClientboundEntityEventPacket` (lines 18-24, 34-43) carries the entity ID and byte and resolves the entity in the receiving level. The already accepted client audit confirms the event route reaches `handleEntityEvent`; `LocalPlayer` and `Player` delegate unhandled IDs, while `LivingEntity.handleEntityEvent` plays the optional death sound then gates health-zero and `die` behind `!(this instanceof Player)`. Thus the event reaches the local Player but does not invoke its death path in 26.2.
+
+The post-death marker is not world removal. `markClientUnloadedAfterDeath` only sets `waitingForRespawn` (`ServerGamePacketListenerImpl.java:2241-2243`). The client must later send `PERFORM_RESPAWN`; `handleClientCommand` then calls `PlayerList.respawn` (`ServerGamePacketListenerImpl.java:1894-1909`), which calls `removePlayerImmediately` on the old server player before constructing and adding the replacement (`PlayerList.java:391-430`). The byte-3 send precedes this later removal.
+
+## Health and velocity packet ordering
+
+The combat-kill then entity-event order within `ServerPlayer.die` is explicit and applies to the controlling connection. There is no single unconditional total order for those two packets versus all health or velocity synchronization: they are emitted by separate tick paths. `ServerPlayer.doTick` sends `ClientboundSetHealthPacket` only after `super.tick()` returns, when health differs from `lastSentHealth` (lines 608-685). If death occurs during that `super.tick`, its kill and byte-3 sends precede that doTick health send; if damage/death occurs later in another entity's tick, the changed health is synchronized on a later player doTick. Earlier health updates can already have been sent before the fatal hit.
+
+`ServerEntity.sendChanges` emits `ClientboundSetEntityMotionPacket` to tracking players and self when `entity.hurtMarked` is true (lines 224-228), on the entity tracking tick. This is independent of the two death sends; source does not establish one universal ordering between a pending hurt-motion packet and byte 3. `ServerPlayer.die` itself has no velocity write. The delivery claim does not depend on a velocity packet being sent or on server-side historical physics.
+
+## Movement-only boundary
+
+The accepted source-only audit establishes that the 1.14.4 player event-3 path could reach a player `die` velocity write, and that the 26.2 local Player excludes itself from the event-3 health/death branch. Since 26.2 sends byte 3 to that same local Player on ordinary server death, a movement hook may key only the historical velocity response off this event. It should leave the native combat-kill screen/respawn path, health synchronization, local event handler, and server authority intact. The 26.2 event handler's optional sound is outside this movement hook. This conclusion covers only this received-message dependency; it does not claim the old and new death producers, damage paths, response math, or trajectories are identical.
+
+## Evidence identities
+
+- Canonical sources: `decompiled_minecraft/26.2/unobfuscated/`, published names; local provenance `decompiled_minecraft/26.2/unobfuscated.provenance.json`, exact version `26.2`, mapping `unobfuscated`, created `2026-10-07T14:47:33.0464796Z`. Ready source-manifest SHA-256: `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`.
+- Relevant source SHA-256: `ServerPlayer.java` `37e617a5beccbf3558c8cf8f6624ba9d704593ccc5d6633bedf71cf4f792e82e`; `ServerLevel.java` `06c436ebb91c04f8c30b58bdf115f87da8b5d0d14d5551c6b33e228744037cb9`; `ChunkMap.java` `59aa67e1eab4d5fc8e68545975c83f94db2e4b8fa22ea034d22739c219e86b90`; `ServerEntity.java` `3c55dbb107c3659313b64ab1ecfc2bb9549d33989cf9fc9fbc20b22366478dc7`; `ServerGamePacketListenerImpl.java` `2015d9e3c8d3e277bc2ef9e709ad4c991894df1deaa2eaca3a5a5dcc29fb51d2`; `PlayerList.java` `f3060f313a2c9221c8fe953cba0f19f5179d579fc3b80598d68628fb712242ff`; `LivingEntity.java` `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`.
+- Client receive/exclusion claims rely on the accepted source-only audit at `death-velocity-target-audit/verdict.md`, verified SHA-256 `0c1e0db1bb08ac7882a630eecdbc222db72623f8e8509f3d8bcea0a5d66fe2d1`, with fixed comparison input SHA-256 `6773f9ef535883971bd5dbf4d2ba271df14e0c10cf84c2a4d32e6de9e8ca3b63`. Its 26.2 client source hashes match the canonical manifest.
+
+Scope: ordinary ServerPlayer death, event-3 delivery to self, packet ordering boundaries, and applicability of a movement-only local velocity response. No damage/death producer analysis, server movement change, bed-entry eligibility, tests, runtime, or historical parity claim.
+TERMINAL: COMPLETED | body_sha256=acebece17b194c7979b6f314ba5d59abe7870f570891409a1e6d3ce745374565 (UTF-8 LF; terminal record excluded).

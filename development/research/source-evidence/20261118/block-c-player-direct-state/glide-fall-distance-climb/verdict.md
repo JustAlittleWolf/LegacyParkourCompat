@@ -1,0 +1,33 @@
+# Independent audit: climbable applicability of glide fall-distance write
+
+**Verdict: ACCEPTED for the bounded claim.** The 1.18.2 and 1.19.2 travel branches can assign `fallDistance = 1.0F` while an already-active, dry Elytra flight has a ladder or vine in the player’s feet block state. The precise same-tick gate is `deltaMovement.y > -0.5`; equality is excluded. This establishes reachability of the assignment, not the final end-of-tick fall distance or how flight was activated.
+
+## Frozen input and evidence identity
+
+Audited only the supplied immutable comparison and canonical local `decompiled_minecraft` sources with their ready/provenance metadata. No product code, wiki material, Git history, or backlog was read. No source was generated or changed; no code, tests, game launches, or runtime checks were performed.
+
+- Comparison input: `glide-fall-distance-climb-scope/comparison.md`, SHA-256 `7d5f95456c9f1f7d2373b9a08aae27e99d1059efe0c06a679126f4da89aeac21`.
+- Mapping namespace: Mojmap for every side.
+- Canonical `LivingEntity.java` hashes: 1.18.2 `DB4168D531CAF18F22E3FEFD073365E776DA4075CE01452BB9F7671D9B458782`; 1.19.2 `FEE2DF5155449098556A138D2530D06B7A35979E43C6AA0AE1FFFD6251853E77`; 1.19.3 `2B8BEFDC406176E01672175451DD480B14DA0B52BFE11A982D368909C05E73DB`; 1.19.4 `C8D91AF61F87AAA1666DE79696D7CD9D4A8212D05F873BDAF28D7BB2926BF165`; 1.21.5 `A8AED863D4FDC515C751DD2878A8BB9C13179228CB8DBB50EDF1D19CD5404271`.
+- Canonical `Entity.java` hashes: 1.18.2 `2228FDACA5793171CBD94038306D571A6ADA78CA96F5734EFB4CADA5B744C10A`; 1.19.2 `759DE9CDED43BD882AFCF5B7023BCF804D92419ACB656B493F3B490C83EB18B6`; 1.19.3 `8C35BDEF3BF2DE7B70AC76AD767BA2C194305E0DDA2E03FDF6544983667ADC32`; 1.19.4 `3667FEE610CBC5F58012E3A8FB8D6C4849F649FB7FE5300595158112D8B4B58B`; 1.21.5 `FC177733E9CC4B2D5CF2562E5529D0F4E0B9C3690F081FBD58AA9119EB173DC4`.
+- Each version’s local `mojmap.ready.json` and `mojmap.provenance.json` identifies the exact version and Mojmap namespace; their byte hashes match the input comparison’s table. Source hashes above were independently recomputed from the canonical source files.
+
+## Source trace and finite same-state witness
+
+In 1.18.2, `LivingEntity.aiStep` calls `updateFallFlying()` before `travel()` (around lines 2547–2555). `updateFallFlying()` (2590–2615) preserves a pre-existing shared fall-flight flag when the entity is airborne, not riding, not affected by Levitation, and has an enabled chest-slot Elytra. It does not call `onClimbable()`. 1.19.2 has the same order and conditions (`aiStep` around 2583–2591; `updateFallFlying()` 2626–2651). On the client this method does not rewrite the shared flag; the witness assumes the already-active flag supplied to the tick remains active.
+
+`onClimbable()` reads `getFeetBlockState()` and recognizes `BlockTags.CLIMBABLE` (1.18.2 `LivingEntity.java:1433–1447`; 1.19.2 `:1462–1476`). The exact sources’ `BlockTagsProvider` adds both `Blocks.LADDER` and `Blocks.VINE` to that tag (1.18.2 `:564–575`; 1.19.2 `:607–618`). Thus either vanilla state supplies a concrete feet-state witness for the predicate; this does not depend on a custom block state.
+
+For a finite tick-entry witness, take a non-spectator player whose block position/feet state is a vanilla ladder (or vine), with the shared flight flag already true, airborne, not a passenger, wearing an enabled Elytra, no Levitation, dry, on the locally controlled travel path, and `deltaMovement.y = -0.25`. No Slow Falling or other effect is needed. The outer travel gate is satisfied; water and lava branches do not take precedence; `isFallFlying()` selects the flight branch; `-0.25 > -0.5` then directly writes `fallDistance = 1.0F`. The same branch does not test `onClimbable()` or call the ordinary `handleOnClimbable()` reset. The witness establishes a reachable assignment at this operation, not that a normal player can start flight while on a ladder/vine or that the trajectory after movement is unconstrained.
+
+The earlier Slow Falling check in 1.18.2/1.19.2 `travel()` resets fall distance when vertical velocity is nonpositive, before the fluid/glide branch. It does not invalidate this witness: with no Slow Falling it is inactive; even if present and `-0.5 < y <= 0`, the later glide assignment overwrites that reset. Levitation is different: it invalidates `updateFallFlying()`’s ongoing-flight conditions and is excluded from the witness. Normal climb movement’s `handleOnClimbable()` does reset fall distance, but the glide branch bypasses that helper. A subsequent collision/landing callback may change fall distance later in the tick, so no end-of-tick-value claim is made.
+
+## Newer checked branches and activation boundary
+
+The first checked newer branches, 1.19.3 and 1.19.4, still enter their dry fall-flight travel branch solely through `isFallFlying()` and call `checkSlowFallDistance()` first (`LivingEntity.java:2117–2119` and `:2048–2050`, respectively). Neither branch has a climbable gate. The inherited helper caps distance only when vertical movement is above `-0.5` and current distance exceeds `1.0F` (`Entity.java:2147–2150` in 1.19.3; `:2167–2170` in 1.19.4); it has no climbable predicate.
+
+The first checked newer explicit climbable gate is in 1.21.5 `LivingEntity.travelFallFlying()` (`:2301–2315`): `onClimbable()` sends travel through `travelInAir()` and `stopFallFlying()`, bypassing the glide movement `else`. This is a travel-time gate, separate from flight activation/update. The tick path calls `updateFallFlying()` before `travel()` (`LivingEntity.java:2753–2759`); that update invokes `checkSlowFallDistance()` before its server-side `canGlide()` handling (`:2815–2821`), and does not gate on climbability. `Entity.checkSlowFallDistance()` itself still caps above the same strict velocity threshold if distance exceeds 1 (`Entity.java:2506–2510`). The newer travel gate therefore must not be projected backward onto 1.18.2/1.19.2, nor does it prove that 1.21.5 has no earlier fall-distance write on a climbable tick.
+
+## Limits
+
+This is an applicability audit for the named source operations and checked releases. It does not establish full-pair tick coverage, an intermediate patch introduction boundary, ordinary gameplay activation on a climbable, a guaranteed ladder/vine trajectory, effects-free playability beyond the stated witness, or runtime parity. The phrase “first checked newer gate” is limited to 1.19.3, 1.19.4, and 1.21.5 examined here.
