@@ -54,4 +54,16 @@ public interface BlockCollisionShapeHook extends VersionedMechanic {
     ) {
         return collisionShape(state, level, pos, context);
     }
+
+    /** Supplies the shape already returned by the native player-context query. */
+    default Optional<VoxelShape> collisionShape(
+        BlockState state,
+        BlockGetter level,
+        BlockPos pos,
+        CollisionContext context,
+        int restoredConnectionMask,
+        VoxelShape vanillaShape
+    ) {
+        return collisionShape(state, level, pos, context, restoredConnectionMask);
+    }
 }
