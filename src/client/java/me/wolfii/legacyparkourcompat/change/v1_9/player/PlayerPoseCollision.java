@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.change.v1_9.player;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.PoseCollisionWorldBoundsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerDimensionsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import me.wolfii.legacyparkourcompat.mixin.EntityPoseDimensionsAccessor;
@@ -64,7 +65,12 @@ public final class PlayerPoseCollision implements PlayerDimensionsHook, PlayerPo
 
         AABB candidateBox = new AABB(previousBox.minX, previousBox.minY, previousBox.minZ,
             previousBox.minX + width, previousBox.minY + height, previousBox.minZ + width);
-        boolean clear = MovementRuntime.withHistoricalBlockShapePlayer(player,
+        boolean boundaryCollision = MovementRuntime.find(PoseCollisionWorldBoundsHook.class, player)
+            .map(change -> change.hasOutOfBoundsCollision(
+                candidateBox.minX, candidateBox.minY, candidateBox.minZ,
+                candidateBox.maxX, candidateBox.maxY, candidateBox.maxZ))
+            .orElse(false);
+        boolean clear = !boundaryCollision && MovementRuntime.withHistoricalBlockShapePlayer(player,
             () -> player.level().noBlockCollision(null, candidateBox));
         if (!clear) {
             restorePreviousState(player, dimensions, previousDimensions, previousBox,
