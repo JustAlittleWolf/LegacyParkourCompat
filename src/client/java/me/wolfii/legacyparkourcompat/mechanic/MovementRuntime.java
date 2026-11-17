@@ -54,7 +54,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -668,15 +671,33 @@ public final class MovementRuntime {
         VoxelShape bounds = Shapes.joinUnoptimized(
             Shapes.create(paddedSweep), Shapes.create(shiftedStart), BooleanOp.ONLY_FIRST);
 
-        var provider = new SlabMovementCollisionProvider(level, context, entity);
-        boolean slabOnlyEnvelope = provider.supportsCompleteEnvelope(bounds, streamOrder);
+        boolean stairSweep = movement.moverType() == MoverType.SELF
+            && !entity.isPassenger() && requested.x == 0.0 && requested.y == 0.0 && requested.z >= 1.0E-7;
+        var provider = new HistoricalMovementCollisionProvider(level, context, entity,
+            stairSweep ? startBox : null);
+        if (!provider.supportsCompleteEnvelope(bounds, streamOrder)) {
+            return vanilla.get();
+        }
+
+        VoxelShape overlappingStair = provider.overlappingStair;
+        List<VoxelShape> stairNative = null;
+        if (overlappingStair != null) {
+            // Both collectors must see only the bounded stair before applying whole-shape exclusion.
+            stairNative = new ArrayList<>(1);
+            vanilla.get().forEach(stairNative::add);
+            if (stairNative.size() != 1
+                || Shapes.joinIsNotEmpty(stairNative.getFirst(), overlappingStair, BooleanOp.NOT_SAME)) {
+                return stairNative;
+            }
+        }
+
         var query = new BlockCollisionCollectionHook.CollectorQuery(
             bounds,
             exclusion,
             exactBounds,
             sourceBoxConversionMatches(startBox),
-            slabOnlyEnvelope,
-            slabOnlyEnvelope,
+            true,
+            true,
             true,
             true,
             stepUpFree,
@@ -685,7 +706,10 @@ public final class MovementRuntime {
         );
         var historical = collector.get().collect(query, provider);
         if (historical.isEmpty() || !provider.isStillSupported()) {
-            return vanilla.get();
+            return stairNative != null ? stairNative : vanilla.get();
+        }
+        if (stairNative != null && historical.get().stream().anyMatch(shape -> !shape.isEmpty())) {
+            return stairNative;
         }
 
         if (streamOrder == BlockCollisionCollectionHook.StreamOrder.AGGREGATE_X_Z_Y
@@ -886,8 +910,15 @@ public final class MovementRuntime {
         "minecraft:air", "minecraft:cave_air", "minecraft:void_air"
     );
 
-    private static final class SlabMovementCollisionProvider
+    private static final class HistoricalMovementCollisionProvider
         implements BlockCollisionCollectionHook.BlockCollisionProvider {
+        private static final AABB STAIR_BASE = new AABB(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
+        private static final AABB STAIR_STEP = new AABB(0.0, 0.5, 0.5, 1.0, 1.0, 1.0);
+        private static final VoxelShape OAK_STAIR_SHAPE = Shapes.or(Shapes.create(STAIR_BASE), Shapes.create(STAIR_STEP));
+
+        private final @Nullable AABB stairStartBox;
+        private @Nullable VoxelShape overlappingStair;
+        private boolean foundSlab;
         private final Level level;
         private final CollisionContext context;
         private final Entity entity;
@@ -898,38 +929,40 @@ public final class MovementRuntime {
         private final BlockGetter noLoadBlockView = new BlockGetter() {
             @Override
             public @Nullable BlockEntity getBlockEntity(BlockPos position) {
-                BlockGetter chunk = SlabMovementCollisionProvider.this.collisionChunk(position);
+                BlockGetter chunk = HistoricalMovementCollisionProvider.this.collisionChunk(position);
                 return chunk == null ? null : chunk.getBlockEntity(position);
             }
 
             @Override
             public BlockState getBlockState(BlockPos position) {
-                BlockGetter chunk = SlabMovementCollisionProvider.this.collisionChunk(position);
+                BlockGetter chunk = HistoricalMovementCollisionProvider.this.collisionChunk(position);
                 return chunk == null ? Blocks.VOID_AIR.defaultBlockState() : chunk.getBlockState(position);
             }
 
             @Override
             public FluidState getFluidState(BlockPos position) {
-                BlockGetter chunk = SlabMovementCollisionProvider.this.collisionChunk(position);
+                BlockGetter chunk = HistoricalMovementCollisionProvider.this.collisionChunk(position);
                 return chunk == null ? Blocks.VOID_AIR.defaultBlockState().getFluidState() : chunk.getFluidState(position);
             }
 
             @Override
             public int getHeight() {
-                return SlabMovementCollisionProvider.this.level.getHeight();
+                return HistoricalMovementCollisionProvider.this.level.getHeight();
             }
 
             @Override
             public int getMinY() {
-                return SlabMovementCollisionProvider.this.level.getMinY();
+                return HistoricalMovementCollisionProvider.this.level.getMinY();
             }
         };
         private boolean supported = true;
 
-        private SlabMovementCollisionProvider(Level level, CollisionContext context, Entity entity) {
+        private HistoricalMovementCollisionProvider(Level level, CollisionContext context, Entity entity,
+                                                    @Nullable AABB stairStartBox) {
             this.level = level;
             this.context = context;
             this.entity = entity;
+            this.stairStartBox = stairStartBox;
             this.border = level.getWorldBorder();
         }
 
@@ -963,7 +996,14 @@ public final class MovementRuntime {
                 && find(BlockComponentClipHook.class, state.getBlock(), this.entity).isEmpty();
 
             if (historicalSlabKey != null) {
+                this.foundSlab = true;
                 supportedCell &= matchingLegacySlabState(state, shape);
+            } else if (this.stairStartBox != null && state.is(Blocks.OAK_STAIRS)) {
+                supportedCell = supportedCell && this.overlappingStair == null
+                    && matchingStartOverlappingStair(state, position, this.stairStartBox, shape);
+                if (supportedCell) {
+                    this.overlappingStair = shape.move(position);
+                }
             } else if (shape.isEmpty()) {
                 // These keys are noCollision in both 1.13 and 26.2; an empty
                 // shape from any other unclosed block key is not sufficient proof.
@@ -1046,11 +1086,37 @@ public final class MovementRuntime {
                     }
                 }
             }
-            return this.supported;
+            return this.isStillSupported();
         }
 
         private boolean isStillSupported() {
-            return this.supported;
+            return this.supported && (this.overlappingStair == null || !this.foundSlab);
+        }
+
+        /**
+         * Ornithe Feather Gen2 build 2, 1.13 through 1.13.2: StairsBlock.getShape
+         * provides the same stair union as the 26.2 unobfuscated StairBlock.getShape.
+         * Entity.move passes the starting shape through WorldView.getCollisions to
+         * getBlockCollisions, which excludes the whole union on lower-half overlap.
+         * 1.12.2 StairsBlock.getCollisionShapes supplies separate boxes; Entity.move
+         * clips against the upper step.
+         * In 1.14, Entity.m_73670363 and VoxelShapes.m_84822986 clip the stair with
+         * no start exclusion. 26.2 BlockCollisions.computeNext and
+         * Entity.collideWithShapes likewise retain the swept stair and clip its step.
+         */
+        private static boolean matchingStartOverlappingStair(BlockState state, BlockPos position,
+                                                              AABB startBox, VoxelShape localShape) {
+            if (state.getValue(StairBlock.HALF) != Half.BOTTOM
+                || state.getValue(StairBlock.FACING) != Direction.SOUTH
+                || state.getValue(StairBlock.SHAPE) != StairsShape.STRAIGHT
+                || state.getValue(StairBlock.WATERLOGGED)) {
+                return false;
+            }
+            AABB localStart = startBox.move(-position.getX(), -position.getY(), -position.getZ());
+            return STAIR_BASE.intersects(localStart)
+                && localStart.maxZ == STAIR_STEP.minZ
+                && localStart.minY < STAIR_STEP.maxY && localStart.maxY > STAIR_STEP.minY
+                && !Shapes.joinIsNotEmpty(localShape, OAK_STAIR_SHAPE, BooleanOp.NOT_SAME);
         }
 
         private static boolean matchingLegacySlabState(BlockState state, VoxelShape shape) {
