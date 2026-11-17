@@ -8,7 +8,7 @@ Launch one GPT-6.2 Sol high master and three GPT-6.2 Sol medium leads with deleg
 
 Use English for chat titles, goal objectives, prompts, worker communication, evidence, commit messages and reports. Arm a native goal in each of the four chats at start. Each lead follows the same block reservation procedure in the [orchestration workflow](WORKFLOW.md#reserve-an-end-to-end-block). All three may select from the full backlog and carry their blocks through source evidence, independent acceptance, candidate implementation and branch integration. Give each lead a separate checkout and branch. The master confirms reservations, owns central records and publishes completed batches to main in sequence.
 
-Use Luna high for routine work when selectable. For this start brief Sol medium is the fallback when Luna is unavailable. Record the actual choice once. Resolve technical issues within the owning group and reassign capacity around unavailable resources or approvals. Follow the [reusable orchestration procedure](WORKFLOW.md) for queue balancing, Git recovery, checkpoints and stop propagation.
+Dispatch routine workers with explicit native arguments `model="gpt-6-luna"`, `reasoning_effort="high"` and `fork_turns="none"`. Verify execution on the first assignment. An omitted model suggestion alone does not establish unavailability. If the call fails, hold routine dispatch and report the error to the coordinator. This run requires Luna for routine work. Resolve technical issues within the owning group and reassign capacity around unavailable resources or approvals. Follow the [reusable orchestration procedure](WORKFLOW.md) for queue balancing, Git recovery, checkpoints and stop propagation.
 
 ## First dispatch and checks
 
