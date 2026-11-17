@@ -732,7 +732,8 @@ public final class PaneNeighborFaceShape {
         return Optional.of(false);
     }
 
-    private static Optional<Boolean> stairFaceIsSolid(
+    /** Shared 1.12 directional stair-face decision used by pane and wall collision masks. */
+    public static Optional<Boolean> stairFaceIsSolid(
         BlockState state, BlockGetter level, BlockPos pos, Direction face
     ) {
         Direction facing = state.getValue(StairBlock.FACING);
