@@ -41,6 +41,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.SprintRetentionInputHo
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintDoubleTapGroundHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintKeyStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintStartHook;
@@ -418,9 +419,33 @@ abstract class LocalPlayerMixin {
         boolean allowed = MovementRuntime.find(DoubleTapSprintStartHook.class, player)
             .map(behavior -> behavior.allowDoubleTapStart(player, sprinting))
             .orElse(sprinting);
-        if (allowed) {
+        if (allowed && (!sprinting || legacyparkourcompat$doubleTapGroundAdmits(player))) {
             vanilla.call(player, sprinting);
         }
+    }
+
+    @WrapOperation(
+        method = "aiStep()V",
+        at = @At(
+            value = "FIELD",
+            target = "Lnet/minecraft/client/player/LocalPlayer;sprintTriggerTime:I",
+            opcode = Opcodes.PUTFIELD,
+            ordinal = 2
+        )
+    )
+    private void legacyparkourcompat$doubleTapSprintTimer(
+        LocalPlayer player, int value, Operation<Void> vanilla
+    ) {
+        if (legacyparkourcompat$doubleTapGroundAdmits(player)) {
+            vanilla.call(player, value);
+        }
+    }
+
+    @Unique
+    private boolean legacyparkourcompat$doubleTapGroundAdmits(LocalPlayer player) {
+        return MovementRuntime.find(SprintDoubleTapGroundHook.class, player)
+            .map(change -> change.admits(MovementRuntime.profile(player).target(), player))
+            .orElse(true);
     }
 
     @WrapOperation(
