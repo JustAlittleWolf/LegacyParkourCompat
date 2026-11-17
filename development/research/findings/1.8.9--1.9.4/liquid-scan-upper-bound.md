@@ -23,3 +23,9 @@ If the included cell passes the liquid material/height filter, 1.8.9 can set the
 
 
 The subsequent exact 1.9 comparison and 1.9–1.9.4 alias audit establish the first changed stable release as 1.9. The 1.8.9 water-current component is implemented within the supported nonfalling-water/material bundle; its old Y-overlap admission and direct empty-chunk reads do not inherit the modern full-chunk preflight. Current is applied once before water contact effects. The historical body-contact Boolean remains a separate open component. Source comparisons, witness audits and client area-gate closure are retained in `development/research/source-evidence/20261028/water-flow-scan/`. No runtime parity is asserted.
+
+## Exact nonfalling water-current witness
+
+With a non-flying, non-riding standing player at `x=z=0.5` and `y=62.60100005364418`, the symmetric `-0.4F` Y adjustment and subsequent `0.001` contraction yield a maximum Y of exactly `64.0`. Place level-1 water at `(0,64,0)` and source water at `(1,64,0)`, with the other relevant cells empty and the area loaded. Exact 1.8.9 scans the level-1 cell, admits its liquid height and applies the westward current impulse `(-0.014,0,0)`. Exact 1.9 excludes the cell before its height check and contributes zero. The inspected 1.9 patches and 1.10.2 retain that new bound. This witness establishes the direct current contribution and leaves the separate body-contact, boat, falling-face and later movement paths outside its verdict.
+
+[Exact finding](../../source-evidence/20261117/block-a-early-fluid-bounds/water-upper-bound-liquid-admission.md), [source comparison](../../source-evidence/20261117/block-a-early-fluid-bounds/water-comparison.md), [independent verdict](../../source-evidence/20261117/block-a-early-fluid-bounds/water-verdict.md).
