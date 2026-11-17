@@ -9,11 +9,11 @@ public interface FlowScanAreaAdmissionHook extends VersionedMechanic {
     /**
      * Returns whether a flow scan is admitted for the integer query bounds passed to
      * the historical {@code World.isAreaLoaded} call. The minima are
-     * {@code floor(bounds.minAxis)} and the maxima are {@code floor(bounds.maxAxis + 1.0)};
-     * maxima therefore remain the scan's exclusive loop bounds.
+     * {@code floor(bounds.minAxis)} and the maxima are the selected scan's exclusive
+     * loop bounds, passed unchanged to the historical area check.
      *
-     * <p>For client player flow in 1.8.9, only the vertical overlap with block levels
-     * {@code [0, 256)} restricts scanning; horizontal chunk coordinates do not.
+     * <p>For client player flow through 1.9.4, only the vertical overlap with block
+     * levels {@code [0, 256)} restricts scanning.
      */
     boolean admits(int minBlockX, int minBlockY, int minBlockZ,
                    int maxBlockX, int maxBlockY, int maxBlockZ);
