@@ -5,7 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 
 /**
- * Reproduces 1.8.0-1.8.9 client-side vertical admission for the liquid flow scan.
+ * Reproduces the 1.8–1.9.4 client-side vertical admission for the liquid flow scan.
  *
  * <p>In raw 1.8.0/1.8.1 clients mapped with Feather Gen2 build 2 Tiny and the
  * byte-identical Ornithe Feather sources from 1.8.2 through 1.8.9,
@@ -18,11 +18,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHo
  * returns the empty chunk when absent, so that loop cannot reject horizontal
  * coordinates (ClientChunkCache.java:31, 54-57).
  *
- * <p>The 1.8.0-1.8.9 client operation therefore has the same admission across
- * this provider's resolver range. The adjacent 1.9.4 Ornithe Feather sources
- * retain the same Y-overlap test in {@code World.isAreaLoaded} and pass it from
- * {@code World.applyLiquidDrag}
- * (World.java:216-235, 1560-1602). In current 26.2 unobfuscated sources,
+ * <p>Ornithe Feather 1.9 through 1.9.4 {@code World.applyLiquidDrag} still
+ * passes {@code allowEmpty = true} to {@code World.isAreaLoaded}, and
+ * {@code ClientWorld.isChunkLoadedAt} accepts every column with that flag.
+ * The same Y-overlap rule therefore applies to the 1.9 scans after their
+ * exclusive upper bounds switch to ceil. In 26.2 unobfuscated sources,
  * {@code EntityFluidInteraction.hasFluidAndLoaded} instead requires FULL chunks
  * and fluid in a scanned section (EntityFluidInteraction.java:91-113), while
  * {@code ClientChunkCache.getChunk} supplies an empty chunk only on its loading
@@ -31,7 +31,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHo
  * current tracker preflight or water-contact gate. Apply the already-computed
  * historical flow result independently of both current gates.
  */
-@MovementChange(emulates = ParkourVersion.V1_8_9)
+@MovementChange(emulates = ParkourVersion.V1_9_3)
 public final class LegacyFlowScanAreaAdmission implements FlowScanAreaAdmissionHook {
     public LegacyFlowScanAreaAdmission() {
     }

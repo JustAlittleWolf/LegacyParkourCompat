@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic.hook.world;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.OptionalInt;
 
@@ -19,6 +20,11 @@ import java.util.OptionalInt;
  */
 @MechanicType("world.water_flow_scan_bound")
 public interface WaterFlowScanBoundHook extends VersionedMechanic {
+    /** Whether the historical flow scan applies to this player's current mode. */
+    default boolean supports(Player player) {
+        return true;
+    }
+
     /**
      * @param boundsMax the maximum coordinate on the axis currently being scanned
      * @return the historical exclusive scan end, or empty to preserve the

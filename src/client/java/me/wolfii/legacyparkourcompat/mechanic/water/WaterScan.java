@@ -56,6 +56,7 @@ public final class WaterScan {
                                         Optional<FluidCurrentAggregationHook> currentAggregation) {
         boolean aggregateHistoricalCurrent = currentAggregation.isPresent()
             && !MovementRuntime.profile(player).target().olderThan(ParkourVersion.V1_13);
+        flowBound = flowBound.filter(hook -> hook.supports(player));
         Optional<AABB> selected = body.flatMap(hook -> hook.probe(player.getBoundingBox()));
         boolean replacesContact = selected.isPresent();
         AABB historicalFlowBox = !aggregateHistoricalCurrent && flowBound.isPresent()
