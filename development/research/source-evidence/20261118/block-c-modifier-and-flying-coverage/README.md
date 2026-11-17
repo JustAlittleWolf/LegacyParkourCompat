@@ -16,3 +16,5 @@ This archive preserves the exact frozen C source reports/comparisons and indepen
 Only corrected `report-r2.md` is included for modifier consumers; its earlier report is omitted. The S6 archive contains only the manifest supplement and its audit, not a claim about underlying definitions. The relative trig archive is a bounded older-side comparison, not a new transition finding.
 
 The bound 1.21.5–1.21.8 state-predicate report and corrected modifier-consumer report each contain one original CRLF line ending; both are retained exactly to preserve their assigned SHA-256 values. The other bound files contain LF line endings only.
+
+The preserved CRLF terminal bytes are reported as trailing whitespace by git diff --check at those two bound source paths. This is a path-specific original-byte exception; the scoped check excludes only those two files and passes for the rest of the archive.
