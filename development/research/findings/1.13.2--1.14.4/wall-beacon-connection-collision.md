@@ -8,6 +8,8 @@ Exact Feather 1.14 and 1.14.4 apply the full-face test and omit Beacon from the 
 
 For the measured source fixture, place the wall at (0,64,0) and Beacon at (0,64,-1). The centered post has local X/Z [4,12]/16 and the north arm has X [5,11]/16, Z [0,11]/16. A width-.6 player centered at X=.5, Z=-.1 with feet Y=65.65 clears the post and would overlap the arm on a pure vertical SELF request of about -.3. The older path reaches feet Y≈65.35, still above Beacon's Y=65 top. The checked later path clips at feet Y=65.5. Because X and Z displacement are zero, the compared step-up gates do not run.
 
-This source result covers the specified ordinary collision fixture. Exact 1.14.1–1.14.3 provenance, other neighbor sets, state mutations, packet/server effects and measured runtime parity remain separate.
+Exact Yarn 1.14.1, 1.14.2 and 1.14.3 retain the same wall connection to Beacon. The [patch alias review](../../source-evidence/20261117/block-b-solid-collision/beacon-wall-vertical-landing/114-patch-alias-review.md) verifies the hidden source provenance and the wall's full collision-face predicate, Beacon exclusion list, and collision shape.
+
+This source result covers the specified ordinary collision fixture. Other neighbor sets, state mutations, packet/server effects and measured runtime parity remain separate.
 
 [Accepted proof](../../source-evidence/20261117/block-b-solid-collision/beacon-wall-vertical-landing/proof-r2.md) · [Independent review](../../source-evidence/20261117/block-b-solid-collision/beacon-wall-vertical-landing/verdict.md) · [Source binding](../../source-evidence/20261117/block-b-solid-collision/beacon-wall-vertical-landing/binding.md)
