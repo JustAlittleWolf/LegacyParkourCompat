@@ -5846,7 +5846,7 @@
       "sourceCoverage": "partial",
       "dependencyClosure": "incomplete",
       "independentCoverageAudit": "not complete",
-      "nextAction": "Retain accepted bounded NO_DIFF slices for player writers, passenger attachment, ordinary input/travel-entry, menus, dry-ground jump, Entity.move kernel, pose/collision dimensions, post-move callbacks and fall-flying. The pair remains partial and unaudited; continue remaining movement writers, ticks/resources and intermediate boundaries. Runtime parity remains open.",
+      "nextAction": "Retain accepted bounded NO_DIFF slices for player writers, passenger attachment, ordinary input/travel-entry, menus, dry-ground jump, Entity.move kernel, pose/collision dimensions, post-move callbacks, fall-flying and entity-contact push. The pair remains partial and unaudited; continue remaining movement writers, ticks/resources and intermediate boundaries. Runtime parity remains open.",
       "evidence": {
         "revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52",
         "path": "development/research/archive/legacy-workflows/source-campaign-2026-10-07/1.21.11--26.1.2/run.md"
@@ -6122,6 +6122,26 @@
         "archivedEvidence": {
           "report": "development/research/source-evidence/20261117/checkpoint03/later-source-20261116/1.21.11--26.1.2/fall_flying/coverage.md",
           "audit": "development/research/source-evidence/20261117/checkpoint03/later-source-20261116/1.21.11--26.1.2/fall_flying_audit/audit.md"
+        }
+      },
+      "entityContactPush20261117": {
+        "report": {
+          "path": "build/later-source-20261116/1.21.11--26.1.2/entity_push/entity-push-source.md",
+          "sha256": "c01f19e6658ded3080e23a0233c4e9808f47b35a89e4e27015d6c7e37f0a9822"
+        },
+        "audit": {
+          "path": "build/later-source-20261116/1.21.11--26.1.2/entity_push_audit/audit.md",
+          "sha256": "f6d42a1bef1d66816618b3d64698c9193c5ca6d560df281ed40f74f0eba8d1af",
+          "verdict": "ACCEPT bounded no-difference"
+        },
+        "scope": "Client-side entity selection, selector/pushability/sleep gates, LivingEntity response dispatch and Entity impulse arithmetic for LocalPlayer contact pushes match in the inspected endpoints.",
+        "limits": [
+          "Bounded entity-contact route only; other push/packet writers and intermediate releases remain open.",
+          "Full-pair coverage and runtime parity remain open."
+        ],
+        "archivedEvidence": {
+          "report": "development/research/source-evidence/20261117/checkpoint03/later-source-20261116/1.21.11--26.1.2/entity_push/entity-push-source.md",
+          "audit": "development/research/source-evidence/20261117/checkpoint03/later-source-20261116/1.21.11--26.1.2/entity_push_audit/audit.md"
         }
       }
     },
