@@ -1,0 +1,42 @@
+# 1.21.11 → 26.1.2 bounded source comparison: Entity.move collision kernel
+
+**Disposition:** bounded `NO_DIFF` for the ordinary local-player `Entity.move` collision-resolution and immediate position/flag-writing slice examined below. This is not full pair coverage or pair closure. No changed movement rule is asserted.
+
+## Immutable endpoint identity
+
+| Endpoint | Ready identity | Source manifest SHA-256 | Artifact manifest SHA-256 | Pinned client SHA-256 |
+|---|---|---|---|---|
+| 1.21.11 | `decompiled_minecraft/1.21.11/mojmap.ready.json` SHA-256 `0AD98D0EBD654650492C97EB58BC324D33864787F0CE10D99FAEC3AE2F5B804B`; `versionId=1.21.11`, `mapping=mojmap`, `status=ready`, Vineflower | `0C4D83FEF84C101D9DB88F331ACEC7960F3C8346228C28995E6CF57BBFCAE555` (`mojmap.sources.sha256`) | `C8210B15012DCC4E109C2F73015B4117ABEC1F8AB04FDD375DBC11419E9E246C` | `1473C9489AC50FDA3C435049A76A70D61A10B8610DB27F5BA9D8756B686CD3BD` |
+| 26.1.2 | `decompiled_minecraft/26.1.2/unobfuscated.ready.json` SHA-256 `F24AF0F4D38543C2BD9C19B50F347D4E89D6027050E4B21AE070734843946BB7`; `versionId=26.1.2`, `mapping=unobfuscated`, `status=ready`, Vineflower | `54AE320660CA911A6D20514C965C33EB414FBEDD1AD6727BBAA95FE906AA23C0` (`unobfuscated.sources.sha256`) | `89F648229DE83B0109460695C9F1F3BED7EF36EFB84EDE9224E80CCE87118F92` | `B1B3158572666445EFF01E82FAD8C7DE2E4953DB6D354F311730D77A8359D0B0` |
+
+Ready markers bind to the source and artifact manifest digests above. Provenance records are present at `decompiled_minecraft/1.21.11/mojmap.provenance.json` (SHA-256 `99C9FB741EB5E4AC8FB5780E2158DA324D7C8B6AFC179D494E5986F78FE29F72`) and `decompiled_minecraft/26.1.2/unobfuscated.provenance.json` (SHA-256 `8D727F880CC91F4A297E148C5B75976303D051457334BC689268FBDF631A012A`). Every source file below was hash-checked against its endpoint source manifest and its bytes matched.
+
+## Compared source slices
+
+| Canonical relative source path | 1.21.11 SHA-256 | 26.1.2 SHA-256 | Relevant line anchors |
+|---|---|---|---|
+| `net/minecraft/world/entity/Entity.java` | `32314478C6036FA9F3F3CC409C61C622EEFC5A282D60E1011A1A33CC29CF18A3` | `8B83B1F036AABBD13D990897C540C993F7120F02955486CFCF229517D4097CCF` | move 685–779 / 704–800; support flags 645–679 / 664–698; collision + step-up 1044–1138 / 1077–1177 |
+| `net/minecraft/world/entity/player/Player.java` | `8E97167350A91741D0AA10D3B0D92A33150ED6DCCDC94CD5B37D9C7CA22BCC81` | `44CF28E0C64E78D39FD13368E9991381DBEBAB67029070CB9DDC43F09D45D14D` | `maybeBackOffFromEdge` 889–951 / 880–948 |
+| `net/minecraft/client/player/LocalPlayer.java` | `948E94F8E874B2F72E9A689E6E3BA1933F5728EC381D64F3BB5E2388718BD477` | `433FD995AD317AF0F6EF0E50C1E8E3483CB8F00E0E327D4EDF27A4DD99666EBE` | `move` 946–955 / 985–994; minor-horizontal-collision override 1064–1080 / 1103–1119 |
+| `net/minecraft/world/level/CollisionGetter.java` | `CA2A5C4561FA8B263D7CE8513A152F9C1D6537F4F011859351CE58B39A7F4E70` | `DDDFF4897E8D5D01E3AC132D85C474E6A3B9BAE928E48B8C907AA9EABDB7FB01` | block collision iterator / support query 96–153 / 96–153 |
+| `net/minecraft/world/level/BlockCollisions.java` | `05875BB3A6FA49628AC92174E68EC3B5BED1CF39EBD4E7158B1885AEAD0A6A68` | `EB8A8F6F07B1D6384F17987818F056D41ADFD6B2AD120D26774BFA550F4FC51E` | constructor 31–50 / 31–62; traversal/filter/shape intersection 66–98 / 78–110 |
+| `net/minecraft/world/phys/shapes/Shapes.java` | `FBE1AA9C92B4806128325ED82A5255ABA5158DE68BA62EB1AFD53E7811B6B40B` | `CFA63CBED77C922A68E7E8A6A3B78B09A22C7DE51E0146E481E9C9D26DB66F58` | `collide` 210–220 / 233–243 |
+| `net/minecraft/world/phys/shapes/VoxelShape.java` | `9655DCA09DFB10E942AC88FB6E31A44F2611A5C61472136649269F248569F44D` | `419A46BBCC8B48E1C075127954EB243DCC60D10D4087BF256D895CF91A2FF854` | `collide` and axis scan 247–306 / 252–311 |
+| `net/minecraft/world/phys/shapes/CollisionContext.java` | `6F1ADE5FA21F38D217A6C766AC34A4D2DDF54798320486EA33A7F676ABFDC640` | `8702D23BEA0F119E0D63CE15FF59088559A319283186372FD69ADEBEED4DCD69` | entity context factory / collision-shape interface 24–35, 59–70 / same |
+| `net/minecraft/core/Direction.java` | `EAEFE276EF6732D1F99C6D8268458714D1F84A37DD24654E238A710CC707B5BE` | `30FB61592F1A154BB8FC239AB8DF1CD2B209F63317E0C7DDE4D5B9B3E260D754` | `axisStepOrder` 372–374 / 378–380 |
+| `net/minecraft/world/level/border/WorldBorder.java` | `AB05E26FEF3303E9590DDC890BC2C873AD57B774548EF75501EAD1C25BB95959` | `49A6EE08F1FDDDC7951BE74E420DA5741E67A16D8992E426A5F34DBA13DC518B` | distance, `isInsideCloseToBorder` 93–114 / 96–117 |
+| `net/minecraft/core/Cursor3D.java` | `9516429BC3DB97B97A2E5DDE5A3A7A18E7E0377E56393A6A8B5C480F742EBB2B` | `9A1FDC92BB95013C7E70DA467A0B5E5B1C9787DAAFCB0E7E3A8C950DD0E7287F` | traversal dependency used by `BlockCollisions`; only source identity/hash checked |
+| `net/minecraft/world/phys/AABB.java` | `B8ACE04FA09628266E3E12EC5423DBCEB7ECEF000041824C00510A5DDCA6E9A1` | `22F23018FD588C2C4893D872F730381127E3D3DDD1A8C960901ECB8DAE626392` | AABB expand/move/position writers are called from Entity; only source identity/hash checked |
+
+## Bounded comparison result
+
+* `Entity.move` has the same branch/order in both sources for no-physics direct position, piston limiting/zero return, stuck multiplier consumption, player edge backoff, collision resolution, movement-length position-write condition (`1.0E-7`), optional fall-resetting clip, movement record and `setPos`, horizontal/vertical collision comparisons, downward-ground test, support-block callback, and minor-horizontal-collision dispatch. Immediate post-resolution order is also the same for fall-damage callback, horizontal velocity zeroing, after-fall block callback, movement emission, and block-speed-factor multiplication.
+* The player edge-protection override has the same flying/upward/mover/surface/above-ground gates, 0.05 step loops, and returned vector. `LocalPlayer.move` still snapshots X/Z, calls `super.move`, converts resulting horizontal deltas to float, invokes auto-jump, and adds walked distance with factor `0.6F`. Its minor-collision direction-angle calculation retains the same float yaw conversion, sine/cosine transform, `1.0E-5F` thresholds, dot/sqrt/acos expression, and `0.13962634F` cutoff.
+* The collision method queries an expanded AABB for entity colliders (entity-entity collision behavior itself is excluded), then builds the resolved collision list with those colliders, a nearby world-border shape, and block collisions. It preserves the same candidate step-up process, including float conversion of shape Y coordinates, rejection of negative/current resolved Y, max-step break, unstable sort, horizontal-distance comparison, and base-height correction.
+* `BlockCollisions` uses the same ±`1.0E-7` padded integer bounds and `Cursor3D` traversal; excludes face type 3; caches chunk lookup; applies suffocating/large-shape/moving-piston gates; gets context-dependent block collision shape; fast-paths `Shapes.block()` with AABB intersection; and otherwise translates and intersects voxel shapes. `CollisionGetter` supplies this iterator for ordinary block collision and the same iterator/provider for support-block lookup.
+* `collideWithShapes` uses the same `Direction.axisStepOrder` (`YZX` when `abs(x) < abs(z)`, otherwise `YXZ`), applies each nonzero axis sequentially against the progressively moved AABB, and delegates to `Shapes.collide`. `Shapes.collide` stops when the residual is below `1.0E-7`; `VoxelShape.collide` preserves its positive/negative scan directions, `1.0E-7` index offsets, comparisons, and min/max clipping updates.
+* World-border inclusion in the collider list uses the same `max(absMax(box X/Z size), 1.0)`, distance `< 2 * bbMax`, and bounds gate. The local-player hook is present in both versions and its implementation matches within this slice.
+
+## Open gates / exclusions
+
+This is not whole-pair source coverage. `CollisionContext.getCollisionShape` delegates into `BlockState.getCollisionShape`; block-specific/state-dependent shapes and their direct player-visible state predicates were not exhaustively traced. `Cursor3D` behavior and `AABB` expansion/intersection internals were hash-bound but not operation-compared here. Full player tick/input → travel route and its fluid, packet, vehicle, auto-jump continuation, and callbacks outside the enumerated `Entity.move` postlude were not audited. Entity-entity collision/push and other non-player movement routes were explicitly excluded. Those are separate coverage gates; no inference of full equivalence or closure follows from this bounded result.

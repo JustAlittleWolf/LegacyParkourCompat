@@ -1,0 +1,27 @@
+# Independent acceptance: powder snow freeze-slowdown cutoff
+
+Verdict: **ACCEPT — adjacent stable boundary 1.21.4 -> 1.21.5**.
+
+## Bound inputs
+
+- Existing accepted draft: `build/mcpk-20261116/vd-full-checklist/powder-snow-postintro/drafts/powder-snow-client-freeze-slowdown.md`, SHA-256 `6a99f2053ccba2d7c7cbb8d913e67984038b83871ff88c518fad6d512bfc403d`.
+- Existing source audit: `build/mcpk-20261116/vd-full-checklist/powder-snow-postintro-audit/audit.md`, SHA-256 `a9c68903a2d451c34ed81954801451e05bdcbfe03798a5419db9e293b39ecdcd`.
+- Boundary packet: `build/mcpk-20261116/vd-full-checklist/powder-freeze-boundary-followup/freeze-slowdown-boundary.md`, SHA-256 `3e80d4f23ffc9cce857c1f3bf83a45f13ac40224ecbe7697aeb16060033ddc74`.
+
+The audit and accepted draft hashes match their supplied identities. The boundary packet's evidence identities match the local ready markers and source manifests: 1.21.4 Mojmap source-manifest SHA-256 `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0`, client artifact SHA-256 `c17c450c6e72cc51297daa57ce38f800aa01cf022b743daa21a0512d326d894e`; 1.21.5 Mojmap source-manifest SHA-256 `365cc2d22446ceba0e36f46aa1c95ce4cc31514dbd657505680fb660f3adefd9`, client artifact SHA-256 `522672ad20b460c02c2e39b6c5035ef6a849af28eb11ab2ac7eb293d395a8c11`. Both ready markers identify Vineflower / Java 25 and the matching exact version/mapping.
+
+## Independent source check
+
+For 1.21.4, `LivingEntity.aiStep` calls `removeFrost()` and `tryAddFrost()` unconditionally after its travel call and after the separate server-only frozen-tick update (`LivingEntity.java:2764-2805`; method bodies at `:505-527`). `tryAddFrost` reads non-air `getBlockStateOnLegacy()` and positive frozen ticks, then adds `-0.05F * getPercentFrozen()` as a transient `ADD_VALUE` movement-speed modifier. `LocalPlayer.tick` calls `super.tick()` when loaded (`LocalPlayer.java:191-195`), and `LivingEntity.tick` reaches `aiStep` (`LivingEntity.java:2429-2469`). The local player's travel reads `MOVEMENT_SPEED` (`Player.java:1492-1494`), so the post-travel local recomputation can affect the next movement tick.
+
+For 1.21.5, the `ServerLevel` guard encloses the freeze section, including `removeFrost()` and `tryAddFrost()` (`LivingEntity.java:2778-2790`); the provider formula and non-air/positive-frozen-ticks gates are unchanged (`:490-503`). The local-player-to-`aiStep` path remains (`LocalPlayer.java:191-195`; `LivingEntity.java:2460-2500`), but that client call no longer reaches the producer. `Player.getSpeed()` still reads `MOVEMENT_SPEED` (`Player.java:1470-1472`). Client entity-data and attribute handlers assign received entity data / attribute snapshots (`ClientPacketListener.java:558-564`, `:2179-2186`), so the source supports the bounded statement that client movement can consume a synchronized speed attribute; it does not establish packet scheduling or same-tick runtime parity.
+
+The local block-effect consequence is distinct from local modifier recomputation. In 1.21.4, `PowderSnowBlock.entityInside` sets `isInPowderSnow` directly (`PowderSnowBlock.java:80`); the `aiStep` frozen-tick producer is still server-only. In 1.21.5, `PowderSnowBlock.entityInside` queues `FREEZE` before `EXTINGUISH` (`PowderSnowBlock.java:83-95`); `LivingEntity.aiStep` applies collected block effects after travel for a local-authoritative client (`:2764-2770`), and `InsideBlockEffectType.FREEZE` sets `isInPowderSnow` and increments frozen ticks when `canFreeze()` (`InsideBlockEffectType.java:7-11`). The later local state update does not restore client-local `tryAddFrost`.
+
+Rehashed source files agree with the boundary packet: 1.21.4/1.21.5 `LivingEntity.java` `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30` / `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`; `LocalPlayer.java` `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611` / `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`; `ClientPacketListener.java` `eef170dd22b5711e7d9527601592093a0456590f192b54fefef170b5791165b4` / `284f34159a1baf30b6b540751ad2fa62344c179d5ed6a7bbbc5c888665779617`; `Player.java` `c45f41b9784ce50a88a498e84a13edcef0a23e175233d726ed7f90940f19ebc1` / `8fc187f33999db9dfc49251e95e92a17645a50adab16ca0f93f4948209f62036`. Additional block-effect sources checked: 1.21.4 `PowderSnowBlock.java` `a018411167f5d8b60b131c3f6387dcdd256b736ef64126bdcf33fd4457151654`; 1.21.5 `PowderSnowBlock.java` `de72fb6e70616d7727bf324b0da4a98250cabd97ad39ecbe1062732d47f39770`, `InsideBlockEffectType.java` `2b3d7b27bc5242bc1394843a8c9ae227deb550c730d2a4c24dd3fb2b59df2d68`, and `Entity.java` `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4`.
+
+## Boundary and review delta
+
+The exact adjacent stable source transition is **1.21.4 -> 1.21.5**: post-travel local `removeFrost()` / `tryAddFrost()` recomputation exists through 1.21.4 and is absent from the client path in 1.21.5 because the enclosing freeze section is `ServerLevel`-only. This closes the prior audit's explicitly open exact-boundary question for this adjacent pair. It does not accept uninspected broad claims about every later listed release, nor establish runtime packet scheduling/parity.
+
+The supplied claim files contain no distinct “seven-state/default resource” assertion. The reviewed state consequence is the explicit powder-snow `FREEZE` metadata update described above; no separate resource-state claim is accepted by this verdict.

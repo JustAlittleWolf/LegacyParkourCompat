@@ -1,0 +1,200 @@
+{
+  "checkpoint": "20261117/checkpoint03",
+  "files": [
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/climbing_movement_r3_audit/audit.md",
+      "sha256": "147da043671a3ed07d7eb307e9d9dfb51097269f23a8bf1823639e7e35dd2f20",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/climbing_movement_r3_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/climbing_movement_r4_audit/audit.md",
+      "sha256": "033534fdb9c0204ce5eddc8732a302806fdff5f98bcad36f7ae2c4586c7b8730",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/climbing_movement_r4_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/climbing_movement_revision_r3/coverage-r3.md",
+      "sha256": "a23971dca846b1cba7fcc6da48aaf046fcd59644d3641f4a6298410d15a2565a",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/climbing_movement_revision_r3/coverage-r3.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/climbing_movement_revision_r4/coverage-r4.md",
+      "sha256": "d3df5cb8d819484416f4b05e772bea10d44755373afb9a83251882e511d77b6e",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/climbing_movement_revision_r4/coverage-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/explosion_boundary/boundary-check-r2.md",
+      "sha256": "c112f7e189f20fe22cce0e46726df1092bf95fcef3dbeade57cb821e5835c805",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/explosion_boundary/boundary-check-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/explosion_r2_audit/verdict.md",
+      "sha256": "12fe686b01a13f46551ad8019ae77161037be6ae30162fb959799ebe7c0562ff",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/explosion_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/fall_distance_boundary_r4_audit/audit-r4.md",
+      "sha256": "b7ec0c41785d0b955083e2d77ffdd78cd123f8693b6d7c590ac48744814a47b7",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/fall_distance_boundary_r4_audit/audit-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/fall_distance_boundary_revision_r4/coverage-r4.md",
+      "sha256": "ffca062e77f47e05017551115fd2c08fe53167705800b323ea55de284f44920c",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/fall_distance_boundary_revision_r4/coverage-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/incoming_writers/development/research/findings/1.20.6--1.21.11/explosion-player-knockback-r2.md",
+      "sha256": "fe2e2d4d066e9e77ca43a65578d6306e6cf76f88bf1d4d2f52ecbcb655dd4ede",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/incoming_writers/development/research/findings/1.20.6--1.21.11/explosion-player-knockback-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/tiny_position_write_r4_audit/audit-r4.md",
+      "sha256": "e20be23dff4e776f8b4e8492955a814fb24ad2dfa1ee8b7b3929eeee57ea6a03",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/tiny_position_write_r4_audit/audit-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/source-check-r4.md",
+      "sha256": "0e34faad7c00be35f470897f17eb24b5ac25125a098e39c610407d157f936981",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/source-check-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/tiny-position-write-r4.md",
+      "sha256": "90a91d80cdc6082ddf07a570369241cb84755f7fa2d6727a5669eb62275b1a56",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/tiny-position-write-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/entity_move_collision_audit/audit.md",
+      "sha256": "5f80feb0ca4138edb835a56a8a11caa86fb558de819bce31915bdb3021fa109e",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/entity_move_collision_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/entity_move_collision/source-report.md",
+      "sha256": "3f44a596dd8f9d8885c565cb2269355b5b6503d0b4eb3898facd6ebcd77f73b7",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/entity_move_collision/source-report.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fall_flying_audit/audit.md",
+      "sha256": "21923cbd3da906ba776e9bfe7f56b504518dbc75d7f6fbf40b6aab0e117897e9",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fall_flying_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fall_flying/coverage.md",
+      "sha256": "28624a6834426faa8ee73f714d715182d2f96dac3e784d7a45af4a50067b52fa",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fall_flying/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fluid_travel_audit/audit.md",
+      "sha256": "99c1cdfa16e5dc4d95400b107a75cc13e08b302017c81552597c4fe5f5b245e1",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_travel_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fluid_travel/coverage.md",
+      "sha256": "9054d73fb7cacbd050a2d6f7c8b774e54bb476d845e24f0a61d1ad7cfbe238a0",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_travel/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/ground_jump_response_audit/audit.md",
+      "sha256": "b9841850b46700250898dcaa01a46734c8d4d467db3abcf270e2fcbc08292cbc",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/ground_jump_response_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/ground_jump_response/coverage.md",
+      "sha256": "5e4b7aaf6c2ea93cbc7e3085e9039c8676d83ca4ad3724cbe27174b9f158812b",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/ground_jump_response/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/postmove_callbacks_audit/audit.md",
+      "sha256": "000004e2c904033aa62d032a501ce21db9d6ea02fd31a56f71fc451c8102291f",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/postmove_callbacks_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/postmove_callbacks/report.md",
+      "sha256": "5e62706ebe55568078a39966a405843e34dafc135433a70844ed91f24fce16fd",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/postmove_callbacks/report.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/audit/verdict-r2.md",
+      "sha256": "9ddeb9fc28d6c3e932af5314cccbe5084e556463be8e2d444c9e742781bccfbc",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/audit/verdict-r2.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/author/sneak-cutoff-1.9.4-source-comparison.r2.md",
+      "sha256": "209178a80021e29cc09c8600fbc27ff8fb41be226f3ec427f4c7052ec8076bec",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/author/sneak-cutoff-1.9.4-source-comparison.r2.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/oob-guard-reachability/audit/verdict.md",
+      "sha256": "f4f08939177f73d9163e8da7ee769f03b8b338b0dbdf9961b887f39a3e4d665c",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/oob-guard-reachability/audit/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/oob-guard-reachability/author/source-facts-r2.md",
+      "sha256": "66a23d1d33e756f1876cc2779b90bb2b25662f76f91798666791f22fd545dd8b",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/oob-guard-reachability/author/source-facts-r2.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/v1_9_3_profile-impact/impact-plan.md",
+      "sha256": "71f62cbf89257c1c4de68e08214ecabc58bdc6a43a640cd9a5d188394b447a6b",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/v1_9_3_profile-impact/impact-plan.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-boat-dismount-revised/verdict.md",
+      "sha256": "fe84a28db6b441e0ef8e8dc4e6a01b73c967eea42942f55254125ab700214364",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-boat-dismount-revised/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-water-current-corrected/acceptance.md",
+      "sha256": "45bad09584c7882fb834d7c706de7ad4a338ef470aedfbeb9270621aa5e47fc0",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-water-current-corrected/acceptance.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/fluid-tracker-boundary-followup/fluid-tracker-boundary.md",
+      "sha256": "4ffba6e7ef8f5affc80afa485693ba0b8c1fce84ff8934b64f8289329cf0aa9d",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/fluid-tracker-boundary-followup/fluid-tracker-boundary.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/powder-stuck-1219-recheck/recheck.md",
+      "sha256": "6ba8b0f1fc17cd68d75d82d868177b94bd2d82c10f0f4652a06d3b56ee544b5e",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/powder-stuck-1219-recheck/recheck.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/product-readiness-explosion-knockback/terminal.md",
+      "sha256": "0030628bc429962792996ab05b950157256e32f3c0e42cfdc7fb49138c136cf4",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-explosion-knockback/terminal.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/product-readiness-fluid-tracker-26/readiness.md",
+      "sha256": "ca2943992b9a7073555c631bc60c9a4ed5cefdce84ac47cf64f6fcda5cbc2ae3",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-fluid-tracker-26/readiness.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/product-readiness-powder-stuck-exact/readiness.md",
+      "sha256": "63874401afd4f0e461fb5fde7225ad243ef552f45b6b17219dbe5fc5679d5653",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-powder-stuck-exact/readiness.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/product-readiness-slowfall-lowgravity/readiness.md",
+      "sha256": "e7ddba7a0d7c5505b023aaef1b1efc2d657ad51f055411ed69314cbe4148b3b4",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-slowfall-lowgravity/readiness.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/product-readiness-tiny-position-write/terminal.md",
+      "sha256": "5b6c8f9f29f8d8647f2f8189b488508833a3ab9fe9dd6752d99c55d519c69c10",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-tiny-position-write/terminal.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/product-water-current-corrected/terminal.md",
+      "sha256": "da74162fd2ecc9a042a4f7977afd2edb7b4fe435cf263c5bbf51c2066b6f9bc2",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-water-current-corrected/terminal.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/slowfall-consequence-followup/source-verdict.md",
+      "sha256": "42b03b823700ce6c78202c5e6f4f34123b46319530bfb2c26d439ba664b75c58",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/slowfall-consequence-followup/source-verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/water-current-26-2-source-map/terminal-packet.md",
+      "sha256": "0f80e191b98746062d15afd1706592de25c57058a03590842e254d58cd1f0407",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/water-current-26-2-source-map/terminal-packet.md"
+    }
+  ]
+}

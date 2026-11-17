@@ -1,0 +1,140 @@
+{
+  "checkpoint": "20261117/checkpoint02",
+  "files": [
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/external_response/player-block-contact-traversal.md",
+      "sha256": "efda4a0adab9b0cae2cdbce0c443f0bc2949e8b6e2bf7d426c3c267233b9388d",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/external_response/player-block-contact-traversal.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/honey_cutover_audit/audit.md",
+      "sha256": "3804aea3e95325727e0c2064304cb96b559aadb3da7688cc986f63f31568406d",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/honey_cutover_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/tiny_position_write_r4_audit/audit-r4.md",
+      "sha256": "e20be23dff4e776f8b4e8492955a814fb24ad2dfa1ee8b7b3929eeee57ea6a03",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/tiny_position_write_r4_audit/audit-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/source-check-r4.md",
+      "sha256": "0e34faad7c00be35f470897f17eb24b5ac25125a098e39c610407d157f936981",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/source-check-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/tiny-position-write-r4.md",
+      "sha256": "90a91d80cdc6082ddf07a570369241cb84755f7fa2d6727a5669eb62275b1a56",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/tiny-position-write-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fluid_travel/coverage.md",
+      "sha256": "9054d73fb7cacbd050a2d6f7c8b774e54bb476d845e24f0a61d1ad7cfbe238a0",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_travel/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fluid_travel_audit/audit.md",
+      "sha256": "99c1cdfa16e5dc4d95400b107a75cc13e08b302017c81552597c4fe5f5b245e1",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_travel_audit/audit.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/audit/verdict-r2.md",
+      "sha256": "9ddeb9fc28d6c3e932af5314cccbe5084e556463be8e2d444c9e742781bccfbc",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/audit/verdict-r2.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/author/sneak-cutoff-1.9.4-source-comparison.r2.md",
+      "sha256": "209178a80021e29cc09c8600fbc27ff8fb41be226f3ec427f4c7052ec8076bec",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/author/sneak-cutoff-1.9.4-source-comparison.r2.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-berry-trigger/SOURCE_ACCEPT.md",
+      "sha256": "936e6276876d7a6d13790e86f3d2112f22afe571e296e8a183f789e93e1ec66f",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-berry-trigger/SOURCE_ACCEPT.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-boat-dismount-revised/verdict.md",
+      "sha256": "fe84a28db6b441e0ef8e8dc4e6a01b73c967eea42942f55254125ab700214364",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-boat-dismount-revised/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-powder-freeze-boundary/verdict.md",
+      "sha256": "41a3b26b1fb74236219d52518a7dab94f41d290d9375995dad5bab3a5a838831",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-powder-freeze-boundary/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-powder-stuck-boundary/review.md",
+      "sha256": "f66798aa39702dc695a92044e7d1546d219e4b00c5fb53f96c3ba4ca54f5c359",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-powder-stuck-boundary/review.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-water-current-corrected/acceptance.md",
+      "sha256": "45bad09584c7882fb834d7c706de7ad4a338ef470aedfbeb9270621aa5e47fc0",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-water-current-corrected/acceptance.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-water-current-gate/corrected-finding.md",
+      "sha256": "242fdf2f38f1e9c7cce581ea7312ce8aea5bea18c8d05fcba81a29c90368def7",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-water-current-gate/corrected-finding.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-water-current-gate/terminal.md",
+      "sha256": "35a791b5f7eac1788a86025754f41dea8a74362170ff02088342dde11183828a",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-water-current-gate/terminal.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/boat-sneak-115-116/candidate-source-finding.md",
+      "sha256": "36f4969c679c15eb0a73bbe8c0deb1c3fbc40f18dde58886efb2a397864924e1",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/boat-sneak-115-116/candidate-source-finding.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/boat-sneak-115-116/source-verification.md",
+      "sha256": "fe03d5d93168df939fd219656ca5b4a15917effeafffa956a7dea74b7fb76647",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/boat-sneak-115-116/source-verification.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/fluid-tracker-boundary-followup/fluid-tracker-boundary.md",
+      "sha256": "4ffba6e7ef8f5affc80afa485693ba0b8c1fce84ff8934b64f8289329cf0aa9d",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/fluid-tracker-boundary-followup/fluid-tracker-boundary.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/powder-freeze-boundary-followup/freeze-slowdown-boundary.md",
+      "sha256": "3e80d4f23ffc9cce857c1f3bf83a45f13ac40224ecbe7697aeb16060033ddc74",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/powder-freeze-boundary-followup/freeze-slowdown-boundary.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/powder-snow-postintro/drafts/powder-snow-stuck-piston-response.md",
+      "sha256": "1baacb3c01ad34b9146137e1df6c3afcc7fb65e65b0aee3be22693fc957004d6",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/powder-snow-postintro/drafts/powder-snow-stuck-piston-response.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/powder-snow-postintro-audit/powder-snow-stuck-piston-recheck.md",
+      "sha256": "392c0dd4204de8f15176a7399af8d50a581bd57ac2e3e0e8cddb91e842f24a3d",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/powder-snow-postintro-audit/powder-snow-stuck-piston-recheck.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/powder-stuck-1219-recheck/recheck.md",
+      "sha256": "6ba8b0f1fc17cd68d75d82d868177b94bd2d82c10f0f4652a06d3b56ee544b5e",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/powder-stuck-1219-recheck/recheck.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/powder-stuck-boundary-followup/boundary.md",
+      "sha256": "efb72c26f394e4a21cc012ea9d656279b3b55ab0bbacde5c14df5cc27c55990e",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/powder-stuck-boundary-followup/boundary.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/product-water-current-corrected/terminal.md",
+      "sha256": "da74162fd2ecc9a042a4f7977afd2edb7b4fe435cf263c5bbf51c2066b6f9bc2",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-water-current-corrected/terminal.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/cocoa_shape_provider/coverage.md",
+      "sha256": "2aa3b3ce481b940d2ee39a96b20a5f739f36e83f374703ac863b841f718e7d87",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/cocoa_shape_provider/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/cocoa_shape_provider_audit/verdict.md",
+      "sha256": "0e533e60a3780e7c6797eb64f24f540f7cdf55dab969eba8bc86f65c2d0ccd93",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/cocoa_shape_provider_audit/verdict.md"
+    }
+  ]
+}

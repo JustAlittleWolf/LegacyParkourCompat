@@ -1,0 +1,39 @@
+# Independent source acceptance: 1.16 lava movement
+
+Scope: independent exact-source audit of the two supplied MCPK 1.16 lava clauses, treating the page wording as truthful. The standalone candidate drafts `lava-current.md` and `lava-level-jump-out.md` were not present under the assigned checklist packet, so this acceptance is based on the checklist plus direct source inspection. No product or decompiled source was changed. No tests, build, or game run was performed.
+
+## Verdicts
+
+### Flowing lava pushes the player — ACCEPT
+
+The operation is an eligible client player movement delta. In 1.15.2, `Entity.baseTick` calls `updateWaterState`, which only calls water-state handling; there is no lava-current application. In 1.16.0, `Entity.baseTick` calls `updateInWaterStateAndDoFluidPushing`, which adds a lava pass using `updateFluidHeightAndDoFluidPushing(FluidTags.LAVA, d)`. It runs from the `LocalPlayer.tick` → superclass entity tick/base tick path, so the local client computes the velocity change from its own fluid-state queries. `ClientLevel.tickNonPassenger` also dispatches entity ticks locally. The same method is called for server entities; that dual-side vanilla call is not a reason to replay historical movement on a logical server.
+
+The 1.16 routine deflates the entity AABB by `0.001`, scans integer cell bounds in x/y/z nested-loop order, accepts matching fluid cells whose surface reaches the box minimum Y, and updates immersion depth `e` before reading that cell’s flow. `FluidState.getHeight` returns `float`; the expression `q + getHeight(...)` is therefore evaluated as float before assignment/widening to `double`. Each qualifying cell contributes `getFlow`; if the then-current `e` is below `0.4`, that cell’s vector is scaled by `e`, then accumulated and counted. `FlowingFluid.getFlow` derives direction from neighboring fluid heights, adds a downward component for falling flow beside solid faces, and normalizes its result. After the scan, the sum is averaged by cell count; non-players are normalized, while a `Player` retains the averaged magnitude. Lava scales the contribution by `0.007` in ultra-warm dimensions or `0.0023333333333333335` otherwise. If old horizontal velocity is below `0.003` on both axes and the applied vector is shorter than `0.0045000000000000005`, the applied vector is raised to that magnitude before being added to velocity.
+
+Validated boundary: first present in exact 1.16.0; present in all inspected 1.16 patches 1.16.0–1.16.5 and still present at the 26.2 source endpoint. A patch-specific gate changes in 1.16.2: 1.16.0/.1 return after water handling when `isInWater()` is true, so overlapping water suppresses the lava pass; 1.16.2–.5 always run the lava pass and then return `isInWater() || lavaOverlap`. This is a refinement of the boundary, not the first appearance of lava current.
+
+### Low lava level allows jumping out — ACCEPT, with grounded-player qualification
+
+The source supports the claim as a player movement operation. In 1.15.2, lava travel applies the same half-velocity scale regardless of immersion depth, and jump input while in lava calls `jumpInLiquid(LAVA)` without a depth predicate. In 1.16.0, the stored per-fluid height is read by lava travel and compared to `getFluidJumpThreshold()` (`getEyeHeight() < 0.4 ? 0.0 : 0.4`). At/below the threshold, lava travel uses the shallow-fluid sequence (`multiply(0.5, 0.8F, 0.5)` followed by fluid-falling adjustment); above it, it scales velocity by `0.5`.
+
+During `LivingEntity.aiStep` jump handling, when the local player is grounded and lava height is at/below the threshold, the ordinary `jumpFromGround()` impulse is applied and the ordinary ten-tick jump delay is set. Deeper lava instead calls `jumpInLiquid(LAVA)`, which adds `0.04F` to vertical movement. If the player is airborne, even shallow lava uses the liquid jump impulse because the ordinary jump branch requires `onGround`; “jump out” is therefore accurately qualified as a grounded shallow-lava jump. For a normal player the threshold is `0.4` immersion units; entities whose eye height is below `0.4` use a zero threshold.
+
+Validated boundary: first present in exact 1.16.0; the relevant behavior remains in every inspected 1.16 patch through 1.16.5 and the 26.2 source endpoint. All patches 1.16.0–1.16.5 were inspected, with no uncovered patch in that interval. 26.2 is an unobfuscated endpoint and does not establish uninterrupted behavior for uninspected 1.17–26.1 releases.
+
+## Source identity and byte checks
+
+Canonical Mojmap ready markers and complete source-manifest SHA-256 values were verified for 1.15.2 (`cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7`), 1.16.0 (`e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a`), 1.16.1 (`76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754`), 1.16.2 (`10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7`), and 1.16.5 (`9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b`). The 1.16.3 and 1.16.4 provenance JSON SHA-256 values are respectively `513271804ead6757345d305717e7e0bfc1641434c35a3b254f287bd8fd281498` and `1e04555c915527a398a2c7150679fb24d056f54bd680261e3c1dd55da821147c`; their inputs identify the 1.16.3 and 1.16.4 release metadata, and every cited file hash checked against each provenance source table. The 26.2 unobfuscated ready marker declares version `26.2`; its complete source-manifest SHA-256 is `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`.
+
+All SHA-256 values below were recomputed from bytes and matched the cited ready source manifest or per-file provenance table.
+
+| Source file | 1.15.2 | 1.16.0/.1 | 1.16.2–.5 (including .3/.4) | 26.2 |
+|---|---|---|---|---|
+| `Entity.java` | `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e` | `27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576` | `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666` | `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5` |
+| `LivingEntity.java` | `46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54` | `b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26` | `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88` | `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a` |
+| `FlowingFluid.java` | `e8a395552e53f33bcb5648325615d31bc1796ce2a8aeb501bdda3127622dccdf` | `a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552` | same as 1.16.0/.1 | not relied on |
+| `LavaFluid.java` | `d315b4cc1cd215e981bf343c03d1fe86de64b4fcea3b0869efff5ac57aff7fd2` | `6e98f387c7561bff3b66f2e86ce54bab54a8ff3337639cb106e5e6aaad8ada9b` | same as 1.16.0/.1 | not relied on |
+| `EntityFluidInteraction.java` | — | — | — | `5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62` |
+| `LocalPlayer.java` | `3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd` | `ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b` | `6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b` | `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6` |
+| `ClientLevel.java` | `4ed37f68a8c25ab5a780c7d646e2f1f4f375e39e4591e0a3115c8d637e500835` | `3bae536422595514893b85bcde09b59459c292c737dd487d69db49d28913da7b` | `96c80a10623d41f136fa70391b3920cf7f3ef15547923f7d772b78d356f16d93` | `f0255138128f19fb354e1a208f457e7fdb2df986f3103ec91f52bcabfa076631` |
+
+For client-path confirmation, the inspected `LocalPlayer.java` and `ClientLevel.java` hashes also matched every applicable ready manifest/provenance table. In 26.2 the movement is refactored through `EntityFluidInteraction`, but `Entity.updateFluidInteraction` still applies both water and lava currents and `LivingEntity` still uses the shallow-fluid threshold for lava travel and grounded jumping.

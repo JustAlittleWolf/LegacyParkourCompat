@@ -1,0 +1,20 @@
+# Independent audit: 1.20.2 to 1.20.4 ordinary travel
+
+**Verdict: ACCEPT** for bounded `NO_DIFF` ordinary local-player on-foot travel position/velocity coverage. Audited candidate: `build/later-source-20261116/1.20.2--1.20.4/ordinary_travel/coverage.md`, SHA-256 `65DE2E0812121416EB0C32005BB3EDB194390EFB5BD735C7AC26772A22774192`. This verdict does not close the pair, input/sprint/jump gates, fluids, packets, collision/position writers, modifiers, external responses, intermediate boundaries, or runtime parity.
+
+## Identity verification
+
+Both canonical endpoint ready markers report status `ready`, exact version IDs `1.20.2` and `1.20.4`, and Mojmap; actual SHA-256 values match the report. Their source and artifact manifest digests also match their ready markers:
+
+- 1.20.2 marker `decompiled_minecraft/1.20.2/mojmap.ready.json`: `5FF3322F287C250EE914C7CA3840D053BFFC3C2C5F35E91B59314D948292483F`; source manifest: `E439FF7E1D3F1D31E01BE1EDD141F94D917A9DC7FA0DE5F69904544CBBE62887`; artifact manifest: `EE67DA9733953B30AE4077C587184E59772B745D780ABD27A7B023780B459F54`.
+- 1.20.4 marker `decompiled_minecraft/1.20.4/mojmap.ready.json`: `6225B97979420CC743C8B7156A0CE512EF27D0DBF48BFFFBC40D3E1C8CB044D1`; source manifest: `FD3C8668483E5FF208C847474F6CBD3952A909C4AA602ED98B24E3D11A9602A1`; artifact manifest: `EE3EFC771D264C0BC49D5472ABB9763A646F8D221841D0A61201ECD991CB3948`.
+
+All relevant source bytes match the manifest entries. In addition to the candidate's three cited classes, I verified the inherited call chain through `decompiled_minecraft/{1.20.2,1.20.4}/mojmap/net/minecraft/client/player/AbstractClientPlayer.java`; both are SHA-256 `759F8F03B89DAB1F6B65C73E1E25A68AE6A6083CB49B5D2719136EDDA7EDF696` and each manifest binds that digest. Its declaration extends `Player`; `LocalPlayer` extends `AbstractClientPlayer`. The candidate's LocalPlayer and Player source hashes match the endpoint manifests, including the `isEffectiveAi()` override returning true and `serverAiStep` copying local input impulses/jump state into fields consumed by `LivingEntity.aiStep`.
+
+## Bounded path audit
+
+- `LocalPlayer.java` is byte-identical at both endpoints, SHA-256 `BB5CBFB03656A1866BB77C00431618BEFE792081223B35DB4BD121ECBB151FD5`. Its `serverAiStep` input writes, `isEffectiveAi() == true`, `aiStep` super call, and surrounding local-player path are unchanged. `Player.aiStep` calls its superclass at 1.20.2 line 522 / 1.20.4 line 523. `LivingEntity.aiStep` assembles `Vec3(xxa,yya,zza)` and calls `this.travel(...)` at line 2601 / 2603; the LocalPlayer→AbstractClientPlayer→Player inheritance chain makes the player travel override reachable.
+- `LivingEntity.travel(Vec3)` at 1.20.2 lines 2038–2166 and 1.20.4 lines 2035–2163 has exactly equal extracted method bodies (6,306 characters each). Thus the controlled-local-instance guard, water/lava/fall-flying/ordinary branch ordering and ordinary branch operations are unchanged. In the ordinary branch both read below-foot block friction, derive `onGround ? friction * 0.91F : 0.91F`, call `handleRelativeFrictionAndCalculateMovement`, then apply the same levitation/unloaded-chunk/gravity vertical handling and friction multipliers or discard-friction path.
+- `Player.travel(Vec3)` has the same swimming adjustment, flying branch, and fallback `super.travel` call. The 1.20.2 method additionally snapshots position before travel and calls `checkMovementStatistics` afterward; the 1.20.4 method omits these. The added post-travel method classifies/awards movement statistics and may call `causeFoodExhaustion` (1.20.2 `Player.java` lines 1497–1545); it does not write position or velocity. Statistics/food production are outside the audited movement transition and project scope.
+
+The candidate is therefore supported as a bounded `NO_DIFF` report. Its explicit gates and next-action inventory are appropriately left open; no whole-pair or implementation conclusion follows.

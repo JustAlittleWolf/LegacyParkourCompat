@@ -1,0 +1,16 @@
+# Independent audit: ordinary input to ground/air travel
+
+**Verdict: ACCEPT bounded NO_DIFF** for candidate coverage report SHA-256 `F592FF96A855BC942063AD28C50FCF96452FC7000FEBA74BCE44A24CA6BCCC65`.
+
+## Identity and evidence integrity
+
+The 1.21.11 Mojmap ready marker and its provenance identify version `1.21.11` / namespace `mojmap`; their local SHA-256 values match the candidate's identities. The 26.1.2 unobfuscated ready marker and provenance identify version `26.1.2` / namespace `unobfuscated`, also matching the candidate. Both ready markers' source-manifest and artifact-manifest SHA-256 pins match their respective local sidecars. I independently rehashed all sixteen cited Java files and matched each to its pinned source-manifest entry; the candidate's file digests and anchors match the source bytes.
+
+## Claim review
+
+- `KeyboardInput.tick` in both endpoints converts opposing key booleans with the same `positive == negative ? 0 : positive ? 1 : -1` operation and constructs `(left, forward).normalized()`. `ClientInput` is byte-identical. Both `Input` records preserve the same seven flags and order. `Vec2.normalized` retains the same float square sum, `Mth.sqrt`, `< 1.0E-4F` zero cutoff, and component division order.
+- `LocalPlayer.applyInput` uses the same controlled-camera branch: set x/z movement impulses from `modifyInput`, set jumping from the jump key, otherwise delegate to `super.applyInput`. Its `modifyInput` has the same zero-vector early return, `0.98F` scale, item-use multiplier only while not passenger, crouching/crawling speed scaling, and square-movement calculation and cap. The inspected `aiStep` sequences capture prior input state, update crouching, tick input, apply auto-jump, evaluate sprint/flight/fall-flight/water actions, then call `super.aiStep` in the same order. Sprint start/stop predicates have the same forward-input, mobility/food, shallow-water, item-use, fall-flight and slow-movement gates.
+- `LivingEntity.aiStep` calls virtual `applyInput`, creates the travel vector from xxa/yya/zza, and routes to ridden travel for a controlling passenger or calls `travel` under `canSimulateMovement() && isEffectiveAi()`. The client gates are identical in `Player`; `LocalPlayer.isLocalPlayer()` returns true in both endpoints, so this ordinary local-player route is reachable.
+- Under the stated ordinary non-passenger, non-swimming, non-flying precondition, `Player.travel` takes the same `super.travel` path. `LivingEntity.travel` tests fluid, fall-flight, then air travel in the same order. `travelInAir`, `handleRelativeFrictionAndCalculateMovement`, and `getFrictionInfluencedSpeed` preserve the same ground-friction selection, `0.91F` multiplier, input addition, climbable handling, movement call, gravity branch, and horizontal/vertical friction writes. `Entity.moveRelative` and `getInputVector` preserve the same `< 1.0E-7` cutoff, length normalization, speed scaling, yaw trigonometry and component order.
+
+The bounded endpoint NO_DIFF conclusion is supported. This audit does not close intermediate releases or other travel branches, resources/tags, collision/callback routes, full-pair coverage, or runtime parity. No movement consequence outside the stated route is inferred.

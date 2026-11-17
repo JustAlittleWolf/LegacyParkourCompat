@@ -1,0 +1,11 @@
+# Independent source audit: wall shape provider slice
+
+Verdict: ACCEPT for the bounded same-state geometry claim only.
+
+Audited report `../wall_shape_provider/coverage.md`; its SHA-256 is `477a4ec3fd5179fc36a78100633d3c189ca19203252aaa333309e4af1c4a61f1`. Endpoint ready markers bind source manifest SHA-256 values 1.13.2 `2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211` and 1.14.4 `717b468536348557f9dae8cf57edccf80ad16eb65e5bef6c60bdb5ea3c9f75bc`.
+
+Independent checks confirmed the report's six source file hashes against the endpoint source files and source manifests: `WallBlock.java` 1.13.2 `aeb67adf292a3b750e72a7d2fdc13f7b42f8633c6183964d00dfe8d6960e07bf`, 1.14.4 `033da2cef0973f5d380a81b53ee76e23324fffece72edc74e12fcee0d8764be7`; `PaneBlock.java` 1.13.2 `9422e3f2aa9843ecd041f5ced13d05a4c7472d697f7dfd838450e49969e5326c`, 1.14.4 `7150e89268a84113453cd5416ffe25e1ca7d42a39f264f7ae989878a10ee2158`; registrations `Block.java` 1.13.2 `735030e8bb5fc7ead2d6dbcb1b262a36a414b4349daf197456337f460b444cd4`, `Blocks.java` 1.14.4 `9c0323497b31f8a284456e5692898897b92b6f0817d0371fae9a8afb54c638f8`.
+
+Both registrations instantiate `WallBlock` for `cobblestone_wall` and `mossy_cobblestone_wall`. The endpoints have identical default UP/horizontal/WATERLOGGED state bits, WallBlock outline and collision array construction parameters, stored-state indexing, and UP-conditional array selection. PaneBlock's shape construction and four-direction bit index match; the 1.14.4 cached index computes the same value. Its `getShape`/`getCollisionShape` select the same corresponding inherited arrays at both endpoints. The added 1.14.4 `CollisionContext` argument is not read on these paths. Thus identical stored states yield matching outline/collision shapes for the registered common walls, including the inherited UP=false path.
+
+The neighbor-to-state producer remains open and is a material limitation: 1.13.2 `shouldConnectTo` uses face-shape/exception logic, while 1.14.4 `m_71853799` checks the WALLS tag and a directional fence-gate predicate. This audit does not close placement/update state production, any pane/fence connection eligibility, other providers, collision consumers, pair coverage, or a movement finding. No pair freeze is warranted from this slice.

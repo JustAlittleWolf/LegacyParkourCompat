@@ -1,0 +1,22 @@
+# Powder snow client freeze-slowdown boundary
+
+## Inputs and evidence identity
+
+- Accepted claim: `powder-snow-client-freeze-slowdown.md`, SHA-256 `6a99f2053ccba2d7c7cbb8d913e67984038b83871ff88c518fad6d512bfc403d`.
+- Acceptance record: `powder-snow-postintro-audit/audit.md`, supplied SHA-256 `a9c68903a2d451c34ed81954801451e05bdcbfe03798a5419db9e293b39ecdcd`.
+- 1.21.4 exact source identity: `versionId=1.21.4`, `mapping=mojmap`, ready, Vineflower / Java 25; source-manifest SHA-256 `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0`; client artifact SHA-256 `c17c450c6e72cc51297daa57ce38f800aa01cf022b743daa21a0512d326d894e`.
+- 1.21.5 exact source identity: `versionId=1.21.5`, `mapping=mojmap`, ready, Vineflower / Java 25; source-manifest SHA-256 `365cc2d22446ceba0e36f46aa1c95ce4cc31514dbd657505680fb660f3adefd9`; client artifact SHA-256 `522672ad20b460c02c2e39b6c5035ef6a849af28eb11ab2ac7eb293d395a8c11`.
+- Rehashed relevant source bytes: 1.21.4 `LivingEntity.java` `e62ce650af0a5ac97e4d0a2ba7cad4ba68a8d098525609f8b5b6976a8ab0ae30`; 1.21.5 `LivingEntity.java` `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271`; 1.21.4/1.21.5 `LocalPlayer.java` `145686ebdc7f0d12a64070309073665eb8695b7e09911a723e86113a77d04611` / `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef`; 1.21.4/1.21.5 `ClientPacketListener.java` `eef170dd22b5711e7d9527601592093a0456590f192b54fefef170b5791165b4` / `284f34159a1baf30b6b540751ad2fa62344c179d5ed6a7bbbc5c888665779617`.
+
+## Stable boundary and reachable consequence
+
+The client-local `removeFrost()` / `tryAddFrost()` recomputation remains outside a logical-server-only gate through 1.21.4, and the first inspected stable release with the entire freezing section server-gated is 1.21.5. Thus the exact adjacent stable transition is **1.21.4 -> 1.21.5**; the supplied 1.17.1 and 26.2 endpoints alone would not establish it.
+
+- **1.21.4:** `LivingEntity.aiStep`, `LivingEntity.java:2791-2805`: `removeFrost()` and `tryAddFrost()` are unconditional after the separate server-only frozen-tick update (`:2792-2799`). `tryAddFrost`, `:514-527`, checks non-air `getBlockStateOnLegacy()`, positive `getTicksFrozen()`, obtains `MOVEMENT_SPEED`, computes `-0.05F * getPercentFrozen()` and adds a transient `ADDITION` modifier. A local player reaches the superclass tick: `LocalPlayer.tick`, `LocalPlayer.java:191-195`; `LivingEntity.tick` calls `aiStep` at `LivingEntity.java:2469`. Player movement consumes the movement-speed attribute (`Player.java:1490-1494`); its `aiStep` updates cached speed from that attribute (`Player.java:558-560`).
+- **1.21.5:** `LivingEntity.aiStep`, `LivingEntity.java:2778-2790`, places the freezing block—including frozen-tick decay, `removeFrost()`, and `tryAddFrost()`—inside `if (this.level() instanceof ServerLevel ...)`. The producer remains `:490-503` with the same non-air/frozen-tick checks and `-0.05F` formula, now `ADD_VALUE`, but is not called on a client world. Local-player and `LivingEntity.tick -> aiStep` caller path remains (`LocalPlayer.java:191-195`; `LivingEntity.java:2500`). The client receives entity metadata and movement attribute snapshots through `ClientPacketListener.handleSetEntityData` (`:558-564`) and `handleUpdateAttributes` (`:2179-2186`); the local player still consumes `MOVEMENT_SPEED` in `Player.aiStep` (`Player.java:567-570`) and `Player.getSpeed` (`:1470-1472`). Therefore local post-travel recomputation is removed, while client movement can consume the server-synchronized speed attribute.
+
+Across available stable source directories from 1.17 / 1.17.1 through 1.21.4, each `LivingEntity.aiStep` call to both methods is outside side-specific guards. From 1.21.5 through 1.21.11 and 26.1, 26.1.1, 26.1.2, 26.2, each call is inside a `ServerLevel` guard. No later return to client-local recomputation was found. On the inspected path the modifier enum spelling changes from `ADDITION` to `ADD_VALUE` by 1.20.5; this source-shape shift predates the side-gate transition and is not itself evidence of a change in client-local reachability.
+
+## Boundary status
+
+The exact client-local producer/call-consumer cutoff is established at 1.21.4 -> 1.21.5 by adjacent release source. This does not establish runtime packet scheduling/parity. Historical post-travel local modifier recomputation can be selected through 1.21.4; 1.21.5 onward has a server-only producer and synchronized-attribute consumer.

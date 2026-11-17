@@ -1,0 +1,250 @@
+{
+  "checkpoint": "20261117/checkpoint01",
+  "files": [
+    {
+      "path": "later-source-20261116/1.20.1--1.20.2/knockback_gate_audit/audit.md",
+      "sha256": "52cd7f94dc01e1fa141ebbbda162a6248c33eabdbf30c2ffd45092267689313d",
+      "originalBuildPath": "build/later-source-20261116/1.20.1--1.20.2/knockback_gate_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/ordinary_travel_audit/verdict.md",
+      "sha256": "a4d332fd9f5bd912fa657582eb7a3b6fc775acee6f5de7c12786e4d978fd3b84",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/ordinary_travel_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/player_impulses_audit/audit.md",
+      "sha256": "6b9607fbb3b8e86751dd89df25108df2ccd361dc3219f00184dfb999e21ffabf",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/player_impulses_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/explosion_r2_audit/verdict.md",
+      "sha256": "12fe686b01a13f46551ad8019ae77161037be6ae30162fb959799ebe7c0562ff",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/explosion_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/fall_distance_boundary/coverage.md",
+      "sha256": "7478835bb06ace4d1c46c46456d790e5a3b2983d45dde11573d5fb9c90ee1ad0",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/fall_distance_boundary/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/incoming_writers/development/research/findings/1.20.6--1.21.11/entity-motion-packet-velocity-r2.md",
+      "sha256": "35d97cc440e587cca2639b49f8fb0163d45dea019f481a4f37e2354b599268cd",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/incoming_writers/development/research/findings/1.20.6--1.21.11/entity-motion-packet-velocity-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/ordinary_ground_air_travel_r2_audit/verdict.md",
+      "sha256": "81aac012888b5bb8c58c24e82dc0c9286e490cb6c2ac90b6cf1d2d019644704b",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/ordinary_ground_air_travel_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.6--1.21.11/powder_snow_audit_r2/verdict.md",
+      "sha256": "5fb3657c433c6efd13c5a2f3349b35a876db01dc088f3ff58fccb36ea73c6e10",
+      "originalBuildPath": "build/later-source-20261116/1.20.6--1.21.11/powder_snow_audit_r2/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/honey_cutover_audit/audit.md",
+      "sha256": "3804aea3e95325727e0c2064304cb96b559aadb3da7688cc986f63f31568406d",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/honey_cutover_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.10--1.21.11/elytra_climbable_r2_audit/verdict.md",
+      "sha256": "330f40dc0d7af137d471bd94db0715ce78a63be24bea25e48dcd308c5ccf2971",
+      "originalBuildPath": "build/later-source-20261116/1.21.10--1.21.11/elytra_climbable_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/menu_movement_callbacks_audit/verdict.md",
+      "sha256": "978423bb12d3ea980c8ae09122ba61bdda063d7e5c2706e4976cea890990033e",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/menu_movement_callbacks_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/ordinary_input_audit/verdict.md",
+      "sha256": "12057d046b3cdbae7addd162108eab8527c38c90b1f90c3d85eabb9db0206880",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/ordinary_input_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/player_writers_audit_r2/verdict.md",
+      "sha256": "6b1d60c3d8888f55ec210ce649cf08f831c1ef50bae0a4f01c9c9b4891b80bba",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/player_writers_audit_r2/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.3--1.21.4/modifiers_audit_r2/verdict.md",
+      "sha256": "da4fb68d7d9a6df1f2e7704baae15f3000dec34ecc329cd8d2d1b299c62929c4",
+      "originalBuildPath": "build/later-source-20261116/1.21.3--1.21.4/modifiers_audit_r2/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.8--1.21.10/shallowwater_sprint_blind_audit/audit.md",
+      "sha256": "de8dda08dca3b3db0cbab89aa902aa22c0529d1595e0de343e5acf7d582c98a6",
+      "originalBuildPath": "build/later-source-20261116/1.21.8--1.21.10/shallowwater_sprint_blind_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/player_contact_audit_r3/audit.md",
+      "sha256": "2192bad5071a0a4560fe397eef5de2d0b5f30338d7ec6621414bf0ae5836180e",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_contact_audit_r3/audit.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/player_routes_audit/audit.md",
+      "sha256": "e7f06ef6d23b5f9f68a4e651dd03c73fe801034c8255f9052fe5bdf00349597b",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_routes_audit/audit.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-113-shapes/final_drafts_audit/report.md",
+      "sha256": "a453d74c19f9097c823b264da689f13daeeb4d87643702c2fe3f27d61586ea9c",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-113-shapes/final_drafts_audit/report.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-113-shapes/portal_cauldron_audit/report.md",
+      "sha256": "01e4dca02f989e878db4530077d301a6ce3b313068d2735d0ef644b31bd4ae9d",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-113-shapes/portal_cauldron_audit/report.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-113-shapes/snow_native_fallback/audit.md",
+      "sha256": "64a84f9b6d83b57e22efe6255a3e855622e034490f382003bfbca60c691fbe53",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-113-shapes/snow_native_fallback/audit.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-114-movement/flying-gate-audit/audit.md",
+      "sha256": "aef9256786551e2625aa34e47af8a3fb4a4923d9adccc14f7191f328bb167b87",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-114-movement/flying-gate-audit/audit.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/jump-cutoff-boundary-audit/verdict-r2.md",
+      "sha256": "63d01aeb66d351e71af4588183faddb23f90560031b1f4139cbc413ad17bf733",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/jump-cutoff-boundary-audit/verdict-r2.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/wall-gate-audit/verdict.md",
+      "sha256": "3c7d2bdc2b771d5210980c63d4f8291c23fce42c6953da51efae22e7de80c9f8",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/wall-gate-audit/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-berry-trigger/SOURCE_ACCEPT.md",
+      "sha256": "936e6276876d7a6d13790e86f3d2112f22afe571e296e8a183f789e93e1ec66f",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-berry-trigger/SOURCE_ACCEPT.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-powder-freeze-boundary/verdict.md",
+      "sha256": "41a3b26b1fb74236219d52518a7dab94f41d290d9375995dad5bab3a5a838831",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-powder-freeze-boundary/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/autojump-audit/audit.md",
+      "sha256": "6b327473a3f8f7cb050e18180d577103add6df0099e41095825752f29b39020b",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/autojump-audit/audit.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/chain-shape-audit/chain-shape-acceptance.md",
+      "sha256": "944e3a645b5f64a0c8238f09033aa46315c6acac20b20d95e69bb34f79de42c7",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/chain-shape-audit/chain-shape-acceptance.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/entity-push-audit/entity-push-independent-audit-r2.md",
+      "sha256": "037fa2600d69cfc3a99090199309630dca03f55692a117e435bf01687bbcc731",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/entity-push-audit/entity-push-independent-audit-r2.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/entity-push-boundary-audit/verdict.md",
+      "sha256": "7128c84f87f8b3335ba1319a0f0ceb8a35e754976ed1078a596e9594e7935e2e",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/entity-push-boundary-audit/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/inside-block-sneak-audit/ACCEPTANCE.md",
+      "sha256": "68915adac8ef3da53823bc1a24ef5af613c2cc36046c909aa7c6676cef40933d",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/inside-block-sneak-audit/ACCEPTANCE.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/lava-independent-audit/ACCEPTANCE.md",
+      "sha256": "f71147ed4a8cd72a1ed86345e220ac91379d6eeabd48807f63fe4270e05761a6",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/lava-independent-audit/ACCEPTANCE.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/powder-freeze-boundary-followup/freeze-slowdown-boundary.md",
+      "sha256": "3e80d4f23ffc9cce857c1f3bf83a45f13ac40224ecbe7697aeb16060033ddc74",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/powder-freeze-boundary-followup/freeze-slowdown-boundary.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/powder-snow-postintro-audit/powder-snow-stuck-piston-recheck.md",
+      "sha256": "392c0dd4204de8f15176a7399af8d50a581bd57ac2e3e0e8cddb91e842f24a3d",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/powder-snow-postintro-audit/powder-snow-stuck-piston-recheck.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/shulker-push-cutover/review-revised-shulker-box-progress-push.md",
+      "sha256": "c9b4a39011efd065b318582a520644779b2e7ec1698e5a880348d550b75e6083",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/shulker-push-cutover/review-revised-shulker-box-progress-push.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/soulspeed-1162-audit/soul-speed-block-query-review.md",
+      "sha256": "217225f4729b7c7e6d54aaad69ead26afa4fb7e558c506cd17b71ed4db4fd40c",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/soulspeed-1162-audit/soul-speed-block-query-review.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/vine-climbing-audit/audit.md",
+      "sha256": "6a8823d0f828e86e125f73bf204a554d94c1a35659a27f9bca513fc839017104",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/vine-climbing-audit/audit.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/wall-pane-connection-audit/independent-source-audit.md",
+      "sha256": "1e5aa0354ac7e5dcb7324ec3b84cc7419f82b382d1e4728082d0b92488504aae",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/wall-pane-connection-audit/independent-source-audit.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/water-current-audit/acceptance.md",
+      "sha256": "4ed45f2dfeca8ecf7dfcdfaa488dca1f7065196fcf9bea9b33286cd4f8dbe71d",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/water-current-audit/acceptance.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/y256-water-exit-audit/acceptance.md",
+      "sha256": "3ff659f332c6b490e2f74a02cdd4f08314312bbb1e6d4d526a27e967f84ea0f0",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/y256-water-exit-audit/acceptance.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/door_shape_provider_audit/verdict-r2.md",
+      "sha256": "027843e1dca13600e78f7e79c18c33202771d6cfc114bdc5424930959619a469",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/door_shape_provider_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/lily_pad_shape_provider_audit/verdict.md",
+      "sha256": "0cb401c22d69fbdf3c2df851a9acc7d0997cabfcfc4115017c7fe994dd6ee37c",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/lily_pad_shape_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/loaded_area_query_gate_audit/verdict.md",
+      "sha256": "f42d33a23a21e92c293dbbe037e57beda79f34c97ed32a213969a507f05461dd",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/loaded_area_query_gate_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/sapling_shape_provider_audit/verdict.md",
+      "sha256": "4670f7be727c41d44d35a80ab6d1100541c9146fe6a3e2558b1876e8211d886e",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/sapling_shape_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/shulker_shape_provider_audit/verdict-r2.md",
+      "sha256": "fea88e0b46604e7ae23a2a04523630f3cf501ed9a73ae27858d98c1ded07fcdf",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/shulker_shape_provider_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/stateful_shape_lifecycle_audit/audit.md",
+      "sha256": "3d33b2ee086ffa9fe6da34d4012fb3b30b4d711fbd2f80d7fb6d620c36087254",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/stateful_shape_lifecycle_audit/audit.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/hopper_shape_provider_audit/verdict-r3.md",
+      "sha256": "f2ce3992eb0077555817ca477f73f0a8c5096d5f4a90f1fa71dc00f2365199da",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/hopper_shape_provider_audit/verdict-r3.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/trapdoor_shape_provider_audit/verdict.md",
+      "sha256": "6d16749f89e9707e0790b3189b3808bd983142df784ad69af90becd9681dc8f0",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/trapdoor_shape_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_shape_provider_audit/verdict.md",
+      "sha256": "77006c9a03fd03e1d9dab01ab2186b224160d7073f283f3db8041179c9d9132d",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_shape_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/world_collision_consumer_audit/verdict.md",
+      "sha256": "03cbbf08b417fdb5deea0d9cb21776e034b926dc2951dca6fd809305eecc2bbe",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/world_collision_consumer_audit/verdict.md"
+    }
+  ]
+}
