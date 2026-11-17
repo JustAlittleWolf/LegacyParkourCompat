@@ -1,0 +1,6 @@
+# Lava material scan exact-upper-bound change
+
+1.8, Ornithe Feather: `net/minecraft/world/World.java`, `World.containsMaterial`, lines 1504-1523; `net/minecraft/entity/Entity.java`, `Entity.isInLava`, lines 839-841; `net/minecraft/entity/living/LivingEntity.java`, `LivingEntity.tick` jump selection, lines 1427-1439.
+1.9, Ornithe Feather: `net/minecraft/world/World.java`, `World.containsMaterial`, lines 1598-1620; `net/minecraft/entity/Entity.java`, `Entity.isInLava`, lines 939-941; `net/minecraft/entity/living/LivingEntity.java`, `LivingEntity.tick` jump selection, lines 1678-1690.
+Difference: 1.8 ends each material scan at `floor(bounds.max* + 1.0)` with an exclusive `<` loop. 1.9 ends at `ceil(bounds.max*)`, also exclusive. At an exact integer maximum `n`, 1.8 visits block coordinate `n` and 1.9 does not. `Entity.isInLava` scans `getShape().grown(-0.1F, -0.4F, -0.1F)` for block material `Material.LAVA` in both versions.
+Movement meaning: For a 0.6F-wide local player at x=`1.0 - (double)0.3F + (double)0.1F` (exact double `0.7999999895691872`), the shrunken query's `maxX` is exactly 1.0. Lava at `(1,0,0)` is seen by the 1.8 scan and omitted by 1.9. With no water, `jumping`, `onGround`, and zero jump cooldown, that flips the native selection from the lava jump (`velocityY += 0.04F`) to the ordinary ground jump.
