@@ -4,9 +4,17 @@ Start only on the user's start signal. Continue until the user sends stop. There
 
 ## Delegation
 
-Launch one GPT-6.2 Sol high master and three GPT-6.2 Sol medium leads with delegation rights and fresh contexts. Each lead may use up to 24 workers within actual shared host capacity. Share available slots according to ready work and the bottleneck. On a host with 25 shared subagent slots, three leads leave up to 22 worker slots. If nested delegation is unavailable, leads prepare assignments and the master dispatches the workers directly within the same capacity.
+Use English throughout. Arm a native goal for the GPT-6.2 Sol high coordinator and for each of three GPT-6.2 Sol medium orchestrators. Give each orchestrator its own checkout, branch, queue and standing cross-release domain. All three carry their work from discovery through independent acceptance and eligible implementation.
 
-Use English for chat titles, goal objectives, prompts, worker communication, evidence, commit messages and reports. Arm a native goal in each of the four chats at start. Each lead follows the same block reservation procedure in the [orchestration workflow](WORKFLOW.md#reserve-an-end-to-end-block). All three may select from the full backlog and carry their blocks through source evidence, independent acceptance, candidate implementation and branch integration. Give each lead a separate checkout and branch. The master confirms reservations, owns central records and publishes completed batches to main in sequence.
+| Orchestrator | Standing domain |
+| --- | --- |
+| A | Environmental block contact, portals, fluids and their direct movement responses |
+| B | Solid-world collision, shapes, support, stepping and AutoJump geometry |
+| C | Remaining player-state and locomotion operations, including Elytra, input, sprint, pose, equipment, effects and external state writers |
+
+Assign the operation by its player-visible behavior. Its owner can trace shared dependencies and edit its operation-specific members in shared files on an isolated branch. Each orchestrator targets 20 useful concurrent workers in its own chat. Distribute contracts across relevant releases, independent operations, evidence gates and eligible implementation. Use the actual launcher's capacity and refill on any completion. See the [standing reservation and worker contract](WORKFLOW.md#reserve-an-end-to-end-block).
+
+The coordinator records the three reservations at launch, then stays dormant until an orchestrator delivers a terminal outcome, raises an urgent cross-domain issue, or the user stops the run. Use event-driven waiting on orchestrators and leave worker supervision to each owner. The coordinator serializes publication of verified results to main and the central backlog.
 
 Dispatch routine workers with explicit native arguments `model="gpt-6-luna"`, `reasoning_effort="high"` and `fork_turns="none"`. Verify execution on the first assignment. An omitted model suggestion alone does not establish unavailability. If the call fails, hold routine dispatch and report the error to the coordinator. This run requires Luna for routine work. Resolve technical issues within the owning group and reassign capacity around unavailable resources or approvals. Follow the [reusable orchestration procedure](WORKFLOW.md) for queue balancing, Git recovery, checkpoints and stop propagation.
 
