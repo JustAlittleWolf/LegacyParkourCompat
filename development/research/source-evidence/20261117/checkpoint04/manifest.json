@@ -2,6 +2,26 @@
   "checkpoint": "20261117/checkpoint04",
   "files": [
     {
+      "path": "later-source-20261116/1.20.2--1.20.4/active_item_movement/coverage.md",
+      "sha256": "d101014b3217a3ca4591abba2b6d3266c9a16759c9552161ad3f39787731f404",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/active_item_movement/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/active_item_movement_audit/verdict.md",
+      "sha256": "ba7076de222acd374a83a071efa50bcf73daa810b6321912879989723f9d9178",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/active_item_movement_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/block_registry_collision_inventory/coverage.md",
+      "sha256": "9b608dff9fc61b5d1ef3fe4d3f6795f0fe417c324b111777a275e55e2fccb1d6",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/block_registry_collision_inventory/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/block_registry_collision_inventory_audit/verdict.md",
+      "sha256": "a2f7e9922fd35296741def96a21a8bd2d390526a7c06ad194beff08e8597383a",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/block_registry_collision_inventory_audit/verdict.md"
+    },
+    {
       "path": "later-source-20261116/1.20.2--1.20.4/elytra_eligibility/report.md",
       "sha256": "f1924cd74fb8d0164dd486d82b6629f01c4de29cde92286ef6099cff4db7dcfb",
       "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/elytra_eligibility/report.md"
@@ -10,6 +30,56 @@
       "path": "later-source-20261116/1.20.2--1.20.4/elytra_eligibility_audit/verdict.md",
       "sha256": "0f0394c56d610d1a10d80cc203d20da40ac9c70086997bc71726b14ed774614e",
       "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/elytra_eligibility_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/enchantment_item_inputs/coverage.md",
+      "sha256": "9143963851cfdcf69dbe801d0221ec2a30684aec5b9a802a70547df163855950",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/enchantment_item_inputs/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/enchantment_item_inputs_audit/audit.md",
+      "sha256": "87429fd73aaa71e57a8fcd702016cf45061cef0708dc3482435bec0feff5eb8e",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/enchantment_item_inputs_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/fluid_property_providers/coverage.md",
+      "sha256": "2a23ac21abf38c2a27284b7c8fc862f8847bd6d5e1bc76bb6e5f76f22987fc22",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/fluid_property_providers/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/fluid_property_providers_audit/verdict.md",
+      "sha256": "46c4750fee3d7d4dba524e47713bb72c0b5b5897b3acd534cddc9c1f5899a114",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/fluid_property_providers_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/ground_jump_response/coverage.md",
+      "sha256": "87f65406a89a983997f36bf2893bc097c8b6e1d70e6998d0482790c699812d97",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/ground_jump_response/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/ground_jump_response_audit/audit.md",
+      "sha256": "30d499db8cf35c4c4cccffb5d36975e33319c21602f78c05c900f5a6871d40ca",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/ground_jump_response_audit/audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/jump_local_prediction_r2_audit/audit-r2.md",
+      "sha256": "1b1fcd351f1dbe2dbd56546587fcb2e7db364651f250eed82fb2aa030d8beea2",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/jump_local_prediction_r2_audit/audit-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/jump_local_prediction_revision_r2/coverage-r2.md",
+      "sha256": "713ebe34022a1de73cf0430dbc466b7bb4ed3b3aef71881bc2cbe177fff5ace4",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/jump_local_prediction_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/mixed_door_reachability/coverage.md",
+      "sha256": "86369f6ee3d4c17df3ef1bed8f7cfd4b8bd695f1adfdeaf4f11dbdf0b13bbff6",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/mixed_door_reachability/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/mixed_door_reachability_audit/verdict.md",
+      "sha256": "3c975df293531dc6684b6388390cda8ba3675c6603647a9307ac650071b25e08",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/mixed_door_reachability_audit/verdict.md"
     },
     {
       "path": "later-source-20261116/1.20.2--1.20.4/movement_attributes/report.md",
@@ -32,6 +102,36 @@
       "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/movement_enchantment_r2_audit/verdict.md"
     },
     {
+      "path": "later-source-20261116/1.20.2--1.20.4/partial_shape_providers_r2_audit/verdict-r2.md",
+      "sha256": "5a94e3a4d67fbb28a01f17275334e5a62dce91e76fcd734dba70d84dd451f96f",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/partial_shape_providers_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/partial_shape_providers_r3_audit/verdict-r3.md",
+      "sha256": "ca80344f649bf21939a219893853920281cea570213b0108cd98cbcff88d9355",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/partial_shape_providers_r3_audit/verdict-r3.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/partial_shape_providers_revision_r2/coverage-r2.md",
+      "sha256": "1a4fffc6f4cd68f7e176e0869debf9b386091eb4b416643a2d471b3e5e6b0189",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/partial_shape_providers_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/partial_shape_providers_revision_r3/coverage-r3.md",
+      "sha256": "bb917fca4f4344cd2181dba39db7569d2c5a2e798f4c70e5a2eb30a15e402403",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/partial_shape_providers_revision_r3/coverage-r3.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/piston_shape_providers/coverage.md",
+      "sha256": "7c0a67411850ff1f294ce0e3330496911da12f9e3fc3e5048da26e3ee4433118",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/piston_shape_providers/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/piston_shape_providers_audit/verdict.md",
+      "sha256": "91056d3e1485c3e7acf74963dda1b295d603e34e3d8857ef32f80147ebb022c1",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/piston_shape_providers_audit/verdict.md"
+    },
+    {
       "path": "later-source-20261116/1.20.2--1.20.4/postmove_block_callbacks_r4_audit/verdict.md",
       "sha256": "c91f0902f7b08f031ad33237e751f2bfc83c7be70c6a5d1bb8311741ad50f980",
       "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/postmove_block_callbacks_r4_audit/verdict.md"
@@ -40,6 +140,46 @@
       "path": "later-source-20261116/1.20.2--1.20.4/postmove_block_callbacks_revision_r4/report-r4.md",
       "sha256": "e7dd4bd4ca0aeb4f674565076e6595c44ce25ce1a52a7e6da2d865b13e545213",
       "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/postmove_block_callbacks_revision_r4/report-r4.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/powder_snow_contact_r2_audit/verdict-r2.md",
+      "sha256": "521a18ca747333b1f69f29e141c2c402dfb27ff6b9700071fba75b03baa4830a",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/powder_snow_contact_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/powder_snow_contact_revision_r2/coverage-r2.md",
+      "sha256": "d5c8c13a9b7d8f24e0f1056d92ac081c3406d8ee264380339ff4122e6d59dea6",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/powder_snow_contact_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/resource_scan_r2_audit/verdict.md",
+      "sha256": "b97b434018fdd8b256da0701e07e9b9c6572eea97a86cbdeaf694fc244296b25",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/resource_scan_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/resource_scan_revision_r2/report-r2.md",
+      "sha256": "07a428aa62e5e65a9be755616e2ccc9bae853d51c2d402ea4148f734be39d310",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/resource_scan_revision_r2/report-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/special_shape_providers/coverage.md",
+      "sha256": "d40b4b469f4a039f36ace53d263c79ebe1425275ae519d853c9fb011dbb74c88",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/special_shape_providers/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/special_shape_providers_audit/verdict.md",
+      "sha256": "a8ad5a54ef82c4cd15d1c625e598af15a485a98ba64ec985b5dba52bd485ee4c",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/special_shape_providers_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/status_effect_movement_r2_audit/verdict-r2.md",
+      "sha256": "39b4baf9d4e901d084f251d00bf2016260c2a5093020c994e656f98d97f9c912",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/status_effect_movement_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/status_effect_movement_revision_r2/coverage-r2.md",
+      "sha256": "7528412ae87243293de7c785c4a76e6424a3fd1fdc891d72b1587d880f529446",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/status_effect_movement_revision_r2/coverage-r2.md"
     },
     {
       "path": "later-source-20261116/1.20.2--1.20.4/support_friction_r2_audit/verdict.md",
@@ -52,6 +192,26 @@
       "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/support_friction_revision_r2/coverage-r2.md"
     },
     {
+      "path": "later-source-20261116/1.20.2--1.20.4/support_position_population_r2_audit/verdict-r2.md",
+      "sha256": "8d0490c40fa2edaf8e30ee3013ba84d2d5d8b5a79873c5f71613420366a3dcdb",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/support_position_population_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/support_position_population_revision_r2/coverage-r2.md",
+      "sha256": "8243571697889ddc4275af3b14a3ebb3fdd3c872c5a1e1bc0d7eec0fd2cb9df6",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/support_position_population_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/support_position_writer_r2_audit/verdict.md",
+      "sha256": "3d81e3f02ab5444da14d500e0134f45c369b33801d06a91b507cec08b82cc959",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/support_position_writer_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/support_position_writer_revision_r2/coverage-r2.md",
+      "sha256": "2236547ff531a4fa9d8886d3ed84067f266c4342be059b6e3587684713ad4dc6",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/support_position_writer_revision_r2/coverage-r2.md"
+    },
+    {
       "path": "later-source-20261116/1.20.2--1.20.4/surface_callbacks_r2_audit/verdict.md",
       "sha256": "be54c4c30e0c9b1569b31f6742a82962b986fce51d41df6a1faec2ece53bf762",
       "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/surface_callbacks_r2_audit/verdict.md"
@@ -60,6 +220,16 @@
       "path": "later-source-20261116/1.20.2--1.20.4/surface_callbacks_revision_r2/report-r2.md",
       "sha256": "2660fb5c987d064345bc7f868bd1ccce720bb1b404228145174e4f59e7ce12e0",
       "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/surface_callbacks_revision_r2/report-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/tick_writer_residual/audit-r2/verdict.md",
+      "sha256": "bda3d50acf3e50c77779dbaa0282100ad03d9ae06fea7af284756964af7b4bc4",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/tick_writer_residual/audit-r2/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.20.2--1.20.4/tick_writer_residual/tick-writer-residual-r2.md",
+      "sha256": "95268c4015f76fcea15cb629b25851a503f3c9378e0833afff3652d23802f661",
+      "originalBuildPath": "build/later-source-20261116/1.20.2--1.20.4/tick_writer_residual/tick-writer-residual-r2.md"
     },
     {
       "path": "later-source-20261116/1.20.6--1.21.11/creative_flight_fall_distance_finding_audit/verdict.md",
@@ -107,6 +277,76 @@
       "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/external_corrections_audit/verdict.md"
     },
     {
+      "path": "later-source-20261116/1.21.1--1.21.3/teleport_callers/audit-r2/verdict-r2.md",
+      "sha256": "1d54c58ebef575a5677d7633ea59ca41ba67d620900c69c8fe9be984c5f82df1",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/teleport_callers/audit-r2/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.1--1.21.3/teleport_callers/teleport-caller-inventory-r2.md",
+      "sha256": "809eb150e498a49231f143a32a43413614f3b34b60d997307af9c9af1d4b6940",
+      "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/teleport_callers/teleport-caller-inventory-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/collision_provider_residual/audit/verdict.md",
+      "sha256": "693ec589325f8599e9373aacd961db474920f6a1b153a36573b906b3e6dcb557",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/collision_provider_residual/audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/collision_provider_residual/collision-provider-residual.md",
+      "sha256": "e313150bee1c14e9ba91a6fb6f0c97b796f82d399dbd290792759d8292afba3f",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/collision_provider_residual/collision-provider-residual.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/core_shape_providers_r2_audit/verdict-r2.md",
+      "sha256": "19d0e14e6f5388910eb0e31d14ebc4c3c29adee66e700e07c7b9cf9309b35b72",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/core_shape_providers_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/core_shape_providers_revision_r2/coverage-r2.md",
+      "sha256": "1dea060feefe1812e68cc6d6a33d70ea32672948088b238bcdce4b9123266393",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/core_shape_providers_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/dry_travel/coverage.md",
+      "sha256": "b13e292a564eb94d1037f1e627f19b01cb3659e7859b82211f9b2254a7d4b39d",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/dry_travel/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/dry_travel_audit/verdict.md",
+      "sha256": "15a23e7b8362dd731d3d55e7557909912d1cdb8bca7c0741c6074360d54281a6",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/dry_travel_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/equipment_attribute_path/coverage.md",
+      "sha256": "368f1038cf3075982c0c5335f0e53c21bde0cef28ab4a25a765ac5dc93b1acac",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/equipment_attribute_path/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/equipment_attribute_path_audit/verdict.md",
+      "sha256": "69b60d8ca9485816d4ec2e5ec250cd680c48ad0da126689003b5b1001ae8f7d5",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/equipment_attribute_path_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fluid_contact_scan_preflight_r3_audit/verdict.md",
+      "sha256": "0026fb33b4b361cfdd8d731bac6c2550cdcc2ee4458a8d5812c5c92fe9417fec",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_contact_scan_preflight_r3_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fluid_contact_scan_preflight_revision_r3/coverage-r3.md",
+      "sha256": "860b319ddfa87776dc895ef6b2e7d86678e4c883cba4e8edb740bf9061ed857b",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_contact_scan_preflight_revision_r3/coverage-r3.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fluid_contact_vector_r3_audit/verdict-r3.md",
+      "sha256": "c0109067142cd2f8f587805493a171c04f243cd6e921d8379b9a76f3a2fd1d4f",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_contact_vector_r3_audit/verdict-r3.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/fluid_contact_vector_revision_r3/report-r3.md",
+      "sha256": "7ec7d39733b3689bd5df6c050d9a1fb819f0dc983c78e1f7188ed9b45e6efcc7",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_contact_vector_revision_r3/report-r3.md"
+    },
+    {
       "path": "later-source-20261116/1.21.11--26.1.2/fluid_tracker_boundary_r2_audit/verdict.md",
       "sha256": "72dca58dfc453c851099377daff987077c69c3a4cc7847ac0864431233c0fc4b",
       "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/fluid_tracker_boundary_r2_audit/verdict.md"
@@ -127,6 +367,111 @@
       "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/ground_friction_unobfuscated_revision_r2/report-r2.md"
     },
     {
+      "path": "later-source-20261116/1.21.11--26.1.2/ground_speed_factor_residual/audit/verdict.md",
+      "sha256": "815dd345da7552180e9db2cb8efe0a5b08f106fe0242171c8349be41ec0683de",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/ground_speed_factor_residual/audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/ground_speed_factor_residual/ground-speed-factor-provider-residual.md",
+      "sha256": "61fbeff3b0032302b7682cffa3d0ca5d70565e9750ab703834b2b04cd4164494",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/ground_speed_factor_residual/ground-speed-factor-provider-residual.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/honey_contact_r2_audit/verdict-r2.md",
+      "sha256": "600cb0534ca8f12966afd258cc03e5d079a00e3b337ca2c030d9489cbf29b9f3",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/honey_contact_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/honey_contact_revision_r2/coverage-r2.md",
+      "sha256": "cc3704a76795e904c55bcf8d4fdded2e9178a98a93a13841d5aa5e6d58517d93",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/honey_contact_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/passenger_packet_producer/coverage.md",
+      "sha256": "9b742b1e6feb36b49b93524791af801e36943daa24de64798d713733859b7e48",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/passenger_packet_producer/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/passenger_packet_producer_audit/verdict.md",
+      "sha256": "f69d07be6210a7403b3cd9c16f73eb78f03c5b365b10993dc201216023c59b04",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/passenger_packet_producer_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/passenger_position_providers_r2_audit/verdict.md",
+      "sha256": "056e9c24297c5dd720a80e69446ed417451f0a75cfea8a3f51ff0e725fab4b84",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/passenger_position_providers_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/passenger_position_providers_revision_r2/coverage-r2.md",
+      "sha256": "10d114fdf042e6abc1eea41eede0988f4f74ce553775ff3cf5361cffd0bdd6a3",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/passenger_position_providers_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/resource_gate_residual/audit-r3/verdict.md",
+      "sha256": "e38ee1a5ef4dbbea3f0279b4ef32267080c15ddf622692b49c99eed87667bb39",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/resource_gate_residual/audit-r3/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/resource_gate_residual/input-reference-r2.json",
+      "sha256": "81681ec9d8de1d1b033c5fb73bf12206c0126e9633dc561a1fc5db1d7fe8a281",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/resource_gate_residual/input-reference-r2.json"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/resource_gate_residual/resource-membership-r2-erratum.md",
+      "sha256": "b108c53ba5048a09273b3392dd62a22598e7972685a12db2b2f680ec7046e9f2",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/resource_gate_residual/resource-membership-r2-erratum.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/status_effect_movement/coverage.md",
+      "sha256": "755ff6249627f162133d61fcde36b98400298e3b9571398a464e7f55de9a82e0",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/status_effect_movement/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/status_effect_movement_audit/verdict.md",
+      "sha256": "0cf4b34653a6dff0d9345f2780af28a73d6a54bb4687087444856082cbf3ef04",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/status_effect_movement_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/support_state_provider_residual/audit-r2/verdict.md",
+      "sha256": "bba06c1d59e2ed6e75fa8b4ded64a18e6bb52a173c609523d31b50862148d2f1",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/support_state_provider_residual/audit-r2/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/support_state_provider_residual/support-state-provider-residual-r2.md",
+      "sha256": "560302f10614c0bbb95f1b1a631b7d2da5237ac124f08b2fcb2e8a1540e6800b",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/support_state_provider_residual/support-state-provider-residual-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/air_travel/air-travel.md",
+      "sha256": "a331b73c457dc9fa37338ee06e8735ea6290d94331c13cf62b87d0dbaa084ea9",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/air_travel/air-travel.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/air_travel_audit/verdict.md",
+      "sha256": "a922a47450a70a5a07dadcc801881109e729de269dd85a796f69be472f131149",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/air_travel_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/aist_ep_pre_r4_audit/verdict.md",
+      "sha256": "d9106d101f86b5e080643af94f1ed05cf9cf361436f427b9c69f2cc436151f49",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/aist_ep_pre_r4_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/aist_ep_pre_revision_r4/report-r4.md",
+      "sha256": "203c01b767a8cfc225066498c5fb2f916c928812dcadf8744dd8bcc1301263eb",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/aist_ep_pre_revision_r4/report-r4.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/attack_knockback_code_defaults_r2_audit/verdict-r2.md",
+      "sha256": "4430ed987c1fa520aa99506895ed8c10964a92079759e5a7534c63cbd897317a",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/attack_knockback_code_defaults_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/attack_knockback_code_defaults_revision_r2/coverage-r2.md",
+      "sha256": "bb738625928f034ad518d7607dd0c399c300780e65cca6d3a166a44814294398",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/attack_knockback_code_defaults_revision_r2/coverage-r2.md"
+    },
+    {
       "path": "later-source-20261116/26.1.2--26.2/cauldron_inside_shape/report.md",
       "sha256": "6d74970d411f31ba46a8b4822dd78f8320dbbcbc07006731631e8bf50560751d",
       "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/cauldron_inside_shape/report.md"
@@ -135,6 +480,16 @@
       "path": "later-source-20261116/26.1.2--26.2/cauldron_inside_shape_audit/verdict.md",
       "sha256": "a8474588c800a1a7f3b28e10a3b7116333e8bbd6bafc54dc599cc4499893e3d4",
       "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/cauldron_inside_shape_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/client_equipment_attack_knockback_r2_audit/verdict.md",
+      "sha256": "3afae6484bb218a057d18cf2867967af6a1ea5bbe424bb45136c0fc3d9c34228",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/client_equipment_attack_knockback_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/client_equipment_attack_knockback_revision_r2/coverage-r2.md",
+      "sha256": "8aba863e1776acbfd5d4e2b9dc6b2fd190f0e97c6015768ef1e2526d7a5b5f58",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/client_equipment_attack_knockback_revision_r2/coverage-r2.md"
     },
     {
       "path": "later-source-20261116/26.1.2--26.2/climbing_travel/report.md",
@@ -147,6 +502,116 @@
       "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/climbing_travel_audit/verdict.md"
     },
     {
+      "path": "later-source-20261116/26.1.2--26.2/core_shape_providers/coverage.md",
+      "sha256": "e18d57229563b8d1c40d5cae28f4cba04158d31aea68eb5495dc6ec999e1f629",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/core_shape_providers/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/core_shape_providers_audit/verdict.md",
+      "sha256": "f0516e7033410daaaf8670942206d3dc334e0a5cecdf1b341ee4f1c600440fd8",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/core_shape_providers_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/core_shape_providers_r2_audit/verdict-r2.md",
+      "sha256": "81c1291d1e3a3a20c3491dabb2fc9228fcd943763d8fe0c688cd43b8a2e53ca4",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/core_shape_providers_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/core_shape_providers_revision_r2/coverage-r2.md",
+      "sha256": "5e666a2dfd21644cb323439e8984bb97a5d88d4a5c55c9b5fc2c53b5d0a02c74",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/core_shape_providers_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/edge_probe/REPORT.md",
+      "sha256": "ce90afef442d8af16dcd2fc6aeba7a89d88ddf8fa969e34d66aa9b7dc873ad32",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/edge_probe/REPORT.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/edge_probe_audit/verdict.md",
+      "sha256": "48ac08241dc4361e7a5b3457e76c11a9e8ee26f201ceae569a51e80adcb4af0b",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/edge_probe_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/explosion_player_knockback_producer_r2_audit/verdict.md",
+      "sha256": "203ab54eec4849ca828398f5948a46f92a36a2e2c130df3953096f707565295d",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/explosion_player_knockback_producer_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/explosion_player_knockback_producer_revision_r2/coverage-r2.md",
+      "sha256": "25e3815d15f4574d28b65502571ae5864c2a0bed55a3b80d1592ecda10332854",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/explosion_player_knockback_producer_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/fluid_exit_impulse/report.md",
+      "sha256": "093ea572f1d63ca35668f786cf3e33fc36827e5f1dfd6bee91323ba123ad349e",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/fluid_exit_impulse/report.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/fluid_exit_impulse_audit/verdict.md",
+      "sha256": "f1c852f72b31bdd56af5739d66fabf10d8254480256ab9cd2d0568575fdef091",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/fluid_exit_impulse_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/fluid_vertical_adjust/report.md",
+      "sha256": "d68af9849f9060b41b1973999315feba77b0642f3c96e8706dea5b7b1bb57ad5",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/fluid_vertical_adjust/report.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/fluid_vertical_adjust_audit/verdict.md",
+      "sha256": "9813a1075fda4a33299966541b4140bd3cc4dab64dedc4724f39f2b759c4bdf6",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/fluid_vertical_adjust_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/ground_jump/audit-r2/verdict-r2.md",
+      "sha256": "44c080009ee0f19cc04e19bb53cbdc0b7db135f3e605a910c1bbb752a120e644",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/ground_jump/audit-r2/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/ground_jump/ordinary-ground-jump-r2.md",
+      "sha256": "566419fb17b6530a87fd556fe85a2ef1df7ead5b3fff2ed8686d99deb8d521bc",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/ground_jump/ordinary-ground-jump-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/honey_contact_r2_audit/verdict-r2.md",
+      "sha256": "fc7f5dd71dcde529af6e4b5bdb60cd10d4b4b16db4223bdd45672a68911d37d9",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/honey_contact_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/honey_contact_revision_r2/coverage-r2.md",
+      "sha256": "a579528b87cc46dc2ff9a1ed18cc2470b5ea26eb861f1b68a74d3df985122351",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/honey_contact_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/knockback_modifier_inputs_r2_audit/verdict.md",
+      "sha256": "a1ed4337d29a58ca7c5fe9dab37f9e7e615eb56e100ba01b0968b5c9e26ccb73",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/knockback_modifier_inputs_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/knockback_modifier_inputs_revision_r2/coverage-r2.md",
+      "sha256": "b4de880ad6bb57bfefc33adafee4923986e67e43ee9551dea3d6bac3f178a70e",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/knockback_modifier_inputs_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/lava_travel_r3_audit/verdict-r3.md",
+      "sha256": "3a7654db116709cc59ff831d2d47697a2563c0c42c4758fcfea1e501b237f33f",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/lava_travel_r3_audit/verdict-r3.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/lava_travel_revision_r3/report-r3.md",
+      "sha256": "ffca35c58a35adedcbfcd5bd74be1892544acb534302ef05bc8468c865322f6e",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/lava_travel_revision_r3/report-r3.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/local_input_modifiers_r2_audit/verdict.md",
+      "sha256": "a2351cd7bcafef583fd7497e897a7ce528bee9cdfb8af564b411601ccf1a1c03",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/local_input_modifiers_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/local_input_modifiers_revision_r2/report-r2.md",
+      "sha256": "aa9f88113f03e44a39695b07635efb2d2a1e6c70cc6254d1fe0e60633e2e212c",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/local_input_modifiers_revision_r2/report-r2.md"
+    },
+    {
       "path": "later-source-20261116/26.1.2--26.2/local_unstuck/report.md",
       "sha256": "0b0e615d11d39af16e319b4a0e820669c194a4027a31d206a1431adbccd65a38",
       "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/local_unstuck/report.md"
@@ -157,14 +622,144 @@
       "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/local_unstuck_audit/verdict.md"
     },
     {
+      "path": "later-source-20261116/26.1.2--26.2/mossy_carpet_shape/coverage.md",
+      "sha256": "13cd3aae56458d4c8b5dda2d569f344471d4ca81fb0336188e1fdbc5408e0018",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/mossy_carpet_shape/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/mossy_carpet_shape_audit/verdict.md",
+      "sha256": "8596ba883bca11f97886a0b425de51111d60fe3c82acc20a286812f3277b2ad8",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/mossy_carpet_shape_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/move_position_write/report.md",
+      "sha256": "d463ba6a337952b4f2cb142a39b1be27a398a665f46155946affb09a8e224780",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/move_position_write/report.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/move_position_write_audit/verdict.md",
+      "sha256": "cbf3e3368eb7d0aaa6d498ec65167e3a951c6cc84155398dc1e51b639800bab3",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/move_position_write_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/packet_responses/coverage.md",
+      "sha256": "8a46e462d045ef60f5f0877d67bfe0d9d5a5f74418b92109ba0e61b2761dc484",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/packet_responses/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/packet_responses_audit/verdict.md",
+      "sha256": "7af2251508dedca9cd5efd63b823a7e559f38900d6f828e7ff3e6750315ad447",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/packet_responses_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/player_attribute_sync_producer/coverage.md",
+      "sha256": "172316af22d84120176c33def62713299d45afd70f1177b7ac2f10438e41ee48",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_attribute_sync_producer/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/player_attribute_sync_producer_audit/verdict.md",
+      "sha256": "b989331cbcc9a51626162a44c1742be20433346c85d0fcd1b0ecd3e7ea644fe0",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_attribute_sync_producer_audit/verdict.md"
+    },
+    {
       "path": "later-source-20261116/26.1.2--26.2/player_contact/coverage-r2.md",
       "sha256": "ffe7851867b19a2aab96024cc6b0a017f4a22005d971072cba62c7ad24b7b631",
       "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_contact/coverage-r2.md"
     },
     {
+      "path": "later-source-20261116/26.1.2--26.2/player_contact/coverage-r3.md",
+      "sha256": "6d38345c0f04e12d1e05c71ead26d7c54a0c5be3fed69cd858a1df994f9c77d0",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_contact/coverage-r3.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/player_contact_audit_r3/audit.md",
+      "sha256": "2192bad5071a0a4560fe397eef5de2d0b5f30338d7ec6621414bf0ae5836180e",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_contact_audit_r3/audit.md"
+    },
+    {
       "path": "later-source-20261116/26.1.2--26.2/player_contact_r2_audit/verdict.md",
       "sha256": "79562c6d6e54ba874089d9c51cd0e582faba89bce23a1b8e398d950f3d4a6277",
       "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_contact_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/player_impulse_r2_audit/verdict.md",
+      "sha256": "2f64c5d92e7feb1887a7d21008589561467406c83e886552f0e8a287fa0def51",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_impulse_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/player_impulse_response_revision_r2/report-r2.md",
+      "sha256": "60f2d90004af374228c18a9cb629ee0b09bcbbb9eaa73a3f63ac23d269e4a444",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/player_impulse_response_revision_r2/report-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/portal_entry/report.md",
+      "sha256": "e22b3754e30ebd9dbcf27d72d75c0d7f66c7dc074308647b1228551282e0aabb",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/portal_entry/report.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/portal_entry_audit/verdict.md",
+      "sha256": "6374da73585c67876a99e1f472c9d4574ca96e6f1fc872feb22ab84eef04d98b",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/portal_entry_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/powder_snow_contact_r2_audit/verdict-r2.md",
+      "sha256": "19231474d2baaac9db9f7b7fb1448da48cafdf73d11f93c5a704f1838c1e33d1",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/powder_snow_contact_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/powder_snow_contact_revision_r2/coverage-r2.md",
+      "sha256": "4bf9123c7ba0c67710466245fa2d2ce4d32b0caae67963666c3c6f218bed0714",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/powder_snow_contact_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/slime_bounce_ordinary_reachability/coverage.md",
+      "sha256": "da498deaee4d95a632da8847a4972a63fce712655181a54a5e7319d4bb0fc79a",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/slime_bounce_ordinary_reachability/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/slime_bounce_ordinary_reachability_audit/verdict.md",
+      "sha256": "aabdd95cf20bd6a8f43ac936e82ff0417815458a07986061c6dc9e713d5eaec0",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/slime_bounce_ordinary_reachability_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/slime_bounce_transition_r2_audit/verdict-r2.md",
+      "sha256": "aa55c0770a4ac1ae80d0f2764028946035d03d8e3d7743e7e9b36b30a88c505f",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/slime_bounce_transition_r2_audit/verdict-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/slime_bounce_transition_r3_audit/verdict-r3.md",
+      "sha256": "f4a8fcb61c3b3855cc51b97a5f152f91601399c4d71d75eb8d078dcb2ebfa738",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/slime_bounce_transition_r3_audit/verdict-r3.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/slime_bounce_transition_revision_r2/coverage-r2.md",
+      "sha256": "d6fd005ad2fd60c3d10645036c5286063eb645808bba560e776301004390453f",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/slime_bounce_transition_revision_r2/coverage-r2.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/slime_bounce_transition_revision_r3/coverage-r3.md",
+      "sha256": "4681e1e4a918b0ed1f69dbfb2748828c817808558142ef8988db9bd7132016be",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/slime_bounce_transition_revision_r3/coverage-r3.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/stab_attack_client_reachability/coverage.md",
+      "sha256": "1f56cb81564d4c0604fce15cec559f4ca58157de2c94585de2725c4e1e75e95c",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/stab_attack_client_reachability/coverage.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/stab_attack_client_reachability_audit/verdict.md",
+      "sha256": "d68c9db5c301550be25535668c05ae6b6d9d5ba5071b85f57de7f0508b532348",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/stab_attack_client_reachability_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/stepup_collision_r2_audit/verdict.md",
+      "sha256": "3916760f268f0fe4a15dfbe3da1fcf31c90f846da7147ab44d75a6d120abb287",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/stepup_collision_r2_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/stepup_collision_revision_r2/report-r2.md",
+      "sha256": "fa27179cb0f301e6be740695a5b795e500adee6d3126da820d0fdea845da011f",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/stepup_collision_revision_r2/report-r2.md"
     },
     {
       "path": "later-source-20261116/26.1.2--26.2/tripwire_shape/report.md",
@@ -175,6 +770,16 @@
       "path": "later-source-20261116/26.1.2--26.2/tripwire_shape_audit/verdict.md",
       "sha256": "639cd94d29d047b6b35d456463c085504648a667d52ae6871552a500ae7ada78",
       "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/tripwire_shape_audit/verdict.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/water_travel/report.md",
+      "sha256": "d5548e9bc8f99bcfd7f178b57f8edb1047de47bb2feae226f93d4213aab972d3",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/water_travel/report.md"
+    },
+    {
+      "path": "later-source-20261116/26.1.2--26.2/water_travel_audit/verdict.md",
+      "sha256": "00e16b72cef5ea6e3ebec1c4a05078816544b268416b50dc230ec35ce617355f",
+      "originalBuildPath": "build/later-source-20261116/26.1.2--26.2/water_travel_audit/verdict.md"
     },
     {
       "path": "mcpk-20261116/pipeline-early-rules/pane-piston-audit/identity-addendum.md",
@@ -190,6 +795,11 @@
       "path": "mcpk-20261116/pipeline-early-rules/pane-piston-source/pane-piston-onset.md",
       "sha256": "734ce421d5ac7c388ba21d7ee7e581e38dab5b5a12079aabb5f3337c86f2a6ac",
       "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/pane-piston-source/pane-piston-onset.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/product-readiness/pane-piston-readiness.md",
+      "sha256": "842274ec46531a596669e512c2bc13bc4f1eb25172ba3301560f840ed6c1ac98",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/product-readiness/pane-piston-readiness.md"
     },
     {
       "path": "mcpk-20261116/pipeline-early-rules/product-readiness/stair-barrier-product-readiness.md",
@@ -222,6 +832,46 @@
       "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/stair-barrier-source/source-facts.md"
     },
     {
+      "path": "mcpk-20261116/vd-full-checklist/correction-applicability-early-audit/verdict.md",
+      "sha256": "6f177d3fb06129918c73e121f231a7944a21da8ded76f02cf4640197115099d5",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/correction-applicability-early-audit/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/correction-applicability-early-representatives/report.md",
+      "sha256": "986c3a2596b8d54b23d44ce51e448126c2d9774f6e1aa7e5ace0d38d53b9df1e",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/correction-applicability-early-representatives/report.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/correction-applicability-early-reps-audit/verdict.md",
+      "sha256": "75b20fe98c3967f7156c0dd3534445353409d5325c041ebb7d9c5a9467b4ec29",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/correction-applicability-early-reps-audit/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/correction-applicability-early/report.md",
+      "sha256": "15faa5c10f953a20f15915f5a75421b63b98d0d37069a99a81640c5e18b7ae90",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/correction-applicability-early/report.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/correction-applicability-later-audit/verdict.md",
+      "sha256": "e98838e5b90f54e1d56fc05b2e3cddd9f73135f1aa63af4764a806070e8c756e",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/correction-applicability-later-audit/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/correction-applicability-later-representatives/report.md",
+      "sha256": "c5c4468473218422055649d3c6fda7487b26ee786a37ae9d5fe10cfe613a49e7",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/correction-applicability-later-representatives/report.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/correction-applicability-middle-audit/verdict.md",
+      "sha256": "364d4d5aeb7c3e219a9c0546ab2914a9302d68bb6682909e27d27aa64a561b5a",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/correction-applicability-middle-audit/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/correction-applicability-middle/source-facts.md",
+      "sha256": "14c2295d202a32d6465f742e6c19b42a011fd66697afa8b3fa045c774afcc058",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/correction-applicability-middle/source-facts.md"
+    },
+    {
       "path": "mcpk-20261116/vd-full-checklist/explosion-262-source-map/operation-map.md",
       "sha256": "8df44ee935577b7b6b6949ccd443ddbe6199d37c0c8d6f35c64f2657961e8bd3",
       "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/explosion-262-source-map/operation-map.md"
@@ -240,6 +890,2247 @@
       "path": "mcpk-20261116/vd-full-checklist/product-readiness-external-position-correction/product-readiness.md",
       "sha256": "6e72c0712a19acb5cd7c7bbf18830d97dc39fce47b2c8a09bf5f7fda0e8a6eab",
       "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-external-position-correction/product-readiness.md"
+    },
+    {
+      "path": "product-readiness-20261117/candidates/BedBounce-v1_12.java",
+      "sha256": "6e8b151d5e955c408a7a386768e2c96d3fb34e9798c1f36396869d5a0f319b07"
+    },
+    {
+      "path": "product-readiness-20261117/candidates/FenceCollisionState-v1_12.java",
+      "sha256": "4c25015b9d34ae3e3eaf05998e0e8fb182f637f8c009eeaf925204f923e74b97"
+    },
+    {
+      "path": "product-readiness-20261117/candidates/StairFallingFluidFace-v1_11_2.java",
+      "sha256": "580a531f5ab22c817ea160cadd92ca63c12515e390fda6b47da9b0709f927dc5"
+    },
+    {
+      "path": "product-readiness-20261117/candidates/StairSideFaceExclusion-v1_12-folded.java",
+      "sha256": "0c5af3c3d2e1ac5ab28a6d8e69790de09d8d84de034bb62bb40e7771d22427ed"
+    },
+    {
+      "path": "product-readiness-20261117/early-1112-consolidation-v2.json",
+      "sha256": "1f960dd8a1abc6c5c6e4e98b9c50594c482efdcc243034fe7197a4c794039209"
+    },
+    {
+      "path": "product-readiness-20261117/early-1112-consolidation-v2.patch",
+      "sha256": "49888265ad1b785023196d9bb2f997a1dfeca7b8a0445b0640f389f88af97225"
+    },
+    {
+      "path": "product-readiness-20261117/explosion-player-admission-readiness.md",
+      "sha256": "4ab654aed05935b3ea6840b5ca1b10dbf5822f32d48ebd5f35907e19e7d71074"
+    },
+    {
+      "path": "product-readiness-20261117/fence-endportal-frame-189-provider-readiness.md",
+      "sha256": "508ab826064967d58df18cd0f6a93d3b3cdba73ecc23d15f4073a3949d859e7b",
+      "originalBuildPath": "build/product-readiness-20261117/fence-endportal-frame-189-provider-readiness.md"
+    },
+    {
+      "path": "product-readiness-20261117/fence-stair-matrix-native-fallback.md",
+      "sha256": "6a0db4f4edbb7674a2ea6539899012dbfc36fbc3bf7861c9731eef7ce5f0f55e",
+      "originalBuildPath": "build/product-readiness-20261117/fence-stair-matrix-native-fallback.md"
+    },
+    {
+      "path": "product-readiness-20261117/fence-stair-matrix-product-correspondence.md",
+      "sha256": "bcb94d79c774e10067a627d73ce629a2e3d1a6d0e9f1fd1c62f8b7b72634dcb9"
+    },
+    {
+      "path": "product-readiness-20261117/flight-effective-path-189-19-readiness.md",
+      "sha256": "d82ae7151d2d95119dbb70bb27205af94009a3e21e4ed531ed64e74eb210311d",
+      "originalBuildPath": "build/product-readiness-20261117/flight-effective-path-189-19-readiness.md"
+    },
+    {
+      "path": "product-readiness-20261117/flight-sneak-input-v1_9-candidate-result.md",
+      "sha256": "78c605cd35e1398d44a3ef462fad00ae04ff7e2b6401fd69bb0fa89c2b2fe849",
+      "originalBuildPath": "build/implementation-candidates/flight-sneak-input-v1_9/candidate-result.md"
+    },
+    {
+      "path": "product-readiness-20261117/flight-trapdoor-189-19-readiness.md",
+      "sha256": "ed2a446cf1e9dcd3d22804bc2b814f78007ae6e22daf25f9e04b6b13e45b52cc",
+      "originalBuildPath": "build/product-readiness-20261117/flight-trapdoor-189-19-readiness.md"
+    },
+    {
+      "path": "product-readiness-20261117/fluid-contact-vector/report-r3.md",
+      "sha256": "166e5de9f46b42d07a61f5344bb0ce8b6369c25d5bf02973221320e6e7dcb15e",
+      "originalBuildPath": "build/product-readiness-20261117/fluid-contact-vector/report-r3.md"
+    },
+    {
+      "path": "product-readiness-20261117/fluid-contact-vector/report.md",
+      "sha256": "137820af70b3b4c2927506c89f3082835c59452df7e3d740c96ef0d0faaa3be8",
+      "originalBuildPath": "build/product-readiness-20261117/fluid-contact-vector/report.md"
+    },
+    {
+      "path": "product-readiness-20261117/lava-1162-exact-witness/readiness.md",
+      "sha256": "bce70336ec48f42ff0a67341d0e5d45ed216f52a0eb9ba3b88563901c0857d47",
+      "originalBuildPath": "build/product-readiness-20261117/lava-1162-exact-witness/readiness.md"
+    },
+    {
+      "path": "product-readiness-20261117/liquid-v112-native-stair-fallback.md",
+      "sha256": "c5e436f51303715bdcfe46c87dfeed45f77fd065ce74e820cce84465b138c39e"
+    },
+    {
+      "path": "product-readiness-20261117/local-player-suffocation-escape.md",
+      "sha256": "95c58aaf138bc2ac09ed3402432f6e708ab31304fb3d0322295cae82e3962879"
+    },
+    {
+      "path": "product-readiness-20261117/mcpk-1112-112-provider-readiness.md",
+      "sha256": "a1feb8ca9ecb01aa9fa575ef03d95742f205ee35cc7b80e858ba716401fc3112",
+      "originalBuildPath": "build/product-readiness-20261117/mcpk-1112-112-provider-readiness.md"
+    },
+    {
+      "path": "product-readiness-20261117/slime-bounce-262-readiness.md",
+      "sha256": "09891907e615fbdf4fe6b9b5de7d8eed150527543378ac50aa25306173b5b852",
+      "originalBuildPath": "build/product-readiness-20261117/slime-bounce-262-readiness.md"
+    },
+    {
+      "path": "product-readiness-20261117/velocity-189-19-readiness.md",
+      "sha256": "8d7995fac90cc20b3011e820794fc91f8690354d0769335a522534bd40c1b384",
+      "originalBuildPath": "build/product-readiness-20261117/velocity-189-19-readiness.md"
+    },
+    {
+      "path": "product-readiness-20261117/yaw-angle-precision-189-19-readiness.md",
+      "sha256": "478619bc221216661b7f1c07706cde9f9c58f128ec98468f2806d6d9bd0e7937",
+      "originalBuildPath": "build/product-readiness-20261117/yaw-angle-precision-189-19-readiness.md"
+    },
+    {
+      "path": "source-189-19-20261117/audit-flight-r2/verdict.md",
+      "sha256": "654254f567817b3667442a013a7a447564eedfad6b17cddd67d5a2ea2d0dbb71",
+      "originalBuildPath": "build/source-189-19-20261117/audit-flight-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/audit-knockback/verdict.md",
+      "sha256": "5d5c172a7919d396550b8ae243216ba62cad513f0482accaefe75e46f3ebc563",
+      "originalBuildPath": "build/source-189-19-20261117/audit-knockback/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/audit-sprint/verdict.md",
+      "sha256": "d930ca83614b0a35d3f616bf03c0c6afbf28f78a66bb651ed50c036bce1714e0",
+      "originalBuildPath": "build/source-189-19-20261117/audit-sprint/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/audit-trapdoor/verdict.md",
+      "sha256": "c08dbc8bbe742cb2c45dcba8011849ab69a90cb41e321fd1eaa22a3d7af63781",
+      "originalBuildPath": "build/source-189-19-20261117/audit-trapdoor/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/audit-velocity/verdict.md",
+      "sha256": "aaf353454b1899d8913d8b8335012d09686f10e4f4695d4f56320c1b4e826cb4",
+      "originalBuildPath": "build/source-189-19-20261117/audit-velocity/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/audit-yaw-r2/verdict.md",
+      "sha256": "dd5946729b8ef0728159927c12599a6ecce24c636bb7f08ac45849a26d4723f8",
+      "originalBuildPath": "build/source-189-19-20261117/audit-yaw-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/collision-effects/trapdoor-ladder-climbing.md",
+      "sha256": "c2986394faafe72c02684cada9987767e0301f1c849b96b2c1e8414c47a7170c",
+      "originalBuildPath": "build/source-189-19-20261117/collision-effects/trapdoor-ladder-climbing.md"
+    },
+    {
+      "path": "source-189-19-20261117/input-travel/audit-moving-block-r2/verdict.md",
+      "sha256": "37cd019f6d23bb0b83aaa94045594a71fac3690e485e56d638f47b52b4e76063",
+      "originalBuildPath": "build/source-189-19-20261117/input-travel/audit-moving-block-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/input-travel/movement-input-yaw-angle-precision-r2.md",
+      "sha256": "698cbc7b69f3d92cfb865a53c443e77ea4db001dbe76dddb62b1f52408f12ec4",
+      "originalBuildPath": "build/source-189-19-20261117/input-travel/movement-input-yaw-angle-precision-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/input-travel/moving-block-stone-sweep-witness-r2.md",
+      "sha256": "05a2b44304fe83008b9896d7bb5bcf23b51ea85e3a4f38ee5a94174d87c6ec91",
+      "originalBuildPath": "build/source-189-19-20261117/input-travel/moving-block-stone-sweep-witness-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/input-travel/remaining-source-collision-review-audit/verdict.md",
+      "sha256": "4ec9b0f22f57d555d83a86ad51503a6573d4ad0cc7b96127ee9638e91aca91fe",
+      "originalBuildPath": "build/source-189-19-20261117/input-travel/remaining-source-collision-review-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/input-travel/remaining-source-collision-review.md",
+      "sha256": "0b12cd86faeef3b43d77071bc02a64896496d091839061c94d03e545bdedca47",
+      "originalBuildPath": "build/source-189-19-20261117/input-travel/remaining-source-collision-review.md"
+    },
+    {
+      "path": "source-189-19-20261117/input-travel/sneaking-flight-input-rescaling-r2.md",
+      "sha256": "4116f0bcbeab6343c9cb8df34a6de335afae7cb3cc897da60e5e23b130e008d2",
+      "originalBuildPath": "build/source-189-19-20261117/input-travel/sneaking-flight-input-rescaling-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/input-travel/sprint-timeout-removed.md",
+      "sha256": "03168131b43b2f07ce5277c1044892f5e177582325e513065eb609a34f9bd4c4",
+      "originalBuildPath": "build/source-189-19-20261117/input-travel/sprint-timeout-removed.md"
+    },
+    {
+      "path": "source-189-19-20261117/input-travel/velocity-small-component-cutoff.md",
+      "sha256": "2813369b5f70c5a2e1aa6be2122690c3df9c6223ae2342905624d1285170c0ce",
+      "originalBuildPath": "build/source-189-19-20261117/input-travel/velocity-small-component-cutoff.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9--1.9.1/audit/verdict.md",
+      "sha256": "a4ffb7f0e89ac89348680933b40ac03901527c28def6ef4920fd25ae56d0e28e",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9--1.9.1/audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9--1.9.1/coverage.md",
+      "sha256": "0c90533adcedaa515c6702fe9203a7bbcd455f13ed92be4f65242e61c7f2a242",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9--1.9.1/coverage.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.1--1.9.2/audit-r2/full-pair-verdict.md",
+      "sha256": "d63c90737cdfee3d6104bb9c3db39c632315081bd39797c278a191ab8ed63b45",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.1--1.9.2/audit-r2/full-pair-verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.1--1.9.2/audit-r2/verdict.md",
+      "sha256": "df9b4d3ba22af758b7141531a8cab78b3aeb5b39568371be24e6f0f4b9662701",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.1--1.9.2/audit-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.1--1.9.2/audit/verdict.md",
+      "sha256": "1a7bcfe4ea82d82f4d0914f5f89ad1118d4809d02d228d4feabbbf9f87fcb5ed",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.1--1.9.2/audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.1--1.9.2/coverage-r2.md",
+      "sha256": "bc5e124e8522ea86a68589728c523e160e76fdcc53e8a3ad13ccaed193b57919",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.1--1.9.2/coverage-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.1--1.9.2/coverage.md",
+      "sha256": "645ac96b881bfa148a9b17bb6708a2c0fa506f150bb009e47f903dbadbee05c5",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.1--1.9.2/coverage.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/acceptance-identities-r2.md",
+      "sha256": "5e2d9b670838d1f3ec36ae26cd96795aae0b9f712465f76a7110517a180f3436",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/acceptance-identities-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/acceptance-identities-r3.md",
+      "sha256": "933161bea1a3bd8922524e24fc0f45e991bf80cf105bdc97c08104a7ffd9cf04",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/acceptance-identities-r3.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/audit-r2/verdict.md",
+      "sha256": "de54085ff2a6d5bd47693a395d11a6835f3c145933406f945cc31adc6b43d0ad",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/audit-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/audit-r3/full-pair-verdict-r3.md",
+      "sha256": "5f9ef7d9af7d06da7d2cb2306cb43e7fc1255390de75ba5b0b6b3cb482b4ab62",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/audit-r3/full-pair-verdict-r3.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/audit-r3/hash-correction-verdict.md",
+      "sha256": "45b3de1dc163c91f29031d8856c5491edeb4a8b35f71cf215dae0165dc924892",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/audit-r3/hash-correction-verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/audit-r4/final-verdict.md",
+      "sha256": "ed503abead5da07741a8bb164de907703d68b8d8232a23157d3623b246bc18cf",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/audit-r4/final-verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/coverage-r2.md",
+      "sha256": "c2bc2d53fdf47d36d779fd2a660f7a21050dd7da8a734ee48778edc1cb88007a",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/coverage-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/coverage-r3-hash-correction.md",
+      "sha256": "95af1cc1d941c701740a43ac25645ae6d054f6d568d0b49fff6b6b5443c03846",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/coverage-r3-hash-correction.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/coverage-r3.md",
+      "sha256": "e1d3bc5fd6d778c87cb9337884440d7e742b1db493a8d51c09e1f35f71e9a636",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/coverage-r3.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/coverage.md",
+      "sha256": "2bfc7af6bd8e046ce043fbd030aceaef53354aa1862212c896c6233cfea14b7f",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/coverage.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/findings/player-tick-world-limit-r2.md",
+      "sha256": "b4b0ed48f380356abcd47663c1b656a2eefc39738ee5de745b54102960456514",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/findings/player-tick-world-limit-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/world-query-followup-audit/verdict.md",
+      "sha256": "fb2f3cc8813782b5324fca5fe10f386f36cc93ba92f0b6f1568eacb1b82bba26",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/world-query-followup-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/world-query-limit-followup.md",
+      "sha256": "5bfba153a7ac91be980b3126fa38fa59f1056116f02c0f22f2260a1b003f1ce8",
+      "originalBuildPath": "development/research/source-evidence/20261117/checkpoint04/source-189-19-20261117/patches/1.9.2--1.9.3/world-query-limit-followup.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/world-query-reachability-audit/verdict.md",
+      "sha256": "d7df8600104961258e10cdfadf29ff1bdfe5ce1b3d88a4f3ef34795e9da7fe36",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/world-query-reachability-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.2--1.9.3/world-query-reachability-followup.md",
+      "sha256": "76a2c86aa12365aeb2754367ea340b83b67a2b95c993feba05b24ccc6b785046",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.2--1.9.3/world-query-reachability-followup.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.3--1.9.4/audit-r2/addendum.md",
+      "sha256": "c778477f08c76fd8f00aa48f66266208498da9118d939a1f209c56343fb7d14c",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.3--1.9.4/audit-r2/addendum.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.3--1.9.4/provider-inventory/provider-callback-inventory.md",
+      "sha256": "80649ed5898e6627c0ce2b05693d11e7c8d20ac4a7065d375490d13762801711",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.3--1.9.4/provider-inventory/provider-callback-inventory.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.3--1.9.4/source-review.md",
+      "sha256": "e529f4646a345ddcf445886ae4f990ff0f7fed37cfae2014f2f1aa703f4a5cf5",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.3--1.9.4/source-review.md"
+    },
+    {
+      "path": "source-189-19-20261117/patches/1.9.3--1.9.4/tick-inventory-supplement/coverage.md",
+      "sha256": "d00ca1ba1f564d2aacbb146c9e7afc08740cd66652c7debc33590ef39b01cd7f",
+      "originalBuildPath": "build/source-189-19-20261117/patches/1.9.3--1.9.4/tick-inventory-supplement/coverage.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/batch-a-audit/verdict.md",
+      "sha256": "176472ae04c85d178a24211642d73e2aaee80a00d20a2ed7463eff690969ef3f",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/batch-a-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/batch-b-audit/verdict.md",
+      "sha256": "4303022d563b838370445a79cccb3bb60c4b5b51e8ce5b7f956a69155d588b61",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/batch-b-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/fence-hopper-clipping-order-audit/verdict.md",
+      "sha256": "1f803c69daa9965e22b81ebdc1583cdac3a3fdea442577553849c6c0089cd172",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/fence-hopper-clipping-order-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/fence-hopper-clipping-order.md",
+      "sha256": "5f0b6123fcb52e45d693f866f943028128815224ee801bbceb199e8e7886d8d3",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/fence-hopper-clipping-order.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/lilypad-audit-r2/verdict.md",
+      "sha256": "9d4ee55815589b07b200e56923963d93a2cf47193369069563a1e381f378ba50",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/lilypad-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/lilypad-correction-r2.md",
+      "sha256": "4f0fc4ddc5845c068c9727de0c75e8cc0c9094c729dedf916ac72ce7aed5e3a8",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/lilypad-correction-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/missing-rows-audit/verdict.md",
+      "sha256": "b477095566310976c3485298852ba9188287bead9655766a2cd967e25cc96f07",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/missing-rows-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/missing-rows.md",
+      "sha256": "174cf90b0a97d7393a81482cf6fa57a2194023f213263f812d6a0d9804b97300",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/missing-rows.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/stairs-clipping-order-audit/verdict.md",
+      "sha256": "8a072da1124f30f6301e3ea07cf68da4f19c88071bb6c744f5f1514ae7dc7fdd",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/stairs-clipping-order-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/stairs-clipping-order.md",
+      "sha256": "459d7278de596837fb96f5e447517b6c21ce754172943679424dcbdd1c4a92d6",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/stairs-clipping-order.md"
+    },
+    {
+      "path": "source-189-19-20261117/provider-residual/supplemental-coverage.md",
+      "sha256": "c68da62ac7964e7b6fbbfd78fcd87c028c3b1bcc3b636c1e0d6bceb9e03d3ed3",
+      "originalBuildPath": "build/source-189-19-20261117/provider-residual/supplemental-coverage.md"
+    },
+    {
+      "path": "source-189-19-20261117/providers/door-companion-state-reachability-audit/verdict.md",
+      "sha256": "1c157e52350b1b6d1b2e023f83f79c25b9639d3e44a398c16c796d0b85c3afd2",
+      "originalBuildPath": "build/source-189-19-20261117/providers/door-companion-state-reachability-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/providers/door-companion-state-reachability.md",
+      "sha256": "5c8f4f4c9a8c86a97cd8c617edc25b6be512a256e632d2b7513abe607945e3b0",
+      "originalBuildPath": "build/source-189-19-20261117/providers/door-companion-state-reachability.md"
+    },
+    {
+      "path": "source-189-19-20261117/providers/moving-piston-shape-overlap-audit/verdict.md",
+      "sha256": "3485e37547a2a2d8d3213e24f212d6afe9e0514cc7fb5b9e39d5f87e21755988",
+      "originalBuildPath": "build/source-189-19-20261117/providers/moving-piston-shape-overlap-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/providers/moving-piston-shape-overlap.md",
+      "sha256": "3ba538c9af45920b25d4d290479bd146831556240a088fe7a5328a622a50cee5",
+      "originalBuildPath": "build/source-189-19-20261117/providers/moving-piston-shape-overlap.md"
+    },
+    {
+      "path": "source-189-19-20261117/providers/provider-residual-inventory-audit/verdict.md",
+      "sha256": "9818f07a9eaf46784ff1e134470065e289c40450a4cd55028fcc0d45beac373b",
+      "originalBuildPath": "build/source-189-19-20261117/providers/provider-residual-inventory-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/providers/provider-residual-inventory-r2.md",
+      "sha256": "8f0eb6b86fa14e7332233f28fc8de48112a1e718fb133ebc3cb4ba81bdcac1ca",
+      "originalBuildPath": "build/source-189-19-20261117/providers/provider-residual-inventory-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/providers/stair-state-coordinate-reachability-audit-r2/verdict.md",
+      "sha256": "7bb562af0482a7c39f01bea345dfebae9aecb3b3deb68e501cf6a572654ea0a8",
+      "originalBuildPath": "build/source-189-19-20261117/providers/stair-state-coordinate-reachability-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/providers/stair-state-coordinate-reachability-r2.md",
+      "sha256": "3e7438882405a235db17378c6476af0abb0b7044fa34182bf96416c8b2ebf73f",
+      "originalBuildPath": "build/source-189-19-20261117/providers/stair-state-coordinate-reachability-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/effects-lifecycle-audit/verdict.md",
+      "sha256": "caacad9574a2932398741d4f4f1e93e805bb024b5630b7c7ba5642286975bfc1",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/effects-lifecycle-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/effects-lifecycle-followup.md",
+      "sha256": "b9d7e2084109a694b7748059c2fb48ef47da9cdcb629f1734f0ad88ee37874dd",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/effects-lifecycle-followup.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/equipment-lifecycle-audit/verdict.md",
+      "sha256": "74e489d8aafa1ec4745b2358dd6ce3ff2b95743eed4797f01e1bc4c295e0fcc4",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/equipment-lifecycle-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/equipment-lifecycle-followup.md",
+      "sha256": "f9dc9eaa9d036259407a59bc375ceeb2662f53e742fbb3bb50788271d8137ea7",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/equipment-lifecycle-followup.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/explosion-player-event-reachability-audit/verdict.md",
+      "sha256": "0d73c1a5a835072420a174db3efc1e5531c04652f7c1d049f0714307666e2fa7",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/explosion-player-event-reachability-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/explosion-player-event-reachability.md",
+      "sha256": "d966324600a350020f56236b91d6e42aba372710bdb5898bdffb25c9b95a2bcd",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/explosion-player-event-reachability.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/explosion-player-gate-crosswalk-audit/verdict.md",
+      "sha256": "12d7821fc7c27a522e05ef9a0c49f7e0a9f632003c9bfa1e5fccf4074d397f30",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/explosion-player-gate-crosswalk-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/explosion-player-gate-crosswalk.md",
+      "sha256": "33fb701cf9b585fe6f28b60a08f839690c88fd271c7ff9f93a296c5eb70c6736",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/explosion-player-gate-crosswalk.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/external-velocity-producers-audit/verdict.md",
+      "sha256": "2c258197fefb5eb46ad37a45c251dbfab2b60971a51f321ccd9747d459e53d9f",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/external-velocity-producers-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/external-velocity-producers.md",
+      "sha256": "33119428262a965543bd0a80ea00881d2f9c5b07a59a70f941be5c70433c9c38",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/external-velocity-producers.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/knockback-response.md",
+      "sha256": "1288399db66cec306eeaecf20e58a06052ded76e8014d0411753b58da96c774b",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/knockback-response.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/piston-entity-response-audit-r2/verdict.md",
+      "sha256": "103ee71196f3d357053a6c1a6e1fbcfb7e3ba817f197f09610e2856d5364e7b8",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/piston-entity-response-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/piston-entity-response-r2.md",
+      "sha256": "aa25a8ec6767b9b0b443c8cadbd7fc3b818b212ef5e897ea7ae20ca5f5a82b61",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/piston-entity-response-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/pose-provider-dependencies-audit/verdict.md",
+      "sha256": "90e12db6254666d00177b4a31110bd682455701f42677e2ab2b2e40f3cab4879",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/pose-provider-dependencies-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/pose-provider-dependencies.md",
+      "sha256": "65d3084d1fc3ae2e3a63de6323ce9163fad9d52e0367f8957862540317238294",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/pose-provider-dependencies.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/sneak-pose-dimensions-audit-r2/verdict.md",
+      "sha256": "471ce5d1fefb37731fd18891fb8db3aa936e4bd777d64dc10a5845bae4e3f2e2",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/sneak-pose-dimensions-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/sneak-pose-dimensions-r2.md",
+      "sha256": "1c35eff755217612950467848925d2a8fa1726a94ae45715dbebfa4e87320369",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/sneak-pose-dimensions-r2.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/tick-residual-inventory-audit/verdict.md",
+      "sha256": "e552b8d5f39fd3257245eab6526de52c335f1647e7633756b65e43072f5e0efe",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/tick-residual-inventory-audit/verdict.md"
+    },
+    {
+      "path": "source-189-19-20261117/tick-state/tick-residual-inventory.md",
+      "sha256": "aa9af5cc168a18c8392f2b252ecbedc4ffceaa23a5b8afc5482caa3a7649250b",
+      "originalBuildPath": "build/source-189-19-20261117/tick-state/tick-residual-inventory.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10--1.10.1/audit/full-pair-verdict.md",
+      "sha256": "54220349211c1ae19b42d9dce3abed2be5f4b373d2387f56de4a35bc4cb5d517",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10--1.10.1/audit/full-pair-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10--1.10.1/coverage.md",
+      "sha256": "a6834451183e112421e522d0bff6a4d76f8ee91c440b77cefa23d4f8579d0a51",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10--1.10.1/coverage.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10--1.10.1/findings/farmland-collision-height.md",
+      "sha256": "b53adda9ae51241c39f2925f64437be7c278062e314dad80092bfa9a098f7fff",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10--1.10.1/findings/farmland-collision-height.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.1--1.10.2/audit-r2/exclusion-verdict.md",
+      "sha256": "5896c0132d246bf997f07290b363b165dbf57fee832b10fb12d564295f4aff10",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.1--1.10.2/audit-r2/exclusion-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.1--1.10.2/audit/full-pair-verdict.md",
+      "sha256": "f5f85ebb0de8b41d84c0f435df6e18d69f7ef517e02518d3c55eb67faa11e43e",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.1--1.10.2/audit/full-pair-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.1--1.10.2/coverage-r2.md",
+      "sha256": "77a4d5359fe2b6159643b35b996dacc4553df2e4d332286fd6650af22eea06ec",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.1--1.10.2/coverage-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.1--1.10.2/coverage.md",
+      "sha256": "a25a3b142686c31702cded51f9ab192c06cf8f30bfac54b890ec0f0d5dfef71a",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.1--1.10.2/coverage.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/audit-r2/candidate-verdict.md",
+      "sha256": "7938ae7dca987305d1b8ca0243dee4613909ae55fd98b854e5676620a4564bf7",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/audit-r2/candidate-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/audit-r2/final-verdict.md",
+      "sha256": "4d58b7d41e216b1b4ea22661b26a2523ca292fe4e5d57bfc64ecd9893f247db0",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/audit-r2/final-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/audit/full-pair-verdict.md",
+      "sha256": "4a7404e4dfe1da4012378ee00428b55b9f129036540dfcfe37d39115bb20246c",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/audit/full-pair-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/candidate-corrections-r2.md",
+      "sha256": "7c315067faed2d16047d8e20a3995e11e510f4611b54e04f6f2c52d1d36a8fab",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/candidate-corrections-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/coverage.md",
+      "sha256": "b6789f01de090321f9f05e79a99b35e9ee6739a141a26ded0b510d643fb24069",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/coverage.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/client-direct-player-responses-audit/verdict.md",
+      "sha256": "93bc09e3a4ddbd9cdc4f7517cf6fd97200ceeceac8fa1d1cf55cdbc52bf6c5a3"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/client-direct-player-responses.md",
+      "sha256": "b923f7b8a3dee7dbc279525d716e3ab3555c096dd1014be037e5a9f3a8daa906"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/client-player-tick-audit-r2/verdict.md",
+      "sha256": "33959e4f591f94dc937610f3baf49747d8708be0a5f8350881abacf67dcbac9c",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/client-player-tick-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/client-player-tick-input-r2.md",
+      "sha256": "5a510bcd0697ffb2cd45d8baa4a4c4ec058261ef531a5e26da11e77a57e6b389",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/client-player-tick-input-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/cramming-rng-movement-consumer-audit-r2/verdict.md",
+      "sha256": "eb728c8b5f947b603328bbee1ff3737a4f8ce88b1ab67280d55b3ecee271bad1",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/cramming-rng-movement-consumer-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/cramming-rng-movement-consumer-r2.md",
+      "sha256": "7bed67cbacc5b089972ff982b9cb20341d258b6bdd2d92ebac14bc395d607589",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/cramming-rng-movement-consumer-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/effects-audit/verdict.md",
+      "sha256": "3fe7f6a4f77367045a51fd38f61c2171301ff5b3a2df7a4d71fdeda8a4593a26",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/effects-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/effects-player-movement.md",
+      "sha256": "64afa1ed594432bb1958b452b5fe14cc1f823bee8e486bd84c06c47d6262df3f",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/effects-player-movement.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/fluid-audit/verdict.md",
+      "sha256": "d7033896f51bb2f934836d84d8fc59ff19020b1816a8e90036ef3d2ef0d89e54",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/fluid-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/fluid-player-movement.md",
+      "sha256": "6e07e1afeea071df18d069ad6d2130aed2ec83c29db30bec3d5793c0f2d87f2d",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/fluid-player-movement.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/local-player-climbing-closure-audit/verdict.md",
+      "sha256": "e1c3224180be6e1ff59f478fb7822e6c6afa2e39c592447d28272e5b2eb5ddb6",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/local-player-climbing-closure-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/local-player-climbing-closure.md",
+      "sha256": "5edc1d395fd60e351d8861b84bfc4c80756c46c2784283b46da28d8e12cb3e9d",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/local-player-climbing-closure.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/local-player-travel-closure-audit-r2/verdict.md",
+      "sha256": "85646f022c5bf177a2ea6a907cafd73565c04d375fe0f9ff40adceaf4aeb8771",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/local-player-travel-closure-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/local-player-travel-closure-r2.md",
+      "sha256": "4c5c468b7ce2bf934a8f745208ae6fe46dee2c76921b3c71178f5055e4610c7a",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/local-player-travel-closure-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/moving-block-payload-caller-audit-r2/verdict.md",
+      "sha256": "d4b9171093643ab92845682e75b7138c60dea818f2c3301d6b8c40181c8e456e",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/moving-block-payload-caller-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/moving-block-payload-caller-audit/verdict.md",
+      "sha256": "7d5ad1213a15b25d6aa49feffe12d92d494a2dc312c83394561ab768436caf20",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/moving-block-payload-caller-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/moving-block-payload-caller-r2.md",
+      "sha256": "5820b9e31f6f63bb751a5901fed6a0b11fa594f9e9739f94a5dab0305a226a56",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/moving-block-payload-caller-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/moving-block-payload-caller.md",
+      "sha256": "76ff1fdcc10e24312489cc0f76f2fcb3aa8f526ad37072a28e7b6898c227d37a",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/moving-block-payload-caller.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/provider-inventory-audit/verdict.md",
+      "sha256": "6ee8be91180ba236a1bf885a64cb96bdcc6613b5690ff8d75b50f3927adb7a01",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/provider-inventory-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/provider-inventory.md",
+      "sha256": "559cfc38964235b8c436cbda1e908637578580c0a766bb655e632db63eeffd96",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/provider-inventory.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/provider-residual-inventory-audit/verdict.md",
+      "sha256": "17baee8bb15eea60de0e40e4a7622157fc616d08b32f399cf38eb20c5e52d3ee",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/provider-residual-inventory-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/provider-residual-inventory.md",
+      "sha256": "2015e9e759eaf8c7f5de5778c1d9c11398e09995db29df6c522150533c24e12f",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/provider-residual-inventory.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/short-piston-head-producer-audit/verdict.md",
+      "sha256": "528534851a67a0dcce53315d611e6eaffe09ee1815bfc3119371f8f35c21ad69",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/short-piston-head-producer-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/short-piston-head-producer.md",
+      "sha256": "d8e8b413628e0f130c667ba2ee558dedc9b18b8d5a9ccf5dc5687ccf901a3363",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/short-piston-head-producer.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/snow-layer-callers-audit-r2/verdict.md",
+      "sha256": "2e88f544a2e201850fbea79f9a3f3038c1837ddae25e5dc8acf7d3ebb22ae0e0",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/snow-layer-callers-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/dependencies/snow-layer-callers-r2.md",
+      "sha256": "81319ee440bf5899ebf1542d333dbd1842393cade26f6c734b231fe4c735be85",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/dependencies/snow-layer-callers-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/findings/moving-piston-client-response-r2.md",
+      "sha256": "49ccaea0cc48e8bd8314d63d647c4c976febf4448e27dd8de9cb424fc556a18f",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/findings/moving-piston-client-response-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/findings/moving-piston-client-response.md",
+      "sha256": "6634a107d75460d8bab21d9d6a14ceede2d5e8b8f6e5c88d2be42941d3bb8694",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/findings/moving-piston-client-response.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/findings/sneak-edge-piston-mover-type-r2.md",
+      "sha256": "bc274350be1022f359b5d28915ba5a012913f50a15f73a501f3c5ec24ccb627a",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/findings/sneak-edge-piston-mover-type-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.10.2--1.11/findings/sneak-edge-piston-mover-type.md",
+      "sha256": "2a6a07709aa63ddfb62febb5b31170f987bf2fe035ac45315267983a477c1eaf",
+      "originalBuildPath": "build/source-early-patches-20261117/1.10.2--1.11/findings/sneak-edge-piston-mover-type.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.1--1.11.2/audit/full-pair-verdict.md",
+      "sha256": "0c9cd620f31630dbcd17df86c15978ad6fa26a3b20b6ca7ab44fa37ad847126b",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.1--1.11.2/audit/full-pair-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.1--1.11.2/audit/verdict.md",
+      "sha256": "9a9d9ff163f72eabcfc1e09869bcc2789423350bb21842d80c66b75422234de7",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.1--1.11.2/audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.1--1.11.2/coverage-r2.md",
+      "sha256": "6748e283ee2bb7545a24ef3402c6019a77ac646c4b79a9f3ee542adb2fd777e4",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.1--1.11.2/coverage-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.1--1.11.2/coverage.md",
+      "sha256": "262a9753d5ceb9c983f158ff0c9239a3f7854da20157204769bae41ec3301efe",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.1--1.11.2/coverage.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.1--1.11.2/findings/wall-collision-height.md",
+      "sha256": "0485037e506b5681fe0d92d9006738dd1add36ab89154fc6e1c9b1bdea992718",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.1--1.11.2/findings/wall-collision-height.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/audit/full-pair-verdict-r2.md",
+      "sha256": "82145bec322ff77fecf967fa5cf0f440f11ecb4b07dbfd499f10b5ca227df80b",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/audit/full-pair-verdict-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/coverage.md",
+      "sha256": "da8f52d9b0e6e6445612cdf1f80096712e10b824f72c3d499f829b6024313514",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/coverage.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/connected-shape-state-crosswalk-audit-r2/verdict.md",
+      "sha256": "87da39170d47770ff91890486a11b8713493f9065297a2a57e691a0176c69b65"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/connected-shape-state-crosswalk-r2.md",
+      "sha256": "eda620f3a69bf7115b45dec4328cc48e2e23a720595d66e34b0ae83eaa3694de"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/local-player-tick-graph-audit/verdict.md",
+      "sha256": "0a7e094ef8a0573590d46b95924064206071605e5bf6fd1c2bf10a7685f36a8e"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/local-player-tick-graph.md",
+      "sha256": "18d221054b425d15fc0e9912ec1ad9232eec7f2a53a1765873af3b699b03937c"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/moving-block-client-install-order-audit/verdict.md",
+      "sha256": "e682d7c1eb4790362a997faf288d6888957c7e605acc329a30feabe48d178721"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/moving-block-client-install-order.md",
+      "sha256": "e38acd2dc4a2927d0a099a0131894460a5eb637d675a215f7c404391396d33fe"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/moving-block-provider-payload-audit-r2/verdict.md",
+      "sha256": "b5766308c812cd05caaaf50d6d4b7ae7e8f9cc553c4ce772044ef8cd70bf8d13"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/moving-block-provider-payload-r2.md",
+      "sha256": "d7e6e3b3bc18aca6f5bb1a83620980a70f620c5fae248deff34e41f6e642a13c"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/piston-portal-audit-r2/verdict.md",
+      "sha256": "127b73971637681565c1ce2d9a3be8ce8c6b70fdee7db3053cbc20a0812ad175",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/dependencies/piston-portal-audit-r2/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/piston-portal-player-response-r2.md",
+      "sha256": "84f5160938a961bcd3de8bab9f066b9909ec1162bf4055de37ca6f53224d920b",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/dependencies/piston-portal-player-response-r2.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/piston-portal-player-response-r3.md",
+      "sha256": "ea8fdcfbf1ddf6d1992c6190a46ef26c2882c9c748da1ce77f76f16447355db8"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/player-tick-responses-audit/verdict.md",
+      "sha256": "17f97031109a837b1d3d178d6555eb95c8bff56b88702ec9548ef80e0d5787a2",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/dependencies/player-tick-responses-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/player-tick-responses.md",
+      "sha256": "a0f9d74a302adfa2bd2c996f025ee3efb4354a9fc667614f2533bcf3015b4af0",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/dependencies/player-tick-responses.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/portal-client-response-followup-audit/verdict.md",
+      "sha256": "faf225e7224da2e86492c3255633ee9040cf151d4d2ea394ab3e955821592d62"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/portal-client-response-followup.md",
+      "sha256": "0347619441b7237d4483cfa987ffdec55726c4721f3926545300a2c57b9fe482"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/provider-callback-audit/verdict.md",
+      "sha256": "0bb66867a2a769aa52588ace79ef592c8ff8b5cc98c4cf726f5e8e735bb1129c",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/dependencies/provider-callback-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/provider-callback-inventory.md",
+      "sha256": "39052ed2f95606f012876136a3277b2ff9fc55c075d19936e5e384afc6b193d8",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/dependencies/provider-callback-inventory.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/shulker-faceshape-neighbors-audit/verdict.md",
+      "sha256": "f476a22d02689d3a643f2e5aeb7af1f17cd7f409a9e4b8925b5a05ad5e4fe61a"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/shulker-faceshape-neighbors.md",
+      "sha256": "30bbbc78b5187882ed9a440be894c4a1b2a091698aeabbe4cdd49834051baa43"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/shulker-provider-reachability-audit/verdict.md",
+      "sha256": "ad157596dd942123e1db378a5cc9ad3d67f91c57e8e8705439b418e09f215ca0"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/shulker-provider-reachability.md",
+      "sha256": "fd714797984f6c590871100b85171b25a7a6bd8965ab87e4415851dc93462e44"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/stairs-face-shape-state-matrix-audit/verdict.md",
+      "sha256": "50ffb75a3f39e63bea1398b6e03750796c78d87dbed87daa12adf109ed0fd35b"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/stairs-face-shape-state-matrix.md",
+      "sha256": "96df1629a7138eaac34db2ebe8dd464d1e6734c96963459843d21851017c86ed"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/world-tick-entity-gate-audit/verdict.md",
+      "sha256": "d6713a88e7365c89536878cb88d95f855211c93a0a7a76d5f3ace63354fb59f8",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/dependencies/world-tick-entity-gate-audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/dependencies/world-tick-entity-gate.md",
+      "sha256": "f9ad4d679f1126aad4fb2312bc7286ce30437f1e4639b5ba320f7d0d0091c429",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/dependencies/world-tick-entity-gate.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/bed-bounce-collision-response.md",
+      "sha256": "30b0194e7b5ac3b4da60e0b6a3a97fcb853774f1d7609e919d552f4fefd56d4a",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/bed-bounce-collision-response.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/bed-bounce-collision-response/audit/verdict.md",
+      "sha256": "3e425c3a10669f754574187122cb6a5c54b5258b0f10e320aaac2065588e5f8b",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/bed-bounce-collision-response/audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/fence-neighbor-face-collision.md",
+      "sha256": "3c5bb22d0700858739e0815ffc295c119aab0787d846705c02fd9db4835c6066",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/fence-neighbor-face-collision.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/fence-neighbor-face-collision/audit/verdict.md",
+      "sha256": "b2c3d12448447f22433ab648d92cb63e2bcb5e75037a38ef9bbd836268bc2075",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/fence-neighbor-face-collision/audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/liquid-flow-face-classification.md",
+      "sha256": "54839855489d9f07faf9b8444b20832919ffa507e350201f43ed9b620b120b74",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/liquid-flow-face-classification.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/liquid-flow-face-classification/audit/verdict.md",
+      "sha256": "a1c59025c49105711d0379605079a0a6c9f70bcc9eb3da45af1ceda8c6c039cb",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/liquid-flow-face-classification/audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/pane-neighbor-face-collision.md",
+      "sha256": "a9d9c1ecc4ab32b8e8b805d38fdda431a6903988bdc1bfca624db4980c21ca2e",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/pane-neighbor-face-collision.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/pane-neighbor-face-collision/audit/verdict.md",
+      "sha256": "75592d9fef09bdc430b91231934f2e052c48d7399c77aa56b9abfd2d64ba6edd",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/pane-neighbor-face-collision/audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/wall-neighbor-face-collision.md",
+      "sha256": "d9012e7c589f6a72a0716f17e19ab43a060772c8c1e5bd93df371e5656ac1d8d",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/wall-neighbor-face-collision.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.11.2--1.12/findings/wall-neighbor-face-collision/audit/verdict.md",
+      "sha256": "2fc8c608e6b5ecf75dabb530d4448efe94466c6476754850048990cd15d7129f",
+      "originalBuildPath": "build/source-early-patches-20261117/1.11.2--1.12/findings/wall-neighbor-face-collision/audit/verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.12--1.12.1/audit/full-pair-verdict.md",
+      "sha256": "8793410e0e51ea59970eb690d9224e4573afedaa0d4420802c4e28f92528d42a",
+      "originalBuildPath": "build/source-early-patches-20261117/1.12--1.12.1/audit/full-pair-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.12--1.12.1/coverage.md",
+      "sha256": "68757f54c26f3093bc9a64402ce80cc9b5b1366d67e096d17fdc81817f63b003",
+      "originalBuildPath": "build/source-early-patches-20261117/1.12--1.12.1/coverage.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.12.1--1.12.2/audit/full-pair-verdict.md",
+      "sha256": "ee302b6df089238d9f8dc49747cf4b1d535a4803cfe2b3efc014c4782485aec9",
+      "originalBuildPath": "build/source-early-patches-20261117/1.12.1--1.12.2/audit/full-pair-verdict.md"
+    },
+    {
+      "path": "source-early-patches-20261117/1.12.1--1.12.2/coverage.md",
+      "sha256": "04822d49dad2a4b6de9c552c89e3626873d1f91ca470a29e7695b0776f079f0a",
+      "originalBuildPath": "build/source-early-patches-20261117/1.12.1--1.12.2/coverage.md"
+    },
+    {
+      "path": "source-mid-patches-20261116/1.16--1.16.1/resource_gate/input-reference-r2.json",
+      "sha256": "0b26d71d485973a8ddd254edce88ce6ebac8fe84db961887927274c0b79154ca",
+      "originalBuildPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/input-reference-r2.json"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15--1.15.1/coverage_consolidation/audit/verdict.md",
+      "sha256": "423de145e64cd3fca1f1e57d5667156df8407b3fdec7b288d072278c29e44e43",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.15--1.15.1/coverage_consolidation/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15--1.15.1/coverage_consolidation/coverage-candidate.md",
+      "sha256": "c2dc73fcd48c2833877b85a1b0a1aaaba34981e2db7c269dc93318c79aa599b8",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.15--1.15.1/coverage_consolidation/coverage-candidate.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15--1.15.1/ordinary_player_r4_audit/verdict.md",
+      "sha256": "72f721fcfa1e079e0055d4a007c300c32db66c1e0aba35c804ffa8112287462f",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.15--1.15.1/ordinary_player_r4_audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15--1.15.1/ordinary_player_revision_r4/coverage-r4.md",
+      "sha256": "2c1e7de1fde2838a4b64037e4d51207686f2d41d75d44d1defee514818b9907b",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.15--1.15.1/ordinary_player_revision_r4/coverage-r4.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15--1.15.1/resource_gate/audit/verdict.md",
+      "sha256": "a596c9e67f13edc4e4419142b928b1664c1c8a7b585b175e5fbe3c0b53380b1d"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15--1.15.1/resource_gate/input-reference.json",
+      "sha256": "7dfc948b8b96eac2598855b320e1f97cd0cc796c83a955aaa13c5c3820baa692"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15.1--1.15.2/effect_restoration_applicability/audit/verdict.md",
+      "sha256": "6f2fc0af66eb952258d83d51bd15e7b6f6521e239fc51d8564442847630b3e49"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15.1--1.15.2/effect_restoration_applicability/report.md",
+      "sha256": "ee06cc078bcd7901b9f5b12740f94a401e226a87c4933a836f623c893052fc39"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15.1--1.15.2/ordinary_player/audit-r2/verdict-r2.md",
+      "sha256": "710103010d2473e0f9c9d3ecbd0051222f6cad00d1382a90e91ac5b74104f0e3",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.15.1--1.15.2/ordinary_player/audit-r2/verdict-r2.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15.1--1.15.2/ordinary_player/source-report-r2.md",
+      "sha256": "322e867bea50af506e4438f4809d3c893b5e2897b656f02c0855d41a43274d2b",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.15.1--1.15.2/ordinary_player/source-report-r2.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15.1--1.15.2/resource_dependency/audit/verdict.md",
+      "sha256": "b841809dbda8e61b3b3d43b5af2d698a0aa57baaa4f420335a8c694ef0d3b77d"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.15.1--1.15.2/resource_dependency/candidate-resource-dependency-closure.md",
+      "sha256": "a6bcbe4a99275e07a654478051d9dd2c3f2f51c7e2f591bb5e010a38a9dd570b"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16--1.16.1/ordinary_player_r4_audit/verdict.md",
+      "sha256": "455d9787d7766e226a24f356a58b162bebf310923f031f02fd3039d51298a9f4",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16--1.16.1/ordinary_player_r4_audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16--1.16.1/ordinary_player_revision_r4/coverage-r4.md",
+      "sha256": "4cc8599cb3ab2155923cc35a1e1bf62e1d18e36834cd8bcf71ab5a4bdd269440",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16--1.16.1/ordinary_player_revision_r4/coverage-r4.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16--1.16.1/position_packet_producer/audit-r2/verdict-r2.md",
+      "sha256": "09f1f0058706605c9b7a9fa3469d254fd9858336292709dcf622f025fd0459bc",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16--1.16.1/position_packet_producer/audit-r2/verdict-r2.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16--1.16.1/position_packet_producer/server-position-correction-producers-r2.md",
+      "sha256": "3bd3d02104458118e2b0701be34c0eaa7b4acbb038f4c42769282b658bd45e72",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16--1.16.1/position_packet_producer/server-position-correction-producers-r2.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16--1.16.1/resource_gate/audit-r2/verdict-r2.md",
+      "sha256": "cae5d3b1cf4f52ee700a6277111d6a49e0c7bbbcabd38156fbaf186f3aa430dd",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16--1.16.1/resource_gate/audit-r2/verdict-r2.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/audit-r3/verdict.md",
+      "sha256": "74d9f0468bcaeaef62125a56196a79daffa45e66d83db2ecfe57544d71ccdd2a"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/audit/verdict.md",
+      "sha256": "b31a098cc75c7083ce3fda2eb4941dc0fff90b4cd051e943ebe1b169776e4e90",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/report-r3.md",
+      "sha256": "80d66edb973ba4c102e00200effb5a3d901800894a9983a1eecbb7454d382bd1"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/report.md",
+      "sha256": "ba441b366e3e79be1dc7af7b17f7fa987cc03f53e55dd0aa4a5582f3b94ef292",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/report.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/audit/verdict.md",
+      "sha256": "fef9fa423063152aee899b2a87505128b9d62ccded805d38a2f7686b5b54e6d9"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/input-reference.json",
+      "sha256": "527c182b62211e234a2a320c4372155bbf5c2599154671b5e1f106fc2a3e1f87"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_state_witness/audit-r2/verdict.md",
+      "sha256": "7228d905aeb6ed83e584edc91a2eaaa74dd5b01b42e998f3e1b1c93efa9a8ee2"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_state_witness/fluid-lava-contact-witness-r2.md",
+      "sha256": "22c54126534a5291f8faeb251e1df1a6d805f3ae0b5636cc91193aaa7921fc2c"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/ordinary_player/audit/verdict.md",
+      "sha256": "5203f7819178eb5ee399cd8de31dfd5482b82b5657a4277923b9790bd3fed57e",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/ordinary_player/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/ordinary_player/coverage-partial.md",
+      "sha256": "a542f16666aed2e489296b8af886d7717092a4809eadc516daec79f11d57967a",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/ordinary_player/coverage-partial.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/soul_speed_resource_gate/audit-r2/verdict.md",
+      "sha256": "fc7510a5ce2df9fdd3f4363675c63e5f4e07a8cc54a70f135774e1ad184aab38",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/soul_speed_resource_gate/audit-r2/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/soul_speed_resource_gate/input-reference.json",
+      "sha256": "064916f9f13d72ee6381e235b2f1117e20ea7663c86707b257bfab00334cfc00",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/soul_speed_resource_gate/input-reference.json"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/soul_speed_resource_gate/resource-gate-report-r2.md",
+      "sha256": "a61b8c32cd07ed81906f7e406f29777a829966a2b1baf2059fcf3e80949c0a68",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/soul_speed_resource_gate/resource-gate-report-r2.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/suffocation_state_witness/audit/verdict.md",
+      "sha256": "91ce8b95ecc4e422bb37648ee89d75f2996f462cd3f4f5f70150e4880783f902",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/suffocation_state_witness/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/suffocation_state_witness/suffocation-escape-witness.md",
+      "sha256": "7de358a9a00d94485900903310bed28b40b0ee3facb08bbd47a0167ab436d09a",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/suffocation_state_witness/suffocation-escape-witness.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/tick_callback_residual/audit/verdict.md",
+      "sha256": "8c29134d196d0e2844d52fcf5516e638a32a2208b12a20f99e3c82c0011f1a61",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/tick_callback_residual/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.1--1.16.2/tick_callback_residual/direct-player-response-routes.md",
+      "sha256": "e5b4aa5d1ff7c09f2e9b59dd00c952560a8029dbc6860b9dff6c78ee280cf730",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/tick_callback_residual/direct-player-response-routes.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/coverage_consolidation/audit-r2/verdict.md",
+      "sha256": "3070803e1393d6cf1989f33cb5ad413e299d45d4f056d97efebdc989b045d984",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/coverage_consolidation/audit-r2/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/coverage_consolidation/coverage-candidate-r2.md",
+      "sha256": "78e164d0ce1b33ec150bbd15c53e032fb4fdc5dde61b12a676c28dcf30752f42",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/coverage_consolidation/coverage-candidate-r2.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/ordinary_player/audit/verdict.md",
+      "sha256": "67fceb4f43fe356f50b4de94d62d8b9588f9ee3cd64c636b4ea1984590dce585",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/ordinary_player/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/ordinary_player/ordinary-player-source-coverage.md",
+      "sha256": "d9bebb3f52c05a48f6dd8759d8e1444ac202fd387cc145207062e72fe775e5d5",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/ordinary_player/ordinary-player-source-coverage.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/audit-r4/verdict.md",
+      "sha256": "16aa8c229cf31251c68de2bd130229c1960478a947cb27af514ae1777fb6d712",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/audit-r4/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/audit-r5/verdict.md",
+      "sha256": "42177c349023006dbfc725d4e553c4e43c2a3493a51d7433c0caa3587d65691f",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/audit-r5/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/audit/artifact-check/archive-membership.md",
+      "sha256": "8ba889711001fcd99f97d1911d0d161c23e892ef7f59c56866818492567642bb",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/audit/artifact-check/archive-membership.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/input-reference-r3.json",
+      "sha256": "e1e464006ef92896b9a380788e994da5809a620abefbf04dd13900f9da7c798b",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/input-reference-r3.json"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/pinned-archive-verification/membership-verification.json",
+      "sha256": "506b5e7da8280695cb23eaacffcf103c569ea2c0c3b268fc59982d2239759df7",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/pinned-archive-verification/membership-verification.json"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/resource-dependency-r4-erratum.md",
+      "sha256": "cc38fff79d9b72c76091001289352fba1087f34304e49006b48696b1589e36e4",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/resource-dependency-r4-erratum.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/resource-dependency-report.md",
+      "sha256": "b984b03f6c7158fe4e4efa609552781b03bea984b9b3ec64c13d499a494e9bd2",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/resource-dependency-report.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.3--1.16.4/fluid_travel_resource_gate/audit-1.16.3/verdict.md",
+      "sha256": "363c2ea1de191f28cc9428da1b38a09037f5908c218eecf73af44204447c14c7"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.3--1.16.4/fluid_travel_resource_gate/input-reference-1.16.3.json",
+      "sha256": "b8d8b2c7d92201579042d0ff3da7d59c3aadf5ea2ac37b0ef500a73002ad0d09"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.3--1.16.4/ordinary_player/audit-r2-binding/verdict.md",
+      "sha256": "c73f11f455f4f2a4a8e0b6335110d287440b3b00240eed5079f577b402f0e869",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.3--1.16.4/ordinary_player/audit-r2-binding/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.3--1.16.4/ordinary_player/coverage-r2.md",
+      "sha256": "0d233b8289e630cb03108953417919e186fe2c62e1b2391e4ec0812297acf941",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.3--1.16.4/ordinary_player/coverage-r2.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.3--1.16.4/player_position_correction/audit/verdict.md",
+      "sha256": "5c022e5986b2c1755cc1f8c7e6abb62c8a8eff22b5d2ca793fe4c57e63b6c7da",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.3--1.16.4/player_position_correction/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.3--1.16.4/player_position_correction/position-correction-route.md",
+      "sha256": "0afe2c27f2117516190273f1586dba412bc9e5bdf9424a80a484175d51680de5",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.3--1.16.4/player_position_correction/position-correction-route.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.4--1.16.5/fluid_travel/audit/verdict.md",
+      "sha256": "00f80d41336792542235defb83b5624ab2de113cb68f2961b21774022b8930a5"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.4--1.16.5/fluid_travel/fluid-travel-dependency-report.md",
+      "sha256": "3d99d173e66dcefd6b6ee00028099b41cdfa9f81efa1f8f9ae31bb4a79b2661f"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.4--1.16.5/fluid_travel/resource-gate/audit/verdict.md",
+      "sha256": "aa7f7dbae3ba543874642ce1c536831c100ba758e4b2fd7f0205c0062b290a92"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.4--1.16.5/fluid_travel/resource-gate/input-reference.json",
+      "sha256": "b5e946b902d686ec785bd4fcfd3b13e80bd5d51033cc22df914285c890b21bde"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.4--1.16.5/ordinary_player/audit/verdict.md",
+      "sha256": "15d84ea56eaf2a405a01cd7c6370151b5ab3541f229b6b88d4e8e88fb90d2286",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.4--1.16.5/ordinary_player/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.4--1.16.5/ordinary_player/coverage-partial.md",
+      "sha256": "2723f2f1340597d1f8a076656c7794fdc8d66f8a4e4210c8dc73418b4d8ed74e",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.4--1.16.5/ordinary_player/coverage-partial.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.4--1.16.5/player_position_correction/audit/verdict.md",
+      "sha256": "f2530a3e11dc7d5d2415a20d31424ae2dacc471fd5bfcc2b493b2b1272c58284",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.4--1.16.5/player_position_correction/audit/verdict.md"
+    },
+    {
+      "path": "source-mid-patches-20261117/1.16.4--1.16.5/player_position_correction/report.md",
+      "sha256": "dbea9ab382396c0d7ab638a1f2eca4974c6b5910a9a462c83963d8d2b6d885ba",
+      "originalBuildPath": "build/source-mid-patches-20261117/1.16.4--1.16.5/player_position_correction/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/alias_log2_id162/audit/verdict.md",
+      "sha256": "eaa183fd5d60b59fcf5cc814197faff0b9969e9519b3fda416673bb6f583522c",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/audit_alias_log2_id162/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/alias_log2_id162/coverage.md",
+      "sha256": "5b4acbc4597482d3c5fd9247a903bff6932fa0422e23cea72d807ec530398393",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/alias_log2_id162/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/alias_log_id17/audit/verdict.md",
+      "sha256": "cd5b3ae838d2a124c0d36b06a768cac2c9ab447b6a44e1d18c1319000455d106",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/audit_alias_log_id17/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/alias_log_id17/coverage.md",
+      "sha256": "28136f863941759fd1584a6311c2e28fe62c38491b4485459f643dcc9827b091",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/alias_log_id17/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/alias_planks_id5/audit/verdict.md",
+      "sha256": "87221b5e6a9f035ff58f399d0483b0694bb9628a5d7be9ce4ec47016d0fe124c",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/audit_alias_planks_id5/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/alias_planks_id5/coverage.md",
+      "sha256": "d0f7bddab38e0ec257d2ab24a4707783b347458b70365bcbf9dcef90f4335c9e",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/alias_planks_id5/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/audit_resetpos_block_state_matrix/verdict.md",
+      "sha256": "26404a7ea05a5b43b13e92ef2b1189d3c6a301f3f5af2f45ba54a6e1ad23bc73",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/audit_resetpos_block_state_matrix/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/audit_structure_piece_reachability_addendum/verdict.md",
+      "sha256": "910122c1d3e067cfec2faf9d9e7a8b83392033ba6b61de4a6b06dc3d217b9168",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/audit_structure_piece_reachability_addendum/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/base_collision_dispatch/coverage.md",
+      "sha256": "2199f933da3c36f38bdffe942dac095e66c5948b3af9654adc06bbf1af9fef04",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/base_collision_dispatch/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/base_collision_dispatch_audit/verdict.md",
+      "sha256": "5bdb79ccb4f56457b91697425674ef17e84de2545e4c1e6c9451a09f75beb967",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/base_collision_dispatch_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/brewing_stand_collision_provider/report.md",
+      "sha256": "586f9c6fe616036af5d4a8727fb6f7553ad81d7b542a6bd00df66c8eeafa4bd0",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/brewing_stand_collision_provider/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/brewing_stand_collision_provider_audit/verdict.md",
+      "sha256": "877761d307c59edd70f50b53a8383c36e459ed29d1754b5b15725edb0d8a9ecc",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/brewing_stand_collision_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/carpet_registry_alias/report.md",
+      "sha256": "48bc0f384f756ea13f2354e78b99c92178f08cabc81e017314d2365f2dfdcb40",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/carpet_registry_alias/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/carpet_registry_alias_audit/verdict.md",
+      "sha256": "508277506559e3f9a0f99bc534f50701a79b94310f8b6b99e30cbcbaf2e7a461",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/carpet_registry_alias_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/collision_consumer_math_r2/coverage.md",
+      "sha256": "d2d1c43666e4b8bc4c81588b54eed3a8da3a4c6c924f2a3408bfc168a2951169",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/collision_consumer_math_r2/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/collision_consumer_math_r2_audit/verdict.md",
+      "sha256": "801dee2a9fc5cf4d32849dde94ff4bff244d4f77925f8e10463a363790ef691e",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/collision_consumer_math_r2_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/default_block_collision_route/coverage-r2.md",
+      "sha256": "3d2ecb822cde9aa8fa6592aca23687c01840479913409b6c32b83452b252381e",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/default_block_collision_route/coverage-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/default_block_collision_route_audit/verdict-r2.md",
+      "sha256": "6309ee8ddca94643c97914af7ed57819e0e3641b20c1dea4a333d4303c02741d",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/default_block_collision_route_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/double_chest_lifecycle/report.md",
+      "sha256": "8f4ac240ca5f5c07fba5822a797404ed555294efafdecb1273da3c17169d84b2",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/double_chest_lifecycle/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/double_chest_lifecycle_audit/verdict.md",
+      "sha256": "31ba45c72b9619875e365aabf84ee928651c76679f448bf5912bea09c236b132",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/double_chest_lifecycle_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/end_portal_collision_provider/report.md",
+      "sha256": "8bc581617c3f3327d42dd2d7a3ce22429f26e2608f41c2f41f03557b2530dba3",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/end_portal_collision_provider/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/end_portal_collision_provider_audit/verdict.md",
+      "sha256": "533f9abbcbeaa1ea4bd1a1785e99b99e3f910b383ecbf3400e88187d58297738",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/end_portal_collision_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/end_portal_frame_clip_witness/report.md",
+      "sha256": "4b244bf5072401bf25528703b43391f45df35b18ba3a416bc96e2366dac4997e",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/end_portal_frame_clip_witness/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/end_portal_frame_clip_witness_audit/verdict-r2.md",
+      "sha256": "7e7e428e89ee76d8e006a7c2b76b4827da7bbac376bbff7cc7b0edd80cb8d4dc",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/end_portal_frame_clip_witness_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/end_rod_collision_provider/report.md",
+      "sha256": "6e9b6b77ce4ea0e7d9549fb636292c1370ac13002c84d6e1b186d9830fe53eeb",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/end_rod_collision_provider/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/end_rod_collision_provider_audit/verdict.md",
+      "sha256": "816fabfdff1fa5e17acf04158dc647aef8ea5a0a6af2a1277feb1791119c995a",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/end_rod_collision_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/has_collision_key_join/key-join.csv",
+      "sha256": "c6bd748d0863ea4bc7f6098d0268d579b8da22216be23086400ffcd45ce608f5",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/has_collision_key_join/key-join.csv"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/has_collision_key_join/report.md",
+      "sha256": "fed592c29be830f0ae227c695e14541d4f77becdc3e88a4f81f45fd97f31a815",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/has_collision_key_join/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/has_collision_key_join_audit/verdict.md",
+      "sha256": "a6b9cb1e5dfbdb79152c947f9731adeb127d9518b8a2dc939a9b8a87e4ce92bf",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/has_collision_key_join_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/leaves_collision_provider/report.md",
+      "sha256": "2dd4ba32a887fcf3a4cca6952a821d91f0f7048eba47585270695c8001d0d21e",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/leaves_collision_provider/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/leaves_collision_provider_audit/verdict.md",
+      "sha256": "809b8c2208812369d61ff0ef8729c6e7243c7972590b81f21377d6087e616fed",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/leaves_collision_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/leaves_state_migration/coverage.md",
+      "sha256": "ec5c38a6c3fe86a58a02047d51e7f5d832eed6fbc90ead028f4b744fe9b53a81",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/leaves_state_migration/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/leaves_state_migration_audit/verdict.md",
+      "sha256": "4328171e022fe686c343c85dd8cc3148c65f43d8a19e074e17f6043d9117e693",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/leaves_state_migration_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/pane_collision_provider/report.md",
+      "sha256": "d19fb325f3a20ce89326329f42853fd4318ebfc6819f5861fd41eade4825cadd",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/pane_collision_provider/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/pane_collision_provider_audit/verdict.md",
+      "sha256": "79311f5414741fca8725a98580dc6fd2ff398eed24768db9e0a71faba5dc45c4",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/pane_collision_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/planks_logs_collision_keys/report.md",
+      "sha256": "61511ba8ac01a9e3afad8a7e61fea8195825b3065f0f8234a91de24c1eb0d2c6",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/planks_logs_collision_keys/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/planks_logs_collision_keys_audit/verdict.md",
+      "sha256": "2448ef91f2ba28c995d432caceea8641ce7930fbaae684a2eb7dbdadb9896fdc",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/planks_logs_collision_keys_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/portal_registry_alias_r2/report.md",
+      "sha256": "4389089049c47f017e72fe5a911cde1bb2e58f8984d9928d5dd31279b85588ba",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/portal_registry_alias_r2/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/portal_registry_alias_r2_audit/verdict.md",
+      "sha256": "423d49f42f99a072e6b225dab5aecc9f7e7fb3ee58f2c172e26c2121928c4e65",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/portal_registry_alias_r2_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/provider_coverage_ledger/coverage-ledger.md",
+      "sha256": "f5133f3574a8a4bc9c2aae01a357f9a2b4f9507c37b5cd7ebc669c4a129b44b2",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/provider_coverage_ledger/coverage-ledger.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/provider_coverage_ledger_audit/verdict-r2.md",
+      "sha256": "d0eb1c95fdbd04856c3e00e3c9378ebafebab51ba4e4da9f669a567e5323c150",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/provider_coverage_ledger_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/pumpkin_exception_mapping/coverage.md",
+      "sha256": "dd9e41b2e52afdaebcb9dee55a8ebdf216348e313558c676a12913a90cabdb93",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/pumpkin_exception_mapping/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/pumpkin_exception_mapping_audit/verdict.md",
+      "sha256": "1f9967728c36d90a3f80a1d66a753b977af076130fe12a72f6555e434a8ea604",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/pumpkin_exception_mapping_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_base_collision_clip_followup/audit/verdict.md",
+      "sha256": "fe910e96e808053dc2a5384d6b016144d2a5c83910a60dea5ad7e895e4883dce",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/audit_resetpos_base_collision_clip/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_base_collision_clip_followup/clip-followup.md",
+      "sha256": "1897876925198177f069265438880195703989e05ee99c6ff9d20d73509830c5",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_base_collision_clip_followup/clip-followup.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_block_state_residual_matrix/coverage.md",
+      "sha256": "c4ac654cbbe8a4958cc2b1388f05a2ce44e2fd320395db6f60d2eb332f8cc127",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_block_state_residual_matrix/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_block_state_residual_matrix/resetpos-common-key-provider-matrix.csv",
+      "sha256": "b7294302cd98bc923f543608ee9f5935a24a02033ac6033828c339dc702a2974",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_block_state_residual_matrix/resetpos-common-key-provider-matrix.csv"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_block_state_residual_matrix/resetpos-provider-owner-groups.csv",
+      "sha256": "e5bb405a1939d78218e6c28ec8d5b2e968dcde672e6dd530e0b8817c3d0704a7",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_block_state_residual_matrix/resetpos-provider-owner-groups.csv"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_block_state_residual_matrix/state-domain-source-index.csv",
+      "sha256": "42c24d1fd02b63c02c4d3548dfb9d0533c92c3bd8553ce130c1e4e08d07a1023",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_block_state_residual_matrix/state-domain-source-index.csv"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_changed_classes_query/audit/verdict.md",
+      "sha256": "1c1292e38dbbfbf10b67fcd75ac84f2ef93a2b3453fe2d23f1ac15d7932cf3ec",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/audit_resetpos_changed_classes_query/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_changed_classes_query/report.md",
+      "sha256": "9335e6457177e3d46275fe337b6820584d9f572a0d432d5ff1eaf248f6126c21",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_changed_classes_query/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_state_domain_expansion/audit/verdict.md",
+      "sha256": "66d1d0f5fc3dcbbafbdb30a565e5514d475edcf44e470030b3abf6ba96775364",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/audit_resetpos_state_domain_expansion/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_state_domain_expansion/consulted-source-hashes.csv",
+      "sha256": "a5a14938cf0b1ba5737e2f74a6774cf14ae17ec8e1c3520c69670443d4781d7a",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_state_domain_expansion/consulted-source-hashes.csv"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_state_domain_expansion/coverage.md",
+      "sha256": "fad40d431698e7f7ef2e90646313ce61bcfb5fe3478c69295c9939280ef2dddc",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_state_domain_expansion/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/resetpos_state_domain_expansion/resetpos-legal-state-domains.csv",
+      "sha256": "f12118dc09be593fdd58b268469b985fef95cfe644f3f5916aac4525977cb382",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/resetpos_state_domain_expansion/resetpos-legal-state-domains.csv"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/snow_layer_collision_provider_r3/coverage-r3.md",
+      "sha256": "124ccdf3667e28f9c241109cb3b1af60fb7bc88be84ae9a091413d2856e2f904",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/snow_layer_collision_provider_r3/coverage-r3.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/snow_layer_collision_provider_r3_audit/verdict-r3.md",
+      "sha256": "57b79925ce42119d2444a3c79d5729fe9d0018e0577fa730790856045202dbf2",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/snow_layer_collision_provider_r3_audit/verdict-r3.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/snow_player_collision_query_gate/report.md",
+      "sha256": "4b66255e6cea235b4bed189c00c7f3185f64f7555a39b8a3e3db3deb42a59ea9",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/snow_player_collision_query_gate/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/snow_player_collision_query_gate_audit/verdict.md",
+      "sha256": "b6d020ee639a5e4ba22a79f597df2ce2bb5c3538f8cf637a2fb9f7382b0d15c7",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/snow_player_collision_query_gate_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/structure_piece_raw_state_route/caller_reachability_addendum.md",
+      "sha256": "629383f4a4fac0e1cc46cac816833a2414135aafe9f165165eb27f66b765ecde",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/structure_piece_raw_state_route/caller_reachability_addendum.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/structure_piece_raw_state_route/coverage.md",
+      "sha256": "577bae5780ba1e637739219319f1a11a53ea2916c62bcbe05677c737705b0e1c",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/structure_piece_raw_state_route/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/torch_collision_provider/report.md",
+      "sha256": "13e8d74e2625b3a72b9e1be7e02e4c0887f057ac7f6b135b418d3788dccabe67",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/torch_collision_provider/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/torch_collision_provider_audit/verdict.md",
+      "sha256": "ddef09524b44601f12949a7ca8e05e5dd5ae7454bcc6f1972d11f52c3571aa9c",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/torch_collision_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/wall_torch_collision_provider/coverage-r2.md",
+      "sha256": "4d55291f59f05cef9830eaf032efde375aabc82e41fc2f7aea39700411742dbd",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/wall_torch_collision_provider/coverage-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/wall_torch_collision_provider/report.md",
+      "sha256": "515e5e0e99b5f9ffef23cab5acb8d3979cbe32fc4de14102c7daf7334ffdcd3d",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/wall_torch_collision_provider/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/wall_torch_collision_provider_audit/verdict-r1.md",
+      "sha256": "1781bfcc42180161df4c1be29e6df3d4bc1a174d08019fd128412f0188b91cb4",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/wall_torch_collision_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/wall_torch_collision_provider_audit/verdict-r2.md",
+      "sha256": "209416f5915da18770d6c3ca83ccc599d433a16acc335ea05fc227165fffe5b2",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/wall_torch_collision_provider_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/wheat_shape_provider/wheat-shape-provider.md",
+      "sha256": "81d3d16b76253fe2d7d5bd976d451b8b6a7b5dbfcf009fa7ed536096a0c07eee",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/wheat_shape_provider/wheat-shape-provider.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/wheat_shape_provider_audit/verdict.md",
+      "sha256": "1913d6cd4c5ced9dcfa63dd2ae2722acb0b2b34277fe244b5b4840817cc10116",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/wheat_shape_provider_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/worldgen_raw_state_route/coverage-r2.md",
+      "sha256": "fcbc87e212db1a66a79185a57de7f56ecdc22d6857f320443e05c7fc83ccb8af",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/worldgen_raw_state_route/coverage-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.12.2--1.13.2/worldgen_raw_state_route_audit/verdict-r2.md",
+      "sha256": "4930d6865302d1c5268cc8c1aaef4534020030cdaad74bf7e38f13abb0d9ae2b",
+      "originalBuildPath": "build/source-residual-20261116/1.12.2--1.13.2/worldgen_raw_state_route_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_air_command_projection/verdict.md",
+      "sha256": "b5df0d7921850f15341b293f2fadfd2ba7687526c66af701e7f2522a6eadff5c",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_air_command_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_barrier_projection/verdict.md",
+      "sha256": "39eaf744a7cc0230a44c0600d7126b2fb77db69f56cf1380a012e2d0a19f7a3a",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_barrier_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_coral_cube_projection/verdict.md",
+      "sha256": "f38e5de3d5e04387cdb630d7b4c1a7e3826d95d4a321a78a22e1d45ff3f8683e",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_coral_cube_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_coral_fan_projection/verdict.md",
+      "sha256": "ce572b46e83e446ed7fca5d3f124d2a6f75308c819be0e886950c86faa57796e",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_coral_fan_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_coral_wall_fans/verdict.md",
+      "sha256": "80bf459ee525f7c74d6c3a7e92835c6190648edb7d3a28aabec93aae33c8cdc3",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_coral_wall_fans/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_crop_predicate_projection/verdict.md",
+      "sha256": "738d49055cde7a3678a8e383a97c0f4b754921d57c8cb80fae6a25ebfbc32737"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_double_stem_addendum/verdict.md",
+      "sha256": "e37ddd8783a248dd451e36ec31ae8e822b6912d2d7c294083eb41f01919c2b66",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_double_stem_addendum/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_flower_plant_projection/verdict.md",
+      "sha256": "ce547df3e5e93c8a74240881a3cd791104be1d8599d8528d0320dd932305bbb7",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_flower_plant_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_furnace_projection/verdict.md",
+      "sha256": "632463faed677f24ca7d8975fd0ef4df3fbfe9b6d088cda185ece783f0dcf40e"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_generic_block_projection/verdict.md",
+      "sha256": "963d4a8abf4da3a6402b61eeb37e7ab501dad11f48d0821cd3ffc27f49bebaf6",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_generic_block_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_glass_pane_iron_bars/verdict.md",
+      "sha256": "81b02389a6bcd637860438fc47405d8486cf5b6aa33559697037f87d229d3f8e"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_leaf_exceptions/verdict.md",
+      "sha256": "213e6c18187c4a9a3b0a5551938354d77874001f72787dd008f19c26c6fb16e6",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_leaf_exceptions/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_lilypad_deadbush_projection/verdict.md",
+      "sha256": "9b23a9c65826844acb354799eee2e160b5e34be3f445ec04a09328acca5b6f90"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_log_axis_projection/verdict.md",
+      "sha256": "2eedd1ee89f375b876e56d3aa3df5629b64c3b2f597b648b7d30c53a75039a87",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_log_axis_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_mushroom_plant_projection/verdict.md",
+      "sha256": "78ee509b89abfcd393df52ad87caa50bae68c8b92e7fba01de0ef84da2626334",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_mushroom_plant_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_natural_cubes_projection/verdict.md",
+      "sha256": "6ff067f7f88c347951ee09ea966f1cffe5b2c0357e76635fbae4a93f51c785d6"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_ore_infested_projection/verdict.md",
+      "sha256": "012c49fa74400d74270d2dbc58f914cd7fcd0b70a4dcf6c95fa130a2ba64c2cf",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_ore_infested_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_pumpkin_melon/verdict.md",
+      "sha256": "dfdae1c670e307d5994eb79a9dfdd8f3645a6b7a9cf34de66399de080b75db29",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_pumpkin_melon/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_redstone_diode_projection/verdict.md",
+      "sha256": "593c8e5575a68e86c06e30087c01c05f5e78a17f062d61216d88742f000401b2"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_redstone_machine_projection/verdict.md",
+      "sha256": "d1e1561d0633cac268e122b531edd7166a348aac43e6fddb5734b5951d351cf9"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_redstone_torch_projection/verdict.md",
+      "sha256": "1317744fa313d09d9e918b3495072098da958202ba3cdf47869413698b4d7024"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_sea_pickle_projection/verdict.md",
+      "sha256": "75bf8a48569fda0455b824a7c13fe7a168daf1219db4d9a07c69a1b25f6f03c7"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_slime_soulsand_magma/verdict.md",
+      "sha256": "973aa43f4c5b0cf0b911b068cb6dd87a549ff42fad0c70cb2fa39ed488ca0aca"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_snow_ice_addendum/verdict.md",
+      "sha256": "fd6f7109e611c589fdd5207b61827ee6f2fdd11c4956e481fc6ba2bf36612a86"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_stained_glass_pane_projection/verdict.md",
+      "sha256": "72ba92325c857363ae59a3b738b03bf29481739e8029275cde2a7b7e9a62cca2",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_stained_glass_pane_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_stone_structure_projection/verdict.md",
+      "sha256": "f1fc5a707d0dbce580472f2164929f7f0d35609ca246831ff33cda408bb4c1d1"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_turtle_egg_projection/verdict.md",
+      "sha256": "9fbba2558a0f3e02c067085e0556e1949ae1ecade1b41a6bbb2322d153ba3109",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_turtle_egg_projection/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/audit_wall_workbench_music_projection/verdict.md",
+      "sha256": "a2c86255821ce1f0468bb77dce46da7c6d4d78e0ee46acb1f7b88a5a2f4d7e95"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/glass_pane_crosswalk/report.md",
+      "sha256": "e1150fb5ddc471defc1a67871e4b734012f3e713758d2c32de9261b2227e51ca",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/glass_pane_crosswalk/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/glass_pane_crosswalk_audit/verdict.md",
+      "sha256": "c0d72d12e1f1826f25ab9ad9b5de4426778381a4bb70de7381c83dc14d6b4d9d",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/glass_pane_crosswalk_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/pane_neighbor_producer/report.md",
+      "sha256": "6c9d762cefb7a4af92954037906d65f6c891c27e2d269e08d6333506bb409202",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/pane_neighbor_producer/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/pane_neighbor_producer_audit/verdict.md",
+      "sha256": "a68b29078180c4bbdc454c46365f131badb4ea804539e5b47b9ed515f14b597b",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/pane_neighbor_producer_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/stair_ray_witness/report.md",
+      "sha256": "d6e3b33981df6558a1f60d74e3958f60c09a26a64c6b17b43aa4b32e230dd977",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/stair_ray_witness/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/stair_ray_witness_audit/verdict.md",
+      "sha256": "0adc6d732b849d0b5e46d09bd98d29e2569616d12533739aa3f0a987793b9be3",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/stair_ray_witness_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_air_command_projection/report.md",
+      "sha256": "c853f644ac948b97ae17b0c614f764eddd9e2ff43d2f4d854960436f600a3492",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_air_command_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_barrier_face_projection/report.md",
+      "sha256": "a85a3593e9c11117668fc5288328b546497ebcade800c280d7b81dd611ace8f0",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_barrier_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_bed_door_carpet_projection/report.md",
+      "sha256": "7e1fd65ad5d301a46e9df601d41e010117a4acb54857a4f865631cd616bd34ee",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_bed_door_carpet_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_bed_door_carpet_projection_audit/verdict.md",
+      "sha256": "838280e824fa3c089046646196c0c9db2dd850e7e758b2f5762a6fe617348ddd",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_bed_door_carpet_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_bed_door_carpet_projection_r2/report.md",
+      "sha256": "767d4b665e5283c6818bdabb2d6a201f21ff0931e232056ea216cc4cc1c2ba59",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_bed_door_carpet_projection_r2/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_bed_door_carpet_projection_r2_audit/addendum.md",
+      "sha256": "439922798897ed91e47b94fa45e0462a324fbd87bed533c33f9d96ae414da21a",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_bed_door_carpet_projection_r2_audit/addendum.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_brewing_dragon_cobweb_projection/report.md",
+      "sha256": "61dc8889df4fad9f5559b7042789651083bf4144953ba1abf0954765f26b4b38",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_brewing_dragon_cobweb_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_brewing_dragon_cobweb_projection_audit/verdict.md",
+      "sha256": "303db0f22fbea0942784e916256f89b564014838141a703f73b7ac034e301579",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_brewing_dragon_cobweb_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_container_face_projection/report.md",
+      "sha256": "71d4792dba638747440a1ded871069fbb4d635bcf666da2af061627655e362bc",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_container_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_container_face_projection_audit/verdict.md",
+      "sha256": "6655d8a7c614d9e6f53232210c036e56f47610d8440c6daa22df97c614dd9343",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_container_face_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_coral_cube_projection/report.md",
+      "sha256": "a13e598b5f012e9c608665119a5193b70fbc1fe2e1f9b508f1263e691e1f19a8",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_coral_cube_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_coral_fan_projection/report.md",
+      "sha256": "2dcc12c64745d923cfdca8c60d54fe4231a62f9498a13091b77ef0a2a07a39e4",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_coral_fan_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_coral_wall_fans_projection/report.md",
+      "sha256": "6751677394f1bf9491284ea677b4e24c5dc43ac968905c222633143747751b93",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_coral_wall_fans_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_crop_predicate_projection/report.md",
+      "sha256": "bc83675cd30ef740f7b0c1529d554f9ee821aad9de727202bc58a34a45273d30"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_double_stem_plant_projection/report-addendum-evidence-bindings.md",
+      "sha256": "391c8ba29439517e689914e4c5d02335d47556b0cfb9bc10eac6e0b378be940e",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_double_stem_plant_projection/report-addendum-evidence-bindings.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_double_stem_plant_projection/report.md",
+      "sha256": "59c078e34b1d9df85ae7e913a94914d9c0bcd4b102599e712eaf389439ba7f8c",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_double_stem_plant_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_fence_face_projection/report.md",
+      "sha256": "f443dc69075ec23dbf6eb02ddbe77918795fced2edc7ac89b137eb40df7f703e",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_fence_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_fence_face_projection_audit/verdict-r3.md",
+      "sha256": "a17b2989560923cf5d59e0983b5764ce6c1e3ebc1faaa765850c0625b09915f6",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_fence_face_projection_audit/verdict-r3.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_flower_plant_projection/report.md",
+      "sha256": "661a73a9c77aa5ed6d498b8c3a834b2d0a5376bcc1da52ac9c0e1368c68d0f9e",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_flower_plant_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_flower_pot_projection/report.md",
+      "sha256": "b03896935a0fb0f526b9d6c13534aec537dc2fcc43c987b81e2b8455d91606ad",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_flower_pot_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_flower_pot_projection_audit/verdict.md",
+      "sha256": "4a96cf28da05295ef9efe41391d793fccbc9d1511edcb3c12eef1890958f4310",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_flower_pot_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_frosted_ice/report.md",
+      "sha256": "4d7cb6bb2737bad9af18d3e84097101d788697f00742c408457bb1f92271d62f",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_frosted_ice/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_frosted_ice_audit/verdict.md",
+      "sha256": "f9b3e0267e87d5aec586311bb71c68b64c27bc651e7590dd3e2bb4b12c12f7cf",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_frosted_ice_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_face_candidates/report.md",
+      "sha256": "1f954f1a1543a7c192deb1d84910d4ab2915d7c22e7e70667fd54f283fdbbf3e",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_face_candidates/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_face_candidates_audit/verdict.md",
+      "sha256": "6e8a4d5b82223ad593144cb7179ebac142c68651d96e1214ad2b7e853c14bd36",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_face_candidates_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk/coverage.md",
+      "sha256": "a8285ea8c199dd0261e25202214ea401fdf1f54af4db836917c6e9cd5fe369d0",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk/registered-key-dispatch-crosswalk.tsv",
+      "sha256": "7b8d10690d85824b2605c701651b516fe82d654908e7d22c6e62eca08d30bdff",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk/registered-key-dispatch-crosswalk.tsv"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk/unexamined-wall-projection-keys.tsv",
+      "sha256": "8a79ad3e851470a59976b9120d085ab2ec556d3cd61885205113dbd167712366",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk/unexamined-wall-projection-keys.tsv"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_audit/r2-correction-verdict.md",
+      "sha256": "10f585466275f8f6e980b00637667a377e3a9c5acfcbc1c0b08fd40bc21f3b84",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_audit/r2-correction-verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/audit/verdict.md",
+      "sha256": "183ca5124d3e728fa872b4a587a1170b5949aeef194180a288726954dd351eb1",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/audit_wall_crosswalk_correction_r3/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/coverage-r3-correction-r3.md",
+      "sha256": "53d6c069b16676a20ca552618c475151e976ab9b3540e2caa9f35e296a1b086a",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/coverage-r3-correction-r3.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/partial-row-closures-r3-correction-r3.tsv",
+      "sha256": "d35e9e03dd92f29b3f0ec463ee447fbff6be1722febf288210748e986e33be70",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/partial-row-closures-r3-correction-r3.tsv"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/remaining-unexamined-rows-r3-correction-r3.tsv",
+      "sha256": "ebcc9aa9cd3a9b256a6588d62fb18707edc8f42357747df5ce340d06ef591e35",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/remaining-unexamined-rows-r3-correction-r3.tsv"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/residual-dispositions-r3-correction-r3.tsv",
+      "sha256": "1ffa701c110aa6897a1ba65d5e59ae83f0e8ee8918cf36772538202bad162704",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_full_registry_owner_crosswalk_r3_correction_r3/residual-dispositions-r3-correction-r3.tsv"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_furnace_projection/report.md",
+      "sha256": "ec6518561b8b9a1f164a9da9f2b07135d45aa42f85b03b56add37926a6996caf"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_generic_block_projection/report.md",
+      "sha256": "85997907adcd65b815b08e80e10c975ad786f2009ba7095647f07d827f391ff4",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_generic_block_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_generic_neighbor_inventory/report.md",
+      "sha256": "1dc175827e5b8c7cbaecb20fc13dc2f55a8cf3450be8c76106ff855d56efcdbc",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_generic_neighbor_inventory/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_generic_neighbor_inventory_audit/verdict.md",
+      "sha256": "e4a35e33d288d1ae9afa1818764ee5b7bd53c223bf30ddaf32c2bbd8c7292bcc",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_generic_neighbor_inventory_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_glass_pane_iron_bars_projection/report.md",
+      "sha256": "c481570164d1ad656f9020b9e04113295bc5842addde6278452b3a6114fa0da5"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_leaf_exception_projection/report.md",
+      "sha256": "2be6c8a767c44c90cd37314344ae0af802c03f0a312b9bb7c357a81cb9843e0c",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_leaf_exception_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_lilypad_deadbush_projection/report.md",
+      "sha256": "a4306764f7dcb7e95d14381f5bff5a6d52697aed78f1237f89b806c9d9041b5a"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_log_axis_projection/report.md",
+      "sha256": "c23f6e4767fddc73a41727952c7be7a56ad374a1414ab464c3c579c7f20176b0",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_log_axis_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_moving_piston_projection_r2/report.md",
+      "sha256": "ec815743825b4af2fee39d9775e83b16117180dabb760f4749a0cf3cc6934922",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_moving_piston_projection_r2/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_moving_piston_projection_r2_audit/verdict.md",
+      "sha256": "6b77913ac95afb57b8d6a360fe576fcc4947a5e9ce7494682a16dbd1452f6836",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_moving_piston_projection_r2_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_mushroom_plant_projection/report.md",
+      "sha256": "3fecc90f81ed60cea1118fb5fd371f78a488b69ae42ebf9136a7a2396a58cfd7",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_mushroom_plant_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_natural_cubes_projection/report.md",
+      "sha256": "2cca6752bda5e54e1b852f71891b91557cfda90038081041e10a9053932a124e"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_non_gate_neighbors/report.md",
+      "sha256": "8ce87936eb92040f4926d7b3ca6169d3c5e4f805098c50b1a38d839abcce442a",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_non_gate_neighbors/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_non_gate_neighbors_audit/verdict-r2.md",
+      "sha256": "23350ba2af992277506f8349845923f5e0e6885a1a1d9e2d5bdd71430abb94d9",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_non_gate_neighbors_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_ore_infested_projection/report.md",
+      "sha256": "62c11dd3c8c92b4f96ad8c9b53fa0cbe140d511cc8a8cf4df2b7e0bd1c4ec9d7",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_ore_infested_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_piston_faces/report.md",
+      "sha256": "8f9bcb667c10006430b3bb0b66cb9235e92c00a7d691613d0c6c1632fac425c4",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_piston_faces/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_piston_faces_audit/verdict.md",
+      "sha256": "e9b0b9ad61e280f84423add556669fac9dbeb134f4d2974a86aef1bf00bb0fc4",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_piston_faces_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_plant_fluid_projection/report.md",
+      "sha256": "41c1ec692df824c1aea57c186a4ff5968cc72fd257d359ccfb0cf88cb8ea20ee",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_plant_fluid_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_plant_fluid_projection_audit/verdict.md",
+      "sha256": "fd9bf69b11aaf9cc64ac884bf78fcc401186cfd084a4501f3713df6c25fa367b",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_plant_fluid_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_plant_fluid_projection_r2/report.md",
+      "sha256": "63f636c6270f5beb1249318f6af923a711f2ea3727bbd5bd9b71b10bb0d43f4e",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_plant_fluid_projection_r2/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_plant_fluid_projection_r2_audit/addendum.md",
+      "sha256": "e7324620bd44392467b130b79c9f025b52fe25bab09bcf77854c7b75c3a55163",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_plant_fluid_projection_r2_audit/addendum.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_portal_face_projection/report.md",
+      "sha256": "32d38c5dacd17859a02f51c88d30a1f34f0c83c3ec8ab1770925e7da65fc618a",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_portal_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_portal_face_projection_audit/verdict.md",
+      "sha256": "7e9cbf372dd9d8d7cf676b8d68e93794232c9e834aeb0b2ae820925524242b7a",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_portal_face_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_pressure_plate_face_projection/report.md",
+      "sha256": "0bc397037efbe0f1059148d4bf12709078a96a1fa50e3f748dadd8f578d63729",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_pressure_plate_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_pressure_plate_face_projection_audit/verdict.md",
+      "sha256": "193b9ccccf36deb20480e70db856f33261ab0e5ec1fb0a517cbb78e3546a3756",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_pressure_plate_face_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_projection_coverage_ledger/coverage.md",
+      "sha256": "fd42e07a67e2b8d74d4b81342822301f4cb42e44b2bf4752f7d7ce3196e75abd",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_projection_coverage_ledger/coverage.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_projection_coverage_ledger_audit/verdict-r2.md",
+      "sha256": "d245ca3a9c7c0b501216cda7a607c0168272f0153e57294cd4d3cb8c497a7c60",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_projection_coverage_ledger_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_pumpkin_melon_exception_projection/report.md",
+      "sha256": "16f0e546c82eeb3fca2bf05520e08df4124ea7efc2e2731d8d09d8bf0e419034",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_pumpkin_melon_exception_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_rail_button_face_projection/report.md",
+      "sha256": "b1e29b7c575b6244e46c53d6966a14e0e5e383f4feea7c991058a2fa478596bf",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_rail_button_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_rail_button_face_projection_audit/verdict.md",
+      "sha256": "737fa7c90745b840e8e52bd43b304ed83ca1a274c3579de98311f37a7fbb4f6c",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_rail_button_face_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_redstone_diode_projection/report.md",
+      "sha256": "1d1e9bab09e0977fc1e049574feba0952969664ece2b1dc38d8390dab486b5e6"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_redstone_fire_tripwire_projection_r2/report.md",
+      "sha256": "9fe282743610f7d3cc4ed7c22574699756dbb3234e238b7836234b1934cf43d2",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_redstone_fire_tripwire_projection_r2/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_redstone_fire_tripwire_projection_r2_audit/verdict.md",
+      "sha256": "c1c9da91af6c0add4afdebe02bf6c2b8a405355228c30f23f436a241ec5cc972",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_redstone_fire_tripwire_projection_r2_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_redstone_machine_projection/report.md",
+      "sha256": "5e599d61b35324de8ddd4aa0bc138256036eaadaa0c6711fa00b945bb5795fa3"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_redstone_torch_projection/report.md",
+      "sha256": "11ffd2550003c9d6d5b49d51e9a2705587b22f1ccd339f31ddf74161b6409d8f"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_remaining_face_shape_census/report.md",
+      "sha256": "f1a12c7564f14c91c652bea6603e8ada8350b98c2892df05c591c0161d4e041d",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_remaining_face_shape_census/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_remaining_face_shape_census_audit/verdict.md",
+      "sha256": "4d08ce03191c655c9c087c90f771468802cba09d0f8587fdbf4264a97664f344",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_remaining_face_shape_census_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_remaining_face_shape_census_audit_r2/verdict.md",
+      "sha256": "ce1d88bebf05f25bc92f893a4405101f569388e618cbf16341f4baa71cfb7197",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_remaining_face_shape_census_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_remaining_slab_face_projection/report.md",
+      "sha256": "8615edc5a7da500035535b7c7c759c8da48b39029b5ad52d2802ac5a7435adb1",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_remaining_slab_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_remaining_slab_face_projection_audit/verdict.md",
+      "sha256": "3f6f7cd5d7a6938eff6cb46cc68d7d628d5e19632ba6bf8fe96f59c5a9db869e",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_remaining_slab_face_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_resource_membership/extraction-record.md",
+      "sha256": "f26f84c7221f667cd84ff4e048d06b0fd3c3aec52779f3fbd0a8f4e2afe64fea",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_resource_membership/extraction-record.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_resource_membership/payloads/data/minecraft/tags/blocks/leaves.json",
+      "sha256": "c09bb9af30197720b232b9c84079039d4f344bfc2970fa0d02a1b43bc091b991",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_resource_membership/payloads/data/minecraft/tags/blocks/leaves.json"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_resource_membership/payloads/data/minecraft/tags/blocks/walls.json",
+      "sha256": "f20174f51f66d27681fd9d469a77c86cae82012c0d9125e7d246c426b772391c",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_resource_membership/payloads/data/minecraft/tags/blocks/walls.json"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_resource_membership_audit/verdict-r2.md",
+      "sha256": "6402c6af692b3f198c853d3558b91d4de7c215db793e8847e66e45f08f4d8898",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_resource_membership_audit/verdict-r2.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_sea_pickle_projection/report.md",
+      "sha256": "689b1150669377e266216f844fb7f1316c44bde2469ec36a02cee99553df2370"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_sign_banner_head_projection/report.md",
+      "sha256": "62b236ebe603ff7ebc06d5baec792b871fd975e2f66d152e89a11d22ff0d63ce",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_sign_banner_head_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_sign_banner_head_projection_audit/verdict.md",
+      "sha256": "ce60ba91f0e5e2dba9298900b308f4665a04e5fdd19b8710bff0c93baad89148",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_sign_banner_head_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_simple_utility_face_projection/report.md",
+      "sha256": "7161b0f0e0ba180cee371574c77aaac747012fa3cbcdba9cd2e597b87afa2142",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_simple_utility_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_simple_utility_face_projection_audit/verdict.md",
+      "sha256": "6031dd47c4b7c96743ce6813537069fd837da90e82b11e4197ff97f46a1292c4",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_simple_utility_face_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_simple_utility_face_projection_audit_r2/addendum.md",
+      "sha256": "e56b216a01b145cf1cf4cad9fd9ada5f9f1f752a31bda67366c92551f22b9558",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_simple_utility_face_projection_audit_r2/addendum.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_slab_face_projection/report.md",
+      "sha256": "593cb79845085d5d1d22b96ea3c3dc966aaf939e0dd45ccae4d967177a212542",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_slab_face_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_slab_face_projection_audit/verdict.md",
+      "sha256": "aa3dbad6b5a02b94a923d6ee7d20f6ddfbf4f2e7c85e4c8a3446938e33a13694",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_slab_face_projection_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_slime_soulsand_magma_projection/report.md",
+      "sha256": "78dcbc450091371d14e5802bc7becb290b09ff1964dd67ca1ed232ce2f4ec6c9"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_snow_and_ice_projection/report-addendum-source-identity.md",
+      "sha256": "9e214df6272a12c559d7c8995871d7753012e3f4be13b6d4807cbdfe71457e39"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_snow_and_ice_projection/report.md",
+      "sha256": "bf10d3d954afb5819881f40bb7816696aba95c42c3be23362881f45b14345796"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_stained_glass_pane_projection/report.md",
+      "sha256": "fa838210fd9d0aa891f01b1645a8e3220fc1275ffc8655a3635aa5f00ad990ce",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_stained_glass_pane_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_stair_face_projection_r2/report.md",
+      "sha256": "ae25ccd06649fb2eb9e65d0f00243957d258d6d081884b388f477305897b8a67",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_stair_face_projection_r2/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_stair_face_projection_r2_audit/verdict.md",
+      "sha256": "72dcd59fba3a6f5db4fe5222a833f44aad7693b6f03fcb4b618e3cb359e3b2ea",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_stair_face_projection_r2_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_stone_structure_projection/report.md",
+      "sha256": "40437dcc5f4d747f3ba819aa032308cd7e4eb21d29d7574f6699574477053af4"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_trapdoor_shulker_faces/report.md",
+      "sha256": "eb3d1fb2c1a176a23e0929ec259e6a529bdf35197bad5493c88a6209f61e3e8d",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_trapdoor_shulker_faces/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_trapdoor_shulker_faces_audit/verdict.md",
+      "sha256": "9e0573bbcc850da5f3926c744a197f15ad6bbff936061610840c04dde3f75033",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_trapdoor_shulker_faces_audit/verdict.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_turtle_egg_projection/report.md",
+      "sha256": "2e9812592edac77052a1133d11a148518768a450462ee60ef3f6723d1beda34b",
+      "originalBuildPath": "build/source-residual-20261116/1.13.2--1.14.4/wall_turtle_egg_projection/report.md"
+    },
+    {
+      "path": "source-residual-20261116/1.13.2--1.14.4/wall_workbench_music_projection/report.md",
+      "sha256": "1f9d0b341e232eba8c6cdc87fa84d8b18403f55523a3acdd3bab812297065df6"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/1.20.2--1.20.4_snow_support_tags/audit/verdict.md",
+      "sha256": "da29c1ea214430f9697c70037ce01dc02c8ae62baecd632fd4336b27b1829b5e",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/1.20.2--1.20.4_snow_support_tags/audit/verdict.md"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/1.20.2--1.20.4_snow_support_tags/input-reference.json",
+      "sha256": "505efc5f34050a4e1a45031eade9d54b1051ed2271839092c50216ab55da57f4",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/1.20.2--1.20.4_snow_support_tags/input-reference.json"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/1.20.2--1.20.4_soul_speed_resource_tags/input-reference.json",
+      "sha256": "d3e72d938e977e67a6ce24236d49df819c605d52f8c739bc1288f5fca09fe791",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/1.20.2--1.20.4_soul_speed_resource_tags/input-reference.json"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/1.21.11--26.1.2_fluid_tags/input-reference.json",
+      "sha256": "38791eb393da8cd5f9d9bb8766607a9dd2a80201c71a1d98b05102cf4b858731",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/1.21.11--26.1.2_fluid_tags/input-reference.json"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/1.21.11--26.1.2_snow_support_tags/audit/verdict.md",
+      "sha256": "0ec3e96dccd16fd30966fb512a0f6f739785be50156caff8cde6601e70c725c7",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/1.21.11--26.1.2_snow_support_tags/audit/verdict.md"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/1.21.11--26.1.2_snow_support_tags/input-reference.json",
+      "sha256": "18b9a5deb911956374f2d4086988e8daf471f7afea8d96a62bb79ec1c67baede",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/1.21.11--26.1.2_snow_support_tags/input-reference.json"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/26.1.2--26.2_attack_knockback_json_scan/input-reference.json",
+      "sha256": "e48c7360374f9dc287ae8b9847ef18f21bd2f4f5eb4fb5d645976871ea2ec457",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/26.1.2--26.2_attack_knockback_json_scan/input-reference.json"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/26.1.2--26.2_snow_support_tags/audit/verdict.md",
+      "sha256": "bfe641e53ef552d1836418e8ef045f44ea0fea5660beec312baaab4e5f43f3c2",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/26.1.2--26.2_snow_support_tags/audit/verdict.md"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/26.1.2--26.2_snow_support_tags/input-reference.json",
+      "sha256": "f5bbb93a10a0b7434ec62783aa9258e1d8ebcf536cec6f7bc147a0a5c475dd49",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/26.1.2--26.2_snow_support_tags/input-reference.json"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/26.1.2--26.2_suppresses_bounce_tag/audit/verdict.md",
+      "sha256": "1a755a6a5ee67e7b6879d84e55ecc93e4c46c9c056c2f8f198c64deab0dd2d89",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/26.1.2--26.2_suppresses_bounce_tag/audit/verdict.md"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/26.1.2--26.2_suppresses_bounce_tag/input-reference.json",
+      "sha256": "e8ec85f81c3f0b187bdde06344e41b8be7b41cc7aee3745753f547d8248eaf0f",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/26.1.2--26.2_suppresses_bounce_tag/input-reference.json"
+    },
+    {
+      "path": "source-resource-inputs-20261117/movement-gates/audit/pinned-movement-resource-packets-audit-r1.md",
+      "sha256": "c047fb9849b51713f78ab3934491b1ef6a62bc55dfea12d86f7d606c83901070",
+      "originalBuildPath": "build/source-resource-inputs-20261117/movement-gates/audit/pinned-movement-resource-packets-audit-r1.md"
     }
   ]
 }

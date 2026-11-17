@@ -1,0 +1,9 @@
+# Independent source audit verdict
+
+**ACCEPT** — audited the exact report bytes with SHA-256 `ec815743825b4af2fee39d9775e83b16117180dabb760f4749a0cf3cc6934922`.
+
+The endpoint manifests match the assigned Feather Gen2 build 2 identities: 1.13.2 `2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211` and 1.14.4 `717b468536348557f9dae8cf57edccf80ad16eb65e5bef6c60bdb5ea3c9f75bc`. The corrected target `decompiled_minecraft/1.14.4/ornithe-feather/net/minecraft/block/PistonHeadBlock.java` has SHA-256 `348885e6949b4aa754496af1e641ba07de9dcc1402ce0b88b4cde8f57febfd5b`.
+
+I retraced the report's claims in the paired Feather sources. In 1.13.2, `MovingBlock.getFaceShape` unconditionally returns `UNDEFINED`; `WallBlock.shouldConnectTo` rejects that for `moving_piston`, yielding false horizontal connection bits. In 1.14.4, the wall connection path uses the state face-solid predicate for this non-exception, non-wall/fence-gate block; `Block.isFaceSolid` evaluates the collision-shape face. `MovingBlock.getCollisionShape` delegates to a matching moving-block entity and returns empty without one. The entity's source/retraction base shape, source head or moved-state selection, progress-based translation, and direct `progress` use support the report's parametric rule and tabulated source outcomes. The target piston head's full-width 4/16 plate and narrower arm, and the absence of `TYPE` from its shape selection, support the stated type and short-arm conclusions. Piston-base source creation and the half-tick progress increments support the cited cases and reachable progress values.
+
+No behavioral correction found. This verdict applies only to this report revision and its stated moving-piston wall-face projection; it does not accept pair coverage or unrelated census rows.

@@ -1,0 +1,88 @@
+{
+  "schema": "isolated-source-resource-input/v1",
+  "scope": "1.21.11--26.1.2_fluid_tags",
+  "sourceIdentities": [
+    {
+      "version": "1.21.11",
+      "namespace": "mojmap",
+      "clientJarPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\1.21.11.client.jar",
+      "clientJarPathRecordedInProvenance": false,
+      "clientJarBytes": 31152600,
+      "clientJarPin": "1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd",
+      "verifiedClientJarSha256": "1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd",
+      "artifactManifest": "decompiled_minecraft\\1.21.11\\artifacts.sha256",
+      "artifactManifestSha256": "c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c",
+      "provenanceRecord": "decompiled_minecraft\\1.21.11\\mojmap.provenance.json",
+      "provenanceSha256": "99c9fb741eb5e4ac8fb5780e2158da324d7c8b6afc179d494e5986f78fe29f72",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/718cd84b4912691fe5de829aab6876a4b7f6c5c4/1.21.11.json",
+      "metadataSha256": "471a6eeadf1c74f84ed5d4290fb7234b746373478a4d6ac651962b93f0cb36d9",
+      "metadataClientSha1": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+      "entries": [
+        {
+          "archiveEntry": "data/minecraft/tags/fluid/water.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.21.11--26.1.2_fluid_tags\\1.21.11\\data\\minecraft\\tags\\fluid\\water.json",
+          "bytes": 74,
+          "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004",
+          "values": [
+            "minecraft:water",
+            "minecraft:flowing_water"
+          ]
+        },
+        {
+          "archiveEntry": "data/minecraft/tags/fluid/lava.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.21.11--26.1.2_fluid_tags\\1.21.11\\data\\minecraft\\tags\\fluid\\lava.json",
+          "bytes": 72,
+          "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b",
+          "values": [
+            "minecraft:lava",
+            "minecraft:flowing_lava"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "26.1.2",
+      "namespace": "unobfuscated",
+      "clientJarPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\26.1.2.client.jar",
+      "clientJarPathRecordedInProvenance": false,
+      "clientJarBytes": 38113927,
+      "clientJarPin": "b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0",
+      "verifiedClientJarSha256": "b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0",
+      "artifactManifest": "decompiled_minecraft\\26.1.2\\artifacts.sha256",
+      "artifactManifestSha256": "89f648229de83b0109460695c9f1f3bed7ef36efb84ede9224e80cce87118f92",
+      "provenanceRecord": "decompiled_minecraft\\26.1.2\\unobfuscated.provenance.json",
+      "provenanceSha256": "8d727f880cc91f4a297e148c5b75976303d051457334bc689268fbdf631a012a",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/8cca2c0efc47ef22351e5073bb1f5e7ab339279b/26.1.2.json",
+      "metadataSha256": "eda7bac4a0a1ff847efccf5a51f66e990521b2c09320fecd3679bc6921c7623e",
+      "metadataClientSha1": "4e618f09a0c649dde3fdf829df443ce0b8831e65",
+      "entries": [
+        {
+          "archiveEntry": "data/minecraft/tags/fluid/water.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.21.11--26.1.2_fluid_tags\\26.1.2\\data\\minecraft\\tags\\fluid\\water.json",
+          "bytes": 74,
+          "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004",
+          "values": [
+            "minecraft:water",
+            "minecraft:flowing_water"
+          ]
+        },
+        {
+          "archiveEntry": "data/minecraft/tags/fluid/lava.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.21.11--26.1.2_fluid_tags\\26.1.2\\data\\minecraft\\tags\\fluid\\lava.json",
+          "bytes": 72,
+          "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b",
+          "values": [
+            "minecraft:lava",
+            "minecraft:flowing_lava"
+          ]
+        }
+      ]
+    }
+  ],
+  "extraction": "System.IO.Compression.ZipFile; copied only the exact listed JAR entries.",
+  "limits": [
+    "JAR byte identity is matched to the repository artifacts.sha256 client.jar pin.",
+    "No datapack override, runtime registry or effective-world membership claim.",
+    "Downloaded JAR local paths are not provenance-recorded paths; official metadata SHA-1 and repository SHA-256 pin were checked."
+  ]
+}

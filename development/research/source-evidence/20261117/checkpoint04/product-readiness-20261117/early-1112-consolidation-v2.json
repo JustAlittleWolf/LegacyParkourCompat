@@ -1,0 +1,53 @@
+{
+  "authoritativeMain": "4862322ea6c4d6e847e30a8e57f467c8eded2ddb",
+  "previousFrozenPatch": "build/integration-staging/early-1112-consolidation.patch",
+  "previousFrozenPatchSha256": "ffbc2f5c61d77c98c59cb6fb05512c81d0b5b54eec85f44ea90e13ffba990366",
+  "stagingPath": "build/integration-staging/early-1112-consolidation-v2",
+  "gitMetadataCreated": false,
+  "allowlistedPaths": [
+    "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/BedBounce.java",
+    "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/FenceCollisionState.java",
+    "src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/StairFallingFluidFace.java",
+    "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/NativeStairFluidFace.java"
+  ],
+  "candidateInputs": [
+    {
+      "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/BedBounce.java",
+      "candidateSha256": "6E8B151D5E955C408A7A386768E2C96D3FB34E9798C1F36396869D5A0F319B07",
+      "integratedFileSha256": "6e8b151d5e955c408a7a386768e2c96d3fb34e9798c1f36396869d5a0f319b07",
+      "reconciliation": "copied byte-exact from accepted independent candidate"
+    },
+    {
+      "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/FenceCollisionState.java",
+      "candidateSha256": "4c25015b9d34ae3e3eaf05998e0e8fb182f637f8c009eeaf925204f923e74b97",
+      "integratedFileSha256": "4c25015b9d34ae3e3eaf05998e0e8fb182f637f8c009eeaf925204f923e74b97",
+      "reconciliation": "copied byte-exact from accepted independent candidate"
+    },
+    {
+      "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/StairFallingFluidFace.java",
+      "candidateSha256": "580A531F5AB22C817EA160CADD92CA63C12515E390FDA6B47DA9B0709F927DC5",
+      "integratedFileSha256": "51d50c2911986ce2422d397b175a7a457de9bc49fcaa457a1d6ef99908548f32",
+      "reconciliation": "Mapped 1.11.2 STONE_STAIRS to current minecraft:cobblestone_stairs using established product key; changed exact singleton source check to water-family isSame so source and flowing water are both admitted."
+    }
+  ],
+  "foldedCandidate": {
+    "export": "liquid-stair-face-v1_12-native-exclusion-neutral",
+    "candidatePath": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/fluid/StairSideFaceExclusion.java",
+    "candidateSha256": "0c5af3c3d2e1ac5ab28a6d8e69790de09d8d84de034bb62bb40e7771d22427ed",
+    "foldedInto": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/NativeStairFluidFace.java",
+    "duplicateRegisteredProviderRetained": false,
+    "integratedEffect": "For the 14 1.12 stair keys, false on horizontal water-family queries; otherwise native."
+  },
+  "patchPath": "build/integration-staging/early-1112-consolidation-v2.patch",
+  "patchSha256": "49888265ad1b785023196d9bb2f997a1dfeca7b8a0445b0640f389f88af97225",
+  "limitations": [
+    "fence candidate is limited to accepted straight stair-state and direction-gated fence-gate cases; unsupported inner/outer stair cases preserve native fallback",
+    "bed bounce is scoped to accepted non-sneaking Player with negative Y landing",
+    "liquid V1_11_2 is limited to water-family horizontal stair faces; V1_12 is folded into one existing keyed provider; no runtime/full-pair claim"
+  ],
+  "reconciliationNotes": [
+    "V1_12 stair exclusion was folded into the existing V1_12 same-interface keyed provider; the standalone author class is not retained.",
+    "For legacy 1.11.2 STONE_STAIRS, integrated registry key follows existing product mapping to minecraft:cobblestone_stairs, not the distinct modern minecraft:stone_stairs.",
+    "Water matching uses Fluid.isSame(Fluids.WATER) to include the flowing water member of the same family."
+  ]
+}

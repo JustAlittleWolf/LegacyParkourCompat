@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "pair": "1.16.1--1.16.2",
+  "purpose": "Only the actual open water/lava fluid-tag membership gate from the bounded source report",
+  "allowedArchiveEntries": [
+    "data/minecraft/tags/fluids/water.json",
+    "data/minecraft/tags/fluids/lava.json"
+  ],
+  "clientArtifacts": [
+    {
+      "version": "1.16.1",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/c9abbe8ee4fa490751ca70635340b7cf00db83ff/client.jar",
+      "expectedSha256": "b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef",
+      "verifiedSha256": "b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef",
+      "expectedSha1": "c9abbe8ee4fa490751ca70635340b7cf00db83ff",
+      "verifiedSha1": "c9abbe8ee4fa490751ca70635340b7cf00db83ff",
+      "artifactManifestSha256": "a113f9d59fa4582effb2ebf548c4388a54c9c5654fbf57fae7974dce896d1f98"
+    },
+    {
+      "version": "1.16.2",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/653e97a2d1d76f87653f02242d243cdee48a5144/client.jar",
+      "expectedSha256": "19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d",
+      "verifiedSha256": "19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d",
+      "expectedSha1": "653e97a2d1d76f87653f02242d243cdee48a5144",
+      "verifiedSha1": "653e97a2d1d76f87653f02242d243cdee48a5144",
+      "artifactManifestSha256": "7b8551bdc108a1584039ac22e35b6b75c3584ed85aba24561c7d340f5cbeb108"
+    }
+  ],
+  "entries": [
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/fluids/water.json",
+      "entryBytes": 94,
+      "entrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+      "extractedPath": "1.16.1/water.json",
+      "payload": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:water\",\n    \"minecraft:flowing_water\"\n  ]\n}"
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+      "entryBytes": 92,
+      "entrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+      "extractedPath": "1.16.1/lava.json",
+      "payload": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:lava\",\n    \"minecraft:flowing_lava\"\n  ]\n}"
+    },
+    {
+      "version": "1.16.2",
+      "archiveEntry": "data/minecraft/tags/fluids/water.json",
+      "entryBytes": 94,
+      "entrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+      "extractedPath": "1.16.2/water.json",
+      "payload": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:water\",\n    \"minecraft:flowing_water\"\n  ]\n}"
+    },
+    {
+      "version": "1.16.2",
+      "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+      "entryBytes": 92,
+      "entrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+      "extractedPath": "1.16.2/lava.json",
+      "payload": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:lava\",\n    \"minecraft:flowing_lava\"\n  ]\n}"
+    }
+  ],
+  "provenanceCaveat": "The source provenance/artifact-manifest identity is recorded separately; this packet establishes that the downloaded official pinned client jars match those pins and contain the exact extracted archive entries, but does not claim an unstated binding from decompiled source provenance to these jars.",
+  "noOtherEntriesRead": true,
+  "sourceTreesModified": false
+}

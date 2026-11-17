@@ -1,0 +1,32 @@
+# 1.20.2 → 1.20.4 local-player tick and writer residual
+## Revision r2
+
+This immutable correction binds exact per-endpoint method-start anchors and removes unreproducible method-body digest values. The method comparisons and bounded NO_DIFF conclusion are unchanged from r1 (`tick-writer-residual.md`, SHA-256 `44C16A65FBE7637EF069FEDFD45895C5442FE2CF331D5111D1D4A2D2CEC800F8`). It addresses the independent REQUEST CHANGES verdict at `audit/verdict.md`, SHA-256 `7A19F41596F356676E7BA4E252F3C7C168E24ABA7E6FE90EF10C23B108F26395`.
+
+## Bounded disposition
+
+**NO_DIFF** for the direct local-player / player / living-entity `tick`, `aiStep`, and `serverAiStep` source methods examined here. This report adds no new movement finding and does not close the pair. It reuses prior accepted travel, callback, support-position, jump, movement-attribute, and collision evidence without reopening those claims.
+
+## Exact source identity
+
+Both endpoints are canonical Mojmap publications; source roots are `decompiled_minecraft/1.20.2/mojmap/` and `decompiled_minecraft/1.20.4/mojmap/`. The exact ready markers identify `1.20.2` / `mojmap` and `1.20.4` / `mojmap`; current marker SHA-256 values are `5FF3322F287C250EE914C7CA3840D053BFFC3C2C5F35E91B59314D948292483F` and `6225B97979420CC743C8B7156A0CE512EF27D0DBF48BFFFBC40D3E1C8CB044D1`. Source-manifest SHA-256 values are `E439FF7E1D3F1D31E01BE1EDD141F94D917A9DC7FA0DE5F69904544CBBE62887` and `FD3C8668483E5FF208C847474F6CBD3952A909C4AA602ED98B24E3D11A9602A1`; artifact-manifest SHA-256 values are `EE67DA9733953B30AE4077C587184E59772B745D780ABD27A7B023780B459F54` and `EE3EFC771D264C0BC49D5472ABB9763A646F8D221841D0A61201ECD991CB3948`. Root provenance sidecars are `decompiled_minecraft/1.20.2/mojmap.provenance.json` SHA-256 `1DAD9F725F6CB25B6568700FA0294F83B66EA9633B0D62ED354D7BD8B45D4F05` and `decompiled_minecraft/1.20.4/mojmap.provenance.json` SHA-256 `10914D9B7B3FC29DE066CA24F7D905E4D4F0A451A6C81729A2D1981ADDFC1385`. Both provenance records name the exact Mojmap decompile batch `1.20.1,1.20.2,1.20.4,1.20.6`.
+
+## Compared tick path
+
+`LocalPlayer` extends `AbstractClientPlayer`, which extends `Player`; `Player` extends `LivingEntity`. The exact source file hashes for `LocalPlayer.java` are equal: `BB5CBFB03656A1866BB77C00431618BEFE792081223B35DB4BD121ECBB151FD5` at both endpoints. `AbstractClientPlayer.java` is also identical at both: `759F8F03B89DAB1F6B65C73E1E25A68AE6A6083CB49B5D2719136EDDA7EDF696`. These file identities cover the local tick, local `aiStep`, local `move` override and forwarding to inherited methods.
+
+The endpoint `Player.java` files differ (`25F263692FD6B2A737AA813315022A0CAF4E18C3661BA3BD706C6297F909F25C` at 1.20.2; `218DA60BC4F8C9279F56EB87E2CF2C0AF79562FBE3D818A408429C656EFB95DD` at 1.20.4), but the compared `Player.tick()`, `Player.aiStep()`, and `Player.serverAiStep()` bodies match at both endpoints. Exact method-start anchors: `Player.tick()` is 1.20.2 line 229 / 1.20.4 line 224; `Player.aiStep()` is 1.20.2 line 505 / 1.20.4 line 506. Whole-file hashes bind the source identity; no derived method-body digest is asserted.
+The endpoint `LivingEntity.java` files differ (`5C481DA1FFC8684C4B30171C92E61FAD751E6A3A708D5BC6486AC9F96FF69828` at 1.20.2; `F7BC53DB24C1798F19F9BD6F6356C86D5E560E9C8E8AAC60DECAF15CC785E07D` at 1.20.4), but the compared `LivingEntity.tick()`, `LivingEntity.aiStep()`, and `LivingEntity.serverAiStep()` bodies match at both endpoints. Exact method-start anchors: `LivingEntity.tick()` is 1.20.2 line 2272 / 1.20.4 line 2269; `LivingEntity.aiStep()` is 1.20.2 line 2509 / 1.20.4 line 2511. Whole-file hashes bind the source identity; no derived method-body digest is asserted. The unchanged local override path delegates into this same inherited tick/AI graph.
+The only changed `Player.travel(Vec3)` body was already handled in the accepted ordinary-travel slice: 1.20.2 snapshots position and invokes post-travel `checkMovementStatistics`; that call classifies movement and may call food exhaustion, but does not write player position or velocity and is outside the movement transition. No other tick/AI method body compared here chooses a changed movement state or writes changed position/velocity.
+
+## Reused accepted source evidence and remaining coverage
+
+- Ordinary travel: report `ordinary_travel/coverage.md`, SHA-256 `65DE2E0812121416EB0C32005BB3EDB194390EFB5BD735C7AC26772A22774192`; independent ACCEPT audit `ordinary_travel_audit/verdict.md`, SHA-256 `A4D332FD9F5BD912FA657582EB7A3B6FC775ACEE6F5DE7C12786E4D978FD3B84`.
+- Post-move block callbacks: report `postmove_block_callbacks_revision_r4/report-r4.md`, SHA-256 `E7DD4BD4CA0AEB4F674565076E6595C44CE25CE1A52A7E6DA2D865B13E545213`; independent ACCEPT audit `postmove_block_callbacks_r4_audit/verdict.md`, SHA-256 `C91F0902F7B08F031AD33237E751F2BFC83C7BE70C6A5D1BB8311741AD50F980`.
+- Support-position population: report `support_position_population_revision_r2/coverage-r2.md`, SHA-256 `8243571697889DDC4275AF3B14A3EBB3FDD3C872C5A1E1BC0D7EEC0FD2CB9DF6`; independent ACCEPT audit `support_position_population_r2_audit/verdict-r2.md`, SHA-256 `8D0490C40FA2EDAF8E30EE3013BA84D2D5D8B5A79873C5F71613420366A3DCDB`.
+- Local jump prediction: report `jump_local_prediction_revision_r2/coverage-r2.md`, SHA-256 `713EBE34022A1DE73CF0430DBC466B7BB4ED3B3AEF71881BC2CBE177FFF5ACE4`; independent ACCEPT audit `jump_local_prediction_r2_audit/audit-r2.md`, SHA-256 `1B1FCD351F1DBE2DBD56546587FCB2E7DB364651F250EED82FB2AA030D8BEEA2`.
+- Movement attributes: report `movement_attributes/report.md`, SHA-256 `A728E4012D12D8C696D198E9EFB0BB715B61A04905FA96641128EE22CE2701BD`; independent ACCEPT audit `movement_attributes_audit/verdict.md`, SHA-256 `90D227A486D80DB50B10DCBCDD4E17996075894BE9D75BF8F17850E71FF5DCEF`.
+- Collision kernel: report `entity_move_collision/coverage.md`, SHA-256 `ED10266FEDB016D3BC1B2458723E5B0DB2A42C1A24909D04431AB8F09DC1C4D0`; independent ACCEPT audit `entity_move_collision_audit/verdict.md`, SHA-256 `B937CBC446A3AE58DE99889064EE8B3C1D93EDC806979A67BDCC644B03C2A77B`.
+
+This inventory closes only the direct local/player/living tick and AI method comparison above. Remaining pair coverage stays open for the accepted travel report's named input/sprint/jump gates, broader collision/shape/provider dependencies, fluids, modifiers/effects/equipment, and external direct responses. No pair freeze, product applicability or runtime parity is claimed.
+

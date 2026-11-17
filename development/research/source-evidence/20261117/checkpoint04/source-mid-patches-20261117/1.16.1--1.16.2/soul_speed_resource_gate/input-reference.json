@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "pair": "1.16.1--1.16.2",
+  "namespace": "mojmap",
+  "officialVersionManifest": "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json",
+  "allowedArchiveEntry": "data/minecraft/tags/blocks/soul_speed_blocks.json",
+  "endpoints": [
+    {
+      "versionMetadataUrl": "https://piston-meta.mojang.com/v1/packages/54fa3af57d041d2771e66d390197b2c0288e697c/1.16.1.json",
+      "version": "1.16.1",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/c9abbe8ee4fa490751ca70635340b7cf00db83ff/client.jar",
+      "clientJarSha256": "b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef",
+      "artifactManifestSha256": "a113f9d59fa4582effb2ebf548c4388a54c9c5654fbf57fae7974dce896d1f98",
+      "sourceManifestSha256": "76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754",
+      "entryBytes": 94,
+      "clientJarSha1": "c9abbe8ee4fa490751ca70635340b7cf00db83ff",
+      "mappingSha256": "6cc374f819bca44d940f8912044b07bdac3e240a02e37117ae1d4ad63c21409b",
+      "provenanceSha256": "a6ff065188a400ec891980cdf2e6c0c238bf5e05168a2f69b29c6cecc2214b98",
+      "entryPath": "1.16.1/data/minecraft/tags/blocks/soul_speed_blocks.json",
+      "entrySha256": "c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f"
+    },
+    {
+      "versionMetadataUrl": "https://piston-meta.mojang.com/v1/packages/998d9ef5770d05c20d760dc16cf85151f35009f2/1.16.2.json",
+      "version": "1.16.2",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/653e97a2d1d76f87653f02242d243cdee48a5144/client.jar",
+      "clientJarSha256": "19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d",
+      "artifactManifestSha256": "7b8551bdc108a1584039ac22e35b6b75c3584ed85aba24561c7d340f5cbeb108",
+      "sourceManifestSha256": "10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7",
+      "entryBytes": 94,
+      "clientJarSha1": "653e97a2d1d76f87653f02242d243cdee48a5144",
+      "mappingSha256": "c95a7046ab43371cc476b8b51978c6f2155c62f4cc5756b05c8ef81e0f11691f",
+      "provenanceSha256": "a9b166406064e877751542fe7df27acc32be3843f6fdc2280dac32ce0b54207c",
+      "entryPath": "1.16.2/data/minecraft/tags/blocks/soul_speed_blocks.json",
+      "entrySha256": "c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f"
+    }
+  ],
+  "jarRetention": "temporary; removed after digest verification and single-entry extraction",
+  "noOtherEntriesRead": true,
+  "sourceTreesModified": false
+}

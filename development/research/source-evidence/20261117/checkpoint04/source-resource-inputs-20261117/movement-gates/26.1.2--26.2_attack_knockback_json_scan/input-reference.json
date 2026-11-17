@@ -1,0 +1,150 @@
+{
+  "schema": "isolated-source-resource-input/v1",
+  "scope": "26.1.2--26.2_attack_knockback_json_scan",
+  "sourceReportInputs": [
+    "build/later-source-20261116/26.1.2--26.2/knockback_modifier_inputs_revision_r2/coverage-r2.md",
+    "build/later-source-20261116/26.1.2--26.2/player_attribute_sync_producer/coverage.md",
+    "build/later-source-20261116/26.1.2--26.2/client_equipment_attack_knockback_revision_r2/coverage-r2.md"
+  ],
+  "scan": "Read every JSON archive entry under data/; record only paths whose contents match case-insensitive attack_knockback or attribute_modifiers; no unrelated entry bytes exported.",
+  "limits": [
+    "A no-hit result only excludes those literal strings in exact pinned client-JAR data JSON.",
+    "Does not exclude Java registration defaults, item components encoded outside JSON, mod/data-pack overrides, or effective client attributes.",
+    "26.1.2 local downloaded client bytes matched the artifacts.sha256 pin and metadata client SHA-1. 26.2 cache path itself is not recorded by provenance; its bytes matched the artifacts.sha256 pin."
+  ],
+  "sourceIdentities": [
+    {
+      "version": "26.1.2",
+      "clientJarPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\26.1.2.client.jar",
+      "clientJarPathRecordedInProvenance": false,
+      "jarBytes": 38113927,
+      "clientJarPin": "b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0",
+      "verifiedClientJarSha256": "b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0",
+      "artifactManifest": "decompiled_minecraft\\26.1.2\\artifacts.sha256",
+      "artifactManifestSha256": "89f648229de83b0109460695c9f1f3bed7ef36efb84ede9224e80cce87118f92",
+      "provenanceRecord": "decompiled_minecraft\\26.1.2\\unobfuscated.provenance.json",
+      "provenanceSha256": "8d727f880cc91f4a297e148c5b75976303d051457334bc689268fbdf631a012a",
+      "officialMetadataUrlFromLocalVersionManifest": "https://piston-meta.mojang.com/v1/packages/8cca2c0efc47ef22351e5073bb1f5e7ab339279b/26.1.2.json",
+      "downloadedMetadataSha256": "eda7bac4a0a1ff847efccf5a51f66e990521b2c09320fecd3679bc6921c7623e",
+      "jsonEntriesSearched": 7077,
+      "itemDefinitionJsonPathsFound": [],
+      "jsonEntriesMatchingEitherString": 0,
+      "hits": []
+    },
+    {
+      "version": "26.2",
+      "clientJarPath": "C:\\Users\\Wolfi\\.gradle\\caches\\fabric-loom\\26.2\\minecraft-client.jar",
+      "clientJarPathRecordedInProvenance": false,
+      "jarBytes": 39193383,
+      "clientJarPin": "40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290",
+      "verifiedClientJarSha256": "40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290",
+      "artifactManifest": "decompiled_minecraft\\26.2\\artifacts.sha256",
+      "artifactManifestSha256": "ba9dc53a41bca9744ec1c8ab2ce9363764a22333c39ef64d5105f4e3bf5c98ba",
+      "provenanceRecord": "decompiled_minecraft\\26.2\\unobfuscated.provenance.json",
+      "provenanceSha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1",
+      "officialMetadataUrlFromLocalVersionManifest": "https://piston-meta.mojang.com/v1/packages/91ef51b7d36ca092c5c02aba42f0f40c7cc1db84/26.2.json",
+      "downloadedMetadataSha256": null,
+      "jsonEntriesSearched": 7310,
+      "itemDefinitionJsonPathsFound": [],
+      "jsonEntriesMatchingEitherString": 12,
+      "hits": [
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/bouncy.json",
+          "bytes": 1352,
+          "sha256": "c2d8220e78f7a97959cedf9fb50e900d34b3e0ecbdefdb5e3bf47a10d6992e7e",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/explosive.json",
+          "bytes": 1439,
+          "sha256": "83d7041724b423204bce5507eab312f8e63e4f0a317cacf7bbe8b7fc46ea9e39",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/fast_flat.json",
+          "bytes": 1343,
+          "sha256": "0e64c8f2f8e24a7e1fc68a7d847887ae3f2a1625c56a25ac3a505edf77db1129",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/fast_sliding.json",
+          "bytes": 1381,
+          "sha256": "7d3202f0748e23e89f27bfe7dc81e94dfb28a1a72ad8e531d3b22a3b09e3db66",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/high_resistance.json",
+          "bytes": 1417,
+          "sha256": "131a742f291049ee349b572ce87aa672887d722d14eb122be3a015ed40fc2c94",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/hot.json",
+          "bytes": 1439,
+          "sha256": "0d8502323d39193c37a9ade06c86afbef6674fb89320ec7a06e04a22f89198b2",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/light.json",
+          "bytes": 1327,
+          "sha256": "4073b60da22bcd2ffe69054ae12c901117267ca813ec802d437261598d4db15d",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/regular.json",
+          "bytes": 1344,
+          "sha256": "a3331b5ce1093850baecfff5a8f7b9488cab4bf9f94751e65d0a83f0bf207d51",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/slow_bouncy.json",
+          "bytes": 1401,
+          "sha256": "2c14a528deb5dd1654a8079f1cf7e61a51dc12c7348c8b46c9fb569f2e79518a",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/slow_flat.json",
+          "bytes": 1357,
+          "sha256": "13cb6b041d6d67ac8ab5de0567862ccb9355ab97e871c76bd8434fa2512ed15f",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/slow_sliding.json",
+          "bytes": 1409,
+          "sha256": "8c7694d594a10959e182da2c9ef28db6329c22189e17d481e8feaf41a7a11ee7",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        },
+        {
+          "entry": "data/minecraft/sulfur_cube_archetype/sticky.json",
+          "bytes": 1303,
+          "sha256": "af7b55eb3f43f61981b636c651f07b49a0bfc252790ce3fde1a9a29e5c7876b6",
+          "attackKnockback": false,
+          "attributeModifiers": true,
+          "snippet": "\"attribute_modifiers\": ["
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,305 @@
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/BedBounce.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/BedBounce.java
+new file mode 100644
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/BedBounce.java
++package me.wolfii.legacyparkourcompat.change.v1_12;
++
++import me.wolfii.legacyparkourcompat.api.ParkourVersion;
++import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockBounceHook;
++import net.minecraft.world.entity.Entity;
++import net.minecraft.world.entity.player.Player;
++
++/**
++ * Restores the 1.12 bed response for a falling, non-sneaking player.
++ *
++ * <p>In Ornithe Feather 1.11.2, {@code Block.beforeCollision(World, Entity)}
++ * is inherited by beds and sets vertical velocity to zero; {@code Entity.move}
++ * calls it after vertical clipping. In Ornithe Feather 1.12,
++ * {@code BedBlock.beforeCollision(World, Entity)} reflects negative vertical
++ * velocity at {@code 0.66F} for non-sneaking entities, while
++ * {@code Entity.move} retains the same vertical-clipping callback. The extra
++ * {@code 0.8} multiplier is limited to non-living entities, so it does not
++ * apply to players.
++ */
++@MovementChange(emulates = ParkourVersion.V1_12)
++public final class BedBounce implements BlockBounceHook {
++    @Override
++    public String blockId() {
++        return "minecraft:red_bed";
++    }
++
++    @Override
++    public float bounceRestitution(float vanilla, Entity entity) {
++        if (entity instanceof Player player
++            && !player.isShiftKeyDown()
++            && player.getDeltaMovement().y < 0.0) {
++            return 0.66F;
++        }
++
++        return vanilla;
++    }
++}
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/FenceCollisionState.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/FenceCollisionState.java
+new file mode 100644
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/FenceCollisionState.java
++package me.wolfii.legacyparkourcompat.change.v1_12;
++
++import me.wolfii.legacyparkourcompat.api.ParkourVersion;
++import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.hook.block.FenceCollisionStateHook;
++import net.minecraft.core.BlockPos;
++import net.minecraft.core.Direction;
++import net.minecraft.world.level.BlockGetter;
++import net.minecraft.world.level.block.CrossCollisionBlock;
++import net.minecraft.world.level.block.FenceBlock;
++import net.minecraft.world.level.block.FenceGateBlock;
++import net.minecraft.world.level.block.HorizontalDirectionalBlock;
++import net.minecraft.world.level.block.StairBlock;
++import net.minecraft.world.level.block.state.BlockState;
++
++import java.util.List;
++import java.util.Optional;
++
++/**
++ * Applies the accepted 1.12 directional fence-neighbor cases during collision queries.
++ *
++ * <p>In Ornithe Feather 1.11.2, {@code FenceBlock.shouldConnectTo(WorldView, BlockPos)}
++ * accepted any fence gate. Ornithe Feather 1.12 instead queries the opposite neighbor
++ * face in {@code FenceBlock.shouldConnectTo(WorldView, BlockPos, Direction)}. Its
++ * {@code FenceGateBlock.getFaceShape(WorldView, BlockState, BlockPos, Direction)}
++ * returns {@code MIDDLE_POLE} only when the gate facing axis matches the clockwise-Y
++ * axis of that queried face. The 1.12 {@code StairsBlock.getFaceShape(...)} also makes
++ * the straight-stair face result directional. Only these source-supported cases are
++ * projected here; other neighbors retain the native query bits.
++ */
++@MovementChange(emulates = ParkourVersion.V1_12)
++public final class FenceCollisionState implements FenceCollisionStateHook {
++    private static final List<Direction> HORIZONTAL_DIRECTIONS = List.of(
++        Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
++    );
++
++    public FenceCollisionState() {
++    }
++
++    @Override
++    public Optional<BlockState> collisionState(BlockState state, BlockGetter level, BlockPos pos) {
++        if (!(state.getBlock() instanceof FenceBlock)) {
++            return Optional.empty();
++        }
++
++        BlockState result = state;
++        boolean acceptedCase = false;
++
++        for (Direction direction : HORIZONTAL_DIRECTIONS) {
++            BlockPos neighborPos = pos.relative(direction);
++            BlockState neighbor = level.getBlockState(neighborPos);
++            boolean connects;
++
++            if (neighbor.getBlock() instanceof FenceGateBlock) {
++                Direction queriedFace = direction.getOpposite();
++                Direction gateFacing = neighbor.getValue(HorizontalDirectionalBlock.FACING);
++                connects = gateFacing.getAxis() == queriedFace.getClockWise().getAxis();
++                acceptedCase = true;
++            } else if (neighbor.getBlock() instanceof StairBlock) {
++                Direction queriedFace = direction.getOpposite();
++                Direction stairFacing = neighbor.getValue(StairBlock.FACING);
++                if (!hasStraightResolvedShape(neighbor, level, neighborPos)) {
++                    // Inner and outer stair face cases are outside this accepted bounded case.
++                    return Optional.empty();
++                }
++                connects = stairFacing == queriedFace;
++                acceptedCase = true;
++            } else {
++                continue;
++            }
++
++            result = setConnection(result, direction, connects);
++        }
++
++        if (!acceptedCase || result.equals(state)) {
++            return Optional.empty();
++        }
++        return Optional.of(result);
++    }
++
++    /**
++     * Mirrors the 1.12 {@code StairsBlock.getStairShape(BlockState, WorldView, BlockPos)}
++     * inputs needed to establish the accepted straight-face case. The source resolves
++     * the stair's virtual shape from the front and back neighbors before classifying a
++     * face; reading the stored SHAPE property alone would miss that query-time gate.
++     */
++    private static boolean hasStraightResolvedShape(BlockState state, BlockGetter level, BlockPos pos) {
++        Direction facing = state.getValue(StairBlock.FACING);
++        BlockState front = level.getBlockState(pos.relative(facing));
++        if (isSameHalfStair(state, front)) {
++            Direction frontFacing = front.getValue(StairBlock.FACING);
++            if (frontFacing.getAxis() != facing.getAxis()
++                && hasNoSameFacingSameHalfStair(state, level, pos, frontFacing.getOpposite())) {
++                return false;
++            }
++        }
++
++        BlockState back = level.getBlockState(pos.relative(facing.getOpposite()));
++        if (isSameHalfStair(state, back)) {
++            Direction backFacing = back.getValue(StairBlock.FACING);
++            if (backFacing.getAxis() != facing.getAxis()
++                && hasNoSameFacingSameHalfStair(state, level, pos, backFacing)) {
++                return false;
++            }
++        }
++        return true;
++    }
++
++    private static boolean isSameHalfStair(BlockState state, BlockState neighbor) {
++        return neighbor.getBlock() instanceof StairBlock
++            && state.getValue(StairBlock.HALF).equals(neighbor.getValue(StairBlock.HALF));
++    }
++
++    private static boolean hasNoSameFacingSameHalfStair(
++        BlockState state, BlockGetter level, BlockPos pos, Direction direction
++    ) {
++        BlockState neighbor = level.getBlockState(pos.relative(direction));
++        return !(neighbor.getBlock() instanceof StairBlock)
++            || neighbor.getValue(StairBlock.FACING) != state.getValue(StairBlock.FACING)
++            || !neighbor.getValue(StairBlock.HALF).equals(state.getValue(StairBlock.HALF));
++    }
++
++    private static BlockState setConnection(BlockState state, Direction direction, boolean connects) {
++        return switch (direction) {
++            case NORTH -> state.setValue(CrossCollisionBlock.NORTH, connects);
++            case EAST -> state.setValue(CrossCollisionBlock.EAST, connects);
++            case SOUTH -> state.setValue(CrossCollisionBlock.SOUTH, connects);
++            case WEST -> state.setValue(CrossCollisionBlock.WEST, connects);
++            default -> throw new IllegalArgumentException("Fence connection direction must be horizontal: " + direction);
++        };
++    }
++}
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/StairFallingFluidFace.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/StairFallingFluidFace.java
+new file mode 100644
+--- /dev/null
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_11_2/StairFallingFluidFace.java
++package me.wolfii.legacyparkourcompat.change.v1_11_2;
++
++import me.wolfii.legacyparkourcompat.api.ParkourVersion;
++import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
++import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
++import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FallingFluidFaceSturdyHook;
++import net.minecraft.core.BlockPos;
++import net.minecraft.core.Direction;
++import net.minecraft.world.entity.player.Player;
++import net.minecraft.world.level.BlockGetter;
++import net.minecraft.world.level.block.StairBlock;
++import net.minecraft.world.level.block.state.BlockState;
++import net.minecraft.world.level.material.FlowingFluid;
++import net.minecraft.world.level.material.Fluids;
++
++import java.util.List;
++
++/**
++ * Restores 1.11.2's solid-material side-face result for vanilla stairs in the
++ * level-eight-and-higher water-flow query.
++ *
++ * <p>Source: 1.11.2 Ornithe Feather, {@code LiquidBlock.isFaceSolid} and
++ * {@code Block.isFaceSolid}; 1.12 Ornithe Feather,
++ * {@code LiquidBlock.isFaceSolid} and {@code StairsBlock.getFaceShape}.
++ * The former delegates side faces to material solidity; the latter excludes
++ * stairs before testing a solid face shape. The native predicate remains the
++ * fallback for all inputs outside this accepted water/stair side-face slice.
++ */
++@MovementChange(emulates = ParkourVersion.V1_11_2)
++public final class StairFallingFluidFace implements FallingFluidFaceSturdyHook {
++    private static final List<String> STAIR_IDS = List.of(
++        "minecraft:oak_stairs",
++        // Legacy STONE_STAIRS resolves to the current cobblestone_stairs key.
++        "minecraft:cobblestone_stairs",
++        "minecraft:brick_stairs",
++        "minecraft:stone_brick_stairs",
++        "minecraft:nether_brick_stairs",
++        "minecraft:sandstone_stairs",
++        "minecraft:spruce_stairs",
++        "minecraft:birch_stairs",
++        "minecraft:jungle_stairs",
++        "minecraft:quartz_stairs",
++        "minecraft:acacia_stairs",
++        "minecraft:dark_oak_stairs",
++        "minecraft:red_sandstone_stairs",
++        "minecraft:purpur_stairs"
++    );
++
++    private final String variant;
++
++    private StairFallingFluidFace(String variant) {
++        this.variant = variant;
++    }
++
++    @MovementChange.Factory
++    public static List<StairFallingFluidFace> variants() {
++        return STAIR_IDS.stream().map(StairFallingFluidFace::new).toList();
++    }
++
++    @Override
++    public String variant() {
++        return this.variant;
++    }
++
++    @Override
++    public boolean isFaceSturdy(FlowingFluid fluid, Player player, BlockState state, BlockGetter level,
++                                BlockPos pos, Direction direction, VanillaFn<Boolean> vanilla) {
++        if (!fluid.isSame(Fluids.WATER) || direction == Direction.UP || direction == Direction.DOWN
++            || !(state.getBlock() instanceof StairBlock)) {
++            return vanilla.get();
++        }
++
++        // Every accepted vanilla stair inherits a solid material in 1.11.2.
++        // Its partial collision shape does not affect Block.isFaceSolid.
++        return true;
++    }
++}
++
+diff --git a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/NativeStairFluidFace.java b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/NativeStairFluidFace.java
+--- a/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/NativeStairFluidFace.java
++++ b/src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/NativeStairFluidFace.java
+@@ -10,16 +10,26 @@
+ import net.minecraft.world.level.BlockGetter;
+ import net.minecraft.world.level.block.state.BlockState;
+ import net.minecraft.world.level.material.FlowingFluid;
++import net.minecraft.world.level.material.Fluids;
+ 
+ import java.util.List;
+ 
+ /**
+- * Preserves the native face predicate before the proven 1.13 stair behavior.
+- * The same 17 stair keys are handled historically from V1_13_1 onward; the
+- * earlier exact-source range has not been established by this finding.
++ * Uses native face support except for the bounded 1.12 stair-side exclusion.
++ * 1.12 Ornithe Feather {@code LiquidBlock.isFaceSolid} rejects stairs on side
++ * faces; 1.11.2 delegates those faces to material solidity. 26.2
++ * {@code FlowingFluid.isSolidFace} supplies the native result for other inputs.
+  */
+ @MovementChange(emulates = ParkourVersion.V1_12)
+ public final class NativeStairFluidFace implements FallingFluidFaceSturdyHook {
++    private static final List<String> V1_12_STAIR_IDS = List.of(
++        "minecraft:oak_stairs", "minecraft:cobblestone_stairs", "minecraft:brick_stairs",
++        "minecraft:stone_brick_stairs", "minecraft:nether_brick_stairs", "minecraft:sandstone_stairs",
++        "minecraft:spruce_stairs", "minecraft:birch_stairs", "minecraft:jungle_stairs",
++        "minecraft:quartz_stairs", "minecraft:acacia_stairs", "minecraft:dark_oak_stairs",
++        "minecraft:red_sandstone_stairs", "minecraft:purpur_stairs"
++    );
++
+     private final String blockId;
+ 
+     private NativeStairFluidFace(String blockId) {
+@@ -39,6 +49,11 @@
+     @Override
+     public boolean isFaceSturdy(FlowingFluid fluid, Player player, BlockState state, BlockGetter level,
+                                 BlockPos pos, Direction direction, VanillaFn<Boolean> vanilla) {
++        if (V1_12_STAIR_IDS.contains(this.blockId)
++            && fluid.isSame(Fluids.WATER)
++            && direction.getAxis().isHorizontal()) {
++            return false;
++        }
+         return vanilla.get();
+     }
+ }

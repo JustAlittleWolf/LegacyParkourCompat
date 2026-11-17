@@ -1,0 +1,17 @@
+# Independent source audit — fluid-contact scan preflight r3
+
+## Verdict
+
+**ACCEPT** the bounded source-level scan-preflight and scan-domain report at `build/later-source-20261116/1.21.11--26.1.2/fluid_contact_scan_preflight_revision_r3/coverage-r3.md`, SHA-256 `860B319DDFA87776DC895EF6B2E7D86678E4C883CBA4E8EDB740BF9061ED857B`.
+
+The r3 correction accurately distinguishes the old caller's four-argument horizontal `LevelReader.hasChunksAt` overload from the separate six-argument overload that checks vertical dimension bounds. `Entity.touchingUnloadedChunk` calls the four-argument overload, so the vertical check is not part of that preflight. The conditional client cache-miss contrast remains supported. This acceptance is limited to the report's source-level scan domain/preflight facts; it establishes no particular streamed-world state, resource membership, movement consequence, or full-pair coverage.
+
+## Identity and changed-claim checks
+
+- Recomputed report SHA-256: `860B319DDFA87776DC895EF6B2E7D86678E4C883CBA4E8EDB740BF9061ED857B`.
+- Actual root-sidecar provenance forms and hashes match the report: 1.21.11 `mojmap.provenance.json` `99C9FB741EB5E4AC8FB5780E2158DA324D7C8B6AFC179D494E5986F78FE29F72`; 26.1.2 `unobfuscated.provenance.json` `8D727F880CC91F4A297E148C5B75976303D051457334BC689268FBDF631A012A`. Ready sidecars are the matching `mojmap.ready.json` and `unobfuscated.ready.json`; their source-manifest digests match the current `mojmap.sources.sha256` (`0C4D83FEF84C101D9DB88F331ACEC7960F3C8346228C28995E6CF57BBFCAE555`) and `unobfuscated.sources.sha256` (`54AE320660CA911A6D20514C965C33EB414FBEDD1AD6727BBAA95FE906AA23C0`). These are the same source-tree identities independently checked for the prior revision; no full-tree rehash was repeated.
+- Rehashed the changed-claim source files against current bytes and their manifest entries: 1.21.11 Mojmap `Entity.java` `32314478C6036FA9F3F3CC409C61C622EEFC5A282D60E1011A1A33CC29CF18A3`, `LevelReader.java` `562CD72343484C0E48F55DFE1FF50E5BB10516135D601AFF264867FAC9D9FF09`; 26.1.2 unobfuscated `Entity.java` `8B83B1F036AABBD13D990897C540C993F7120F02955486CFCF229517D4097CCF`, `LevelReader.java` `8FBFB7CF6D6FF8A19E784198D6BF75A1EAE346CD8371D3D23EB3C8AF546621A1`.
+- `Entity.touchingUnloadedChunk` at 1.21.11 `Entity.java:3576-3583` inflates the box and calls `level().hasChunksAt(minX,minZ,maxX,maxZ)` at line 3582. The selected four-argument overload is `LevelReader.java:197-212` and iterates only horizontal chunk-column coordinates, invoking `hasChunk`; it performs no Y-bound check. The distinct six-argument overload is `LevelReader.java:192-194` and wraps the horizontal check in a min/max-Y predicate, but the caller does not select it.
+- The corrected client distinction remains supported by the previous independent audit and the report's unchanged checked sources: old client `hasChunk` returns true, so this old preflight does not reject a missing client-cache chunk; later fluid reads can obtain the empty-chunk fallback. The new preflight directly requires non-null full chunks with `loadOrGenerate=false`, so a client cache miss can return false before per-cell fluid reads. This is only a conditional source-level sampling difference.
+
+No full source-tree rehash, product/wiki/backlog/Git-history review, resource/artifact inspection, build, test, gameplay, or runtime check was performed. Pair coverage and all stated resource/world-state dependencies remain open.

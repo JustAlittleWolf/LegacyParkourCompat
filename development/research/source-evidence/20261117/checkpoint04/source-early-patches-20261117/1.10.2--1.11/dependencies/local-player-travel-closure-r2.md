@@ -1,0 +1,9 @@
+# Local-player travel closure correction r2: cramming RNG advancement
+
+This bounded correction is attached to the immutable original travel report `dependencies/local-player-travel-closure.md` (SHA-256 `C87AD6538577529AA4CDA6F1C771B9DAC52308E3ED74CEBCA69519A8E4E94506`) and its independent audit `dependencies/local-player-travel-closure-audit/verdict.md` (SHA-256 `C98022FBAFBBDA60C342DDF2CCF40AFDE8415EEFD1EC446D308E8C468CBA2352`, REQUEST CHANGES). It corrects only the audit's cramming disposition; the paired-source identities and all unchanged travel claims remain bound to the original report.
+
+## Corrected disposition
+
+In 1.11, `LivingEntity.pushAwayCollidingEntities()` adds a `maxEntityCramming` branch before the existing push loop. When its game-rule and list-size gates pass, it calls `this.random.nextInt(4)`; on the selected outcome it counts non-riding entities and may apply cramming damage. Compared with 1.10.2, this can advance the local entity's random stream as well as add the damage path. This call is reached after `LivingEntity.mobTick()` has completed `moveRelative()` for that tick, so it does not change the already-completed travel arithmetic in that tick. Whether the changed random state reaches a later local-player movement consumer is not closed here and remains an open dependency; no downstream movement consequence or trajectory is asserted.
+
+The exact paired source identities remain those in the original report: 1.10.2 `LivingEntity.java` SHA-256 `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`; 1.11 `LivingEntity.java` SHA-256 `1f2e31fa6a905ccc2a51a0338f2aaf448f2b0569f28644e8205d864e570d9b2b`. This addendum does not re-audit or change the accepted-as-supported travel calculations, establish the separate `MoverType.SELF` resolver candidate, freeze pair coverage, or claim implementation/runtime parity.

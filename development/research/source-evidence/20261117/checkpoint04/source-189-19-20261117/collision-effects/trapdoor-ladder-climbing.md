@@ -1,0 +1,5 @@
+# Open trapdoors above ladders count as climbing
+Minecraft 1.8.9, Ornithe Feather: `net/minecraft/entity/living/LivingEntity.java`, `isClimbing()`, lines 794–800. The predicate checks only whether the block at the floored player x/z and `getShape().minY` is a ladder or vine (and rejects spectator players).
+Minecraft 1.9, Ornithe Feather: `net/minecraft/entity/living/LivingEntity.java`, `isClimbing()` and `canClimbTrapdoor(BlockPos, BlockState)`, lines 896–919. In addition to ladders and vines, an open trapdoor at that position counts as climbing when the block immediately below is a ladder whose `FACING` equals the trapdoor's `FACING`; spectator players still return false first.
+Difference: the 1.9 climbing predicate recognizes a matching open-trapdoor/ladder arrangement as climbable; 1.8.9 does not.
+Movement meaning: when a player is positioned so that the sampled block is this open trapdoor, the `isClimbing()` result differs and can activate the historical climb response. Confirm all downstream callers and exact movement consequence with the travel/tick-state lane before acceptance or implementation.

@@ -1,0 +1,41 @@
+# 1.21.11 to 26.1.2 movement status-effect source coverage
+
+## Scope and verdict
+
+Bounded source-only inventory of movement-relevant status-effect declarations, per-amplifier modifier construction, tick/duration processing, client packet receiver/application, and direct movement consumers for SPEED, SLOWNESS, JUMP_BOOST, SLOW_FALLING, LEVITATION, and DOLPHINS_GRACE. The compared releases are 1.21.11 (Mojmap) and 26.1.2 (published unobfuscated namespace). The examined operations below have **no source behavior difference**. This is a bounded NO_DIFF coverage report, not a finding, a whole-pair freeze, a resource-membership verdict, or runtime evidence.
+
+## Exact source identities
+
+- Older: `decompiled_minecraft/1.21.11/mojmap/`, declared version `1.21.11`, mapping `mojmap`.
+  - Root sidecars: `decompiled_minecraft/1.21.11/mojmap.ready.json` SHA-256 `0AD98D0EBD654650492C97EB58BC324D33864787F0CE10D99FAEC3AE2F5B804B`; `decompiled_minecraft/1.21.11/mojmap.provenance.json` SHA-256 `99C9FB741EB5E4AC8FB5780E2158DA324D7C8B6AFC179D494E5986F78FE29F72`; `decompiled_minecraft/1.21.11/mojmap.sources.sha256` SHA-256 `0C4D83FEF84C101D9DB88F331ACEC7960F3C8346228C28995E6CF57BBFCAE555`; `decompiled_minecraft/1.21.11/artifacts.sha256` SHA-256 `C8210B15012DCC4E109C2F73015B4117ABEC1F8AB04FDD375DBC11419E9E246C`.
+  - Ready marker binds `versionId=1.21.11`, `mapping=mojmap`, source manifest digest `0c4d83fef84c101d9db88f331acec7960f3c8346228c28995e6cf57bbfcae555`, and artifact manifest digest `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`.
+- Newer: `decompiled_minecraft/26.1.2/unobfuscated/`, declared version `26.1.2`, mapping `unobfuscated`.
+  - Root sidecars: `decompiled_minecraft/26.1.2/unobfuscated.ready.json` SHA-256 `F24AF0F4D38543C2BD9C19B50F347D4E89D6027050E4B21AE070734843946BB7`; `decompiled_minecraft/26.1.2/unobfuscated.provenance.json` SHA-256 `8D727F880CC91F4A297E148C5B75976303D051457334BC689268FBDF631A012A`; `decompiled_minecraft/26.1.2/unobfuscated.sources.sha256` SHA-256 `54AE320660CA911A6D20514C965C33EB414FBEDD1AD6727BBAA95FE906AA23C0`; `decompiled_minecraft/26.1.2/artifacts.sha256` SHA-256 `89F648229DE83B0109460695C1F3BED7EF36EFB84EDE9224E80CCE87118F92`.
+  - Ready marker binds `versionId=26.1.2`, `mapping=unobfuscated`, source manifest digest `54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0`, and artifact manifest digest `89f648229de83b0109460695c1f3bed7ef36efb84ede9224e80cce87118f92`.
+
+The ready/provenance/source/artifact sidecars are at each version root; the Java files are under the mapping-specific roots above. For each Java file listed below, the local SHA-256 was checked against that version's declared source manifest entry. No source generation or mapping lookup was performed.
+
+| Java source relative to mapping root | 1.21.11 Mojmap SHA-256 | 26.1.2 unobfuscated SHA-256 |
+|---|---|---|
+| `net/minecraft/world/effect/MobEffects.java` | `e27eef187ce134c3b64300fd7a4c7f691d553a172ec26ebac79797a030db7047` | `532df5c7cd47edd3d9d091c2eae0962c279224c8f5f206860e9df45bc3b0c684` |
+| `net/minecraft/world/effect/MobEffect.java` | `1c4877780a246facd2e5ac392763c960580881d9ea90335d0841a5e982a12df7` | `5412fe3210df040882f2b5860a9fb3e1d66de151453740ebcdeaa22374acf28c` |
+| `net/minecraft/world/effect/MobEffectInstance.java` | `d786ece1cbc91c67907c422a9369bbbb9949af35a76dcc44ee8d1767c22c6367` | `f7bba4691d48273990eae848238189f84ff4f8de6807961c929c7faefbf6a321` |
+| `net/minecraft/world/entity/LivingEntity.java` | `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8` | `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd` |
+| `net/minecraft/client/multiplayer/ClientPacketListener.java` | `f1ebdb54d717266c894c87381c98bad101980d252de5bae6ca55c37aece1732e` | `eb70d05e4f8429341fc41823eae2cc662560efa1e44c8b729db5477501718d82` |
+
+## Compared source operations
+
+- `MobEffects` declares `SPEED` and `SLOWNESS` as `MOVEMENT_SPEED` attribute modifiers with the same base amounts (`+0.2F`, `-0.15F`) and `ADD_MULTIPLIED_TOTAL` operation in both releases (1.21.11 lines 15–28; 26.1.2 lines 15–28). `JUMP_BOOST` keeps the same `SAFE_FALL_DISTANCE` modifier (`+1.0`, `ADD_VALUE`) (1.21.11 lines 50–56; 26.1.2 lines 50–56). `LEVITATION`, `SLOW_FALLING`, and `DOLPHINS_GRACE` retain the same base registrations (1.21.11 lines 94, 105, 107; 26.1.2 lines 94, 105, 107).
+- `MobEffect.AttributeTemplate.create` scales each registered modifier amount as `amount * (amplifier + 1)` in both source versions (1.21.11 `MobEffect.java` line 198; 26.1.2 line 208). `createModifiers`, `addAttributeModifiers`, and `removeAttributeModifiers` retain the same attribute-map application/removal behavior (1.21.11 lines 150–179; 26.1.2 lines 160–189). Differences inspected here are parameter names/access visibility, not arithmetic or order.
+- `LivingEntity.getJumpPower` and `getJumpBoostPower` preserve the same order and float formula: attribute jump strength × multiplier × block jump factor, then add `0.1F * (amplifier + 1.0F)` when jump boost is active (1.21.11 lines 2258–2265; 26.1.2 lines 2341–2348). This is the inherited player jump response; no claim is made here about all local jump input gates.
+- `LivingEntity.getEffectiveGravity` keeps the falling predicate `deltaMovement.y <= 0.0` and the slow-falling cap `min(getGravity(), 0.01)` (1.21.11 lines 2304–2306; 26.1.2 lines 2387–2389). The same helper is used from the compared travel branches.
+- In air travel, levitation still adds `(0.05 * (amplifier + 1) - movement.y) * 0.2` to vertical movement before gravity handling (1.21.11 `LivingEntity.java` lines 2349–2355; 26.1.2 lines 2436–2442). Water travel still sets slowdown to `0.96F` when DOLPHINS_GRACE is present (1.21.11 line 2393; 26.1.2 line 2480). The travel methods have broader changes elsewhere; this report compares only these effect-specific branches and does not close the whole travel operation.
+- The movement tick still resets fall distance when SLOW_FALLING or LEVITATION is active (1.21.11 `LivingEntity.java` line 2967; 26.1.2 line 3066). The `canGlide` gate still rejects levitation before equipment checks (1.21.11 line 3050; 26.1.2 line 3149); full flight/equipment eligibility is outside this slice.
+- Effect lifetime handling is unchanged for this scope: `MobEffectInstance.tickClient` decrements finite durations, downgrades hidden effects, then ticks blend state (1.21.11 lines 232–239; 26.1.2 lines 243–250). Server ticking checks the effect tick gate, calls `applyEffectTick`, decrements duration, then invokes the update callback on hidden-effect downgrade (1.21.11 lines 214–230; 26.1.2 lines 224–242). `LivingEntity.tickEffects` retains the server/client split: server ticks and removes expired records, while client ticks effect durations (1.21.11 lines 828–848; 26.1.2 lines 827–847).
+- Client effect updates still resolve the entity, construct a `MobEffectInstance` from packet effect/duration/amplifier/visibility fields, honor `shouldBlend`, then call `LivingEntity.forceAddEffect`; removal still calls `removeEffectNoUpdate` on the target living entity (1.21.11 `ClientPacketListener.java` lines 1719–1732, 1897–1901; 26.1.2 lines 1795–1817, 1982–1987). This establishes the Java receiver path only. It does not establish server-side packet production, attribute synchronization contents, or client resource data.
+
+## Coverage boundaries
+
+Examined: the named movement-effect registrations; effect amplifier-to-attribute modifier construction; bounded direct consumers for jump boost, slow falling, levitation and dolphins grace; effect duration tick operations; and client update/remove receivers. No difference was found in those operations.
+
+Not examined or closed: complete `LivingEntity`/`Player`/`LocalPlayer` tick graphs, all effect callers and server producers, attribute packet production and client attribute synchronization, effective movement-speed attribute values on a live client, registry/resource membership, all equipment/enchantment or fluid dependencies, intermediate stable versions, other movement effects outside the enumerated direct consumers, or full-pair coverage. No trajectory, runtime, implementation, or product applicability conclusion follows.

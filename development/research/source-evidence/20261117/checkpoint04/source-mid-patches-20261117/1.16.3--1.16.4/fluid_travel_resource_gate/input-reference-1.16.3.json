@@ -1,0 +1,69 @@
+{
+  "schema": "lpc-pinned-fluid-tag-resource-input-v1",
+  "scope": "1.16.3 packaged fluid tags only; 1.16.4 counterpart and pair comparison remain pending",
+  "sourceIdentity": {
+    "version": "1.16.3",
+    "namespace": "Mojmap",
+    "canonicalRoot": "decompiled_minecraft/1.16.3/mojmap/",
+    "sourceManifest": "decompiled_minecraft/1.16.3/mojmap/.decompile-provenance.json#sources",
+    "sourceManifestSha256": "513271804ead6757345d305717e7e0bfc1641434c35a3b254f287bd8fd281498",
+    "provenancePath": "decompiled_minecraft/1.16.3/mojmap/.decompile-provenance.json",
+    "provenanceSha256": "513271804ead6757345d305717e7e0bfc1641434c35a3b254f287bd8fd281498",
+    "sourceInputClientUrl": "https://piston-data.mojang.com/v1/objects/1321521b2caf934f7fc9665aab7e059a7b2bfcdf/client.jar",
+    "sourceInputClientSha256": "da85197babd989a7de318774cf5d97bcef95e89a70c9fa9a4c8180463e9589fa",
+    "sourceInputMetadataUrl": "https://piston-meta.mojang.com/v1/packages/6485dd131ef68c968041a9f6fd73094b027e42e1/1.16.3.json",
+    "sourceInputMetadataSha256": "193c5226095ce9e8a317f1e35ddbe4d976f176f6df7ac649ecfa669e17160ead"
+  },
+  "officialMetadata": {
+    "url": "https://piston-meta.mojang.com/v1/packages/6485dd131ef68c968041a9f6fd73094b027e42e1/1.16.3.json",
+    "expectedSha256": "193c5226095ce9e8a317f1e35ddbe4d976f176f6df7ac649ecfa669e17160ead",
+    "verifiedSha256": "193c5226095ce9e8a317f1e35ddbe4d976f176f6df7ac649ecfa669e17160ead",
+    "clientUrl": "https://piston-data.mojang.com/v1/objects/1321521b2caf934f7fc9665aab7e059a7b2bfcdf/client.jar",
+    "clientSha1": "1321521b2caf934f7fc9665aab7e059a7b2bfcdf",
+    "clientSize": 17505781
+  },
+  "clientJar": {
+    "url": "https://piston-data.mojang.com/v1/objects/1321521b2caf934f7fc9665aab7e059a7b2bfcdf/client.jar",
+    "expectedSha256": "da85197babd989a7de318774cf5d97bcef95e89a70c9fa9a4c8180463e9589fa",
+    "verifiedSha256": "da85197babd989a7de318774cf5d97bcef95e89a70c9fa9a4c8180463e9589fa",
+    "verifiedSha1": "1321521b2caf934f7fc9665aab7e059a7b2bfcdf",
+    "verifiedSize": 17505781,
+    "identityBoundBy": "The exact mapping-local hidden provenance records this client URL→SHA-256 and metadata URL→SHA-256 under inputs."
+  },
+  "extraction": {
+    "allowlist": [
+      "data/minecraft/tags/fluids/water.json",
+      "data/minecraft/tags/fluids/lava.json"
+    ],
+    "entries": [
+      {
+        "archiveEntry": "data/minecraft/tags/fluids/water.json",
+        "sizeBytes": 94,
+        "sha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+        "output": "1.16.3/data/minecraft/tags/fluids/water.json",
+        "values": [
+          "minecraft:water",
+          "minecraft:flowing_water"
+        ],
+        "replace": false
+      },
+      {
+        "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+        "sizeBytes": 92,
+        "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+        "output": "1.16.3/data/minecraft/tags/fluids/lava.json",
+        "values": [
+          "minecraft:lava",
+          "minecraft:flowing_lava"
+        ],
+        "replace": false
+      }
+    ]
+  },
+  "limits": [
+    "Only the 1.16.3 entries are present in this packet; do not infer 1.16.4 payload identity or pair equality.",
+    "No client jar or metadata file is retained; the official metadata/JAR hashes and URL chain are recorded above.",
+    "No extraction of other archive entries occurred.",
+    "No separate artifact-manifest file exists at decompiled_minecraft/1.16.3/artifacts.sha256; the hidden source provenance directly records the client/metadata input URL hashes."
+  ]
+}

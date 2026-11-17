@@ -1,0 +1,5 @@
+# Sprint timeout removed
+1.8.9, Ornithe Feather: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `setSprinting` lines 348–352 and `mobTick` lines 487–495.
+1.9, Ornithe Feather: `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java`, `setSprinting` lines 401–405 and `mobTick` lines 599–604.
+Difference: 1.8.9 resets `sprintTimer` to 600 when sprinting and decrements it each `mobTick`, calling `setSprinting(false)` at zero. In 1.9, `setSprinting` resets the timer to zero and `mobTick` increments it; there is no timeout cancellation.
+Movement meaning: a locally controlled player who remains sprinting for 600 ticks without another cancellation keeps the sprint movement-speed state in 1.9, whereas 1.8.9 clears sprinting at the timeout. The change crosses into `LivingEntity.setSprinting`, which applies/removes the sprint movement-speed modifier; that operation appears structurally unchanged in the inspected pair, but its full dependency review remains open.

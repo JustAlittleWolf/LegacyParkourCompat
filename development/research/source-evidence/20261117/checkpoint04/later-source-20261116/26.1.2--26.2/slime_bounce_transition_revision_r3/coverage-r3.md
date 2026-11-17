@@ -1,0 +1,77 @@
+# Slime block landing response: 26.1.2 → 26.2
+
+## Scope and conclusion
+
+This source-only comparison covers the direct player downward-collision response when the post-move `effectState` is a registered slime block. It compares the old `SlimeBlock.updateEntityMovementAfterFallOn` callback with 26.2's `Entity.restituteMovementAfterCollisions` and the new block restitution property. It does not inventory other bouncy blocks, horizontal impacts, world/resource overrides, or the full pair.
+
+There is a source-level operation change. In 26.1.2, a vertically clipped move invokes the block callback; SlimeBlock reverses any negative current Y velocity for a non-sneaking entity, with factor 1.0 for a LivingEntity. In 26.2, the callback is removed and the shared collision-restitution method uses the slime block's registered restitution 1.0 for a living player, but vertical bounce is additionally gated by impact speed being at least effective gravity and by the `SUPPRESSES_BOUNCE` block tag. The accepted pinned 26.2 archive payload for that tag lists only `minecraft:honey_block`, so the slime block is absent from that exact payload; the tag gate is not tripped by this pinned vanilla payload. Beyond the shared sneaking suppression and collision prerequisites, the remaining new SlimeBlock landing gate for this pinned payload is the impact-speed threshold. For a downward floor collision whose clipped `movement.y` is zero, when the applicable new gates pass, the new formula reduces to `-currentMovement.y`, matching the old LivingEntity slime bounce. The old path has no gravity-threshold or block-tag gate, so the source behavior differs at below-gravity downward impacts: old SlimeBlock still reverses negative Y velocity while 26.2 sets the Y result to zero. No runtime datapack/effective-tag membership or ordinary reachability of the threshold boundary is claimed.
+
+## Exact source identities
+
+Both canonical source trees are `unobfuscated` publications. Their exact version-root sidecars and source-manifest bindings are:
+
+| Release | Ready SHA-256 | Provenance SHA-256 | Source manifest SHA-256 | Artifact manifest SHA-256 | Identity |
+| --- | --- | --- | --- | --- | --- |
+| 26.1.2 | `f24af0f4d38543c2bd9c19b50f347d4e89d6027050e4b21ae070734843946bb7` | `8d727f880cc91f4a297e148c5b75976303d051457334bc689268fbdf631a012a` | `54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0` | `89f648229de83b0109460695c9f1f3bed7ef36efb84ede9224e80cce87118f92` | `versionId=26.1.2`, `mapping=unobfuscated`, status ready; 6,882 files |
+| 26.2 | `f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f` | `a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1` | `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894` | `ba9dc53a41bca9744ec1c8ab2ce9363764a22333c39ef64d5105f4e3bf5c98ba` | `versionId=26.2`, `mapping=unobfuscated`, status ready; 7,055 files |
+
+The version-root files are `decompiled_minecraft/<version>/unobfuscated.ready.json`, `unobfuscated.provenance.json`, `unobfuscated.sources.sha256`, and `artifacts.sha256`; Java files are below `decompiled_minecraft/<version>/unobfuscated/`. Ready-marker source/artifact digests match the indicated manifests. The source files cited below were individually checked against their source-manifest rows; no complete-tree rehash was performed.
+
+## Compared operation and call path
+
+- **Player movement reaches the shared move body.** `LivingEntity.handleRelativeFrictionAndCalculateMovement` calls `this.move(MoverType.SELF, this.getDeltaMovement())` at 26.1.2 `LivingEntity.java:2623-2626` and 26.2 `LivingEntity.java:2676-2679`. `Entity.move` resolves the block below/at the post-move position as `effectState` (`Entity.java:767-768` old; `775-776` new).
+- **Client player authority/simulation gates.** Both endpoint `Player.isClientAuthoritative()` return true and `Player.isLocalClientAuthoritative()` returns `isLocalPlayer()` (26.1.2 `Player.java:1254-1271`; 26.2 `Player.java:1275-1292`). `Entity.isLocalInstanceAuthoritative()` selects that local-player result on a client (`Entity.java:3516-3518` old; `3589-3591` new). `LocalPlayer.isLocalPlayer()` returns true (`LocalPlayer.java:378-380` both), so local-client `Entity.move` passes both the `checkFallDamage` and `canSimulateMovement` gates. The report makes no claim about mod architecture or remote-client player movement.
+- **26.1.2 callback order and formula.** `Entity.move` sets collision/on-ground state, calls `checkFallDamage`, then, if not removed and movement is simulatable, calls `onBlock.updateEntityMovementAfterFallOn` whenever `delta.y != movement.y` (`Entity.java:752-785`). `SlimeBlock.fallOn` calls `causeFallDamage(..., 0.0F, ...)` only when bounce is not suppressed (`SlimeBlock.java:25-30`). The later movement callback calls the superclass when suppressed, otherwise `bounceUp` (`SlimeBlock.java:32-39`). `bounceUp` reads current delta movement, checks only `movement.y < 0.0`, and writes `-movement.y * factor`; `factor` is 1.0 for `LivingEntity` and 0.8 otherwise (`SlimeBlock.java:41-47`). The superclass response sets Y movement to zero (`Block.java:498-500`). `Entity.isSuppressingBounce` is `isShiftKeyDown()` (`Entity.java:2630-2632`).
+- **26.2 restitution setup.** `Blocks.SLIME_BLOCK` sets `.bounceRestitution(1.0F)` (`Blocks.java:2976-2980`). `BlockBehaviour.Properties` defaults `bounceRestitution` to zero (`BlockBehaviour.java:992-996`), the constructor stores it (`103-115`), and the builder setter assigns it (`1120-1122`). `Block.getBounceRestitution()` returns the stored value (`Block.java:494-496`). `SlimeBlock` no longer overrides `updateEntityMovementAfterFallOn`; its `fallOn` suppression/zero-damage path remains (`SlimeBlock.java:22-27`), and `stepOn` remains the separate same horizontal slow-down operation (`30-38`).
+- **26.2 collision response order and formula.** `Entity.move` still sets collision/on-ground state and calls `checkFallDamage` first (`Entity.java:759-778`). After that, if the entity is not removed, it calls `restituteMovementAfterCollisions` when `canSimulateMovement()` and either moved vertical collision or horizontal collision is true (`Entity.java:781-786`); this is before movement emission and the block speed-factor application (`788-796`). For a downward collision (`verticalCollisionBelow`), restitution is zero when `-currentMovement.y < getEffectiveGravity()`, bounce is suppressed, or `effectState.is(BlockTags.SUPPRESSES_BOUNCE)`; otherwise it is `max(getEntityBounciness(), getBlockBounciness(effectState.getBlock()))` (`Entity.java:802-819`). For a LivingEntity, `getBlockBounciness` leaves the block property unscaled (`845-851`). The Y output is `(gravityCompensation - currentMovement.y) * effectiveDrag * restitution`, where movement fraction and drag are computed at `824-835`. For full vertical clipping to a floor, `movement.y` is zero; if the gravity/tag/sneak gates pass and SlimeBlock restitution is 1.0, this yields `-currentMovement.y`. `Entity.isSuppressingBounce` remains `isShiftKeyDown()` (`Entity.java:2697-2699`).
+- **New entity-side baseline.** `LivingEntity.getEntityBounciness()` reads `Attributes.BOUNCINESS` (`LivingEntity.java:2201-2204`), whose 26.2 registration has base 0.0 and range 0.0–1.0 (`Attributes.java:31`). `LivingEntity` includes it in the common living-attribute builder (`LivingEntity.java:332-356`); Player uses that builder (`Player.java:206-220`). The block-side SlimeBlock restitution is still 1.0; no effective client attribute modifiers or player attribute packet contents are inferred.
+
+## r2 addition: ordinary local-player tick-to-travel route
+
+The exact ordinary on-foot local-player call path reaches the shared move body at both endpoints, under the stated path gates:
+
+1. `LocalPlayer.tick()` is entered only after `connection.hasClientLoaded()` and calls `super.tick()` (`LocalPlayer.java:227-230`, both). `Player.tick()` calls `super.tick()` (`Player.java:231-259` in 26.1.2; `232-260` in 26.2). `LivingEntity.tick()` invokes virtual `this.aiStep()` when the entity is not removed (`LivingEntity.java:2738-2740` old; `2804-2806` new).
+2. Virtual dispatch reaches `LocalPlayer.aiStep()`, whose tail calls `super.aiStep()` (`LocalPlayer.java:914`, both), then `Player.aiStep()`, which calls `super.aiStep()` (`Player.java:442-453`, both), then `LivingEntity.aiStep()`.
+3. For an on-foot local player with no player controlling passenger, `LivingEntity.aiStep()` takes the ordinary travel branch: after the `travelRidden` branch, `canSimulateMovement() && isEffectiveAi()` calls `this.travel(input)` (`LivingEntity.java:3070-3074` old; `3137-3141` new). On both endpoints the `Player` implementations of those two predicates return `!level().isClientSide() || isLocalPlayer()` (`Player.java:1269-1275` old; `1290-1296` new); the local override returns true (`LocalPlayer.java:378-380`, both). Thus the branch is enabled for the local client player.
+4. `Player.travel()` delegates to `super.travel(input)` for a non-passenger, non-flying player (`Player.java:1381-1402` old; `1402-1423` new). `LivingEntity.travel()` selects `travelInAir(input)` when `shouldTravelInFluid(...)` is false and the player is not fall-flying (`LivingEntity.java:2392-2399` old; `2430-2437` new). `travelInAir()` calls `handleRelativeFrictionAndCalculateMovement()` (`LivingEntity.java:2430-2435` old; `2468-2476` new); that method calls `this.move(MoverType.SELF, this.getDeltaMovement())` (`LivingEntity.java:2623-2626` old; `2676-2679` new).
+
+This establishes a source call path from an ordinary local-player tick through `travelInAir()` to the collision-response method described above. It does not establish ordinary placement/reachability of a slime block, runtime effective-tag membership, or runtime frequency of the low-speed condition. The added call-path anchors use only `LocalPlayer.java`, `Player.java`, and `LivingEntity.java`, which are already listed with their unchanged source-manifest-bound SHA-256 values in the table above; no new Java source file was introduced or rehashed. The accepted r2 source audit (SHA-256 `aa55c0770a4ac1ae80d0f2764028946035d03d8e3d7743e7e9b36b30a88c505f`) is reused for unchanged source evidence; r3 adds only the independently accepted pinned archive input and source crosswalk, and the r3 report itself awaits a fresh audit.
+## r3 addition: pinned `SUPPRESSES_BOUNCE` archive payload
+
+The 26.2 source declares `BlockTags.SUPPRESSES_BOUNCE = create("suppresses_bounce")` (`BlockTags.java:243`). Its helper creates a block tag with `Identifier.withDefaultNamespace(name)` (`BlockTags.java:260-262`; `Identifier.java:48-50`), mapping the key to `minecraft:suppresses_bounce` and the singular archive path `data/minecraft/tags/block/suppresses_bounce.json`.
+
+The independently audited pinned-resource reference is `build/source-resource-inputs-20261117/movement-gates/26.1.2--26.2_suppresses_bounce_tag/input-reference.json`, SHA-256 `e8ec85f81c3f0b187bdde06344e41b8be7b41cc7aee3745753f547d8248eaf0f`. It is bound to this source report's accepted r2 predecessor (r2 SHA `d6fd005ad2fd60c3d10645036c5286063eb645808bba560e776301004390453f`; source audit SHA `aa55c0770a4ac1ae80d0f2764028946035d03d8e3d7743e7e9b36b30a88c505f`). The independent resource audit is `build/source-resource-inputs-20261117/movement-gates/26.1.2--26.2_suppresses_bounce_tag/audit/verdict.md`, SHA-256 `1a755a6a5ee67e7b6879d84e55ecc93e4c46c9c056c2f8f198c64deab0dd2d89`.
+
+The accepted audit verifies the exact pinned 26.2 client JAR SHA-256 `40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290` against the repository `artifacts.sha256` pin and metadata SHA-1; provenance does not directly record the JAR digest or cache path. Its singular tag entry is 49 bytes, SHA-256 `a477a87ac4bcb97971cb0b445f4cc9b6b8e02cd31ba3d01bc842b17a6a8477a8`, and has `values: ["minecraft:honey_block"]` with no `replace` field; the plural `tags/blocks/` path is absent. The pinned vanilla payload therefore omits `minecraft:slime_block`. This closes only the vanilla-archive membership gate: it does not establish runtime-effective membership after user/world datapack merging or reload.
+
+For this exact pinned vanilla archive entry, the `SUPPRESSES_BOUNCE` condition does not filter SlimeBlock. The changed source condition remaining for downward SlimeBlock response is the impact-speed threshold against effective gravity. This report still does not establish that an ordinary local-player tick reaches a below-threshold impact; that boundary's movement-state reachability remains open.
+
+Additional source crosswalk hashes (26.2 `unobfuscated`, each verified against `unobfuscated.sources.sha256`):
+
+| Relative Java path | SHA-256 |
+| --- | --- |
+| `net/minecraft/tags/BlockTags.java` | `9834ecbe2facd79cf3d9fc79babd452ed0e000684029b2bb5e9f90aa4f51529e` |
+| `net/minecraft/resources/Identifier.java` | `053f2c75971305a75b350e529dbef832a5175cd388991831d4ba0c6e340faac6` |
+## Limits
+
+The conclusion is confined to the source operation for downward collision with a SlimeBlock as `effectState`, plus the exact pinned vanilla archive entry for `SUPPRESSES_BOUNCE`. That entry omits slime, but user/world datapack overrides, reload state and effective runtime membership are unexamined; actual current velocity/gravity states and ordinary reachability/frequency of the threshold edge remain open. Other blocks using restitution, non-living entity scaling, horizontal restitution, piston movement, server-authoritative handling, and whole-pair coverage are outside this report. This is not a runtime-parity result.
+
+## Cited Java-file SHA-256
+
+| Relative Java path | 26.1.2 | 26.2 |
+| --- | --- | --- |
+| `net/minecraft/world/entity/Entity.java` | `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf` | `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5` |
+| `net/minecraft/world/entity/LivingEntity.java` | `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd` | `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a` |
+| `net/minecraft/world/entity/player/Player.java` | `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d` | `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531` |
+| `net/minecraft/client/player/LocalPlayer.java` | `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe` | `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6` |
+| `net/minecraft/world/level/block/SlimeBlock.java` | `84d22cf526d6bf1b4ec4b0b642a76fc2c90380a71f05ab92a7de9935f0d1c38e` | `e0fc3087b66777a2800676aaeee47a6e98395ea4c964d5a301f3a73b3577c754` |
+| `net/minecraft/world/level/block/Block.java` | `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977` | `cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab` |
+| `net/minecraft/world/level/block/Blocks.java` | `ba8a258b33f73fe03f93e7b02f9c25d4f66cf3aaab04c4580d0863cc71bc866f` | `f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435` |
+| `net/minecraft/world/level/block/state/BlockBehaviour.java` | `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13` | `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e` |
+| `net/minecraft/world/entity/ai/attributes/Attributes.java` | `8eee57d8375c7af39525ccd25593618fcbcbe0348da6a8738556baaabea3c1d5` | `4a7c33552f256b5d35c6d46fd5810405f4e98182e2b26a9a3009ef4f1d3fdd5c` |
+
+
+
+
+
+

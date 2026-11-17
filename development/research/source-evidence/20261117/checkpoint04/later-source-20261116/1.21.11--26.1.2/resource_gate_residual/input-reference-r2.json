@@ -1,0 +1,378 @@
+{
+  "schema": "lpc-source-pinned-tag-membership-v1",
+  "pair": "1.21.11--26.1.2",
+  "status": "bounded_archive_membership_verified",
+  "sourceReports": [
+    {
+      "sha256": "e313150bee1c14e9ba91a6fb6f0c97b796f82d399dbd290792759d8292afba3f",
+      "path": "build/later-source-20261116/1.21.11--26.1.2/collision_provider_residual/collision-provider-residual.md"
+    },
+    {
+      "sha256": "61fbeff3b0032302b7682cffa3d0ca5d70565e9750ab703834b2b04cd4164494",
+      "path": "build/later-source-20261116/1.21.11--26.1.2/ground_speed_factor_residual/ground-speed-factor-provider-residual.md"
+    }
+  ],
+  "sourceIdentities": [
+    {
+      "version": "1.21.11",
+      "namespace": "mojmap",
+      "sourceRoot": "decompiled_minecraft/1.21.11/mojmap/",
+      "sourceManifest": "decompiled_minecraft/1.21.11/mojmap.sources.sha256",
+      "sourceManifestSha256": "0c4d83fef84c101d9db88f331acec7960f3c8346228c28995e6cf57bbfcae555",
+      "readyMarker": "decompiled_minecraft/1.21.11/mojmap.ready.json",
+      "readyMarkerSha256": "0ad98d0ebd654650492c97eb58bc324d33864787f0ce10d99faec3ae2f5b804b",
+      "provenancePath": "decompiled_minecraft/1.21.11/mojmap.provenance.json",
+      "provenanceSha256": "99c9fb741eb5e4ac8fb5780e2158da324d7c8b6afc179d494e5986f78fe29f72",
+      "artifactManifest": "decompiled_minecraft/1.21.11/artifacts.sha256",
+      "artifactManifestSha256": "c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c",
+      "clientJarSha256": "1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd"
+    },
+    {
+      "version": "26.1.2",
+      "namespace": "unobfuscated",
+      "sourceRoot": "decompiled_minecraft/26.1.2/unobfuscated/",
+      "sourceManifest": "decompiled_minecraft/26.1.2/unobfuscated.sources.sha256",
+      "sourceManifestSha256": "54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0",
+      "readyMarker": "decompiled_minecraft/26.1.2/unobfuscated.ready.json",
+      "readyMarkerSha256": "f24af0f4d38543c2bd9c19b50f347d4e89d6027050e4b21ae070734843946bb7",
+      "provenancePath": "decompiled_minecraft/26.1.2/unobfuscated.provenance.json",
+      "provenanceSha256": "8d727f880cc91f4a297e148c5b75976303d051457334bc689268fbdf631a012a",
+      "artifactManifest": "decompiled_minecraft/26.1.2/artifacts.sha256",
+      "artifactManifestSha256": "89f648229de83b0109460695c9f1f3bed7ef36efb84ede9224e80cce87118f92",
+      "clientJarSha256": "b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0"
+    }
+  ],
+  "officialArtifactMetadata": [
+    {
+      "version": "1.21.11",
+      "versionManifestPath": "build/source-release-inventory-20261117/version_manifest_v2.json",
+      "versionManifestSha256": "ac37f92737df1a9d7660047136fedd3edebd90bd6e552f53ddc3f222079bc8fa",
+      "versionManifestObjectSha1": "718cd84b4912691fe5de829aab6876a4b7f6c5c4",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/718cd84b4912691fe5de829aab6876a4b7f6c5c4/1.21.11.json",
+      "metadataSha1": "718cd84b4912691fe5de829aab6876a4b7f6c5c4",
+      "metadataSha256": "471a6eeadf1c74f84ed5d4290fb7234b746373478a4d6ac651962b93f0cb36d9",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd/client.jar",
+      "clientJarSha1": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+      "clientJarSha256": "1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd"
+    },
+    {
+      "version": "26.1.2",
+      "versionManifestPath": "build/source-release-inventory-20261117/version_manifest_v2.json",
+      "versionManifestSha256": "ac37f92737df1a9d7660047136fedd3edebd90bd6e552f53ddc3f222079bc8fa",
+      "versionManifestObjectSha1": "8cca2c0efc47ef22351e5073bb1f5e7ab339279b",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/8cca2c0efc47ef22351e5073bb1f5e7ab339279b/26.1.2.json",
+      "metadataSha1": "8cca2c0efc47ef22351e5073bb1f5e7ab339279b",
+      "metadataSha256": "eda7bac4a0a1ff847efccf5a51f66e990521b2c09320fecd3679bc6921c7623e",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/4e618f09a0c649dde3fdf829df443ce0b8831e65/client.jar",
+      "clientJarSha1": "4e618f09a0c649dde3fdf829df443ce0b8831e65",
+      "clientJarSha256": "b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0"
+    }
+  ],
+  "sourceJavaBindings": [
+    {
+      "version": "1.21.11",
+      "namespace": "mojmap",
+      "path": "decompiled_minecraft/1.21.11/mojmap/net/minecraft/tags/BlockTags.java",
+      "sha256": "9db30d02bbb896538a35267b2f0e9c957a00ffdbf20bcc0ea025b5a7bbec38e3"
+    },
+    {
+      "version": "1.21.11",
+      "namespace": "mojmap",
+      "path": "decompiled_minecraft/1.21.11/mojmap/net/minecraft/world/level/block/FenceBlock.java",
+      "sha256": "5cd60ac6466efbd64db7971ee2f6fcd519d12794be084afe40d1c4e085065326"
+    },
+    {
+      "version": "1.21.11",
+      "namespace": "mojmap",
+      "path": "decompiled_minecraft/1.21.11/mojmap/net/minecraft/world/level/block/WallBlock.java",
+      "sha256": "30f65426c97e2507c13e55edbd078ab86f12d24a1496adb80e5d3cd44b2880f4"
+    },
+    {
+      "version": "1.21.11",
+      "namespace": "mojmap",
+      "path": "decompiled_minecraft/1.21.11/mojmap/net/minecraft/world/level/block/Block.java",
+      "sha256": "bd7f69ffe617fa1008c9311ad7c731b23f242acb5ff3bab8c1a81e41e7d15a73"
+    },
+    {
+      "version": "26.1.2",
+      "namespace": "unobfuscated",
+      "path": "decompiled_minecraft/26.1.2/unobfuscated/net/minecraft/tags/BlockTags.java",
+      "sha256": "edb77ca338c6e831d47b41d799b2f2cad432f34ee465be33a4d1e69edf0f8c1f"
+    },
+    {
+      "version": "26.1.2",
+      "namespace": "unobfuscated",
+      "path": "decompiled_minecraft/26.1.2/unobfuscated/net/minecraft/world/level/block/FenceBlock.java",
+      "sha256": "be5e1aa19a07d68457ff21968fb4e264669588fb6e83a86a6f51e76833f17f93"
+    },
+    {
+      "version": "26.1.2",
+      "namespace": "unobfuscated",
+      "path": "decompiled_minecraft/26.1.2/unobfuscated/net/minecraft/world/level/block/WallBlock.java",
+      "sha256": "4dc61223dce4023deb3a7986983db677ccf4c89a53778692bacb301927b9b345"
+    },
+    {
+      "version": "26.1.2",
+      "namespace": "unobfuscated",
+      "path": "decompiled_minecraft/26.1.2/unobfuscated/net/minecraft/world/level/block/Block.java",
+      "sha256": "1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977"
+    }
+  ],
+  "allowlistedKeys": [
+    "fences",
+    "wooden_fences",
+    "walls",
+    "wall_post_override",
+    "shulker_boxes"
+  ],
+  "tagEntries": [
+    {
+      "version": "1.21.11",
+      "archiveEntry": "data/minecraft/tags/block/fences.json",
+      "presentInArchive": true,
+      "bytes": 88,
+      "sha256": "214462701d11703b222317fb7d470caa40e017b5036b127db242986b92fb30cd",
+      "payload": {
+        "values": [
+          "#minecraft:wooden_fences",
+          "minecraft:nether_brick_fence"
+        ]
+      }
+    },
+    {
+      "version": "1.21.11",
+      "archiveEntry": "data/minecraft/tags/block/wooden_fences.json",
+      "presentInArchive": true,
+      "bytes": 383,
+      "sha256": "b688d023f03758224cfd1bf8b50d018c287aab3bddd939a00abd699fea7ac11f",
+      "payload": {
+        "values": [
+          "minecraft:oak_fence",
+          "minecraft:acacia_fence",
+          "minecraft:dark_oak_fence",
+          "minecraft:pale_oak_fence",
+          "minecraft:spruce_fence",
+          "minecraft:birch_fence",
+          "minecraft:jungle_fence",
+          "minecraft:crimson_fence",
+          "minecraft:warped_fence",
+          "minecraft:mangrove_fence",
+          "minecraft:bamboo_fence",
+          "minecraft:cherry_fence"
+        ]
+      }
+    },
+    {
+      "version": "1.21.11",
+      "archiveEntry": "data/minecraft/tags/block/walls.json",
+      "presentInArchive": true,
+      "bytes": 941,
+      "sha256": "7124e8b44110efc945df32e09bf88dae84413d38558c8073e84e98532391ef97",
+      "payload": {
+        "values": [
+          "minecraft:cobblestone_wall",
+          "minecraft:mossy_cobblestone_wall",
+          "minecraft:brick_wall",
+          "minecraft:prismarine_wall",
+          "minecraft:red_sandstone_wall",
+          "minecraft:mossy_stone_brick_wall",
+          "minecraft:granite_wall",
+          "minecraft:stone_brick_wall",
+          "minecraft:nether_brick_wall",
+          "minecraft:andesite_wall",
+          "minecraft:red_nether_brick_wall",
+          "minecraft:sandstone_wall",
+          "minecraft:end_stone_brick_wall",
+          "minecraft:diorite_wall",
+          "minecraft:blackstone_wall",
+          "minecraft:polished_blackstone_brick_wall",
+          "minecraft:polished_blackstone_wall",
+          "minecraft:cobbled_deepslate_wall",
+          "minecraft:polished_deepslate_wall",
+          "minecraft:deepslate_tile_wall",
+          "minecraft:deepslate_brick_wall",
+          "minecraft:mud_brick_wall",
+          "minecraft:tuff_wall",
+          "minecraft:polished_tuff_wall",
+          "minecraft:tuff_brick_wall",
+          "minecraft:resin_brick_wall"
+        ]
+      }
+    },
+    {
+      "version": "1.21.11",
+      "archiveEntry": "data/minecraft/tags/block/wall_post_override.json",
+      "presentInArchive": true,
+      "bytes": 274,
+      "sha256": "c0aff6e7027ae63685e75d05e9d317ac35b8f0e65ef0702a1a0e7e92dd711c34",
+      "payload": {
+        "values": [
+          "minecraft:torch",
+          "minecraft:soul_torch",
+          "minecraft:redstone_torch",
+          "minecraft:copper_torch",
+          "minecraft:tripwire",
+          "#minecraft:signs",
+          "#minecraft:banners",
+          "#minecraft:pressure_plates",
+          "minecraft:cactus_flower"
+        ]
+      }
+    },
+    {
+      "version": "1.21.11",
+      "archiveEntry": "data/minecraft/tags/block/shulker_boxes.json",
+      "presentInArchive": true,
+      "bytes": 617,
+      "sha256": "c9d65740aa756f65066575b7b6d810e6f4ba4e3c64ca159ee8aef04ece089aa4",
+      "payload": {
+        "values": [
+          "minecraft:shulker_box",
+          "minecraft:black_shulker_box",
+          "minecraft:blue_shulker_box",
+          "minecraft:brown_shulker_box",
+          "minecraft:cyan_shulker_box",
+          "minecraft:gray_shulker_box",
+          "minecraft:green_shulker_box",
+          "minecraft:light_blue_shulker_box",
+          "minecraft:light_gray_shulker_box",
+          "minecraft:lime_shulker_box",
+          "minecraft:magenta_shulker_box",
+          "minecraft:orange_shulker_box",
+          "minecraft:pink_shulker_box",
+          "minecraft:purple_shulker_box",
+          "minecraft:red_shulker_box",
+          "minecraft:white_shulker_box",
+          "minecraft:yellow_shulker_box"
+        ]
+      }
+    },
+    {
+      "version": "26.1.2",
+      "archiveEntry": "data/minecraft/tags/block/fences.json",
+      "presentInArchive": true,
+      "bytes": 88,
+      "sha256": "214462701d11703b222317fb7d470caa40e017b5036b127db242986b92fb30cd",
+      "payload": {
+        "values": [
+          "#minecraft:wooden_fences",
+          "minecraft:nether_brick_fence"
+        ]
+      }
+    },
+    {
+      "version": "26.1.2",
+      "archiveEntry": "data/minecraft/tags/block/wooden_fences.json",
+      "presentInArchive": true,
+      "bytes": 383,
+      "sha256": "b688d023f03758224cfd1bf8b50d018c287aab3bddd939a00abd699fea7ac11f",
+      "payload": {
+        "values": [
+          "minecraft:oak_fence",
+          "minecraft:acacia_fence",
+          "minecraft:dark_oak_fence",
+          "minecraft:pale_oak_fence",
+          "minecraft:spruce_fence",
+          "minecraft:birch_fence",
+          "minecraft:jungle_fence",
+          "minecraft:crimson_fence",
+          "minecraft:warped_fence",
+          "minecraft:mangrove_fence",
+          "minecraft:bamboo_fence",
+          "minecraft:cherry_fence"
+        ]
+      }
+    },
+    {
+      "version": "26.1.2",
+      "archiveEntry": "data/minecraft/tags/block/walls.json",
+      "presentInArchive": true,
+      "bytes": 941,
+      "sha256": "7124e8b44110efc945df32e09bf88dae84413d38558c8073e84e98532391ef97",
+      "payload": {
+        "values": [
+          "minecraft:cobblestone_wall",
+          "minecraft:mossy_cobblestone_wall",
+          "minecraft:brick_wall",
+          "minecraft:prismarine_wall",
+          "minecraft:red_sandstone_wall",
+          "minecraft:mossy_stone_brick_wall",
+          "minecraft:granite_wall",
+          "minecraft:stone_brick_wall",
+          "minecraft:nether_brick_wall",
+          "minecraft:andesite_wall",
+          "minecraft:red_nether_brick_wall",
+          "minecraft:sandstone_wall",
+          "minecraft:end_stone_brick_wall",
+          "minecraft:diorite_wall",
+          "minecraft:blackstone_wall",
+          "minecraft:polished_blackstone_brick_wall",
+          "minecraft:polished_blackstone_wall",
+          "minecraft:cobbled_deepslate_wall",
+          "minecraft:polished_deepslate_wall",
+          "minecraft:deepslate_tile_wall",
+          "minecraft:deepslate_brick_wall",
+          "minecraft:mud_brick_wall",
+          "minecraft:tuff_wall",
+          "minecraft:polished_tuff_wall",
+          "minecraft:tuff_brick_wall",
+          "minecraft:resin_brick_wall"
+        ]
+      }
+    },
+    {
+      "version": "26.1.2",
+      "archiveEntry": "data/minecraft/tags/block/wall_post_override.json",
+      "presentInArchive": true,
+      "bytes": 274,
+      "sha256": "c0aff6e7027ae63685e75d05e9d317ac35b8f0e65ef0702a1a0e7e92dd711c34",
+      "payload": {
+        "values": [
+          "minecraft:torch",
+          "minecraft:soul_torch",
+          "minecraft:redstone_torch",
+          "minecraft:copper_torch",
+          "minecraft:tripwire",
+          "#minecraft:signs",
+          "#minecraft:banners",
+          "#minecraft:pressure_plates",
+          "minecraft:cactus_flower"
+        ]
+      }
+    },
+    {
+      "version": "26.1.2",
+      "archiveEntry": "data/minecraft/tags/block/shulker_boxes.json",
+      "presentInArchive": true,
+      "bytes": 617,
+      "sha256": "c9d65740aa756f65066575b7b6d810e6f4ba4e3c64ca159ee8aef04ece089aa4",
+      "payload": {
+        "values": [
+          "minecraft:shulker_box",
+          "minecraft:black_shulker_box",
+          "minecraft:blue_shulker_box",
+          "minecraft:brown_shulker_box",
+          "minecraft:cyan_shulker_box",
+          "minecraft:gray_shulker_box",
+          "minecraft:green_shulker_box",
+          "minecraft:light_blue_shulker_box",
+          "minecraft:light_gray_shulker_box",
+          "minecraft:lime_shulker_box",
+          "minecraft:magenta_shulker_box",
+          "minecraft:orange_shulker_box",
+          "minecraft:pink_shulker_box",
+          "minecraft:purple_shulker_box",
+          "minecraft:red_shulker_box",
+          "minecraft:white_shulker_box",
+          "minecraft:yellow_shulker_box"
+        ]
+      }
+    }
+  ],
+  "verification": {
+    "jarSha256CheckedAgainstReadyAndArtifactManifests": true,
+    "onlyAllowlistedEntriesOpened": true,
+    "temporaryJarsRemovedAfterVerification": true,
+    "provenanceCaveat": "Exact decompiler provenance sidecars establish source run/namespace but do not directly record the official client artifact hash. The ready markers and artifact manifests pin each client SHA-256; downloaded official version metadata URLs bind each client URL/SHA-1 to release-manifest object IDs; downloaded client JARs were SHA-256 checked against ready/artifact pins."
+  }
+}

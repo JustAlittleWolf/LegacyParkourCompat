@@ -1,0 +1,37 @@
+# 1.10.2 → 1.11 movement-effect source slice
+
+## Exact inputs
+
+- 1.10.2: `decompiled_minecraft/1.10.2/ornithe-feather/`; ready marker SHA-256 `4c6d236e1d06ffc365452c48e73dfa2bf2414bbf4ea67a24a7010c5583906a2d`, source-manifest SHA-256 `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71` (1,845 entries).
+- 1.11: `decompiled_minecraft/1.11/ornithe-feather/`; ready marker SHA-256 `3c4102230dba0f9d2d07f752bbd2a19d2717375f6e31fb618c0450b7fd82bd45`, source-manifest SHA-256 `8b3e5da58494f1dba77410960753b0bf646425a1ada491d8242cc71e6c7a59ca` (1,918 entries).
+- The relevant file SHA-256 values below were recomputed from disk and matched their corresponding source-manifest rows.
+
+| Exact source file | 1.10.2 SHA-256 | 1.11 SHA-256 |
+| --- | --- | --- |
+| `net/minecraft/entity/living/effect/StatusEffect.java` | `cd56502d70b9c742dcffc61fbac6337f268838e35f268ffead4610ff964bea89` | `b7953929609d29d36fb4714013870f9d3b6362b71682f3c06b597536de3eb2db` |
+| `net/minecraft/entity/living/effect/StatusEffectInstance.java` | `652e49d0949f2626ec050901705bffbf59cdeafea9ecd7f384939b25d88016f2` | `d3cd002f44ded4cd4f6045af6849d73470d56d05c59e62dee4dd99c2fc47f102` |
+| `net/minecraft/entity/living/effect/StatusEffects.java` | `65a621ba5a80957f742aa14f109224088388340d0b28b94023440ad0f8f74dd2` | `65a621ba5a80957f742aa14f109224088388340d0b28b94023440ad0f8f74dd2` |
+| `net/minecraft/entity/living/LivingEntity.java` | `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82` | `1f2e31fa6a905ccc2a51a0338f2aaf448f2b0569f28644e8205d864e570d9b2b` |
+| `net/minecraft/entity/living/player/PlayerEntity.java` | `a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302` | `a0d787681de5caecda03fea1536dac0c07e6ca5cfbfe3b5fbb700cbe77c86fb6` |
+| `net/minecraft/client/network/handler/ClientPlayNetworkHandler.java` | `af3efba0a1d5a0824c29c4af4ac7f8e4484d1787a82208e4d72bcc65f957e656` | `cef5d643eca0b32119571eff5201705cc8c99125f8266f763172202d89e3a40b` |
+| `net/minecraft/network/packet/s2c/play/EntityStatusEffectS2CPacket.java` | `bb7a367f1f981e23203737519d9bda2e99b38256c22992cfe470eb775e727cfe` | `bb7a367f1f981e23203737519d9bda2e99b38256c22992cfe470eb775e727cfe` |
+| `net/minecraft/network/packet/s2c/play/EntityRemoveStatusEffectS2CPacket.java` | `c2084962ecdeaa217b5b2df3d9f9e69a66e0c8e86ea2595993d79667692d6fec` | `c2084962ecdeaa217b5b2df3d9f9e69a66e0c8e86ea2595993d79667692d6fec` |
+
+## Movement-relevant effects and local client path
+
+- `StatusEffect.java` registers the same speed and slowness movement modifiers in both releases: speed uses UUID `91AEAA56-376B-4498-935B-2F7F68070635`, `+0.2F`, operation 2; slowness uses UUID `7107DE5E-7CE8-4030-940E-514C1F160890`, `-0.15F`, operation 2 (old lines 216–230; new lines 216–230). The common `addModifiers` replacement/order and `getModifier` multiplication by `(amplifier + 1)` are unchanged (old/new lines 182–202). `StatusEffects.java` is byte-identical.
+- The local player consumes the movement-speed attribute through `PlayerEntity.getSpeed()` (old line 1412; new line 1406), which returns the attribute value in both releases. Status-effect modifier installation/removal/reapplication in `LivingEntity.onStatusEffectApplied`, `onStatusEffectUpgraded`, and `onStatusEffectRemoved` is gated by `!world.isClient` in both versions (old lines 646–670; new lines 660–684). Thus the local client does not independently install the speed/slowness modifier when it receives the status-effect packet.
+- `LivingEntity.jump()` is unchanged: it starts from `getJumpStrength()` (`0.42F` here), adds `(amplifier + 1) * 0.1F` under `JUMP_BOOST`, then applies the sprint impulse in the same order (old lines 1301–1320; new lines 1355–1374).
+- Levitation is already registered in 1.10.2 and the same `LivingEntity` travel branch runs in both releases; it updates `velocityY` by `velocityY + (0.05 * (amplifier + 1) - velocityY) * 0.2` (old lines 1426–1429; new lines 1480–1483). Its presence is not a new 1.11 movement feature.
+- `StatusEffectInstance.tick()` still tests `shouldApply`, invokes `apply`, and decrements duration afterward in both releases (old/new lines 59–72). Expiration/removal and effect modifier callbacks retain the same client/server gates; the 1.11 `try/catch (ConcurrentModificationException)` only wraps the effect-iteration loop (`LivingEntity.tickStatusEffects`, old line 499 onward; new line 510 onward). The ordinary local player packet handlers are serialized onto the client thread with `PacketUtils.ensureOnSameThread`, and the built-in speed/slowness/jump/levitation applications do not mutate the effect map during that loop.
+- `ClientPlayNetworkHandler.handleEntityStatusEffect` maps the received effect ID and constructs a `StatusEffectInstance` from the packet’s duration/amplifier/ambient/particle fields before `addStatusEffect`; `handleEntityRemoveStatusEffect` removes the effect (old lines 1188–1272; new lines 1219–1306). Both packet classes are byte-identical across this edge. `handleEntityAttributes` likewise installs the packet base value and modifier list on the client attribute container in both versions (old line 1683 onward; new line 1722 onward). These handler methods are unchanged in behavior; their containing handler files have other unrelated changes.
+
+## Differences and disposition
+
+1. `StatusEffect.apply` changes the `HUNGER` branch from `addFatigue(0.025F * (amplifier + 1))` to `addFatigue(0.005F * (amplifier + 1))` (1.10.2→1.11 `StatusEffect.java`, around line 71). Both `PlayerEntity.addFatigue` implementations are guarded by `!abilities.invulnerable` and `!world.isClient` (old lines 1578–1584; new 1572–1578). The changed call therefore does not update the local client player’s hunger manager; exhaustion/food production is outside this assignment’s movement scope. Server-side hunger/exhaustion production is not treated as a client movement finding.
+2. `StatusEffectInstance.fromNbt` clamps a negative amplifier to zero in 1.11 (`j < 0 ? 0 : j`, old/new method near line 175). The paired `LivingEntity.readNbt` callers load instances into an entity’s effect map (old lines 475–477; new lines 483–485). This is an NBT-load normalization difference, not the local client’s normal effect-packet constructor path: the client handler above constructs directly from the S2C packet. Whether an unusual saved negative amplifier later changes a server-produced packet is not established here; do not promote that conditional persistence/producer chain to an accepted local-player movement difference.
+3. 1.11 catches `ConcurrentModificationException` around the `tickStatusEffects` map iteration. No vanilla movement-effect code in the paired source mutates this map while the client tick iterates it; ordinary effect packets are handled on the client thread. This is not a deterministic local-player movement delta in the checked path. Concurrent/custom mutation behavior is not claimed.
+
+## Result and open boundary
+
+No changed built-in speed, slowness, jump-boost, or levitation movement formula/gate was found on the local client path in this exact pair. The changed hunger call is a server-only exhaustion effect, and the negative-amplifier clamp is on an NBT path rather than the normal client packet constructor. Server-side effect/attribute packet production for unusual saved state is outside this bounded slice; full pair movement coverage and acceptance remain separate.

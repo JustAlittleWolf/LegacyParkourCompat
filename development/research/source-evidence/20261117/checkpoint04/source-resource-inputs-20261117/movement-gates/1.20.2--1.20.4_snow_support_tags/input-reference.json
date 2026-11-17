@@ -1,0 +1,128 @@
+{
+  "Schema": "isolated-source-resource-input/v1",
+  "Scope": "1.20.2--1.20.4_snow_support_tags",
+  "SourceReport": "build\\later-source-20261116\\1.20.2--1.20.4\\partial_shape_providers_revision_r2\\coverage-r2.md",
+  "SourceReportSHA256": "1a4fffc6f4cd68f7e176e0869debf9b386091eb4b416643a2d471b3e5e6b0189",
+  "CoordinatorSuppliedExpectedSourceReportSHA256": "1A4FFFC6F4CD68F7E176E0869DEBF9B386091EB4B416643A2D471B3E5E6B0189",
+  "ExactSourceContract": "The r2 report at the path above matches the supplied SHA-256. Both Mojmap BlockTags.java files declare the two tag constants using create(String), whose ResourceLocation(String) constructor supplies the minecraft namespace. Exact archive paths were confirmed in both pinned JARs as data/minecraft/tags/blocks/....",
+  "SourceIdentities": [
+    {
+      "Version": "1.20.2",
+      "Namespace": "mojmap",
+      "JarLocalPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\1.20.2.client.jar",
+      "JarBytes": 23186213,
+      "VerifiedJarSHA256": "fa1a19be56a506426308abbc1cad85f299a7fc6dae4335559351ba0246713fda",
+      "ClientJarPinFromArtifactManifest": "fa1a19be56a506426308abbc1cad85f299a7fc6dae4335559351ba0246713fda",
+      "ArtifactManifest": "decompiled_minecraft\\1.20.2\\artifacts.sha256",
+      "ArtifactManifestSHA256": "ee67da9733953b30ae4077c587184e59772b745d780abd27a7b023780b459f54",
+      "ProvenanceRecord": "decompiled_minecraft\\1.20.2\\mojmap.provenance.json",
+      "ProvenanceSHA256": "1dad9f725f6cb25b6568700fa0294f83b66ea9633b0d62ed354d7bd8b45d4f05",
+      "ProvenanceDirectlyRecordsClientJarDigest": false,
+      "ProvenanceRecordedArtifactPath": false,
+      "ReadyMarker": "decompiled_minecraft\\1.20.2\\mojmap.ready.json",
+      "ReadyMarkerSHA256": "5ff3322f287c250ee914c7ca3840d053bffc3c2c5f35e91b59314d948292483f",
+      "SourceManifest": "decompiled_minecraft\\1.20.2\\mojmap.sources.sha256",
+      "SourceManifestSHA256": "e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887",
+      "OfficialMetadataURL": "https://piston-meta.mojang.com/v1/packages/cf1d87e6969d34f7b553939bb1c72177c5fffe86/1.20.2.json",
+      "DownloadedMetadataPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\1.20.2.metadata.json",
+      "DownloadedMetadataSHA256": "1befa18c7cc3d33e7b3e2ed91b71a8aeda1f81dd6855f72d6524bdac1c9052c6",
+      "MetadataClientJarURL": "https://piston-data.mojang.com/v1/objects/82d1974e75fc984c5ed4b038e764e50958ac61a0/client.jar",
+      "MetadataClientSHA1": "82d1974e75fc984c5ed4b038e764e50958ac61a0",
+      "VerifiedClientJarSHA1": "82d1974e75fc984c5ed4b038e764e50958ac61a0",
+      "BlockTagsSource": "decompiled_minecraft\\1.20.2\\mojmap\\net\\minecraft\\tags\\BlockTags.java",
+      "BlockTagsSourceSHA256": "c40cebc2b59225e4cba18f057d519fbd00abed513091ef98610c0a9a0d993d22",
+      "Entries": [
+        {
+          "JavaConstant": "SNOW_LAYER_CANNOT_SURVIVE_ON",
+          "TagIdentifier": "minecraft:snow_layer_cannot_survive_on",
+          "ArchiveEntry": "data/minecraft/tags/blocks/snow_layer_cannot_survive_on.json",
+          "ExtractedPath": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_snow_support_tags\\1.20.2\\data\\minecraft\\tags\\blocks\\snow_layer_cannot_survive_on.json",
+          "Size": 94,
+          "SHA256": "282662c1139488dcc43e3bfe48a36a6c4a759e53cb6a4024454236b8f07384cb",
+          "ReplaceFieldPresent": false,
+          "Values": [
+            "minecraft:ice",
+            "minecraft:packed_ice",
+            "minecraft:barrier"
+          ]
+        },
+        {
+          "JavaConstant": "SNOW_LAYER_CAN_SURVIVE_ON",
+          "TagIdentifier": "minecraft:snow_layer_can_survive_on",
+          "ArchiveEntry": "data/minecraft/tags/blocks/snow_layer_can_survive_on.json",
+          "ExtractedPath": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_snow_support_tags\\1.20.2\\data\\minecraft\\tags\\blocks\\snow_layer_can_survive_on.json",
+          "Size": 97,
+          "SHA256": "c7491ae1bafae440421e90a1387ac87f46f7e003f37315f4acf5ea0d0ee8cd5a",
+          "ReplaceFieldPresent": false,
+          "Values": [
+            "minecraft:honey_block",
+            "minecraft:soul_sand",
+            "minecraft:mud"
+          ]
+        }
+      ]
+    },
+    {
+      "Version": "1.20.4",
+      "Namespace": "mojmap",
+      "JarLocalPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\1.20.4.client.jar",
+      "JarBytes": 24445539,
+      "VerifiedJarSHA256": "9221ab461a491bf9661cd8e773a5e662aaa43d600fa7970b8c12bbfb0431b838",
+      "ClientJarPinFromArtifactManifest": "9221ab461a491bf9661cd8e773a5e662aaa43d600fa7970b8c12bbfb0431b838",
+      "ArtifactManifest": "decompiled_minecraft\\1.20.4\\artifacts.sha256",
+      "ArtifactManifestSHA256": "ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948",
+      "ProvenanceRecord": "decompiled_minecraft\\1.20.4\\mojmap.provenance.json",
+      "ProvenanceSHA256": "10914d9b7b3fc29de066ca24f7d905e4d4f0a451a6c81729a2d1981addfc1385",
+      "ProvenanceDirectlyRecordsClientJarDigest": false,
+      "ProvenanceRecordedArtifactPath": false,
+      "ReadyMarker": "decompiled_minecraft\\1.20.4\\mojmap.ready.json",
+      "ReadyMarkerSHA256": "6225b97979420cc743c8b7156a0ce512ef27d0dbf48bfffbc40d3e1c8cb044d1",
+      "SourceManifest": "decompiled_minecraft\\1.20.4\\mojmap.sources.sha256",
+      "SourceManifestSHA256": "fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1",
+      "OfficialMetadataURL": "https://piston-meta.mojang.com/v1/packages/2c592ccd71ca2d5dadebeb6543ad6b18e6f43305/1.20.4.json",
+      "DownloadedMetadataPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\1.20.4.metadata.json",
+      "DownloadedMetadataSHA256": "cc81633f25e8e412a94dfb953a7b91702714e1e9ed1b680f520495d56d1ea301",
+      "MetadataClientJarURL": "https://piston-data.mojang.com/v1/objects/fd19469fed4a4b4c15b2d5133985f0e3e7816a8a/client.jar",
+      "MetadataClientSHA1": "fd19469fed4a4b4c15b2d5133985f0e3e7816a8a",
+      "VerifiedClientJarSHA1": "fd19469fed4a4b4c15b2d5133985f0e3e7816a8a",
+      "BlockTagsSource": "decompiled_minecraft\\1.20.4\\mojmap\\net\\minecraft\\tags\\BlockTags.java",
+      "BlockTagsSourceSHA256": "c40cebc2b59225e4cba18f057d519fbd00abed513091ef98610c0a9a0d993d22",
+      "Entries": [
+        {
+          "JavaConstant": "SNOW_LAYER_CANNOT_SURVIVE_ON",
+          "TagIdentifier": "minecraft:snow_layer_cannot_survive_on",
+          "ArchiveEntry": "data/minecraft/tags/blocks/snow_layer_cannot_survive_on.json",
+          "ExtractedPath": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_snow_support_tags\\1.20.4\\data\\minecraft\\tags\\blocks\\snow_layer_cannot_survive_on.json",
+          "Size": 94,
+          "SHA256": "282662c1139488dcc43e3bfe48a36a6c4a759e53cb6a4024454236b8f07384cb",
+          "ReplaceFieldPresent": false,
+          "Values": [
+            "minecraft:ice",
+            "minecraft:packed_ice",
+            "minecraft:barrier"
+          ]
+        },
+        {
+          "JavaConstant": "SNOW_LAYER_CAN_SURVIVE_ON",
+          "TagIdentifier": "minecraft:snow_layer_can_survive_on",
+          "ArchiveEntry": "data/minecraft/tags/blocks/snow_layer_can_survive_on.json",
+          "ExtractedPath": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_snow_support_tags\\1.20.4\\data\\minecraft\\tags\\blocks\\snow_layer_can_survive_on.json",
+          "Size": 97,
+          "SHA256": "c7491ae1bafae440421e90a1387ac87f46f7e003f37315f4acf5ea0d0ee8cd5a",
+          "ReplaceFieldPresent": false,
+          "Values": [
+            "minecraft:honey_block",
+            "minecraft:soul_sand",
+            "minecraft:mud"
+          ]
+        }
+      ]
+    }
+  ],
+  "ExtractionMethod": "System.IO.Compression.ZipFile; copied only the two source-derived snow tag entries from each JAR.",
+  "Limits": [
+    "Client JAR SHA-256 equals the canonical artifacts.sha256 client.jar pin; downloaded official metadata client SHA-1 also matched.",
+    "Provenance sidecars bind the source run but do not directly record the client JAR digest or artifact path.",
+    "Archive payload membership only; no claim about data-pack overrides, reload state, or effective membership in a particular world."
+  ]
+}

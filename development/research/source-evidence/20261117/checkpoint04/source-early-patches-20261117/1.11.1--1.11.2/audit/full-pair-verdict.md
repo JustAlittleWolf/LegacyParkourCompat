@@ -1,0 +1,28 @@
+# Independent full-pair source audit — 1.11.1 → 1.11.2
+
+Verdict: **ACCEPT** for complete source coverage of the exact pair and the bounded WallBlock movement finding. This source audit does not establish implementation or runtime parity and does not itself update the central pair-freeze record.
+
+## Bound evidence
+
+- Original coverage: `build/source-early-patches-20261117/1.11.1--1.11.2/coverage.md`, SHA-256 `262A9753D5CEB9C983F158FF0C9239A3F7854DA20157204769BAE41EC3301EFE`.
+- Coverage correction: `build/source-early-patches-20261117/1.11.1--1.11.2/coverage-r2.md`, SHA-256 `6748E283EE2BB7545A24EF3402C6019A77AC646C4B79A9F3EE542ADB2FD777E4`.
+- Candidate: `build/source-early-patches-20261117/1.11.1--1.11.2/findings/wall-collision-height.md`, SHA-256 `0485037E506B5681FE0D92D9006738DD1ADD36AB89154FC6E1C9B1BDEA992718`.
+- Prior bounded ACCEPT: `build/source-early-patches-20261117/1.11.1--1.11.2/audit/verdict.md`, SHA-256 `9A9D9FF163F72EABCFC1E09869BCC2789423350BB21842D80C66B75422234DE7`.
+- 1.11.1 marker/manifest SHA-256: `454036a978074d3a34359dfebf03d6ef3e3335d1318b88d6b17e4f1f5ab566cf` / `0d5f4697d4e4ce53b36d0dbfec89d44830eb76753a6643b49e42f0857753066d`.
+- 1.11.2 marker/manifest SHA-256: `ceabfb266993567aab8c867525365e18aa0a0d7ba5a2cb7b6cfcc83d21318c40` / `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0`.
+
+## Independent inventory and dependency review
+
+I recomputed both complete source manifests against the exact `ornithe-feather` roots. Each manifest contains 1,921 rows; all 3,842 source files exist and match their declared SHA-256. The path sets are identical, with 21 changed shared paths and no additions or removals. I reviewed every changed hunk and the movement call dependencies described in the coverage report.
+
+`WallBlock.java` is the only changed file with a deterministic local-player collision delta. In 1.11.1 `addCollisions` resolves the same virtual neighbor properties and appends `SHAPES[getShapeIndex(state)]`; in 1.11.2 it appends `COLLISION_SHAPES[getShapeIndex(state)]`. The latter entries are each formed with `withMaxY(1.5)`. The correction accurately states that old `SHAPES` entries 5 and 10 reach only 0.875 while the remaining entries reach 1.0; the candidate's aggregate maximum of 1.0 and upper-band consequence remain correct. The exact `WallBlock.java` hashes are `336d4fe9a541bb6a371b81236893d7e80f004c9a1fd4181aa3345acd47b47a41` and `17da6d881365e4dce5134f88cb9a9e5273d1fa1734812d13410dc6924a3acbfd`.
+
+The dependency chain is closed for this operation. `World.java` and `Block.java` are byte-identical across the pair (SHA-256 `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58` and `ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a`). The client `World.getCollisions(Entity, Box)` route passes the queried world state to the block collision callback with virtual state resolution enabled. The local player uses `MoverType.SELF`; `Entity.move` consumes those boxes in its ordered clipping path. Thus, when the player box overlaps a wall's vertical band above Y=1, the newer query can clip horizontal movement that the older query allowed. This accepts the stated conditional collision finding only; no trajectory measurement is claimed.
+
+The other changed movement-adjacent class, `Entity.java`, has only variable-name substitutions in its collision-clipping hunk. Its remaining changed code adjusts water-sound values and splash particle placement/random draws; it does not write player position, velocity, dimensions, or movement flags. The local-client `pushAwayFrom` override is unchanged and does not call the base random impulse path. `PlayerEntity.java` changes only the saved `DataVersion` from 921 to 922; player tick/input/travel bodies are unchanged. The exact entity hashes are `5a906de1d40a4a5ba8aedc9a6a9dc704e0ed862df177cf967fb1a9454765fa96` and `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440`; the player hashes are `8b37fd286b2dac1b343bd708b80284b43bb31c61bafc63bdcf6620ba3a59065c` and `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b`.
+
+The remaining 18 changed paths were individually inspected. Client title/version strings and options version metadata, Realms/server version text, snooper/crash version text, and resource-pack version headers are presentation or metadata. `IntegratedServer`, `MinecraftServer`, and remote-handshake changes are server/lifecycle or version reporting, not client movement. `AnvilChunkStorage`, `StructureTemplate`, `WorldSaveInfo`, and `WorldData` only advance stored version markers. `DataFixerUpper`/`DataFixes` advance the current version 921→922; the registered fix list is unchanged and all existing fixes have versions at or below 820. The unchanged player schema only recurses into `Inventory` and `EnderItems`; this edge adds no transformation to movement state. No changed provider, registration, resource, or direct client response was left without a disposition.
+
+## Pair disposition
+
+Full source inventories and the complete changed-path set are closed for this exact pair. The WallBlock finding has a separate bounded independent ACCEPT; other observed changed paths are no-difference or out of the deterministic local-client movement scope as described above. This verdict is suitable for the records owner to attach as the independent full-pair audit; implementation and runtime parity remain separate statuses.

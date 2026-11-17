@@ -1,0 +1,670 @@
+{
+  "schema": 2,
+  "pair": "1.16--1.16.1",
+  "revision": "r2",
+  "purpose": "Movement-relevant vanilla tag membership only, corrected against accepted source coverage plus the independent source audit; exact resource entries are not a movement-effect or pair-freeze claim.",
+  "namespace": "Mojmap tag helper binds symbolic names through StaticTagHelper.bind -> new ResourceLocation(String), whose one-string constructor defaults a missing namespace to minecraft.",
+  "sourceInputs": [
+    {
+      "version": "1.16",
+      "sourceRoot": "decompiled_minecraft/1.16/mojmap/",
+      "sourceManifestSha256": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a",
+      "provenancePath": "decompiled_minecraft/1.16/mojmap.provenance.json",
+      "provenanceSha256": "371d50521a183f4a3f42fac2d18021f228e0a4e6b2e8a9838c2805391709f2a9",
+      "readyMarkerSha256": "5b6cb24f95e83b856c53f646d6477f2e46dae2276737dee56dd07c5bd745e4a2",
+      "artifactManifestSha256": "b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2",
+      "versionMetadataUrl": "https://piston-meta.mojang.com/v1/packages/e9d21d375f9c961f0e9731d4e463306d76e77c48/1.16.json",
+      "downloadedMetadataSha256": "32ea7a259475ba6f2dc03f979bb2429115ba4137727f776dfd22cc55b1483297",
+      "pinnedMetadataSha256": "32ea7a259475ba6f2dc03f979bb2429115ba4137727f776dfd22cc55b1483297",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/228fdf45541c4c2fe8aec4f20e880cb8fcd46621/client.jar",
+      "clientJarBytes": 17492200,
+      "clientJarSha1": "228fdf45541c4c2fe8aec4f20e880cb8fcd46621",
+      "clientJarSha256": "00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71"
+    },
+    {
+      "version": "1.16.1",
+      "sourceRoot": "decompiled_minecraft/1.16.1/mojmap/",
+      "sourceManifestSha256": "76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754",
+      "provenancePath": "decompiled_minecraft/1.16.1/mojmap.provenance.json",
+      "provenanceSha256": "a6ff065188a400ec891980cdf2e6c0c238bf5e05168a2f69b29c6cecc2214b98",
+      "readyMarkerSha256": "c19d707f7d6622733b5189599ff77aa7999cc11a3d900f29d150f9fab203ffcb",
+      "artifactManifestSha256": "a113f9d59fa4582effb2ebf548c4388a54c9c5654fbf57fae7974dce896d1f98",
+      "versionMetadataUrl": "https://piston-meta.mojang.com/v1/packages/54fa3af57d041d2771e66d390197b2c0288e697c/1.16.1.json",
+      "downloadedMetadataSha256": "9688ec094a807c45513733388f7c8426d80a58cee96ed86be5380cb6a45f4a73",
+      "pinnedMetadataSha256": null,
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/c9abbe8ee4fa490751ca70635340b7cf00db83ff/client.jar",
+      "clientJarBytes": 17492432,
+      "clientJarSha1": "c9abbe8ee4fa490751ca70635340b7cf00db83ff",
+      "clientJarSha256": "b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef"
+    }
+  ],
+  "sourceCoverageReport": {
+    "path": "build/source-mid-patches-20261117/1.16--1.16.1/ordinary_player_revision_r4/coverage-r4.md",
+    "sha256": "4cc8599cb3ab2155923cc35a1e1bf62e1d18e36834cd8bcf71ab5a4bdd269440",
+    "auditPath": "build/source-mid-patches-20261117/1.16--1.16.1/ordinary_player_r4_audit/verdict.md",
+    "auditSha256": "455d9787d7766e226a24f356a58b162bebf310923f031f02fd3039d51298a9f4"
+  },
+  "scopeCorrectionSourceAudit": {
+    "path": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/audit/verdict.md",
+    "sha256": "64b29efb4ce87aa1387fe38fe76df16cbd14e21f8c863364c49efd231d36f30f",
+    "disposition": "The earlier packet included leaves and shulker_boxes outside the movement-path inventory, while source audit found LivingEntity uses BlockTags.PORTALS. r2 removes leaves/shulker_boxes and adds portals to the required set."
+  },
+  "sourceIdentities": [
+    {
+      "version": "1.16",
+      "sourceManifestSha256": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a",
+      "files": [
+        {
+          "path": "net/minecraft/tags/BlockTags.java",
+          "sha256": "7f506e2386851a128c12a449683b6f4fe1d0007fe2e74524116df73c8db30a7d"
+        },
+        {
+          "path": "net/minecraft/tags/FluidTags.java",
+          "sha256": "29756a98a15f0ab06c33eb6b414883c13c352c803e8c6d42608cbe7960905c58"
+        },
+        {
+          "path": "net/minecraft/tags/StaticTagHelper.java",
+          "sha256": "61454d6f72d047b21c1a785b22ed8ba788d375d46a711c8cba4c33d89511fbc8"
+        },
+        {
+          "path": "net/minecraft/world/entity/Entity.java",
+          "sha256": "27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576"
+        },
+        {
+          "path": "net/minecraft/world/entity/LivingEntity.java",
+          "sha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26"
+        },
+        {
+          "path": "net/minecraft/client/player/LocalPlayer.java",
+          "sha256": "ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b"
+        },
+        {
+          "path": "net/minecraft/resources/ResourceLocation.java",
+          "sha256": "0668c67e3e22109da0b47f2b09e6d9f0ccca2322501ad0e3eadb855a8dc6f1d3"
+        }
+      ]
+    },
+    {
+      "version": "1.16.1",
+      "sourceManifestSha256": "76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754",
+      "files": [
+        {
+          "path": "net/minecraft/tags/BlockTags.java",
+          "sha256": "7f506e2386851a128c12a449683b6f4fe1d0007fe2e74524116df73c8db30a7d"
+        },
+        {
+          "path": "net/minecraft/tags/FluidTags.java",
+          "sha256": "29756a98a15f0ab06c33eb6b414883c13c352c803e8c6d42608cbe7960905c58"
+        },
+        {
+          "path": "net/minecraft/tags/StaticTagHelper.java",
+          "sha256": "61454d6f72d047b21c1a785b22ed8ba788d375d46a711c8cba4c33d89511fbc8"
+        },
+        {
+          "path": "net/minecraft/world/entity/Entity.java",
+          "sha256": "27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576"
+        },
+        {
+          "path": "net/minecraft/world/entity/LivingEntity.java",
+          "sha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26"
+        },
+        {
+          "path": "net/minecraft/client/player/LocalPlayer.java",
+          "sha256": "ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b"
+        },
+        {
+          "path": "net/minecraft/resources/ResourceLocation.java",
+          "sha256": "0668c67e3e22109da0b47f2b09e6d9f0ccca2322501ad0e3eadb855a8dc6f1d3"
+        }
+      ]
+    }
+  ],
+  "sourceDerivedTags": [
+    {
+      "tag": "minecraft:climbable",
+      "kind": "block",
+      "source": "Entity.java:525; LivingEntity.java:1368+"
+    },
+    {
+      "tag": "minecraft:fences",
+      "kind": "block",
+      "source": "Entity.java:588"
+    },
+    {
+      "tag": "minecraft:walls",
+      "kind": "block",
+      "source": "Entity.java:588"
+    },
+    {
+      "tag": "minecraft:fire",
+      "kind": "block",
+      "source": "Entity.java:565"
+    },
+    {
+      "tag": "minecraft:soul_speed_blocks",
+      "kind": "block",
+      "source": "LivingEntity.java:424"
+    },
+    {
+      "tag": "minecraft:portals",
+      "kind": "block",
+      "source": "LivingEntity.java:1862; additional source consumer omitted in direct tag list of coverage-r4"
+    },
+    {
+      "tag": "minecraft:water",
+      "kind": "fluid",
+      "source": "LivingEntity.java:321, 2430, 2445; LocalPlayer.java:762+"
+    },
+    {
+      "tag": "minecraft:lava",
+      "kind": "fluid",
+      "source": "Entity.java:955; LivingEntity.java:1961, 2428, 2442"
+    }
+  ],
+  "allowedArchiveEntries": [
+    "data/minecraft/tags/blocks/climbable.json",
+    "data/minecraft/tags/blocks/fences.json",
+    "data/minecraft/tags/blocks/fire.json",
+    "data/minecraft/tags/blocks/portals.json",
+    "data/minecraft/tags/blocks/soul_speed_blocks.json",
+    "data/minecraft/tags/blocks/walls.json",
+    "data/minecraft/tags/fluids/water.json",
+    "data/minecraft/tags/fluids/lava.json"
+  ],
+  "clientArtifacts": [
+    {
+      "version": "1.16",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/228fdf45541c4c2fe8aec4f20e880cb8fcd46621/client.jar",
+      "expectedSha1": "228fdf45541c4c2fe8aec4f20e880cb8fcd46621",
+      "expectedSha256": "00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71",
+      "verifiedSha256": "00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71",
+      "artifactManifestSha256": "b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2"
+    },
+    {
+      "version": "1.16.1",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/c9abbe8ee4fa490751ca70635340b7cf00db83ff/client.jar",
+      "expectedSha1": "c9abbe8ee4fa490751ca70635340b7cf00db83ff",
+      "expectedSha256": "b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef",
+      "verifiedSha256": "b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef",
+      "artifactManifestSha256": "a113f9d59fa4582effb2ebf548c4388a54c9c5654fbf57fae7974dce896d1f98"
+    }
+  ],
+  "entries": [
+    {
+      "version": "1.16",
+      "archiveEntry": "data/minecraft/tags/fluids/water.json",
+      "entryBytes": 94,
+      "entrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/fluids/water.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:water",
+          "minecraft:flowing_water"
+        ]
+      }
+    },
+    {
+      "version": "1.16",
+      "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+      "entryBytes": 92,
+      "entrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/fluids/lava.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:lava",
+          "minecraft:flowing_lava"
+        ]
+      }
+    },
+    {
+      "version": "1.16",
+      "archiveEntry": "data/minecraft/tags/blocks/fences.json",
+      "entryBytes": 108,
+      "entrySha256": "8c4ebabbf6d088340c70c29091eadfd94d11cd551b193af52ea06cc073bc7483",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/fences.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "#minecraft:wooden_fences",
+          "minecraft:nether_brick_fence"
+        ]
+      }
+    },
+    {
+      "version": "1.16",
+      "archiveEntry": "data/minecraft/tags/blocks/walls.json",
+      "entryBytes": 643,
+      "entrySha256": "0b9aa2dd6ac31252fcd7786d53a3f79c0f2365998711c38cc19f2e8b788796a2",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/walls.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:cobblestone_wall",
+          "minecraft:mossy_cobblestone_wall",
+          "minecraft:brick_wall",
+          "minecraft:prismarine_wall",
+          "minecraft:red_sandstone_wall",
+          "minecraft:mossy_stone_brick_wall",
+          "minecraft:granite_wall",
+          "minecraft:stone_brick_wall",
+          "minecraft:nether_brick_wall",
+          "minecraft:andesite_wall",
+          "minecraft:red_nether_brick_wall",
+          "minecraft:sandstone_wall",
+          "minecraft:end_stone_brick_wall",
+          "minecraft:diorite_wall",
+          "minecraft:blackstone_wall",
+          "minecraft:polished_blackstone_brick_wall",
+          "minecraft:polished_blackstone_wall"
+        ]
+      }
+    },
+    {
+      "version": "1.16",
+      "archiveEntry": "data/minecraft/tags/blocks/portals.json",
+      "entryBytes": 128,
+      "entrySha256": "fecdf2f3a61c8521647bb59802f4ecc18569d4b86786700499ac11e5718f80a9",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/portals.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:nether_portal",
+          "minecraft:end_portal",
+          "minecraft:end_gateway"
+        ]
+      }
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/blocks/fences.json",
+      "entryBytes": 108,
+      "entrySha256": "8c4ebabbf6d088340c70c29091eadfd94d11cd551b193af52ea06cc073bc7483",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/fences.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "#minecraft:wooden_fences",
+          "minecraft:nether_brick_fence"
+        ]
+      }
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/blocks/walls.json",
+      "entryBytes": 643,
+      "entrySha256": "0b9aa2dd6ac31252fcd7786d53a3f79c0f2365998711c38cc19f2e8b788796a2",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/walls.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:cobblestone_wall",
+          "minecraft:mossy_cobblestone_wall",
+          "minecraft:brick_wall",
+          "minecraft:prismarine_wall",
+          "minecraft:red_sandstone_wall",
+          "minecraft:mossy_stone_brick_wall",
+          "minecraft:granite_wall",
+          "minecraft:stone_brick_wall",
+          "minecraft:nether_brick_wall",
+          "minecraft:andesite_wall",
+          "minecraft:red_nether_brick_wall",
+          "minecraft:sandstone_wall",
+          "minecraft:end_stone_brick_wall",
+          "minecraft:diorite_wall",
+          "minecraft:blackstone_wall",
+          "minecraft:polished_blackstone_brick_wall",
+          "minecraft:polished_blackstone_wall"
+        ]
+      }
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/blocks/portals.json",
+      "entryBytes": 128,
+      "entrySha256": "fecdf2f3a61c8521647bb59802f4ecc18569d4b86786700499ac11e5718f80a9",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/portals.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:nether_portal",
+          "minecraft:end_portal",
+          "minecraft:end_gateway"
+        ]
+      }
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/fluids/water.json",
+      "entryBytes": 94,
+      "entrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+      "extractedPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/1.16.1/water.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:water",
+          "minecraft:flowing_water"
+        ]
+      }
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+      "entryBytes": 92,
+      "entrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+      "extractedPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/1.16.1/lava.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:lava",
+          "minecraft:flowing_lava"
+        ]
+      }
+    },
+    {
+      "version": "1.16",
+      "archiveEntry": "data/minecraft/tags/blocks/climbable.json",
+      "entryBytes": 253,
+      "entrySha256": "33bf334558c77268ba9bac414806b4b3842f8029e860857ff11abaf8447d03ff",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/climbable.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:ladder",
+          "minecraft:vine",
+          "minecraft:scaffolding",
+          "minecraft:weeping_vines",
+          "minecraft:weeping_vines_plant",
+          "minecraft:twisting_vines",
+          "minecraft:twisting_vines_plant"
+        ]
+      }
+    },
+    {
+      "version": "1.16",
+      "archiveEntry": "data/minecraft/tags/blocks/fire.json",
+      "entryBytes": 89,
+      "entrySha256": "14193115c7ffa485b073b41fd77dc9f2eec25d214e0e7a7b261b371c98222431",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/fire.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:fire",
+          "minecraft:soul_fire"
+        ]
+      }
+    },
+    {
+      "version": "1.16",
+      "archiveEntry": "data/minecraft/tags/blocks/soul_speed_blocks.json",
+      "entryBytes": 94,
+      "entrySha256": "c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/soul_speed_blocks.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:soul_sand",
+          "minecraft:soul_soil"
+        ]
+      }
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/blocks/climbable.json",
+      "entryBytes": 253,
+      "entrySha256": "33bf334558c77268ba9bac414806b4b3842f8029e860857ff11abaf8447d03ff",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/climbable.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:ladder",
+          "minecraft:vine",
+          "minecraft:scaffolding",
+          "minecraft:weeping_vines",
+          "minecraft:weeping_vines_plant",
+          "minecraft:twisting_vines",
+          "minecraft:twisting_vines_plant"
+        ]
+      }
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/blocks/fire.json",
+      "entryBytes": 89,
+      "entrySha256": "14193115c7ffa485b073b41fd77dc9f2eec25d214e0e7a7b261b371c98222431",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/fire.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:fire",
+          "minecraft:soul_fire"
+        ]
+      }
+    },
+    {
+      "version": "1.16.1",
+      "archiveEntry": "data/minecraft/tags/blocks/soul_speed_blocks.json",
+      "entryBytes": 94,
+      "entrySha256": "c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f",
+      "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/soul_speed_blocks.json",
+      "payload": {
+        "replace": false,
+        "values": [
+          "minecraft:soul_sand",
+          "minecraft:soul_soil"
+        ]
+      }
+    }
+  ],
+  "retainedFromPriorPackets": {
+    "r1InputReferencePath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/input-reference.json",
+    "r1InputReferenceSha256": "244ab7dc1e36ae3c29e3a2911ee167f34d060500e63d29d8a90d809cd0be45d3",
+    "r1MembershipAuditPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/audit/verdict.md",
+    "r1MembershipAuditSha256": "64b29efb4ce87aa1387fe38fe76df16cbd14e21f8c863364c49efd231d36f30f",
+    "priorAcceptedFluidPacketPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/input-reference.json",
+    "priorAcceptedFluidPacketSha256": "527c182b62211e234a2a320c4372155bbf5c2599154671b5e1f106fc2a3e1f87",
+    "priorFluidAuditPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/audit/verdict.md",
+    "priorFluidAuditSha256": "fef9fa423063152aee899b2a87505128b9d62ccded805d38a2f7686b5b54e6d9",
+    "entries": [
+      {
+        "version": "1.16",
+        "archiveEntry": "data/minecraft/tags/fluids/water.json",
+        "entryBytes": 94,
+        "entrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+        "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/fluids/water.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "minecraft:water",
+            "minecraft:flowing_water"
+          ]
+        }
+      },
+      {
+        "version": "1.16",
+        "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+        "entryBytes": 92,
+        "entrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+        "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/fluids/lava.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "minecraft:lava",
+            "minecraft:flowing_lava"
+          ]
+        }
+      },
+      {
+        "version": "1.16",
+        "archiveEntry": "data/minecraft/tags/blocks/fences.json",
+        "entryBytes": 108,
+        "entrySha256": "8c4ebabbf6d088340c70c29091eadfd94d11cd551b193af52ea06cc073bc7483",
+        "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/fences.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "#minecraft:wooden_fences",
+            "minecraft:nether_brick_fence"
+          ]
+        }
+      },
+      {
+        "version": "1.16",
+        "archiveEntry": "data/minecraft/tags/blocks/walls.json",
+        "entryBytes": 643,
+        "entrySha256": "0b9aa2dd6ac31252fcd7786d53a3f79c0f2365998711c38cc19f2e8b788796a2",
+        "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/walls.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "minecraft:cobblestone_wall",
+            "minecraft:mossy_cobblestone_wall",
+            "minecraft:brick_wall",
+            "minecraft:prismarine_wall",
+            "minecraft:red_sandstone_wall",
+            "minecraft:mossy_stone_brick_wall",
+            "minecraft:granite_wall",
+            "minecraft:stone_brick_wall",
+            "minecraft:nether_brick_wall",
+            "minecraft:andesite_wall",
+            "minecraft:red_nether_brick_wall",
+            "minecraft:sandstone_wall",
+            "minecraft:end_stone_brick_wall",
+            "minecraft:diorite_wall",
+            "minecraft:blackstone_wall",
+            "minecraft:polished_blackstone_brick_wall",
+            "minecraft:polished_blackstone_wall"
+          ]
+        }
+      },
+      {
+        "version": "1.16",
+        "archiveEntry": "data/minecraft/tags/blocks/portals.json",
+        "entryBytes": 128,
+        "entrySha256": "fecdf2f3a61c8521647bb59802f4ecc18569d4b86786700499ac11e5718f80a9",
+        "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16/blocks/portals.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "minecraft:nether_portal",
+            "minecraft:end_portal",
+            "minecraft:end_gateway"
+          ]
+        }
+      },
+      {
+        "version": "1.16.1",
+        "archiveEntry": "data/minecraft/tags/blocks/fences.json",
+        "entryBytes": 108,
+        "entrySha256": "8c4ebabbf6d088340c70c29091eadfd94d11cd551b193af52ea06cc073bc7483",
+        "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/fences.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "#minecraft:wooden_fences",
+            "minecraft:nether_brick_fence"
+          ]
+        }
+      },
+      {
+        "version": "1.16.1",
+        "archiveEntry": "data/minecraft/tags/blocks/walls.json",
+        "entryBytes": 643,
+        "entrySha256": "0b9aa2dd6ac31252fcd7786d53a3f79c0f2365998711c38cc19f2e8b788796a2",
+        "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/walls.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "minecraft:cobblestone_wall",
+            "minecraft:mossy_cobblestone_wall",
+            "minecraft:brick_wall",
+            "minecraft:prismarine_wall",
+            "minecraft:red_sandstone_wall",
+            "minecraft:mossy_stone_brick_wall",
+            "minecraft:granite_wall",
+            "minecraft:stone_brick_wall",
+            "minecraft:nether_brick_wall",
+            "minecraft:andesite_wall",
+            "minecraft:red_nether_brick_wall",
+            "minecraft:sandstone_wall",
+            "minecraft:end_stone_brick_wall",
+            "minecraft:diorite_wall",
+            "minecraft:blackstone_wall",
+            "minecraft:polished_blackstone_brick_wall",
+            "minecraft:polished_blackstone_wall"
+          ]
+        }
+      },
+      {
+        "version": "1.16.1",
+        "archiveEntry": "data/minecraft/tags/blocks/portals.json",
+        "entryBytes": 128,
+        "entrySha256": "fecdf2f3a61c8521647bb59802f4ecc18569d4b86786700499ac11e5718f80a9",
+        "extractedPath": "build/source-mid-patches-20261116/1.16--1.16.1/resource_gate/1.16.1/blocks/portals.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "minecraft:nether_portal",
+            "minecraft:end_portal",
+            "minecraft:end_gateway"
+          ]
+        }
+      },
+      {
+        "version": "1.16.1",
+        "archiveEntry": "data/minecraft/tags/fluids/water.json",
+        "entryBytes": 94,
+        "entrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+        "extractedPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/1.16.1/water.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "minecraft:water",
+            "minecraft:flowing_water"
+          ]
+        }
+      },
+      {
+        "version": "1.16.1",
+        "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+        "entryBytes": 92,
+        "entrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+        "extractedPath": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/1.16.1/lava.json",
+        "payload": {
+          "replace": false,
+          "values": [
+            "minecraft:lava",
+            "minecraft:flowing_lava"
+          ]
+        }
+      }
+    ],
+    "note": "Retains water/lava/fences/walls/portals only; 1.16.1 water/lava are carried from a separately accepted packet."
+  },
+  "newlyExtractedFromPinnedJars": {
+    "perEndpointEntries": [
+      "data/minecraft/tags/blocks/climbable.json",
+      "data/minecraft/tags/blocks/fire.json",
+      "data/minecraft/tags/blocks/soul_speed_blocks.json"
+    ],
+    "clientJarSha256": {
+      "1.16.1": "b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef",
+      "1.16": "00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71"
+    },
+    "archiveReadsOnlyTheseThreeEntriesPerJar": true
+  },
+  "provenanceCaveat": "Artifact manifests and ready markers bind source preparation to declared inputs. 1.16 provenance directly records official metadata/client URL and SHA256; 1.16.1 provenance is source-run metadata only, while this packet binds the official version-metadata client URL and the ready/artifact-manifest SHA256. No unstated provenance-to-jar link is claimed.",
+  "excludedTags": [
+    {
+      "tag": "minecraft:leaves",
+      "reason": "Source audit found no movement-path use; prior r1 extraction is not included in corrected movement allowlist."
+    },
+    {
+      "tag": "minecraft:shulker_boxes",
+      "reason": "No movement-path use identified by source audit; prior r1 extraction is not included in corrected movement allowlist."
+    }
+  ],
+  "noOtherNewEntriesRead": true,
+  "sourceTreesModified": false
+}

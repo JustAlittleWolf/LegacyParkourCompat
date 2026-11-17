@@ -1,0 +1,21 @@
+# Independent source audit verdict: moving block payload caller (1.10.2 → 1.11)
+
+**REQUEST CHANGES**
+
+Audited only the exact 1.10.2 and 1.11 `ornithe-feather` decompiled source trees and sidecars, plus the supplied dependency note. The note's SHA-256 is `76ff1fdcc10e24312489cc0f76f2fcb3aa8f526ad37072a28e7b6898c227d37a`, as assigned.
+
+## Evidence identity
+
+Both ready sidecars identify the expected exact version and `ornithe-feather` mapping. Their byte hashes match the cited ready markers: 1.10.2 `4c6d236e1d06ffc365452c48e73dfa2bf2414bbf4ea67a24a7010c5583906a2d`; 1.11 `3c4102230dba0f9d2d07f752bbd2a19d2717375f6e31fb618c0450b7fd82bd45`. Source-manifest hashes match the sidecars and supplied note (1.10.2 `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`; 1.11 `8b3e5da58494f1dba77410960753b0bf646425a1ada491d8242cc71e6c7a59ca`). I independently recomputed every manifest row: 1,845/1,845 and 1,918/1,918 files match. All seven file hashes in the note (PistonBaseBlock, MovingBlock, MovingBlockEntity, World, Entity, EntityFilter, Minecraft) match their exact files on both releases.
+
+## Bounded chain verified
+
+- `Minecraft.tick` calls `world.tickEntities` on the client (1.10.2 line 1438; 1.11 line 1417). Both `World.tickEntities` loops tick registered block entities with a world only when their chunk is loaded and the position is inside the world border; the loop has no logical-side gate (1.10.2 lines 1314–1324; 1.11 lines 1336–1346). Thus a loaded client `MovingBlockEntity` can tick.
+- `PistonBaseBlock.doEvent` checks event validation only under `!world.isClient`, then runs its event branch on either side. In `move`, both versions snapshot resolver positions using `resolveVirtualProperties` and place those states in `MovingBlockEntity`; method bodies and this ordinary payload capture match (1.10.2 line 278 onward; 1.11 line 267 onward).
+- The supplied note's broader statement that producer/state transfer is unchanged is inaccurate. For an extending piston head, 1.10.2 calls `createMovingBlockEntity(blockState3, facing, true, false)` (PistonBaseBlock line 328), while 1.11 passes `true, true` (line 317). This changes the entity's `source` flag for that payload. The note must identify this payload-flag delta and bound its implications through 1.11's source-dependent collision callback. Retraction's source entity carrying the piston base state is present in both versions.
+- Both `MovingBlockEntity` constructors retain the moved state directly, and both tick paths call `moveEntities`. The 1.10.2 collision shape is one box from moved-state `getShape`, sampled at current and previous progress and unioned; `MovingBlock.getCollisionShape` returns that shape and inherits `Block.addCollisions`, which appends a single box. In 1.11 `MovingBlock.addCollisions` delegates to `MovingBlockEntity.addCollisions` with the queried entity. That method delegates to selected payload `BlockState.addCollisions` callbacks and translates newly appended boxes to/from moving-block coordinates. Its source-retraction case also uses the extended base state and a synthesized moving piston-head state with progress-dependent `SHORT`.
+- In both versions `Entity.move` makes collision queries through `World.getCollisions(this, ...)`, passing the moving player as the non-null entity. The paired `World.getCollisions(Entity, Box)` loops match in bounds, loaded-chunk and border handling, callback argument, and entity collision append. In both versions `MovingBlockEntity` uses `world.getEntities(null, box)` for its response query; the overload defaults to `EntityFilter.NOT_SPECTATOR`, which excludes spectator players and does not exclude ordinary players. The nested-provider inventory remains outside this audit and is treated as the separately accepted dependency specified in the assignment.
+
+## Required correction
+
+Revise the dependency note's claim that producer/state transfer is unchanged to record the extension-head `source=false → true` delta and accurately delimit it against the source-sensitive 1.11 collision callback. The source evidence otherwise supports the bounded client tick, loaded/border gate, player caller, spectator filter, and flattened-versus-entity-aware dispatch claims. This verdict does not claim an arbitrary map trajectory, close the broader pair inventory, or freeze the pair.

@@ -1,0 +1,23 @@
+# Independent source audit: block registry and collision inventory
+
+## Verdict
+
+**ACCEPT** the bounded partial inventory in `build/later-source-20261116/1.20.2--1.20.4/block_registry_collision_inventory/coverage.md`, SHA-256 `9b608dff9fc61b5d1ef3fe4d3f6795f0fe417c324b111777a275e55e2fccb1d6`. This accepts the listed source observations and their stated limits only. It does not establish ordinary reachability of the mixed-door state, create a movement finding, or freeze the pair.
+
+## Identity and cited-file integrity
+
+The source trees are the canonical Mojmap publications at `decompiled_minecraft/1.20.2/mojmap/` and `decompiled_minecraft/1.20.4/mojmap/`. The exact provenance files are at the version roots: `decompiled_minecraft/1.20.2/mojmap.provenance.json` SHA-256 `1dad9f725f6cb25b6568700fa0294f83b66ea9633b0d62ed354d7bd8b45d4f05` and `decompiled_minecraft/1.20.4/mojmap.provenance.json` SHA-256 `10914d9b7b3fc29de066ca24f7d905e4d4f0a451a6c81729a2d1981addfc1385`. Both declare the expected version and Mojmap namespace/mapping option. The actual ready sidecars are likewise at the version roots (`mojmap.ready.json`): SHA-256 `5ff3322f287c250ee914c7ca3840d053bffc3c2c5f35e91b59314d948292483f` and `6225b97979420cc743c8b7156a0ce512ef27d0dbf48bfffbc40d3e1c8cb044d1`; each reports ready for the expected version and its source-manifest digest matches the manifest bytes. Manifest counts are 4,904 and 5,048 entries. I rehashed all 13 cited Java files per endpoint; all 26 current file hashes match both the report and the corresponding manifest rows.
+
+The lexical `Blocks.java` tally also reproduces: 1,003 old and 1,058 new matching registration declarations, 1,002 common names, `GRASS` old-only and 56 names new-only including `SHORT_GRASS`. This is a source declaration tally, not runtime registry or packaged-data evidence.
+
+## Bounded technical audit
+
+- The stair, slab, wall, fence/cross-collision, fence-gate and trapdoor shape constants/tables and relevant state/shape methods match. I independently compared the shape-generation helpers and wall neighbor builders in addition to `getShape`, collision/occlusion accessors, placement and update methods. All listed shape constants are identical. Constructor default state assignments for gates, trapdoors and doors are also the same.
+- `TrapDoorBlock.use` now delegates to `toggle`; that helper contains the same state cycle, block write, water tick scheduling and sound operation as the older inline body. The report correctly treats this as equivalent behavior. The `TRIGGER_BLOCK` explosion handlers are additions in 1.20.4 and are explicitly left outside the old-era producer/configuration coverage.
+- `DoorBlock` shape constants are identical and its changed switch expression selects the same EAST/SOUTH/WEST/NORTH boxes for facing/open/hinge. `updateShape` is a real source change: the old opposite-half join requires the exact same block and copies neighbor facing/open/hinge/powered fields into the current half; the new code accepts any `DoorBlock` instance and returns the neighbor's block state with the current half value. For a mixed pair of different door blocks, the old branch returns air while the new branch can retain a door state and therefore a collision shape. The report accurately keeps ordinary-state reachability and its movement outcome open instead of calling this an ordinary player finding.
+- Pressure-plate and button response gates change from stored sensitivity/arrow booleans to `BlockSetType` fields. The inspected legacy registrations map stone and polished-blackstone plates to `MOBS`, wooden plates to `EVERYTHING`, wood buttons to arrow-activatable, and stone/polished-blackstone buttons to non-arrow-activatable in both versions. The common button press/use state operations match. The report does not infer packaged membership or broaden this to all block-state producers.
+- In `BlockBehaviour.Properties`, old `copy` and new `ofLegacyCopy` copy the same legacy fields, including collision, friction, speed factor, dynamic shape and required features. New `ofFullCopy` adds the listed jump-factor and predicate/drop fields. The report's limited observation about the sampled copper bases is not used as evidence of a historical block-shape change.
+
+## Remaining limits
+
+No discrepancy was found in the bounded provider comparisons. The mixed-door state needs a separate reachability gate; other registry changes/providers, feature defaults and packaged world/data inputs remain unexamined as the report states. No artifacts, product/wiki/backlog/Git history, builds, tests or runtime were inspected.

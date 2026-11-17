@@ -1,0 +1,142 @@
+{
+  "schema": "isolated-source-resource-input/v1",
+  "scope": "1.20.2--1.20.4_soul_speed_resource_tags",
+  "sourceIdentities": [
+    {
+      "version": "1.20.2",
+      "namespace": "mojmap",
+      "clientJarPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\1.20.2.client.jar",
+      "clientJarPathRecordedInProvenance": false,
+      "clientJarBytes": 23186213,
+      "clientJarPin": "fa1a19be56a506426308abbc1cad85f299a7fc6dae4335559351ba0246713fda",
+      "verifiedClientJarSha256": "fa1a19be56a506426308abbc1cad85f299a7fc6dae4335559351ba0246713fda",
+      "artifactManifest": "decompiled_minecraft\\1.20.2\\artifacts.sha256",
+      "artifactManifestSha256": "ee67da9733953b30ae4077c587184e59772b745d780abd27a7b023780b459f54",
+      "provenanceRecord": "decompiled_minecraft\\1.20.2\\mojmap.provenance.json",
+      "provenanceSha256": "1dad9f725f6cb25b6568700fa0294f83b66ea9633b0d62ed354d7bd8b45d4f05",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/cf1d87e6969d34f7b553939bb1c72177c5fffe86/1.20.2.json",
+      "metadataSha256": "1befa18c7cc3d33e7b3e2ed91b71a8aeda1f81dd6855f72d6524bdac1c9052c6",
+      "metadataClientSha1": "82d1974e75fc984c5ed4b038e764e50958ac61a0",
+      "entries": [
+        {
+          "archiveEntry": "data/minecraft/tags/blocks/soul_speed_blocks.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_soul_speed_resource_tags\\1.20.2\\data\\minecraft\\tags\\blocks\\soul_speed_blocks.json",
+          "bytes": 74,
+          "sha256": "8ba7eac6f7c74d25601ef4455b71e3947fdb8e51b8fafd55dddee48397b144b6",
+          "values": [
+            "minecraft:soul_sand",
+            "minecraft:soul_soil"
+          ]
+        },
+        {
+          "archiveEntry": "data/minecraft/tags/blocks/climbable.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_soul_speed_resource_tags\\1.20.2\\data\\minecraft\\tags\\blocks\\climbable.json",
+          "bytes": 295,
+          "sha256": "d0e3e76d7457f3f3f3d7219fe218c7746e4b2e7626d5c388fcf193089069e365",
+          "values": [
+            "minecraft:ladder",
+            "minecraft:vine",
+            "minecraft:scaffolding",
+            "minecraft:weeping_vines",
+            "minecraft:weeping_vines_plant",
+            "minecraft:twisting_vines",
+            "minecraft:twisting_vines_plant",
+            "minecraft:cave_vines",
+            "minecraft:cave_vines_plant"
+          ]
+        },
+        {
+          "archiveEntry": "data/minecraft/tags/fluids/water.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_soul_speed_resource_tags\\1.20.2\\data\\minecraft\\tags\\fluids\\water.json",
+          "bytes": 74,
+          "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004",
+          "values": [
+            "minecraft:water",
+            "minecraft:flowing_water"
+          ]
+        },
+        {
+          "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_soul_speed_resource_tags\\1.20.2\\data\\minecraft\\tags\\fluids\\lava.json",
+          "bytes": 72,
+          "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b",
+          "values": [
+            "minecraft:lava",
+            "minecraft:flowing_lava"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.20.4",
+      "namespace": "mojmap",
+      "clientJarPath": "C:\\Users\\Wolfi\\AppData\\Local\\Temp\\lpc-source-resource-resolver-20261117\\1.20.4.client.jar",
+      "clientJarPathRecordedInProvenance": false,
+      "clientJarBytes": 24445539,
+      "clientJarPin": "9221ab461a491bf9661cd8e773a5e662aaa43d600fa7970b8c12bbfb0431b838",
+      "verifiedClientJarSha256": "9221ab461a491bf9661cd8e773a5e662aaa43d600fa7970b8c12bbfb0431b838",
+      "artifactManifest": "decompiled_minecraft\\1.20.4\\artifacts.sha256",
+      "artifactManifestSha256": "ee3efc771d264c0bc49d5472abb9763a646f8d221841d0a61201ecd991cb3948",
+      "provenanceRecord": "decompiled_minecraft\\1.20.4\\mojmap.provenance.json",
+      "provenanceSha256": "10914d9b7b3fc29de066ca24f7d905e4d4f0a451a6c81729a2d1981addfc1385",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/2c592ccd71ca2d5dadebeb6543ad6b18e6f43305/1.20.4.json",
+      "metadataSha256": "cc81633f25e8e412a94dfb953a7b91702714e1e9ed1b680f520495d56d1ea301",
+      "metadataClientSha1": "fd19469fed4a4b4c15b2d5133985f0e3e7816a8a",
+      "entries": [
+        {
+          "archiveEntry": "data/minecraft/tags/blocks/soul_speed_blocks.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_soul_speed_resource_tags\\1.20.4\\data\\minecraft\\tags\\blocks\\soul_speed_blocks.json",
+          "bytes": 74,
+          "sha256": "8ba7eac6f7c74d25601ef4455b71e3947fdb8e51b8fafd55dddee48397b144b6",
+          "values": [
+            "minecraft:soul_sand",
+            "minecraft:soul_soil"
+          ]
+        },
+        {
+          "archiveEntry": "data/minecraft/tags/blocks/climbable.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_soul_speed_resource_tags\\1.20.4\\data\\minecraft\\tags\\blocks\\climbable.json",
+          "bytes": 295,
+          "sha256": "d0e3e76d7457f3f3f3d7219fe218c7746e4b2e7626d5c388fcf193089069e365",
+          "values": [
+            "minecraft:ladder",
+            "minecraft:vine",
+            "minecraft:scaffolding",
+            "minecraft:weeping_vines",
+            "minecraft:weeping_vines_plant",
+            "minecraft:twisting_vines",
+            "minecraft:twisting_vines_plant",
+            "minecraft:cave_vines",
+            "minecraft:cave_vines_plant"
+          ]
+        },
+        {
+          "archiveEntry": "data/minecraft/tags/fluids/water.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_soul_speed_resource_tags\\1.20.4\\data\\minecraft\\tags\\fluids\\water.json",
+          "bytes": 74,
+          "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004",
+          "values": [
+            "minecraft:water",
+            "minecraft:flowing_water"
+          ]
+        },
+        {
+          "archiveEntry": "data/minecraft/tags/fluids/lava.json",
+          "output": ".\\build\\source-resource-inputs-20261117\\movement-gates\\1.20.2--1.20.4_soul_speed_resource_tags\\1.20.4\\data\\minecraft\\tags\\fluids\\lava.json",
+          "bytes": 72,
+          "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b",
+          "values": [
+            "minecraft:lava",
+            "minecraft:flowing_lava"
+          ]
+        }
+      ]
+    }
+  ],
+  "extraction": "System.IO.Compression.ZipFile; copied only the exact listed JAR entries.",
+  "limits": [
+    "JAR byte identity is matched to the repository artifacts.sha256 client.jar pin.",
+    "No datapack override, runtime registry or effective-world membership claim.",
+    "Downloaded JAR local paths are not provenance-recorded paths; official metadata SHA-1 and repository SHA-256 pin were checked."
+  ]
+}

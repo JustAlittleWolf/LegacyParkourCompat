@@ -1,0 +1,11 @@
+# Sneak edge protection is limited by movement source
+
+1.10.2, Ornithe Feather: `net/minecraft/entity/Entity.java`, `move(double, double, double)` lines 446–523. For a grounded sneaking `PlayerEntity` with `noClip == false`, the edge-protection reduction runs for every movement call. Its support queries move the prospective player box down by `1.0`.
+
+1.11, Ornithe Feather: `net/minecraft/entity/Entity.java`, `move(MoverType, double, double, double)` lines 455–524. For a grounded sneaking `PlayerEntity` with `noClip == false`, the same gate is additionally restricted to `MoverType.SELF` or `MoverType.PLAYER`; the support query uses `-stepHeight`.
+
+Difference: 1.10.2 has no movement-source argument, so the crouch edge guard also trims a piston displacement. In 1.11 `MovingBlockEntity.moveEntities(float)` invokes a selected non-spectator player with `MoverType.PISTON`; the new guard does not run for that source. `LivingEntity.moveRelative` uses `SELF` for local travel, preserving the guard during ordinary input movement. `World.getEntities(null, bounds)` uses the default `EntityFilter.NOT_SPECTATOR` on both sides, so a spectator player is not selected by either piston caller. The `noClip` branch precedes this guard in `Entity.move` on both sides.
+
+Movement meaning: for a grounded, sneaking, non-spectator local player with `noClip == false` at a platform edge, a horizontal piston push toward an unsupported side can be reduced by the old generic edge guard; the corresponding 1.11 piston-tagged displacement bypasses that guard. During the 1.11 push, `MovingBlockEntity` sets its `NOCLIP_DIR` thread-local. While the moving entity's progress is below 1.0, its own moving collision shape is omitted from collision queries; other world collision boxes can still clip the displacement. The candidate remains conditional on the same piston push reaching the player; the two `MovingBlockEntity` push algorithms also differ and are documented separately.
+
+The client `World.tickEntities` path ticks loaded, in-border block entities without a logical-side gate; `Minecraft.tick` calls it for the client world in both releases. This is a source candidate only; independent audit and pair coverage are still required.

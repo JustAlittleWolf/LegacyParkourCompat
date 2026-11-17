@@ -1,0 +1,15 @@
+# Independent bounded source audit: local-player tick and direct responses
+
+**Verdict: ACCEPT — bounded slice only.** This accepts the findings and limits in `build/source-early-patches-20261117/1.11.2--1.12/dependencies/player-tick-responses.md` (SHA-256 `a0f9d74a302adfa2bd2c996f025ee3efb4354a9fc667614f2533bcf3015b4af0`), bound to parent coverage `build/source-early-patches-20261117/1.11.2--1.12/coverage.md` (SHA-256 `da8f52d9b0e6e6445612cdf1f80096712e10b824f72c3d499f829b6024313514`). This is not pair freeze, implementation eligibility, or runtime evidence.
+
+## Independent checks
+
+- Recomputed both release identity hashes: 1.11.2 `ornithe-feather.ready.json` is `ceabfb266993567aab8c867525365e18aa0a0d7ba5a2cb7b6cfcc83d21318c40`; `ornithe-feather.sources.sha256` is `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0`. The 1.12 mapping-local `.decompile-provenance.json` is `27515e5f4c71e7db2f035a81716507128d77466c75380ad1ef7d140c06401467`. For all four source files listed in the report, the 1.11.2 actual file hash matches its source-manifest row and the 1.12 actual file hash matches its provenance entry.
+- Compared paired local-player tick and input wrapper, player tick, living tick/mob tick, and network handler source. The `super.tick()`/AI/input/jump/travel/push order described by the report is supported. The paired movement-relative API/call argument change is real and stays bound to the parent-owned axis candidate. Other tick diffs identified in this bounded review are non-player-state bookkeeping, damage/event behavior, orientation/animation, or server-only dismount handling; they do not establish another eligible local-player movement candidate.
+- The local-player wrapper has a visibility-only change to `sendMovementToServer`; its body is unchanged. The added tutorial input callback only marks the movement tutorial's `moved` progress flag and does not mutate input or player movement state.
+- The paired handler diff has no changed movement-response body among the listed routes. Its direct player velocity writes are in `handleExplosion`, expressly left to the primary report; `handlePlayerMove` is likewise expressly unclaimed by this slice. Neither is re-audited or independently accepted here. Unchanged receiver bodies do not close their upstream producers or lifecycle dependencies.
+- `verticalSpeed` has no writer in the player/living-entity hierarchy in the inspected release source; the only hierarchy search result is sibling `MobEntity`. `stopRiding` gates the changed dismount call on `!world.isClient`, as reported.
+
+## Limits retained
+
+The five separately accepted candidate topics are outside this audit. This finding establishes no new candidate only for the checked tick wrapper/inherited tick methods and listed direct response routes. It does not close pre-travel input producers, water/lava/elytra or post-travel consumers, client lifecycle/state producers, collision/provider dependencies, or the full player tick/provider inventory. Pair coverage remains partial.

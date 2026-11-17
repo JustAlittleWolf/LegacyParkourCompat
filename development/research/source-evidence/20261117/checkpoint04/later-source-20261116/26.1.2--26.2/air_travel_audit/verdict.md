@@ -1,0 +1,27 @@
+# Independent source audit verdict: ordinary airborne travel
+
+**Bound report:** `build/later-source-20261116/26.1.2--26.2/air_travel/air-travel.md`  
+**Report SHA-256:** `a331b73c457dc9fa37338ee06e8735ea6290d94331c13cf62b87d0dbaa084ea9`  
+**Endpoints:** 26.1.2 unobfuscated → 26.2 unobfuscated
+
+## Verdict
+
+**Qualified acceptance of the source-level damping change; the claimed ordinary-player movement consequence is conditional.** In `LivingEntity.travelInAir`, 26.2 replaces fixed post-movement damping factors with factors derived from `Attributes.AIR_DRAG_MODIFIER`. For a player with friction retained, the horizontal factor is `blockFriction * computeModifiedFriction(0.91F, modifier)` and, because `Entity.omnidirectionalAirMover()` returns false, the vertical factor is `computeModifiedFriction(0.98F, modifier)`. The helper clamps `1.0F - (1.0F - friction) * modifier` to `[0, 1]`.
+
+The parameterized operation is a real source change, but the exact 26.2 attribute default is `1.0`, for which the helper returns the original factor exactly. `Player.createAttributes()` inherits the `LivingEntity` attributes, including this attribute, and does not override its default. A search of the exact 26.2 source tree found references in `Attributes`, `LivingEntity`, and `SulfurCubeArchetypes`; no vanilla player-specific modifier was found. Therefore, the checked source does not establish changed damping for a vanilla player at the default value. A non-default player attribute value and `shouldDiscardFriction() == false` are preconditions for a different damping result. The report correctly identifies the modifier dependency but should state this precondition and default-value equivalence explicitly.
+
+## Retraced path and dependencies
+
+- Both `Player.travel(Vec3)` implementations take the same route for a non-passenger, non-swimming player without abilities flight: they call `super.travel(input)`. With no fluid travel and no fall-flying, `LivingEntity.travel` dispatches to `travelInAir`. This audit does not cover swimming, flight, fluid, or fall-flying paths.
+- For airborne state, both versions set `blockFriction` to `1.0F`. `handleRelativeFrictionAndCalculateMovement` adds relative acceleration, handles climbable state, moves the entity, and returns the post-move velocity. `Entity.moveRelative` and `getInputVector` have the same math and order in both endpoints. Off-ground speed selection uses `getFlyingSpeed()` in both versions; the 26.2 change to its *grounded* speed branch does not apply here.
+- Vertical selection follows movement. A levitation instance bypasses gravity and the chunk-loaded fallback, adjusting vertical movement using its amplifier. Otherwise, effective gravity is subtracted when the level is server-side or the chunk at `posBelow` is loaded. On an unloaded client chunk, vertical movement becomes `-0.1` above minimum Y, or `0.0` at/below it. `posBelow` is `getOnPos(0.500001F)`. Effective gravity is unchanged: when vertical velocity is non-positive and slow falling is present it uses `min(getGravity(), 0.01)`; otherwise it uses `getGravity()`. `LivingEntity.getDefaultGravity()` reads the `GRAVITY` attribute, whose registered default remains `0.08`; `Entity.getGravity()` retains the no-gravity gate.
+- Damping is skipped when `shouldDiscardFriction()` is true (the field defaults to false). With damping enabled, 26.1.2 multiplies horizontal velocity by `blockFriction * 0.91F` and player vertical velocity by `0.98F`. In 26.2, the air-drag attribute is read after movement and vertical selection, then the modified horizontal and vertical factors are computed and applied. `omnidirectionalAirMover()` is inherited from `Entity` and returns false for the player.
+- Thus acceleration and gravity formulas are unchanged on this slice. The damping source operation changes, while at the default attribute value its result matches the old constants. No resulting trajectory magnitude or runtime parity was evaluated.
+
+## Evidence integrity and limits
+
+The report's SHA-256 matches the bound identity above. The two ready markers, provenance sidecars, source manifests, artifact manifests, and diagnostics files are present in their version roots and their computed hashes match the report's ready/provenance declarations. The ready markers identify the exact versions and `unobfuscated` namespace. All 6,882 source-manifest entries for 26.1.2 and all 7,055 entries for 26.2 were present and matched their recorded SHA-256 values. The cited `LivingEntity.java`, `Entity.java`, and `Player.java` files on both sides also match the report hashes and the source manifests.
+
+The declared `outputPath` and provenance `cacheDirectory` paths no longer exist for either endpoint, and the 26.1.2 provenance success-log path is also absent. The root-sidecar `artifacts.sha256` manifests themselves match the ready-declared hashes (78 entries for 26.1.2; 91 for 26.2), but the original client/library artifacts at their declared cache paths could not be checked. Consequently, this audit verifies the complete published decompiled source trees and the report's cited-file integrity, but cannot independently re-establish the raw artifact-to-decompilation chain from those unavailable cache files.
+
+This is a bounded slice verdict only. The report's own listed partial dependencies and unexamined tick areas remain open; this audit does not close full-pair coverage, establish the change's introduction boundary, accept implementation, or establish runtime parity.

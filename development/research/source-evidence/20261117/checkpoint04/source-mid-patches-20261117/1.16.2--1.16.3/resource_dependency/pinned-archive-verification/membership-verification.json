@@ -1,0 +1,205 @@
+{
+  "schema": "lpc-pinned-archive-membership-verification-v1",
+  "pair": "1.16.2--1.16.3",
+  "inputReferencePath": "build\\source-mid-patches-20261117\\1.16.2--1.16.3\\resource_dependency\\input-reference.json",
+  "inputReferenceSha256": "24473afa12ecd5641066b4627c5e232bd2ecb748230c4eb55cf9cdab02aa0e89",
+  "allowlist": [
+    "climbable",
+    "fences",
+    "wooden_fences",
+    "walls",
+    "wall_post_override",
+    "shulker_boxes",
+    "signs",
+    "standing_signs",
+    "wall_signs",
+    "banners",
+    "pressure_plates",
+    "wooden_pressure_plates",
+    "stone_pressure_plates",
+    "soul_speed_blocks"
+  ],
+  "endpoints": [
+    {
+      "version": "1.16.2",
+      "jarSha256": "19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d",
+      "entries": [
+        {
+          "path": "data/minecraft/tags/blocks/climbable.json",
+          "bytes": 253,
+          "sha256": "33bf334558c77268ba9bac414806b4b3842f8029e860857ff11abaf8447d03ff",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/fences.json",
+          "bytes": 108,
+          "sha256": "8c4ebabbf6d088340c70c29091eadfd94d11cd551b193af52ea06cc073bc7483",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/wooden_fences.json",
+          "bytes": 279,
+          "sha256": "b1844d51d7afa26334bb118c74c192f1315fc04f86be9ce0c6fa9656ccf74b3e",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/walls.json",
+          "bytes": 643,
+          "sha256": "0b9aa2dd6ac31252fcd7786d53a3f79c0f2365998711c38cc19f2e8b788796a2",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/wall_post_override.json",
+          "bytes": 233,
+          "sha256": "a157be4e08f0ba13957594ef9209328757eeca5a7c2a429392e75e59d6084835",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/shulker_boxes.json",
+          "bytes": 637,
+          "sha256": "c854bef377f69d8bbc88d37c641533ae7adae0f6999f72da2fea3e6e98fc9df3",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/signs.json",
+          "bytes": 102,
+          "sha256": "b97c92898727585dd94b12843aaff438fa7b9c54a00a185b44ea7b979d9f89a3",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/standing_signs.json",
+          "bytes": 271,
+          "sha256": "44db05d7844ed53fcb438fd609a7369335c6d5390306521e60a74783cf23ff86",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/wall_signs.json",
+          "bytes": 311,
+          "sha256": "b163d4a3fa74c8628f17775cd82703d1225f060dc8ffa259f070594efe4571dc",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/banners.json",
+          "bytes": 1096,
+          "sha256": "4eec08671d813fefaac56d8d46459b94c74328fbaac7bfbc6c064e21889e82a5",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/pressure_plates.json",
+          "bytes": 215,
+          "sha256": "b2e3605fae2d9da4ab618ac5316cee6d790c9c0884ea93f03786bff8119f81e2",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/wooden_pressure_plates.json",
+          "bytes": 351,
+          "sha256": "4a5a7f3a6e8114721a85c98c815e65c3db8106e9522b4b468481520a36e8e84d",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/stone_pressure_plates.json",
+          "bytes": 130,
+          "sha256": "b31ca5cb18082ae3cc9e1d459db5f7b95a02116ab866e2e288e7fe8fcb78a697",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/soul_speed_blocks.json",
+          "bytes": 94,
+          "sha256": "c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f",
+          "matchesPacket": true
+        }
+      ]
+    },
+    {
+      "version": "1.16.3",
+      "jarSha256": "da85197babd989a7de318774cf5d97bcef95e89a70c9fa9a4c8180463e9589fa",
+      "entries": [
+        {
+          "path": "data/minecraft/tags/blocks/climbable.json",
+          "bytes": 253,
+          "sha256": "33bf334558c77268ba9bac414806b4b3842f8029e860857ff11abaf8447d03ff",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/fences.json",
+          "bytes": 108,
+          "sha256": "8c4ebabbf6d088340c70c29091eadfd94d11cd551b193af52ea06cc073bc7483",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/wooden_fences.json",
+          "bytes": 279,
+          "sha256": "b1844d51d7afa26334bb118c74c192f1315fc04f86be9ce0c6fa9656ccf74b3e",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/walls.json",
+          "bytes": 643,
+          "sha256": "0b9aa2dd6ac31252fcd7786d53a3f79c0f2365998711c38cc19f2e8b788796a2",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/wall_post_override.json",
+          "bytes": 233,
+          "sha256": "a157be4e08f0ba13957594ef9209328757eeca5a7c2a429392e75e59d6084835",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/shulker_boxes.json",
+          "bytes": 637,
+          "sha256": "c854bef377f69d8bbc88d37c641533ae7adae0f6999f72da2fea3e6e98fc9df3",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/signs.json",
+          "bytes": 102,
+          "sha256": "b97c92898727585dd94b12843aaff438fa7b9c54a00a185b44ea7b979d9f89a3",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/standing_signs.json",
+          "bytes": 271,
+          "sha256": "44db05d7844ed53fcb438fd609a7369335c6d5390306521e60a74783cf23ff86",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/wall_signs.json",
+          "bytes": 311,
+          "sha256": "b163d4a3fa74c8628f17775cd82703d1225f060dc8ffa259f070594efe4571dc",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/banners.json",
+          "bytes": 1096,
+          "sha256": "4eec08671d813fefaac56d8d46459b94c74328fbaac7bfbc6c064e21889e82a5",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/pressure_plates.json",
+          "bytes": 215,
+          "sha256": "b2e3605fae2d9da4ab618ac5316cee6d790c9c0884ea93f03786bff8119f81e2",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/wooden_pressure_plates.json",
+          "bytes": 351,
+          "sha256": "4a5a7f3a6e8114721a85c98c815e65c3db8106e9522b4b468481520a36e8e84d",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/stone_pressure_plates.json",
+          "bytes": 130,
+          "sha256": "b31ca5cb18082ae3cc9e1d459db5f7b95a02116ab866e2e288e7fe8fcb78a697",
+          "matchesPacket": true
+        },
+        {
+          "path": "data/minecraft/tags/blocks/soul_speed_blocks.json",
+          "bytes": 94,
+          "sha256": "c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f",
+          "matchesPacket": true
+        }
+      ]
+    }
+  ],
+  "scope": "Only the 14 exact allowlisted data/minecraft/tags/blocks entries per endpoint were opened; archive entries matched local packet payloads byte-for-byte."
+}

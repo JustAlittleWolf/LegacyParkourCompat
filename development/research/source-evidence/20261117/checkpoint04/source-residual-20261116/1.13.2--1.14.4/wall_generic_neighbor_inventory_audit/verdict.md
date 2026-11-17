@@ -1,0 +1,20 @@
+# Independent source audit: wall generic neighbor inventory
+
+Verdict: ACCEPT
+
+Audited report: `build/source-residual-20261116/1.13.2--1.14.4/wall_generic_neighbor_inventory/report.md`, SHA-256 `1dc175827e5b8c7cbaecb20fc13dc2f55a8cf3450be8c76106ff855d56efcdbc`.
+
+Exact endpoint source identities were confirmed from the ready markers and source manifests: 1.13.2 Ornithe Feather Gen2 manifest `2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211`; 1.14.4 Ornithe Feather Gen2 manifest `717b468536348557f9dae8cf57edccf80ad16eb65e5bef6c60bdbb5ea3c9f75bc`. The cited endpoint files' contents match their source-manifest entries. In particular, the WallBlock, Block, BlockState, and Blocks hashes agree with the report and the earlier TNT report; the 1.14.4 StainedGlassBlock and its unmapped superclass source are present in the pinned manifest as well.
+
+## Audited claims
+
+- The 1.13.2 generic connection arm requires `!isExceptionForConnection(block) && shape == FaceShape.SOLID`; the pole arm is separate. The connection exceptions include the placement/attachment chain, explicit barrier/melon/pumpkin variants and frosted ice, and TNT. The placement chain explicitly includes `StainedGlassBlock`.
+- The 1.14.4 generic arm is `!isExceptionForAttachment(block) && bl`, where `bl` is the face-solid result passed by the caller; wall-tag and fence-gate handling is a separate arm. The narrower attachment exception roster in `Block.java:260–267` is leaves, barrier, carved/lit pumpkin, melon and pumpkin. `Block.isFaceSolid`, its full-face check, and `BlockState`'s cached directional values support the report's described target path.
+- The retained TNT witness is sound on both sides of the comparison: 1.13.2 rejects TNT explicitly in `WallBlock.isExceptionForConnection`, while the 1.14.4 attachment exception does not reject it. TNT is absent from both target `leaves` and `walls` payloads; the default target collision shape therefore reaches the full-face result independently of wall-tag membership. Registration and the placement/update call sites support the stated reachable wall-bit consequence.
+- The added stained-glass witness is sound for common registered stained-glass color states: both endpoint registrations instantiate `StainedGlassBlock`; the old placement-exception chain rejects it despite inherited default `FaceShape.SOLID`; in 1.14.4 the stained-glass class inherits the default full collision shape and is not in the target leaves tag, so horizontal face solidity passes and the walls-tag arm is not needed. The source registration, class inheritance, exception, predicate, and resource facts agree.
+- The exact 1.14.4 raw client SHA-256 is `b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a`, matching the pinned local client identity. The extraction record hash is `f26f84c7221f667cd84ff4e048d06b0fd3c3aec52779f3fbd0a8f4e2afe64fea`. Payload bytes match the stated hashes: `leaves.json` `c09bb9af30197720b232b9c84079039d4f344bfc2970fa0d02a1b43bc091b991`; `walls.json` `f20174f51f66d27681fd9d469a77c86cae82012c0d9125e7d246c426b772391c`. The parsed six-leaf and fourteen-wall lists match the report; stained glass and TNT are absent from both.
+- The stable exception examples (barrier, pumpkin variants, melon, leaves) are consistent with the compared exception rosters and target leaves behavior. The face-shape qualification is correctly retained: list membership alone does not establish a bit difference.
+
+## Scope of acceptance
+
+Accept the report's bounded TNT and stained-glass generic-arm findings and its listed limited observations. The explicitly open crosswalk remains: piston/sticky-piston/piston-head state geometry; trapdoors; shulker boxes; cauldron; conduit; remaining old-exception families requiring collision-face review; and overlap of all 1.13.2 common wall registrations with the 1.14.4 `WALLS` tag and old pole shapes. These gates are not closed by this verdict. The report does not establish exhaustive neighbor parity, complete pair coverage, or pair freeze.

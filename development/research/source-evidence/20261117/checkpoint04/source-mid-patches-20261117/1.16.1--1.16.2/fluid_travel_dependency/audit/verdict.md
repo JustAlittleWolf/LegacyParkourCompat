@@ -1,0 +1,18 @@
+# Independent audit: 1.16.1→1.16.2 fluid travel dependency
+
+Verdict: **REQUEST CHANGES — the bounded fluid facts and source bindings are supported, but the player dispatch chain is incomplete.** This verdict is bound to report SHA-256 `BA441B366E3E79BE1DC7AF7B17F7FA987CC03F53E55DD0AA4A5582F3B94EF292`.
+
+## Verified claims
+
+- The report's seven listed Java file hashes match disk and the exact endpoint source manifests. The 1.16.1/1.16.2 root source manifest digests match `76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754` / `10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7`; provenance sidecars match `a6ff065188a400ec891980cdf2e6c0c238bf5e05168a2f69b29c6cecc2214b98` / `a9b166406064e877751542fe7df27acc32be3843f6fdc2280dac32ce0b54207c`; ready markers bind exact version IDs and manifests.
+- The older `Entity.updateInWaterStateAndDoFluidPushing()` returns before scanning lava after finding water; 1.16.2 always computes the Lava-tag height scan after water update, then returns `isInWater() || bl`. The older lava boolean reads `isTouchingLava`, is cleared in `Entity.move`, and can be set through `LiquidBlock.entityInside`; the newer boolean reads the refreshed lava height (with the `firstTick` guard), and `LiquidBlock.entityInside`/`Entity.setInLava` are absent.
+- The exact `LivingEntity.travel(Vec3)`, `LivingEntity.aiStep()`, and `Entity.updateFluidHeightAndDoFluidPushing(Tag<Fluid>, double)` method bodies are text-identical across endpoints at the declared signatures. The fluid-pushing method's player-specific non-normalization branch is unchanged.
+- The local tick ordering is source-supported: `LocalPlayer.tick()` invokes its superclass chain only under `level.hasChunkAt(...)`; `Player.tick()` calls its superclass, leading through `LivingEntity.tick()` and `Entity.tick()/baseTick()`. `LivingEntity.tick()` then invokes virtual `aiStep()`.
+
+## Required correction
+
+The report says that `LocalPlayer.aiStep()` delegates through `super.aiStep()` and that `LivingEntity.aiStep()` invokes virtual `travel(...)`, but it omits the actual intermediate player overrides. The dispatch chain is `LocalPlayer.aiStep()` → inherited `Player.aiStep()` → `LivingEntity.aiStep()`. Then the virtual travel call dispatches to `Player.travel(Vec3)`, which calls `super.travel(Vec3)` under both its ordinary and flying branches and adds swimming/flying pre/post movement operations before/after the `LivingEntity.travel` fluid branch. These overrides are part of the reachable player movement path and must be explicitly inventoried before accepting this dependency closure.
+
+`Player.tick()`, `Player.aiStep()`, and `Player.travel(Vec3)` bodies are text-identical across this pair, although `Player.java` as a whole differs. File SHA-256 values are 1.16.1 `a849960d47bf00a2cddfb6636c78c518532a11967ba08829f19c5ebced08681e` and 1.16.2 `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`; both match their manifest entries. The LocalPlayer source files, which contain other changes, hash to 1.16.1 `ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b` and 1.16.2 `6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b`, matching their manifest entries.
+
+The correction need only add the intermediate tick/AI/travel dispatch and its unchanged method status to the existing partial packet; it need not repeat the source census or unchanged method comparisons already verified above. No claim about packaged fluid-tag membership, a concrete separating fluid arrangement, runtime behavior, full pair coverage, or pair freeze is accepted here. Those remain open.

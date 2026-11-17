@@ -1,0 +1,238 @@
+{
+  "schema": "lpc-source-movement-resource-dependency-v1",
+  "pair": "1.16.2--1.16.3",
+  "status": "bounded_source_and_packaged_resource_closure_candidate",
+  "pairSourceReport": {
+    "path": "build/source-mid-patches-20261117/1.16.2--1.16.3/ordinary_player/ordinary-player-source-coverage.md",
+    "sha256": "d9bebb3f52c05a48f6dd8759d8e1444ac202fd387cc145207062e72fe775e5d5",
+    "auditPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/ordinary_player/audit/verdict.md",
+    "auditSha256": "67fceb4f43fe356f50b4de94d62d8b9588f9ee3cd64c636b4ea1984590dce585"
+  },
+  "sourceIdentities": [
+    {
+      "version": "1.16.2",
+      "namespace": "Mojmap",
+      "root": "decompiled_minecraft/1.16.2/mojmap/",
+      "sourceManifest": "decompiled_minecraft/1.16.2/mojmap.sources.sha256",
+      "sourceManifestSha256": "10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7",
+      "provenance": "decompiled_minecraft/1.16.2/mojmap.provenance.json",
+      "provenanceSha256": "a9b166406064e877751542fe7df27acc32be3843f6fdc2280dac32ce0b54207c",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/653e97a2d1d76f87653f02242d243cdee48a5144/client.jar",
+      "clientJarSha256": "19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/998d9ef5770d05c20d760dc16cf85151f35009f2/1.16.2.json",
+      "artifactManifestSha256": "7b8551bdc108a1584039ac22e35b6b75c3584ed85aba24561c7d340f5cbeb108",
+      "metadataHashClaim": "No metadata hash claimed here; the accepted 1.16.2 resource packet binds the pinned client artifact."
+    },
+    {
+      "version": "1.16.3",
+      "namespace": "Mojmap",
+      "root": "decompiled_minecraft/1.16.3/mojmap/",
+      "sourceManifest": "decompiled_minecraft/1.16.3/mojmap/.decompile-provenance.json#sources",
+      "sourceManifestSha256": "513271804ead6757345d305717e7e0bfc1641434c35a3b254f287bd8fd281498",
+      "provenance": "decompiled_minecraft/1.16.3/mojmap/.decompile-provenance.json",
+      "provenanceSha256": "513271804ead6757345d305717e7e0bfc1641434c35a3b254f287bd8fd281498",
+      "clientJarUrl": "https://piston-data.mojang.com/v1/objects/1321521b2caf934f7fc9665aab7e059a7b2bfcdf/client.jar",
+      "clientJarSha256": "da85197babd989a7de318774cf5d97bcef95e89a70c9fa9a4c8180463e9589fa",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/6485dd131ef68c968041a9f6fd73094b027e42e1/1.16.3.json",
+      "metadataSha256": "193c5226095ce9e8a317f1e35ddbe4d976f176f6df7ac649ecfa669e17160ead"
+    }
+  ],
+  "sourceJavaBindings": [
+    {
+      "path": "net/minecraft/world/entity/Entity.java",
+      "sha256": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/world/entity/LivingEntity.java",
+      "sha256": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "2838aa4fb4052b3bd78d77b3d232a6321d03bd2dfd52275ffacfe6915a89e5b6",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/FenceBlock.java",
+      "sha256": "ded56e297e8711e382d485aed4cb34ab0e827bec9a033b1f6c16947592fa15f2",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/WallBlock.java",
+      "sha256": "aa770704573ee65ca0d0b102bc55e3ece81f7b25aef452bb5c89ec0350a23442",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/FenceGateBlock.java",
+      "sha256": "b8bb1b3f41cec611d9fd447a8d52b133eeba123902ea974aae9d144426ca3085",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/world/level/material/FlowingFluid.java",
+      "sha256": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/tags/BlockTags.java",
+      "sha256": "99f23e86191ba49033800be965341c4408b002404e9f403e3f4d42f962f1e88b",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/tags/FluidTags.java",
+      "sha256": "75d072cdc3e9073fc3fa481e4ccadd802e77a880ec776412f69bc865c4c78267",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/tags/StaticTagHelper.java",
+      "sha256": "2eb54a5a48bbff753b517873a9f277d96a6e48c82ccd747e481b769e7f769033",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/resources/ResourceLocation.java",
+      "sha256": "1d8c1ca5df0c259ff5e4df878b593b920968cf395a2c9ad7253b16c190095f7f",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b",
+      "equalAtBothEndpoints": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/state/BlockState.java",
+      "sha256": "edd2d9dba0c10d035774f8b2dd7dcf00d112d7a2d67734fba1851a2d2f91bd36",
+      "equalAtBothEndpoints": true
+    }
+  ],
+  "blockTagKeys": [
+    "climbable",
+    "fences",
+    "wooden_fences",
+    "walls",
+    "wall_post_override",
+    "shulker_boxes",
+    "signs",
+    "standing_signs",
+    "wall_signs",
+    "banners",
+    "pressure_plates",
+    "wooden_pressure_plates",
+    "stone_pressure_plates",
+    "soul_speed_blocks"
+  ],
+  "blockTagPayloads": [
+    {
+      "key": "banners",
+      "bytes": 1096,
+      "sha256": "4eec08671d813fefaac56d8d46459b94c74328fbaac7bfbc6c064e21889e82a5"
+    },
+    {
+      "key": "climbable",
+      "bytes": 253,
+      "sha256": "33bf334558c77268ba9bac414806b4b3842f8029e860857ff11abaf8447d03ff"
+    },
+    {
+      "key": "fences",
+      "bytes": 108,
+      "sha256": "8c4ebabbf6d088340c70c29091eadfd94d11cd551b193af52ea06cc073bc7483"
+    },
+    {
+      "key": "pressure_plates",
+      "bytes": 215,
+      "sha256": "b2e3605fae2d9da4ab618ac5316cee6d790c9c0884ea93f03786bff8119f81e2"
+    },
+    {
+      "key": "shulker_boxes",
+      "bytes": 637,
+      "sha256": "c854bef377f69d8bbc88d37c641533ae7adae0f6999f72da2fea3e6e98fc9df3"
+    },
+    {
+      "key": "signs",
+      "bytes": 102,
+      "sha256": "b97c92898727585dd94b12843aaff438fa7b9c54a00a185b44ea7b979d9f89a3"
+    },
+    {
+      "key": "soul_speed_blocks",
+      "bytes": 94,
+      "sha256": "c86fbd7bcfa2b94c881f0ba9980a694b28150a5b0b628aec0cfedc552f68994f"
+    },
+    {
+      "key": "standing_signs",
+      "bytes": 271,
+      "sha256": "44db05d7844ed53fcb438fd609a7369335c6d5390306521e60a74783cf23ff86"
+    },
+    {
+      "key": "stone_pressure_plates",
+      "bytes": 130,
+      "sha256": "b31ca5cb18082ae3cc9e1d459db5f7b95a02116ab866e2e288e7fe8fcb78a697"
+    },
+    {
+      "key": "wall_post_override",
+      "bytes": 233,
+      "sha256": "a157be4e08f0ba13957594ef9209328757eeca5a7c2a429392e75e59d6084835"
+    },
+    {
+      "key": "wall_signs",
+      "bytes": 311,
+      "sha256": "b163d4a3fa74c8628f17775cd82703d1225f060dc8ffa259f070594efe4571dc"
+    },
+    {
+      "key": "walls",
+      "bytes": 643,
+      "sha256": "0b9aa2dd6ac31252fcd7786d53a3f79c0f2365998711c38cc19f2e8b788796a2"
+    },
+    {
+      "key": "wooden_fences",
+      "bytes": 279,
+      "sha256": "b1844d51d7afa26334bb118c74c192f1315fc04f86be9ce0c6fa9656ccf74b3e"
+    },
+    {
+      "key": "wooden_pressure_plates",
+      "bytes": 351,
+      "sha256": "4a5a7f3a6e8114721a85c98c815e65c3db8106e9522b4b468481520a36e8e84d"
+    }
+  ],
+  "blockTagOutputConvention": "<version>/data/minecraft/tags/blocks/<key>.json under this packet directory; each file hash and size verified from extracted bytes",
+  "fluidTagReuse": [
+    {
+      "version": "1.16.2",
+      "packet": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/input-reference.json",
+      "inputSha256": "527C182B62211E234A2A320C4372155BBF5C2599154671B5E1F106FC2A3E1F87",
+      "audit": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/audit/verdict.md",
+      "auditSha256": "FEF9FA423063152AEE899B2A87505128B9D62CCDED805D38A2F7686B5B54E6D9",
+      "waterSha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+      "lavaSha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
+    },
+    {
+      "version": "1.16.3",
+      "packet": "build/source-mid-patches-20261117/1.16.3--1.16.4/fluid_travel_resource_gate/input-reference-1.16.3.json",
+      "inputSha256": "b8d8b2c7d92201579042d0ff3da7d59c3aadf5ea2ac37b0ef500a73002ad0d09",
+      "audit": "build/source-mid-patches-20261117/1.16.3--1.16.4/fluid_travel_resource_gate/audit-1.16.3/verdict.md",
+      "auditSha256": "363c2ea1de191f28cc9428da1b38a09037f5908c218eecf73af44204447c14c7",
+      "waterSha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+      "lavaSha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
+    }
+  ],
+  "verification": {
+    "jarSha256CheckedAgainstPinnedUrls": true,
+    "temporaryJarsRemoved": true,
+    "onlyThe14AllowlistedBlockTagEntriesOpenedPerJar": true,
+    "sourceProvenanceCaveat": "1.16.2 source provenance does not record artifact inputs; client pin is reused from accepted prior resource packet. 1.16.3 hidden provenance directly records client and metadata URL hashes."
+  },
+  "citationCorrection": {
+    "revision": "r3",
+    "supersedesPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/input-reference-r2.json",
+    "supersedesSha256": "53894034238ef0cf374f3b8cd659a4945c4af0a96d2936ce98926c09a9c9809a",
+    "correctFluidReuseAuditSha256": "FEF9FA423063152AEE899B2A87505128B9D62CCDED805D38A2F7686B5B54E6D9",
+    "archiveMembershipContractPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/pinned-archive-verification/membership-verification.json",
+    "archiveMembershipContractSha256": "506b5e7da8280695cb23eaacffcf103c569ea2c0c3b268fc59982d2239759df7",
+    "archiveAuditProofPath": "build/source-mid-patches-20261117/1.16.2--1.16.3/resource_dependency/audit/artifact-check/archive-membership.md",
+    "archiveAuditProofSha256": "8ba889711001fcd99f97d1911d0d161c23e892ef7f59c56866818492567642bb",
+    "membershipContractInputBinding": "The membership contract binds the superseded r1 input-reference hash above. Its extracted-entry inventory is unchanged by this citation-only r2; the independent archive proof confirms exact allowlisted archive membership."
+  },
+  "r3CitationErratum": {
+    "correctedFile": "build/source-mid-patches-20261117/1.16.1--1.16.2/fluid_travel_dependency/resource-gate/audit/verdict.md",
+    "sha256": "FEF9FA423063152AEE899B2A87505128B9D62CCDED805D38A2F7686B5B54E6D9",
+    "derivedBy": "Get-FileHash -Algorithm SHA256 on the exact path stored in fluidTagReuse[0].audit"
+  }
+}
