@@ -1,0 +1,1186 @@
+{
+  "pair": "1.16.3--1.16.4",
+  "mappings": "mojmap",
+  "sources": [
+    {
+      "version": "1.16.3",
+      "count": 3516,
+      "manifest_sha256": "513271804ead6757345d305717e7e0bfc1641434c35a3b254f287bd8fd281498"
+    },
+    {
+      "version": "1.16.4",
+      "count": 3523,
+      "manifest_sha256": "1e04555c915527a398a2c7150679fb24d056f54bd680261e3c1dd55da821147c"
+    }
+  ],
+  "pinned_inputs": [
+    {
+      "version": "1.16.3",
+      "name": "version.json",
+      "artifact_sha256": "193c5226095ce9e8a317f1e35ddbe4d976f176f6df7ac649ecfa669e17160ead",
+      "pin_sidecar_sha256": "44646026fadecdeee66424097b41ed7d26aac00ad3ee993cd93d33244572fbb6",
+      "pin": {
+        "url": "https://piston-meta.mojang.com/v1/packages/6485dd131ef68c968041a9f6fd73094b027e42e1/1.16.3.json",
+        "sha256": "193c5226095ce9e8a317f1e35ddbe4d976f176f6df7ac649ecfa669e17160ead"
+      }
+    },
+    {
+      "version": "1.16.3",
+      "name": "client.jar",
+      "artifact_sha256": "da85197babd989a7de318774cf5d97bcef95e89a70c9fa9a4c8180463e9589fa",
+      "pin_sidecar_sha256": "a6aa829174b3061724cd848fdd2af040afce499c7969759a9a7622dc4aff8044",
+      "pin": {
+        "url": "https://piston-data.mojang.com/v1/objects/1321521b2caf934f7fc9665aab7e059a7b2bfcdf/client.jar",
+        "sha256": "da85197babd989a7de318774cf5d97bcef95e89a70c9fa9a4c8180463e9589fa"
+      }
+    },
+    {
+      "version": "1.16.3",
+      "name": "client_mappings.txt",
+      "artifact_sha256": "c41c58faaf3a3b651d8883b9b1df355cb6ad59c4d6296b2e1ffc3dfe2bf9be3e",
+      "pin_sidecar_sha256": "8c658957e07fa4247b6328912f52043f5d3e5371531fae8c2a76de419f7246b1",
+      "pin": {
+        "url": "https://piston-data.mojang.com/v1/objects/faac5028fbca3859db970cc4ca041aeec55f6d9d/client.txt",
+        "sha256": "c41c58faaf3a3b651d8883b9b1df355cb6ad59c4d6296b2e1ffc3dfe2bf9be3e"
+      }
+    },
+    {
+      "version": "1.16.4",
+      "name": "version.json",
+      "artifact_sha256": "667fff4ca7fd0f56ab78b757224515e8e64375868e8d1ce6040091d7b63a0cb5",
+      "pin_sidecar_sha256": "afe6b7ce958e825a56dc36371afa77147663fca16759e816e1d89c3d0e26e8ef",
+      "pin": {
+        "url": "https://piston-meta.mojang.com/v1/packages/596ad61fda7612d9edf8881cf81869276bdb7f82/1.16.4.json",
+        "sha256": "667fff4ca7fd0f56ab78b757224515e8e64375868e8d1ce6040091d7b63a0cb5"
+      }
+    },
+    {
+      "version": "1.16.4",
+      "name": "client.jar",
+      "artifact_sha256": "d6740464ee2bdf37d285c5d368d2e16497492427fb5783e2db3482bbf0079ed0",
+      "pin_sidecar_sha256": "8f80fe4ac8db4b24f55efa75efb6817091ae648219374e66f243ffb86a67c1ae",
+      "pin": {
+        "url": "https://piston-data.mojang.com/v1/objects/1952d94a0784e7abda230aae6a1e8fc0522dba99/client.jar",
+        "sha256": "d6740464ee2bdf37d285c5d368d2e16497492427fb5783e2db3482bbf0079ed0"
+      }
+    },
+    {
+      "version": "1.16.4",
+      "name": "client_mappings.txt",
+      "artifact_sha256": "93f188a0038fec8c2402d78e7acca983680978d6a9237c1fab80f22caddb00fe",
+      "pin_sidecar_sha256": "731b0dfe26ad9f16afe3ee55e8e2c71c051eff6edc472059fdec318106617e11",
+      "pin": {
+        "url": "https://piston-data.mojang.com/v1/objects/0837de813d1a6b67e23da3c520a84e872c8d2f0e/client.txt",
+        "sha256": "93f188a0038fec8c2402d78e7acca983680978d6a9237c1fab80f22caddb00fe"
+      }
+    }
+  ],
+  "checked_core_and_shape_provider_sources": [
+    {
+      "path": "net/minecraft/client/player/LocalPlayer.java",
+      "sha256_1163": "6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b",
+      "manifest_1163": "6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b",
+      "sha256_1164": "6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b",
+      "manifest_1164": "6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/entity/Entity.java",
+      "sha256_1163": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+      "manifest_1163": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+      "sha256_1164": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+      "manifest_1164": "f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/entity/LivingEntity.java",
+      "sha256_1163": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+      "manifest_1163": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+      "sha256_1164": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+      "manifest_1164": "b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/entity/player/Player.java",
+      "sha256_1163": "d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960",
+      "manifest_1163": "d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960",
+      "sha256_1164": "d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960",
+      "manifest_1164": "d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/AirBlock.java",
+      "sha256_1163": "32165162a766013a2dcb520c28de92a22633578176b2c3ea074d2377cf326352",
+      "manifest_1163": "32165162a766013a2dcb520c28de92a22633578176b2c3ea074d2377cf326352",
+      "sha256_1164": "32165162a766013a2dcb520c28de92a22633578176b2c3ea074d2377cf326352",
+      "manifest_1164": "32165162a766013a2dcb520c28de92a22633578176b2c3ea074d2377cf326352",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/AnvilBlock.java",
+      "sha256_1163": "31a3e7f8bf1c1a0400bea7de7f24c14bafb0b63fc11a6e9c8ce0c745814c3119",
+      "manifest_1163": "31a3e7f8bf1c1a0400bea7de7f24c14bafb0b63fc11a6e9c8ce0c745814c3119",
+      "sha256_1164": "31a3e7f8bf1c1a0400bea7de7f24c14bafb0b63fc11a6e9c8ce0c745814c3119",
+      "manifest_1164": "31a3e7f8bf1c1a0400bea7de7f24c14bafb0b63fc11a6e9c8ce0c745814c3119",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/AttachedStemBlock.java",
+      "sha256_1163": "3f1a6a7014e95cf396b4807c1652fcb0f5700315842deb551a447a6c0f9c8167",
+      "manifest_1163": "3f1a6a7014e95cf396b4807c1652fcb0f5700315842deb551a447a6c0f9c8167",
+      "sha256_1164": "3f1a6a7014e95cf396b4807c1652fcb0f5700315842deb551a447a6c0f9c8167",
+      "manifest_1164": "3f1a6a7014e95cf396b4807c1652fcb0f5700315842deb551a447a6c0f9c8167",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BambooBlock.java",
+      "sha256_1163": "7522c0fa5014068a8d0a2909950fbbaa5e2344bdb0553698f3c01cb7434e4897",
+      "manifest_1163": "7522c0fa5014068a8d0a2909950fbbaa5e2344bdb0553698f3c01cb7434e4897",
+      "sha256_1164": "7522c0fa5014068a8d0a2909950fbbaa5e2344bdb0553698f3c01cb7434e4897",
+      "manifest_1164": "7522c0fa5014068a8d0a2909950fbbaa5e2344bdb0553698f3c01cb7434e4897",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BambooSaplingBlock.java",
+      "sha256_1163": "e3425136ce8522d5d23985111ad61dbcd0f01ecf2111b47c319c6e3b20ed4783",
+      "manifest_1163": "e3425136ce8522d5d23985111ad61dbcd0f01ecf2111b47c319c6e3b20ed4783",
+      "sha256_1164": "e3425136ce8522d5d23985111ad61dbcd0f01ecf2111b47c319c6e3b20ed4783",
+      "manifest_1164": "e3425136ce8522d5d23985111ad61dbcd0f01ecf2111b47c319c6e3b20ed4783",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BannerBlock.java",
+      "sha256_1163": "829cf33266e0fa6a7fe0832b9a7741e265669a48d32258fb8dd221fdf876c630",
+      "manifest_1163": "829cf33266e0fa6a7fe0832b9a7741e265669a48d32258fb8dd221fdf876c630",
+      "sha256_1164": "829cf33266e0fa6a7fe0832b9a7741e265669a48d32258fb8dd221fdf876c630",
+      "manifest_1164": "829cf33266e0fa6a7fe0832b9a7741e265669a48d32258fb8dd221fdf876c630",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BaseCoralFanBlock.java",
+      "sha256_1163": "11123652a20161c696c42fd5596ccf8b99d5eb0cde2fff9367343c7c27a3860d",
+      "manifest_1163": "11123652a20161c696c42fd5596ccf8b99d5eb0cde2fff9367343c7c27a3860d",
+      "sha256_1164": "11123652a20161c696c42fd5596ccf8b99d5eb0cde2fff9367343c7c27a3860d",
+      "manifest_1164": "11123652a20161c696c42fd5596ccf8b99d5eb0cde2fff9367343c7c27a3860d",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BaseCoralPlantBlock.java",
+      "sha256_1163": "94d28880f692a509306a1ef2aa02696084165a620c1767085e58427840f51a4a",
+      "manifest_1163": "94d28880f692a509306a1ef2aa02696084165a620c1767085e58427840f51a4a",
+      "sha256_1164": "94d28880f692a509306a1ef2aa02696084165a620c1767085e58427840f51a4a",
+      "manifest_1164": "94d28880f692a509306a1ef2aa02696084165a620c1767085e58427840f51a4a",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BaseCoralPlantTypeBlock.java",
+      "sha256_1163": "2fccbf9492f34930d28fee6fd2b4c0f366035132c3809c4694cdd2f6912604e8",
+      "manifest_1163": "2fccbf9492f34930d28fee6fd2b4c0f366035132c3809c4694cdd2f6912604e8",
+      "sha256_1164": "2fccbf9492f34930d28fee6fd2b4c0f366035132c3809c4694cdd2f6912604e8",
+      "manifest_1164": "2fccbf9492f34930d28fee6fd2b4c0f366035132c3809c4694cdd2f6912604e8",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BaseCoralWallFanBlock.java",
+      "sha256_1163": "dcd4d710d3d7dcb17419bbdadf57854d5eec9164aa4d769ca18955d80c9b3e0b",
+      "manifest_1163": "dcd4d710d3d7dcb17419bbdadf57854d5eec9164aa4d769ca18955d80c9b3e0b",
+      "sha256_1164": "dcd4d710d3d7dcb17419bbdadf57854d5eec9164aa4d769ca18955d80c9b3e0b",
+      "manifest_1164": "dcd4d710d3d7dcb17419bbdadf57854d5eec9164aa4d769ca18955d80c9b3e0b",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BaseFireBlock.java",
+      "sha256_1163": "16e2b7e971ead9be15b29ba1bbe3d230a1599dfaa7a31a6e0e5677783d2e9a79",
+      "manifest_1163": "16e2b7e971ead9be15b29ba1bbe3d230a1599dfaa7a31a6e0e5677783d2e9a79",
+      "sha256_1164": "16e2b7e971ead9be15b29ba1bbe3d230a1599dfaa7a31a6e0e5677783d2e9a79",
+      "manifest_1164": "16e2b7e971ead9be15b29ba1bbe3d230a1599dfaa7a31a6e0e5677783d2e9a79",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BasePressurePlateBlock.java",
+      "sha256_1163": "03e9fd59c67530216fc5d81e2de4afb84a0cf3ae6644b0e14dd0f8d4bd75898f",
+      "manifest_1163": "03e9fd59c67530216fc5d81e2de4afb84a0cf3ae6644b0e14dd0f8d4bd75898f",
+      "sha256_1164": "03e9fd59c67530216fc5d81e2de4afb84a0cf3ae6644b0e14dd0f8d4bd75898f",
+      "manifest_1164": "03e9fd59c67530216fc5d81e2de4afb84a0cf3ae6644b0e14dd0f8d4bd75898f",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BaseRailBlock.java",
+      "sha256_1163": "60487274bc4c37e05864f09e1375b74a91f7fa573da0fd4e8e0b5bd0593cb28f",
+      "manifest_1163": "60487274bc4c37e05864f09e1375b74a91f7fa573da0fd4e8e0b5bd0593cb28f",
+      "sha256_1164": "60487274bc4c37e05864f09e1375b74a91f7fa573da0fd4e8e0b5bd0593cb28f",
+      "manifest_1164": "60487274bc4c37e05864f09e1375b74a91f7fa573da0fd4e8e0b5bd0593cb28f",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BedBlock.java",
+      "sha256_1163": "32cff55596d10fb86bb8bd3fb9769df0df9826b8bd449fd4d70fb4d6f3868ced",
+      "manifest_1163": "32cff55596d10fb86bb8bd3fb9769df0df9826b8bd449fd4d70fb4d6f3868ced",
+      "sha256_1164": "32cff55596d10fb86bb8bd3fb9769df0df9826b8bd449fd4d70fb4d6f3868ced",
+      "manifest_1164": "32cff55596d10fb86bb8bd3fb9769df0df9826b8bd449fd4d70fb4d6f3868ced",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BeetrootBlock.java",
+      "sha256_1163": "428bced13bf269a5b3ec646896e20953d7cac39170bb341b10d372989831e240",
+      "manifest_1163": "428bced13bf269a5b3ec646896e20953d7cac39170bb341b10d372989831e240",
+      "sha256_1164": "428bced13bf269a5b3ec646896e20953d7cac39170bb341b10d372989831e240",
+      "manifest_1164": "428bced13bf269a5b3ec646896e20953d7cac39170bb341b10d372989831e240",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BellBlock.java",
+      "sha256_1163": "6977af9b5ee64408bd57cc570225be2af29a95f313cc63c346c838a44d4370f7",
+      "manifest_1163": "6977af9b5ee64408bd57cc570225be2af29a95f313cc63c346c838a44d4370f7",
+      "sha256_1164": "6977af9b5ee64408bd57cc570225be2af29a95f313cc63c346c838a44d4370f7",
+      "manifest_1164": "6977af9b5ee64408bd57cc570225be2af29a95f313cc63c346c838a44d4370f7",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256_1163": "3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12",
+      "manifest_1163": "3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12",
+      "sha256_1164": "3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12",
+      "manifest_1164": "3b39d5cc4cd22f146ed3195aa30cbb9fdfca49f63783fabf9924a6ce7795fa12",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BrewingStandBlock.java",
+      "sha256_1163": "3d632933e96b78e072e416a80a7a8a7de4a04295d9be38885f018cfdd0e8a266",
+      "manifest_1163": "3d632933e96b78e072e416a80a7a8a7de4a04295d9be38885f018cfdd0e8a266",
+      "sha256_1164": "3d632933e96b78e072e416a80a7a8a7de4a04295d9be38885f018cfdd0e8a266",
+      "manifest_1164": "3d632933e96b78e072e416a80a7a8a7de4a04295d9be38885f018cfdd0e8a266",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/BubbleColumnBlock.java",
+      "sha256_1163": "49e6ddc09f2d99056b0940ff0178c02bd0fe62d7758936eef751a3b9500f2ba5",
+      "manifest_1163": "49e6ddc09f2d99056b0940ff0178c02bd0fe62d7758936eef751a3b9500f2ba5",
+      "sha256_1164": "49e6ddc09f2d99056b0940ff0178c02bd0fe62d7758936eef751a3b9500f2ba5",
+      "manifest_1164": "49e6ddc09f2d99056b0940ff0178c02bd0fe62d7758936eef751a3b9500f2ba5",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/ButtonBlock.java",
+      "sha256_1163": "15aade02525fcdc5e3496da14e61c309d87fb884f801fcfd839a5cef9bea9c00",
+      "manifest_1163": "15aade02525fcdc5e3496da14e61c309d87fb884f801fcfd839a5cef9bea9c00",
+      "sha256_1164": "15aade02525fcdc5e3496da14e61c309d87fb884f801fcfd839a5cef9bea9c00",
+      "manifest_1164": "15aade02525fcdc5e3496da14e61c309d87fb884f801fcfd839a5cef9bea9c00",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CactusBlock.java",
+      "sha256_1163": "48bae92088793ff2002ac3d79bd35f923b54a78a9d976479a21b80bea9a6b787",
+      "manifest_1163": "48bae92088793ff2002ac3d79bd35f923b54a78a9d976479a21b80bea9a6b787",
+      "sha256_1164": "48bae92088793ff2002ac3d79bd35f923b54a78a9d976479a21b80bea9a6b787",
+      "manifest_1164": "48bae92088793ff2002ac3d79bd35f923b54a78a9d976479a21b80bea9a6b787",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CakeBlock.java",
+      "sha256_1163": "f879f5689834a283db676d07bf0e21e6016e7351c218a7fea1eac7ad3cf553c6",
+      "manifest_1163": "f879f5689834a283db676d07bf0e21e6016e7351c218a7fea1eac7ad3cf553c6",
+      "sha256_1164": "f879f5689834a283db676d07bf0e21e6016e7351c218a7fea1eac7ad3cf553c6",
+      "manifest_1164": "f879f5689834a283db676d07bf0e21e6016e7351c218a7fea1eac7ad3cf553c6",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CampfireBlock.java",
+      "sha256_1163": "145b5eb8cf8711d03d141274bdbedf45288e901abd75ee1acff72517a323ea2a",
+      "manifest_1163": "145b5eb8cf8711d03d141274bdbedf45288e901abd75ee1acff72517a323ea2a",
+      "sha256_1164": "145b5eb8cf8711d03d141274bdbedf45288e901abd75ee1acff72517a323ea2a",
+      "manifest_1164": "145b5eb8cf8711d03d141274bdbedf45288e901abd75ee1acff72517a323ea2a",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CarrotBlock.java",
+      "sha256_1163": "fbd08ff84cdd2f031b48f7fc9c3ae116b9b437f15ed1293dd44a9c4e8ebfd0da",
+      "manifest_1163": "fbd08ff84cdd2f031b48f7fc9c3ae116b9b437f15ed1293dd44a9c4e8ebfd0da",
+      "sha256_1164": "fbd08ff84cdd2f031b48f7fc9c3ae116b9b437f15ed1293dd44a9c4e8ebfd0da",
+      "manifest_1164": "fbd08ff84cdd2f031b48f7fc9c3ae116b9b437f15ed1293dd44a9c4e8ebfd0da",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CauldronBlock.java",
+      "sha256_1163": "a96d4f3aa5ae2d46a01d8302d4763080c6102426933f13496a9571309b7a0131",
+      "manifest_1163": "a96d4f3aa5ae2d46a01d8302d4763080c6102426933f13496a9571309b7a0131",
+      "sha256_1164": "a96d4f3aa5ae2d46a01d8302d4763080c6102426933f13496a9571309b7a0131",
+      "manifest_1164": "a96d4f3aa5ae2d46a01d8302d4763080c6102426933f13496a9571309b7a0131",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/ChainBlock.java",
+      "sha256_1163": "6a7fed55ffa892a3781b64849d9f42fb85a125eeb023a23171bc8880bf67fb6e",
+      "manifest_1163": "6a7fed55ffa892a3781b64849d9f42fb85a125eeb023a23171bc8880bf67fb6e",
+      "sha256_1164": "6a7fed55ffa892a3781b64849d9f42fb85a125eeb023a23171bc8880bf67fb6e",
+      "manifest_1164": "6a7fed55ffa892a3781b64849d9f42fb85a125eeb023a23171bc8880bf67fb6e",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/ChestBlock.java",
+      "sha256_1163": "2e84e4873d9c6f0922d8128ed921786cf1cf3fed6065b02c1f38c39a3492cc30",
+      "manifest_1163": "2e84e4873d9c6f0922d8128ed921786cf1cf3fed6065b02c1f38c39a3492cc30",
+      "sha256_1164": "2e84e4873d9c6f0922d8128ed921786cf1cf3fed6065b02c1f38c39a3492cc30",
+      "manifest_1164": "2e84e4873d9c6f0922d8128ed921786cf1cf3fed6065b02c1f38c39a3492cc30",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CocoaBlock.java",
+      "sha256_1163": "8e97a3cf4fb0f2f7dd06cb3b083c9bbc0a52195f5f15eda0dce44cf08abd203f",
+      "manifest_1163": "8e97a3cf4fb0f2f7dd06cb3b083c9bbc0a52195f5f15eda0dce44cf08abd203f",
+      "sha256_1164": "8e97a3cf4fb0f2f7dd06cb3b083c9bbc0a52195f5f15eda0dce44cf08abd203f",
+      "manifest_1164": "8e97a3cf4fb0f2f7dd06cb3b083c9bbc0a52195f5f15eda0dce44cf08abd203f",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/ComposterBlock.java",
+      "sha256_1163": "e822660ad4dcc0180b2af2dbca07680d909637ba05e53b8e6b5398e931d630ac",
+      "manifest_1163": "e822660ad4dcc0180b2af2dbca07680d909637ba05e53b8e6b5398e931d630ac",
+      "sha256_1164": "e822660ad4dcc0180b2af2dbca07680d909637ba05e53b8e6b5398e931d630ac",
+      "manifest_1164": "e822660ad4dcc0180b2af2dbca07680d909637ba05e53b8e6b5398e931d630ac",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/ConduitBlock.java",
+      "sha256_1163": "6f338f4170165202e78b31f477e33edbc355f8d3c6808b3576f34e29f974a4eb",
+      "manifest_1163": "6f338f4170165202e78b31f477e33edbc355f8d3c6808b3576f34e29f974a4eb",
+      "sha256_1164": "6f338f4170165202e78b31f477e33edbc355f8d3c6808b3576f34e29f974a4eb",
+      "manifest_1164": "6f338f4170165202e78b31f477e33edbc355f8d3c6808b3576f34e29f974a4eb",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CoralPlantBlock.java",
+      "sha256_1163": "1c8f821d91cfda31234fce73be925f03598d984f4ad3fe788f64174f70d2923d",
+      "manifest_1163": "1c8f821d91cfda31234fce73be925f03598d984f4ad3fe788f64174f70d2923d",
+      "sha256_1164": "1c8f821d91cfda31234fce73be925f03598d984f4ad3fe788f64174f70d2923d",
+      "manifest_1164": "1c8f821d91cfda31234fce73be925f03598d984f4ad3fe788f64174f70d2923d",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CropBlock.java",
+      "sha256_1163": "aa5e5e6fb9b867e1eb4191203cec2c7bc400474e7face4150a15919a6b3e0f0e",
+      "manifest_1163": "aa5e5e6fb9b867e1eb4191203cec2c7bc400474e7face4150a15919a6b3e0f0e",
+      "sha256_1164": "aa5e5e6fb9b867e1eb4191203cec2c7bc400474e7face4150a15919a6b3e0f0e",
+      "manifest_1164": "aa5e5e6fb9b867e1eb4191203cec2c7bc400474e7face4150a15919a6b3e0f0e",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/CrossCollisionBlock.java",
+      "sha256_1163": "cebb3dcbbb94ab7513e11430fa4969bc1ff0a96c733298940889fc749b7ec1e4",
+      "manifest_1163": "cebb3dcbbb94ab7513e11430fa4969bc1ff0a96c733298940889fc749b7ec1e4",
+      "sha256_1164": "cebb3dcbbb94ab7513e11430fa4969bc1ff0a96c733298940889fc749b7ec1e4",
+      "manifest_1164": "cebb3dcbbb94ab7513e11430fa4969bc1ff0a96c733298940889fc749b7ec1e4",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/DaylightDetectorBlock.java",
+      "sha256_1163": "52a405490339cff06467d82d74b47bf376d0e3c79fe1b55a9f69e542c6620f21",
+      "manifest_1163": "52a405490339cff06467d82d74b47bf376d0e3c79fe1b55a9f69e542c6620f21",
+      "sha256_1164": "52a405490339cff06467d82d74b47bf376d0e3c79fe1b55a9f69e542c6620f21",
+      "manifest_1164": "52a405490339cff06467d82d74b47bf376d0e3c79fe1b55a9f69e542c6620f21",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/DeadBushBlock.java",
+      "sha256_1163": "56018eaf219a6197370ebde30a3079f5169536ccb17c1b3814fe4015747c37d3",
+      "manifest_1163": "56018eaf219a6197370ebde30a3079f5169536ccb17c1b3814fe4015747c37d3",
+      "sha256_1164": "56018eaf219a6197370ebde30a3079f5169536ccb17c1b3814fe4015747c37d3",
+      "manifest_1164": "56018eaf219a6197370ebde30a3079f5169536ccb17c1b3814fe4015747c37d3",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/DiodeBlock.java",
+      "sha256_1163": "0d0de8fba1a1a081621fec758f5ff5dc6e291adba9eac84dbe53fa7d6f8fe33a",
+      "manifest_1163": "0d0de8fba1a1a081621fec758f5ff5dc6e291adba9eac84dbe53fa7d6f8fe33a",
+      "sha256_1164": "0d0de8fba1a1a081621fec758f5ff5dc6e291adba9eac84dbe53fa7d6f8fe33a",
+      "manifest_1164": "0d0de8fba1a1a081621fec758f5ff5dc6e291adba9eac84dbe53fa7d6f8fe33a",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/DoorBlock.java",
+      "sha256_1163": "291ea26f1e74d833063d68fa02c5ebe17b0bcf682ce2fcc618711988327bf9b4",
+      "manifest_1163": "291ea26f1e74d833063d68fa02c5ebe17b0bcf682ce2fcc618711988327bf9b4",
+      "sha256_1164": "291ea26f1e74d833063d68fa02c5ebe17b0bcf682ce2fcc618711988327bf9b4",
+      "manifest_1164": "291ea26f1e74d833063d68fa02c5ebe17b0bcf682ce2fcc618711988327bf9b4",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/DragonEggBlock.java",
+      "sha256_1163": "6b407b2aab25dfc9d5165ad7e0ac20d7b8cead372e45ee6fb1dff27a8971b155",
+      "manifest_1163": "6b407b2aab25dfc9d5165ad7e0ac20d7b8cead372e45ee6fb1dff27a8971b155",
+      "sha256_1164": "6b407b2aab25dfc9d5165ad7e0ac20d7b8cead372e45ee6fb1dff27a8971b155",
+      "manifest_1164": "6b407b2aab25dfc9d5165ad7e0ac20d7b8cead372e45ee6fb1dff27a8971b155",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/EnchantmentTableBlock.java",
+      "sha256_1163": "dbc78d627ff8eb2e7bc530534a0dddc79123fe111dd44e1aeec4139ad222a079",
+      "manifest_1163": "dbc78d627ff8eb2e7bc530534a0dddc79123fe111dd44e1aeec4139ad222a079",
+      "sha256_1164": "dbc78d627ff8eb2e7bc530534a0dddc79123fe111dd44e1aeec4139ad222a079",
+      "manifest_1164": "dbc78d627ff8eb2e7bc530534a0dddc79123fe111dd44e1aeec4139ad222a079",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/EnderChestBlock.java",
+      "sha256_1163": "1692cf69e0cb4635371f9e06c7f0e6444d4d0ee8a142e17c11da2c498d2f0ac1",
+      "manifest_1163": "1692cf69e0cb4635371f9e06c7f0e6444d4d0ee8a142e17c11da2c498d2f0ac1",
+      "sha256_1164": "1692cf69e0cb4635371f9e06c7f0e6444d4d0ee8a142e17c11da2c498d2f0ac1",
+      "manifest_1164": "1692cf69e0cb4635371f9e06c7f0e6444d4d0ee8a142e17c11da2c498d2f0ac1",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/EndPortalBlock.java",
+      "sha256_1163": "660ddc59f600d2f935a8a3000de59a4b93626fe474447151aa002524c82cf8a5",
+      "manifest_1163": "660ddc59f600d2f935a8a3000de59a4b93626fe474447151aa002524c82cf8a5",
+      "sha256_1164": "660ddc59f600d2f935a8a3000de59a4b93626fe474447151aa002524c82cf8a5",
+      "manifest_1164": "660ddc59f600d2f935a8a3000de59a4b93626fe474447151aa002524c82cf8a5",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/EndPortalFrameBlock.java",
+      "sha256_1163": "f810d6cdcbe85bf7c715b746727ba0fa66b8956462fb5435c7150ab04ce6bbcd",
+      "manifest_1163": "f810d6cdcbe85bf7c715b746727ba0fa66b8956462fb5435c7150ab04ce6bbcd",
+      "sha256_1164": "f810d6cdcbe85bf7c715b746727ba0fa66b8956462fb5435c7150ab04ce6bbcd",
+      "manifest_1164": "f810d6cdcbe85bf7c715b746727ba0fa66b8956462fb5435c7150ab04ce6bbcd",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/EndRodBlock.java",
+      "sha256_1163": "17d49b31db729b8839457a6011393df53e70b0a5a9bac5944fefc1e100c6cf0d",
+      "manifest_1163": "17d49b31db729b8839457a6011393df53e70b0a5a9bac5944fefc1e100c6cf0d",
+      "sha256_1164": "17d49b31db729b8839457a6011393df53e70b0a5a9bac5944fefc1e100c6cf0d",
+      "manifest_1164": "17d49b31db729b8839457a6011393df53e70b0a5a9bac5944fefc1e100c6cf0d",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/FarmBlock.java",
+      "sha256_1163": "1298367814491ef92fe8c0f43f1c14e173e54182859c3a68fa9422b60d23c810",
+      "manifest_1163": "1298367814491ef92fe8c0f43f1c14e173e54182859c3a68fa9422b60d23c810",
+      "sha256_1164": "1298367814491ef92fe8c0f43f1c14e173e54182859c3a68fa9422b60d23c810",
+      "manifest_1164": "1298367814491ef92fe8c0f43f1c14e173e54182859c3a68fa9422b60d23c810",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/FenceGateBlock.java",
+      "sha256_1163": "b8bb1b3f41cec611d9fd447a8d52b133eeba123902ea974aae9d144426ca3085",
+      "manifest_1163": "b8bb1b3f41cec611d9fd447a8d52b133eeba123902ea974aae9d144426ca3085",
+      "sha256_1164": "b8bb1b3f41cec611d9fd447a8d52b133eeba123902ea974aae9d144426ca3085",
+      "manifest_1164": "b8bb1b3f41cec611d9fd447a8d52b133eeba123902ea974aae9d144426ca3085",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/FireBlock.java",
+      "sha256_1163": "b58164963a051694807afa59c5371f1f815b5a4329e91c0fbc5484b5f6e551f9",
+      "manifest_1163": "b58164963a051694807afa59c5371f1f815b5a4329e91c0fbc5484b5f6e551f9",
+      "sha256_1164": "b58164963a051694807afa59c5371f1f815b5a4329e91c0fbc5484b5f6e551f9",
+      "manifest_1164": "b58164963a051694807afa59c5371f1f815b5a4329e91c0fbc5484b5f6e551f9",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/FlowerBlock.java",
+      "sha256_1163": "b4e6178aa4e34ee33539fe9bc9a2549d77aa07be528207cf6254a98283e51895",
+      "manifest_1163": "b4e6178aa4e34ee33539fe9bc9a2549d77aa07be528207cf6254a98283e51895",
+      "sha256_1164": "b4e6178aa4e34ee33539fe9bc9a2549d77aa07be528207cf6254a98283e51895",
+      "manifest_1164": "b4e6178aa4e34ee33539fe9bc9a2549d77aa07be528207cf6254a98283e51895",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/FlowerPotBlock.java",
+      "sha256_1163": "00a058c89bde3db0edbf1f7d5af2b02aa9e18d76b16cc53f7ecebff9527b6216",
+      "manifest_1163": "00a058c89bde3db0edbf1f7d5af2b02aa9e18d76b16cc53f7ecebff9527b6216",
+      "sha256_1164": "00a058c89bde3db0edbf1f7d5af2b02aa9e18d76b16cc53f7ecebff9527b6216",
+      "manifest_1164": "00a058c89bde3db0edbf1f7d5af2b02aa9e18d76b16cc53f7ecebff9527b6216",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/FungusBlock.java",
+      "sha256_1163": "25d090193387fa3fcb0ca8607b0085b6d40b8b98ced6def2686395c08a88fcd4",
+      "manifest_1163": "25d090193387fa3fcb0ca8607b0085b6d40b8b98ced6def2686395c08a88fcd4",
+      "sha256_1164": "25d090193387fa3fcb0ca8607b0085b6d40b8b98ced6def2686395c08a88fcd4",
+      "manifest_1164": "25d090193387fa3fcb0ca8607b0085b6d40b8b98ced6def2686395c08a88fcd4",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/GrassPathBlock.java",
+      "sha256_1163": "c94a5adc753ec4a4f9459c7cefcb8d9ff15fab2602ddaf88e48a5efa23fa72e8",
+      "manifest_1163": "c94a5adc753ec4a4f9459c7cefcb8d9ff15fab2602ddaf88e48a5efa23fa72e8",
+      "sha256_1164": "c94a5adc753ec4a4f9459c7cefcb8d9ff15fab2602ddaf88e48a5efa23fa72e8",
+      "manifest_1164": "c94a5adc753ec4a4f9459c7cefcb8d9ff15fab2602ddaf88e48a5efa23fa72e8",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/GrindstoneBlock.java",
+      "sha256_1163": "2427ca4055a07ca81b55964abf14cbb7ad8bc605bbb6f8bd08369583a7f7ac61",
+      "manifest_1163": "2427ca4055a07ca81b55964abf14cbb7ad8bc605bbb6f8bd08369583a7f7ac61",
+      "sha256_1164": "2427ca4055a07ca81b55964abf14cbb7ad8bc605bbb6f8bd08369583a7f7ac61",
+      "manifest_1164": "2427ca4055a07ca81b55964abf14cbb7ad8bc605bbb6f8bd08369583a7f7ac61",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/GrowingPlantBlock.java",
+      "sha256_1163": "392f74b9e252f5a1ba8dd7ba342e5316e7424581ba853f5337f0b94aee9ffc03",
+      "manifest_1163": "392f74b9e252f5a1ba8dd7ba342e5316e7424581ba853f5337f0b94aee9ffc03",
+      "sha256_1164": "392f74b9e252f5a1ba8dd7ba342e5316e7424581ba853f5337f0b94aee9ffc03",
+      "manifest_1164": "392f74b9e252f5a1ba8dd7ba342e5316e7424581ba853f5337f0b94aee9ffc03",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/HoneyBlock.java",
+      "sha256_1163": "6ca24cf40dbb2dcfabfd26c4ac188746ec2e21906f54a23f40d6eb681d94a492",
+      "manifest_1163": "6ca24cf40dbb2dcfabfd26c4ac188746ec2e21906f54a23f40d6eb681d94a492",
+      "sha256_1164": "6ca24cf40dbb2dcfabfd26c4ac188746ec2e21906f54a23f40d6eb681d94a492",
+      "manifest_1164": "6ca24cf40dbb2dcfabfd26c4ac188746ec2e21906f54a23f40d6eb681d94a492",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/HopperBlock.java",
+      "sha256_1163": "e9b4bf4956b0999812d8b106ac28e8cb7e081c162802ebf71d05e2bc4335bd2e",
+      "manifest_1163": "e9b4bf4956b0999812d8b106ac28e8cb7e081c162802ebf71d05e2bc4335bd2e",
+      "sha256_1164": "e9b4bf4956b0999812d8b106ac28e8cb7e081c162802ebf71d05e2bc4335bd2e",
+      "manifest_1164": "e9b4bf4956b0999812d8b106ac28e8cb7e081c162802ebf71d05e2bc4335bd2e",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/LadderBlock.java",
+      "sha256_1163": "d7f65336fe5cd9432d5e10b85115e3bccbf1cf545bbccd29f31624b5848530c3",
+      "manifest_1163": "d7f65336fe5cd9432d5e10b85115e3bccbf1cf545bbccd29f31624b5848530c3",
+      "sha256_1164": "d7f65336fe5cd9432d5e10b85115e3bccbf1cf545bbccd29f31624b5848530c3",
+      "manifest_1164": "d7f65336fe5cd9432d5e10b85115e3bccbf1cf545bbccd29f31624b5848530c3",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/Lantern.java",
+      "sha256_1163": "8e293aad7a941afba8f1c1814338279bc793627137cec64a198d41fe198fea51",
+      "manifest_1163": "8e293aad7a941afba8f1c1814338279bc793627137cec64a198d41fe198fea51",
+      "sha256_1164": "8e293aad7a941afba8f1c1814338279bc793627137cec64a198d41fe198fea51",
+      "manifest_1164": "8e293aad7a941afba8f1c1814338279bc793627137cec64a198d41fe198fea51",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/LecternBlock.java",
+      "sha256_1163": "f114900df6174a6a88fa60c91122aff16d52d2a59dbd0efe59e4c275fd1894a9",
+      "manifest_1163": "f114900df6174a6a88fa60c91122aff16d52d2a59dbd0efe59e4c275fd1894a9",
+      "sha256_1164": "f114900df6174a6a88fa60c91122aff16d52d2a59dbd0efe59e4c275fd1894a9",
+      "manifest_1164": "f114900df6174a6a88fa60c91122aff16d52d2a59dbd0efe59e4c275fd1894a9",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/LeverBlock.java",
+      "sha256_1163": "8ee4b6906bd88cbcf7ee384d2486da09478818701087756ad778cdf8f9bb0818",
+      "manifest_1163": "8ee4b6906bd88cbcf7ee384d2486da09478818701087756ad778cdf8f9bb0818",
+      "sha256_1164": "8ee4b6906bd88cbcf7ee384d2486da09478818701087756ad778cdf8f9bb0818",
+      "manifest_1164": "8ee4b6906bd88cbcf7ee384d2486da09478818701087756ad778cdf8f9bb0818",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/LiquidBlock.java",
+      "sha256_1163": "24f1cfbd036cca77ec99d855a028194ed39f583699ce91bc2a4c61957ff22fb7",
+      "manifest_1163": "24f1cfbd036cca77ec99d855a028194ed39f583699ce91bc2a4c61957ff22fb7",
+      "sha256_1164": "24f1cfbd036cca77ec99d855a028194ed39f583699ce91bc2a4c61957ff22fb7",
+      "manifest_1164": "24f1cfbd036cca77ec99d855a028194ed39f583699ce91bc2a4c61957ff22fb7",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/MushroomBlock.java",
+      "sha256_1163": "48127ee8219304ab7e5917248fb04941749f26b6e1277e402c026f08cf3a8594",
+      "manifest_1163": "48127ee8219304ab7e5917248fb04941749f26b6e1277e402c026f08cf3a8594",
+      "sha256_1164": "48127ee8219304ab7e5917248fb04941749f26b6e1277e402c026f08cf3a8594",
+      "manifest_1164": "48127ee8219304ab7e5917248fb04941749f26b6e1277e402c026f08cf3a8594",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/NetherPortalBlock.java",
+      "sha256_1163": "d0566d003aef7c75e5e054f1054f8270540e256151ff730cdbeaa090945b433f",
+      "manifest_1163": "d0566d003aef7c75e5e054f1054f8270540e256151ff730cdbeaa090945b433f",
+      "sha256_1164": "d0566d003aef7c75e5e054f1054f8270540e256151ff730cdbeaa090945b433f",
+      "manifest_1164": "d0566d003aef7c75e5e054f1054f8270540e256151ff730cdbeaa090945b433f",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/NetherSproutsBlock.java",
+      "sha256_1163": "1faf6379b10eee40230c2832add6864cf7d5832f37197445db76afc5bdd280fd",
+      "manifest_1163": "1faf6379b10eee40230c2832add6864cf7d5832f37197445db76afc5bdd280fd",
+      "sha256_1164": "1faf6379b10eee40230c2832add6864cf7d5832f37197445db76afc5bdd280fd",
+      "manifest_1164": "1faf6379b10eee40230c2832add6864cf7d5832f37197445db76afc5bdd280fd",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/NetherWartBlock.java",
+      "sha256_1163": "a40b0cc8fa2e6ed144e8433f61e349944bd1262a94f1289fc4a6e2b0f9f0b674",
+      "manifest_1163": "a40b0cc8fa2e6ed144e8433f61e349944bd1262a94f1289fc4a6e2b0f9f0b674",
+      "sha256_1164": "a40b0cc8fa2e6ed144e8433f61e349944bd1262a94f1289fc4a6e2b0f9f0b674",
+      "manifest_1164": "a40b0cc8fa2e6ed144e8433f61e349944bd1262a94f1289fc4a6e2b0f9f0b674",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/PipeBlock.java",
+      "sha256_1163": "855afc8b736c3800365bf421558021147a1cad750226bc80b25ddb3514ed58a6",
+      "manifest_1163": "855afc8b736c3800365bf421558021147a1cad750226bc80b25ddb3514ed58a6",
+      "sha256_1164": "855afc8b736c3800365bf421558021147a1cad750226bc80b25ddb3514ed58a6",
+      "manifest_1164": "855afc8b736c3800365bf421558021147a1cad750226bc80b25ddb3514ed58a6",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/piston/MovingPistonBlock.java",
+      "sha256_1163": "34f882c090cfec263f767e72f6104fc546d189688cfc4094f67022a6413e0b3b",
+      "manifest_1163": "34f882c090cfec263f767e72f6104fc546d189688cfc4094f67022a6413e0b3b",
+      "sha256_1164": "34f882c090cfec263f767e72f6104fc546d189688cfc4094f67022a6413e0b3b",
+      "manifest_1164": "34f882c090cfec263f767e72f6104fc546d189688cfc4094f67022a6413e0b3b",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/piston/PistonBaseBlock.java",
+      "sha256_1163": "b9fb1b0649371b023320f0869a3b84458f3923a4f79271db71afbaa65b391ec8",
+      "manifest_1163": "b9fb1b0649371b023320f0869a3b84458f3923a4f79271db71afbaa65b391ec8",
+      "sha256_1164": "b9fb1b0649371b023320f0869a3b84458f3923a4f79271db71afbaa65b391ec8",
+      "manifest_1164": "b9fb1b0649371b023320f0869a3b84458f3923a4f79271db71afbaa65b391ec8",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/piston/PistonHeadBlock.java",
+      "sha256_1163": "9854f1d4728809cf9d89ac2632b0458eea12d1ea4488e36585922b1cadddb4bb",
+      "manifest_1163": "9854f1d4728809cf9d89ac2632b0458eea12d1ea4488e36585922b1cadddb4bb",
+      "sha256_1164": "9854f1d4728809cf9d89ac2632b0458eea12d1ea4488e36585922b1cadddb4bb",
+      "manifest_1164": "9854f1d4728809cf9d89ac2632b0458eea12d1ea4488e36585922b1cadddb4bb",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java",
+      "sha256_1163": "75d58043d5a9951f9b505a42b7656a5f01028633d971ba948167a9a95729a8b5",
+      "manifest_1163": "75d58043d5a9951f9b505a42b7656a5f01028633d971ba948167a9a95729a8b5",
+      "sha256_1164": "75d58043d5a9951f9b505a42b7656a5f01028633d971ba948167a9a95729a8b5",
+      "manifest_1164": "75d58043d5a9951f9b505a42b7656a5f01028633d971ba948167a9a95729a8b5",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/PotatoBlock.java",
+      "sha256_1163": "1c1f5f946d4ed78c23d856463db8344406befc3dce9784989f783fbc43495a2d",
+      "manifest_1163": "1c1f5f946d4ed78c23d856463db8344406befc3dce9784989f783fbc43495a2d",
+      "sha256_1164": "1c1f5f946d4ed78c23d856463db8344406befc3dce9784989f783fbc43495a2d",
+      "manifest_1164": "1c1f5f946d4ed78c23d856463db8344406befc3dce9784989f783fbc43495a2d",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/RedstoneWallTorchBlock.java",
+      "sha256_1163": "731b6973a55f87e2fd2521530a6b16d4e64dbdf0579eddc294cce1247323b7de",
+      "manifest_1163": "731b6973a55f87e2fd2521530a6b16d4e64dbdf0579eddc294cce1247323b7de",
+      "sha256_1164": "731b6973a55f87e2fd2521530a6b16d4e64dbdf0579eddc294cce1247323b7de",
+      "manifest_1164": "731b6973a55f87e2fd2521530a6b16d4e64dbdf0579eddc294cce1247323b7de",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/RedStoneWireBlock.java",
+      "sha256_1163": "5144e8d4952ff4f20906791e0202f090f510f1c941456204d6a3b8da42e63efe",
+      "manifest_1163": "5144e8d4952ff4f20906791e0202f090f510f1c941456204d6a3b8da42e63efe",
+      "sha256_1164": "5144e8d4952ff4f20906791e0202f090f510f1c941456204d6a3b8da42e63efe",
+      "manifest_1164": "5144e8d4952ff4f20906791e0202f090f510f1c941456204d6a3b8da42e63efe",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/RootsBlock.java",
+      "sha256_1163": "5f98ccc940f852968ffa597152fa9d36d3eb6ad894e1fce33c95f4c3cd1b8b1e",
+      "manifest_1163": "5f98ccc940f852968ffa597152fa9d36d3eb6ad894e1fce33c95f4c3cd1b8b1e",
+      "sha256_1164": "5f98ccc940f852968ffa597152fa9d36d3eb6ad894e1fce33c95f4c3cd1b8b1e",
+      "manifest_1164": "5f98ccc940f852968ffa597152fa9d36d3eb6ad894e1fce33c95f4c3cd1b8b1e",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SaplingBlock.java",
+      "sha256_1163": "090c6179d9c642ad7fef2a5c6ae0ffa55586e4336348501d756e048b3222f7d0",
+      "manifest_1163": "090c6179d9c642ad7fef2a5c6ae0ffa55586e4336348501d756e048b3222f7d0",
+      "sha256_1164": "090c6179d9c642ad7fef2a5c6ae0ffa55586e4336348501d756e048b3222f7d0",
+      "manifest_1164": "090c6179d9c642ad7fef2a5c6ae0ffa55586e4336348501d756e048b3222f7d0",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/ScaffoldingBlock.java",
+      "sha256_1163": "3910d1c554a6937d61fbbf3027fc60dda429e5ae46311f965b65e218bf1d069c",
+      "manifest_1163": "3910d1c554a6937d61fbbf3027fc60dda429e5ae46311f965b65e218bf1d069c",
+      "sha256_1164": "3910d1c554a6937d61fbbf3027fc60dda429e5ae46311f965b65e218bf1d069c",
+      "manifest_1164": "3910d1c554a6937d61fbbf3027fc60dda429e5ae46311f965b65e218bf1d069c",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/Seagrass.java",
+      "sha256_1163": "060242b39f09d3af831af2dd35a410ce46f594467e0b41b8f25af513ebe4669c",
+      "manifest_1163": "060242b39f09d3af831af2dd35a410ce46f594467e0b41b8f25af513ebe4669c",
+      "sha256_1164": "060242b39f09d3af831af2dd35a410ce46f594467e0b41b8f25af513ebe4669c",
+      "manifest_1164": "060242b39f09d3af831af2dd35a410ce46f594467e0b41b8f25af513ebe4669c",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SeaPickleBlock.java",
+      "sha256_1163": "181d9281e06a52a028ae0a7442553aa0824339e7b1f127493bacf88cb513c9cc",
+      "manifest_1163": "181d9281e06a52a028ae0a7442553aa0824339e7b1f127493bacf88cb513c9cc",
+      "sha256_1164": "181d9281e06a52a028ae0a7442553aa0824339e7b1f127493bacf88cb513c9cc",
+      "manifest_1164": "181d9281e06a52a028ae0a7442553aa0824339e7b1f127493bacf88cb513c9cc",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/ShulkerBoxBlock.java",
+      "sha256_1163": "a88a18bc4c4299876053f9ec38987861fa81acf3a38289a49cc3dbee04b940d8",
+      "manifest_1163": "a88a18bc4c4299876053f9ec38987861fa81acf3a38289a49cc3dbee04b940d8",
+      "sha256_1164": "a88a18bc4c4299876053f9ec38987861fa81acf3a38289a49cc3dbee04b940d8",
+      "manifest_1164": "a88a18bc4c4299876053f9ec38987861fa81acf3a38289a49cc3dbee04b940d8",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SignBlock.java",
+      "sha256_1163": "55889e3e525d61053d7064a2b618b10772aaab2d6d0e62467f5f2ceef937d66c",
+      "manifest_1163": "55889e3e525d61053d7064a2b618b10772aaab2d6d0e62467f5f2ceef937d66c",
+      "sha256_1164": "55889e3e525d61053d7064a2b618b10772aaab2d6d0e62467f5f2ceef937d66c",
+      "manifest_1164": "55889e3e525d61053d7064a2b618b10772aaab2d6d0e62467f5f2ceef937d66c",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SkullBlock.java",
+      "sha256_1163": "b056f32939f582b9273ded228c5f45760325ab086d34a958aae52579709684a0",
+      "manifest_1163": "b056f32939f582b9273ded228c5f45760325ab086d34a958aae52579709684a0",
+      "sha256_1164": "b056f32939f582b9273ded228c5f45760325ab086d34a958aae52579709684a0",
+      "manifest_1164": "b056f32939f582b9273ded228c5f45760325ab086d34a958aae52579709684a0",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SlabBlock.java",
+      "sha256_1163": "21ff767d6bcf05ff225e864f4360b724b6fe70cad8636566c046dd22b5509e6b",
+      "manifest_1163": "21ff767d6bcf05ff225e864f4360b724b6fe70cad8636566c046dd22b5509e6b",
+      "sha256_1164": "21ff767d6bcf05ff225e864f4360b724b6fe70cad8636566c046dd22b5509e6b",
+      "manifest_1164": "21ff767d6bcf05ff225e864f4360b724b6fe70cad8636566c046dd22b5509e6b",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SnowLayerBlock.java",
+      "sha256_1163": "b7c42f5797f41f9281f850cbd9ff7af9256018f092135cc799d76c019d850f70",
+      "manifest_1163": "b7c42f5797f41f9281f850cbd9ff7af9256018f092135cc799d76c019d850f70",
+      "sha256_1164": "b7c42f5797f41f9281f850cbd9ff7af9256018f092135cc799d76c019d850f70",
+      "manifest_1164": "b7c42f5797f41f9281f850cbd9ff7af9256018f092135cc799d76c019d850f70",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SoulSandBlock.java",
+      "sha256_1163": "da92572788c9416b511c003e50688d802e8248ccdb3e2d5eb155aa482549b095",
+      "manifest_1163": "da92572788c9416b511c003e50688d802e8248ccdb3e2d5eb155aa482549b095",
+      "sha256_1164": "da92572788c9416b511c003e50688d802e8248ccdb3e2d5eb155aa482549b095",
+      "manifest_1164": "da92572788c9416b511c003e50688d802e8248ccdb3e2d5eb155aa482549b095",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/StairBlock.java",
+      "sha256_1163": "60cc557c48d831f0aa0c2f9717b80881a0f452e3340b03495dd79b74be8a6bfb",
+      "manifest_1163": "60cc557c48d831f0aa0c2f9717b80881a0f452e3340b03495dd79b74be8a6bfb",
+      "sha256_1164": "60cc557c48d831f0aa0c2f9717b80881a0f452e3340b03495dd79b74be8a6bfb",
+      "manifest_1164": "60cc557c48d831f0aa0c2f9717b80881a0f452e3340b03495dd79b74be8a6bfb",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256_1163": "c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b",
+      "manifest_1163": "c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b",
+      "sha256_1164": "c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b",
+      "manifest_1164": "c62e2f07094e5a7bcad00cbae7d24497bf636cc740232a1472f4128a472def8b",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/state/BlockState.java",
+      "sha256_1163": "edd2d9dba0c10d035774f8b2dd7dcf00d112d7a2d67734fba1851a2d2f91bd36",
+      "manifest_1163": "edd2d9dba0c10d035774f8b2dd7dcf00d112d7a2d67734fba1851a2d2f91bd36",
+      "sha256_1164": "edd2d9dba0c10d035774f8b2dd7dcf00d112d7a2d67734fba1851a2d2f91bd36",
+      "manifest_1164": "edd2d9dba0c10d035774f8b2dd7dcf00d112d7a2d67734fba1851a2d2f91bd36",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/state/properties/BlockStateProperties.java",
+      "sha256_1163": "fde98f1566700d8fbdf70620586df52ac20c402496dd7e8e2a3b5c1599007a49",
+      "manifest_1163": "fde98f1566700d8fbdf70620586df52ac20c402496dd7e8e2a3b5c1599007a49",
+      "sha256_1164": "fde98f1566700d8fbdf70620586df52ac20c402496dd7e8e2a3b5c1599007a49",
+      "manifest_1164": "fde98f1566700d8fbdf70620586df52ac20c402496dd7e8e2a3b5c1599007a49",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/StemBlock.java",
+      "sha256_1163": "fe5e9362089cd11714475685790da13090b4eb63db16b91f3beed3052e5c74b3",
+      "manifest_1163": "fe5e9362089cd11714475685790da13090b4eb63db16b91f3beed3052e5c74b3",
+      "sha256_1164": "fe5e9362089cd11714475685790da13090b4eb63db16b91f3beed3052e5c74b3",
+      "manifest_1164": "fe5e9362089cd11714475685790da13090b4eb63db16b91f3beed3052e5c74b3",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/StonecutterBlock.java",
+      "sha256_1163": "ea6428ba1efff748ee41f96ada1d7cab65528a0a83183e211ddcf24cce992021",
+      "manifest_1163": "ea6428ba1efff748ee41f96ada1d7cab65528a0a83183e211ddcf24cce992021",
+      "sha256_1164": "ea6428ba1efff748ee41f96ada1d7cab65528a0a83183e211ddcf24cce992021",
+      "manifest_1164": "ea6428ba1efff748ee41f96ada1d7cab65528a0a83183e211ddcf24cce992021",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/StructureVoidBlock.java",
+      "sha256_1163": "10e28d1306a28ea14ce0f15ce6724a3aa96d5d80b2452b05eb7788f3900f2449",
+      "manifest_1163": "10e28d1306a28ea14ce0f15ce6724a3aa96d5d80b2452b05eb7788f3900f2449",
+      "sha256_1164": "10e28d1306a28ea14ce0f15ce6724a3aa96d5d80b2452b05eb7788f3900f2449",
+      "manifest_1164": "10e28d1306a28ea14ce0f15ce6724a3aa96d5d80b2452b05eb7788f3900f2449",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SugarCaneBlock.java",
+      "sha256_1163": "fa57e2c93902803d50da2f1ad9d7a27df55f52fe6591beab93004224c0741d10",
+      "manifest_1163": "fa57e2c93902803d50da2f1ad9d7a27df55f52fe6591beab93004224c0741d10",
+      "sha256_1164": "fa57e2c93902803d50da2f1ad9d7a27df55f52fe6591beab93004224c0741d10",
+      "manifest_1164": "fa57e2c93902803d50da2f1ad9d7a27df55f52fe6591beab93004224c0741d10",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/SweetBerryBushBlock.java",
+      "sha256_1163": "13a5c1cf768fca49dd62b106373ddc0446e8d8c32b20aa9662e740040b9d56b1",
+      "manifest_1163": "13a5c1cf768fca49dd62b106373ddc0446e8d8c32b20aa9662e740040b9d56b1",
+      "sha256_1164": "13a5c1cf768fca49dd62b106373ddc0446e8d8c32b20aa9662e740040b9d56b1",
+      "manifest_1164": "13a5c1cf768fca49dd62b106373ddc0446e8d8c32b20aa9662e740040b9d56b1",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/TallGrassBlock.java",
+      "sha256_1163": "6301d09669cc471ee4c22ffec9cc1c94eae61543f521ee4588ca6aeb9e1b18c4",
+      "manifest_1163": "6301d09669cc471ee4c22ffec9cc1c94eae61543f521ee4588ca6aeb9e1b18c4",
+      "sha256_1164": "6301d09669cc471ee4c22ffec9cc1c94eae61543f521ee4588ca6aeb9e1b18c4",
+      "manifest_1164": "6301d09669cc471ee4c22ffec9cc1c94eae61543f521ee4588ca6aeb9e1b18c4",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/TallSeagrass.java",
+      "sha256_1163": "b49ad1d2b715c7555f65c80bb3f23f5fb3a6b0333effc84d881e03cd06682252",
+      "manifest_1163": "b49ad1d2b715c7555f65c80bb3f23f5fb3a6b0333effc84d881e03cd06682252",
+      "sha256_1164": "b49ad1d2b715c7555f65c80bb3f23f5fb3a6b0333effc84d881e03cd06682252",
+      "manifest_1164": "b49ad1d2b715c7555f65c80bb3f23f5fb3a6b0333effc84d881e03cd06682252",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/TorchBlock.java",
+      "sha256_1163": "da8ed1e85f408232b371a9f3f72be64c6ff624f63070ce4bb03ca77809788ce1",
+      "manifest_1163": "da8ed1e85f408232b371a9f3f72be64c6ff624f63070ce4bb03ca77809788ce1",
+      "sha256_1164": "da8ed1e85f408232b371a9f3f72be64c6ff624f63070ce4bb03ca77809788ce1",
+      "manifest_1164": "da8ed1e85f408232b371a9f3f72be64c6ff624f63070ce4bb03ca77809788ce1",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/TrapDoorBlock.java",
+      "sha256_1163": "fb5158e16452dc5cbad44f7f98d1b72c2d4cf27e5d22b69eb4e2fe721e37dbb1",
+      "manifest_1163": "fb5158e16452dc5cbad44f7f98d1b72c2d4cf27e5d22b69eb4e2fe721e37dbb1",
+      "sha256_1164": "fb5158e16452dc5cbad44f7f98d1b72c2d4cf27e5d22b69eb4e2fe721e37dbb1",
+      "manifest_1164": "fb5158e16452dc5cbad44f7f98d1b72c2d4cf27e5d22b69eb4e2fe721e37dbb1",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/TripWireBlock.java",
+      "sha256_1163": "9ab6da5229aa77489d8944b24cce3f6b9eb36867dd52ea9d21428e6310ef0b93",
+      "manifest_1163": "9ab6da5229aa77489d8944b24cce3f6b9eb36867dd52ea9d21428e6310ef0b93",
+      "sha256_1164": "9ab6da5229aa77489d8944b24cce3f6b9eb36867dd52ea9d21428e6310ef0b93",
+      "manifest_1164": "9ab6da5229aa77489d8944b24cce3f6b9eb36867dd52ea9d21428e6310ef0b93",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/TripWireHookBlock.java",
+      "sha256_1163": "cff7fff8b740fe2e6f5e9b9c380bc79ab728404e493cc4a22976eff63065f427",
+      "manifest_1163": "cff7fff8b740fe2e6f5e9b9c380bc79ab728404e493cc4a22976eff63065f427",
+      "sha256_1164": "cff7fff8b740fe2e6f5e9b9c380bc79ab728404e493cc4a22976eff63065f427",
+      "manifest_1164": "cff7fff8b740fe2e6f5e9b9c380bc79ab728404e493cc4a22976eff63065f427",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/TurtleEggBlock.java",
+      "sha256_1163": "9345c6162f4dcf306e84b91ea5ab54ff18076006422285be258fd88b18d1f901",
+      "manifest_1163": "9345c6162f4dcf306e84b91ea5ab54ff18076006422285be258fd88b18d1f901",
+      "sha256_1164": "9345c6162f4dcf306e84b91ea5ab54ff18076006422285be258fd88b18d1f901",
+      "manifest_1164": "9345c6162f4dcf306e84b91ea5ab54ff18076006422285be258fd88b18d1f901",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/VineBlock.java",
+      "sha256_1163": "b9fc4bd02bccb4807bf206f85adb354012bdb678925567294d9b90502dc7aedb",
+      "manifest_1163": "b9fc4bd02bccb4807bf206f85adb354012bdb678925567294d9b90502dc7aedb",
+      "sha256_1164": "b9fc4bd02bccb4807bf206f85adb354012bdb678925567294d9b90502dc7aedb",
+      "manifest_1164": "b9fc4bd02bccb4807bf206f85adb354012bdb678925567294d9b90502dc7aedb",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/WallBannerBlock.java",
+      "sha256_1163": "353dc6072c65a5551a872a015bfa5d275c7fbde1aa7710be86965cddb8f09756",
+      "manifest_1163": "353dc6072c65a5551a872a015bfa5d275c7fbde1aa7710be86965cddb8f09756",
+      "sha256_1164": "353dc6072c65a5551a872a015bfa5d275c7fbde1aa7710be86965cddb8f09756",
+      "manifest_1164": "353dc6072c65a5551a872a015bfa5d275c7fbde1aa7710be86965cddb8f09756",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/WallBlock.java",
+      "sha256_1163": "aa770704573ee65ca0d0b102bc55e3ece81f7b25aef452bb5c89ec0350a23442",
+      "manifest_1163": "aa770704573ee65ca0d0b102bc55e3ece81f7b25aef452bb5c89ec0350a23442",
+      "sha256_1164": "aa770704573ee65ca0d0b102bc55e3ece81f7b25aef452bb5c89ec0350a23442",
+      "manifest_1164": "aa770704573ee65ca0d0b102bc55e3ece81f7b25aef452bb5c89ec0350a23442",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/WallSignBlock.java",
+      "sha256_1163": "e89e3d1ac3abd8b23a3305c6f4e2b5b00544ee60aa693fd4914e60d04d356663",
+      "manifest_1163": "e89e3d1ac3abd8b23a3305c6f4e2b5b00544ee60aa693fd4914e60d04d356663",
+      "sha256_1164": "e89e3d1ac3abd8b23a3305c6f4e2b5b00544ee60aa693fd4914e60d04d356663",
+      "manifest_1164": "e89e3d1ac3abd8b23a3305c6f4e2b5b00544ee60aa693fd4914e60d04d356663",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/WallSkullBlock.java",
+      "sha256_1163": "c351f5ebc445449ad46ebb55a219a8c9c487ac97f8d428f2615213da15c4900a",
+      "manifest_1163": "c351f5ebc445449ad46ebb55a219a8c9c487ac97f8d428f2615213da15c4900a",
+      "sha256_1164": "c351f5ebc445449ad46ebb55a219a8c9c487ac97f8d428f2615213da15c4900a",
+      "manifest_1164": "c351f5ebc445449ad46ebb55a219a8c9c487ac97f8d428f2615213da15c4900a",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/WallTorchBlock.java",
+      "sha256_1163": "7c548d1360037a917c00c1fbd57ad271e5831a47bf28927e3cd9db28f9adcb06",
+      "manifest_1163": "7c548d1360037a917c00c1fbd57ad271e5831a47bf28927e3cd9db28f9adcb06",
+      "sha256_1164": "7c548d1360037a917c00c1fbd57ad271e5831a47bf28927e3cd9db28f9adcb06",
+      "manifest_1164": "7c548d1360037a917c00c1fbd57ad271e5831a47bf28927e3cd9db28f9adcb06",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/WaterlilyBlock.java",
+      "sha256_1163": "131100391025428a7d9e93b1e3b8b077dd853d7d2f3c0662b5b694f5fff20395",
+      "manifest_1163": "131100391025428a7d9e93b1e3b8b077dd853d7d2f3c0662b5b694f5fff20395",
+      "sha256_1164": "131100391025428a7d9e93b1e3b8b077dd853d7d2f3c0662b5b694f5fff20395",
+      "manifest_1164": "131100391025428a7d9e93b1e3b8b077dd853d7d2f3c0662b5b694f5fff20395",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/block/WoolCarpetBlock.java",
+      "sha256_1163": "e9a79c0409ac60ec475d3b96a1a3927f2a216a4710fc79f927f98dc9aaf53702",
+      "manifest_1163": "e9a79c0409ac60ec475d3b96a1a3927f2a216a4710fc79f927f98dc9aaf53702",
+      "sha256_1164": "e9a79c0409ac60ec475d3b96a1a3927f2a216a4710fc79f927f98dc9aaf53702",
+      "manifest_1164": "e9a79c0409ac60ec475d3b96a1a3927f2a216a4710fc79f927f98dc9aaf53702",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/BlockGetter.java",
+      "sha256_1163": "847fe74a63e7c5a48c028cd40ddbd579ee616370bd3a19b03ff1ab4271175e2b",
+      "manifest_1163": "847fe74a63e7c5a48c028cd40ddbd579ee616370bd3a19b03ff1ab4271175e2b",
+      "sha256_1164": "847fe74a63e7c5a48c028cd40ddbd579ee616370bd3a19b03ff1ab4271175e2b",
+      "manifest_1164": "847fe74a63e7c5a48c028cd40ddbd579ee616370bd3a19b03ff1ab4271175e2b",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/border/WorldBorder.java",
+      "sha256_1163": "2925df8d985d0ec2d075d4f5c57538dcc628528b72a1d35e90af27fe4fbadb2a",
+      "manifest_1163": "2925df8d985d0ec2d075d4f5c57538dcc628528b72a1d35e90af27fe4fbadb2a",
+      "sha256_1164": "2925df8d985d0ec2d075d4f5c57538dcc628528b72a1d35e90af27fe4fbadb2a",
+      "manifest_1164": "2925df8d985d0ec2d075d4f5c57538dcc628528b72a1d35e90af27fe4fbadb2a",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/chunk/ChunkAccess.java",
+      "sha256_1163": "2158777e79d009af83adfac0d131baefbc23ca825a3a29be4c9a5e5ececc44ef",
+      "manifest_1163": "2158777e79d009af83adfac0d131baefbc23ca825a3a29be4c9a5e5ececc44ef",
+      "sha256_1164": "2158777e79d009af83adfac0d131baefbc23ca825a3a29be4c9a5e5ececc44ef",
+      "manifest_1164": "2158777e79d009af83adfac0d131baefbc23ca825a3a29be4c9a5e5ececc44ef",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/chunk/LevelChunk.java",
+      "sha256_1163": "0bfdae3558d681d8c8074ae7476c3a394239dbcca0fdf7bad5b4386eafb65f12",
+      "manifest_1163": "0bfdae3558d681d8c8074ae7476c3a394239dbcca0fdf7bad5b4386eafb65f12",
+      "sha256_1164": "0bfdae3558d681d8c8074ae7476c3a394239dbcca0fdf7bad5b4386eafb65f12",
+      "manifest_1164": "0bfdae3558d681d8c8074ae7476c3a394239dbcca0fdf7bad5b4386eafb65f12",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/CollisionGetter.java",
+      "sha256_1163": "b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac",
+      "manifest_1163": "b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac",
+      "sha256_1164": "b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac",
+      "manifest_1164": "b507d6be11e5985a62cfeb249a99dcb5f8edaf346f12cb2487797d9e01763eac",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/CollisionSpliterator.java",
+      "sha256_1163": "19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297",
+      "manifest_1163": "19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297",
+      "sha256_1164": "19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297",
+      "manifest_1164": "19ab959c469b8edb5c371ff737a59a61b8a80bf397eff1db280064342094d297",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/level/Level.java",
+      "sha256_1163": "e9a23488863fd43a7d8975efc23f4c7cf4af874554bab5b76eaa2c79f028db80",
+      "manifest_1163": "e9a23488863fd43a7d8975efc23f4c7cf4af874554bab5b76eaa2c79f028db80",
+      "sha256_1164": "e9a23488863fd43a7d8975efc23f4c7cf4af874554bab5b76eaa2c79f028db80",
+      "manifest_1164": "e9a23488863fd43a7d8975efc23f4c7cf4af874554bab5b76eaa2c79f028db80",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/phys/AABB.java",
+      "sha256_1163": "514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878",
+      "manifest_1163": "514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878",
+      "sha256_1164": "514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878",
+      "manifest_1164": "514558cf4827679d84a4debd4f400d7d65bd4b8982b7ae8124a0d83a916ba878",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/phys/shapes/CollisionContext.java",
+      "sha256_1163": "8d9e84cf4fdc62cc1a4fc437f828ddccfcc0a2cc9bddd1fd1f621e178beff59a",
+      "manifest_1163": "8d9e84cf4fdc62cc1a4fc437f828ddccfcc0a2cc9bddd1fd1f621e178beff59a",
+      "sha256_1164": "8d9e84cf4fdc62cc1a4fc437f828ddccfcc0a2cc9bddd1fd1f621e178beff59a",
+      "manifest_1164": "8d9e84cf4fdc62cc1a4fc437f828ddccfcc0a2cc9bddd1fd1f621e178beff59a",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/phys/shapes/EntityCollisionContext.java",
+      "sha256_1163": "75e9d0bde099b69f2d388210d82c4ef2ac6e5f7a8e1bea64e297472bbea52418",
+      "manifest_1163": "75e9d0bde099b69f2d388210d82c4ef2ac6e5f7a8e1bea64e297472bbea52418",
+      "sha256_1164": "75e9d0bde099b69f2d388210d82c4ef2ac6e5f7a8e1bea64e297472bbea52418",
+      "manifest_1164": "75e9d0bde099b69f2d388210d82c4ef2ac6e5f7a8e1bea64e297472bbea52418",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/phys/shapes/Shapes.java",
+      "sha256_1163": "ec218dca68cad3525364967aadfbb8c0bead0cc44aa3ee2beba31e00e55ae2d4",
+      "manifest_1163": "ec218dca68cad3525364967aadfbb8c0bead0cc44aa3ee2beba31e00e55ae2d4",
+      "sha256_1164": "ec218dca68cad3525364967aadfbb8c0bead0cc44aa3ee2beba31e00e55ae2d4",
+      "manifest_1164": "ec218dca68cad3525364967aadfbb8c0bead0cc44aa3ee2beba31e00e55ae2d4",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    },
+    {
+      "path": "net/minecraft/world/phys/shapes/VoxelShape.java",
+      "sha256_1163": "6747647a5b94e69747340d432932b77ce5ad701c8f06e141e15b3dd68f8c3bde",
+      "manifest_1163": "6747647a5b94e69747340d432932b77ce5ad701c8f06e141e15b3dd68f8c3bde",
+      "sha256_1164": "6747647a5b94e69747340d432932b77ce5ad701c8f06e141e15b3dd68f8c3bde",
+      "manifest_1164": "6747647a5b94e69747340d432932b77ce5ad701c8f06e141e15b3dd68f8c3bde",
+      "actual_matches_manifest": true,
+      "pair_equal": true
+    }
+  ],
+  "provider_method_file_count": 103,
+  "all_selected_sources_match_manifest": true,
+  "all_selected_pair_hashes_equal": true,
+  "source_manifest_delta": {
+    "added": 7,
+    "removed": 0,
+    "modified": 64
+  }
+}
