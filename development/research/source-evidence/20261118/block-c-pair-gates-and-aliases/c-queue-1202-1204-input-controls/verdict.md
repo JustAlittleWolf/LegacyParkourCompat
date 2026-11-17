@@ -1,0 +1,23 @@
+# COMPLETED — independent audit of 1.20.2 → 1.20.4 input controls
+
+## Bound evidence identities
+
+- Frozen source report: `C:\Users\Wolfi\.codex\visualizations\2026\11\17\01a1eb7b-b9ff-7a20-8686-0295dde20f26\c-queue-1202-1204-input-controls\report.md`; SHA-256 `a4d854c863877e02a2d124d15537c132a6c710fc586f11261a8d99c504ecf8ca` (matches the assigned identity).
+- Canonical exact sources: `decompiled_minecraft/1.20.2/mojmap/` and `decompiled_minecraft/1.20.4/mojmap/`; ready markers identify Minecraft `1.20.2` and `1.20.4`, mapping `mojmap`.
+- Source-manifest SHA-256s, verified against the canonical files: `1.20.2/mojmap.sources.sha256` `e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887`; `1.20.4/mojmap.sources.sha256` `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1`.
+- Both provenance manifests identify the exact Mojmap runs and versions. All consulted sources checked against their manifest entries. Key paired file hashes corroborated from disk: `KeyboardInput.java` `a8064906872955a3520398ab5b2a326552d424f41887d1294aa6a038e2623ff0` (both); `Input.java` `b302ffbc45c5f900ea18a4d4af2df6fa0454ea7cb7744a0d249061e5fcb97fbb` (both); `LocalPlayer.java` `bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5` (both); `Player.java` `25f263692fd6b2a737aa813315022a0caf4e18c3661ba3bd706c6297f909f25c` → `218da60bc4f8c9279f56eb87e2cf2c0af79562fbe3d818a408429c656efb95dd`; `LivingEntity.java` `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486ac9f96ff69828` → `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; `Entity.java` `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8c8d5c23b01b` → `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+
+## Independent verdict
+
+**The report’s no-difference claim is confirmed for all four assigned on-foot control-state slices.**
+
+- **Keyboard sample and transform:** `KeyboardInput.tick`, the `Input` fields/vector/predicate, `KeyMapping`, `ToggleKeyMapping`, and the scoped movement-key declarations match. Sampling order, opposing-key cancellation, signed unit impulses and optional multiplier are identical. The player call site in `LocalPlayer.aiStep` is byte-identical across the pair.
+- **Sprint start/stop and timers:** the byte-identical `LocalPlayer` path retains the 7-tick double-tap trigger, held sprint input, start/stop gates, and state/network handling. Changed containing files have the same scoped `Player.canSprint()` (`true`), `LivingEntity.setSprinting` attribute update, and `Entity` shared sprint flag (3) accessors. No local on-foot sprint writer or predicate difference was found.
+- **Jump request and cooldown:** the byte-identical local-player edge sample and mayfly `jumpTriggerTime` path preserve order. In the changed `LivingEntity` file, `noJumpDelay` decrements before the common gate; the same jumping/fluid, ground-or-water-height and zero-delay checks call `jumpFromGround`, set delay to 10, or clear it when the request/fluid gate fails. `Player.jumpFromGround` is unchanged. The checked jump-specific bodies have no difference.
+- **Flight permission and vertical input:** the byte-identical local-player path keeps the `mayfly`/always-flying gates, `$$10` latch, ability update calls, and integer sneak/jump vertical input multiplied by flying speed and `3.0F` for a controlled camera. `Abilities` is identical. The changed `Player` file retains the same flying gates for `isAffectedByFluids`, `updateSwimming`, and `isSwimming`.
+
+`KeyboardInput.tick` is the direct keyboard sampler invoked from `LocalPlayer.aiStep`. `LocalPlayer` then scales the movement impulses while using an item; that writer is unchanged in the byte-identical file. It also sets `input.jumping` for AutoJump, which is outside this verdict as assigned. No other missed writer affecting the assigned conclusions was found. `Minecraft.handleKeybinds` was checked in both versions: it contains no writer to these movement input fields, and its relevant surrounding input handling does not change these player-control paths. `Player.java`, `LivingEntity.java`, and `Entity.java` differ elsewhere, but the scoped predicates, timer, and state operations checked above retain their behavior.
+
+## Limits
+
+This verdict covers only the assigned on-foot keyboard, sprint, jump request/cooldown and flight vertical-input/permission slices. AutoJump, passengers, travel formula bodies and world-dependent scopes are excluded. It does not freeze the pair or establish runtime parity. No product files, wiki material, Git history, tests, game launches, decompilation or source generation were used.
