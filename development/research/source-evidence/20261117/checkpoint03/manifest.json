@@ -62,6 +62,16 @@
       "originalBuildPath": "build/later-source-20261116/1.21.1--1.21.3/tiny_position_write_revision_r4/tiny-position-write-r4.md"
     },
     {
+      "path": "later-source-20261116/1.21.11--26.1.2/autojump_audit/independent-source-audit.md",
+      "sha256": "b82fa177daa8b374bfed47b3786a94ecf8113b4728b619633a8c64e98be4049a",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/autojump_audit/independent-source-audit.md"
+    },
+    {
+      "path": "later-source-20261116/1.21.11--26.1.2/autojump/source-coverage.md",
+      "sha256": "39d5bb2eac741df6b038d49c8e2d0f2114114a9ec91753e6c4bbbc04ff668e9f",
+      "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/autojump/source-coverage.md"
+    },
+    {
       "path": "later-source-20261116/1.21.11--26.1.2/entity_move_collision_audit/audit.md",
       "sha256": "5f80feb0ca4138edb835a56a8a11caa86fb558de819bce31915bdb3021fa109e",
       "originalBuildPath": "build/later-source-20261116/1.21.11--26.1.2/entity_move_collision_audit/audit.md"
@@ -122,6 +132,16 @@
       "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/1_9_4_source_gate/author/sneak-cutoff-1.9.4-source-comparison.r2.md"
     },
     {
+      "path": "mcpk-20261116/pipeline-early-rules/bed-bounce-audit/verdict.md",
+      "sha256": "dfdd3fb104e48412cd61007f53c628007c293d58fc5eba717ad8ec1cd602d7c2",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/bed-bounce-audit/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/pipeline-early-rules/bed-bounce-source/bed-bounce-source-facts.md",
+      "sha256": "a728828983aacfa8df3d622a6e804cefb321d5eb499acf7dada7c865844c994d",
+      "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/bed-bounce-source/bed-bounce-source-facts.md"
+    },
+    {
       "path": "mcpk-20261116/pipeline-early-rules/oob-guard-reachability/audit/verdict.md",
       "sha256": "f4f08939177f73d9163e8da7ee769f03b8b338b0dbdf9961b887f39a3e4d665c",
       "originalBuildPath": "build/mcpk-20261116/pipeline-early-rules/oob-guard-reachability/audit/verdict.md"
@@ -140,6 +160,11 @@
       "path": "mcpk-20261116/vd-full-checklist/accept-boat-dismount-revised/verdict.md",
       "sha256": "fe84a28db6b441e0ef8e8dc4e6a01b73c967eea42942f55254125ab700214364",
       "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-boat-dismount-revised/verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/accept-riptide-passenger-consequence/terminal.md",
+      "sha256": "60763796092df421dd55f02053b6250b3d47480ba404e1414321c7c3e068e84b",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/accept-riptide-passenger-consequence/terminal.md"
     },
     {
       "path": "mcpk-20261116/vd-full-checklist/accept-water-current-corrected/acceptance.md",
@@ -172,6 +197,11 @@
       "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-powder-stuck-exact/readiness.md"
     },
     {
+      "path": "mcpk-20261116/vd-full-checklist/product-readiness-slowfall-1212/terminal-result.md",
+      "sha256": "5279b61479da427d8261135b4c41d1b4ae6e04ae2203b558910f5e1a1990f46b",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-slowfall-1212/terminal-result.md"
+    },
+    {
       "path": "mcpk-20261116/vd-full-checklist/product-readiness-slowfall-lowgravity/readiness.md",
       "sha256": "e7ddba7a0d7c5505b023aaef1b1efc2d657ad51f055411ed69314cbe4148b3b4",
       "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-readiness-slowfall-lowgravity/readiness.md"
@@ -187,9 +217,24 @@
       "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/product-water-current-corrected/terminal.md"
     },
     {
+      "path": "mcpk-20261116/vd-full-checklist/riptide-passenger-consequence/terminal.md",
+      "sha256": "5b5a2b48644b6a13747dbbd80aec88b8bc945ef0ba3004408e9dbc6498682507",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/riptide-passenger-consequence/terminal.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/slowfall-1212-source-followup/terminal-result.md",
+      "sha256": "1efc31ae3f565bff1ae072af5f27fa8efcf5594bf55673053e30429d726a46d4",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/slowfall-1212-source-followup/terminal-result.md"
+    },
+    {
       "path": "mcpk-20261116/vd-full-checklist/slowfall-consequence-followup/source-verdict.md",
       "sha256": "42b03b823700ce6c78202c5e6f4f34123b46319530bfb2c26d439ba664b75c58",
       "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/slowfall-consequence-followup/source-verdict.md"
+    },
+    {
+      "path": "mcpk-20261116/vd-full-checklist/soulspeed-11634-continuity/soul-speed-11634-continuity.md",
+      "sha256": "949e88b8104d54e7a19a053e2ad4c614c0eb6329355d2a0cc882a311ee1854ee",
+      "originalBuildPath": "build/mcpk-20261116/vd-full-checklist/soulspeed-11634-continuity/soul-speed-11634-continuity.md"
     },
     {
       "path": "mcpk-20261116/vd-full-checklist/water-current-26-2-source-map/terminal-packet.md",
