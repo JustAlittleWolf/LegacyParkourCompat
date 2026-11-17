@@ -15262,6 +15262,34 @@
           "proposalSha256": "16BED678591E9700F6BB4F0BC23A6C41283F0F39F6AE7F777E863FAFDF78E436",
           "sourceEvidenceSha256": "159D0FCA1BB7EEE62C3497A3BBDF753C593CE4250A6C8572AEA1FBDE9173E3E0",
           "sourceEvidencePath": "build/source-drafts/1.21.1--1.21.3-direct-player-position-correction.md"
+        },
+        {
+          "decision": "ACCEPT bounded 1.21.1 versus 1.21.2/.3 correction producer/consumer boundary",
+          "report": {
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_corrections/report.md",
+            "sha256": "763e286dd4bc968827f8078ed3849c1f98cf27812687979b735b515a39db5291"
+          },
+          "audit": {
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_corrections_audit/verdict.md",
+            "sha256": "4ee5420d808e1da14c9844e8b19e9630bd99e832d7e9f9367dbe53e6c5be2bf4"
+          },
+          "boundaryReport": {
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_correction_boundary/boundary.md",
+            "sha256": "605f2add736580b391f5cd4c91f2804cb9f83ba5e0ff7ac79f71a73ef15f1f4e"
+          },
+          "boundaryAudit": {
+            "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_correction_boundary_audit/verdict.md",
+            "sha256": "b997434f0052dc01033c96244f4df68f543e737cb46f5f5e9bdc9cd668dba4f2"
+          },
+          "canonicalBytesAtAssociation": {
+            "path": "development/research/findings/1.21.1--1.21.3/direct-player-position-correction.md",
+            "sha256": "de28a8f59eeae50f99dbc61aa3250ccc496a822133e7089db39f234f999d583d"
+          },
+          "limits": [
+            "Checked adjacent source boundary is 1.21.1 to 1.21.2, unchanged in 1.21.3; no narrower patch/snapshot onset.",
+            "Producer triggers, riding transitions and downstream caller dependencies remain open.",
+            "Product correspondence indicates V1_21 gap and V1_21_2 native coverage; implementation and runtime parity remain separate."
+          ]
         }
       ],
       "currentPublication": {
@@ -15282,7 +15310,48 @@
           "missing": "Adjacent correction paths and relative-velocity flag combinations",
           "next_action": "Retain the finding's bounded exclusions; assess entity synchronization, removed-vehicle handling, respawn, standalone rotation, and individual relative-velocity combinations under separate source assignments."
         }
-      ]
+      ],
+      "externalCorrectionBoundary20261117": {
+        "decision": "ACCEPT bounded 1.21.1 versus 1.21.2/.3 correction producer/consumer boundary",
+        "report": {
+          "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_corrections/report.md",
+          "sha256": "763e286dd4bc968827f8078ed3849c1f98cf27812687979b735b515a39db5291"
+        },
+        "audit": {
+          "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_corrections_audit/verdict.md",
+          "sha256": "4ee5420d808e1da14c9844e8b19e9630bd99e832d7e9f9367dbe53e6c5be2bf4"
+        },
+        "boundaryReport": {
+          "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_correction_boundary/boundary.md",
+          "sha256": "605f2add736580b391f5cd4c91f2804cb9f83ba5e0ff7ac79f71a73ef15f1f4e"
+        },
+        "boundaryAudit": {
+          "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_correction_boundary_audit/verdict.md",
+          "sha256": "b997434f0052dc01033c96244f4df68f543e737cb46f5f5e9bdc9cd668dba4f2"
+        },
+        "canonicalBytesAtAssociation": {
+          "path": "development/research/findings/1.21.1--1.21.3/direct-player-position-correction.md",
+          "sha256": "de28a8f59eeae50f99dbc61aa3250ccc496a822133e7089db39f234f999d583d"
+        },
+        "limits": [
+          "Checked adjacent source boundary is 1.21.1 to 1.21.2, unchanged in 1.21.3; no narrower patch/snapshot onset.",
+          "Producer triggers, riding transitions and downstream caller dependencies remain open.",
+          "Product correspondence indicates V1_21 gap and V1_21_2 native coverage; implementation and runtime parity remain separate."
+        ]
+      },
+      "productReadiness20261117": {
+        "report": {
+          "path": "development/research/source-evidence/20261117/checkpoint04/mcpk-20261116/vd-full-checklist/product-readiness-external-position-correction/product-readiness.md",
+          "sha256": "6e72c0712a19acb5cd7c7bbf18830d97dc39fce47b2c8a09bf5f7fda0e8a6eab"
+        },
+        "disposition": "IMPLEMENTATION_GAP for selected V1_21 (1.21.1); selected V1_21_2 (1.21.2/.3) is covered by native fallback for the accepted boundary slice.",
+        "implementation": "not yet integrated for this slice",
+        "limits": [
+          "Existing canonical finding SHA is recorded in externalCorrectionBoundary20261117.canonicalBytesAtAssociation.",
+          "Receive-side entity-motion packet path is unchanged; server producer is not in client implementation scope.",
+          "No runtime parity claim."
+        ]
+      }
     },
     {
       "finding": "development/research/findings/1.8--1.9/ladder-collision-thickness.md",
@@ -21282,6 +21351,35 @@
         "sourceAuditSha256": "e20be23dff4e776f8b4e8492955a814fb24ad2dfa1ee8b7b3929eeee57ea6a03",
         "productCommit": "d305ddd14a1fa1ec9665da4adc73909c511b5154",
         "status": "Integrated: V1_21 preserves resolved-length threshold; V1_21_2 consumes requested and resolved vectors at the position-write decision. Static diff check only; runtime parity unverified."
+      },
+      "externalCorrectionBoundary20261117": {
+        "report": {
+          "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_correction_boundary/boundary.md",
+          "sha256": "605f2add736580b391f5cd4c91f2804cb9f83ba5e0ff7ac79f71a73ef15f1f4e"
+        },
+        "audit": {
+          "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.1--1.21.3/external_correction_boundary_audit/verdict.md",
+          "sha256": "b997434f0052dc01033c96244f4df68f543e737cb46f5f5e9bdc9cd668dba4f2"
+        },
+        "boundary": "Both bounded changes first present at checked 1.21.2 and unchanged in 1.21.3; 1.21.1 retains older path.",
+        "productReadiness": {
+          "report": {
+            "path": "development/research/source-evidence/20261117/checkpoint04/mcpk-20261116/vd-full-checklist/product-readiness-external-position-correction/product-readiness.md",
+            "sha256": "6e72c0712a19acb5cd7c7bbf18830d97dc39fce47b2c8a09bf5f7fda0e8a6eab"
+          },
+          "disposition": "IMPLEMENTATION_GAP for selected V1_21 (1.21.1); selected V1_21_2 (1.21.2/.3) is covered by native fallback for the accepted boundary slice.",
+          "implementation": "not yet integrated for this slice",
+          "limits": [
+            "Existing canonical finding SHA is recorded in externalCorrectionBoundary20261117.canonicalBytesAtAssociation.",
+            "Receive-side entity-motion packet path is unchanged; server producer is not in client implementation scope.",
+            "No runtime parity claim."
+          ]
+        },
+        "limits": [
+          "Checked adjacent source boundary is 1.21.1 to 1.21.2, unchanged in 1.21.3; no narrower patch/snapshot onset.",
+          "Producer triggers, riding transitions and downstream caller dependencies remain open.",
+          "Product correspondence indicates V1_21 gap and V1_21_2 native coverage; implementation and runtime parity remain separate."
+        ]
       }
     },
     {
