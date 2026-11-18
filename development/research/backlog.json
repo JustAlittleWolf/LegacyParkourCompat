@@ -3050,7 +3050,7 @@
         },
         {
           "exactPair": "1.12.2--1.13.2",
-          "decision": "ACCEPT bounded early AutoJump east-border witness with the historical outsideWorldBorder flag false and exact empty clearance samples. Old individual maxY=65 yields timer 1, exact 1.13.2 finite aggregate maxY=67 yields timer 0. Exact 1.14 separate infinite provider bound is retained. History-independent witness and implementation remain on hold.",
+          "decision": "ACCEPT bounded early AutoJump east-border witness with the historical outsideWorldBorder flag false and exact empty clearance samples. Old individual maxY=65 yields timer 1, exact 1.13.2 finite aggregate maxY=67 yields timer 0. Exact 1.14 separate infinite provider bound is retained. The tangent witness retains the prior-flag premise. A separate eroded-center fixture closes the history gate for that scenario; product correspondence remains open.",
           "snapshot": {
             "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/author-clearance-addendum.md",
@@ -3116,6 +3116,30 @@
             "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
             "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-113-1131-audit/source-roster-supplement.md",
             "sha256": "c474854e3d9bfaea87bf54629f274cc4ac06a616f14cf046281168ab4ac6e9b8"
+          }
+        },
+        {
+          "exactPair": "1.12.2--1.13.2",
+          "decision": "ACCEPT bounded history-independent east-border witness. Supported Speed II movement remains inside the eroded center test for either old flag while the ray crosses the east wall. Loaded AIR samples yield old individual rise 1 and timer 1, new aggregate rise 3 and timer 0. Accepted displacement is stipulated. Broader cases, product correspondence and runtime parity remain open.",
+          "snapshot": {
+            "revision": "b6e09027a2de47cb90fa711596b88fa88fbb689d",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-eroded-gate-1122-1132/report.md",
+            "sha256": "e830cb9ccff49340d09ac9a5a84dc84ce9f50f3ba2ef2476d66eef594b3e74a8"
+          },
+          "review": {
+            "revision": "b6e09027a2de47cb90fa711596b88fa88fbb689d",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-eroded-gate-1122-1132/verdict.md",
+            "sha256": "bf0f87417ef8e2e2b3f948a35939724e0196722d367eced6d27f4889ca403ab5"
+          },
+          "binding": {
+            "revision": "b6e09027a2de47cb90fa711596b88fa88fbb689d",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-eroded-gate-1122-1132/binding.md",
+            "sha256": "59dbebcc1836228659b9b4c177759f01d7357a1e2a8da11f2de43abaaf2ff31f"
+          },
+          "oldAliasReview": {
+            "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/old-alias-verdict.md",
+            "sha256": "01e68d4683765eea545b05da61d251bafae01a77c3632ae3644dbc3b12f920f8"
           }
         }
       ]
