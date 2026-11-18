@@ -13,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
@@ -48,11 +49,14 @@ import java.util.stream.Stream;
  * each actual state with the player CollisionContext.
  *
  * The separate single-Brewing-Stand fixture needs the ordered components of
- * Ornithe Feather 1.12–1.12.2 BrewingStandBlock.addCollisions: stem, then full
- * plate. The Feather 1.13 BrewingStandBlock.SHAPE union and VoxelSet.forEachBox
- * expose the plate first. The active 26.2 historical collision union retains
- * the old occupied volume but likewise flattens it plate first. Reuse its old
- * ordered provider components on the audited slab-floor AutoJump path.
+ * Ornithe Feather 1.12, 1.12.1 and 1.12.2 BrewingStandBlock.addCollisions
+ * calls Block.addCollision for the stem and then the full plate, appending
+ * each translated box on strict intersection. The Feather 1.13 and 1.13.2
+ * BrewingStandBlock.SHAPE union and VoxelSet.forEachBox expose the plate first.
+ * The active 26.2 historical union retains the occupied volume but likewise
+ * flattens plate first. Reuse the ordered components for the isolated dry
+ * slab-floor probe, where Feather 1.12.2 Entity.move cannot step onto the plate
+ * before LocalClientPlayerEntity.move calls autoJump.
  *
  * For the separate cardinal border fixtures, Feather 1.12–1.12.2
  * World.isWithinBorder is true for either prior outside flag when the
@@ -256,10 +260,19 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
 
     private static List<VoxelShape> brewingStandParts(Player player, CollisionGetter level, AABB query,
         CollisionContext context, BlockPos stand, ParkourVersion selected) {
+        float width = player.getBbWidth();
+        float height = player.getBbHeight();
         BlockPos playerSupport = BlockPos.containing(player.getX(), player.getY() - 0.5, player.getZ());
-        if (selected != ParkourVersion.V1_12 || !(level instanceof Level clientLevel)
-            || clientLevel != player.level() || !clientLevel.isClientSide()
+        if (selected != ParkourVersion.V1_12 || !(player instanceof LocalPlayer)
+            || !(level instanceof Level clientLevel) || clientLevel != player.level() || !clientLevel.isClientSide()
+            || player.getPose() != Pose.STANDING || !player.onGround() || player.getAbilities().flying
+            || player.isPassenger() || player.isFallFlying() || player.isInWater() || player.isInLava()
+            || player.hasEffect(MobEffects.JUMP_BOOST) || width != 0.6F || height != 1.8F
             || query.minY != player.getY() || query.minY != stand.getY() - 0.5
+            || query.maxY != player.getY() + height || query.minY < 0.0 || query.maxY > 256.0
+            || !(query.minX <= player.getX() - width && query.maxX >= player.getX() + width
+                && query.minZ <= player.getZ() - width && query.maxZ >= player.getZ() + width)
+            || !Double.isFinite(query.getSize())
             || playerSupport.getY() != stand.getY() - 1
             || !query.intersects(new AABB(stand))
             || !isDryBottomSlab(loadedState(level, stand.below()))
@@ -270,7 +283,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         }
 
         BlockState state = loadedState(level, stand);
-        if (!state.is(Blocks.BREWING_STAND)) {
+        if (!state.is(Blocks.BREWING_STAND) || !state.getFluidState().isEmpty()) {
             return List.of();
         }
         List<VoxelShape> parts = MovementRuntime.find(BlockCollisionShapeHook.class, state.getBlock(), player)
