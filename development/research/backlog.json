@@ -3394,6 +3394,25 @@
             "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
             "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
           }
+        },
+        {
+          "exactVersion": "1.13",
+          "decision": "ACCEPT the independently derived original 1.13 cardinal 29-cell masks with two physical Stone supports. East, west, north and south have 7, 5, 4 and 4 greedy boxes respectively; the first qualifying box gives rise 2 on each face. Jump Boost II admission remains conditional on the caller gates and loaded physical AIR. The binding corrects the additional head read to y=67. Corner cases and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "dd8c88c6ae19b1ea797c7c5fed248b8ccce81a2f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-cardinal-original-113/report.md",
+            "sha256": "eb1ba1cd85131bf783970e7acfd490a39ba023cfc1d8b437374502c818aa57f1"
+          },
+          "review": {
+            "revision": "dd8c88c6ae19b1ea797c7c5fed248b8ccce81a2f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-cardinal-original-113/verdict.md",
+            "sha256": "7c047a6c5ef3a1fbbed06f7cdc772ffde73e3fcc89da62f271c84cb32fe3e20b"
+          },
+          "binding": {
+            "revision": "dd8c88c6ae19b1ea797c7c5fed248b8ccce81a2f",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-cardinal-original-113/binding.md",
+            "sha256": "8a694e5632d7d687794c5e299705808743b4573616ef3c846653b58252fbb2a8"
+          }
         }
       ]
     },
