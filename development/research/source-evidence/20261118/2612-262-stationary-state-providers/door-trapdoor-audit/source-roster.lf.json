@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "phase": "pre-claim source roster freeze",
+  "sourcePair": [
+    {
+      "sourceManifestSha256": "54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0",
+      "mapping": "unobfuscated",
+      "version": "26.1.2",
+      "readyStatus": "ready"
+    },
+    {
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "mapping": "unobfuscated",
+      "version": "26.2",
+      "readyStatus": "ready"
+    }
+  ],
+  "manifests": [
+    {
+      "version": "26.1.2",
+      "actualSha256": "54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0"
+    },
+    {
+      "version": "26.2",
+      "actualSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+    }
+  ],
+  "reviewedSourceRoster": [
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/level/block/DoorBlock.java",
+      "sha256": "e97e2857c3afedd0162a93b6ceed5cea6ad13303951930f703e864c070ec0dad",
+      "bytes": 13495
+    },
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/level/block/TrapDoorBlock.java",
+      "sha256": "893754c8f7f127d311f7ccd5de8fea104fd377f59a086fe703dcc1aadb0cd2ef",
+      "bytes": 8684
+    },
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977",
+      "bytes": 27510
+    },
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13",
+      "bytes": 55034
+    },
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/phys/shapes/Shapes.java",
+      "sha256": "cfa63cbed77c922a68e7e8a6a3b78b09a22c7de51e0146e481e9c9d26db66f58",
+      "bytes": 19897
+    },
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/level/block/WeatheringCopperDoorBlock.java",
+      "sha256": "6881b4dc3f4c9064dc1b90f7e4f65dc89276320d7f84b8c112de2ac66a7b54eb",
+      "bytes": 2006
+    },
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/level/block/WeatheringCopperTrapDoorBlock.java",
+      "sha256": "ce49eb6c79ad2f7b2e8aa21d63c809b082cbd51c854ee58cbdf3099a0a2ab158",
+      "bytes": 1897
+    },
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/level/block/state/properties/BlockSetType.java",
+      "sha256": "55cbd260a27d92db603975068fa3ce74ccb03709f4f17d87d3611a9623957aa7",
+      "bytes": 8669
+    },
+    {
+      "version": "26.1.2",
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "ba8a258b33f73fe03f93e7b02f9c25d4f66cf3aaab04c4580d0863cc71bc866f",
+      "bytes": 334272
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/DoorBlock.java",
+      "sha256": "cbbfb567e366d043ecc8742188f7de36799b54d5ea46e0bb944688eeba7760c5",
+      "bytes": 13501
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/TrapDoorBlock.java",
+      "sha256": "3fe7ff071a7bf9d03b072dd453fe18d546f5d7f780839a39e5ea2d08bb48f3f8",
+      "bytes": 8581
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab",
+      "bytes": 27309
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e",
+      "bytes": 55575
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/phys/shapes/Shapes.java",
+      "sha256": "6ed9460d58727770bdec59c4f3184f075644f3c411be1eeab2eae17e8ece1891",
+      "bytes": 19890
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/WeatheringCopperDoorBlock.java",
+      "sha256": "6881b4dc3f4c9064dc1b90f7e4f65dc89276320d7f84b8c112de2ac66a7b54eb",
+      "bytes": 2006
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/WeatheringCopperTrapDoorBlock.java",
+      "sha256": "ce49eb6c79ad2f7b2e8aa21d63c809b082cbd51c854ee58cbdf3099a0a2ab158",
+      "bytes": 1897
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/state/properties/BlockSetType.java",
+      "sha256": "55cbd260a27d92db603975068fa3ce74ccb03709f4f17d87d3611a9623957aa7",
+      "bytes": 8669
+    },
+    {
+      "version": "26.2",
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "sha256": "f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435",
+      "bytes": 276893
+    },
+    {
+      "version": "26.1.2",
+      "path": "com/mojang/math/OctahedralGroup.java",
+      "sha256": "6f6b3a2eb4ec1f944cba52899751f3eeff9298dba77167f4d9d152ed24f2abbf",
+      "bytes": 9491
+    },
+    {
+      "version": "26.1.2",
+      "path": "com/mojang/math/SymmetricGroup3.java",
+      "sha256": "2f1236b191892d0df8bd13455f30e7ad47cec3348bf75de370a65b52173c4fa1",
+      "bytes": 3006
+    },
+    {
+      "version": "26.2",
+      "path": "com/mojang/math/OctahedralGroup.java",
+      "sha256": "6f6b3a2eb4ec1f944cba52899751f3eeff9298dba77167f4d9d152ed24f2abbf",
+      "bytes": 9491
+    },
+    {
+      "version": "26.2",
+      "path": "com/mojang/math/SymmetricGroup3.java",
+      "sha256": "2f1236b191892d0df8bd13455f30e7ad47cec3348bf75de370a65b52173c4fa1",
+      "bytes": 3006
+    }
+  ]
+}
