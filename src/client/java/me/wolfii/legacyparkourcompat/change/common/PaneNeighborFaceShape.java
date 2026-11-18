@@ -751,7 +751,7 @@ public final class PaneNeighborFaceShape {
     }
 
     /** Mirrors 1.12 StairsBlock.getStairShape and its same-half/facing veto. */
-    private static Optional<StairsShape> resolveStairShape(BlockState state, BlockGetter level, BlockPos pos) {
+    public static Optional<StairsShape> resolveStairShape(BlockState state, BlockGetter level, BlockPos pos) {
         Direction facing = state.getValue(StairBlock.FACING);
         Half half = state.getValue(StairBlock.HALF);
         BlockState front = level.getBlockState(pos.relative(facing));

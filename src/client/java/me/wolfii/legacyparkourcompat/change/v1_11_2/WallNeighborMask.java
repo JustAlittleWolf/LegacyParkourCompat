@@ -1,23 +1,37 @@
 package me.wolfii.legacyparkourcompat.change.v1_11_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.common.PaneNeighborFaceShape;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallNeighborMaskHook;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.StairsShape;
 
 import java.util.OptionalInt;
 import java.util.Set;
 
 /**
  * Selects the complete 1.11.2 wall mask for the mapped wall, stair and gate domain
- * and for a single TNT neighbor with air on the other three sides.
+ * and for the bounded single-TNT and mixed TNT/Oak Stairs tuples.
+ *
+ * <p>1.11.2 Ornithe Feather build.2: {@code WallBlock.resolveVirtualProperties}
+ * uses {@code shouldConnectTo} for each side. {@code Material.isSolidBlocking}
+ * rejects {@code TntBlock}'s translucent material and {@code StairsBlock.isCube}
+ * rejects stairs. {@code WallBlock.getShapeIndex} selects the tall center box
+ * after both bits are clear. In 1.12 Ornithe Feather build.2,
+ * {@code WallBlock.shouldConnectTo} accepts TNT through {@code Block.getFaceShape}
+ * and accepts a straight stair facing the wall through {@code StairsBlock.getFaceShape}
+ * after {@code resolveVirtualProperties} recomputes its shape.
  *
  * <p>Ornithe Feather 1.11.2 and 1.12.2
  * {@code net.minecraft.block.WallBlock.shouldConnectTo} classify the four
@@ -33,6 +47,10 @@ import java.util.Set;
  */
 @MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class WallNeighborMask implements WallNeighborMaskHook {
+    private static final Direction[] NEIGHBOR_DIRECTIONS = {
+        Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST
+    };
+
     private static final Set<String> TARGET_KEYS = Set.of(
         "minecraft:cobblestone_wall",
         "minecraft:mossy_cobblestone_wall"
@@ -71,11 +89,7 @@ public final class WallNeighborMask implements WallNeighborMaskHook {
             || !isAdmittedNeighbor(east)
             || !isAdmittedNeighbor(south)
             || !isAdmittedNeighbor(west)) {
-            // 1.11.2 Ornithe Feather: WallBlock.shouldConnectTo rejects TntBlock because
-            // its Material.TNT fails Material.isSolidBlocking. All four bits are clear here.
-            // 1.12 Ornithe Feather: WallBlock.shouldConnectTo accepts TNT's inherited
-            // Block.getFaceShape SOLID result and resolveVirtualProperties sets its bit.
-            return isTntWithThreeAirNeighbors(north, east, south, west)
+            return isTntWitness(target, level, pos, north, east, south, west)
                 ? OptionalInt.of(0) : OptionalInt.empty();
         }
 
@@ -87,16 +101,53 @@ public final class WallNeighborMask implements WallNeighborMaskHook {
         return OptionalInt.of(mask);
     }
 
-    private static boolean isTntWithThreeAirNeighbors(BlockState... neighbors) {
+    private static boolean isTntWitness(BlockState wall, BlockGetter level, BlockPos pos, BlockState... neighbors) {
         int tntCount = 0;
-        for (BlockState neighbor : neighbors) {
+        boolean dryTnt = false;
+        int stairIndex = -1;
+        for (int index = 0; index < neighbors.length; index++) {
+            BlockState neighbor = neighbors[index];
             if (neighbor.is(Blocks.TNT)) {
                 tntCount++;
+                dryTnt = neighbor.getFluidState().isEmpty();
+            } else if (neighbor.is(Blocks.OAK_STAIRS) && stairIndex == -1) {
+                stairIndex = index;
             } else if (!neighbor.is(Blocks.AIR)) {
                 return false;
             }
         }
-        return tntCount == 1;
+        if (tntCount != 1) {
+            return false;
+        }
+        if (stairIndex == -1) {
+            return true;
+        }
+
+        if (!dryTnt || !wall.is(Blocks.COBBLESTONE_WALL) || !(level instanceof LevelReader world)) {
+            return false;
+        }
+        BlockState stair = neighbors[stairIndex];
+        Direction side = NEIGHBOR_DIRECTIONS[stairIndex];
+        if (stair.getValue(StairBlock.WATERLOGGED) || stair.getValue(StairBlock.FACING) != side.getOpposite()) {
+            return false;
+        }
+
+        BlockPos stairPos = pos.relative(side);
+        BlockPos above = pos.above();
+        if (!isLoaded(world, pos) || !isLoaded(world, above)) {
+            return false;
+        }
+        for (Direction direction : NEIGHBOR_DIRECTIONS) {
+            if (!isLoaded(world, pos.relative(direction)) || !isLoaded(world, stairPos.relative(direction))) {
+                return false;
+            }
+        }
+        return level.getBlockState(above).is(Blocks.AIR)
+            && PaneNeighborFaceShape.resolveStairShape(stair, level, stairPos).orElse(null) == StairsShape.STRAIGHT;
+    }
+
+    private static boolean isLoaded(LevelReader world, BlockPos pos) {
+        return !world.isOutsideBuildHeight(pos) && world.hasChunkAt(pos);
     }
 
     private static boolean isAdmittedNeighbor(BlockState state) {
