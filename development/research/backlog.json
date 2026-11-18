@@ -3139,7 +3139,20 @@
               "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/114-endpoint-author-report.md",
               "sha256": "59521c01515b13b3d50af364dd1fba2d1f4d6d77e0ffbb2076ce1a52dbc43691"
             }
-          ]
+          ],
+          "floorInclusiveCorrection": {
+            "binding": {
+              "revision": "2776a2979293f463efb480a492d91a13e0b0a04c",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/binding.md",
+              "sha256": "abb646a2e7b514d69b3c77178c69838b7502763dbef0af41febe86c458d3c52d"
+            },
+            "review": {
+              "revision": "2776a2979293f463efb480a492d91a13e0b0a04c",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/east-fixture-with-stone-verdict.md",
+              "sha256": "4f065e828c7ed082ee9f4bf53ff818cf8d30b9d4286e09cfcb19760a12d2632c"
+            },
+            "decision": "With actual Stone support at (9,63,0), exact 1.13.2 first box is [10,11] x [63,67] x [-1,0] and samples physical AIR at (10,66,-1). Rise remains 3 and timer remains zero. The original synthetic-only geometry remains valid for its occupancy."
+          }
         },
         {
           "exactPair": "1.13--1.13.1",
@@ -3233,6 +3246,25 @@
             ],
             "runtimeParity": "unverified",
             "limits": "Two-Stone support, loaded physical AIR samples, and the exact 1.13.1/1.13.2 shared collector. The separate tangent fixture, exact 1.13, and infinite provider remain separate."
+          },
+          "sharedFiniteMaskProduct": {
+            "code": {
+              "revision": "2776a2979293f463efb480a492d91a13e0b0a04c",
+              "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_14/AutoJumpCollisionOrder.java",
+              "sha256": "47112e415ef256a9a38b2573c9560256616a2d736e0059288db3cae87040fe10"
+            },
+            "productCommit": "2776a2979293f463efb480a492d91a13e0b0a04c",
+            "standaloneBuildTree": "423bff2876200533236deea9594495e969ad6ce6",
+            "binding": {
+              "revision": "fbcad3c4cf2505ddb6cdad8ed3b40243136c3554",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-shared-border-aggregate-1131-1132/binding.md",
+              "sha256": "df3645f3df5d98685ac1afefbfefaaf52d1573a0e5f89c37ae26fa9dc5b8fa97"
+            },
+            "scope": "Exact V1_13_1 profile, covering 1.13.1 and 1.13.2. Ordinary bounded eastward Speed II and Jump Boost II path, Stone-supported shared finite mask, physical AIR sample certification and whole-query fallback.",
+            "combinedBuildRevision": "317b7d1a1270187d57aeeb094ed929fa49e269cd",
+            "combinedBuildTree": "08912cbb98c3025b78eb288ee5610124831d2b9c",
+            "build": "BUILD SUCCESSFUL in 8s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         }
       ]
@@ -9662,7 +9694,7 @@
           }
         },
         {
-          "decision": "ACCEPT ultrawarm-to-FAST_LAVA current coefficient dependency. The three built-in dimension defaults agree. An applicable vanilla DataFixer conversion was not found, and the new syncable value reaches the client dimension query. Target map resources, external codec unknown-key behavior and real-map impact remain unresolved.",
+          "decision": "ACCEPT bounded ultrawarm-to-FAST_LAVA current coefficient dependency. The three built-in dimension defaults agree. In exact 1.21.11 direct DimensionType JSON decoding, otherwise-valid input with an unknown legacy top-level ultrawarm key and omitted attributes decodes with an empty dimension attribute map. With no FAST_LAVA layer override, the default is false. Migration, target map resources and effective attribute composition remain open.",
           "snapshot": {
             "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
             "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/fluid-contact/comparison.corrected-r1.md",
@@ -9687,6 +9719,20 @@
             "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
             "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/dimension-migration/verdict.md",
             "sha256": "96f740e7ac43a74cafa12058c14016ca9ca740fad8b30688e923e6b180e0f69b"
+          },
+          "codecDependency": {
+            "snapshot": {
+              "revision": "01837d9148b7e40abf60f482402dea03578ccd70",
+              "path": "development/research/source-evidence/20261117/block-a-12111-lava-input-codec/lane-late-lava-input-codec-dependency/comparison.corrected-r2.md",
+              "sha256": "051dd5c79037980accb4202a456fcd5cabdc975e5a26355a2da8821c30519c2d"
+            },
+            "review": {
+              "revision": "01837d9148b7e40abf60f482402dea03578ccd70",
+              "path": "development/research/source-evidence/20261117/block-a-12111-lava-input-codec/lane-late-lava-input-codec-dependency-audit/audit.json",
+              "sha256": "3a642ddf2facfe1c2648dfe1aac52dad7566fd781d0e5a591ce3aac4844280f0"
+            },
+            "library": "com.mojang:datafixerupper:9.0.19",
+            "runtimeParity": "unverified"
           }
         },
         {
