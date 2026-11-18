@@ -9905,6 +9905,44 @@
             "path": "development/research/source-evidence/20261117/block-a-1212-1213-block-contact-record/lane-block-contact-record-lifecycle-1212-1213/roster.md",
             "sha256": "d7abe8107a01e718482fb6e518f360157da309135b0ee7732ff86e62e60eda62"
           }
+        },
+        {
+          "exactPair": "1.21.1--1.21.2",
+          "decision": "ACCEPT bounded continuity for ordinary local crouch edge backoff with a loaded full cube or dry bottom slab. The movement, above-ground, shift and nonpositive-Y gates, ordered X/Z/joint reductions and support box bounds agree. The overload/context refactor keeps the checked block query behavior. Custom providers, subsequent collision and position write, and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1211-1212-report.md",
+            "sha256": "34abd73e9fcdf50e943f726e5bcdf0e3f9da3a111bd619e0ddaeda2feea900f7"
+          },
+          "review": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1211-1212-verdict.md",
+            "sha256": "14ae177827dcdf9f237048e3a458309fda3ea7b8e6a74cc66742b8faa0362369"
+          },
+          "binding": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/binding.md",
+            "sha256": "9317603e96e14a95342dc7b36bcd77a76d066dcd48aef651d2e3fc7b79ac4df9"
+          }
+        },
+        {
+          "exactPair": "1.21.2--1.21.3",
+          "decision": "ACCEPT bounded continuity for ordinary local crouch edge backoff with a loaded full cube or dry bottom slab. The movement, above-ground, shift and nonpositive-Y gates, ordered X/Z/joint reductions and support box bounds agree. The overload/context refactor keeps the checked block query behavior. Custom providers, subsequent collision and position write, and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1212-1214-report.md",
+            "sha256": "5c555dd4628f2678784834efcd6f09f70f4653cc5429ba630745dd77dc04b132"
+          },
+          "review": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1212-1214-verdict.md",
+            "sha256": "f0b535d8fab9c499a89ad16f4944728fcdd5f64ab060a637c0fe8e11a8082727"
+          },
+          "binding": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/binding.md",
+            "sha256": "9317603e96e14a95342dc7b36bcd77a76d066dcd48aef651d2e3fc7b79ac4df9"
+          }
         }
       ]
     },
@@ -11195,6 +11233,25 @@
             "revision": "0d428666f2565a30e9cdeaf693ffa025c792ad01",
             "path": "development/research/source-evidence/20261117/block-a-1213-1214-block-contact-record/lane-block-contact-record-lifecycle-1213-1214/sources.sha256",
             "sha256": "df6165295e7a2b039e09aeea74694f48e9c958e771df76233d52d447b1d94d60"
+          }
+        },
+        {
+          "exactPair": "1.21.3--1.21.4",
+          "decision": "ACCEPT bounded continuity for ordinary local crouch edge backoff with a loaded full cube or dry bottom slab. The movement, above-ground, shift and nonpositive-Y gates, ordered X/Z/joint reductions and support box bounds agree. The overload/context refactor keeps the checked block query behavior. Custom providers, subsequent collision and position write, and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1212-1214-report.md",
+            "sha256": "5c555dd4628f2678784834efcd6f09f70f4653cc5429ba630745dd77dc04b132"
+          },
+          "review": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1212-1214-verdict.md",
+            "sha256": "f0b535d8fab9c499a89ad16f4944728fcdd5f64ab060a637c0fe8e11a8082727"
+          },
+          "binding": {
+            "revision": "a6a7b1270cb3436c0301f668f1679961a105acb5",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/binding.md",
+            "sha256": "9317603e96e14a95342dc7b36bcd77a76d066dcd48aef651d2e3fc7b79ac4df9"
           }
         }
       ]
