@@ -1,0 +1,44 @@
+# 1.12.2 → 26.2: Elytra near-vertical look-vector gate
+
+## Evidence identity
+
+- Older source: Minecraft **1.12.2**, Ornithe Feather Gen2 `build.2` mergedv2/Tiny mappings, Vineflower 1.12.0; canonical source root `decompiled_minecraft/1.12.2/ornithe-feather/`. The provenance and ready markers identify exact `versionId=1.12.2`, the two mapping artifacts, raw client SHA-256 `8ada07da5ee77dad3527bd7278fbd05ee1fc8a597813b216a871a2d7d64cc64f`, Feather mergedv2 SHA-256 `e48244030c53979793bdfbe48d7f1f3536f7e4f678ee5890a416198037cd46ca`, and Tiny SHA-256 `a3aa1c8e73e81bd09432ba1b4f2e88aaacbedb2d8fa3cbf797536d2bdf0d4e58` (artifact paths in the local manifest identify `yarn/feather-gen2-1.12.2+build.2-mergedv2.jar` and `.tiny`). Ready-marker source-manifest SHA-256 is `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da`; recomputed manifest and artifact-manifest hashes match the ready marker. The local verification marker reports 2,050/2,050 source files identical to an independent exact decompile and all raw source inputs matching; its one derived remapped-intermediate-jar hash difference is explicitly distinguished from the matching source tree and raw inputs.
+- Newer source: Minecraft **26.2**, published unobfuscated namespace, Vineflower 1.12.0; canonical source root `decompiled_minecraft/26.2/unobfuscated/`. Provenance and ready markers identify exact `versionId=26.2`, no mapping artifact, raw client SHA-256 `40896ee1f9e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290`, and version metadata artifact SHA-256 `4d6b3a5a27fed3c0faab2b4b6dee7318be310bc3c627a78951519ffefaf1d0c`. Ready-marker source-manifest SHA-256 is `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`; recomputed manifest and artifact-manifest hashes match the ready marker.
+- The source-manifest entries and direct SHA-256 checks agree for the examined Java files. Files (relative to their respective source roots):
+
+| Source file | SHA-256 |
+|---|---|
+| 1.12.2 `net/minecraft/entity/Entity.java` | `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a` |
+| 1.12.2 `net/minecraft/entity/living/LivingEntity.java` | `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6` |
+| 1.12.2 `net/minecraft/util/math/MathHelper.java` | `579e05d110460f444bcac86729141545095cb5932c0f8d34c9a4dcfcd9a35e80` |
+| 1.12.2 `net/minecraft/client/render/GameRenderer.java` | `c6634f86b93421a4f1d05ab3df5bfdf8edef3a295190a3a06eba48a4cac874bb` |
+| 1.12.2 `net/minecraft/client/util/SmoothUtil.java` | `006deade4fbc18ce0430b996eee58b92aee778087fc73600fa45686a6de962e6` |
+| 1.12.2 `net/minecraft/client/Mouse.java` | `b6c9132938c64f2b79138e87de60cee4b965e6c28d485798d7131ec2bf0fd058` |
+| 26.2 `net/minecraft/world/entity/Entity.java` | `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5` |
+| 26.2 `net/minecraft/world/entity/LivingEntity.java` | `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a` |
+| 26.2 `net/minecraft/util/Mth.java` | `30455c684f2401c79290847822bca82e77162c4a2bcf8618e85cac9898a2dc17` |
+| 26.2 `net/minecraft/client/MouseHandler.java` | `049c4f21b6e1b724e1f0ed8b6784e55eae11c50ccd88c2a483a7253429ef8c15` |
+
+## Source comparison
+
+1.12.2 `Entity.getRotationVector(float,float)` computes its pitch factor as `-MathHelper.cos(-pitch * (float)(Math.PI / 180.0))` (`net/minecraft/entity/Entity.java:1239–1244`). `MathHelper.cos(float)` indexes the 65,536-entry float sine table with `(int)(x * 10430.378F + 16384.0F) & 65535` (`net/minecraft/util/math/MathHelper.java:15–20`); the table is initialized with `(float)Math.sin(i * Math.PI * 2.0 / 65536.0)` (`:426–429`). `Entity.getLookVector()` feeds the current pitch/yaw directly to this vector calculation (`Entity.java:1690–1691`).
+
+26.2 `Entity.getLookAngle()` feeds current X/Y rotation to `calculateViewVector` (`net/minecraft/world/entity/Entity.java:2579–2580`). That method first rounds `xRot * (float)(Math.PI / 180.0)` to `float`, then computes horizontal components as `Mth.sin(realYRot) * Mth.cos(realXRot)` and `Mth.cos(realYRot) * Mth.cos(realXRot)` (`Entity.java:1966–1974`). `Mth.cos(double)` indexes its 65,536-entry sine array using `(int)((long)(i * 10430.378350470453 + 16384.0) & 65535L)`; table entry zero is exactly `(float)Math.sin(0)` (`net/minecraft/util/Mth.java:31–55`). Java's cast to `long` truncates toward zero, including for a small negative pre-mask index.
+
+## Literal near-limit calculation
+
+The calculation below enumerates binary32 pitch values and applies the source expressions in their source types and order; it is arithmetic over the decompiled formulas, not a game/runtime test.
+
+- For 26.2, `realXRot = xRot * (float)(PI/180)`. The argument to the `long` cast in `Mth.cos` is in **[-0.00045592633614433, 0.999236059959003]** for the 720 consecutive binary32 pitches from `-90.0F` (`0xC2B40000`) through `-89.994514F` (`0xC2B3FD31`). Every cast is `0`, so every masked table index is **0** and `Mth.cos(realXRot)` returns exact `+0.0F`. The next pitch toward zero, `-89.99451F` (`0xC2B3FD30`), yields pre-mask argument `1.0004794579526788`, cast/index **1**. Thus the exact-zero interval is not limited to `-90.0F`.
+- For 1.12.2, applying the historical positive pitch argument `-pitch * (float)(PI/180)` and float table-index arithmetic to those same 720 pitches yields only indices **32767 or 32768**. Both historical table entries are nonzero: index 32767 is approximately `9.58738E-05F`; index 32768 is approximately `1.2246469E-16F`. Therefore the old pitch factor is nonzero throughout the newer zero interval, including at exactly `-90.0F`.
+- With an ordinary finite yaw, the old yaw sine/cosine factors cannot both be zero (the table's cardinal values have the complementary nonzero factor). Multiplying by the nonzero historical pitch factor consequently leaves a positive `sqrt(look.x² + look.z²)`. In 26.2, both horizontal components multiply by the exact-zero pitch cosine, so `lookHorLength` is exactly zero for every ordinary finite yaw.
+
+Both entity implementations clamp ordinary camera pitch to `[-90.0F, 90.0F]` (1.12.2 `Entity.updateLocalPlayerCamera`, `:307–313`; 26.2 `Entity.turn`, `:489–495`, with `setXRot` also clamping in `:3910–3915`). The interior of the 26.2 zero interval is therefore within the normal camera domain. In 1.12.2, the unsmoothed default sensitivity (`0.5F`) produces a `0.15°` pitch step per integer mouse count (`client/Mouse.java:21–22`; `GameRenderer.java:847–867`), so this path may jump from outside the interval to the `-90°` clamp. The ordinary smooth-camera path splits the finite mouse turn: `GameRenderer` obtains `smoothMouseDY`, multiplies it by render delta `k = tickDelta - lastTickDelta`, then calls the same clamped camera update (`GameRenderer.java:259–263, 856–863`); `SmoothUtil.smooth` returns a fractional float update (`client/util/SmoothUtil.java:8–16`). This establishes a normal camera-input/render path that can sample finite interior float pitches as it approaches the clamp; a particular mouse sensitivity/frame schedule's sample sequence is not claimed.
+
+## First active dry Elytra movement use and boundary
+
+1.12.2's eligible `LivingEntity.moveRelative` branch requires local control or logical-side movement, no water/lava (except the flying-ability bypass), and `isFallFlying()` (`net/minecraft/entity/living/LivingEntity.java:1425–1438`). Its first direction-sensitive horizontal use is `j = sqrt(look.x² + look.z²)` followed by the `velocityY < 0 && j > 0` transfer and division by `j` (`:1434–1447`); the pitch-up branch also divides by `j` (`:1449–1454`), and the final horizontal speed alignment is gated by `j > 0` (`:1456–1459`). Because historical `j` is positive in this interval, those old direction-dependent branches run.
+
+26.2's normal `LivingEntity.travel` selects `travelFallFlying` when not in the fluid path and already fall-flying (`net/minecraft/world/entity/LivingEntity.java:2430–2437`). `updateFallFlyingMovement` takes `getLookAngle()` and computes `lookHorLength` (`:2602–2608`). At a pitch in the calculated interval it is exactly zero, so the `movement.y < 0`, `leanAngle < 0`, and horizontal-alignment branches all fail their explicit `lookHorLength > 0` gates (`:2610–2625`). The differing first-move consequence established here is only that the historical look-vector denominator is positive and direction-dependent horizontal transfers/alignment execute, whereas the newer lookup produces zero horizontal look and suppresses those gated operations.
+
+The separate vertical lift/acceleration formulas (`MathHelper.cos(i)` in 1.12.2 versus `Math.cos(leanAngle)`/effective gravity in 26.2) are not evaluated as a finding here. This report does not claim overall Elytra tick parity, a version cutover within the endpoint interval, or runtime parity.
