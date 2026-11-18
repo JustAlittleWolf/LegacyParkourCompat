@@ -7,11 +7,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * 1.12/1.12.1/1.12.2 Feather: World.applyLiquidDrag, LiquidBlock.getFlow,
@@ -33,6 +35,8 @@ import java.util.Optional;
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class WaterCurrent implements WaterCurrentHook {
+    private static final Set<Block> STAINED_GLASS = Set.copyOf(Blocks.STAINED_GLASS.asList());
+
     public boolean replacesNativeCurrent() { return true; }
     public Vec3 accumulate(Vec3 total, Vec3 flow) { return total.add(flow); }
     public Vec3 impulse(Vec3 total, boolean flying) {
@@ -59,7 +63,7 @@ public final class WaterCurrent implements WaterCurrentHook {
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos adjacent = pos.relative(direction);
             BlockState neighbor = historicalState(level, adjacent);
-            if (!supported(neighbor)) return Optional.empty();
+            if (!supported(neighbor) && !isDryFullGlass(neighbor)) return Optional.empty();
             int other = depth(neighbor);
             if (other < 0) {
                 if (neighbor.isAir()) {
@@ -99,6 +103,17 @@ public final class WaterCurrent implements WaterCurrentHook {
         }
         return state.isAir() || state.is(Blocks.STONE) || state.is(Blocks.COBBLESTONE)
             || state.is(Blocks.DIRT) || state.is(Blocks.BEDROCK);
+    }
+
+    /**
+     * 1.8 through 1.12.2 Ornithe Feather: Block registers glass and stained glass
+     * with Material.GLASS. LiquidBlock.getFlow skips the below-side sample because
+     * that material blocks movement. 26.2 unobfuscated Blocks.GLASS and
+     * Blocks.STAINED_GLASS register the full blocks separately from panes.
+     */
+    private static boolean isDryFullGlass(BlockState state) {
+        return (state.is(Blocks.GLASS) || STAINED_GLASS.contains(state.getBlock()))
+            && state.getFluidState().isEmpty();
     }
 
     private static int depth(BlockState state) {
