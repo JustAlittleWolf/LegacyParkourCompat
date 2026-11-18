@@ -1,0 +1,3 @@
+Claim: approved movement-contact-record-lifecycle.md, SHA-256 902110291be5a2340bf01b02e511a317eb5fb478d7471a1c3617bba1182c5777
+Verdict: ACCEPT, with stated qualifications in independent-audit.md.
+Evidence scope: exact 1.21.3/1.21.4 Mojmap Entity, LocalPlayer, AbstractClientPlayer, Player, LivingEntity, AABB source hashes bound by source-roster.md and approved sources.sha256.
