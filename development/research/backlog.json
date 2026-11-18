@@ -7637,7 +7637,33 @@
         },
         "sourceIdentityLimit": "Validated canonical release trees and used source hashes; locations.tsv lacks rows for 1.19.2/1.19.3.",
         "noFinding": "No player movement change under identical vanilla block states established."
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.19.2--1.19.3",
+          "decision": "Bounded direct flag-clear comparison; separate in-glide fall-distance gate remains distinct.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.19.2-to-1.19.3/report.md",
+            "sha256": "95e1e90d331cffbf0ddcac0e7c02b53784b968fd09670ee8c1f6917fb53bd9e5"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.19.2-to-1.19.3/verdict.md",
+            "sha256": "d167ba3d4cbdec68b21b2ffc5bef044f53e32020b7f9dc59718cfae8dc07df1c"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        }
+      ]
     },
     {
       "pair": "1.19.3--1.19.4",
@@ -7686,6 +7712,30 @@
             "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
           },
           "exactPair": "1.19.3--1.19.4"
+        },
+        {
+          "exactPair": "1.19.3--1.19.4",
+          "decision": "Narrow direct-clear comparison.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.19.3-to-1.19.4/report.md",
+            "sha256": "004ebbe5af04c8baa8a2030ed06cfb65fb98dacdca5e264dd0f30ed6fa9840db"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.19.3-to-1.19.4/verdict.md",
+            "sha256": "2000406723cc79763c8bec59a4b77d8f18d785de54365bda04717a63d6473fd2"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
         }
       ]
     },
@@ -8172,6 +8222,30 @@
               "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b"
             }
           ]
+        },
+        {
+          "exactPair": "1.20.1--1.20.2",
+          "decision": "Bounded direct-clear operation only; no .20.0 or .20.3 inference.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.20.1-to-1.20.2/report.md",
+            "sha256": "356dd5fd3cfec94d383a214f87190de3a7e02834764040bbbb52e03a3f8db64a"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.20.1-to-1.20.2/verdict.md",
+            "sha256": "31cca53f64ba69f1da80880c3cc7adbafcea8387e53340089856b03eee0c6008"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
         }
       ]
     },
@@ -10006,6 +10080,50 @@
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
           },
           "boundedProductAssociation": {
+            "productCommit": "358f226b782abc4945e96629fb1e806dfbb6542b",
+            "code": [
+              {
+                "revision": "358f226b782abc4945e96629fb1e806dfbb6542b",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/AbilityFlightGlideFlagClear.java",
+                "sha256": "2a36367662f601bef5717fd7581033f5ae4da9e0f0a83070f621fe03fddd768b"
+              },
+              {
+                "revision": "358f226b782abc4945e96629fb1e806dfbb6542b",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_8_9/NativeAbilityFlightGlideFlag.java",
+                "sha256": "51775e725da528f7814dfac46723a353f19d1c98381257ffedbbcf16c990663a"
+              }
+            ],
+            "exactSourceArchives": [
+              {
+                "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
+                "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
+                "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+              },
+              {
+                "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+                "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+                "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+              },
+              {
+                "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+                "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+                "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+              }
+            ],
+            "review": {
+              "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+              "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+            },
+            "standaloneBuildTree": "9752c7df33e6f8c77d41814013deab4c77e0d9a3",
+            "combinedBuildRevision": "80d5b1bf6e3c4d2969c91817f3ade71377eee545",
+            "combinedBuildTree": "162b6324216822bb8bbb55bac3b2c511beb5ea19",
+            "applicability": "Profiles 1.9 through 1.21.1 for ordinary dry nonpassenger local ability flight with a default chest Elytra and an already-live fall-flying flag. One direct clear of bit 7 after the actual travel and separate fall-distance callback. Pre-Elytra native fence at V1_8_9 and native fallback from 1.21.2.",
+            "build": "BUILD SUCCESSFUL in 7s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified",
+            "supersedesProduct": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d"
+          },
+          "previousBoundedProductAssociation": {
             "productCommit": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
             "code": [
               {
@@ -13143,6 +13261,50 @@
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
           },
           "boundedProductAssociation": {
+            "productCommit": "358f226b782abc4945e96629fb1e806dfbb6542b",
+            "code": [
+              {
+                "revision": "358f226b782abc4945e96629fb1e806dfbb6542b",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/AbilityFlightGlideFlagClear.java",
+                "sha256": "2a36367662f601bef5717fd7581033f5ae4da9e0f0a83070f621fe03fddd768b"
+              },
+              {
+                "revision": "358f226b782abc4945e96629fb1e806dfbb6542b",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_8_9/NativeAbilityFlightGlideFlag.java",
+                "sha256": "51775e725da528f7814dfac46723a353f19d1c98381257ffedbbcf16c990663a"
+              }
+            ],
+            "exactSourceArchives": [
+              {
+                "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
+                "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
+                "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+              },
+              {
+                "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+                "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+                "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+              },
+              {
+                "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+                "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+                "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+              }
+            ],
+            "review": {
+              "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+              "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+            },
+            "standaloneBuildTree": "9752c7df33e6f8c77d41814013deab4c77e0d9a3",
+            "combinedBuildRevision": "80d5b1bf6e3c4d2969c91817f3ade71377eee545",
+            "combinedBuildTree": "162b6324216822bb8bbb55bac3b2c511beb5ea19",
+            "applicability": "Profiles 1.9 through 1.21.1 for ordinary dry nonpassenger local ability flight with a default chest Elytra and an already-live fall-flying flag. One direct clear of bit 7 after the actual travel and separate fall-distance callback. Pre-Elytra native fence at V1_8_9 and native fallback from 1.21.2.",
+            "build": "BUILD SUCCESSFUL in 7s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified",
+            "supersedesProduct": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d"
+          },
+          "previousBoundedProductAssociation": {
             "productCommit": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
             "code": [
               {
@@ -14348,6 +14510,30 @@
             "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
           },
           "exactPair": "1.17--1.17.1"
+        },
+        {
+          "exactPair": "1.17.0--1.17.1",
+          "decision": "Bounded accepted no-difference.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.17.0-to-1.17.1/report.md",
+            "sha256": "39d36f206d8a37276b7debf5a13af776743426d3572955f9313bfa938c198653"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.17.0-to-1.17.1/verdict.md",
+            "sha256": "eef4f7034c2f102c854056b6b03cc33e0a6dabf58db20636e9b80fce43cd73f4"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
         }
       ]
     },
@@ -15253,6 +15439,30 @@
             "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
           },
           "exactPair": "1.20.4--1.20.5"
+        },
+        {
+          "exactPair": "1.20.4--1.20.5",
+          "decision": "Direct clear after `super.travel`, with fall-distance reset before clear. Grounded `jumpFromGround()` toggle is a separate operation; stale local flag state is conditional. No scheduling/latency inference. Signed identity correction binds unchanged originals.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.20.4-to-1.20.5/report.md",
+            "sha256": "4f54e836291863c44ed5c0bdddc802ad0c90d4886895537d88434be7c9762fb9"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.20.4-to-1.20.5/audit/verdict.md",
+            "sha256": "6f5ec5d670ac1e9705eca2a2188560ea3383fa0262529c246f1408be2ace1ddb"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
         }
       ]
     },
@@ -15337,6 +15547,30 @@
             "path": "development/research/source-evidence/20261118/block-c-llama-rider-earlier-alias/README.md",
             "sha256": "988cbadad70fbe2ca08b608f6cd8c88d1019320f7f1c738feb4fdc4c636fa01b"
           }
+        },
+        {
+          "exactPair": "1.16.5--1.17.0",
+          "decision": "Clean replacement is bound; direct wrapper clear after move is separate from inner server-only clear.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.16.5-to-1.17.0/report.md",
+            "sha256": "63ae9f499583155195824af36535fe63cd62ebc3c29d0e9ece6374c1219064e0"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.16.5-to-1.17.0/verdict.md",
+            "sha256": "23d1bee0b94fa50853d0de66864d7b04a33b3aedaac76a99e0bdcd5fc923649b"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
         }
       ]
     },
@@ -15362,7 +15596,33 @@
       "unexaminedSlices": [],
       "openDependencies": [],
       "nextAction": "Retain source freeze and corrected actualLocalPlayer predicate dispatch. Reconcile accepted ordinary/sourcepacket operations independently; source acceptance is separate from implementation and runtime parity.",
-      "runtimeParity": "unverified"
+      "runtimeParity": "unverified",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.18.2--1.19.0",
+          "decision": "Direct clear and post-move fall-distance operations are separate scoped observations.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.18.2-to-1.19.0/report.md",
+            "sha256": "61facb6e93a221ebf37d09eca6ee30293d117646647843db3a71cf12c16595a6"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.18.2-to-1.19.0/verdict.md",
+            "sha256": "3f22497cb0b3bd06cf43a43ba6d5e178505c68e1f7f36334f8eb8ab8487ba2bd"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        }
+      ]
     },
     {
       "pair": "1.19--1.19.1",
@@ -15386,7 +15646,33 @@
       "unexaminedSlices": [],
       "openDependencies": [],
       "nextAction": "Retain source freeze and corrected actualLocalPlayer predicate dispatch. Reconcile accepted ordinary/sourcepacket operations independently; source acceptance is separate from implementation and runtime parity.",
-      "runtimeParity": "unverified"
+      "runtimeParity": "unverified",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.19.0--1.19.1",
+          "decision": "Narrow direct-clear operation scope.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.19.0-to-1.19.1/report.md",
+            "sha256": "7873cd743d6c433370acc9a1aac2503b2f806cb18eecadfd283d55dc32c15d06"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.19.0-to-1.19.1/verdict.md",
+            "sha256": "687ae87d7b225724babec351fb609a8d6d127b26465eed569a938a1dec87ff76"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        }
+      ]
     },
     {
       "pair": "1.19.1--1.19.2",
@@ -15410,7 +15696,33 @@
       "unexaminedSlices": [],
       "openDependencies": [],
       "nextAction": "Retain source freeze and corrected actualLocalPlayer predicate dispatch. Reconcile accepted ordinary/sourcepacket operations independently; source acceptance is separate from implementation and runtime parity.",
-      "runtimeParity": "unverified"
+      "runtimeParity": "unverified",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.19.1--1.19.2",
+          "decision": "Qualified narrow clear result; verdict corrects mapping-hash attribution.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.19.1-to-1.19.2/report.md",
+            "sha256": "327111aa187a3c2374866f9e56646551c53e647b971a99de25c44d8795d93077"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.19.1-to-1.19.2/verdict.md",
+            "sha256": "a73f45679376568c0025b13507eceadeb7777c74c9cc25bda4321c84212aa759"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        }
+      ]
     },
     {
       "pair": "1.8--1.9",
@@ -18153,6 +18465,30 @@
             "path": "development/research/source-evidence/20261118/block-c-llama-rider-earlier-alias/README.md",
             "sha256": "988cbadad70fbe2ca08b608f6cd8c88d1019320f7f1c738feb4fdc4c636fa01b"
           }
+        },
+        {
+          "exactPair": "1.16.2--1.16.3",
+          "decision": "Bounded unchanged post-travel direct flag write.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.16.2-to-1.16.3/report.md",
+            "sha256": "31e530f669845893391b62221a6f77a95428e3805123705e8e67fdea94477f89"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.16.2-to-1.16.3/verdict.md",
+            "sha256": "59843b7cebc3908f84e2d5f20f5a19f1cf6637591f53400ca6c764635308b3fd"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
         }
       ]
     },
@@ -18832,6 +19168,30 @@
               "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
             }
           ]
+        },
+        {
+          "exactPair": "1.15.0--1.15.1",
+          "decision": "Clean replacement verdict accepts the bounded active-flight clear operation; it does not close full-pair coverage or patch-boundary questions.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.15.0-to-1.15.1/report.md",
+            "sha256": "7f086392fc12505575a6cd2f34b8835728ca9c5098f79544e49f2565e7ec689f"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.15.0-to-1.15.1/verdict.md",
+            "sha256": "29ac04b596cb464e281914ee0dcacc80cbdbe0e67a4c8d40b5254548f43bef2b"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
         }
       ]
     },
@@ -18982,6 +19342,30 @@
             "revision": "742eaf6020f1f4659e5e366782227dfc611b53a2",
             "path": "development/research/source-evidence/20261118/block-c-llama-rider-earlier-alias/README.md",
             "sha256": "988cbadad70fbe2ca08b608f6cd8c88d1019320f7f1c738feb4fdc4c636fa01b"
+          }
+        },
+        {
+          "exactPair": "1.15.1--1.15.2",
+          "decision": "Bounded direct flag-clear timing; verdict retains source readiness/provenance caveat.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.15.1-to-1.15.2/report.md",
+            "sha256": "57211f6c2e35d7aa9539ea663c6c4833f8490c61ee7d633e6deeeef684e5d085"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.15.1-to-1.15.2/verdict.md",
+            "sha256": "45db0f5d85850ea06afe0fbcb14d20c966ba94e2d978ed981ce7fa385c426539"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
         }
       ]
@@ -19438,6 +19822,30 @@
             "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
             "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
           }
+        },
+        {
+          "exactPair": "1.16.1--1.16.2",
+          "decision": "Bounded direct flag-clear slice; report path spelling is preserved.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.16.1-to-1.16.2/report.md",
+            "sha256": "33787834adf5b3ec1af32133835c3133e4a9a43a3d550128d55800fa7682c089"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.16.1-to-1.16.2/verdict.md",
+            "sha256": "bf5cf854eda33a739ed2d0bc27c3ff87d14d2f228e92e3bc3f1b31ce8082e759"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
         }
       ]
     },
@@ -19549,6 +19957,30 @@
             "revision": "742eaf6020f1f4659e5e366782227dfc611b53a2",
             "path": "development/research/source-evidence/20261118/block-c-llama-rider-earlier-alias/README.md",
             "sha256": "988cbadad70fbe2ca08b608f6cd8c88d1019320f7f1c738feb4fdc4c636fa01b"
+          }
+        },
+        {
+          "exactPair": "1.16.0--1.16.1",
+          "decision": "Narrow flag-clear timing; exact report and audit cover fall-distance write order.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.16.0-to-1.16.1/report.md",
+            "sha256": "ccea627197d20a196868ad82b53d8bf977ef7ac9c64cf97d528ff08750328d32"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.16.0-to-1.16.1/verdict.md",
+            "sha256": "8841950b7c911a6618eede13c5adaa76e2ec401e10a95d80661f988a9969aacc"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
         }
       ]
@@ -19685,6 +20117,30 @@
             "revision": "742eaf6020f1f4659e5e366782227dfc611b53a2",
             "path": "development/research/source-evidence/20261118/block-c-llama-rider-earlier-alias/README.md",
             "sha256": "988cbadad70fbe2ca08b608f6cd8c88d1019320f7f1c738feb4fdc4c636fa01b"
+          }
+        },
+        {
+          "exactPair": "1.16.4--1.16.5",
+          "decision": "Exact source accepted with signed provenance addendum; raw cache unavailable, so no raw-artifact claim.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.16.4-to-1.16.5/report.md",
+            "sha256": "8ff7ffa4ce5cafcee7bf40a560f9d5e96472763e8c9d964f75b4a1a056c7a138"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.16.4-to-1.16.5/verdict.md",
+            "sha256": "7fdf5af5c1d9e5258d45e4b61740e680313dea49d0abbaad0acdcdc69d44e000"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
         }
       ]
@@ -19844,6 +20300,30 @@
             "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
             "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
             "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
+          }
+        },
+        {
+          "exactPair": "1.16.3--1.16.4",
+          "decision": "Hidden mapping-root manifests and cached client/Mojmap source pins match; bounded local clear has no difference.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.16.3-to-1.16.4/report.md",
+            "sha256": "a098e57895ae4cf02271cfc3978683237343150395456df8c08697742ad68407"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.16.3-to-1.16.4/verdict.md",
+            "sha256": "ce610369469b3af5f8d1d1676c0d0d934b52caf2ff6e1f4b8b510334e34deb86"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
         }
       ]
@@ -20152,6 +20632,50 @@
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
           },
           "boundedProductAssociation": {
+            "productCommit": "358f226b782abc4945e96629fb1e806dfbb6542b",
+            "code": [
+              {
+                "revision": "358f226b782abc4945e96629fb1e806dfbb6542b",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/AbilityFlightGlideFlagClear.java",
+                "sha256": "2a36367662f601bef5717fd7581033f5ae4da9e0f0a83070f621fe03fddd768b"
+              },
+              {
+                "revision": "358f226b782abc4945e96629fb1e806dfbb6542b",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_8_9/NativeAbilityFlightGlideFlag.java",
+                "sha256": "51775e725da528f7814dfac46723a353f19d1c98381257ffedbbcf16c990663a"
+              }
+            ],
+            "exactSourceArchives": [
+              {
+                "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
+                "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
+                "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+              },
+              {
+                "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+                "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+                "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+              },
+              {
+                "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+                "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+                "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+              }
+            ],
+            "review": {
+              "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+              "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+            },
+            "standaloneBuildTree": "9752c7df33e6f8c77d41814013deab4c77e0d9a3",
+            "combinedBuildRevision": "80d5b1bf6e3c4d2969c91817f3ade71377eee545",
+            "combinedBuildTree": "162b6324216822bb8bbb55bac3b2c511beb5ea19",
+            "applicability": "Profiles 1.9 through 1.21.1 for ordinary dry nonpassenger local ability flight with a default chest Elytra and an already-live fall-flying flag. One direct clear of bit 7 after the actual travel and separate fall-distance callback. Pre-Elytra native fence at V1_8_9 and native fallback from 1.21.2.",
+            "build": "BUILD SUCCESSFUL in 7s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified",
+            "supersedesProduct": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d"
+          },
+          "previousBoundedProductAssociation": {
             "productCommit": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
             "code": [
               {
@@ -20191,6 +20715,414 @@
             "applicability": "Exact 1.9 through 1.12.2 and exact 1.20.5 through 1.21.1 for ordinary dry non-passenger local ability flight while chest Elytra fall-flying flag is live. The return callback clears bit 7 after travel and the separate fall-distance callback. The V1_8_9 and V1_20_2 fences retain native behavior outside the accepted lower intervals; later profiles use native fallback.",
             "build": "BUILD SUCCESSFUL in 7s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
+          }
+        },
+        {
+          "exactPair": "1.12.2--1.13.0",
+          "decision": "Direct flag-7 clear presence/timing accepted; broader glide calculations differ.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.12.2-to-1.13.0/report.md",
+            "sha256": "78995290d9003999bb1d9f6919c97f01dca158bf2e128219ff8f59aa0e282cc0"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.12.2-to-1.13.0/verdict.md",
+            "sha256": "ee3e52cec21aed6a111f49ad89e36c7bffe7df7368ac43ffc48486a6297ba8f6"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.13.0--1.13.1",
+          "decision": "Narrow direct-clear timing only; no full-pair freeze.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.13.0-to-1.13.1/report.md",
+            "sha256": "d7e93adf48885c9a742dbcd485800f21f23372bbec353f03479659d75b0af6eb"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.13.0-to-1.13.1/verdict.md",
+            "sha256": "6095b8510d123e44231409daff9b5e3123b399a2dc08bc512ad2ae1909951c35"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.13.1--1.13.2",
+          "decision": "Bounded flag-clear timing/reachability only.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.13.1-to-1.13.2/report.md",
+            "sha256": "4eeec4c6b3d2f117f41d5ddfb22b75bf7b425b1c2dd8898dcb5ae072d518e526"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.13.1-to-1.13.2/verdict.md",
+            "sha256": "f26a9db7b428dbb35713dbf326c39eae55a0dea795afd89e3cfb149c60f7a9c8"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.13.2--1.14.0",
+          "decision": "Direct clear operation scope only; exact adjacent proof does not close 1.14.1–1.14.3 provenance.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.13.2-to-1.14.0/report.md",
+            "sha256": "df02e50a2a96c2608e65d96ec7feca3d4b0d7c5f7ae83f3ffc75ba59b484a22e"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.13.2-to-1.14.0/verdict.md",
+            "sha256": "82433f54d16c5e3f3e92982df9a572e44a12057ee79719cd8c70bb1aa6602e1c"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.14.4--1.15",
+          "decision": "Separate flag-clear writer-timing slice only.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.14.4-to-1.15/report.md",
+            "sha256": "34f83783930ea7268d3cbf0cb432d4440fdb58e07ae4294ab5b2f1a6bf866c51"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.14.4-to-1.15/verdict.md",
+            "sha256": "b1041bb23129c1ed9e012464124c62163c62e1a055358743f87aaecab76efd7d"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.15.2--1.16.0",
+          "decision": "Direct clear timing only.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.15.2-to-1.16.0/report.md",
+            "sha256": "9a640c491a5a2dd9918553988302dd4c86625c4933973c22cb11d8ab7060a5e9"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.15.2-to-1.16.0/verdict.md",
+            "sha256": "1dc802549daea8d35333e69f09bc0a975a07a78038dc6ac5093921a8f4fe833f"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.17.1--1.18.0",
+          "decision": "Direct flag-clear operation remains unchanged; separate 1.18 fall-distance helper directly zeroes fall distance.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.17.1-to-1.18.0/report.md",
+            "sha256": "52439eca02d3b82db2043c64d7fab32fceef546089d8825c26f5859253f09506"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.17.1-to-1.18.0/verdict.md",
+            "sha256": "d5b41d5db882e55efb71bb8d4e0ad94a2e11270a294ccc3129ee2f6a2936ca41"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.18.0--1.18.1",
+          "decision": "Narrow direct-clear timing.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.18.0-to-1.18.1/report.md",
+            "sha256": "e8107af3a75be099ab3f2992682437bf004cd33785fbc8eb415d3a48355f79a2"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.18.0-to-1.18.1/verdict.md",
+            "sha256": "251d50c7897a1e54903b8b8e66c4d72ccb6578cdf3a1b5b858fc8c37739f5b47"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.18.1--1.18.2",
+          "decision": "Narrow flag-writer timing only; not inherited glide-body equivalence, which has a float/double cosine difference.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.18.1-to-1.18.2/report.md",
+            "sha256": "8a960b012e22954b9812ba133c08ba59f66df39c4c5ac744bd72a6ffa51ef01e"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/1.18.1-to-1.18.2/verdict.md",
+            "sha256": "a2d747997b52f6f02ce63be025bc08508294cc8ec85fc44cffbc38b24ea9e617"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer/README.md",
+            "sha256": "03dcb933b70808a025d1b12191b92759d87a1b8fa8e98a158475e1fa8e0d9b01"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.14.0--1.14.1",
+          "decision": "Bounded exact source trace accepted; no extrapolation.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.14.0-to-1.14.1/report.md",
+            "sha256": "0ee0690692072030c93b0ddc0d2e1f2c3f1dc355d0170e98ce5f551eb91989a2"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.14.0-to-1.14.1/verdict.md",
+            "sha256": "efd338dba47da280d777091ac41f71e812212e1557345c12d36c8ca8e7e334ac"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.14.1--1.14.2",
+          "decision": "Strictly blind audit accepts the bounded source no-difference.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.14.1-to-1.14.2/report.md",
+            "sha256": "641d9498904e5271e3cb0008871a53e566c8595f11848e303d576258b1852ad5"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.14.1-to-1.14.2/verdict.md",
+            "sha256": "6c3cf35adadfc4818d34a16c17e87cbbbdf8e02f9dde8b06cf6aa68992c382d8"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.14.2--1.14.3",
+          "decision": "Yarn exact source pins; only namespace enum rename in this operation slice.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.14.2-to-1.14.3/report.md",
+            "sha256": "5785395e47917aebf9ae3d2fe1baa33ddb21242dc35255f051756eebce5b7026"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.14.2-to-1.14.3/verdict.md",
+            "sha256": "8d56a9d97e77d7f054fe798ac0cc8eb8df7b8391a9eafd42a2ca6191b667764b"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.14.3--1.14.4",
+          "decision": "Exact Yarn and recognized mapping pins; report-level source edge accepted.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.14.3-to-1.14.4/report.md",
+            "sha256": "aacaf2fcb3fac8fa6d79db097ffaf7c808c66da2f955bd4fa1f9b7afdb88a9bf"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.14.3-to-1.14.4/verdict.md",
+            "sha256": "361ff0fef1b0bdb96d96184d98a1fbb3204455eb698d5925c6a56269ab23949f"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.19.4--1.20.0",
+          "decision": "Bounded source operation; no effects inference.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.19.4-to-1.20.0/report.md",
+            "sha256": "a59e4aca2e31334df91e271f9eee54ba37cf1f36b30a02abd618bb552d332e62"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.19.4-to-1.20.0/verdict.md",
+            "sha256": "1203b1c16c474d9f0eeefeff4998b5c719c83304358efe3691910ac5a13e6496"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.20.0--1.20.1",
+          "decision": "Bounded direct clear comparison; independent verdict confirms report binding.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.20.0-to-1.20.1/report.md",
+            "sha256": "1f22d79e4d242c548b548aa56da175cfd515ec00ca83b740ba11482c797e0ce9"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.20.0-to-1.20.1/verdict.md",
+            "sha256": "b25cae6df6e7753d448f937b5d2812199fa1ab5657c187baa3cc0697f4f82ac9"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.20.2--1.20.3",
+          "decision": "Local direct bit writer only; no adjacent bookkeeping inference.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.20.2-to-1.20.3/report.md",
+            "sha256": "acc2c059a87370128302abe7b1ee27a891758b72da0e3eb6a738e65a33c83544"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.20.2-to-1.20.3/verdict.md",
+            "sha256": "82b5e9797ee10e897f29641506e044982875692aa6d5fd4217caa1d253d3f02b"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.20.3--1.20.4",
+          "decision": "Contingency blind verdict independently binds the exact report and frozen pre-open source trace; internal qualifications remain in the verdict.",
+          "snapshot": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.20.3-to-1.20.4/report.md",
+            "sha256": "63091b4b865675d794d9685482277aa78248d105d33c3b5c218ce8e5476fc044"
+          },
+          "review": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/1.20.3-to-1.20.4/verdict.md",
+            "sha256": "3c3fb447ba8f405e0a3fabc928f4094425a78103d516a00113aef50a75ca2ced"
+          },
+          "manifest": {
+            "revision": "53dab56b92ece897276eaa6aa72064a7a3273cbd",
+            "path": "development/research/source-evidence/20261118/block-c-middle-ability-flying-glide-flag-writer-closure/README.md",
+            "sha256": "346abb84613b7b26511547ac16ac5374fe145740229998a029bfc9eb0e8e3a12"
+          },
+          "productAssociationReceipt": {
+            "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
+            "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
+            "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
         }
       ],
