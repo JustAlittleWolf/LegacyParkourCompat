@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.BubbleColumnPlayerCallbackHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.LocalPlayerShiftDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerClimbabilityFlyingGateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.SwimmingUpdateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
@@ -22,6 +23,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.SwimmingPitchHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
@@ -38,6 +40,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin {
+    @WrapOperation(
+        method = "updateSwimming()V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Avatar;updateSwimming()V")
+    )
+    private void legacyparkourcompat$swimmingStateUpdate(Avatar avatar, Operation<Void> original) {
+        Player player = (Player) (Object) this;
+        if (MovementRuntime.find(SwimmingUpdateHook.class, player)
+            .map(hook -> hook.shouldDelegate(player))
+            .orElse(true)) {
+            original.call(avatar);
+        }
+    }
+
     @WrapOperation(
         method = "rideTick()V",
         at = @At(
