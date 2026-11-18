@@ -8341,7 +8341,53 @@
               "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
             }
           ],
-          "decision": "Accepted Frost non-air gate at exact 1.19.4 to 1.20, with 1.20.2 confirming continuation. Tracked support replaces center-floor selection where present. Empty support omits the earlier lower special-block check. Retry needs an empty first result, onGroundNoBlocks false and a known movement vector. Frost-specific product alias coverage remains open."
+          "decision": "Accepted Frost non-air gate at exact 1.19.4 to 1.20, with 1.20.2 confirming continuation. Tracked support replaces center-floor selection where present. Empty support omits the earlier lower special-block check. Retry needs an empty first result, onGroundNoBlocks false and a known movement vector. Frost-specific product alias coverage remains open.",
+          "boundedProductAssociation": {
+            "productCommit": "bf654e811479e06a702789a0058527231b3a48ba",
+            "reviewedTree": "50e1ba0505a734f58b4d0189e3eb733c8fe7291a",
+            "code": [
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/NativePowderSnowFreezeSlowdown.java",
+                "sha256": "63d33e5d39c6248cffc5b1096b565666d7502511e899f317ede06570d700d0ec"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_19_4/OnPosition.java",
+                "sha256": "5de9e21cf2ab1c9bed441f87ae4c1e03fbfcc06e3d7734f4fbfdfe80c63ff63f"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_4/PowderSnowFreezeSlowdown.java",
+                "sha256": "11ce03b27130572d06f887147bf9e2e8e0c3bc4889e19dc21c636eda4fd5f5fe"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/mechanic/attribute/MovementSpeedModifierHistory.java",
+                "sha256": "0bc5080f0dad2e8b056f263810ea41cf641572e8e204ac1a094b193c8bbc0130"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_5/LegacyPlayerMovementSpeed.java",
+                "sha256": "ea853985da5d9511a98374b6905fd464ab19127bc4baef95c0ddfd4b671349e3"
+              }
+            ],
+            "sourceApplicability": {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/product-applicability/applicability-r2.md",
+              "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
+            },
+            "integrationDisposition": "Lead A integration owner verified resolver routing and unique compiled push profiler anchor/config on the clean exact tree and passed prescribed Test-disabled build.",
+            "combinedBuild": {
+              "revision": "bd6760d300cdf9966777c7e6023dcef822363f2a",
+              "tree": "bc26f37a741c6972750c2fc107984afb5a288f6d",
+              "outcome": "BUILD SUCCESSFUL in 19s. All Test tasks disabled and test excluded."
+            },
+            "scope": "Selected 1.17 through 1.21.4 local player only. Post-travel/contact recomputation before auto-spin and push; historical block sample through 1.19.4 and support-aware sample from 1.20. Named Frost ADD_VALUE legacy order history is scoped to 1.20.5 and 1.20.6. Native from 1.21.5 and through 1.16.5.",
+            "residuals": "Existing exact source evidence limits remain. Snapshot synchronization, packet arrival, wider alias comparisons and runtime movement parity remain open.",
+            "runtimeParity": "unverified"
+          },
+          "productDisposition": "The product uses the historical OnPosition sample through 1.19.4. Broader exact alias source coverage remains bounded separately."
         },
         {
           "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
@@ -10216,7 +10262,52 @@
               "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
             }
           ],
-          "decision": "Exact arithmetic anchors 1.20.5, 1.21, 1.21.2, 1.21.4 and 26.2 agree for equal effective attribute snapshots, bases and modifiers. Revised product assessment narrows the gap to local Frost recomputation. No alias or runtime claim."
+          "decision": "Exact arithmetic anchors 1.20.5, 1.21, 1.21.2, 1.21.4 and 26.2 agree for equal effective attribute snapshots, bases and modifiers. Revised product assessment narrows the gap to local Frost recomputation. No alias or runtime claim.",
+          "boundedProductAssociation": {
+            "productCommit": "bf654e811479e06a702789a0058527231b3a48ba",
+            "reviewedTree": "50e1ba0505a734f58b4d0189e3eb733c8fe7291a",
+            "code": [
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/NativePowderSnowFreezeSlowdown.java",
+                "sha256": "63d33e5d39c6248cffc5b1096b565666d7502511e899f317ede06570d700d0ec"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_19_4/OnPosition.java",
+                "sha256": "5de9e21cf2ab1c9bed441f87ae4c1e03fbfcc06e3d7734f4fbfdfe80c63ff63f"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_4/PowderSnowFreezeSlowdown.java",
+                "sha256": "11ce03b27130572d06f887147bf9e2e8e0c3bc4889e19dc21c636eda4fd5f5fe"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/mechanic/attribute/MovementSpeedModifierHistory.java",
+                "sha256": "0bc5080f0dad2e8b056f263810ea41cf641572e8e204ac1a094b193c8bbc0130"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_5/LegacyPlayerMovementSpeed.java",
+                "sha256": "ea853985da5d9511a98374b6905fd464ab19127bc4baef95c0ddfd4b671349e3"
+              }
+            ],
+            "sourceApplicability": {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/product-applicability/applicability-r2.md",
+              "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
+            },
+            "integrationDisposition": "Lead A integration owner verified resolver routing and unique compiled push profiler anchor/config on the clean exact tree and passed prescribed Test-disabled build.",
+            "combinedBuild": {
+              "revision": "bd6760d300cdf9966777c7e6023dcef822363f2a",
+              "tree": "bc26f37a741c6972750c2fc107984afb5a288f6d",
+              "outcome": "BUILD SUCCESSFUL in 19s. All Test tasks disabled and test excluded."
+            },
+            "scope": "Selected 1.17 through 1.21.4 local player only. Post-travel/contact recomputation before auto-spin and push; historical block sample through 1.19.4 and support-aware sample from 1.20. Named Frost ADD_VALUE legacy order history is scoped to 1.20.5 and 1.20.6. Native from 1.21.5 and through 1.16.5.",
+            "residuals": "Existing exact source evidence limits remain. Snapshot synchronization, packet arrival, wider alias comparisons and runtime movement parity remain open.",
+            "runtimeParity": "unverified"
+          }
         }
       ]
     },
@@ -12884,7 +12975,53 @@
               "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
             }
           ],
-          "decision": "Accepted exact loss of local post-travel Frost recomputation at 1.21.5. The later consumer can read an attribute snapshot already applied before its speed read. Packet timing remains open. The revised static product disposition records a local recomputation gap."
+          "decision": "Accepted exact loss of local post-travel Frost recomputation at 1.21.5. The later consumer can read an attribute snapshot already applied before its speed read. Packet timing remains open. The revised static product disposition records a local recomputation gap.",
+          "boundedProductAssociation": {
+            "productCommit": "bf654e811479e06a702789a0058527231b3a48ba",
+            "reviewedTree": "50e1ba0505a734f58b4d0189e3eb733c8fe7291a",
+            "code": [
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/NativePowderSnowFreezeSlowdown.java",
+                "sha256": "63d33e5d39c6248cffc5b1096b565666d7502511e899f317ede06570d700d0ec"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_19_4/OnPosition.java",
+                "sha256": "5de9e21cf2ab1c9bed441f87ae4c1e03fbfcc06e3d7734f4fbfdfe80c63ff63f"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_4/PowderSnowFreezeSlowdown.java",
+                "sha256": "11ce03b27130572d06f887147bf9e2e8e0c3bc4889e19dc21c636eda4fd5f5fe"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/mechanic/attribute/MovementSpeedModifierHistory.java",
+                "sha256": "0bc5080f0dad2e8b056f263810ea41cf641572e8e204ac1a094b193c8bbc0130"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_5/LegacyPlayerMovementSpeed.java",
+                "sha256": "ea853985da5d9511a98374b6905fd464ab19127bc4baef95c0ddfd4b671349e3"
+              }
+            ],
+            "sourceApplicability": {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/product-applicability/applicability-r2.md",
+              "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
+            },
+            "integrationDisposition": "Lead A integration owner verified resolver routing and unique compiled push profiler anchor/config on the clean exact tree and passed prescribed Test-disabled build.",
+            "combinedBuild": {
+              "revision": "bd6760d300cdf9966777c7e6023dcef822363f2a",
+              "tree": "bc26f37a741c6972750c2fc107984afb5a288f6d",
+              "outcome": "BUILD SUCCESSFUL in 19s. All Test tasks disabled and test excluded."
+            },
+            "scope": "Selected 1.17 through 1.21.4 local player only. Post-travel/contact recomputation before auto-spin and push; historical block sample through 1.19.4 and support-aware sample from 1.20. Named Frost ADD_VALUE legacy order history is scoped to 1.20.5 and 1.20.6. Native from 1.21.5 and through 1.16.5.",
+            "residuals": "Existing exact source evidence limits remain. Snapshot synchronization, packet arrival, wider alias comparisons and runtime movement parity remain open.",
+            "runtimeParity": "unverified"
+          },
+          "productDisposition": "The former static local-recomputation gap now has the scoped integrated and compiled product above."
         }
       ]
     },
@@ -17493,7 +17630,52 @@
               "sha256": "eff0b24d516945677a0dc1aea7838afc96f3f2a04dee3c3f342e155bd968148e"
             }
           ],
-          "decision": "Accepted introduction from absent in 1.16.5 to present in 1.17 of the conditional post-travel Frost movement-speed modifier and its next grounded speed read. Client relay timing remains open."
+          "decision": "Accepted introduction from absent in 1.16.5 to present in 1.17 of the conditional post-travel Frost movement-speed modifier and its next grounded speed read. Client relay timing remains open.",
+          "boundedProductAssociation": {
+            "productCommit": "bf654e811479e06a702789a0058527231b3a48ba",
+            "reviewedTree": "50e1ba0505a734f58b4d0189e3eb733c8fe7291a",
+            "code": [
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/NativePowderSnowFreezeSlowdown.java",
+                "sha256": "63d33e5d39c6248cffc5b1096b565666d7502511e899f317ede06570d700d0ec"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_19_4/OnPosition.java",
+                "sha256": "5de9e21cf2ab1c9bed441f87ae4c1e03fbfcc06e3d7734f4fbfdfe80c63ff63f"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_4/PowderSnowFreezeSlowdown.java",
+                "sha256": "11ce03b27130572d06f887147bf9e2e8e0c3bc4889e19dc21c636eda4fd5f5fe"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/mechanic/attribute/MovementSpeedModifierHistory.java",
+                "sha256": "0bc5080f0dad2e8b056f263810ea41cf641572e8e204ac1a094b193c8bbc0130"
+              },
+              {
+                "revision": "bf654e811479e06a702789a0058527231b3a48ba",
+                "path": "src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_5/LegacyPlayerMovementSpeed.java",
+                "sha256": "ea853985da5d9511a98374b6905fd464ab19127bc4baef95c0ddfd4b671349e3"
+              }
+            ],
+            "sourceApplicability": {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/product-applicability/applicability-r2.md",
+              "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
+            },
+            "integrationDisposition": "Lead A integration owner verified resolver routing and unique compiled push profiler anchor/config on the clean exact tree and passed prescribed Test-disabled build.",
+            "combinedBuild": {
+              "revision": "bd6760d300cdf9966777c7e6023dcef822363f2a",
+              "tree": "bc26f37a741c6972750c2fc107984afb5a288f6d",
+              "outcome": "BUILD SUCCESSFUL in 19s. All Test tasks disabled and test excluded."
+            },
+            "scope": "Selected 1.17 through 1.21.4 local player only. Post-travel/contact recomputation before auto-spin and push; historical block sample through 1.19.4 and support-aware sample from 1.20. Named Frost ADD_VALUE legacy order history is scoped to 1.20.5 and 1.20.6. Native from 1.21.5 and through 1.16.5.",
+            "residuals": "Existing exact source evidence limits remain. Snapshot synchronization, packet arrival, wider alias comparisons and runtime movement parity remain open.",
+            "runtimeParity": "unverified"
+          }
         }
       ]
     },
