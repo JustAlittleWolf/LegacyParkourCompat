@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
@@ -46,11 +47,12 @@ public abstract class EntityWaterMixin implements WaterContext {
         index = 1, require = 1)
     private boolean legacyparkourcompat$publishBodyWaterContact(boolean nativeContact,
         @Share("waterContactForCurrent") LocalBooleanRef currentContact,
-        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater) {
+        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater,
+        @Share("legacyBodyWater") LocalRef<Boolean> legacyBodyWater) {
         // The first inWater load governs fall reset/splash, followed by the state write.
         currentContact.set(nativeContact);
         return !skipBoatBodyWater.get()
-            && ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterContact(nativeContact);
+            && legacyparkourcompat$projectBodyWaterContact(nativeContact, legacyBodyWater.get());
     }
 
     @Inject(method = "updateFluidInteraction()Z", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
@@ -66,12 +68,19 @@ public abstract class EntityWaterMixin implements WaterContext {
     @ModifyReturnValue(method = "updateFluidInteraction()Z", at = @At("RETURN"))
     private boolean legacyparkourcompat$bodyWaterRefreshResult(boolean original,
         @Local(index = 1) boolean inWater, @Local(index = 2) boolean inLava,
-        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater) {
+        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater,
+        @Share("legacyBodyWater") LocalRef<Boolean> legacyBodyWater) {
         if (skipBoatBodyWater.get()) {
             return inLava;
         }
-        boolean contact = ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterContact(inWater);
+        boolean contact = legacyparkourcompat$projectBodyWaterContact(inWater, legacyBodyWater.get());
         return contact == inWater ? original : contact || inLava;
+    }
+
+    @Unique
+    private boolean legacyparkourcompat$projectBodyWaterContact(boolean nativeContact, @Nullable Boolean legacyBodyWater) {
+        return legacyBodyWater != null ? legacyBodyWater
+            : ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterContact(nativeContact);
     }
 
     @ModifyReturnValue(method = "getFluidHeight(Lnet/minecraft/tags/TagKey;)D", at = @At("RETURN"))
@@ -102,7 +111,8 @@ public abstract class EntityWaterMixin implements WaterContext {
     @ModifyExpressionValue(method = "updateFluidInteraction", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/EntityFluidInteraction;isInFluid(Lnet/minecraft/tags/TagKey;)Z", ordinal = 0))
     private boolean legacyparkourcompat$contact(boolean nativeContact,
-        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater) {
+        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater,
+        @Share("legacyBodyWater") LocalRef<Boolean> legacyBodyWater) {
         Entity entity = (Entity)(Object)this;
         if (entity instanceof LocalPlayer player
             && MovementRuntime.find(BoatPassengerBodyWaterHook.class, player)
@@ -120,9 +130,10 @@ public abstract class EntityWaterMixin implements WaterContext {
             boolean aggregateHistoricalCurrent = !MovementRuntime.profile(player).target()
                 .olderThan(ParkourVersion.V1_13)
                 && MovementRuntime.find(FluidCurrentAggregationHook.class, player).isPresent();
+            var body = MovementRuntime.find(WaterBodyContactHook.class, player);
             legacyparkourcompat$water = WaterScan.scan(
                 player,
-                MovementRuntime.find(WaterBodyContactHook.class, player),
+                body,
                 MovementRuntime.find(WaterBodyContactScanBoundHook.class, player),
                 MovementRuntime.find(WaterBodyContactAreaAdmissionHook.class, player),
                 MovementRuntime.find(WaterCurrentHook.class, player),
@@ -137,6 +148,11 @@ public abstract class EntityWaterMixin implements WaterContext {
                 && !aggregateHistoricalCurrent
                 && !legacyparkourcompat$water.impulse().equals(net.minecraft.world.phys.Vec3.ZERO)) {
                 entity.setDeltaMovement(entity.getDeltaMovement().add(legacyparkourcompat$water.impulse()));
+            }
+            if (legacyparkourcompat$water != null && legacyparkourcompat$water.replacesContact()
+                && body.filter(hook -> !hook.affectsCurrentAdmission()).isPresent()) {
+                legacyBodyWater.set(legacyparkourcompat$water.contact());
+                return nativeContact;
             }
         }
         return legacyparkourcompat$water == null || !legacyparkourcompat$water.replacesContact()

@@ -62,10 +62,11 @@ public final class WaterScan {
         boolean aggregateHistoricalCurrent = currentAggregation.isPresent()
             && !MovementRuntime.profile(player).target().olderThan(ParkourVersion.V1_13);
         flowBound = flowBound.filter(hook -> hook.supports(player));
-        Optional<AABB> selected = body.flatMap(hook -> hook.probe(player.getBoundingBox()));
+        Optional<AABB> selected = body.flatMap(hook -> hook.probe(player.getBoundingBox())
+            .filter(query -> hook.supports(player, query)));
         boolean replacesContact = selected.isPresent();
         AABB historicalFlowBox = !aggregateHistoricalCurrent && flowBound.isPresent()
-            ? legacyFlowQuery(player.getBoundingBox()) : null;
+            ? LegacyWaterProbe.bounds(player.getBoundingBox()) : null;
         boolean hasHistoricalFlowBound = historicalFlowBox != null
             && hasHistoricalUpperBound(flowBound.get(), historicalFlowBox);
         Bounds historicalFlowBounds = hasHistoricalFlowBound
@@ -194,7 +195,7 @@ public final class WaterScan {
                     float fluidHeight = fluidState.getOwnHeight();
                     boolean inFlow = inFlowBounds && (aggregateHistoricalCurrent
                         ? y + fluidHeight >= flowBox.minY
-                        : includesFlow(flowBounds.y1, y, liquidLevel));
+                        : LegacyWaterProbe.includes(flowBounds.y1, y, liquidLevel));
                     if (!inContact && !inFlow) continue;
                     if (inContact) {
                         // Falling (LEVEL >= 8) water remains valid for 1.8.9 contact;
@@ -312,20 +313,6 @@ public final class WaterScan {
 
     private static boolean hasHistoricalContactYBound(WaterBodyContactScanBoundHook hook, AABB box) {
         return hook.exclusiveUpperBound(box.maxY).isPresent();
-    }
-
-    private static AABB legacyFlowQuery(AABB body) {
-        // 1.8.0-1.8.9 Entity.checkWaterCollisions passes this exact transformed
-        // shape to World.applyLiquidDrag; retain the source float literal conversion.
-        return new AABB(body.minX, body.minY - -0.4F, body.minZ,
-            body.maxX, body.maxY + -0.4F, body.maxZ).deflate(0.001);
-    }
-
-    private static boolean includesFlow(int exclusiveMaxY, int cellY, int liquidLevel) {
-        // 1.8.9 LiquidBlock.getHeightLoss and World.applyLiquidDrag's l >= d gate.
-        int level = liquidLevel >= 8 ? 0 : liquidLevel;
-        double surface = cellY + 1 - (level + 1) / 9.0F;
-        return exclusiveMaxY >= surface;
     }
 
 }
