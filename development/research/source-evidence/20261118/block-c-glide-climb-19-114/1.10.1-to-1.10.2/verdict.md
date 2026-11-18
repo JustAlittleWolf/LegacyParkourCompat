@@ -1,0 +1,21 @@
+# Independent source verdict — 1.10.1 → 1.10.2 glide-over-climb alias gate
+
+## Reviewed revision and result
+
+Reviewed frozen report: `C:/Users/Wolfi/.codex/visualizations/2026/11/17/01a1eb7b-b9ff-7a20-8686-0295dde20f26/c-glide-climb-1101-1102-alias-gate/report.md`  
+SHA-256: `27b87025c5d29c0745b8828220ed0eeaef4c0d112e4b7f5beb687d294fd155d1`.
+
+**Verdict: accept the bounded source claim.** The 1.10.1 and 1.10.2 `LivingEntity.java` files are byte-identical (SHA-256 `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82`). In the cited dry travel path, `moveRelative` first checks the local/logical-movement gate and water/lava gates, then selects `isFallFlying()` before entering the ordinary movement `else`. The glide branch contains no climb cleanup. The ordinary branch later checks `isClimbing()`, resets fall distance, clamps horizontal velocity, and applies the downward/sneaking gates before movement. The feet predicate checks the block at floored `(x, shape.minY, z)`; ladder and vine satisfy it. Thus, given a locally controlled dry player with bit 7 already set and ladder/vine under the feet, the glide path bypasses that ordinary climb cleanup.
+
+The threshold claim is exact: the branch checks `velocityY > -0.5` before computing glide acceleration and before `move(...)`; equality and lower values skip the `fallDistance = 1.0F` assignment. On a grounded result, the server clears bit 7 after that movement, so the landing/contact movement already used the glide branch. The `isFallFlying()` reader reads bit 7; client activation is a request and the server packet handler checks airborne, descending, not already flying, not in water, and a usable chest Elytra before calling `setFlying()`. The `flyingTick()` updater only writes the revalidated bit on the logical server. This supports the report's already-active, server-authorized-bit precondition and separates launch eligibility from the bounded active-glide case.
+
+## Exact input and file checks
+
+- 1.10.1: local `ornithe-feather` tree's `.decompile-provenance.json` SHA-256 is `a9a50497930848bf0ddec732b6d424e947f643a8fa6290e01425ac2bbfce219f`. Its input pins identify client `338b205f20c22b9c676d9d3227a5e6c5e190f30ad84d7caad035150b3e05ba72`, Feather Gen2 `1.10.1+build.2` mergedv2 artifact `6e8ba44832b7b77d913962462bde55084005d5de6389232453afc0bc0339ea37`, and Feather version metadata hash `8648e97ee398b11151cb2d441161629abde561afed9c933c18fbc622e2c9904a`. Hashes computed for all five cited source files match the provenance `sources` entries.
+- 1.10.2: provenance and ready markers identify `versionId=1.10.2`, `namespace=ornithe-feather`, Feather Gen2 `1.10.2+build.2` mergedv2 and Tiny artifacts, and version metadata `1.10.2`. Ready marker client SHA-256 is `7cdf7fcdc1c92584a233bf3c42bd7f0df1bdad3007d306831fe50410692be1e9`. The source-manifest SHA-256 `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71` and artifact-manifest SHA-256 `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116` match their ready-marker pins. Hashes computed for all five cited source files match the source manifest.
+- Local activation request source SHA-256 is `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443` on both sides. Server request handler source SHA-256 is `14b537a3f11e57d8364e90508f45b996b7e0593b741064167d85256166a287c6`; server flag-writer source SHA-256 is `de500c8bf8e82a3f89d3a7f7208f3eed3d47f616344fb1e72aaacfd9e331a03f`; both match across the pair.
+- `PlayerEntity.java` differs across the pair (1.10.1 `020370cffde2d1fe9f1b63fa5d51f1af2fab095908b19e79f88a7bcac7dfd501`; 1.10.2 `a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302`), but lines 1391–1408 containing the adjacent `moveRelative` wrapper are identical.
+
+## Bounds
+
+This verdict covers the report's paired local activation, bit-7 authority/updater, active dry glide branch and threshold, ordinary ladder/vine climb predicate and cleanup, final ground-contact clear, and adjacent player wrapper. It accepts no broader 1.10.1–1.10.2 inventory or pair freeze and says nothing about runtime parity or implementation. Source decompilation was not run; all prepared sources were read-only.
