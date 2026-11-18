@@ -50,10 +50,14 @@ import java.util.Set;
  * 26.2 unobfuscated Entity.applyEffectsFromBlocks(List) and checkInsideBlocks. The old paired
  * source files are byte-identical for these operations. The accepted list-scan candidate supplies
  * only the DDA candidates; this class supplies old position admission and ordered dispatch.
- * 26.2's movement-record producer remains separate: this change consumes the finalized endpoint
- * list it receives, without asserting that producer recreates the older caller-supplied records.
- * The side-effect-free modern-domain guard also mirrors 26.2 Entity.checkInsideBlocks(List)'s
- * axis-dependent segment split and BlockGetter.forEachBlockIntersectedBetween candidate traversal.
+ * In 1.21.2 and 1.21.3 Mojmap, LivingEntity's post-travel call and
+ * PistonMovingBlockEntity.moveEntityByPiston use Entity.applyEffectsFromBlocks()
+ * to scan oldPosition() through position(). LocalPlayer has no other record producer.
+ * In 26.2 unobfuscated, the post-travel records and the piston's explicit
+ * Vec3 singleton both reach Entity.applyEffectsFromBlocks(List); the last-movement
+ * replay caller is ItemEntity. The list wrapper invokes this provider only for LocalPlayer.
+ * Check the original native candidates, including the axis split, and the
+ * projected historical candidates before the historical callbacks run.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_2)
 public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockCallbackSweepHook {
@@ -72,12 +76,8 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
             EntityMovementAccessor access = (EntityMovementAccessor)(Object)movement;
             Vec3 from = access.legacyParkourCompat$from();
             Vec3 to = access.legacyParkourCompat$to();
-            for (BlockPos pos : scan.candidateCells(from, to, queryBox)) {
-                if (isEyeblossom(entity, pos)) {
-                    // 26.2 has callback domains here that 1.21.2/1.21.3 did not.
-                    // Fall back before stepOn, any old callback, or finalization can run.
-                    return false;
-                }
+            if (containsHistoricalEyeblossomCandidate(entity, scan, from, to, queryBox)) {
+                return false;
             }
 
             Vec3 delta = to.subtract(from);
@@ -109,7 +109,19 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
                 }
             }
         }
-        return true;
+        // Eyeblossom has no historical callback. Keep the original batch if the
+        // projected span introduces one, before stepOn or finalization runs.
+        return !containsHistoricalEyeblossomCandidate(entity, scan, entity.oldPosition(), entity.position(), queryBox);
+    }
+
+    private static boolean containsHistoricalEyeblossomCandidate(Entity entity, EntityInsideBlocksScanHook scan,
+                                                                 Vec3 from, Vec3 to, AABB queryBox) {
+        for (BlockPos pos : scan.candidateCells(from, to, queryBox)) {
+            if (isEyeblossom(entity, pos)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean containsModernEyeblossomCandidate(Entity entity, Vec3 from, Vec3 to, AABB queryBox) {
@@ -139,12 +151,15 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
         return entity.level().getBlockState(pos).getBlock() instanceof EyeblossomBlock;
     }
 
+    private record CallbackSpan(Vec3 from, Vec3 to) {}
+
     @Override
-    public void apply(Entity entity, List<?> movements) {
+    public void apply(Entity entity, List<?> nativeMovements) {
         if (entity.isRemoved() || entity.noPhysics) {
             return;
         }
 
+        CallbackSpan span = new CallbackSpan(entity.oldPosition(), entity.position());
         if (entity.onGround()) {
             BlockPos stepPosition = entity.getOnPosLegacy();
             BlockState stepState = entity.level().getBlockState(stepPosition);
@@ -158,18 +173,15 @@ public final class EntityInsideBlocksHistoricalSweep implements HistoricalBlockC
             .orElseThrow(() -> new IllegalStateException("Historical callback sweep has no selected scan provider"));
         boolean[] stoppedAliveLoop = {false};
 
-        // 26.2 retains this finalized list for a later callback pass. Scan a copy so
-        // the DDA candidate's historical normal-path clear never consumes that list.
-        // Historical Movement records contain only ordered endpoints; do not split
-        // them by 26.2's axisDependentOriginalMovement metadata.
-        List<?> scanCopy = new ArrayList<>(movements);
-        scan.scanMovements(entity.getBoundingBox(), scanCopy, (movement, queryBox) -> {
+        // The historical scanner clears its input on the normal path. Supply a
+        // separate singleton so the native callback list and live queue stay intact.
+        scan.scanMovements(entity.getBoundingBox(), new ArrayList<>(List.of(span)), (movement, queryBox) -> {
             if (stoppedAliveLoop[0]) {
                 return;
             }
-            EntityMovementAccessor access = (EntityMovementAccessor)(Object)movement;
-            Vec3 from = access.legacyParkourCompat$from();
-            Vec3 to = access.legacyParkourCompat$to();
+
+            Vec3 from = movement.from();
+            Vec3 to = movement.to();
             for (BlockPos pos : scan.candidateCells(from, to, queryBox)) {
                 if (!entity.isAlive()) {
                     stoppedAliveLoop[0] = true;
