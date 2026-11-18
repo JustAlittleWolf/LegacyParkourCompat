@@ -6,7 +6,10 @@ import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.BodyWaterSurfaceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionBoxHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionFluidHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.LavaCurrentHook;
@@ -14,10 +17,12 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidScanLoadedChunksHo
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.EyeFluidSurfaceBoundaryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeFluidSampleHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeSubmersionHook;
+import me.wolfii.legacyparkourcompat.mechanic.water.BodyWaterProjection;
 import net.minecraft.util.Mth;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.core.BlockPos;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.player.Player;
@@ -31,13 +36,70 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFluidInteraction.class)
-abstract class EntityFluidInteractionMixin {
+abstract class EntityFluidInteractionMixin implements BodyWaterProjection {
+    @Unique private boolean legacyparkourcompat$bodyWaterObserved;
+    @Unique private boolean legacyparkourcompat$bodyWaterUnsupported;
+    @Unique private boolean legacyparkourcompat$bodyWaterContact;
+    @Unique private double legacyparkourcompat$bodyWaterDepth;
+
+    @Override
+    public boolean legacyparkourcompat$bodyWaterContact(boolean nativeContact) {
+        return legacyparkourcompat$bodyWaterObserved && !legacyparkourcompat$bodyWaterUnsupported
+            ? legacyparkourcompat$bodyWaterContact : nativeContact;
+    }
+
+    @Override
+    public double legacyparkourcompat$bodyWaterDepth(double nativeDepth) {
+        return legacyparkourcompat$bodyWaterObserved && !legacyparkourcompat$bodyWaterUnsupported
+            ? legacyparkourcompat$bodyWaterDepth : nativeDepth;
+    }
+
+    @Inject(method = "update(Lnet/minecraft/world/entity/Entity;Z)V", at = @At("HEAD"))
+    private void legacyparkourcompat$resetBodyWater(Entity entity, boolean ignoreCurrent, CallbackInfo callback,
+        @Share("bodyWaterSurface") LocalRef<BodyWaterSurfaceHook> surface) {
+        legacyparkourcompat$bodyWaterObserved = false;
+        legacyparkourcompat$bodyWaterUnsupported = false;
+        legacyparkourcompat$bodyWaterContact = false;
+        legacyparkourcompat$bodyWaterDepth = 0.0;
+        if (entity instanceof LocalPlayer && !entity.isPassenger()) {
+            surface.set(MovementRuntime.find(BodyWaterSurfaceHook.class, entity).orElse(null));
+        }
+    }
+
+    @Inject(method = "update(Lnet/minecraft/world/entity/Entity;Z)V", at = @At(value = "INVOKE", target =
+        "Lnet/minecraft/world/level/material/FluidState;getHeight(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F"),
+        require = 1)
+    private void legacyparkourcompat$observeBodyWater(Entity entity, boolean ignoreCurrent, CallbackInfo callback,
+        @Local FluidState fluidState, @Local BlockPos.MutableBlockPos pos, @Local AABB box,
+        @Share("bodyWaterSurface") LocalRef<BodyWaterSurfaceHook> surface) {
+        BodyWaterSurfaceHook hook = surface.get();
+        if (hook == null || legacyparkourcompat$bodyWaterUnsupported || !fluidState.is(FluidTags.WATER)) {
+            return;
+        }
+
+        var ownHeight = hook.historicalHeight(entity, fluidState);
+        if (ownHeight.isEmpty()) {
+            legacyparkourcompat$bodyWaterUnsupported = true;
+            return;
+        }
+
+        // Observe the cell before the native surface check. The 1.13 float addition
+        // can round differently, and an exact lower-face match still counts as contact.
+        legacyparkourcompat$bodyWaterObserved = true;
+        double top = pos.getY() + ownHeight.get();
+        if (top >= box.minY) {
+            legacyparkourcompat$bodyWaterContact = true;
+            legacyparkourcompat$bodyWaterDepth = Math.max(legacyparkourcompat$bodyWaterDepth, top - box.minY);
+        }
+    }
+
     @WrapOperation(method = "update", at = @At(value = "INVOKE", target =
         "Lnet/minecraft/world/level/material/FluidState;getFlow(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;"))
     private Vec3 legacyparkourcompat$localPlayerFluidCurrent(FluidState state, BlockGetter level, BlockPos pos,

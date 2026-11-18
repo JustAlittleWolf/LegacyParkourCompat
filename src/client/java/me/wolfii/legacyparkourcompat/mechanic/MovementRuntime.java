@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.mechanic;
 import me.wolfii.legacyparkourcompat.api.ActiveMovementProfile;
 import me.wolfii.legacyparkourcompat.api.MovementController;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.change.common.SuffocationProbeColumn;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistory;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistoryAccess;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepDescentHook;
@@ -38,6 +39,7 @@ import net.minecraft.core.Direction;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityWriteHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.NonSwimmingPushAwayBlockingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PushAwayProbeRangeHook;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -74,6 +76,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -208,6 +211,16 @@ public final class MovementRuntime {
                 return suffocationFallback(player, predicate, target, pos, vanilla);
             }
         } else if (!supportsPushAwayWitness(player, pos, box, selectedRange.get())) {
+            var blocking = find(NonSwimmingPushAwayBlockingHook.class, player);
+            var rows = selectedRange.get();
+            if (blocking.isPresent() && supportsPushAwayWitness(player, pos, box, rows,
+                state -> supportsPushAwayCell(state) || blocking.get().isBlocking(state).isPresent())) {
+                return SuffocationProbeColumn.any(pos, rows.minY(), rows.maxYExclusive(), cursor -> {
+                    BlockState state = player.level().getBlockState(cursor);
+                    return blocking.get().isBlocking(state)
+                        .orElseGet(() -> state.isSuffocating(player.level(), cursor));
+                });
+            }
             return suffocationFallback(player, predicate, target, pos, vanilla);
         }
 
@@ -257,12 +270,23 @@ public final class MovementRuntime {
 
     private static boolean supportsPushAwayWitness(LocalPlayer player, BlockPos column, AABB box,
                                                     PushAwayProbeRangeHook.ProbeRange range) {
+        return supportsPushAwayWitness(player, column, box, range, MovementRuntime::supportsPushAwayCell);
+    }
+
+    private static boolean supportsPushAwayWitness(LocalPlayer player, BlockPos column, AABB box,
+                                                    PushAwayProbeRangeHook.ProbeRange range,
+                                                    Predicate<BlockState> supported) {
         int minY = Math.min(Mth.floor(box.minY), range.minY());
         int maxY = Math.max(Mth.ceil(box.maxY), range.maxYExclusive());
-        return supportsPushAwayCells(player, List.of(column), minY, maxY);
+        return supportsPushAwayCells(player, List.of(column), minY, maxY, supported);
     }
 
     private static boolean supportsPushAwayCells(LocalPlayer player, List<BlockPos> columns, int minY, int maxY) {
+        return supportsPushAwayCells(player, columns, minY, maxY, MovementRuntime::supportsPushAwayCell);
+    }
+
+    private static boolean supportsPushAwayCells(LocalPlayer player, List<BlockPos> columns,
+                                                 int minY, int maxY, Predicate<BlockState> supported) {
         if (minY < player.level().getMinY() || maxY > player.level().getMaxY()) {
             return false;
         }
@@ -272,14 +296,17 @@ public final class MovementRuntime {
                 if (!player.level().isInWorldBounds(pos) || !player.level().hasChunkAt(pos)) {
                     return false;
                 }
-                BlockState state = player.level().getBlockState(pos);
-                if (!state.isAir() && !state.is(Blocks.STONE)
-                    && !(state.is(Blocks.WATER) && state.getFluidState().isSource())) {
+                if (!supported.test(player.level().getBlockState(pos))) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    private static boolean supportsPushAwayCell(BlockState state) {
+        return state.isAir() || state.is(Blocks.STONE)
+            || (state.is(Blocks.WATER) && state.getFluidState().isSource());
     }
 
     private static boolean runWithoutRolelessSuffocation(LocalPlayer player, VanillaFn<Boolean> query) {
