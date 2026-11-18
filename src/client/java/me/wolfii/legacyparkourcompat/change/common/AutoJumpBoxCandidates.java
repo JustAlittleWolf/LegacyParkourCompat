@@ -4,6 +4,7 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook.ProbeSegments;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -23,10 +24,12 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.border.BorderStatus;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,8 +85,14 @@ public final class AutoJumpBoxCandidates {
 
     public static Iterable<VoxelShape> collect(Player player, CollisionGetter level, AABB query,
         ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla, ScanRules rules) {
-        boolean earlyInterior = !rules.border;
-        if (earlyInterior && !admitEarlyInterior(player, level, query)) {
+        return collect(player, level, query, selected, vanilla, rules, null);
+    }
+
+    public static Iterable<VoxelShape> collect(Player player, CollisionGetter level, AABB query,
+        ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla, ScanRules rules,
+        @Nullable ProbeSegments probes) {
+        boolean early = !rules.border;
+        if (early && !admitEarlyQuery(player, level, query)) {
             return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
         }
         int x0 = Mth.floor(query.minX) - 1;
@@ -105,17 +114,19 @@ public final class AutoJumpBoxCandidates {
         boolean north = minZ < border.getMinZ();
         boolean south = maxZ + 1.0 > border.getMaxZ();
         int crossedFaces = (west ? 1 : 0) + (east ? 1 : 0) + (north ? 1 : 0) + (south ? 1 : 0);
-        if (crossedFaces > 1 || (earlyInterior && crossedFaces != 0)) {
+        if (crossedFaces > 1) {
             return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
         }
         BorderProbe borderProbe = null;
         if (crossedFaces == 1) {
             Direction face = west ? Direction.WEST : east ? Direction.EAST : north ? Direction.NORTH : Direction.SOUTH;
-            borderProbe = admitBorder(player, level, query, selected, border, face, minY, maxY);
-            if (borderProbe == null) {
+            borderProbe = admitBorder(player, level, query, selected, border, face, minY, maxY, early);
+            if (borderProbe == null || (early && !admitsEarlyEastBorder(player, face, borderProbe, probes,
+                minX, maxX, minY, maxY, minZ, maxZ))) {
                 return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
             }
         }
+        boolean earlyInterior = early && borderProbe == null;
         int stoneSupportCells = 0;
         List<Cell> cells = new ArrayList<>();
         BlockPos brewingStand = null;
@@ -218,7 +229,7 @@ public final class AutoJumpBoxCandidates {
             : com.google.common.collect.Iterables.concat(blocks, level.getEntityCollisions(player, query));
     }
 
-    private static boolean admitEarlyInterior(Player player, CollisionGetter level, AABB query) {
+    private static boolean admitEarlyQuery(Player player, CollisionGetter level, AABB query) {
         float width = player.getBbWidth();
         float height = player.getBbHeight();
         double limit = WorldBorder.MAX_CENTER_COORDINATE;
@@ -240,12 +251,12 @@ public final class AutoJumpBoxCandidates {
     }
 
     private static BorderProbe admitBorder(Player player, CollisionGetter level, AABB query, ParkourVersion selected,
-        WorldBorder border, Direction face, int minY, int maxY) {
+        WorldBorder border, Direction face, int minY, int maxY, boolean early) {
         double west = border.getMinX();
         double east = border.getMaxX();
         double north = border.getMinZ();
         double south = border.getMaxZ();
-        if (selected != ParkourVersion.V1_12 || !(player instanceof LocalPlayer)
+        if ((!early && selected != ParkourVersion.V1_12) || !(player instanceof LocalPlayer)
             || !(level instanceof Level clientLevel) || clientLevel != player.level() || !clientLevel.isClientSide()
             || border.getStatus() != BorderStatus.STATIONARY || east != Math.rint(east) || west != Math.rint(west)
             || north != Math.rint(north) || south != Math.rint(south) || minY < level.getMinY() || maxY > level.getMaxY()) {
@@ -286,6 +297,31 @@ public final class AutoJumpBoxCandidates {
             return new BorderProbe(face, edge, Mth.floor(y) - 1, row);
         }
         return null;
+    }
+
+    private static boolean admitsEarlyEastBorder(Player player, Direction face, BorderProbe probe,
+        @Nullable ProbeSegments segments, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+        if (face != Direction.EAST || segments == null || segments.groundedTravelStart() == null) return false;
+        Vec3 start = segments.groundedTravelStart();
+        double edge = probe.edge();
+        double feet = probe.floorY() + 1.0;
+        int row = probe.row();
+        double halfWidth = player.getBbWidth() * 0.5F;
+        if (start.x - halfWidth < edge - 2.0 || start.x + halfWidth >= edge || start.x >= player.getX()
+            || start.y != feet || start.z != player.getZ()
+            || minX != edge - 3.0 || maxX != edge + 1.0 || minY != feet - 2.0 || maxY != feet + 2.0
+            || minZ != row - 2 || maxZ != row + 2
+            || player.getBoundingBox().minX >= edge - 1.0 || player.getBoundingBox().maxX <= edge - 1.0) {
+            return false;
+        }
+        return crossesEastCell(segments.leftStart(), segments.leftEnd(), edge, feet, row)
+            && crossesEastCell(segments.rightStart(), segments.rightEnd(), edge, feet, row);
+    }
+
+    private static boolean crossesEastCell(Vec3 from, Vec3 to, double edge, double feet, int row) {
+        return from.x < edge && to.x > edge && to.x < edge + 1.0
+            && from.y == to.y && from.y > feet && from.y < feet + 1.0
+            && from.z == to.z && from.z > row && from.z < row + 1.0;
     }
 
     private static List<VoxelShape> brewingStandParts(Player player, CollisionGetter level, AABB query,

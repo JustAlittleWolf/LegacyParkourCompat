@@ -69,6 +69,7 @@ import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -490,6 +491,16 @@ abstract class LocalPlayerMixin {
         }
     }
 
+    @WrapOperation(
+        method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;updateAutoJump(FF)V")
+    )
+    private void legacyparkourcompat$observeAutoJumpCallback(LocalPlayer player, float dx, float dz,
+        Operation<Void> original, @Local(argsOnly = true) MoverType mover, @Local(argsOnly = true) Vec3 requested) {
+        MovementRuntime.observeAutoJumpCallback(player, mover, requested, dx, dz,
+            () -> original.call(player, dx, dz));
+    }
+
     @Redirect(
         method = "updateAutoJump(FF)V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;invSqrt(F)F", ordinal = 0)
@@ -543,7 +554,8 @@ abstract class LocalPlayerMixin {
         @Local(name = "rightSegBegin") Vec3 rightStart, @Local(name = "rightSegEnd") Vec3 rightEnd
     ) {
         Player player = (Player) (Object) this;
-        var probes = new AutoJumpCollisionOrderHook.ProbeSegments(leftStart, leftEnd, rightStart, rightEnd);
+        var probes = new AutoJumpCollisionOrderHook.ProbeSegments(leftStart, leftEnd, rightStart, rightEnd,
+            MovementRuntime.autoJumpGroundedTravelStart(player));
         java.util.function.Supplier<Iterable<VoxelShape>> resolveCandidates = () ->
             MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
                 .map(change -> change.autoJumpCollisions(player, level, query,

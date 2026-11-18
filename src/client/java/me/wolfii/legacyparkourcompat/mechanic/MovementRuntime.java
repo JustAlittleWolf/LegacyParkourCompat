@@ -170,6 +170,19 @@ public final class MovementRuntime {
         return BorderContractionContext.admission(border, entity, sweep);
     }
 
+    public static void observeAutoJumpAirTravel(Entity entity, Vec3 input, VanillaCall travel) {
+        AutoJumpTravelContext.duringAirTravel(entity, input, travel);
+    }
+
+    public static void observeAutoJumpCallback(LocalPlayer player, MoverType mover, Vec3 requested,
+                                               float dx, float dz, VanillaCall callback) {
+        AutoJumpTravelContext.duringCallback(player, mover, requested, dx, dz, callback);
+    }
+
+    public static @Nullable Vec3 autoJumpGroundedTravelStart(Entity entity) {
+        return AutoJumpTravelContext.callbackStart(entity);
+    }
+
     public static boolean limitPistonMovement(Entity entity) {
         return find(PistonMovementHook.class, entity)
             .map(PistonMovementHook::limitPistonMovement).orElse(true);
