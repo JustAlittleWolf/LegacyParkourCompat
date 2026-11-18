@@ -1,0 +1,27 @@
+# Independent source audit: 1.9.1 → 1.9.2 ability/glide flag overlap
+
+## Audited claim and immutable input
+
+Audited the bounded claim in `c-early-191-192-ability-flying-glide-flag-writer/report.md` (SHA-256: `82a05bbf7722153fb176e127b17cd73639643670f24143a5afea2a6e4d489e08`): once a local player has an already-active, synchronized fall-flight flag, ordinary creative-flight input can turn on `abilities.flying`; glide movement still runs through `Entity.move`, then the player creative-flight override clears flag 7 after inherited movement. The claim says this path and behavior are present in both 1.9.1 and 1.9.2, with no pair difference. This is a source audit only; it does not assert timing/latency or establish a runtime trajectory.
+
+## Exact local source identity
+
+Read-only source roots: `decompiled_minecraft/1.9.1/ornithe-feather/` and `decompiled_minecraft/1.9.2/ornithe-feather/`. Both local `.decompile-provenance.json` manifests identify `lpc-decompile-v1` and the same pipeline options. Their pinned mapping inputs are Feather Gen2 build 2:
+
+- 1.9.1 metadata SHA-256 `da56c9e7efe5c929b2ec8d99a8e2bbc6825847f2852a0e717fcd6c674db73dc4`; `feather-gen2-1.9.1+build.2-mergedv2.jar` SHA-256 `6d5768353bf2ff2756d38537312548a8ac91d570f130d23c23e9412d2edd97b3`; client SHA-256 `56ad7e53f6f4ad393844e274aa2190692b61d2ad9f6b3d12b33a8b7332fd51f9`.
+- 1.9.2 metadata SHA-256 `5bad5e67d0870fec69bbab8fcae8d0525a274668bb472eb09d1552359d08edd1`; `feather-gen2-1.9.2+build.2-mergedv2.jar` SHA-256 `e2b98ececbff8fa0bd0c89283bbb32b7f9f9dcd4b89fa3f137666fa3ac0b6859`; client SHA-256 `ef87eb71250df1b871deab8d3ef10aac3290b9e78667ad548fde4d0e14af0d65`.
+
+For each version, I independently recalculated SHA-256 for `PlayerEntity.java`, `LivingEntity.java`, `Entity.java`, and `LocalClientPlayerEntity.java`; all match the respective manifest `sources` entries. In both versions, hashes are: `PlayerEntity.java` 1.9.1 `d7035f08f03b01823dff70ca504f7244f9b0753542cc0f6dd7301e66f8866b71`, 1.9.2 `1fc5107b9b7f5711105d521a28829f2466fe9f297e832f4d209e6ec422111aac`; `LivingEntity.java` `d8824f670037a88753c428c27213989fc5173b1d7c638f498f73395c145b6fd9`; `Entity.java` `74d3ac34d7e6355c8fdcdd777dcd95ba9ef4626718c8772c1b58d0e28419e42a`; `LocalClientPlayerEntity.java` `de9ad48bcfb2705ef7a9a63e9401c1742aead183e1e9c2d13f8fe40cca0139eb`.
+
+## Independent trace and verdict
+
+In both versions, `LocalClientPlayerEntity.tick` (`LocalClientPlayerEntity.java:687–700`) accepts the ordinary double-jump toggle under `abilities.canFly`, outside spectator mode, and sets `abilities.flying = !abilities.flying`; the toggle condition does not inspect `isFallFlying()`. The following Elytra-start check at `:704–710` does require `!isFallFlying()` and `!abilities.flying`. Therefore, with flag 7 already active on the local player, the toggle may enable ordinary flight without initiating a new Elytra-start action. This is a conditional source-reachable input path; no packet race, latency bound, fabricated state, or activation-mechanic rewrite is claimed.
+
+`LivingEntity.travel` reaches virtual `moveRelative` (`LivingEntity.java:1697–1703`). The local-controller gate at `:1293–1296` admits this path; the active fall-flight branch at `:1297` performs its existing glide math, multiplies velocity by `0.99F`, `0.98F`, `0.99F`, then calls `this.move(...)` at `:1329–1332`. `LocalClientPlayerEntity`, its superclass `ClientPlayerEntity`, `PlayerEntity`, and `LivingEntity` declare no competing `move(double,double,double)` override in the audited source tree, so the call resolves to `Entity.move` (`Entity.java:438`), which performs normal entity movement.
+
+After that inherited call returns, the fall-flight branch's own flag clear is in `LivingEntity` at `:1343–1345`, gated by `onGround && !world.isClient`. The separate ordinary creative-flight path is owned by `PlayerEntity.moveRelative` (`PlayerEntity.java:1366–1383`); its clear runs after `super.moveRelative` returns, still inside the travel dispatch and before `LivingEntity.travel` itself returns: when `abilities.flying && !isRiding()`, it calls `super.moveRelative`, restores vertical velocity and air speed, resets `fallDistance`, then calls `setFlag(7, false)` at `:1378`; that clear has no client-side or ground guard. Thus, for the stated overlap, the glide `Entity.move` occurs before the creative-flight clear. `LivingEntity.isFallFlying` reads flag 7 (`:2042–2044`); `Entity.setFlag` updates the shared flags bit (`Entity.java:1656–1663`).
+
+The compared `LivingEntity`, `Entity`, and local client-player files are byte-identical by the verified source hashes. The relevant `PlayerEntity.moveRelative` body was compared directly at the cited lines and has the same gates, call order and writes in both releases, despite the files differing elsewhere. The corresponding `setFlag(7, false)` refs are the same: player override at `PlayerEntity.java:1378`, landing clear at `LivingEntity.java:1344`, and a separate server-player action at `ServerPlayerEntity.java:1046`.
+
+**Verdict: agree** with the audited bounded claim. No 1.9.1→1.9.2 difference is supported for this operation. The report correctly leaves ordinary activation timing unclaimed and does not infer that a new historical movement simulation should run on a server. No finding is warranted from this pair for the audited operation. This verdict does not close unrelated tick coverage, A/B state, fall-distance coverage beyond the compared write, or intermediate patch boundaries.
+
