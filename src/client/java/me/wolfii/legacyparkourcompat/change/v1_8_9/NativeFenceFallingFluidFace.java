@@ -13,18 +13,18 @@ import net.minecraft.world.level.material.FlowingFluid;
 
 import java.util.List;
 
-/** Preserves existing fallback for the five sibling keys before the reviewed 1.9 route. */
+/** Preserves existing fallback for the default-state fence keys before the reviewed 1.9 route. */
 @MovementChange(emulates = ParkourVersion.V1_8_9)
-public final class NativeWoodenFenceSiblingFallingFluidFace implements FallingFluidFaceSturdyHook {
+public final class NativeFenceFallingFluidFace implements FallingFluidFaceSturdyHook {
     private final String blockId;
 
-    private NativeWoodenFenceSiblingFallingFluidFace(String blockId) {
+    private NativeFenceFallingFluidFace(String blockId) {
         this.blockId = blockId;
     }
 
     @MovementChange.Factory
-    public static List<NativeWoodenFenceSiblingFallingFluidFace> variants() {
-        return WOODEN_FENCE_SIBLING_IDS.stream().map(NativeWoodenFenceSiblingFallingFluidFace::new).toList();
+    public static List<NativeFenceFallingFluidFace> variants() {
+        return DEFAULT_FENCE_IDS.stream().map(NativeFenceFallingFluidFace::new).toList();
     }
 
     @Override

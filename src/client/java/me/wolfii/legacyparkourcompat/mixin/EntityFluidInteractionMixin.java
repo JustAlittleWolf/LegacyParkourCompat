@@ -28,6 +28,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.entity.vehicle.boat.Boat;
@@ -187,6 +188,7 @@ abstract class EntityFluidInteractionMixin implements BodyWaterProjection {
         if (!nativeAdmission && x0 + 1 == x1 - 1 && z0 + 1 == z1 - 1
             && entity instanceof LocalPlayer player && OrdinaryPlayerContext.matches(player)
             && player.getPose() == Pose.STANDING && !player.getAbilities().flying
+            && player.getAttributeValue(Attributes.SCALE) == 1.0
             && player.getBbWidth() == 0.6F && player.getBbHeight() == 1.8F) {
             var admission = MovementRuntime.find(BodyWaterScanAdmissionHook.class, player).orElse(null);
             if (admission != null && admission.admitsColumn(y0, y1)

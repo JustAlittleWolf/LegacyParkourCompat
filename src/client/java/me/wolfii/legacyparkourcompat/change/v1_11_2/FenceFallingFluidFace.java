@@ -17,29 +17,30 @@ import java.util.List;
 
 /**
  * In 1.9 through 1.11.2 Ornithe Feather, LiquidBlock.isFaceSolid delegates the ordinary
- * side check to Block.isFaceSolid, which accepts the registered wooden fences' solid
- * wood material. In 1.12 Ornithe Feather, LiquidBlock.isFaceSolid requires a SOLID
+ * side check to Block.isFaceSolid, which accepts the registered fence materials
+ * WOOD and STONE. In 1.12 Ornithe Feather, LiquidBlock.isFaceSolid requires a SOLID
  * face, and FenceBlock.getFaceShape returns MIDDLE_POLE for horizontal faces.
  * LiquidBlock.getFlow in both releases tests the side cell and the one above it.
  * The additional default-state sibling keys use the same face cue. See
- * development/research/source-evidence/20261118/block-a-1112-falling-fence-siblings/.
+ * development/research/source-evidence/20261118/block-a-1112-falling-fence-siblings/
+ * and block-a-mid-nether-brick-falling-face/ in the same dated directory.
  */
 @MovementChange(emulates = ParkourVersion.V1_11_2)
-public final class WoodenFenceFallingFluidFace implements FallingFluidFaceSturdyHook {
+public final class FenceFallingFluidFace implements FallingFluidFaceSturdyHook {
     private final String blockId;
     private final boolean defaultStateOnly;
 
-    private WoodenFenceFallingFluidFace(String blockId, boolean defaultStateOnly) {
+    private FenceFallingFluidFace(String blockId, boolean defaultStateOnly) {
         this.blockId = blockId;
         this.defaultStateOnly = defaultStateOnly;
     }
 
     @MovementChange.Factory
-    public static List<WoodenFenceFallingFluidFace> variants() {
-        var variants = new ArrayList<WoodenFenceFallingFluidFace>();
-        variants.add(new WoodenFenceFallingFluidFace("minecraft:oak_fence", false));
-        for (String blockId : WOODEN_FENCE_SIBLING_IDS) {
-            variants.add(new WoodenFenceFallingFluidFace(blockId, true));
+    public static List<FenceFallingFluidFace> variants() {
+        var variants = new ArrayList<FenceFallingFluidFace>();
+        variants.add(new FenceFallingFluidFace("minecraft:oak_fence", false));
+        for (String blockId : DEFAULT_FENCE_IDS) {
+            variants.add(new FenceFallingFluidFace(blockId, true));
         }
         return variants;
     }
