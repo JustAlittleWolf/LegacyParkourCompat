@@ -1,9 +1,12 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnMovementAttributeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnMovementFlagsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnJumpStrengthBaseHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnVelocityHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -16,6 +19,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.OptionalDouble;
 
-/** Dispatches the profile-specific movement attribute response after client respawn copying. */
+/** Dispatches profile-specific movement operations during client respawn. */
 @Mixin(ClientPacketListener.class)
 abstract class ClientPacketListenerRespawnMixin extends ClientCommonPacketListenerImpl {
     @Unique
@@ -35,6 +39,26 @@ abstract class ClientPacketListenerRespawnMixin extends ClientCommonPacketListen
 
     protected ClientPacketListenerRespawnMixin(Minecraft minecraft, Connection connection, CommonListenerCookie cookie) {
         super(minecraft, connection, cookie);
+    }
+
+    @WrapOperation(
+        method = "handleRespawn(Lnet/minecraft/network/protocol/game/ClientboundRespawnPacket;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"
+        ),
+        require = 1,
+        allow = 1
+    )
+    private void legacyparkourcompat$copyRespawnVelocity(
+        LocalPlayer replacementPlayer,
+        Vec3 vanillaVelocity,
+        Operation<Void> original
+    ) {
+        Vec3 velocity = MovementRuntime.find(RespawnVelocityHook.class, replacementPlayer)
+            .map(hook -> hook.replacementVelocity(vanillaVelocity))
+            .orElse(vanillaVelocity);
+        original.call(replacementPlayer, velocity);
     }
 
     @Inject(
