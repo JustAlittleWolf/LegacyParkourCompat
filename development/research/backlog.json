@@ -830,7 +830,38 @@
         "mainCommit": "a40639131cdcaa9c4d2376be3cb416b135788705",
         "scope": "V1_12 wall-neighbor mask selection reuses accepted pane stair-face helper; only stair bits change. General wall selector domains and full-pair source closure remain open.",
         "staticCheck": "git diff --check passed; no build/tests/runtime"
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.12--1.12.2",
+          "decision": "ACCEPT bounded unchanged lava scan and missing-client-chunk route. The outer syntactic tick predicate does not enforce loaded chunks on the local client. Absent block chunks return AIR through EmptyChunk.",
+          "snapshot": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-112-1122/comparison.corrected-r1.md",
+            "sha256": "479ac237d70c523b4c1ea0320eac3e3e9b758440075ea3e9b9da3625c7e906df"
+          },
+          "review": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-112-1122-audit/verdict-r1.md",
+            "sha256": "be8b0a8b4088f57a4a9ba0f92f9ccef5dad6b91ff5a1c9ab7445154eee2922ed"
+          },
+          "originalReview": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-112-1122-audit/audit-verdict.md",
+            "sha256": "7f7ce72abc9b29b44187b66b3a195da5f06b3f854aa644186f75f2fecd44ea2d"
+          },
+          "roster": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-112-1122-audit/source-roster.txt",
+            "sha256": "3809e91baf8fb719b71d86a975d2271cc5c929511d10470609bfbb7fa16105ba"
+          },
+          "rosterSupplement": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-112-1122-audit/supplemental-roster.txt",
+            "sha256": "1e080f2ef5fa6710deccc0b196015fa504571bc84e50313a51796e0bd2e36572"
+          }
+        }
+      ]
     },
     {
       "pair": "1.12.2--1.13.2",
@@ -3062,6 +3093,30 @@
               "sha256": "59521c01515b13b3d50af364dd1fba2d1f4d6d77e0ffbb2076ce1a52dbc43691"
             }
           ]
+        },
+        {
+          "exactPair": "1.13--1.13.1",
+          "decision": "ACCEPT bounded unchanged lava-material interval, half-open iteration, held-jump/travel order, local-player tick and missing client-chunk behavior.",
+          "snapshot": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-113-1131/comparison.md",
+            "sha256": "2125d50733837c5c01a2a46e7c263352739c4d3a00b86258d6d71c78b06692bc"
+          },
+          "review": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-113-1131-audit/audit.md",
+            "sha256": "0d944e1e8d6c93a11ddd5425a886913936d057bcf2b8c29f5ee852a3ef87d008"
+          },
+          "roster": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-113-1131-audit/source-roster.md",
+            "sha256": "6295c37a0169a32cc74d5c66b7be6dc4fea389c1203f9c69979c7e98931f2715"
+          },
+          "rosterSupplement": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-113-1131-audit/source-roster-supplement.md",
+            "sha256": "c474854e3d9bfaea87bf54629f274cc4ac06a616f14cf046281168ab4ac6e9b8"
+          }
         }
       ]
     },
@@ -14011,6 +14066,30 @@
             "path": "development/research/source-evidence/20261117/block-a-oak-fence-pre112-verified-b/lane-falling-water-fence-110-1101-audit/roster.md",
             "sha256": "77ceffac76968495fd8b4623648d20be9a3dfadfb12856252b7411fc04c15bab"
           }
+        },
+        {
+          "exactPair": "1.10--1.10.1",
+          "decision": "ACCEPT bounded unchanged lava material scan, integer upper-Y boundary, collision geometry and LocalPlayer travel route.",
+          "snapshot": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-110-1101/comparison.corrected-r1.md",
+            "sha256": "ec4ac3ff5d0ab706a94b8cfcc7bfe5f40acf465f57041ddacb1e130b7866c0a7"
+          },
+          "review": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-110-1101-audit/verdict.md",
+            "sha256": "ca1ed747a6dda431d85ed593be5909dd60d11309ad4c01b9384ec7ee70c8b4a8"
+          },
+          "roster": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-110-1101-audit/roster.md",
+            "sha256": "be4b074791f3b1a56fd1af4cf41af4e6d166461e1ca3f24a918197c2558faf8e"
+          },
+          "provenance": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-110-1101/provenance.md",
+            "sha256": "9a58bfd522aff0170cf1b02c02be53b3bb84cd31b744212797c848c45509efe3"
+          }
         }
       ]
     },
@@ -14179,6 +14258,30 @@
             "revision": "538854123548b72dbe53b0b52e03a39a451efba1",
             "path": "development/research/source-evidence/20261117/block-a-oak-fence-pre112-verified-a/lane-falling-water-fence-111-1111-audit/verdict.md",
             "sha256": "514853e3ebc9199539f5b2cab02134d220b0921a7a05262cd92ea37c5213e800"
+          }
+        },
+        {
+          "exactPair": "1.11--1.11.1",
+          "decision": "ACCEPT bounded unchanged box shrink, ceil maximum, half-open lava-material scan and LocalPlayer travel guards.",
+          "snapshot": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-111-1111/comparison.md",
+            "sha256": "c929ecf316feb59842734a653e25de82046d4c6cec77b77ce38fcdaa5cda704c"
+          },
+          "review": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-111-1111-audit/verdict.md",
+            "sha256": "79ae418934d3289a85e4511553c8cb78887ab69846c8b5f00ea25e91c41d6a36"
+          },
+          "roster": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-111-1111-audit/roster.md",
+            "sha256": "2291e4ec92189adc1c6b47f61e440b539a340ed07fc70357f62eab72c1b7dab0"
+          },
+          "authorRoster": {
+            "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
+            "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-111-1111/roster.md",
+            "sha256": "357b9e6c55815a84681776b8fdc5eb833265d494360f4232538b21e940997e49"
           }
         }
       ]
