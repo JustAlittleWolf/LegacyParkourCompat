@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "independent-blind-source-audit",
+  "pair": ["1.9.4", "1.10.2"],
+  "mapping": "ornithe-feather",
+  "authorComparison": {
+    "path": "C:/Users/Wolfi/.codex/visualizations/2026/11/17/01a1eb7b-ac27-7712-9259-3041950bc340/lane-water-current-source-194-1102/comparison.md",
+    "sha256": "3c5204b3f24a6f5ef09d03897b57b7606b61f4bb230643c2321b44adadc26634",
+    "identityCheck": "PASS"
+  },
+  "frozenRoster": {
+    "path": "roster.txt",
+    "sha256": "086021619a9edaca426eed0e28786b5a03c56d699ad0c8708f5ff95f38227a71",
+    "boundary": "ordinary nonfalling water current, AABB and loaded-area scan, ordered per-cell flow and aggregate velocity write, local client on-foot/no-fly eligibility path",
+    "explicitExclusions": ["falling-flow special addition", "aliases", "body/eye liquid queries", "swimming/current-motion extrapolation", "product and wiki material"]
+  },
+  "sourceIdentity": {
+    "verdict": "PASS_BOUNDED",
+    "details": "For both exact version roots, ready status/version/mapping matched, ready-marker sourceManifestSha256 matched the actual source manifest, provenance matched the exact version/mapping, and the listed mapping artifact names matched between ready and provenance. SHA-256 for all eight roster Java files per release matched the corresponding source-manifest entries.",
+    "limitations": ["Mapping artifact byte hashes and verification sidecars were not in the frozen roster and were not independently checked.", "The author's whole-tree recomputation and published-source verification-sidecar assertions were not independently checked."]
+  },
+  "slices": [
+    {
+      "id": "query-box-and-loaded-area-gate",
+      "verdict": "PASS_CORE_QUERY",
+      "evidence": ["1.9.4 World.java:1560-1602, 216-234; Entity.java:849-865", "1.10.2 World.java:1570-1612, 216-234; Entity.java:862-878"],
+      "result": "The entity water-collision call uses the same getShape().grown(0.0, -0.4F, 0.0).contract(0.001) bounds and Material.WATER argument. Both query methods floor each minimum, ceil each maximum, use exclusive X/Y/Z upper loop bounds, and return false if isAreaLoaded(i,k,m,j,l,n,true) fails. The in-roster isAreaLoaded implementation has the same vertical-range test, >>4 chunk conversion, inclusive chunk-coordinate loops, and allowEmpty argument forwarding.",
+      "not_audited": ["ClientWorld.isChunkLoadedAt implementation and the author's empty-client-chunk admission claim", "World.getBlockState out-of-height behavior"]
+    },
+    {
+      "id": "ordinary-per-cell-water-flow",
+      "verdict": "PASS",
+      "evidence": ["LiquidBlock.java:49-55, 131-159, 175-177; Direction.java:315-340; Block.java:522-524 / 527-529"],
+      "result": "LiquidBlock.java is byte-identical across the pair (SHA-256 b988d19e379d01d291cb014cb05e1579311c589654ce9ff4faa7f43bbba0533e). The ordinary branch sums the same horizontal-neighbor depth deltas and normalizes once per cell; the horizontal order is NORTH, EAST, SOUTH, WEST on both sides. The base Block.applyMaterialDrag fallback returns the accumulated vector unchanged in both versions.",
+      "not_audited": ["The LEVEL >= 8 falling-flow addition (explicitly excluded)", "LiquidSourceBlock/FlowingLiquidBlock inheritance and state registration claims"]
+    },
+    {
+      "id": "aggregate-normalization-and-velocity-write",
+      "verdict": "PASS_EQUIVALENT",
+      "evidence": ["1.9.4 World.java:1571-1599", "1.10.2 World.java:1581-1609"],
+      "result": "Both versions accumulate returned per-cell vectors in the same nested X/Y/Z order. Both then check aggregate length > 0.0 and entity.hasLiquidCollision(), normalize once, and add each component after the scan. 1.9.4 multiplies by local double e = 0.014; 1.10.2 retains that declaration but multiplies directly by 0.014. Both are double constants with the same arithmetic operation order and no cast, so the expression rewrite is semantically equivalent for the audited write.",
+      "not_audited": ["PlayerEntity.hasLiquidCollision method body implementing the called predicate"]
+    },
+    {
+      "id": "local-client-on-foot-no-fly-path",
+      "verdict": "PARTIAL_NO_DIFFERENCE_IN_CHECKED_GATES",
+      "evidence": ["Entity.java baseTick/checkWaterCollisions/logical-side gate", "LivingEntity.java tick/travel/moveRelative/local-control gate", "PlayerEntity.java tick/moveRelative", "LocalClientPlayerEntity.java isLocallyControlled"],
+      "result": "The checked path is unchanged: baseTick calls checkWaterCollisions; LivingEntity's travel phase calls moveRelative; the local-control override returns true; the movement gate admits locally controlled entities; and PlayerEntity's flying, non-riding override delegates to super while the non-flying path also delegates to super. No difference was found in these checked dispatch gates.",
+      "not_audited": ["LocalClientPlayerEntity.tick entry/order", "PlayerEntity.hasLiquidCollision implementation used by aggregate current application", "Any body/eye or swimming behavior"]
+    }
+  ],
+  "overall": "PARTIAL_ACCEPTANCE",
+  "conclusion": "No source difference was found in the frozen ordinary nonfalling query/flow/aggregate slices. The author's adjacent claims about client chunk admission, the player liquid-collision predicate, and the complete local-client tick entry/order exceed the frozen roster and remain unaudited; therefore this audit does not independently accept those claims or the comparison's full local-path conclusion.",
+  "nextAction": "If those adjacent claims are required for acceptance, obtain a new blind roster covering ClientWorld.isChunkLoadedAt, World.getBlockState, PlayerEntity.hasLiquidCollision, and LocalClientPlayerEntity.tick, then audit those slices separately."
+}

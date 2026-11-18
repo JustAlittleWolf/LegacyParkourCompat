@@ -1,0 +1,33 @@
+Frozen source-roster supplement r1 — only the three originally omitted dependencies.
+Pair: exact Minecraft 1.9.4 → 1.10.2; mapping family: Ornithe Feather.
+Scope: client chunk admission override/fallback; liquid-collision predicate inheritance/override; local-player tick entry/direct caller order.
+Bound original comparison SHA256=3c5204b3f24a6f5ef09d03897b57b7606b61f4bb230643c2321b44adadc26634; original roster SHA256=086021619a9edaca426eed0e28786b5a03c56d699ad0c8708f5ff95f38227a71; original verdict SHA256=43ef0d7f11ac861386b8844f9c34e41f8bb2b07586b8d754c0033234233221e9.
+Frozen before reading any body in this supplement. Primary checkout is read-only.
+
+[1.9.4 | readyStatus=ready | version=1.9.4 | mapping=ornithe-feather | sourceManifestSHA256=c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19 | mappingArtifacts=feather-gen2-1.9.4+build.2-mergedv2.jar,feather-gen2-1.9.4+build.2.tiny]
+net/minecraft/world/World.java SHA256=2fe063e0ec224eed9fc7d01b8f788c32035eed5fee5a9d98ea5e82296236e05a
+  slice: World.java:216-237 isAreaLoaded body and abstract isChunkLoadedAt declaration; 1222-1287 tickEntities; 1393-1462 tickEntity overload chain
+net/minecraft/client/world/ClientWorld.java SHA256=8bbda6e31e1424bf65b89a0c35110f213841695766870cf526bf6e707f67a74b
+  slice: ClientWorld.java:104-106 isChunkLoadedAt client implementation
+net/minecraft/entity/Entity.java SHA256=bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0
+  slice: Entity.java:299-370 tick/baseTick water-call order; 1967-1969 base hasLiquidCollision fallback
+net/minecraft/entity/living/player/PlayerEntity.java SHA256=d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85
+  slice: PlayerEntity.java:170-205 tick inheritance; 1717-1719 hasLiquidCollision override
+net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java SHA256=8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d
+  slice: LocalClientPlayerEntity.java:143-180 tick entry and pre/post-super order; 447-449 local-control override
+net/minecraft/client/Minecraft.java SHA256=6778bd1f0e8aa8a29fdce3bc5285cbd3ea56fa18ca8a43afc4d88439ab12133e
+  slice: Minecraft.java:1347-1460 client tick and world entity tick caller order
+
+[1.10.2 | readyStatus=ready | version=1.10.2 | mapping=ornithe-feather | sourceManifestSHA256=91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71 | mappingArtifacts=feather-gen2-1.10.2+build.2-mergedv2.jar,feather-gen2-1.10.2+build.2.tiny]
+net/minecraft/world/World.java SHA256=888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646
+  slice: World.java:216-237 isAreaLoaded body and abstract isChunkLoadedAt declaration; 1226-1291 tickEntities; 1403-1477 tickEntity overload chain
+net/minecraft/client/world/ClientWorld.java SHA256=00bc522817863345c535cd438c9be994f8ecfdeaf3e3c9c7c57d517287e8515c
+  slice: ClientWorld.java:105-107 isChunkLoadedAt client implementation
+net/minecraft/entity/Entity.java SHA256=05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77
+  slice: Entity.java:304-375 tick/baseTick water-call order; 2009-2011 base hasLiquidCollision fallback
+net/minecraft/entity/living/player/PlayerEntity.java SHA256=a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302
+  slice: PlayerEntity.java:175-210 tick inheritance; 1736-1738 hasLiquidCollision override
+net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java SHA256=a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443
+  slice: LocalClientPlayerEntity.java:152-190 tick entry and pre/post-super order; 458-460 local-control override
+net/minecraft/client/Minecraft.java SHA256=0979d770e8742a07bb8c54cf7fd3449a8c43a4f48910600ffabf75f1f67ba2d9
+  slice: Minecraft.java:1336-1465 client tick and world entity tick caller order
