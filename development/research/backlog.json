@@ -8901,6 +8901,30 @@
             "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
           },
           "exactPair": "1.20.6--1.21.0"
+        },
+        {
+          "exactPair": "1.20.6--1.21",
+          "decision": "ACCEPT continuity for ordinary local crouch edge backoff with the named loaded full cube and dry bottom slab. The move gates, un-inset support box and ordered signed 0.05 reductions agree. Exact 1.21 mapping-root provenance and cached inputs are separately verified. Subsequent collision, support tracking, custom providers and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "ea6c2230414d577f51c559704ca37c5b4538aa09",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1206-121-report.md",
+            "sha256": "5e8335e608f77ef0fbde9e8c16dbb388a6933dd83f19d170218c14bec8c70b8a"
+          },
+          "review": {
+            "revision": "ea6c2230414d577f51c559704ca37c5b4538aa09",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1206-1211-verdict.md",
+            "sha256": "88031e90351da2a835487401aa63012a3672b746de72356cea979e779c03a669"
+          },
+          "provenance": {
+            "revision": "ea6c2230414d577f51c559704ca37c5b4538aa09",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1206-121-provenance-r2.md",
+            "sha256": "101a6dd76e557cf8d420a892b7a71b3d5057b02043740bdffe174fd7fa70f657"
+          },
+          "binding": {
+            "revision": "ea6c2230414d577f51c559704ca37c5b4538aa09",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/preceding-pairs.md",
+            "sha256": "ab29b6cc7ac75f4f1455a8520b949555c2cec7829864d4cf9b068fea5037cb08"
+          }
         }
       ]
     },
@@ -14439,6 +14463,30 @@
             }
           ],
           "exactPair": "1.21--1.21.1"
+        },
+        {
+          "exactPair": "1.21--1.21.1",
+          "decision": "ACCEPT continuity for ordinary local crouch edge backoff with the named loaded full cube and dry bottom slab. The move gates, un-inset support box and ordered signed 0.05 reductions agree. Exact 1.21 mapping-root provenance and cached inputs are separately verified. Subsequent collision, support tracking, custom providers and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "ea6c2230414d577f51c559704ca37c5b4538aa09",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1206-121-report.md",
+            "sha256": "5e8335e608f77ef0fbde9e8c16dbb388a6933dd83f19d170218c14bec8c70b8a"
+          },
+          "review": {
+            "revision": "ea6c2230414d577f51c559704ca37c5b4538aa09",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1206-1211-verdict.md",
+            "sha256": "88031e90351da2a835487401aa63012a3672b746de72356cea979e779c03a669"
+          },
+          "provenance": {
+            "revision": "ea6c2230414d577f51c559704ca37c5b4538aa09",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/1206-121-provenance-r2.md",
+            "sha256": "101a6dd76e557cf8d420a892b7a71b3d5057b02043740bdffe174fd7fa70f657"
+          },
+          "binding": {
+            "revision": "ea6c2230414d577f51c559704ca37c5b4538aa09",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/edge-backoff-1211-1214/preceding-pairs.md",
+            "sha256": "ab29b6cc7ac75f4f1455a8520b949555c2cec7829864d4cf9b068fea5037cb08"
+          }
         }
       ]
     },
