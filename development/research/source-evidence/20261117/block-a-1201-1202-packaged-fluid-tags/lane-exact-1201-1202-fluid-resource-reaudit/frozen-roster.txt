@@ -1,0 +1,19 @@
+# Frozen roster: 1.20.1 → 1.20.2 fluid tag resource audit
+
+## Evidence freeze
+
+Exact raw candidate files in `lane-exact-1201-1202-fluid-resource-recovery` were checked against the local catalog/identity records and the shared decompiler ready/artifact pins before opening the author comparison or manifest. Ready-marker artifact-manifest SHA-256 values matched the local `artifacts.sha256` files; candidate JAR SHA-256 values matched both `clientSha256` identity pins and each version's `client.jar` artifact pin. Mojang metadata SHA-1 values matched each catalog URL digest and `metadataSha1` identity pin. JAR sizes and SHA-1 values matched identity records.
+
+- 1.20.1 client.jar: size 23,028,853; SHA-1 `0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838`; SHA-256 `56b71336d2b4fdffd197f56595b0da93e32a946f78f382a299b8f4b92758bb0f`.
+- 1.20.2 client.jar: size 23,186,213; SHA-1 `82d1974e75fc984c5ed4b038e764e50958ac61a0`; SHA-256 `fa1a19be56a506426308abbc1cad85f299a7fc6dae4335559351ba0246713fda`.
+
+## Independent archive roster
+
+For each exact raw client JAR, the candidate roster is precisely these packaged entries under `data/minecraft/tags/fluids/`:
+
+- `water.json` (74 bytes): values `minecraft:water`, `minecraft:flowing_water`.
+- `lava.json` (72 bytes): values `minecraft:lava`, `minecraft:flowing_lava`.
+
+The entries were read directly from the ZIP archives. No `data/minecraft/tags/fluid/` opposite-directory aliases were present. Both candidate entries occur in both versions, and their extracted contents and CRCs are unchanged between versions: water CRC `2391347031`; lava CRC `2199247990`.
+
+This roster is frozen before author comparison/manifest inspection. This audit is default-only packaged resource coverage for builtin WATER and LAVA tags; it does not cover runtime/resource-pack behavior.
