@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_17;
+package me.wolfii.legacyparkourcompat.change.v1_16_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -8,12 +8,9 @@ import net.minecraft.world.entity.Entity;
 
 import java.util.Optional;
 
-/** Keeps native passenger placement for the 1.17 profile and earlier unsupported profiles. */
-@MovementChange(emulates = ParkourVersion.V1_17)
-public final class NativeLlamaPassengerPlacement implements PlayerPassengerPlacementHook {
-    public NativeLlamaPassengerPlacement() {
-    }
-
+/** Native resolver fence before the exact 1.17 Llama rider-height provider. */
+@MovementChange(emulates = ParkourVersion.V1_16_2)
+public final class NativePlayerPassengerPlacement implements PlayerPassengerPlacementHook {
     @Override
     public Optional<Placement> placement(LocalPlayer passenger, Entity vehicle) {
         return Optional.empty();
