@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
@@ -53,12 +54,13 @@ import java.util.stream.Stream;
  * the old occupied volume but likewise flattens it plate first. Reuse its old
  * ordered provider components on the audited slab-floor AutoJump path.
  *
- * For the separate east-border fixture, Feather 1.12–1.12.2
+ * For the separate cardinal border fixtures, Feather 1.12–1.12.2
  * World.isWithinBorder is true for either prior outside flag when the
  * player's center is inside the eroded border. World.getCollisions and
  * WorldBorder.contains append outside cells in place. Feather 1.13.2
  * WorldView.getBlockCollisions accumulates them in an IntVoxelShape instead.
- * Include only individual east cells for the supported Stone-floor probe.
+ * Include only individual outside cells on the one admitted face for a
+ * supported Stone-floor probe. The visit order stays X/Z/Y on every face.
  * Other providers, entities' historical geometry and runtime parity remain open.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
@@ -68,6 +70,25 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
     private static final AABB BREWING_STAND_PLATE = new AABB(0.0, 0.0, 0.0, 1.0, 2.0 / 16.0, 1.0);
 
     private record Cell(BlockPos pos, BlockState state) {}
+
+    private record BorderProbe(Direction face, double edge, int floorY, int row) {
+        private double outwardCell(int x, int z) {
+            int coordinate = face.getAxis() == Direction.Axis.X ? x : z;
+            return face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? coordinate : -coordinate - 1.0;
+        }
+
+        private boolean isFloor(int x, int y, int z) {
+            int tangent = face.getAxis() == Direction.Axis.X ? z : x;
+            double normal = outwardCell(x, z);
+            return y == floorY && tangent == row && (normal == edge - 2.0 || normal == edge - 1.0);
+        }
+
+        private BlockPos clearanceSample() {
+            int outside = face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? (int) edge : -(int) edge - 1;
+            return face.getAxis() == Direction.Axis.X ? new BlockPos(outside, floorY + 2, row)
+                : new BlockPos(row, floorY + 2, outside);
+        }
+    }
 
     @Override
     public Iterable<VoxelShape> autoJumpCollisions(Player player, CollisionGetter level, AABB query,
@@ -86,21 +107,28 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         int maxY = Math.max(y1 - 1, Mth.floor(query.maxY + 1.0E-7) + 1);
         int minZ = Math.min(z0, Mth.floor(query.minZ - 1.0E-7) - 1);
         int maxZ = Math.max(z1 - 1, Mth.floor(query.maxZ + 1.0E-7) + 1);
-        if (minX < border.getMinX() || minZ < border.getMinZ() || maxZ + 1.0 > border.getMaxZ()) {
+        boolean west = minX < border.getMinX();
+        boolean east = maxX + 1.0 > border.getMaxX();
+        boolean north = minZ < border.getMinZ();
+        boolean south = maxZ + 1.0 > border.getMaxZ();
+        int crossedFaces = (west ? 1 : 0) + (east ? 1 : 0) + (north ? 1 : 0) + (south ? 1 : 0);
+        if (crossedFaces > 1) {
             return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
         }
-        double east = border.getMaxX();
-        boolean eastBorder = maxX + 1.0 > east;
-        if (eastBorder && !admitsEastBorder(player, level, query, selected, border, east, minY, maxY)) {
-            return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
+        BorderProbe borderProbe = null;
+        if (crossedFaces == 1) {
+            Direction face = west ? Direction.WEST : east ? Direction.EAST : north ? Direction.NORTH : Direction.SOUTH;
+            borderProbe = admitBorder(player, level, query, selected, border, face, minY, maxY);
+            if (borderProbe == null) {
+                return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
+            }
         }
-        int floorY = Mth.floor(query.minY) - 1;
-        int floorZ = Mth.floor(player.getZ());
         int stoneSupportCells = 0;
         List<Cell> cells = new ArrayList<>();
         BlockPos brewingStand = null;
         boolean brewingStandSurroundings = true;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        CollisionContext context = CollisionContext.of(player);
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
                 var chunk = level.getChunkForCollisions(SectionPos.blockToSectionCoord(x), SectionPos.blockToSectionCoord(z));
@@ -114,17 +142,17 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                     boolean edgeZ = z == z0 || z == z1 - 1;
                     boolean visited = x >= x0 && x < x1 && y >= y0 && y < y1 && z >= z0 && z < z1
                         && !(edgeX && edgeZ) && (!(edgeX || edgeZ) || y != y1 - 1);
-                    if (eastBorder) {
+                    if (borderProbe != null) {
                         // Exactly the two full-cube floor cells support the whole footprint.
-                        if (y == floorY && z == floorZ && (x == east - 2.0 || x == east - 1.0)) {
-                            if (!state.is(Blocks.STONE)) {
+                        if (borderProbe.isFloor(x, y, z)) {
+                            if (!state.is(Blocks.STONE) || context.getCollisionShape(state, level, pos) != Shapes.block()) {
                                 return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
                             }
                             stoneSupportCells++;
                         } else if (!state.is(Blocks.AIR)) {
                             return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
                         }
-                        if (visited && x >= east) {
+                        if (visited && borderProbe.outwardCell(x, z) >= borderProbe.edge()) {
                             cells.add(new Cell(pos.immutable(), state));
                         }
                         continue;
@@ -147,15 +175,16 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                 }
             }
         }
-        if (eastBorder) {
-            if (stoneSupportCells != 2 || !loadedState(level, BlockPos.containing(player.getX(),
-                    player.getBoundingBox().maxY, player.getZ()).above()).is(Blocks.AIR)) {
+        if (borderProbe != null) {
+            BlockPos head = BlockPos.containing(player.getX(), player.getBoundingBox().maxY, player.getZ());
+            if (stoneSupportCells != 2 || !loadedState(level, head).is(Blocks.AIR)
+                || !loadedState(level, head.above()).is(Blocks.AIR)
+                || !loadedState(level, borderProbe.clearanceSample()).is(Blocks.AIR)) {
                 return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
             }
             return () -> cells.stream().map(cell -> new AABB(cell.pos()))
                 .filter(query::intersects).map(Shapes::create).iterator();
         }
-        CollisionContext context = CollisionContext.of(player);
         List<VoxelShape> standParts = brewingStand == null || !brewingStandSurroundings ? List.of()
             : brewingStandParts(player, level, query, context, brewingStand, selected);
         if (brewingStand != null && standParts.isEmpty()) {
@@ -176,33 +205,53 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         return com.google.common.collect.Iterables.concat(blocks, level.getEntityCollisions(player, query));
     }
 
-    private static boolean admitsEastBorder(Player player, CollisionGetter level, AABB query, ParkourVersion selected,
-        WorldBorder border, double east, int minY, int maxY) {
+    private static BorderProbe admitBorder(Player player, CollisionGetter level, AABB query, ParkourVersion selected,
+        WorldBorder border, Direction face, int minY, int maxY) {
+        double west = border.getMinX();
+        double east = border.getMaxX();
+        double north = border.getMinZ();
+        double south = border.getMaxZ();
         if (selected != ParkourVersion.V1_12 || !(player instanceof LocalPlayer)
             || !(level instanceof Level clientLevel) || clientLevel != player.level() || !clientLevel.isClientSide()
-            || border.getStatus() != BorderStatus.STATIONARY || east != Math.rint(east)
-            || border.getMinX() != Math.rint(border.getMinX()) || border.getMinZ() != Math.rint(border.getMinZ())
-            || border.getMaxZ() != Math.rint(border.getMaxZ()) || minY < level.getMinY() || maxY > level.getMaxY()) {
-            return false;
+            || border.getStatus() != BorderStatus.STATIONARY || east != Math.rint(east) || west != Math.rint(west)
+            || north != Math.rint(north) || south != Math.rint(south) || minY < level.getMinY() || maxY > level.getMaxY()) {
+            return null;
         }
 
         double x = player.getX();
         double y = player.getY();
         double z = player.getZ();
         double width = player.getBbWidth();
-        double endX = query.maxX - width;
         AABB box = player.getBoundingBox();
-        int row = Mth.floor(z);
+        Direction.Axis axis = face.getAxis();
+        Direction.Axis tangent = axis == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X;
+        boolean positive = face.getAxisDirection() == Direction.AxisDirection.POSITIVE;
+        double edge = switch (face) {
+            case EAST -> east;
+            case WEST -> -west;
+            case NORTH -> -north;
+            case SOUTH -> south;
+            default -> throw new IllegalArgumentException("AutoJump border face must be horizontal");
+        };
+        double normalCenter = (positive ? 1.0 : -1.0) * (axis == Direction.Axis.X ? x : z);
+        double tangentCenter = tangent == Direction.Axis.X ? x : z;
+        int row = Mth.floor(tangentCenter);
+        double probeMin = positive ? query.min(axis) : -query.max(axis);
+        double end = (positive ? query.max(axis) : -query.min(axis)) - width;
+        double bodyMin = positive ? box.min(axis) : -box.max(axis);
+        double bodyMax = positive ? box.max(axis) : -box.min(axis);
         var speed = player.getEffect(MobEffects.SPEED);
-        return x > border.getMinX() + 1.0 && x < east - 1.0
-            && z > border.getMinZ() + 1.0 && z < border.getMaxZ() - 1.0
+        if (x > west + 1.0 && x < east - 1.0 && z > north + 1.0 && z < south - 1.0
             && width == 0.6F && player.getBbHeight() == 1.8F
-            && box.minX >= east - 2.0 && box.maxX < east && box.minZ >= row && box.maxZ <= row + 1.0
+            && bodyMin >= edge - 2.0 && bodyMax < edge && box.min(tangent) >= row && box.max(tangent) <= row + 1.0
             && y == Math.rint(y) && query.minY == y && query.maxY == y + player.getBbHeight()
-            && query.minX == x - width && query.minZ == z - width && query.maxZ == z + width
-            && endX > east && endX < east + 1.0
+            && probeMin == normalCenter - width && end > edge && end < edge + 1.0
+            && query.min(tangent) == tangentCenter - width && query.max(tangent) == tangentCenter + width
             && speed != null && speed.getAmplifier() == 1 && !player.hasEffect(MobEffects.JUMP_BOOST)
-            && clientLevel.getEntities(player, query.inflate(0.25), entity -> true).isEmpty();
+            && clientLevel.getEntities(player, query.inflate(0.25), entity -> true).isEmpty()) {
+            return new BorderProbe(face, edge, Mth.floor(y) - 1, row);
+        }
+        return null;
     }
 
     private static List<VoxelShape> brewingStandParts(Player player, CollisionGetter level, AABB query,
