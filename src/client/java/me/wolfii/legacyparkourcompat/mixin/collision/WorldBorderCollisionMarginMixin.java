@@ -7,10 +7,18 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WorldBorder.class)
 public abstract class WorldBorderCollisionMarginMixin {
+    @Inject(method = {"setSize(D)V", "lerpSizeBetween(DDJJ)V", "setCenter(DD)V", "setAbsoluteMaxSize(I)V"},
+        at = @At("HEAD"))
+    private void legacyparkourcompat$invalidateContraction(CallbackInfo callback) {
+        MovementRuntime.invalidateBorderContraction((WorldBorder)(Object)this);
+    }
+
     @Redirect(
         method = "isInsideCloseToBorder(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Z",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/border/WorldBorder;isWithinBounds(DDD)Z")

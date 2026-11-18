@@ -14,6 +14,13 @@ public interface BorderCollisionAdmissionHook extends VersionedMechanic {
      * Evaluates the admission gate against the collision geometry selected by
      * the runtime; the same historical static shape is carried to collection.
      */
-    Optional<Boolean> includeBorder(ParkourVersion selected, WorldBorder border, AABB currentBox,
-                                    VoxelShape collisionShape);
+    default Optional<Boolean> includeBorder(ParkourVersion selected, WorldBorder border, AABB currentBox,
+                                            VoxelShape collisionShape) {
+        return Optional.empty();
+    }
+
+    /** Evaluates admission for the observed outward query after a stationary contraction. */
+    default Optional<Boolean> includeBorderAfterContraction(boolean wasOutside, boolean outside) {
+        return Optional.empty();
+    }
 }
