@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.water.LegacyWaterFlowMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
 import java.util.Set;
@@ -67,7 +69,10 @@ public final class WaterCurrent implements WaterCurrentHook {
             BlockPos adjacent = pos.relative(direction);
             BlockState neighbor = historicalState(level, adjacent);
             boolean dryLadderSide = admitsDryLadderSide(level, pos, state, direction, adjacent, neighbor);
-            if (!supported(neighbor) && !isAdditionalDrySideBlocker(neighbor) && !dryLadderSide) return Optional.empty();
+            if (!supported(neighbor) && !isAdditionalDrySideBlocker(neighbor) && !dryLadderSide
+                && !isSupportedDrySandOrGravel(level, state, direction, adjacent, neighbor)) {
+                return Optional.empty();
+            }
             int other = depth(neighbor);
             if (other < 0) {
                 if (neighbor.isAir() || dryLadderSide) {
@@ -143,6 +148,30 @@ public final class WaterCurrent implements WaterCurrentHook {
         return state.getFluidState().isEmpty()
             && (state.is(Blocks.GLASS) || STAINED_GLASS.contains(state.getBlock())
                 || (state.is(Blocks.OAK_LEAVES) && state.getValue(LeavesBlock.PERSISTENT)));
+    }
+
+    /**
+     * In 1.8 through 1.12.2 Ornithe Feather, sand (including its red variant)
+     * and gravel have Material.SAND, which blocks the one-below flow sample.
+     * This side is applicable to the reviewed stable, stone-supported fixture.
+     * Source: development/research/source-evidence/20261119/
+     * block-a-nonfalling-water-sand-gravel/.
+     */
+    private static boolean isSupportedDrySandOrGravel(Level level, BlockState center, Direction direction,
+                                                      BlockPos side, BlockState state) {
+        if (direction != Direction.EAST || center != Blocks.WATER.defaultBlockState()
+            || !(state.is(Blocks.SAND) || state.is(Blocks.RED_SAND) || state.is(Blocks.GRAVEL))
+            || !state.getFluidState().isEmpty()) {
+            return false;
+        }
+
+        BlockPos support = side.below();
+        if (!historicalHeight(support) || level.isOutsideBuildHeight(support)) {
+            return false;
+        }
+        var chunk = level.getChunk(SectionPos.blockToSectionCoord(support.getX()),
+            SectionPos.blockToSectionCoord(support.getZ()), ChunkStatus.FULL, false);
+        return chunk != null && chunk.getBlockState(support).is(Blocks.STONE);
     }
 
     private static int depth(BlockState state) {
