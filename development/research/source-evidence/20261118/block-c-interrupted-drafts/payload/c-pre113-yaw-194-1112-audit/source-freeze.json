@@ -1,0 +1,342 @@
+{
+  "title": "Pre-body exact source freeze: Feather 1.9.4–1.11.2 yaw audit",
+  "mappingFamily": "Ornithe Feather",
+  "scope": "Freeze all seven exact-version roots and six relevant source-file byte hashes before reading method bodies.",
+  "pairs": [
+    "1.9.4--1.10",
+    "1.10--1.10.1",
+    "1.10.1--1.10.2",
+    "1.10.2--1.11",
+    "1.11--1.11.1",
+    "1.11.1--1.11.2"
+  ],
+  "versions": [
+    {
+      "version": "1.9.4",
+      "mapping": "ornithe-feather",
+      "root": "decompiled_minecraft/1.9.4/ornithe-feather",
+      "provenance": {
+        "path": "decompiled_minecraft/1.9.4/ornithe-feather.provenance.json",
+        "sha256": "5c913715bed763369ceb5fd171cab3e63c43298023078c3683f96c7ea8fed3cd"
+      },
+      "sourceFiles": [
+        {
+          "path": "net/minecraft/client/render/GameRenderer.java",
+          "sha256": "e08c2034c7fd4621a76ff5a4ba26dd80e065c895bc5c0a4120d4d36141203d6b",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+          "sha256": "68f6e640808d8b31c1a99d1470075606a42290600fd45435aa86c15eb8db5ef0",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "sha256": "8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "sha256": "bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "sha256": "bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "sha256": "d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85",
+          "publishedSha256Matched": true
+        }
+      ],
+      "readyMarker": {
+        "path": "decompiled_minecraft/1.9.4/ornithe-feather.ready.json",
+        "sha256": "3d0a810d9f3a93233d880ca07ffc806ea232230d33197197ad50ba69181171c6"
+      },
+      "sourceManifest": {
+        "path": "decompiled_minecraft/1.9.4/ornithe-feather.sources.sha256",
+        "sha256": "c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19"
+      }
+    },
+    {
+      "version": "1.10",
+      "mapping": "ornithe-feather",
+      "root": "decompiled_minecraft/1.10/ornithe-feather",
+      "provenance": {
+        "path": "decompiled_minecraft/1.10/ornithe-feather/.decompile-provenance.json",
+        "sha256": "df266e2c3009dd1a873c1665c30fe388078ed1c6227668e10cde87409a18c6da"
+      },
+      "sourceFiles": [
+        {
+          "path": "net/minecraft/client/render/GameRenderer.java",
+          "sha256": "35467c3723b9b50bb7e25ee439b8262d091cee12a1b94881f25fe90d35a83c52",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+          "sha256": "d9f0ec60a318ac51fd49198aaccd5c3e2b3af95cd3e2df577bb25226f3e0e4e4",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "sha256": "a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "sha256": "05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "sha256": "d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "sha256": "db7bbbc15e2bcb0de18476fec1b88e73eccf8ae63b170276b1d8327dd0be796b",
+          "publishedSha256Matched": true
+        }
+      ]
+    },
+    {
+      "version": "1.10.1",
+      "mapping": "ornithe-feather",
+      "root": "decompiled_minecraft/1.10.1/ornithe-feather",
+      "provenance": {
+        "path": "decompiled_minecraft/1.10.1/ornithe-feather/.decompile-provenance.json",
+        "sha256": "a9a50497930848bf0ddec732b6d424e947f643a8fa6290e01425ac2bbfce219f"
+      },
+      "sourceFiles": [
+        {
+          "path": "net/minecraft/client/render/GameRenderer.java",
+          "sha256": "35467c3723b9b50bb7e25ee439b8262d091cee12a1b94881f25fe90d35a83c52",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+          "sha256": "d9f0ec60a318ac51fd49198aaccd5c3e2b3af95cd3e2df577bb25226f3e0e4e4",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "sha256": "a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "sha256": "05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "sha256": "d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "sha256": "020370cffde2d1fe9f1b63fa5d51f1af2fab095908b19e79f88a7bcac7dfd501",
+          "publishedSha256Matched": true
+        }
+      ]
+    },
+    {
+      "version": "1.10.2",
+      "mapping": "ornithe-feather",
+      "root": "decompiled_minecraft/1.10.2/ornithe-feather",
+      "provenance": {
+        "path": "decompiled_minecraft/1.10.2/ornithe-feather.provenance.json",
+        "sha256": "13b208320bd6316d4b20eb0733f226cae151cae0ffd55ef3331a97223114adf6"
+      },
+      "sourceFiles": [
+        {
+          "path": "net/minecraft/client/render/GameRenderer.java",
+          "sha256": "35467c3723b9b50bb7e25ee439b8262d091cee12a1b94881f25fe90d35a83c52",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+          "sha256": "d9f0ec60a318ac51fd49198aaccd5c3e2b3af95cd3e2df577bb25226f3e0e4e4",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "sha256": "a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "sha256": "05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "sha256": "d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "sha256": "a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302",
+          "publishedSha256Matched": true
+        }
+      ],
+      "readyMarker": {
+        "path": "decompiled_minecraft/1.10.2/ornithe-feather.ready.json",
+        "sha256": "4c6d236e1d06ffc365452c48e73dfa2bf2414bbf4ea67a24a7010c5583906a2d"
+      },
+      "sourceManifest": {
+        "path": "decompiled_minecraft/1.10.2/ornithe-feather.sources.sha256",
+        "sha256": "91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71"
+      }
+    },
+    {
+      "version": "1.11",
+      "mapping": "ornithe-feather",
+      "root": "decompiled_minecraft/1.11/ornithe-feather",
+      "provenance": {
+        "path": "decompiled_minecraft/1.11/ornithe-feather.provenance.json",
+        "sha256": "6f775c806fd1401a4d1756e9ef88da8d73185fe1d13598235f85c424405f4c40"
+      },
+      "sourceFiles": [
+        {
+          "path": "net/minecraft/client/render/GameRenderer.java",
+          "sha256": "7b46d9bb3a0e78f3921dfbf75c0563befb2cfb521745b3235274f73cdc817d09",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+          "sha256": "207a0ff4ee996916cd1fc73f47bfaae64f92719916cafed8395b1f2a8f797809",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "sha256": "65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "sha256": "3209feaacd1e798b521a193eeb081d92c96881a70a18254ef24a58e911a4fd97",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "sha256": "1f2e31fa6a905ccc2a51a0338f2aaf448f2b0569f28644e8205d864e570d9b2b",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "sha256": "a0d787681de5caecda03fea1536dac0c07e6ca5cfbfe3b5fbb700cbe77c86fb6",
+          "publishedSha256Matched": true
+        }
+      ],
+      "readyMarker": {
+        "path": "decompiled_minecraft/1.11/ornithe-feather.ready.json",
+        "sha256": "3c4102230dba0f9d2d07f752bbd2a19d2717375f6e31fb618c0450b7fd82bd45"
+      },
+      "sourceManifest": {
+        "path": "decompiled_minecraft/1.11/ornithe-feather.sources.sha256",
+        "sha256": "8b3e5da58494f1dba77410960753b0bf646425a1ada491d8242cc71e6c7a59ca"
+      }
+    },
+    {
+      "version": "1.11.1",
+      "mapping": "ornithe-feather",
+      "root": "decompiled_minecraft/1.11.1/ornithe-feather",
+      "provenance": {
+        "path": "decompiled_minecraft/1.11.1/ornithe-feather.provenance.json",
+        "sha256": "0f6c92b8fbf4b1053a26a4cb61dc8f20c695e74a1963b49d911b8c7fbf01a055"
+      },
+      "sourceFiles": [
+        {
+          "path": "net/minecraft/client/render/GameRenderer.java",
+          "sha256": "d8f54f58020e52b117c74cf248a1bac4fc541c4244340f6a0b43f5dbce245db5",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+          "sha256": "207a0ff4ee996916cd1fc73f47bfaae64f92719916cafed8395b1f2a8f797809",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "sha256": "65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "sha256": "5a906de1d40a4a5ba8aedc9a6a9dc704e0ed862df177cf967fb1a9454765fa96",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "sha256": "bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "sha256": "8b37fd286b2dac1b343bd708b80284b43bb31c61bafc63bdcf6620ba3a59065c",
+          "publishedSha256Matched": true
+        }
+      ],
+      "readyMarker": {
+        "path": "decompiled_minecraft/1.11.1/ornithe-feather.ready.json",
+        "sha256": "454036a978074d3a34359dfebf03d6ef3e3335d1318b88d6b17e4f1f5ab566cf"
+      },
+      "sourceManifest": {
+        "path": "decompiled_minecraft/1.11.1/ornithe-feather.sources.sha256",
+        "sha256": "0d5f4697d4e4ce53b36d0dbfec89d44830eb76753a6643b49e42f0857753066d"
+      }
+    },
+    {
+      "version": "1.11.2",
+      "mapping": "ornithe-feather",
+      "root": "decompiled_minecraft/1.11.2/ornithe-feather",
+      "provenance": {
+        "path": "decompiled_minecraft/1.11.2/ornithe-feather.provenance.json",
+        "sha256": "dcdb65e1361297a584c5b93f581b1b539911911c6cec1a203740baa5379732c6"
+      },
+      "sourceFiles": [
+        {
+          "path": "net/minecraft/client/render/GameRenderer.java",
+          "sha256": "d8f54f58020e52b117c74cf248a1bac4fc541c4244340f6a0b43f5dbce245db5",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+          "sha256": "207a0ff4ee996916cd1fc73f47bfaae64f92719916cafed8395b1f2a8f797809",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+          "sha256": "65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/Entity.java",
+          "sha256": "ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/LivingEntity.java",
+          "sha256": "bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f",
+          "publishedSha256Matched": true
+        },
+        {
+          "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+          "sha256": "87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b",
+          "publishedSha256Matched": true
+        }
+      ],
+      "readyMarker": {
+        "path": "decompiled_minecraft/1.11.2/ornithe-feather.ready.json",
+        "sha256": "ceabfb266993567aab8c867525365e18aa0a0d7ba5a2cb7b6cfcc83d21318c40"
+      },
+      "sourceManifest": {
+        "path": "decompiled_minecraft/1.11.2/ornithe-feather.sources.sha256",
+        "sha256": "d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0"
+      }
+    }
+  ]
+}
