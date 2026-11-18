@@ -1,0 +1,39 @@
+# Lava material scan and local movement branch: 1.12 → 1.12.2
+
+## Source identity
+
+- Older endpoint: Minecraft `1.12`, Ornithe Feather; source root `decompiled_minecraft/1.12/ornithe-feather/`. Its `.decompile-provenance.json` SHA-256 is `27515e5f4c71e7db2f035a81716507128d77466c75380ad1ef7d140c06401467`. The recorded Feather mapping artifact is `feather-gen2-1.12+build.2-mergedv2.jar` (SHA-256 `73ce7d6d0a281db15fa030ae09e836387dae1172fdffcaf3e2d1a4840830b719`). Feather metadata is SHA-256 `5b4555cb0473f14b4bde13b7f60f7f979dc4f8e149187f5696ae8283e437fac4`; exact 1.12 version metadata is `33cc40a05466b4e34e04e65def732094388e9149eb6bd37e5daa227c06cbde4b`, and client artifact is `59e84cf6acc3912e1705ab05c722485afb3ec33343eef4756d8c16edfe6411ca`.
+- Newer endpoint: Minecraft `1.12.2`, Ornithe Feather; source root `decompiled_minecraft/1.12.2/ornithe-feather/`. This legacy publication has no `.decompile-provenance.json`; its generation sidecars are intact. `ornithe-feather.provenance.json` SHA-256 `747425a26da363d1abc8a2cecd83a74504aeb1f58be93aa53f48c690e35318ce` records exact version `1.12.2` and mapping artifacts `feather-gen2-1.12.2+build.2-mergedv2.jar` / `feather-gen2-1.12.2+build.2.tiny`. The `ready` marker's source-manifest digest matches `ornithe-feather.sources.sha256` (`b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da`); its artifact-manifest digest matches `artifacts.sha256` (`8171a095a5ee74cebbd12b3d76983fc01796c0c23c962076d1e235cd0f80fa8c`). The ready marker records the exact client artifact SHA-256 `8ada07da5ee77dad3527bd7278fbd05ee1fc8a597813b216a871a2d7d64cc64f`; `artifacts.sha256` pins version metadata `56dac2e1caa872d7e37a7b5523056cd812dca94f912ad2bd652817bee60edca4`, the merged mapping jar `e48244030c53979793bdfbe48d7f1f3536f7e4f678ee5890a416198037cd46ca` and Tiny mapping `a3aa1c8e73e81bd09432ba1f4b2e88aaacbedb2d8fa3cbf797536d2bdf0d4e58`. The verification sidecar reports 2,050 source files verified, zero source differences and zero missing files, and no raw-input-artifact differences. Its one artifact difference is the regenerated derived TinyRemapper intermediary, explicitly excluded by the sidecar explanation; the published source tree matched. The direct source hashes below match the source sidecar.
+- Both sides use the Ornithe Feather namespace. This is exact endpoint evidence only; no intermediate patch boundary is established.
+
+## Compared slices
+
+### Lava material query and scan bounds — no difference
+
+`Entity.isInLava()` (`entity/Entity.java:1045–1046` both sides) passes `getShape().grown(-0.1F, -0.4F, -0.1F)` and `Material.LAVA` to `World.containsMaterial` (`world/World.java:1623–1645`). `Box.grown` (`util/math/Box.java:132`) is identical. `containsMaterial` computes each lower bound with `MathHelper.floor` and each upper bound with `MathHelper.ceil`; its nested loops visit `[floor(min), ceil(max))` on X, Y, then Z and compare the block state's material by equality. `MathHelper.ceil(double)` (`util/math/MathHelper.java:67–69`) casts to `int` first, then returns `i + 1` only when `x > i`; the cast truncates toward zero. Thus an exact integer upper Y edge is excluded as a block coordinate (`p < ceil(maxY)` stops at `maxY`), while a non-integral upper edge includes cells up to the next integer boundary. This rounding, cast, axis/iteration order and exact-edge behavior are identical at both endpoints.
+
+`World.getBlockState` (`world/World.java:680–688`) first returns AIR outside world height; otherwise it directly calls `getChunk(pos).getBlockState(pos)`. `getChunk`/`getChunkAt` (`World.java:243–248`) resolve via chunk coordinates `>> 4` and the chunk source. There is no explicit `isChunkLoaded` check in `containsMaterial` or this `getBlockState` path. The scan geometry and these gates are unchanged.
+
+### Local player's movement consumer and order — no difference
+
+The local-player hierarchy is `LocalClientPlayerEntity.mobTick` → `PlayerEntity.mobTick` → `LivingEntity.mobTick`; the subclass delegates with `super.mobTick()` (1.12: local player line 807, player line 430; 1.12.2: lines 812 and 430). `LivingEntity.mobTick` checks jump input first (`isInWater()`, then `isInLava()`, then ground/cooldown), damps sideways/forward/rotation inputs, and finally calls `moveRelative` (`LivingEntity.java:1781–1847`). The local-player method therefore reaches the lava query through the same superclass travel consumer on each endpoint.
+
+`PlayerEntity.moveRelative` (`entity/living/player/PlayerEntity.java:1386–1404`) wraps the superclass call: when ability flight is active and the player is not riding, it temporarily sets air speed, delegates, restores/damps vertical velocity and clears fall-flight state; otherwise it delegates directly. `LivingEntity.moveRelative` (`entity/living/LivingEntity.java:1425+`) first gates on locally controlled or logical-side movement, then checks water before lava. Player flight bypasses the liquid movement branches. In the lava branch, it captures Y, calls `updateVelocity(..., 0.02F)`, moves, halves X/Y/Z velocity, applies `-0.02` gravity unless no-gravity, and then performs the horizontal-collision `canMove` check before possibly setting Y velocity to `0.3F`. These gates and operations are text-identical in 1.12 and 1.12.2. The 1.12.2 local-player `mobTick` has an added inventory-screen close check before `super.mobTick()`; it does not alter the movement branch's order or preconditions.
+
+## Verdict and bounded coverage
+
+No source-confirmed movement difference was found in the assigned lava scan or its local travel consumer between 1.12 and 1.12.2. No candidate finding is warranted for these slices. The endpoint comparison does not establish behavior for 1.12.1 or an exact introduction boundary.
+
+Checked dependency closure: `Entity.isInLava` and shape access; `Box.grown`; `World.containsMaterial`, `getBlockState`, `getChunk`/`getChunkAt`; `MathHelper.floor`/`ceil`; local/player movement tick delegation; `PlayerEntity.moveRelative`; `LivingEntity.mobTick` and `moveRelative`. Other movement areas were not examined.
+
+## Exact source SHA-256
+
+| Relative file | 1.12 | 1.12.2 |
+| --- | --- | --- |
+| `net/minecraft/world/World.java` | `f7ab7a34d456e720e7ee4f34fbd0eb10f7f96151596c8c615ab2edef05a884d8` | `e9fa9b8d6d31ad57a5b876f5f63a5e3c554a23437decf1845a493daf48233594` |
+| `net/minecraft/entity/Entity.java` | `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a` | `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a` |
+| `net/minecraft/entity/living/LivingEntity.java` | `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6` | `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6` |
+| `net/minecraft/entity/living/player/PlayerEntity.java` | `6a9d5f420b13625195b149c0d9468cf1284d5eb7dc1b2a46cf01b952a27ee063` | `e4e0fdbe07a7d0a0ae4a70cbb6739a287c9d045a4a12b409895c220b5d91fe1e` |
+| `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` | `d7237b8b9a68525bbfec6af1c234d2aafb1e4aa7d52059331d1d243313d6d7d1` | `01a58e94d8c6ff98a8e3794227cdc76a5fcdbbad795c70c9cf28854aff9823cc` |
+| `net/minecraft/util/math/Box.java` | `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a` | `f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a` |
+| `net/minecraft/util/math/MathHelper.java` | `579e05d110460f444bcac86729141545095cb5932c0f8d34c9a4dcfcd9a35e80` | `579e05d110460f444bcac86729141545095cb5932c0f8d34c9a4dcfcd9a35e80` |

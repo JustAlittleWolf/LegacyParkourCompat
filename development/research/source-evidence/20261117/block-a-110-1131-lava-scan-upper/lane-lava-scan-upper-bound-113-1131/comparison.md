@@ -1,0 +1,30 @@
+# 1.13 to 1.13.1 lava scan and local movement comparison
+
+## Scope and evidence identity
+
+Bounded source-only comparison: local-player lava presence scan volume and its travel/jump consumers, including Y upper-bound rounding, voxel iteration, material/fluid delegation, local tick/chunk gates, and the adjacent-chunk lookup path. No other profile or movement topics were inspected for this result.
+
+Both endpoints are exact decompiled Ornithe Feather sources in `decompiled_minecraft/<version>/ornithe-feather/`, from run `prep-1.13-1.13.1-feather-2026-10-09-r1`.
+
+- 1.13 mapping: `net.ornithemc:feather-gen2:1.13+build.2`; client SHA-256 `d807a5ed9428b6c16b64888fd2b7fa76dcf5c55d06f96f7c0c47762c3fc3e26e`; Feather mapping JAR SHA-256 `a7a61604c7b365db1f4250c4c0079172c3beff37f4e16f7a53a13d77f3976897`.
+- 1.13.1 mapping: `net.ornithemc:feather-gen2:1.13.1+build.2`; client SHA-256 `f0b4cf6d1a87ae150f87a535651138ca7b82bdad8853f76e7ddbff1dd610ac87`; Feather mapping JAR SHA-256 `6737db17e8cc724a018aad93d7fe5051a50e77136848d78d79b62310846fa65d`.
+- The source manifest SHA-256s match provenance: 1.13 `0509c2614b0bb0e616e2ebc6382f8eb5d031b5d86b834a4a6ed7fd96b6d68f1a`; 1.13.1 `21770b01ff3bf443db2e9e1b6df7db25d2fd6b7a72a86228259269c932d3abba`. Recomputed every source entry: 2,702 files / 14,688,263 bytes and 2,710 files / 14,768,136 bytes respectively; no missing or mismatched files. Ready/provenance, artifact-manifest and diagnostics hashes also match. Existing provenance is complete; no legacy hidden manifest was needed.
+
+Per-file SHA-256s for the principal slices (all match their source manifests):
+
+| Source file | 1.13 | 1.13.1 |
+| --- | --- | --- |
+| `net/minecraft/entity/Entity.java` | `09514488d9055449c47e2e4bcd23b5773203ca634b7ecba2323a99d0ae016642` | `1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269` |
+| `net/minecraft/entity/living/LivingEntity.java` | `c38e95c2c13e088b03d77fc2c6b98d4edd7e6ca5aef12b187c8e3f3ea782e864` | `bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c` |
+| `net/minecraft/world/World.java` | `6e3d94e6cdcfbb15472c4ee981a1c12500eaf7cd5d5dc20d75bcde91174c2eb5` | `119ac6f61b93cf352b2026934e9f95877f55dc2f582b45d75c2bdae3652532b6` |
+| `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` | `a188e1bc87831dd9da1ec1366a49acc4104c18e6979129097d02d5d3617e6a08` | `2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf` |
+
+## Paired coverage and comparison
+
+1. **Lava presence scan — no difference found.** `Entity.isInLava` (1.13 lines 1052–1053; 1.13.1 lines 1053–1054) passes `getShape().contract(0.1F, 0.4F, 0.1F)` and `Material.LAVA` to `World.containsMaterial`. The matching methods are text-identical. `Box.contract` delegates to `grown(-dx,-dy,-dz)` (both `Box.java:222–223`), so the Y interval is `[box.minY + (double)0.4F, box.maxY - (double)0.4F]` with float literals widened to double. `World.containsMaterial` (1.13 `World.java:1299–1321`; 1.13.1 `World.java:1310–1332`) computes each lower index with `MathHelper.floor(min)` and each upper index with `MathHelper.ceil(max)`, then visits `x` outer, `y` middle, `z` inner in half-open ranges `[lower, upper)`, returning at the first matching state. `MathHelper.ceil(double)` (both `MathHelper.java:76–78`) casts to `int`, then returns `i + 1` only if `x > i`; exact integer upper edges therefore exclude the voxel beginning at that edge, while a non-integral upper edge includes its containing voxel. The rounding helper and loop are unchanged.
+
+2. **State delegation and bounds/chunk access — no movement difference found.** `MaterialPredicate.test` (both `block/state/predicate/MaterialPredicate.java:25–27`) checks non-null state and `state.getMaterial() == material`; `BlockState.getMaterial` (both `block/state/BlockState.java:51–52`) delegates to the block’s material. The lava presence scan does not read `FluidState`. `World.getBlockState` first returns `VOID_AIR` outside Y `[0,256)` and otherwise reads `getChunk(pos).getBlockState(pos)` (1.13 `World.java:508–514`; 1.13.1 `World.java:519–525`). `containsMaterial` adds no `isAreaLoaded` or loaded-chunk gate before its scan. Chunk API signatures differ, but client fallback for this call is equivalent: 1.13 `ClientChunkCache.getChunk(x,z)` returns its empty chunk when absent; 1.13.1 `World.getChunkAt` calls `getChunk(x,z,true,true)`, and `ClientChunkCache` returns its empty chunk for an absent entry when `generate` is true.
+
+3. **Local travel/jump consumer and order — no difference found.** `LocalClientPlayerEntity.tick` (1.13 lines 179–181; 1.13.1 lines 181–183) calls `world.isChunkLoaded(BlockPos(x,0,z))` before `super.tick`. The unchanged `WorldView.isChunkLoaded(BlockPos)` default passes `allowEmpty=true` (1.13 lines 343–344; 1.13.1 lines 274–275), and both `ClientWorld.isChunkLoaded` implementations return true for that argument. The local-player `mobTick` methods match and delegate to `super.mobTick` after input processing (1.13 line 833; 1.13.1 line 837). In the identical `LivingEntity.mobTick`, the lava jump test precedes the `travel` profiler section and `moveRelative`; the identical `moveRelative` first gates on local/update-side control, then tests water, then lava (with the player-flying exceptions), then proceeds to fall-flying or ground movement. Thus the local consumer still reads the same material-based predicate in the same order.
+
+Checked paired methods and dependencies: `Entity.isInLava`, `World.containsMaterial`, `MathHelper.ceil(double)`, `Box.contract/grown`, `MaterialPredicate.test`, `BlockState.getMaterial`, `World.getBlockState`, chunk-source fallback, `WorldView`/`ClientWorld` loaded gates, local-player `tick`/`mobTick`, `LivingEntity.mobTick`, and `LivingEntity.moveRelative`. No independent difference/finding in these slices; do not create an artificial finding.

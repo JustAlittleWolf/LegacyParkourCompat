@@ -1,0 +1,27 @@
+# Lava material scan upper bound and travel consumer: 1.10 → 1.10.1
+
+## Scope and result
+
+Compared the direct `Entity.isInLava()` query and its `World.containsMaterial` scanner, plus the local-player tick path into `LivingEntity.mobTick`, jump selection, player `moveRelative` override, and lava-vs-normal movement branch. No source difference was found in either assigned slice. This is a bounded no-difference result, not complete pair coverage and not a source acceptance verdict.
+
+## Scan bounds and boundary
+
+Both `Entity.java:956-958` implementations call `world.containsMaterial(getShape().grown(-0.1F, -0.4F, -0.1F), Material.LAVA)` with the same order and literals. The `F` literals are `float` values widened to the `double` parameters of `Box.grown(double,double,double)`. `Box.grown` computes minima as `min - delta` and maxima as `max + delta`; with negative deltas this contracts the entity box in X/Z by 0.1F and Y by 0.4F.
+
+Both `World.java:1608-1630` methods compute `i=floor(bounds.minX)`, `j=ceil(bounds.maxX)`, `k=floor(bounds.minY)`, `l=ceil(bounds.maxY)`, `m=floor(bounds.minZ)`, `n=ceil(bounds.maxZ)`. No narrowing cast is used. Iteration is X outer, Y middle, Z inner, each with `<` (exclusive upper bound). Therefore when the contracted `maxY` lies exactly on integer boundary N, the scan stops before Y=N; the block directly above that boundary is not visited. The lower bound uses floor and begins at its block, including when `minY` is exactly integral. It compares the block state's `Material` by identity/equality (`== material`) and returns at the first match; the pooled mutable position is released on both early and normal exit. These operations and boundary rules match exactly in the paired method bodies (same extracted body hash `C86EC81C2FAACA82269E6280E9DE72092DA6AC57A53332B37BCA234E52646DF0`).
+
+`World.getBlockState` first returns AIR outside world height, otherwise calls `getChunk(pos).getBlockState(pos)`. The scan itself has no per-cell `isChunkLoaded`/area-loaded gate. The local player tick has a separate outer gate: `LocalClientPlayerEntity.tick` calls `super.tick()` only if the chunk containing `(x, 0.0, z)` is loaded. No geometry is independently calculated for lava; the query reads the current entity shape after contraction.
+
+## Local-player consumer and ordering
+
+In both releases the local player tick runs its inherited player/living tick only under the current-column chunk gate above. `LivingEntity.tick` calls `mobTick`; `LocalClientPlayerEntity.mobTick` finishes client input handling and then calls `super.mobTick()`. `LivingEntity.mobTick` handles a pending jump before its travel section: water (`isInWater`) first, then lava (`isInLava` → `jumpInLava`), then grounded jump if cooldown is zero. It next scales sideways/forward input by `0.98F`, rotation by `0.9F`, calls `flyingTick`, then invokes `moveRelative`.
+
+`PlayerEntity.moveRelative` preserves the flying override: if abilities flying and not riding, it temporarily changes `speedInAir`, delegates to `LivingEntity.moveRelative`, then restores/scales player state; otherwise it delegates directly. In `LivingEntity.moveRelative`, the movement/update side gate is `isLocallyControlled() || isLogicalSideForUpdatingMovement()`. Within that gate, water is checked before lava. The normal branch (including the player-flying exception) is bypassed for lava unless the entity is a flying player. The lava branch then calls `updateVelocity(sideways, forwards, 0.02F)`, moves using the resulting velocity, applies the lava branch's Y/X/Z velocity damping and exits; no source change or extra loaded-chunk test appears in this branch. The normal branch has its own client chunk-loaded check around gravity at `LivingEntity.java:1431`, but it is reached only when the prior water/lava branch selection allows it.
+
+All reviewed control flow is identical across 1.10 and 1.10.1. PlayerEntity and LocalClientPlayerEntity differ as complete files only where their overall release source differs; their reviewed movement overrides/gates are textually identical.
+
+## Source identity and limitation
+
+The cache's exact Mojang version metadata pins identify 1.10 and 1.10.1 separately. Its Feather metadata JSONs list `1.10+build.2` and `1.10.1+build.2` as the highest stable entries. Their local metadata bytes match the recorded SHA-256 pins: `a1eb1ccff25e2b76fa1d08e9b515508e97ac4837fbcacbd7f77b3a01026d3950` and `8648e97ee398b11151cb2d441161629abde561afed9c933c18fbc622e2c9904a`. The vanilla client artifact pins are also present and the local JAR hashes match: 1.10 `c00f8170ebf4fd834f552246743a64885a6dffb3dd1e3a3f3dba9676b7a0af35`; 1.10.1 `338b205f20c22b9c676d9d3227a5e6c5e190f30ad84d7caad035150b3e05ba72`. Cached mapped client JAR hashes are 1.10 `54064a5084fbc642f0c7b09cb7200e4951da3106f2953b804fb0a2e4a5b5832c` and 1.10.1 `3c9157eb9a989147914e7437bbe89f85ff749aa1a71de8ef55ea792bcd4199e9`.
+
+The decompiled source trees are under the expected exact-version/`ornithe-feather` paths. However, neither pair has a `.provenance.json`, `.sources.sha256`, `.ready.json`, `.verification.json`, or success log. Thus the pinned release and Feather metadata inputs are corroborated, and current source bytes are hashed in `roster.tsv`, but the source-to-mapped-artifact/decompiler provenance chain cannot be independently closed from these legacy trees. Do not treat this report as accepted evidence until the source-preparation owner supplies or verifies that missing immutable generation identity.
