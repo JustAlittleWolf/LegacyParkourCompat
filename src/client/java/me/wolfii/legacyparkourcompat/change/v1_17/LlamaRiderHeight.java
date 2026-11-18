@@ -10,12 +10,17 @@ import net.minecraft.world.entity.Entity;
 import java.util.Optional;
 
 /**
- * Mojmap 1.17.1 {@code net.minecraft.world.entity.animal.horse.Llama.positionRider(Entity)} writes
- * the direct passenger Y sum with {@code getBbHeight() * 0.67}; Mojmap 1.18
- * {@code net.minecraft.world.entity.animal.horse.Llama.positionRider(Entity)} is the paired later
- * source, where that term changes to {@code getBbHeight() * 0.6}. Both releases then add
- * {@code net.minecraft.world.entity.player.Player.getMyRidingOffset() == -0.35}. Earlier profiles
- * retain their native placement through the lower resolver fence.
+ * Mojmap 1.15 {@code net.minecraft.world.entity.animal.horse.Llama.positionRider(Entity)} writes
+ * {@code getY() + getRideHeight() + getRidingHeight()}, with
+ * {@code Llama.getRideHeight()} returning {@code getBbHeight() * 0.67} and
+ * {@code Player.getRidingHeight()} returning {@code -0.35}. Accepted adjacent Mojmap comparisons
+ * across 1.15→1.15.1, 1.15.1→1.15.2, 1.15.2→1.16, and every 1.16 profile alias through 1.16.5
+ * preserve this left-associative direct-player Y operation. The 1.16 Mojmap
+ * {@code Llama.positionRider(Entity)} uses {@code getPassengersRidingOffset()} and
+ * {@code Player.getMyRidingOffset()}; the 1.16.5→1.17 comparison closes the final earlier alias.
+ * The closest-applicable resolver selects this V1_17 provider for V1_15, V1_15_2, V1_16 and
+ * V1_16_2 because no same-hook provider intervenes. The V1_14_2 native fence preserves earlier
+ * selected profiles. V1_17_1 has its own provider, and Mojmap 1.18 changes the factor to 0.6.
  */
 @MovementChange(emulates = ParkourVersion.V1_17)
 public final class LlamaRiderHeight implements PlayerPassengerPlacementHook {
