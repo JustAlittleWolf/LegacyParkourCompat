@@ -10,10 +10,12 @@ import net.minecraft.world.entity.Entity;
 import java.util.Optional;
 
 /**
- * Mojmap 1.17.1 {@code net.minecraft.world.entity.animal.horse.Llama.positionRider} adds the
- * Llama's {@code getPassengersRidingOffset() == getBbHeight() * 0.67} before
- * {@code Player.getMyRidingOffset() == -0.35}. Current generic passenger position and attachment
- * operations supply X/Z unchanged.
+ * Mojmap 1.17.1 {@code net.minecraft.world.entity.animal.horse.Llama.positionRider(Entity)} adds
+ * {@code getPassengersRidingOffset() == getBbHeight() * 0.67}; paired Mojmap 1.18
+ * {@code net.minecraft.world.entity.animal.horse.Llama.positionRider(Entity)} changes the factor to
+ * {@code 0.6}. Both then add Mojmap
+ * {@code net.minecraft.world.entity.player.Player.getMyRidingOffset() == -0.35}. Current generic
+ * passenger position and attachment operations supply X/Z unchanged.
  */
 @MovementChange(emulates = ParkourVersion.V1_17_1)
 public final class LlamaRiderHeight implements PlayerPassengerPlacementHook {

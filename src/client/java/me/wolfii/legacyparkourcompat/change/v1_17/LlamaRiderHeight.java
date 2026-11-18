@@ -10,10 +10,12 @@ import net.minecraft.world.entity.Entity;
 import java.util.Optional;
 
 /**
- * Mojmap 1.17 {@code Llama.positionRider} writes the direct passenger Y sum with the Llama's
- * {@code getBbHeight() * 0.67} offset followed by {@code Player.getMyRidingOffset() == -0.35}.
- * Exact local sources establish this 1.17 profile term; earlier profiles retain their native
- * placement through the lower resolver fence.
+ * Mojmap 1.17.1 {@code net.minecraft.world.entity.animal.horse.Llama.positionRider(Entity)} writes
+ * the direct passenger Y sum with {@code getBbHeight() * 0.67}; Mojmap 1.18
+ * {@code net.minecraft.world.entity.animal.horse.Llama.positionRider(Entity)} is the paired later
+ * source, where that term changes to {@code getBbHeight() * 0.6}. Both releases then add
+ * {@code net.minecraft.world.entity.player.Player.getMyRidingOffset() == -0.35}. Earlier profiles
+ * retain their native placement through the lower resolver fence.
  */
 @MovementChange(emulates = ParkourVersion.V1_17)
 public final class LlamaRiderHeight implements PlayerPassengerPlacementHook {
