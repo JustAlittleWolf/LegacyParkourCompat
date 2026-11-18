@@ -1,0 +1,3 @@
+Claim: approved movement-contact-block-cell-traversal.md, SHA-256 50d7567e8f4bfdda0cd45f35eef68a3403a55b61bd421b3c68add76be87bb9c0
+Verdict: ACCEPT.
+Evidence scope: exact 1.21.3/1.21.4 Mojmap BlockGetter and AABB source hashes bound by source-roster.md and approved sources.sha256.
