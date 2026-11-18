@@ -10,6 +10,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -64,13 +65,16 @@ public final class WaterCurrent implements WaterCurrentHook {
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos adjacent = pos.relative(direction);
             BlockState neighbor = historicalState(level, adjacent);
-            if (!supported(neighbor) && !isDryFullGlass(neighbor)) return Optional.empty();
+            boolean dryLadderSide = admitsDryLadderSide(level, pos, state, direction, adjacent, neighbor);
+            if (!supported(neighbor) && !isDryFullGlass(neighbor) && !dryLadderSide) return Optional.empty();
             int other = depth(neighbor);
             if (other < 0) {
-                if (neighbor.isAir()) {
+                if (neighbor.isAir() || dryLadderSide) {
                     BlockPos belowPosition = adjacent.below();
                     BlockState below = historicalState(level, belowPosition);
-                    if (!supported(below)) return Optional.empty();
+                    if (!supported(below) || (dryLadderSide && below != Blocks.WATER.defaultBlockState())) {
+                        return Optional.empty();
+                    }
                     other = depth(below);
                     if (other >= 0) {
                         int difference = other - (depth - 8);
@@ -87,6 +91,28 @@ public final class WaterCurrent implements WaterCurrentHook {
             }
         }
         return Optional.of(LegacyWaterFlowMath.normalize(new Vec3(x, y, z)));
+    }
+
+    /**
+     * In 1.8 through 1.12.2 Ornithe Feather, the registered ladder has
+     * Material.DECORATION, so LiquidBlock.getFlow can read below its dry side.
+     * Source and audit: development/research/source-evidence/20261118/
+     * block-a-nonfalling-water-ladder-side/.
+     */
+    private static boolean admitsDryLadderSide(Level level, BlockPos centerPos, BlockState center,
+                                               Direction direction, BlockPos side, BlockState ladder) {
+        if (!ladder.is(Blocks.LADDER) || direction != Direction.EAST
+            || ladder.getValue(LadderBlock.FACING) != Direction.WEST || !ladder.getFluidState().isEmpty()
+            || center != Blocks.WATER.defaultBlockState()) {
+            return false;
+        }
+
+        BlockPos support = side.east();
+        BlockPos below = side.below();
+        return historicalHeight(below)
+            && !level.isOutsideBuildHeight(side) && !level.isOutsideBuildHeight(below)
+            && level.hasChunkAt(centerPos) && level.hasChunkAt(side) && level.hasChunkAt(support)
+            && level.getBlockState(support).is(Blocks.STONE);
     }
 
     private static boolean historicalHeight(BlockPos pos) {
