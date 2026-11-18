@@ -2,7 +2,7 @@
 
 ## Verified checkpoint
 
-This checkpoint preserves fifteen exact source report/verdict pairs for the ordinary local ability-flight / fall-gliding overlap and direct local flag-writer operation. Scope is the stated overlap when the synchronized fall-flying flag is already true and local `abilities.flying` becomes true, through the specific movement call and direct flag write. It does not establish network latency, authority synchronization guarantees, broad middle-range aliases, activation parity, runtime parity, or whole-pair coverage.
+This checkpoint preserves sixteen exact source report/verdict pairs for the ordinary local ability-flight / fall-gliding overlap and direct local flag-writer operation. Scope is the stated overlap when the synchronized fall-flying flag is already true and local `abilities.flying` becomes true, through the specific movement call and direct flag write. It does not establish network latency, authority synchronization guarantees, broad middle-range aliases, activation parity, runtime parity, or whole-pair coverage.
 
 | Pair | Bounded disposition | Report SHA-256 | Verdict SHA-256 |
 |---|---|---|---|
@@ -17,6 +17,7 @@ This checkpoint preserves fifteen exact source report/verdict pairs for the ordi
 | 1.10.2→1.11 | Same scoped direct clear; the changed `MoverType` call is a distinct operation and not collapsed into this flag-writer claim. | `c0e119289a043e5745c678dd51fb3b60a1bdec1ae8a80473977f452ae405d274` | `e638284efa60b8c6617ab47768487a191b571611ec64c9b85d6ef5e0119f12e1` |
 | 1.11→1.11.1 | Accepted bounded no-difference: the local player clears flag 7 after the inherited glide branch returns from its movement call. Piston handling is a separate branch. | `bb7e71a24fbc90446a470779f1ca510dd403e1815b1aa569ef492340c87453fb` | `cc1a5a8f86bbd1a86d2c6dfe1718709d9be3d32600764682300ac3a16d647086` |
 | 1.11.1→1.11.2 | Accepted only for the actual flag-7 predicate in the stated operation; this adjacent alias audit does not establish when the overlap is entered. | `414dfb0fd7e7ae6cda1b074f5ce53c5d40bfdecf9fc6213139422396aac49590` | `bebc80c6f29006a5224431a4f9f3d7c2a0be99f0c3989795d679a495ae4b3d39` |
+| 1.11.2→1.12 | Accepted bounded no-difference: initial 1.12 has the same direct post-move false flag write; its `verticalSpeed` argument is outside the active-glide operation. | `17302b3ba7b606615d1fc9da194fff35085b9a352d7e632d7cb716eef6c33138` | `a2b1df0db2fd9238689986d646cf575d4708c04006e0c01e3eb11bd299d50762` |
 | 1.20.6→1.21 | Accepted ordinary dry controlled-local overlap/no-difference through after-move flag clear. 1.20.6 cache limitation is recorded; A/B is excluded. | `6d61b9784d85c0601cf7f5b32f8ea0df2969648be0177ecea79ecb67128832f0` | `ca0b201510150fd822fa7eb32c1047a8732447bb21c4b315c1437782d44efc65` |
 | 1.21→1.21.1 | Accepted direct local post-travel flag-7 clear. The separate `fallDistance` reset remains a different operation. | `a4213385fe5541d539aa53051582a1577ba595e934a31e367f4c0bb2397b90ae` | `0384217d05a4e44ca91a8de8f3a0c94c5226e98291ec5838df228638b7e5663a` |
 | 1.21.1→1.21.2 | The old direct local clear is removed in the audited scope. Verdict records the hidden in-tree provenance correction for 1.21.2; no broader source-tree or runtime claim is made. | `354ab88749e8c7710741372e34c0c9a5f98a8827de22401c9612d41a2763e040` | `c3ea40858250beeeba71d7ba7535809b16a33308b46a6c4cbd8cb09b2ac67ccd` |
@@ -26,6 +27,6 @@ The ability-flight `fallDistance` reset is treated as a separate operation; the 
 
 ## Pending coverage
 
-Additional patch-boundary pairs from 1.11.2 through 1.12.2 and 1.20.5→1.20.6 are still in progress. This is a verified subset checkpoint, not the final archive; wait for the remaining exact scope list before final bundle freeze.
+The 1.12→1.12.1, 1.12.1→1.12.2, and 1.20.5→1.20.6 patch-boundary pairs are still in progress. This is a verified subset checkpoint, not the final archive; wait for the remaining exact scope list before final bundle freeze.
 
 Every included report and verdict was rehashed, checked for exact input binding, and copied byte-for-byte. No implementation, product parity, or runtime claim is made.
