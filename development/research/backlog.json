@@ -19149,6 +19149,38 @@
           }
         }
       ]
+    },
+    {
+      "pair": "1.8.9--26.2",
+      "sourceCoverage": "partial; bounded dry cauldron collision-kernel witness only",
+      "dependencyClosure": "partial",
+      "independentCoverageAudit": "bounded source verdict only",
+      "recordLimit": "The modern comparator uses the equivalent historical occupied union in the 26.2 clipper. Native 26.2 cauldron geometry, natural locomotion reachability, intermediate versions and runtime parity remain separate.",
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT the exact supported command-created embedding with slab canopy. The 1.8.9 strict ordered box path clips the ordinary +0.2Z request to about +0.075Z. The 26.2 voxel clipper retains +0.2Z with the same occupied union. The canopy rules out the old step-up escape in this fixture. Scope is dry cauldron, the audited centered float-width AABB and loaded block states.",
+          "snapshot": {
+            "revision": "9b3b98ec5c4a5ccb5d29cf7284aeb7174aafaa0b",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/dry-cauldron-component-clip-189/finding-r2.md",
+            "sha256": "29075e1d51ae4885ac53420c481c1b0ef002b96e8883cd426065c4f2e1e519e2"
+          },
+          "review": {
+            "revision": "9b3b98ec5c4a5ccb5d29cf7284aeb7174aafaa0b",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/dry-cauldron-component-clip-189/verdict.md",
+            "sha256": "51456db253a63c257acfb32bf1156d4f1ddb9721dde5164a30533193c5aa05c8"
+          },
+          "binding": {
+            "revision": "9b3b98ec5c4a5ccb5d29cf7284aeb7174aafaa0b",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/dry-cauldron-component-clip-189/binding.md",
+            "sha256": "2777c0a277df31d1ee1f7d0bbeee4f6dc333ab6333b8be21c4b34d44f6576709"
+          },
+          "earlierSnapshot": {
+            "revision": "9b3b98ec5c4a5ccb5d29cf7284aeb7174aafaa0b",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/dry-cauldron-component-clip-189/finding.md",
+            "sha256": "2f708b26d42e35d31ec662d5d6db2ecf2e204b7fdc18d26549fd15da3a50016b"
+          }
+        }
+      ]
     }
   ],
   "productRevision": "67db60727182f874919d7460ad56e79a09df8bdd",
