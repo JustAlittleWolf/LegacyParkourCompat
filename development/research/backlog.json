@@ -378,7 +378,9 @@
     {"finding": "development/research/findings/1.10.2--1.11/cocoa-age-two-collision-shape.md", "implementation": "open", "changes": [], "sourceReview": "ACCEPT exact source witness. Age-two cocoa expands down and away from its support at 1.11; with the audited fixed East-facing fixture it clips a normal grounded one-tick approach that the 1.10.2 age-two box permits.", "sourceReviews": [{"exactPair": "1.10.2--1.11", "decision": "ACCEPT exact source witness. Age-two cocoa expands down and away from its support at 1.11; with the audited fixed East-facing fixture it clips a normal grounded one-tick approach that the 1.10.2 age-two box permits.", "snapshot": {"revision": "2ba6ccbba937c39fdcd01def38be512e93885d6e", "path": "development/research/findings/1.10.2--1.11/cocoa-age-two-collision-shape.md", "sha256": "a9422edf0988b22e12503f4dff492e6865f0278d1ee5035d00867538e4d1b219"}, "review": {"revision": "2ba6ccbba937c39fdcd01def38be512e93885d6e", "path": "development/research/source-evidence/20261118/block-b-cocoa-and-modern-providers/cocoa-audit.md", "sha256": "90d44c7c007b19ba21e09289576e7cd4d113dc6d91dabdd4c84eda51cad9dcb5"}}], "currentPublication": {"revision": "2ba6ccbba937c39fdcd01def38be512e93885d6e", "path": "development/research/findings/1.10.2--1.11/cocoa-age-two-collision-shape.md", "sha256": "a9422edf0988b22e12503f4dff492e6865f0278d1ee5035d00867538e4d1b219"}, "applicability": "Exact 1.10.2 and 1.11 Feather source correspondence for age-two facing boxes and the stated default-speed standing fixture. Broader profile scope is unresolved.", "openIssues": [{"missing": "Exact age-two cocoa applicability across earlier and later profiles", "next_action": "Trace exact boundaries and verify product correspondence before claiming an implementation range."}], "runtimeParity": "unverified"},
     {"finding": "development/research/findings/1.12.2--1.13/snow-layer-one-empty-collision.md", "implementation": "open", "changes": [], "sourceReview": "ACCEPT exact fixed-state layer-one transition from the old degenerate retained collision plane to a true empty voxel shape. Legal one layer over an eight-layer block can move the first supported Y down by 1/8 in the stated descending witness.", "sourceReviews": [{"exactPair": "1.12.2--1.13", "snapshot": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/findings/1.12.2--1.13/snow-layer-one-empty-collision.md", "sha256": "a6a049082fc38e0f642654a072c0f255049ba4b20a8ecb28066a91b3cadf2a99"}, "review": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/snow-1.12.2--1.13-audit.md", "sha256": "a1bbe6a03dd93e00e087af63195128fa57bff51b728ef186edb3cc7bb7e97ac0"}, "companion": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/snow-1.12.2--1.13-source.md", "sha256": "409ebd43b9f86e49d4c4b361323d1161d7afd6b067224bf8d7c6765a3f2ca845"}, "decision": "ACCEPT exact fixed-state layer-one transition from the old degenerate retained collision plane to a true empty voxel shape. Legal one layer over an eight-layer block can move the first supported Y down by 1/8 in the stated descending witness."}], "currentPublication": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/findings/1.12.2--1.13/snow-layer-one-empty-collision.md", "sha256": "a6a049082fc38e0f642654a072c0f255049ba4b20a8ecb28066a91b3cadf2a99"}, "applicability": "Layer one only; prior layers 2–8 provider continuity remains a separate scope.", "runtimeParity": "unverified", "openIssues": [{"missing": "Exact product correspondence for the reviewed source witness", "next_action": "Compare only the accepted source scope to the current providers and native fallback."}]},
     {"finding": "development/research/findings/1.13--1.13.1/autojump-collision-enumeration.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_13/AutoJumpCollisionAggregation.java"], "sourceReview": "ACCEPT exact legal dry AutoJump cooldown witness. The 1.13 merged top-slab component floor-centers under the frame and is rejected; the 1.13.1 streamed first slab centers under empty space and arms one tick. The BlockPos source identity is corrected separately.", "sourceReviews": [{"exactPair": "1.13--1.13.1", "snapshot": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/findings/1.13--1.13.1/autojump-collision-enumeration.md", "sha256": "62b424ae55069feecd84f6119ba3c1c18832ee0865a2fb1b2dd4c298667588eb"}, "review": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/autojump-1.13--1.13.1-audit.md", "sha256": "12f0688e80533a213b43961b9f32f772b2c81e52529c9d4401fe24724a770181"}, "correction": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/autojump-1.13--1.13.1-blockpos-source-digest-erratum.md", "sha256": "3fe55024df3a01e61edb48c0095bdd07d170a9508667b62f4429c6bcd81aeb7f"}, "decision": "ACCEPT exact legal dry AutoJump cooldown witness. The 1.13 merged top-slab component floor-centers under the frame and is rejected; the 1.13.1 streamed first slab centers under empty space and arms one tick. The BlockPos source identity is corrected separately."}], "currentPublication": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/findings/1.13--1.13.1/autojump-collision-enumeration.md", "sha256": "62b424ae55069feecd84f6119ba3c1c18832ee0865a2fb1b2dd4c298667588eb"}, "applicability": "Exact 1.13 dry loaded grounded local top-slab/no-eye-frame witness. The 1.13.1/1.13.2 neighboring provider retains its gated behavior.", "runtimeParity": "unverified", "openIssues": [], "implementationLimits": ["One bounded dry loaded scan envelope with two admitted top slabs, an admitted no-eye End Portal frame and no nearby entities. Other 1.13 queries use the existing full-cube and border collector. Runtime and broader applicability remain open."], "integrationEvidence": {"implementationCommit": "71b719dcdcde1bbd0b1e992dd041e4e9c8992519", "code": {"revision": "71b719dcdcde1bbd0b1e992dd041e4e9c8992519", "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_13/AutoJumpCollisionAggregation.java", "sha256": "29a81d55d768b30a481dbb6686f8ec0db6f47eb49f6c8a40ef65311b44c3744b"}, "reviewedTree": "2d5deec2613aad4944a44db0cb5643b2e7b5c359", "standaloneIntegration": {"revision": "c45e3e2176a437fe7483e89182772e1f346ba435", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/autojump-1.13-combined-build-review.md", "sha256": "067435dbbef843dc9c94b0f2affcef5476b7346da7ecbb4240ae93945260fed5"}, "combinedBuild": {"revision": "fcebe1087e14f99466eae0bc0fb9752a833ee03b", "tree": "775c103cf0520c4108244f426209e3869d5a8692", "outcome": "BUILD SUCCESSFUL in 14s. All Test tasks disabled and test excluded."}}},
-    {"finding": "development/research/findings/1.8.9--1.9/cocoa-age-two-collision-shape.md", "implementation": "open", "changes": [], "sourceReview": "ACCEPT exact east-facing mature cocoa collision contraction. The 1.8.9 geometry clips the bounded grounded +X move; each tested 1.9 through 1.9.4 member admits the ordinary full X request.", "sourceReviews": [{"exactPair": "1.8.9--1.9", "snapshot": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/findings/1.8.9--1.9/cocoa-age-two-collision-shape.md", "sha256": "24db4482fd500bfe0b484da463ca2791a14dca6c45b6dbc072569c372a3a66fd"}, "review": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/cocoa-1.8.9--1.9-audit.md", "sha256": "2e44772521901bd30fa158b96f5d81ba2c5e2355490490cc2e489b06e4ad0415"}, "companion": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/cocoa-1.8.9--1.9-source.md", "sha256": "eb862212207a10db53a07effe470d2d6340c9b02a1d13dad3457d4597e5113cd"}, "decision": "ACCEPT exact east-facing mature cocoa collision contraction. The 1.8.9 geometry clips the bounded grounded +X move; each tested 1.9 through 1.9.4 member admits the ordinary full X request."}], "currentPublication": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/findings/1.8.9--1.9/cocoa-age-two-collision-shape.md", "sha256": "24db4482fd500bfe0b484da463ca2791a14dca6c45b6dbc072569c372a3a66fd"}, "applicability": "Exact 1.8.9–1.9.4 window only; unexamined 1.8.x aliases and later Cocoa transitions remain separate.", "runtimeParity": "unverified", "openIssues": [{"missing": "Exact product correspondence for the reviewed source witness", "next_action": "Compare only the accepted source scope to the current providers and native fallback."}]}
+    {"finding": "development/research/findings/1.8.9--1.9/cocoa-age-two-collision-shape.md", "implementation": "open", "changes": [], "sourceReview": "ACCEPT exact east-facing mature cocoa collision contraction. The 1.8.9 geometry clips the bounded grounded +X move; each tested 1.9 through 1.9.4 member admits the ordinary full X request.", "sourceReviews": [{"exactPair": "1.8.9--1.9", "snapshot": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/findings/1.8.9--1.9/cocoa-age-two-collision-shape.md", "sha256": "24db4482fd500bfe0b484da463ca2791a14dca6c45b6dbc072569c372a3a66fd"}, "review": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/cocoa-1.8.9--1.9-audit.md", "sha256": "2e44772521901bd30fa158b96f5d81ba2c5e2355490490cc2e489b06e4ad0415"}, "companion": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/source-evidence/20261118/block-b-exact-legacy-witnesses/cocoa-1.8.9--1.9-source.md", "sha256": "eb862212207a10db53a07effe470d2d6340c9b02a1d13dad3457d4597e5113cd"}, "decision": "ACCEPT exact east-facing mature cocoa collision contraction. The 1.8.9 geometry clips the bounded grounded +X move; each tested 1.9 through 1.9.4 member admits the ordinary full X request."}], "currentPublication": {"revision": "08fc1b3bd8eed8818faa1c328b16995d0dbaea4f", "path": "development/research/findings/1.8.9--1.9/cocoa-age-two-collision-shape.md", "sha256": "24db4482fd500bfe0b484da463ca2791a14dca6c45b6dbc072569c372a3a66fd"}, "applicability": "Exact 1.8.9–1.9.4 window only; unexamined 1.8.x aliases and later Cocoa transitions remain separate.", "runtimeParity": "unverified", "openIssues": [{"missing": "Exact product correspondence for the reviewed source witness", "next_action": "Compare only the accepted source scope to the current providers and native fallback."}]},
+    {"finding": "development/research/findings/1.16.5--1.17/current-turn-pitch-precision.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/CurrentPitchPrecision.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/CurrentPitchNative.java"], "sourceReviews": [{"snapshot": {"revision": "54d34113e2db3827eca267c57799edf18cb439d9", "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/report.md", "sha256": "f94d39bf82443713e9ae0fdbb6f9b835aea0a38d536f0a19012d5eadb6546525"}, "review": {"revision": "54d34113e2db3827eca267c57799edf18cb439d9", "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/verdict.md", "sha256": "9882f4b790f6183945cfd1cd96c9670d02fd58548e76c5969de71e49db7d318f"}, "correction": {"revision": "54d34113e2db3827eca267c57799edf18cb439d9", "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/identity-correction.md", "sha256": "76e863d515c3f200d7292c1a8dd8c21259b2bfee222a6dd488bd917ad4ee991e"}, "decision": "Accept the finite lawful current-pitch input and changed next dry active Elytra movement request."}], "currentPublication": {"revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7", "path": "development/research/findings/1.16.5--1.17/current-turn-pitch-precision.md", "sha256": "f3604de82d92de7c7f7ee8710f99108eed594f7ece10c1b54b211db0fb27e1e6"}, "applicability": {"boundary": "1.13 through 1.16.5 inclusive. Keep pre-1.13 input handling and the separate 1.17–1.21.1 pitch saturation operation outside the precision change.", "acceptedInput": {"revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7", "path": "development/research/source-evidence/20261118/block-c-current-pitch-precision/accepted-finding-input.md", "sha256": "999fcd005b119acbf80232685c89730afd9e24f9db163ec7ba5033f5b9e00491"}, "review": {"revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7", "path": "development/research/source-evidence/20261118/block-c-current-pitch-precision/applicability.md", "sha256": "f0d7b66fc093d56affd71b7ca0af34b102a5d3028646481abc5a7259894a0901"}, "lowerFence": {"revision": "46480232f23906ce03ad862e1b5eccfac3fd65cd", "path": "development/research/source-evidence/20261118/block-c-turn-sign-normalized-pitch/edges/1.12.2-to-1.13/verdict.md", "sha256": "bf1705346f203fa0e76e4cd2639f912a27b7170f1d9de20e510aebf7d4f7b0bc"}}, "integration": {"commit": "f899292af4261d7dd65df351cf0ca8acf88b7678", "originalCommit": "d9a01d6cc0f45f530598e3dd7723a7994ec31a27", "seamEvidence": {"revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7", "path": "development/research/source-evidence/20261118/block-c-current-pitch-precision/mixin-seam-verdict.md", "sha256": "51c0c87677021679fa10219492a39ab18f2d9ad88873da8218cf2bf2b534a029"}, "decision": "Static review accepts the independently resolved current-pitch transform on the first local-player setter and second-double ordinal. The final combined build passed with every Gradle Test task disabled and -x test.", "build": {"revision": "339e55d28db907b7bff5afa6c727aacbeec9f813", "tree": "68dcf59cc3a6e45be9072c86e6dd417e9aa6b32c", "command": "gradlew.bat build -x test --init-script development/disable-tests.gradle", "result": "BUILD SUCCESSFUL in 11s. 19 actionable tasks, 4 executed and 15 up-to-date."}}, "runtimeParity": "unverified", "nextAction": "Retain the bounded current-pitch implementation. Runtime parity remains unverified."},
+    {"finding": "development/research/findings/1.18.1--1.18.2/fall-distance-accumulation-precision.md", "implementation": "open", "changes": [], "sourceReviews": [{"snapshot": {"revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7", "path": "development/research/source-evidence/20261118/block-c-fall-distance-1181-1182/source.md", "sha256": "491074d03e02cfe42c8d62268c4e3c3351d33984657f27cc518c746c54c478d0"}, "review": {"revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7", "path": "development/research/source-evidence/20261118/block-c-fall-distance-1181-1182/movement-verdict.md", "sha256": "90148c4743763db0505020831116504273c51f0897d13edc814929d43659d2a6"}, "decision": "Accept the exact 1.18.1→1.18.2 downward accumulator arithmetic and the conditional next-move crouching edge-backoff consequence. Earlier ordinary free-air audit does not close the precision comparison."}], "currentPublication": {"revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7", "path": "development/research/findings/1.18.1--1.18.2/fall-distance-accumulation-precision.md", "sha256": "831e7fe789dc122380f6a979beb16a2fe1c50649e73c862921f54982385b08ee"}, "applicability": {"boundary": "Closed exact source comparison. Earlier resolver-range coverage and existing-product correspondence remain open."}, "runtimeParity": "unverified", "nextAction": "Reconcile the existing accumulator dispatch and establish its exact earlier applicability before any implementation."}
   ],
   "unresolvedClaims": [
     {"pair": "1.8.9--1.9.4", "claim": "WORLD-07-nether-portal-entity-eligibility", "evidence": {"sources": [{"version": "1.8.9", "mapping": "ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny", "path": "1.8.9/ornithe-feather/net/minecraft/block/PortalBlock.java", "member": "public void onEntityCollision(World world, BlockPos pos, BlockState state, Entity entity) {", "lines": "162-166", "status": "verified-content", "detail": "Canonical file SHA-256 bb9d2cba26df71c8383408fcccc93b849eebecd3d36924a63ee80cba8734867e; matches an archived source-file digest. Checked full declaration/body; snippet SHA-256 ea72fa6c3bf26f0135cb762e47b7f8ddd344f0495f5115c02ff9883da264351c."}, {"version": "1.8.9", "mapping": "ornithe-feather; feather-gen2-1.8.9+build.2-mergedv2.jar, feather-gen2-1.8.9+build.2.tiny", "path": "1.8.9/ornithe-feather/net/minecraft/entity/Entity.java", "member": "Entity#canUsePortals", "lines": null, "status": "different", "detail": "Checked complete canonical file SHA-256 d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b (matches an archived source-file digest); named declaration absent. Named declaration is absent in this checked canonical file; paired existing declaration/range is retained separately, so this is an explicit addition/removal or mapping correspondence limit, not an invented line."}, {"version": "1.9.4", "mapping": "ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny", "path": "1.9.4/ornithe-feather/net/minecraft/block/PortalBlock.java", "member": "public void onEntityCollision(World world, BlockPos pos, BlockState state, Entity entity) {", "lines": "170-174", "status": "verified-content", "detail": "Canonical file SHA-256 8f6c4502a2b910ad8eaaefed19d162a3319e9afc6802c8ccb3e7e05b3987c598; matches an archived source-file digest. Checked full declaration/body; snippet SHA-256 f0a645d052ee72f4733bd812337f072983d0e61f89079b2189150e5cff5791e6."}, {"version": "1.9.4", "mapping": "ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny", "path": "1.9.4/ornithe-feather/net/minecraft/entity/Entity.java", "member": "public boolean canUsePortals() {", "lines": "1895-1897", "status": "verified-content", "detail": "Canonical file SHA-256 bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0; matches an archived source-file digest. Checked full declaration/body; snippet SHA-256 5e4539512b0df9a1df1bb642ca79455eb1d6304404c6ce04a99249731de74c9a."}], "sourceReviews": [{"exactPair": "1.8.9--1.9.4", "decision": "ACCEPT player-equivalent exact endpoint portal collision eligibility and local timer/cooldown. The new parent canUsePortals predicate admits the normal player hierarchy. The invulnerable progression threshold changes server-side from 0 to 1 under the existing postfix comparison. Exact local source identity verified; standalone invocation/options remain unverified.", "snapshot": {"revision": "1798b39d553a838a31d249ac7fa66095d1ac2230", "path": "development/research/source-evidence/20261117/block-a-189-194-nether-portal-eligibility/lane-early-nether-portal-eligibility/comparison.md", "sha256": "491090e4413bbe23db77da009224b57e053558b19f77e6792c8044766e7b0a2d"}, "review": {"revision": "1798b39d553a838a31d249ac7fa66095d1ac2230", "path": "development/research/source-evidence/20261117/block-a-189-194-nether-portal-eligibility/lane-early-nether-portal-eligibility-audit/verdict-r1.md", "sha256": "38d73a88145965a7a29f1872ff9147e19c3d3b50cc339895ba9210bb233d5372"}, "originalReview": {"revision": "1798b39d553a838a31d249ac7fa66095d1ac2230", "path": "development/research/source-evidence/20261117/block-a-189-194-nether-portal-eligibility/lane-early-nether-portal-eligibility-audit/verdict.md", "sha256": "11d7944ceb3716d9ef54678e378aceceef9008ea83a017df51ed17a1dc899c9f"}, "roster": {"revision": "1798b39d553a838a31d249ac7fa66095d1ac2230", "path": "development/research/source-evidence/20261117/block-a-189-194-nether-portal-eligibility/lane-early-nether-portal-eligibility-audit/source-roster.md", "sha256": "4353085651f4d2045dd9757288db7ce5b2b8203622d72eb8431e5120531b5a4f"}, "provenance": {"revision": "1798b39d553a838a31d249ac7fa66095d1ac2230", "path": "development/research/source-evidence/20261117/block-a-189-194-nether-portal-eligibility/lane-early-nether-portal-eligibility-audit/provenance-roster-addendum.md", "sha256": "fba3a1c55c34b657bdaeeac483d8c4afcefc83785d118e8b0fb1d56898e85b2b"}}], "implementation": "not admitted", "runtime": "unverified"}, "openIssues": "Exact intermediate 1.9–1.9.3 timing and any distinct client movement operations require separate coverage. The independent endpoint review closes the normal-player eligibility question without admitting historical client code for this operation.", "implementationDisposition": "Endpoint contact and local timer are bounded no-difference. Server invulnerability threshold is separate."}
@@ -17741,6 +17743,34 @@
             "residuals": "Existing exact source evidence limits remain. Snapshot synchronization, packet arrival, wider alias comparisons and runtime movement parity remain open.",
             "runtimeParity": "unverified"
           }
+        },
+        {
+          "exactPair": "1.16.5--1.17",
+          "operation": "current pitch precision",
+          "decision": "Accepted exact finite current-pitch change, with prior applicability through 1.16.5. See the finding for the product association.",
+          "evidence": [
+            {
+              "revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7",
+              "path": "development/research/source-evidence/20261118/block-c-current-pitch-precision/.gitattributes",
+              "sha256": "380d175c8aa339ef6fddaad502eb8b7c70bb2d1ab4e79ef8fafac707a570f65d"
+            },
+            {
+              "revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7",
+              "path": "development/research/source-evidence/20261118/block-c-current-pitch-precision/accepted-finding-input.md",
+              "sha256": "999fcd005b119acbf80232685c89730afd9e24f9db163ec7ba5033f5b9e00491"
+            },
+            {
+              "revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7",
+              "path": "development/research/source-evidence/20261118/block-c-current-pitch-precision/applicability.md",
+              "sha256": "f0d7b66fc093d56affd71b7ca0af34b102a5d3028646481abc5a7259894a0901"
+            },
+            {
+              "revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7",
+              "path": "development/research/source-evidence/20261118/block-c-current-pitch-precision/mixin-seam-verdict.md",
+              "sha256": "51c0c87677021679fa10219492a39ab18f2d9ad88873da8218cf2bf2b534a029"
+            }
+          ],
+          "finding": "development/research/findings/1.16.5--1.17/current-turn-pitch-precision.md"
         }
       ]
     },
@@ -18856,6 +18886,23 @@
             "sha256": "1be1b15d5d580d4a941a77a1b6ca5c09541874f258b41b438867cd6854ef7bbb"
           },
           "decision": "Accept conditional continuity in moving-piston callback admission, extension/retraction order, slime velocity component and axis-only requested move. The separate state-clear update flag changes 4 to 2; downstream movement consequences remain open."
+        },
+        {
+          "exactPair": "1.9--1.9.1",
+          "operation": "pre-1.13 local yaw",
+          "decision": "Independent adjacent source audit covers the ordinary local yaw update and its first dry yaw-relative movement consumer under the stated bounds.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.9--1.9.1/report.md",
+              "sha256": "0c6c6b8ed5e9da8f271b4cb716da17ab68302f25278e63f29843acaa30ee0ec7"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.9--1.9.1/verdict.md",
+              "sha256": "2d40c71182002e63557d9cbefc83aeb7bd42dce442d5c85e8f0312ae14eb2243"
+            }
+          ]
         }
       ]
     },
@@ -19029,6 +19076,23 @@
           },
           "sourceProvenanceQualification": "Centrally affirmed exact legacy nested source identity; signed audit agrees no direct pitch/Elytra delta.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.9.3--1.9.4",
+          "operation": "pre-1.13 local yaw",
+          "decision": "Independent adjacent source audit covers the ordinary local yaw update and its first dry yaw-relative movement consumer under the stated bounds.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.9.3--1.9.4/report.md",
+              "sha256": "cbf24a0822788fffc7fe9c5b8634a4f64ae0873256fecae858a13fc65742d6de"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.9.3--1.9.4/verdict.md",
+              "sha256": "6c17a100fab4aed44d4c63dddabef1fd24372368ac5ccbdbcc5cd98c2d31d995"
+            }
+          ]
         }
       ]
     },
@@ -19223,6 +19287,23 @@
             "sha256": "1e4e2d3266d1e7cd09bffbc92ba9cd7fbbe79b8914da2c6eac4d9724d66d7f6a"
           },
           "decision": "Accept bounded conditional continuity of overlapping non-ignored entity admission, progress order, slime velocity write and axis-only move request. Actual clipped displacement, concrete overlap and trajectory remain open."
+        },
+        {
+          "exactPair": "1.9.1--1.9.2",
+          "operation": "pre-1.13 local yaw",
+          "decision": "Independent adjacent source audit covers the ordinary local yaw update and its first dry yaw-relative movement consumer under the stated bounds.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.9.1--1.9.2/report.md",
+              "sha256": "0b20c53465ed70dd1ec62fc05a37f684666bb7ab9fd0f5f41414f83f98a5e82f"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.9.1--1.9.2/verdict.md",
+              "sha256": "55a79fd5b43d3404395f8509a6de75e0889208a7c3f731c92aebd7788c2fce7b"
+            }
+          ]
         }
       ]
     },
@@ -19471,6 +19552,23 @@
           },
           "sourceProvenanceQualification": "Centrally authenticated nested source.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.9.2--1.9.3",
+          "operation": "pre-1.13 local yaw",
+          "decision": "Independent adjacent source audit covers the ordinary local yaw update and its first dry yaw-relative movement consumer under the stated bounds.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.9.2--1.9.3/report.md",
+              "sha256": "6d1bc53ac21d6ef437fe21885b764846e17a6a163d1a5bf8717298528a2c529a"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.9.2--1.9.3/verdict.md",
+              "sha256": "306750967cde36cddd0c6ec8599a4657a5cecff1ba9b2c73b32b5b8b9903f3b4"
+            }
+          ]
         }
       ]
     },
@@ -20179,6 +20277,23 @@
           },
           "sourceProvenanceQualification": "—",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.12--1.12.1",
+          "operation": "pre-1.13 local yaw",
+          "decision": "Independent adjacent source audit covers the ordinary local yaw update and its first dry yaw-relative movement consumer under the stated bounds.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.12--1.12.1/report.md",
+              "sha256": "80a63345c1acb9759170952a98ea6ab4ed12a0cb7900882c619ff26e61f650fd"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.12--1.12.1/verdict.md",
+              "sha256": "b3082e1c4368d8ca7e5a05b64d0291037562199e04bd4cb7a3e185d0f103728e"
+            }
+          ]
         }
       ]
     },
@@ -20373,6 +20488,23 @@
             "sha256": "be3d20d7cd0c3f1a6e42efd9bad5bd8c57aae26d0ed9503da351f0a10605253e"
           },
           "decision": "Accept scoped conditional no-difference. Forgetting removes the client cache mapping, later ordinary collision reads use EmptyChunk/air, and the allow-empty client tick query admits it. A precise ordinary walking query before replacement data is unproved; deferred removal from the block-entity tick list is a separate path."
+        },
+        {
+          "exactPair": "1.12.1--1.12.2",
+          "operation": "pre-1.13 local yaw",
+          "decision": "Independent adjacent source audit covers the ordinary local yaw update and its first dry yaw-relative movement consumer under the stated bounds.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.12.1--1.12.2/report.md",
+              "sha256": "5c6a7d19ee3a1f42eab3fa58a43c60011a3002100fd8e24bae4ca54a935b7566"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.12.1--1.12.2/verdict.md",
+              "sha256": "0d874f59e61a9abb2a6b9569d372ac52aee6c6bf990afe46cd4070f7d74cf9ce"
+            }
+          ]
         }
       ]
     },
@@ -21091,6 +21223,23 @@
             "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
           },
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.16.2--1.16.3",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16.2-to-1.16.3/report.md",
+              "sha256": "c43dec997514b9841583232b334b86de0df2e17c392035514d73b1cb31eeaff8"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16.2-to-1.16.3/verdict.md",
+              "sha256": "3b51824c7137a46664c4d329b0fdf2138e1bdfeab2c707c499099e830a18e8c2"
+            }
+          ]
         }
       ]
     },
@@ -21665,6 +21814,23 @@
           },
           "sourceProvenanceQualification": "Separate dry Elytra `headYaw`→`yaw` operand change is not attributed to pitch setter.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.11.2--1.12",
+          "operation": "pre-1.13 local yaw",
+          "decision": "Independent adjacent source audit covers the ordinary local yaw update and its first dry yaw-relative movement consumer under the stated bounds.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.11.2--1.12/report.md",
+              "sha256": "4ab3ab437997d7500d1d010d552637a29fdf75f18f909c6c7cb356a136c87f9e"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.11.2--1.12/verdict.md",
+              "sha256": "64850a598b20e3baa24df5c2858112fe55e1353ae1bd9e006c0d4bbd27d2c669"
+            }
+          ]
         }
       ]
     },
@@ -21848,6 +22014,23 @@
           },
           "sourceProvenanceQualification": "Published-ready.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.15--1.15.1",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.15-to-1.15.1/report.md",
+              "sha256": "667c649c16b6847b292fe0df7cf32ac880892dfbd4e28d4cc3709a87181a82ef"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.15-to-1.15.1/verdict.md",
+              "sha256": "ef95e046fdc8ba7831d7a8804e058ac3b2eff5bbbdd1d589946f99b7351b4be2"
+            }
+          ]
         }
       ]
     },
@@ -22057,6 +22240,23 @@
             "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/beehive-source.md",
             "sha256": "2f8b36753699a05f93fa54dcb04671f2288353d640f0136a06760a728ff10811"
           }
+        },
+        {
+          "exactPair": "1.15.1--1.15.2",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.15.1-to-1.15.2/report.md",
+              "sha256": "7daca7140d1689d107f0d9047fb3e5105c26f5e72fc05800e0e0885d73818a07"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.15.1-to-1.15.2/verdict.md",
+              "sha256": "91efefc7e1a03abfc43b00cdd835575401a6791016db0883857db0fc8426c6b2"
+            }
+          ]
         }
       ]
     },
@@ -22605,6 +22805,40 @@
             "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/connected-source.md",
             "sha256": "fabb721a6a64ae2816a5751167fa9525dab02a07ddda48805b819bc5e3896d5a"
           }
+        },
+        {
+          "exactPair": "1.16.1--1.16.2",
+          "operation": "ordinary dry horizontal travel and input assembly",
+          "decision": "Independent review covers the assigned exact travel or input slices. Preserve the qualifications for supplied state and for the separately inspected crouch, item-use and speed-history gates.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.16.1--1.16.2/input-assembly/audit.md",
+              "sha256": "207735724e50764c5df0e6f6849127858875f33df3f4be27320d39a2ec3fa6e7"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.16.1--1.16.2/input-assembly/report.md",
+              "sha256": "006de7e8b141cfe3fd72ed12367f157666c29818a8aeb50c6ed06b0331d3a178"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.16.1--1.16.2",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16.1-to-1.16.2/report.md",
+              "sha256": "66c861ae87fa11368e0518bda1b2d44dfa4be5d9e76426cbaf3e94961582aa90"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16.1-to-1.16.2/verdict.md",
+              "sha256": "edd7eaf38e22033e87fb9751672a123eb0b54db2ef4934e32bf15a49b127df35"
+            }
+          ]
         }
       ]
     },
@@ -22761,6 +22995,23 @@
           },
           "sourceProvenanceQualification": "Published-ready.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.16--1.16.1",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16-to-1.16.1/report.md",
+              "sha256": "1537f37e3439227bc68441c1c5a9c4ceec8f742bc2b877d221cd3b2997cea9c3"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16-to-1.16.1/verdict.md",
+              "sha256": "2f64458520d9b32361525c38b9225c4f39d4ef7f1f1aae1cacf7e10aae41f3a9"
+            }
+          ]
         }
       ]
     },
@@ -22968,6 +23219,23 @@
             "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
           },
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.16.4--1.16.5",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16.4-to-1.16.5/report.md",
+              "sha256": "c652853c07b19722afd375f37a35c54bdb78e94f8f6f71c0c8a2b6d45d8c20b4"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16.4-to-1.16.5/verdict.md",
+              "sha256": "36c34ad1960b23532ff13dcca2c8fe3ed2a514e0e9fa58ee54f8f0474e46c705"
+            }
+          ]
         }
       ]
     },
@@ -23189,6 +23457,23 @@
             "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
           },
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.16.3--1.16.4",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16.3-to-1.16.4/report.md",
+              "sha256": "365b4825c2565ad17eaaffe55011e87f01098ae4fe733f1775f2d3889fcbfd55"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.16.3-to-1.16.4/verdict.md",
+              "sha256": "c94cae91ee060b1e0eaa0c98ea8acde1393820405d6c48ba254b1ffcbb8763dd"
+            }
+          ]
         }
       ]
     },
@@ -24104,6 +24389,776 @@
         }
       ],
       "recordLimit": "Local ability flight overlapping an already-live fall-flying flag in the stated dry ordinary path. Exact accepted early and late aliases are individually archived. Middle ranges, network and runtime remain separate."
+    },
+    {
+      "pair": "1.14--1.14.1",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.14--1.14.1",
+          "operation": "ordinary dry horizontal travel and input assembly",
+          "decision": "Independent review covers the assigned exact travel or input slices. Preserve the qualifications for supplied state and for the separately inspected crouch, item-use and speed-history gates.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14--1.14.1/audit.md",
+              "sha256": "1290bb49ae9a7b1f9240b6393d8f9a9c9abe04e5d26fbbe4a857a378070bb964"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14--1.14.1/dry-input-audit.md",
+              "sha256": "e9dfab904f1ebdc63791fc36601e539769031cf8262bd5b001e1c5769c422e46"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14--1.14.1/dry-item-input-audit.md",
+              "sha256": "0f2cdfbb5d872dc3214711c28f238daee9c69881951850ba02b8c44b832542d8"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14--1.14.1/report.md",
+              "sha256": "9cf46527334673540e8473c387499f165fd4fc3d3d5b974171cc584142b1564e"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.14--1.14.1",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14-to-1.14.1/report.md",
+              "sha256": "ca4a4af2f76a1e5b8887c08c0373e127a21b166dad26cf0662c87b9050ef1eb1"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14-to-1.14.1/verdict-clean-replacement.md",
+              "sha256": "47a6456e1d00a3b4fb3edd967b56539b500409e2ac8d32abca9334f193b80bf5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.14.1--1.14.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.14.1--1.14.2",
+          "operation": "ordinary dry horizontal travel and input assembly",
+          "decision": "Independent review covers the assigned exact travel or input slices. Preserve the qualifications for supplied state and for the separately inspected crouch, item-use and speed-history gates.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.1--1.14.2/audit.md",
+              "sha256": "2a4727e695703872a04498a2f50f70924de02783c4d2069d56d46a4fd0ad3734"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.1--1.14.2/dry-input-assembly/audit.md",
+              "sha256": "37882f4d49eb8c5bf71b1984084d0a7aaef9688b146025452a5b1e6d334aba51"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.1--1.14.2/dry-input-assembly/report.md",
+              "sha256": "87471a31b22d4cc136e9e7f67003f6a607d8602e9f5747340a49bd8b3dda8b2a"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.1--1.14.2/report.md",
+              "sha256": "514ffaa343254eabf8d67e7b63a06cf809d2e0cb35f120179ae938b61ec681be"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.14.1--1.14.2",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14.1-to-1.14.2/report.md",
+              "sha256": "c39153365dec91fbb28c806e6af69ecd6b44050461916480f84d9b691dd499c0"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14.1-to-1.14.2/verdict.md",
+              "sha256": "31bbd70cbad52b895ce1f5cffe8d4aa2fa489f335169f0a524515ceafb87876e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.14.2--1.14.3",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.14.2--1.14.3",
+          "operation": "ordinary dry horizontal travel and input assembly",
+          "decision": "Independent review covers the assigned exact travel or input slices. Preserve the qualifications for supplied state and for the separately inspected crouch, item-use and speed-history gates.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.2--1.14.3/audit.md",
+              "sha256": "3e01f05194f1dde661fbd44694e000e5f5da603fa04537d39bdc88315c53113c"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.2--1.14.3/report.md",
+              "sha256": "dfda007a77baadba4407aa90e6ab8ece57e9b94fa5bcd138efe71b96f3b5d059"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.14.2--1.14.3",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14.2-to-1.14.3/report.md",
+              "sha256": "7c1c3ecd474eef896947f022ba22771ca6ececca1e5898849fc389c0b69bedc3"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14.2-to-1.14.3/verdict.md",
+              "sha256": "2ebfdc097d5c8cdbca4544ed039fb67c56c597759866fbb178f10767bc9bd533"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.14.3--1.14.4",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.14.3--1.14.4",
+          "operation": "ordinary dry horizontal travel and input assembly",
+          "decision": "Independent review covers the assigned exact travel or input slices. Preserve the qualifications for supplied state and for the separately inspected crouch, item-use and speed-history gates.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.3--1.14.4/audit.md",
+              "sha256": "f7f0c82f82d79169c2add0b0f1d3f5ebb5431b22fea43fd2921f8f0a593c675a"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.3--1.14.4/dry-crouch-input/audit.md",
+              "sha256": "d131c94e66588ce3f9e64faec0c48abe79bc420c80917d74b8d33e11d0003567"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.3--1.14.4/dry-crouch-input/report.md",
+              "sha256": "ea9f997db217b1a29fe7aa3b5521eacc3be870132ae7de062ad6f63e451687ee"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.3--1.14.4/report.md",
+              "sha256": "6f4883310eda171619ff4d4cbc42105b56ea9c9a14efb913f0aff36e14e03166"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.14.3--1.14.4",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14.3-to-1.14.4/report.md",
+              "sha256": "6f428c3e7d203c34adb3f6dd70b51138129c4092a80faf766b56b9ce49e4ea09"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14.3-to-1.14.4/verdict.md",
+              "sha256": "ecaf6861af9261720f7abc93a0e0bb03abffc0153cca60ecba79d6b40b94fac9"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.14.4--1.15",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.14.4--1.15",
+          "operation": "ordinary dry horizontal travel and input assembly",
+          "decision": "Independent review covers the assigned exact travel or input slices. Preserve the qualifications for supplied state and for the separately inspected crouch, item-use and speed-history gates.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.4--1.15/audit.md",
+              "sha256": "b2a48ce1aa2c5edb0bf9142ed0038e5cbdd1b42be1d5bfb4899c584c351a049c"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.14.4--1.15/report.md",
+              "sha256": "32c8ece9cdd57ed19e15ee52c724b56e74a8d3988dcd70914bec48ef5cff2fc3"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.14.4--1.15",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14.4-to-1.15/report.md",
+              "sha256": "fe5e8a7ed89de472f15f676231f3a39130dc2aed822f0d41ecde9ccd59a5f621"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.14.4-to-1.15/verdict.md",
+              "sha256": "34b2e702b7791143576cd70c67519f6e55c9007ac55b9655dd6954a3b5b02f7b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.15.2--1.16",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.15.2--1.16",
+          "operation": "ordinary dry horizontal travel and input assembly",
+          "decision": "Independent review covers the assigned exact travel or input slices. Preserve the qualifications for supplied state and for the separately inspected crouch, item-use and speed-history gates.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.15.2--1.16/audit.md",
+              "sha256": "9afc348b6380e5d920a8ef8c7561cb0c59dfdf02dd937a49bae6cbeb28d17bec"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.15.2--1.16/input-assembly/audit.md",
+              "sha256": "b0b3c783efdd3a65a1a1e9650c44c4697e9aee4a9d3c93406234ab29526000a5"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.15.2--1.16/input-assembly/report.md",
+              "sha256": "8de297ebd0cbc053f8fdae00c9629419403ba8d59cb072713a46a99eb3d0b2f3"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.15.2--1.16/report.md",
+              "sha256": "1c4415c0f04dae67fcd79961970f9e546e8f790aba5ab967075b04a9df380be6"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.15.2--1.16",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.15.2-to-1.16/identity.md",
+              "sha256": "1c6f9fb4bc15293cedb289810697f1b37f559d3f0a1e441fef9201e084164590"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.15.2-to-1.16/report.md",
+              "sha256": "e04ee7dc6d89906d2aed1a6d803a055c202a54c56589999a4014198badcca204"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.15.2-to-1.16/verdict.md",
+              "sha256": "e10d9e50996df27b468bf06f6d80120dfb317e124c15c5bacb12483f0840ad4f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.21.8--1.21.9",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.21.8--1.21.9",
+          "operation": "ordinary ground and air acceleration",
+          "decision": "Reviewed no difference in the bounded local horizontal-input through pre-collision self-move arithmetic. Retain the actor inheritance and exact helper qualifications.",
+          "evidence": [
+            {
+              "revision": "cb7128d5ec55a2dce59ba4b701da33b7c38a4470",
+              "path": "development/research/source-evidence/20261118/block-c-ground-air-accel-1218-12110/edges/1.21.8-to-1.21.9/report.md",
+              "sha256": "13345c0854a6650bc4be9063a7522d662bf4507ec364be4da6725ed2167b937c"
+            },
+            {
+              "revision": "cb7128d5ec55a2dce59ba4b701da33b7c38a4470",
+              "path": "development/research/source-evidence/20261118/block-c-ground-air-accel-1218-12110/edges/1.21.8-to-1.21.9/verdict.md",
+              "sha256": "cba5c10d54125b21eb64b54f5f08c78e43847151b6bf154fbeb9c845338e0bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.21.9--1.21.10",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.21.9--1.21.10",
+          "operation": "ordinary ground and air acceleration",
+          "decision": "Reviewed no difference in the bounded local horizontal-input through pre-collision self-move arithmetic. Retain the actor inheritance and exact helper qualifications.",
+          "evidence": [
+            {
+              "revision": "cb7128d5ec55a2dce59ba4b701da33b7c38a4470",
+              "path": "development/research/source-evidence/20261118/block-c-ground-air-accel-1218-12110/edges/1.21.9-to-1.21.10/helper-exact-verdict.md",
+              "sha256": "350e2109e1343cdd325de6ef0605d1a4877209879a1329c087043641783f6c95"
+            },
+            {
+              "revision": "cb7128d5ec55a2dce59ba4b701da33b7c38a4470",
+              "path": "development/research/source-evidence/20261118/block-c-ground-air-accel-1218-12110/edges/1.21.9-to-1.21.10/report.md",
+              "sha256": "ceba78d5565e0fd2cfc5145a23c862ac88489f663890d95c449e669674dd36a3"
+            },
+            {
+              "revision": "cb7128d5ec55a2dce59ba4b701da33b7c38a4470",
+              "path": "development/research/source-evidence/20261118/block-c-ground-air-accel-1218-12110/edges/1.21.9-to-1.21.10/verdict.md",
+              "sha256": "545d0b0ab6b053ac586b1984c0eee93e3e9d764b4e13b532626dbae5c51a689e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.13.1--1.13.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.13.1--1.13.2",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.13.1-to-1.13.2/report.md",
+              "sha256": "9170a01a3d758d29201e94e33185fa293412c445128ca2257d699f72a34a4fd2"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.13.1-to-1.13.2/verdict.md",
+              "sha256": "32b674cbbcb764d27c77aee3a1adb12ad6bce704d89ec7a4ca55459bad65b50c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.13.2--1.14",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.13.2--1.14",
+          "operation": "ordinary local yaw continuity",
+          "decision": "Reviewed no difference in the direct yaw computation and first bounded dry consumer. The 1.13→1.13.1 independent review remains open.",
+          "evidence": [
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.13.2-to-1.14/report-exact-report.md",
+              "sha256": "da0399ca1fe6c9a621a25a96d0d1c7e5291389369815f0a60daa576c950ca5ba"
+            },
+            {
+              "revision": "c3c0470ff0ec5491408c9639aaf5b20069aa0144",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-precision-113-1165/edges/1.13.2-to-1.14/verdict.md",
+              "sha256": "900fc90bc76b6f642d7a33e6b41bc93b556d6d4cb57c4f456a41cc866eb28011"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.13.2--1.14",
+          "operation": "airborne input acceleration precision",
+          "decision": "Accepted finite right-only acceleration-width witness at yaw zero. The existing InputAcceleration and PlanarInputAcceleration Changes cover both exact endpoints.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-horizontal-travel/1.13.2--1.14/acceleration-product-disposition.md",
+              "sha256": "c7ca912e9c349d764b88a68ce78efc77a307ee88f75e073b146bf0d7d99668ea"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.12.2--1.13",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.12.2--1.13",
+          "operation": "pre-1.13 local yaw",
+          "decision": "Accepted float-to-double local camera-input width boundary and conditional direct-yaw movement witness. Earlier caller equivalence and continuity at 1.13→1.13.1 remain open.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.12.2--1.13/report.md",
+              "sha256": "f4a2802285822d900acd5b3e24fc2564659033e63c9c6d745b88c007822d5c02"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-local-yaw-before-113/1.12.2--1.13/verdict.md",
+              "sha256": "a33479ee36bfdd27206f23db429eda352924eacf1ec555610e1e9234576423f5"
+            }
+          ]
+        },
+        {
+          "exactPair": "1.12.2--1.13",
+          "operation": "current pitch input width",
+          "decision": "Accepted sign-normalized current-pitch width boundary and its first active dry Elytra self-move effect under the fixed fixture.",
+          "evidence": [
+            {
+              "revision": "46480232f23906ce03ad862e1b5eccfac3fd65cd",
+              "path": "development/research/source-evidence/20261118/block-c-turn-sign-normalized-pitch/edges/1.12.2-to-1.13/report.md",
+              "sha256": "bbe505676fe8eaf0df3096ffbe15fc21c0996985afbcea345fc1ebe8b6e71999"
+            },
+            {
+              "revision": "46480232f23906ce03ad862e1b5eccfac3fd65cd",
+              "path": "development/research/source-evidence/20261118/block-c-turn-sign-normalized-pitch/edges/1.12.2-to-1.13/verdict.md",
+              "sha256": "bf1705346f203fa0e76e4cd2639f912a27b7170f1d9de20e510aebf7d4f7b0bc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.17.1--1.18",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.17.1--1.18",
+          "operation": "ordinary dry local vertical integration",
+          "decision": "Reviewed no difference within the ordinary dry local vertical integration scope and stated source qualifications.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.17.1--1.18/audit.md",
+              "sha256": "dcc21274f9f433e2e92fcbe85f6cda72ab3f282f7f0f95c66f989fb644ddb5bd"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.17.1--1.18/report.md",
+              "sha256": "503ed9d3a4122877989648f6ba8ef964fb33830eee9e700f45cab9ff1b0e7963"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.18--1.18.1",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.18--1.18.1",
+          "operation": "ordinary dry local vertical integration",
+          "decision": "Reviewed no difference within the ordinary dry local vertical integration scope and stated source qualifications.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.18--1.18.1/audit.md",
+              "sha256": "23a890ff837bfd2149cfaed55607f9766a0b3330cddf5fe09f0bf3d9ef6619c2"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.18--1.18.1/report.md",
+              "sha256": "952093c4be51a1a9f0d27a632b7d32204bb3fef71ae26b29bda6c6bae37c7cd3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.20.6--1.21",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.20.6--1.21",
+          "operation": "ordinary dry local vertical integration",
+          "decision": "Reviewed no difference within the ordinary dry local vertical integration scope and stated source qualifications.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.20.6--1.21/audit.md",
+              "sha256": "78fb2b325c5861513ec5e25a7dc92976c017048812ce9cef56e8e5e024e96c5d"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.20.6--1.21/report.md",
+              "sha256": "5db610c249c81890e04392df39e2832a9ba33d4595aa23ee77dce238f458f5ee"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.21.1--1.21.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.21.1--1.21.2",
+          "operation": "ordinary dry local vertical integration",
+          "decision": "The scoped resolved-position gate changes while ordinary gravity and drag retain their compared order. Existing movement-position-write finding and product handlers cover the accepted position operation.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.21.1--1.21.2/audit.md",
+              "sha256": "eab8173866cbdf8bf808927bc88914033d200113c64bbc7ce18962823bb0a183"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.21.1--1.21.2/position-write-finding-input.md",
+              "sha256": "126550a6c206cc56e84b9c19acfa9f403e4050115c5a23e00822b451b2e27f3a"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.21.1--1.21.2/report.md",
+              "sha256": "060ddb6220f2df267d8ea36d8b8735a89fef6bb78bf93c715391f2d12b750e98"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.21.1--1.21.2/scope-erratum.md",
+              "sha256": "f262802f48011ebf0ac78ba53d31eb8f4b9de157af49c5feb2007cf79705019c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.21.2--1.21.3",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.21.2--1.21.3",
+          "operation": "ordinary dry local vertical integration",
+          "decision": "Reviewed no difference within the ordinary dry local vertical integration scope and stated source qualifications.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.21.2--1.21.3/audit.md",
+              "sha256": "b4b80edd61d4cb1d437c069c8e69566cafa0291a1c204e669ae369fe96fee0c8"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-selected-ordinary-vertical/1.21.2--1.21.3/report.md",
+              "sha256": "33513a2a39d414858149d962e7326e67bc170159850f4d84cf7c0560a93b6ce7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.12.2--26.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.12.2--26.2",
+          "operation": "active dry Elytra pitch conversion",
+          "decision": "Reviewed no difference in direct float degrees-to-radians conversion and its sign check for the same finite sign-normalized pitch.",
+          "evidence": [
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-elytra-pitch-conversion/1.12.2--26.2/report.md",
+              "sha256": "ade775b20fbadb36ce7862b58e3af2198fb7e77a6cf1d8877ef55218d3110c0a"
+            },
+            {
+              "revision": "40782447f6dc4b42dc9f13724bf2ead1687594c9",
+              "path": "development/research/source-evidence/20261118/block-c-elytra-pitch-conversion/1.12.2--26.2/verdict.md",
+              "sha256": "de32ba118465cbbc847a7339b7a149c2f03d213162945c4ee46534903cfccd64"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.18.1--1.18.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.18.1--1.18.2",
+          "operation": "fall-distance accumulation",
+          "decision": "Accepted exact narrowing change and conditional later edge backoff. The collision/resetting-ray dependency is separate.",
+          "evidence": [
+            {
+              "revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7",
+              "path": "development/research/source-evidence/20261118/block-c-fall-distance-1181-1182/.gitattributes",
+              "sha256": "380d175c8aa339ef6fddaad502eb8b7c70bb2d1ab4e79ef8fafac707a570f65d"
+            },
+            {
+              "revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7",
+              "path": "development/research/source-evidence/20261118/block-c-fall-distance-1181-1182/initial-vertical-audit.md",
+              "sha256": "32a6e52700d918c9f98439994a5583bb8f5022f68a10b33616462e42b2dc46d3"
+            },
+            {
+              "revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7",
+              "path": "development/research/source-evidence/20261118/block-c-fall-distance-1181-1182/movement-verdict.md",
+              "sha256": "90148c4743763db0505020831116504273c51f0897d13edc814929d43659d2a6"
+            },
+            {
+              "revision": "a92cf56a6e2cd17bb0a0f2779d79da09a2f280a7",
+              "path": "development/research/source-evidence/20261118/block-c-fall-distance-1181-1182/source.md",
+              "sha256": "491074d03e02cfe42c8d62268c4e3c3351d33984657f27cc518c746c54c478d0"
+            }
+          ],
+          "finding": "development/research/findings/1.18.1--1.18.2/fall-distance-accumulation-precision.md"
+        },
+        {
+          "exactPair": "1.18.1--1.18.2",
+          "operation": "elytra-pitch-lift-1.18.1-to-1.18.2",
+          "decision": "Accepted exact source comparison for active ordinary dry local Elytra pitch lift. The separate sine-derived pull-up term is outside the changed contribution.",
+          "evidence": [
+            {
+              "revision": "0f2e46e8bdd8a6c7d01fd202e026fcba79760eb1",
+              "path": "development/research/source-evidence/20261118/block-c-accepted-local-jump-and-glide-pitch/elytra-pitch-lift-1.18.1-to-1.18.2/acceptance.md",
+              "sha256": "1f734b71c601a1e5c603ba2dba4ddf983118c8664d088eaeaa4714dcad10dd5c"
+            },
+            {
+              "revision": "0f2e46e8bdd8a6c7d01fd202e026fcba79760eb1",
+              "path": "development/research/source-evidence/20261118/block-c-accepted-local-jump-and-glide-pitch/elytra-pitch-lift-1.18.1-to-1.18.2/correction.md",
+              "sha256": "bb7872c10512c1b4ab34d57ff6a51ece783a44cc6ba351ce22bc6981fc7a4db0"
+            },
+            {
+              "revision": "0f2e46e8bdd8a6c7d01fd202e026fcba79760eb1",
+              "path": "development/research/source-evidence/20261118/block-c-accepted-local-jump-and-glide-pitch/elytra-pitch-lift-1.18.1-to-1.18.2/report.md",
+              "sha256": "4e5094d335e3f6082cba82ca2a7d9987d48662390a97f4368699b8a6cf56b3ea"
+            },
+            {
+              "revision": "0f2e46e8bdd8a6c7d01fd202e026fcba79760eb1",
+              "path": "development/research/source-evidence/20261118/block-c-accepted-local-jump-and-glide-pitch/elytra-pitch-lift-1.18.1-to-1.18.2/verdict.md",
+              "sha256": "615a282617c3aea6258e1f013eddfd5090d1e0106183c7dfbd01ea404f9bab5d"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.20.4--26.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.20.4--26.2",
+          "operation": "grounded-flight-toggle-1.20.4-to-26.2",
+          "decision": "Accepted reachable second-tap grounded flight activation. Existing FlightActivationJump provider covers the 1.20.4 toggle-site behavior.",
+          "evidence": [
+            {
+              "revision": "0f2e46e8bdd8a6c7d01fd202e026fcba79760eb1",
+              "path": "development/research/source-evidence/20261118/block-c-accepted-local-jump-and-glide-pitch/grounded-flight-toggle-1.20.4-to-26.2/report.md",
+              "sha256": "10e54c69c6126af5d7ddc860c5eec4e95549cf1708e9478630df3ff4f07428e6"
+            },
+            {
+              "revision": "0f2e46e8bdd8a6c7d01fd202e026fcba79760eb1",
+              "path": "development/research/source-evidence/20261118/block-c-accepted-local-jump-and-glide-pitch/grounded-flight-toggle-1.20.4-to-26.2/verdict.md",
+              "sha256": "fed7ce0b875e2cb6550fda7edc0957a03d66ef292e11b8164c332ea2d21f22ab"
+            }
+          ],
+          "finding": "development/research/findings/1.20.4--1.20.6/grounded-flight-activation-jump.md"
+        }
+      ]
+    },
+    {
+      "pair": "1.18.1--26.2",
+      "sourceCoverage": "partial",
+      "dependencyClosure": "incomplete",
+      "independentCoverageAudit": "not complete",
+      "runtimeParity": "unverified",
+      "nextAction": "Reconcile the remaining player-movement operations and dependencies before pair freeze.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.18.1--26.2",
+          "operation": "elytra-pitch-lift-1.18.1-to-26.2",
+          "decision": "Accepted exact source comparison for active ordinary dry local Elytra pitch lift. The separate sine-derived pull-up term is outside the changed contribution.",
+          "evidence": [
+            {
+              "revision": "0f2e46e8bdd8a6c7d01fd202e026fcba79760eb1",
+              "path": "development/research/source-evidence/20261118/block-c-accepted-local-jump-and-glide-pitch/elytra-pitch-lift-1.18.1-to-26.2/report.md",
+              "sha256": "0300468d76447b7ded545ab512c14f5fee46ccdcbde6ffd0132a6ef3ef075327"
+            },
+            {
+              "revision": "0f2e46e8bdd8a6c7d01fd202e026fcba79760eb1",
+              "path": "development/research/source-evidence/20261118/block-c-accepted-local-jump-and-glide-pitch/elytra-pitch-lift-1.18.1-to-26.2/verdict.md",
+              "sha256": "85e23dd1f74b97d7d4236061a23b8426f12e70d937fa9444059f8bb8b043c4de"
+            }
+          ]
+        }
+      ]
     }
   ],
   "productRevision": "67db60727182f874919d7460ad56e79a09df8bdd",
