@@ -19,8 +19,11 @@ import java.util.Optional;
  * second is true. Its net.minecraft.client.player.LocalPlayer#updateAutoJump flattens these candidates and
  * scans them in order. The 1.16 Mojmap net.minecraft.world.level.CollisionSpliterator#worldBorderCheck
  * adds CollisionSpliterator#isBoxFullyWithinWorldBorder's rounded-bound fast rejection before the
- * same overlap tests. The V1_15 provider preserves the native candidate stream
- * before the inspected 1.15.2 boundary, whose earlier applicability is unproved.
+ * same overlap tests. Ornithe Feather 1.14 {@code WorldView.getCollisions},
+ * Yarn 1.14.1–1.14.3 {@code ViewableWorld.getCollisionShapes}, and Ornithe
+ * Feather 1.14.4 {@code WorldView.getBlockCollisions} emit the same border
+ * candidate before ordinary shapes. Mojmap 1.15 and 1.15.1 retain the gate and
+ * first emission in {@code CollisionGetter.getBlockCollisions}.
  */
 @MovementChange(emulates = ParkourVersion.V1_15_2)
 public final class AutoJumpBorderCandidate implements AutoJumpBorderCandidateHook {
