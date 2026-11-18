@@ -2,9 +2,9 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.boat.BoatRiderOrientationHook;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.TypedInstance;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.player.LocalPlayer;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import org.spongepowered.asm.mixin.Mixin;
