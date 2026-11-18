@@ -66,6 +66,7 @@
     "EntityMovementCutoffMixin",
     "ShulkerMixin",
     "accessor.EntityInvoker",
+    "accessor.EntityRotationAccessor",
     "accessor.EntityVisitedBlocksAccessor",
     "accessor.AbstractCauldronBlockAccessor",
     "accessor.LiquidBlockAccessor",
