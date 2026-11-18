@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.AbilityFlightGlideFlagHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.BubbleColumnPlayerCallbackHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.LocalPlayerShiftDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerClimbabilityFlyingGateHook;
@@ -19,6 +20,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQ
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeProbeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.SwimmingPitchHook;
+import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.MoverType;
@@ -194,6 +196,9 @@ abstract class PlayerMixin {
         }
         MovementRuntime.find(FlightFallDistanceHook.class, player)
             .ifPresent(behavior -> behavior.afterTravel(player));
+        MovementRuntime.find(AbilityFlightGlideFlagHook.class, player)
+            .filter(behavior -> behavior.shouldClearAfterTravel(player))
+            .ifPresent(behavior -> ((EntityInvoker) player).legacyparkourcompat$setSharedFlag(7, false));
     }
 
     @Redirect(
