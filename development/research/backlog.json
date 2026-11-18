@@ -14087,6 +14087,108 @@
             "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
             "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
           }
+        },
+        {
+          "decision": "ACCEPT bounded ordinary non-riding LocalPlayer solid-block collision consumer continuity for nonzero dry movement. The selector, shape filter, collision context and axis clip agree. Zero displacement skips the block shape query in both. Step, restitution and other contexts remain separate.",
+          "snapshot": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/common-consumer-author/consumer-comparison.md",
+            "sha256": "397727d5823516a54f19fd917b920b869f8663eaec1f398eb4deb0143b223ce4"
+          },
+          "review": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/common-consumer-audit/verdict.md",
+            "sha256": "b276a4f898c9ce7a46fe06915b0120b28dc52d130b78acef2c2e9e9c9b2358a4"
+          },
+          "roster": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/common-consumer-audit/frozen-consumer-roster.json",
+            "sha256": "15e245a307a83a9cb2a5ce8c9e1af8d2175f784aced7ab8e908c69a7999f642e"
+          },
+          "localEntry": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/common-consumer-audit/local-player-entry-supplement.md",
+            "sha256": "edf10a4004157e8a1a2841a58142f0bdc92521df1554f1d23ba93e928ab5cc8a"
+          }
+        },
+        {
+          "decision": "ACCEPT unchanged checked stationary DoorBlock and TrapDoorBlock collision shapes. Facing and the applicable hinge/half selector retain their reported directional panels. The encoding receipt binds normalized JSON copies to the original bytes.",
+          "snapshot": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/door-trapdoor-author/comparison.md",
+            "sha256": "392abc8af91147f2af7753f7c769309c6eb5036d26c93b78132ff243a9c2c820"
+          },
+          "review": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/door-trapdoor-audit/verdict.md",
+            "sha256": "c65dbfd53a0479859f68ec3d9fc4c603a535e89ee002173429a4efdbebf6c9ab"
+          },
+          "encodingReceipt": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/door-trapdoor-audit/verdict-encoding-r1.md",
+            "sha256": "d396e8d3fcc473f83b258cd49eadaea25b48ccbedeb2fb75d32823fa1228072f"
+          },
+          "roster": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/door-trapdoor-audit/source-roster.lf.json",
+            "sha256": "26568133fba307558387d5cfffb41d443ad7fb1c6641e4d020205898c6abab05"
+          },
+          "audit": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/door-trapdoor-audit/audit.lf.json",
+            "sha256": "3f664d79041ae4235a03c51a135d49ccd3662da2c6787aff67101347417b8153"
+          }
+        },
+        {
+          "decision": "ACCEPT unchanged direct stationary dry FenceGateBlock shapes across the twelve registered variants. Open is empty; closed uses the same axis-selected bar. POWERED and IN_WALL do not affect the scoped collision provider.",
+          "snapshot": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/fence-gate-author/comparison.md",
+            "sha256": "52f3199170b5b105f2d0a4185350e4daf6d6ef67f2d58e403221eae6ef1ec49e"
+          },
+          "review": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/fence-gate-audit/verdict-r1.md",
+            "sha256": "058f13291376cd4532af5e4063f806f8fc840108f70ec17ee8213819eefec113"
+          },
+          "priorReview": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/fence-gate-audit/verdict.md",
+            "sha256": "f6118c5889616d720d7d8d70f8917902fa22df3c6339d4beaac1f7d0e194c783"
+          },
+          "roster": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/fence-gate-audit/source-roster.csv",
+            "sha256": "77ca61575020ddbb4a16598b6278030a838391e230f0373158a005aa4265c526"
+          }
+        },
+        {
+          "decision": "ACCEPT unchanged dry stationary slab and stair collision providers, including the checked weathering copper inheritance. Slabs select by TYPE; stair INNER occupies three quarters of its partial half. The additive geometry and source-identity corrections govern the earlier notes.",
+          "snapshot": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/slab-stairs-author/slab-stair-comparison.corrected-r1.md",
+            "sha256": "74948aeda0f79d5b90ac8694f71c673a92fa197e63573702ada125a80d32cb3e"
+          },
+          "review": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/slab-stairs-audit/verdict-r1.md",
+            "sha256": "72e7ece8a9a9bffa1a736d891c9af6600cc9c1e233669cdf7f9003669bc47ac4"
+          },
+          "sourceBinding": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/slab-stairs-audit/source-binding-addendum.md",
+            "sha256": "28c0c9b47e092bebb835dfa5a0abe6005d977b9aaec26a025e1f8f692a9ea9c3"
+          },
+          "rosterErratum": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/slab-stairs-audit/source-roster-erratum.md",
+            "sha256": "06f4859b3c8188b3b4eba4e986aaef755796aa1c8de70a3f591ab4b5807d3d42"
+          },
+          "matrix": {
+            "revision": "3fd2dd2fa43d8e0ad83425c9b27b9ee88485dc52",
+            "path": "development/research/source-evidence/20261118/2612-262-stationary-state-providers/slab-stairs-audit/source-matrix.md",
+            "sha256": "326e0f0556802fc8647162d40f1b71ea21166f5964f793ae9810ce6794b91651"
+          }
         }
       ]
     },
