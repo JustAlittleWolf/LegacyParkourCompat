@@ -11,11 +11,14 @@ import net.minecraft.world.entity.vehicle.boat.Boat;
 import java.util.Optional;
 
 /**
- * Preserves the 1.8.1–1.8.9 boat mount height for the ordinary direct oak-boat rider.
- * Ornithe Feather 1.8.1–1.8.9 {@code BoatEntity.updateRiderPositon()} writes its yaw-based X/Z offsets and
- * {@code boatY + getMountHeight() + rider.getRideHeight()}; from 1.8.1,
- * {@code BoatEntity.getMountHeight()} returns double {@code -0.3} and
- * {@code PlayerEntity.getRideHeight()} returns double {@code -0.35}.
+ * Preserves the 1.8.1–1.8.9 boat mount height for an ordinary direct oak-boat rider. Ornithe
+ * Feather 1.8.9 {@code net.minecraft.entity.vehicle.BoatEntity.updateRiderPositon()} writes the
+ * yaw-based X/Z offsets and ordered Y sum; paired Ornithe Feather 1.9.4
+ * {@code net.minecraft.entity.vehicle.BoatEntity.updateRiderPositon(Entity)} uses its new centered
+ * sole-passenger path and float Y offset. The Ornithe Feather 1.8–1.8.9 placement alias comparison
+ * confirms the 1.8.1–1.8.9 {@code BoatEntity.getMountHeight()} value is double {@code -0.3}; the
+ * compared 1.8.9 and 1.9.4 {@code net.minecraft.entity.player.PlayerEntity.getRideHeight()} methods
+ * return double {@code -0.35}.
  */
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class BoatRiderPlacement implements PlayerPassengerPlacementHook {
