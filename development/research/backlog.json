@@ -585,6 +585,24 @@
             "sha256": "1afbf44186233d4b343b4652a3a60c38c400263661f582eff5b97f674cb7ed9d"
           },
           "decision": "ACCEPT bounded no difference in landing/step dispatch and the checked Hay, Slime and Magma direct-impact callbacks in exact 1.10.2 and 1.11. Farmland server reversion is tracked separately."
+        },
+        {
+          "decision": "ACCEPT unchanged exact endpoint ordinary nonfalling LocalPlayer water-current query, vector aggregation and velocity addition. The pre-movement sample and conditional post-move recheck retain their timing. Other callers and support probes remain separate.",
+          "snapshot": {
+            "revision": "7836abf8b8cba86b0a43fc6e444067040fb2a141",
+            "path": "development/research/source-evidence/20261117/block-a-1102-1122-water-current-continuity/lane-water-current-source-1102-1112/comparison.md",
+            "sha256": "0d459dea0f6af14168bf6fc52d9252560e126b551609791c7e7ad3cb0e9f97fa"
+          },
+          "review": {
+            "revision": "7836abf8b8cba86b0a43fc6e444067040fb2a141",
+            "path": "development/research/source-evidence/20261117/block-a-1102-1122-water-current-continuity/lane-water-current-source-1102-1112-audit/audit-report.md",
+            "sha256": "a09dbde1bfa5af26f7e116e4b8285b92b045c1a5b03164a04a3ae1cac0e1834c"
+          },
+          "roster": {
+            "revision": "7836abf8b8cba86b0a43fc6e444067040fb2a141",
+            "path": "development/research/source-evidence/20261117/block-a-1102-1122-water-current-continuity/lane-water-current-source-1102-1112-audit/source-roster.txt",
+            "sha256": "dde9111b07804b8e933fd820b15cbb73435dd1ae4be008629be67df8c4fc3239"
+          }
         }
       ]
     },
@@ -859,6 +877,34 @@
             "revision": "79dc494413a18f603ca7c2a8c3393896a7a8a514",
             "path": "development/research/source-evidence/20261117/block-a-110-1131-lava-scan-upper/lane-lava-scan-upper-bound-112-1122-audit/supplemental-roster.txt",
             "sha256": "1e080f2ef5fa6710deccc0b196015fa504571bc84e50313a51796e0bd2e36572"
+          }
+        },
+        {
+          "decision": "ACCEPT unchanged exact endpoint ordinary nonfalling LocalPlayer water scan, vector aggregation, non-flying impulse and sampling cadence. The distinct falling-fluid face predicate is outside this result. Historical raw artifact re-verification remains open.",
+          "snapshot": {
+            "revision": "7836abf8b8cba86b0a43fc6e444067040fb2a141",
+            "path": "development/research/source-evidence/20261117/block-a-1102-1122-water-current-continuity/lane-water-current-source-1112-1122/comparison.md",
+            "sha256": "e5f583ba72b1be972f98b0f23a9e56314bf62943bca8c28779d7ad300ef475e9"
+          },
+          "review": {
+            "revision": "7836abf8b8cba86b0a43fc6e444067040fb2a141",
+            "path": "development/research/source-evidence/20261117/block-a-1102-1122-water-current-continuity/lane-water-current-source-1112-1122-audit/verdict.md",
+            "sha256": "e6cb8abe7c11dc5e8833d9c8f47569126d6f4ed56b18f8e7394d4f27bcdb0ff1"
+          },
+          "roster": {
+            "revision": "7836abf8b8cba86b0a43fc6e444067040fb2a141",
+            "path": "development/research/source-evidence/20261117/block-a-1102-1122-water-current-continuity/lane-water-current-source-1112-1122-audit/roster.md",
+            "sha256": "fa1975737a3dc4dcf26ac450c5f8eb599dc49f4cd0073c7bf8d63f5dd304aae1"
+          },
+          "comparisonRoster": {
+            "revision": "7836abf8b8cba86b0a43fc6e444067040fb2a141",
+            "path": "development/research/source-evidence/20261117/block-a-1102-1122-water-current-continuity/lane-water-current-source-1112-1122/roster.md",
+            "sha256": "2f8926658bdb7e6e5617704a9672a7c8ac4d010237b72f40e73b7c80c94e6366"
+          },
+          "digestList": {
+            "revision": "7836abf8b8cba86b0a43fc6e444067040fb2a141",
+            "path": "development/research/source-evidence/20261117/block-a-1102-1122-water-current-continuity/lane-water-current-source-1112-1122-audit/sha256.txt",
+            "sha256": "e4326209c2fb7b2dad848e2c4660a26da751a73f842e97ea93f3931b3145a320"
           }
         }
       ]
@@ -15642,7 +15688,28 @@
         "limits": [
           "No product applicability or runtime parity claim."
         ]
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.15--1.15.1",
+          "decision": "ACCEPT unchanged ordinary lava callback presence, source-lava surface witness, and non-flying LocalPlayer held-jump/travel consumer in the exact three named 1.15 releases.",
+          "snapshot": {
+            "revision": "01518bab2d754bdf4b81d9904a3dc73a8c0da167",
+            "path": "development/research/source-evidence/20261117/block-a-115-1152-lava-presence-continuity/lane-lava-presence-source-115-1152/comparison.md",
+            "sha256": "08e3fbb5c402f872af193dc5206ac3417f307730822bf213b57653c26a221a6a"
+          },
+          "review": {
+            "revision": "01518bab2d754bdf4b81d9904a3dc73a8c0da167",
+            "path": "development/research/source-evidence/20261117/block-a-115-1152-lava-presence-continuity/lane-lava-presence-source-115-1152-audit/verdict.md",
+            "sha256": "ac9138a187c88808ae8319437147574574538212b9afa263bf2e9893de7a1f4f"
+          },
+          "roster": {
+            "revision": "01518bab2d754bdf4b81d9904a3dc73a8c0da167",
+            "path": "development/research/source-evidence/20261117/block-a-115-1152-lava-presence-continuity/lane-lava-presence-source-115-1152-audit/roster.md",
+            "sha256": "a103b649674dfc53f97cf0bd44a2e6fd6aa24756740699c4e8b03d0b9cce5462"
+          }
+        }
+      ]
     },
     {
       "pair": "1.15.1--1.15.2",
@@ -15753,7 +15820,28 @@
           "No movement delta or runtime claim.",
           "Pair remains partial; obtain exact endpoint fluid payload packet, correct the candidate-specific dependency statement, then re-audit coverage."
         ]
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.15.1--1.15.2",
+          "decision": "ACCEPT unchanged ordinary lava callback presence, source-lava surface witness, and non-flying LocalPlayer held-jump/travel consumer in the exact three named 1.15 releases.",
+          "snapshot": {
+            "revision": "01518bab2d754bdf4b81d9904a3dc73a8c0da167",
+            "path": "development/research/source-evidence/20261117/block-a-115-1152-lava-presence-continuity/lane-lava-presence-source-115-1152/comparison.md",
+            "sha256": "08e3fbb5c402f872af193dc5206ac3417f307730822bf213b57653c26a221a6a"
+          },
+          "review": {
+            "revision": "01518bab2d754bdf4b81d9904a3dc73a8c0da167",
+            "path": "development/research/source-evidence/20261117/block-a-115-1152-lava-presence-continuity/lane-lava-presence-source-115-1152-audit/verdict.md",
+            "sha256": "ac9138a187c88808ae8319437147574574538212b9afa263bf2e9893de7a1f4f"
+          },
+          "roster": {
+            "revision": "01518bab2d754bdf4b81d9904a3dc73a8c0da167",
+            "path": "development/research/source-evidence/20261117/block-a-115-1152-lava-presence-continuity/lane-lava-presence-source-115-1152-audit/roster.md",
+            "sha256": "a103b649674dfc53f97cf0bd44a2e6fd6aa24756740699c4e8b03d0b9cce5462"
+          }
+        }
+      ]
     },
     {
       "pair": "1.16.1--1.16.2",
