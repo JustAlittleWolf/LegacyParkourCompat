@@ -43,7 +43,7 @@ public final class GlideFallDistance implements GlideFallDistanceHook {
 
         boolean climbableHistoricalProfile = selected == ParkourVersion.V1_18_2
             || selected == ParkourVersion.V1_19;
-        if ((!player.onClimbable() || climbableHistoricalProfile)
+        if ((climbableHistoricalProfile || !player.onClimbable())
             && player.getDeltaMovement().y > -0.5) {
             player.fallDistance = 1.0F;
         }

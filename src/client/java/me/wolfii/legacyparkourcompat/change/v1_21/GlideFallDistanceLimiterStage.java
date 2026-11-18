@@ -43,7 +43,7 @@ public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLim
             || player.onGround()
             || player.getAbilities().flying
             || player.isPassenger()
-            || (player.onClimbable() && !usesHistoricalClimbableTravel(selectedVersion))) {
+            || (!usesHistoricalClimbableTravel(selectedVersion) && player.onClimbable())) {
             return false;
         }
         if (!HistoricalElytra.applies(player, selectedVersion)) {
