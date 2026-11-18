@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_14_2;
+package me.wolfii.legacyparkourcompat.change.v1_10_1;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -8,8 +8,8 @@ import net.minecraft.world.entity.Entity;
 
 import java.util.Optional;
 
-/** Preserves native passenger placement before the source-confirmed 1.15 Llama operation. */
-@MovementChange(emulates = ParkourVersion.V1_14_2)
+/** Preserves native passenger placement before the source-confirmed 1.11 Llama operation. */
+@MovementChange(emulates = ParkourVersion.V1_10_1)
 public final class NativeLlamaRiderHeight implements PlayerPassengerPlacementHook {
     @Override
     public Optional<Placement> placement(LocalPlayer passenger, Entity vehicle) {
