@@ -2,7 +2,7 @@
 
 ## Verified checkpoint
 
-This checkpoint preserves twelve exact source report/verdict pairs for the ordinary local ability-flight / fall-gliding overlap and direct local flag-writer operation. Scope is the stated overlap when the synchronized fall-flying flag is already true and local `abilities.flying` becomes true, through the specific movement call and direct flag write. It does not establish network latency, authority synchronization guarantees, broad middle-range aliases, activation parity, runtime parity, or whole-pair coverage.
+This checkpoint preserves thirteen exact source report/verdict pairs for the ordinary local ability-flight / fall-gliding overlap and direct local flag-writer operation. Scope is the stated overlap when the synchronized fall-flying flag is already true and local `abilities.flying` becomes true, through the specific movement call and direct flag write. It does not establish network latency, authority synchronization guarantees, broad middle-range aliases, activation parity, runtime parity, or whole-pair coverage.
 
 | Pair | Bounded disposition | Report SHA-256 | Verdict SHA-256 |
 |---|---|---|---|
@@ -15,6 +15,7 @@ This checkpoint preserves twelve exact source report/verdict pairs for the ordin
 | 1.10→1.10.1 | Accepted bounded source comparison for the specified local flag-writer operation. | `a97cbb762ae4796358c82e58d3c97665d229da6c8e5788b76613650263371856` | `21ed3e447789502fac7cbbe669ea024c1b621c2322a801f7b8a8156a1acbbdad` |
 | 1.10.1→1.10.2 | Bounded no-difference. The audited enclosing member is `LivingEntity.tick()`; `travel` is a profiler label, not a separate enclosing method. | `b524af9131bbf500e3152b17e9a5a0724d14db8b8288862e3a3095aa79b7117d` | `a060ea8090a4834cfee0ebb541eca6473d2ce5ed988e3a3badfa7dcfa2ab33b6` |
 | 1.10.2→1.11 | Same scoped direct clear; the changed `MoverType` call is a distinct operation and not collapsed into this flag-writer claim. | `c0e119289a043e5745c678dd51fb3b60a1bdec1ae8a80473977f452ae405d274` | `e638284efa60b8c6617ab47768487a191b571611ec64c9b85d6ef5e0119f12e1` |
+| 1.11→1.11.1 | Accepted bounded no-difference: the local player clears flag 7 after the inherited glide branch returns from its movement call. Piston handling is a separate branch. | `bb7e71a24fbc90446a470779f1ca510dd403e1815b1aa569ef492340c87453fb` | `cc1a5a8f86bbd1a86d2c6dfe1718709d9be3d32600764682300ac3a16d647086` |
 | 1.21→1.21.1 | Accepted direct local post-travel flag-7 clear. The separate `fallDistance` reset remains a different operation. | `a4213385fe5541d539aa53051582a1577ba595e934a31e367f4c0bb2397b90ae` | `0384217d05a4e44ca91a8de8f3a0c94c5226e98291ec5838df228638b7e5663a` |
 | 1.21.1→1.21.2 | The old direct local clear is removed in the audited scope. Verdict records the hidden in-tree provenance correction for 1.21.2; no broader source-tree or runtime claim is made. | `354ab88749e8c7710741372e34c0c9a5f98a8827de22401c9612d41a2763e040` | `c3ea40858250beeeba71d7ba7535809b16a33308b46a6c4cbd8cb09b2ac67ccd` |
 | 1.21.1→26.2 | Accepted ordinary synchronized overlap: 1.21.1 clears flag 7 after `super.travel`, while 26.2 does not in that post-travel branch. No duration or later-authority guarantee is inferred. | `71ef39910cc182c1baf12e691bfa4d35be866f27081f6b191cf0964e7c01e68c` | `f2a438785473cfee30687d7e88b704293887c20b7814e7fd2cb9fcf4c5023c2d` |
@@ -23,6 +24,6 @@ The ability-flight `fallDistance` reset is treated as a separate operation; the 
 
 ## Pending coverage
 
-Additional patch-boundary pairs within 1.9.4→1.12.2 and 26.0.6→1.21 are still in progress. This is a verified subset checkpoint, not the final archive; wait for the remaining exact scope list before final bundle freeze.
+Additional patch-boundary pairs from 1.11.1 through 1.12.2 and 26.0.5 through 1.21 are still in progress. This is a verified subset checkpoint, not the final archive; wait for the remaining exact scope list before final bundle freeze.
 
 Every included report and verdict was rehashed, checked for exact input binding, and copied byte-for-byte. No implementation, product parity, or runtime claim is made.
