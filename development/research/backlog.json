@@ -3285,6 +3285,19 @@
             "revision": "385ffb41103d413b6487a32632cb0584361cd5b0",
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-cardinal-112/binding.md",
             "sha256": "fbbe076677866581d30c4ef46cf1e86410b4bfe0dee3fc7b06412b541f89414f"
+          },
+          "productAssociation": {
+            "productCommit": "51b54fb163eac19479580fd2e166f066377f8545",
+            "code": {
+              "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/AutoJumpCollisionOrder.java",
+              "sha256": "17c1cd177fe1088c09d0e36e0f3b64991bfe43a8c5de300bb680c41dc52b0671"
+            },
+            "standaloneBuildTree": "04ad8fde19a3cb1c99e78e0ac0d2ad7ef731c83d",
+            "combinedBuildRevision": "b781eb97947e9ffb17be25ee3a9a534961132ed0",
+            "combinedBuildTree": "9f0966d74b8d1cccde60fd3990f2d5560043566f",
+            "scope": "Exact 1.12, 1.12.1 and 1.12.2 per-cell selected profile. One stationary integer face with strict overlap, accepted actual outward movement, ordinary Stone floor and loaded AIR. Other witnesses retain the whole-query fallback.",
+            "build": "BUILD SUCCESSFUL in 12s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         },
         {
