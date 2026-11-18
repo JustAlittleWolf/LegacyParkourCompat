@@ -449,6 +449,16 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         return original.call(vanillaRadians);
     }
 
+    @WrapMethod(method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V")
+    private void legacyparkourcompat$observeBorderContractionMove(MoverType mover, Vec3 movement, Operation<Void> original) {
+        MovementRuntime.observeBorderContractionMove((Entity)(Object)this, mover, () -> original.call(mover, movement));
+    }
+
+    @Inject(method = "setPosRaw(DDD)V", at = @At("HEAD"))
+    private void legacyparkourcompat$observeBorderContractionPosition(double x, double y, double z, CallbackInfo callback) {
+        MovementRuntime.observeBorderContractionPositionWrite((Entity)(Object)this, x, y, z);
+    }
+
     @WrapOperation(method = "move", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"))
     private Vec3 legacyparkourcompat$captureCollisionMovement(Entity entity, Vec3 movement, Operation<Vec3> original,
@@ -661,7 +671,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         @Share("resolvedCollisionBox") LocalRef<AABB> resolvedBox) {
         if (this.legacyparkourcompat$writeMovementPosition(
             movementLength, requested.get(), resolved.get())) {
-            MovementRuntime.writeMovementPosition(entity, movement, resolvedBox.get(), () -> original.call(entity, position));
+            MovementRuntime.observeBorderContractionMovementWrite(entity, movement,
+                () -> MovementRuntime.writeMovementPosition(entity, movement, resolvedBox.get(),
+                    () -> original.call(entity, position)));
         }
     }
 

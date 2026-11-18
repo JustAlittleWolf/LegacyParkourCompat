@@ -12,6 +12,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionRec
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SnowLayerOneCollisionPlaneHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.position.PoseBoxHook;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -54,6 +55,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.properties.Half;
@@ -135,6 +137,34 @@ public final class MovementRuntime {
             return false;
         }
         return MovementController.get().isEnabled(entity);
+    }
+
+    public static void setClientBorderSize(ClientLevel level, WorldBorder border, double size, VanillaCall setter) {
+        BorderContractionContext.setSize(level, border, size, setter);
+    }
+
+    public static void clearClientBorderContraction() {
+        BorderContractionContext.clear();
+    }
+
+    public static void invalidateBorderContraction(WorldBorder border) {
+        BorderContractionContext.invalidate(border);
+    }
+
+    public static void observeBorderContractionMove(Entity entity, MoverType mover, VanillaCall move) {
+        BorderContractionContext.move(entity, mover, move);
+    }
+
+    public static void observeBorderContractionMovementWrite(Entity entity, Vec3 movement, VanillaCall setter) {
+        BorderContractionContext.movementWrite(entity, movement, setter);
+    }
+
+    public static void observeBorderContractionPositionWrite(Entity entity, double x, double y, double z) {
+        BorderContractionContext.positionWrite(entity, x, y, z);
+    }
+
+    public static Optional<Boolean> borderContractionAdmission(WorldBorder border, Entity entity, AABB sweep) {
+        return BorderContractionContext.admission(border, entity, sweep);
     }
 
     public static boolean limitPistonMovement(Entity entity) {
