@@ -16,10 +16,14 @@ import net.minecraft.world.entity.player.Player;
  * {@code LivingEntity.aiStep()}. In 26.2 unobfuscated
  * {@code LivingEntity.updateFallFlying()} calls {@code Entity.checkFallDistanceAccumulation()} before
  * travel and {@code LivingEntity.travelFallFlying(Vec3)} follows fluid dispatch. This operation
- * moves only the native call between its existing callbacks. The accepted Mojmap 1.18.2 and 1.19.2
- * {@code LivingEntity.travel(Vec3)} sources show the old direct fall-distance assignment inside
- * dry glide travel without a climbable gate; the selected 1.18.2 and 1.19 profile groups therefore
- * keep this limiter stage at travel for the already-active climbable witness as well.
+ * moves only the native call between its existing callbacks. Accepted Mojmap
+ * {@code net.minecraft.world.entity.LivingEntity.travel(Vec3)} comparisons for releases 1.15,
+ * 1.15.1, 1.15.2, 1.16–1.16.5, 1.17, 1.17.1, 1.18, 1.18.1, and 1.18.2 show the same already-
+ * active dry Elytra assignment without a climbable gate. Mojmap 1.15.2
+ * {@code net.minecraft.client.player.LocalPlayer.tick()} adds a separate {@code !onLadder}
+ * startup condition, which remains unchanged. The accepted 1.19/1.19.1/1.19.2 aliases continue
+ * that travel behavior. For selected V1_15 through V1_19, the existing stage therefore stays at
+ * travel for the already-active climbable witness; earlier profiles retain the prior gate.
  */
 @MovementChange(emulates = ParkourVersion.V1_21)
 public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLimiterStageHook {
@@ -58,6 +62,7 @@ public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLim
     }
 
     private static boolean usesHistoricalClimbableTravel(ParkourVersion selectedVersion) {
-        return selectedVersion == ParkourVersion.V1_18_2 || selectedVersion == ParkourVersion.V1_19;
+        return selectedVersion.newerThanOrEqual(ParkourVersion.V1_15)
+            && selectedVersion.olderThanOrEqual(ParkourVersion.V1_19);
     }
 }
