@@ -1,0 +1,6 @@
+# Ordinary-air subthreshold displacement now updates position
+
+1.21.1, Mojmap: `decompiled_minecraft/1.21.1/mojmap/net/minecraft/world/entity/Entity.java`, `move(MoverType, Vec3)`, lines 618-630; Java SHA-256 `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`.
+1.21.2, Mojmap: `decompiled_minecraft/1.21.2/mojmap/net/minecraft/world/entity/Entity.java`, `move(MoverType, Vec3)`, lines 640-652; Java SHA-256 `a93719c302a0381a972af75ea360465e2e3551708dd07c34d4d40b7e5173c2b9`.
+Difference: 1.21.1 writes the collision-resolved position only when its squared displacement exceeds `1.0E-7`. 1.21.2 also writes when requested squared displacement minus resolved squared displacement is below `1.0E-7`. For unobstructed `dy = 0.0001`, resolved and requested squared lengths are both `1.0E-8`: 1.21.1 skips the position write, while 1.21.2 writes `y + 0.0001`.
+Movement meaning: during ordinary air travel, a locally controlled player with a nonzero subthreshold vertical movement and no collision advances its Y position in 1.21.2, but not in 1.21.1. The caller is `LivingEntity.handleRelativeFrictionAndCalculateMovement` on the dry-air travel path; fall-distance accumulation is unchanged. The witness describes a valid movement-state input, not default jump-impulse reachability.
