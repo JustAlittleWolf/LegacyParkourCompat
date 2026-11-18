@@ -1,6 +1,6 @@
 # Earlier Llama passenger-position aliases (2026-11-18)
 
-This receipt preserves eight exact source comparisons and independent audits for one direct ordinary adult local-player passenger riding an adult default `Llama` or `TraderLlama`. Scope is the passenger Y expression, its gates, callback and tick dispatch only. It does not cover vehicle steering/physics, other passenger types, custom dimensions, complete pair coverage, product parity, or runtime.
+This receipt preserves nine exact source comparisons and independent audits for one direct ordinary adult local-player passenger riding an adult default `Llama` or `TraderLlama`. Scope is the passenger Y expression, its gates, callback and tick dispatch only. It does not cover vehicle steering/physics, other passenger types, custom dimensions, complete pair coverage, product parity, or runtime.
 
 | Pair | Report SHA-256 | Audit verdict SHA-256 | Bounded result and correction |
 |---|---|---|---|
@@ -12,5 +12,6 @@ This receipt preserves eight exact source comparisons and independent audits for
 | 1.16.4→1.16.5 | `28f4b5016dbed030c398146c2dd53a3bcec79efd8207f8f35eb098fcec5b638c` | `c0da5172d2a51ab67c7ad4bec8ccf8da197ec8f8f9ac5a7c2bd8042155b885d7` | Accepted no source difference for the bounded direct adult passenger Y operation. This does not establish when the behavior was introduced or freeze full pair coverage. |
 | 1.16.5→1.17 | `9dd0124a95de04e2aee93626da378a984d776b05b415651a2af9e77f3afb2729` | `ea9b51944ffa3bdf2652fb1c68540a266f62228569318a8f435ad5b145213029` | Accepted for one direct local-player passenger on adult default Llama/TraderLlama; no vehicle physics or full-pair claim. |
 | 1.15.1→1.15.2 | `b1772fcc257de9be8bfbd8a00b7c5ce7cc3dd901dd241d021ffd08592760187e` | `d1ac0b33c66a8396acd4d7de52193630117d4d1cae3c74290747e1a27ee54e96` | Accepted no-difference result for the bounded ordinary adult `Llama`/`TraderLlama` with one direct ordinary `Player` passenger; no full-pair claim. |
+| 1.15→1.15.1 | `f2af75e9427b5a8177f4b54a82ec5b66f505753c0e74f8a9de563abf04469cea` | `da1c2a7a87ff577b2d4537feb78e138451212bf79db827a2a335905bec73c5d2` | Accepted bounded no-difference result for the direct local-player Y operation; ready/provenance/artifact manifests support exact identities, while raw historical artifact files were unavailable for rehash. No full-pair or runtime claim. |
 
 Every report and verdict is retained byte-for-byte. The two .15 stable aliases are intentionally not included until their independent audit bindings arrive. Static whitespace checking may ignore only original CRLF, trailing-space/Markdown hard-break, or final blank-line bytes as needed for the frozen artifacts; this README uses LF without trailing whitespace.
