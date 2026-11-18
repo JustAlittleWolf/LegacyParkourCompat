@@ -1,0 +1,23 @@
+# Independent audit verdict
+
+Verdict: **Concur with the bounded no-difference conclusion.** In the ordinary airborne local-player path where ability flight is already active, the two releases have the same input gate, glide dispatch, first movement, and subsequent flag-7 clear. No adjacent-version boundary is established for this path.
+
+## Frozen input and source identity
+
+- Frozen report: `c-early-1101-1102-ability-flying-glide-flag-writer/report.md`, SHA-256 `B524AF9131BBF500E3152B17E9A5A0724D14DB8B8288862E3A3095AA79B7117D`.
+- Both canonical trees are `decompiled_minecraft/<version>/ornithe-feather`, using Feather build.2. For 1.10.1, `.decompile-provenance.json` pins client `338b205f20c22b9c676d9d3227a5e6c5e190f30ad84d7caad035150b3e05ba72`, merged-v2 mapping `6e8ba44832b7b77d913962462bde55084005d5de6389232453afc0bc0339ea37`, and the Feather metadata. Its recorded source hashes match the files read. For 1.10.2, `ornithe-feather.provenance.json` identifies version `1.10.2` and namespace `ornithe-feather`; the ready marker pins the client, source manifest SHA-256 `91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71`, and artifact manifest SHA-256 `6b402f3e6d6cf2f7b3647806364ff44214c47348fefd6949fad03e2011379116`. Both manifest digests were verified against their bytes; the relevant source-manifest entries match the checked files.
+- Relevant source SHA-256s, 1.10.1 → 1.10.2: `LivingEntity.java` `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82` → same; `LocalClientPlayerEntity.java` `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443` → same; `Entity.java` `05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77` → same; `PlayerEntity.java` `020370cffde2d1fe9f1b63fa5d51f1af2fab095908b19e79f88a7bcac7dfd501` → `a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302`. A line comparison of `PlayerEntity.java` found only the unrelated saved `DataVersion` constant (`511` → `512`); the movement override is unchanged.
+
+## Independent path trace
+
+The following references are identical in both releases unless stated otherwise. Paths are relative to each version's `ornithe-feather` tree.
+
+- `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:713-727`: under `abilities.canFly`, the local player's jump double-tap toggles `abilities.flying`; absent a toggle, an already-active value remains set. `:730-734` suppresses starting fall flight from jump while ability flight is active. `:778-782` calls the parent mob tick and only clears ability flight after this when grounded and not spectator. This establishes the ordinary local input/state path; this audit makes no runtime or network-timing claim.
+- `net/minecraft/entity/living/LivingEntity.java:1587` invokes `this.mobTick()` before the later movement section. `:1742-1748` applies movement-input scaling, invokes `flyingTick()`, then virtual-dispatches `moveRelative(...)`. The `flyingTick()` gate at `:1754-1772` retains flag 7 only while airborne, unmounted, and wearing a fly-capable Elytra; its flag write is guarded by `!world.isClient`, so this client pass does not clear the active flag before movement.
+- `net/minecraft/entity/living/LivingEntity.java:1332-1371`: the local/update-side and fluid gates admit the gliding branch; `isFallFlying()` is read at `:1336`, and the gliding math reaches the first actual `this.move(velocityX, velocityY, velocityZ)` at `:1371`.
+- `net/minecraft/entity/living/player/PlayerEntity.java:1391-1406`: when `abilities.flying && !isRiding()`, the override calls `super.moveRelative(...)` and then directly writes `setFlag(7, false)` at `:1403`. Since the superclass gliding branch performs `move(...)` before returning, this is an actual post-move clear. The nested superclass call, player gate, and write order are unchanged across the pair.
+- `net/minecraft/entity/Entity.java:1704-1714`: `getFlag` / `setFlag` access bit 7 of shared flags, confirming the direct write targets fall-flight state.
+
+Correction to the draft's reference wording: the `"travel"` string at `LivingEntity.java:1742` is a profiler section, not a `LivingEntity.travel()` method. The containing method is `LivingEntity.tick()` (`:1525`); its `this.mobTick()` dispatch at `:1587` precedes the movement section. This does not affect the reported behavior or no-difference conclusion.
+
+Scope was limited to this ordinary local glide/ability-flight path and the flag-7 write. Artificial state injection, unrelated NBT and fall-distance behavior, runtime play, network handling, and other flight cases were not audited.
