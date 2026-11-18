@@ -3360,6 +3360,20 @@
             "revision": "8940903baf1358232bb2319ac976abfac8ca2a36",
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-cardinal-shared-mask-1131-1132/binding.md",
             "sha256": "d891e96ba4264ff3138e8eb4e60b520384003d9d7aadfb7e357b095fad83527b"
+          },
+          "productAssociation": {
+            "productCommit": "1e5f6d8ebf469c94b357d22d87df7a7521e800de",
+            "code": {
+              "revision": "1e5f6d8ebf469c94b357d22d87df7a7521e800de",
+              "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_14/AutoJumpCollisionOrder.java",
+              "sha256": "637b0ca53f1e72e801d3984f72284e82562f6eeaea11b032b3b0249408bef8f3"
+            },
+            "standaloneBuildTree": "ecaefb6786a94948c2ea9a51e528941b40968701",
+            "combinedBuildRevision": "2383dea25916cc2b66d34ae7a33e050276c82d0f",
+            "combinedBuildTree": "bc2c1b2e439c5e15ef7b5409856674aa9b796010",
+            "scope": "1.13.1 and 1.13.2 ordinary axial single-face finite masks with strict eroded interior, Stone supports and loaded physical AIR at the corrected samples. Original 1.13 retains its east-only path.",
+            "build": "BUILD SUCCESSFUL in 9s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         }
       ]
@@ -18282,6 +18296,39 @@
             "revision": "742eaf6020f1f4659e5e366782227dfc611b53a2",
             "path": "development/research/source-evidence/20261118/block-c-llama-rider-earlier-alias/README.md",
             "sha256": "988cbadad70fbe2ca08b608f6cd8c88d1019320f7f1c738feb4fdc4c636fa01b"
+          }
+        }
+      ]
+    },
+    {
+      "pair": "1.21.3--26.2",
+      "sourceCoverage": "partial; exact piston-origin callback endpoints only",
+      "dependencyClosure": "partial",
+      "independentCoverageAudit": "bounded source verdict only",
+      "recordLimit": "Only the independently reviewed piston-origin environmental-contact span and movement-record tail operation are covered.",
+      "nextAction": "Trace exact intermediate source releases and confirm block-specific player response and applicability before product intake.",
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT the exact endpoint callback span change when stored old position differs from pre-piston current position. 1.21.3 supplies old position through its no-argument fallback. 26.2 supplies a pre-move snapshot through the explicit overload and invokes tail removal afterward. In 26.2 a limited zero move can remove a previous record only if one is queued. Runtime scheduling, block-specific consequences and implementation applicability remain open.",
+          "snapshot": {
+            "revision": "ed74332abcacd1d45961f43d6000597d7933039a",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-piston-callback-source/lane-piston-callback-origin-source-1213-262/comparison.md",
+            "sha256": "c3069fcd2e4091a418d1e790c9f91580f23e011abd7216a03c30247a2c1c5492"
+          },
+          "review": {
+            "revision": "ed74332abcacd1d45961f43d6000597d7933039a",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-piston-callback-source/lane-piston-callback-origin-source-1213-262-audit/verdict-r1.md",
+            "sha256": "4b98ed6b78fee79a2c76e0e6c1390952f38e3027b809313fbfb202473c554b80"
+          },
+          "roster": {
+            "revision": "ed74332abcacd1d45961f43d6000597d7933039a",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-piston-callback-source/lane-piston-callback-origin-source-1213-262-audit/source-roster.txt",
+            "sha256": "0b6a373ec80f846ffce6370ea19cf3bb1245b8ea2f48c63e2ed2e0ef2e1614c1"
+          },
+          "earlierReview": {
+            "revision": "ed74332abcacd1d45961f43d6000597d7933039a",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-piston-callback-source/lane-piston-callback-origin-source-1213-262-audit/verdict.txt",
+            "sha256": "d78c3833368d08c63fc0d99f6d49c405e77ec31c141f98e032315bc16af94b3e"
           }
         }
       ]
