@@ -11128,6 +11128,52 @@
             "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
           },
           "exactPair": "1.21.5--1.21.8"
+        },
+        {
+          "exactPair": "1.21.5--1.21.6",
+          "decision": "ACCEPT identical packaged WATER and LAVA definitions at the singular tag paths in exact 1.21.5 and 1.21.6. The four archive resources retain ordered source and flowing member IDs, no replace property and no includes. The 1.21.5 metadata artifact digest discrepancy and missing 1.21.6 source ready marker are recorded separately from the directly verified client archive identities. Runtime tag composition remains separate.",
+          "snapshot": {
+            "revision": "35cbee82a89192f8a2e51460a517c779971cdedf",
+            "path": "development/research/source-evidence/20261117/block-a-1215-1216-packaged-fluid-tags/lane-exact-1215-1216-fluid-resource-recovery/comparison.md",
+            "sha256": "9ae60c1f8c0871e91205cb44b1ebfffce8499c8d52edb57c183a8aa12c8a8c4c"
+          },
+          "review": {
+            "revision": "35cbee82a89192f8a2e51460a517c779971cdedf",
+            "path": "development/research/source-evidence/20261117/block-a-1215-1216-packaged-fluid-tags/lane-exact-1215-1216-fluid-resource-audit/audit.md",
+            "sha256": "dd6cc36b41e67601bfd5f6de962245baab7dc7788b9922b924786c6a7de6460f"
+          },
+          "roster": {
+            "revision": "35cbee82a89192f8a2e51460a517c779971cdedf",
+            "path": "development/research/source-evidence/20261117/block-a-1215-1216-packaged-fluid-tags/lane-exact-1215-1216-fluid-resource-audit/frozen-roster.md",
+            "sha256": "ead8b2d1b2b609d9f6221e8d8c2451d848162a92ba26f8bc2332af62eecf9e05"
+          },
+          "manifest": {
+            "revision": "35cbee82a89192f8a2e51460a517c779971cdedf",
+            "path": "development/research/source-evidence/20261117/block-a-1215-1216-packaged-fluid-tags/lane-exact-1215-1216-fluid-resource-recovery/manifest.json",
+            "sha256": "96c238b0d5824578fff010c65f23a6fdb8b89c2b631657a2218b49d70c4491a9"
+          },
+          "resources": [
+            {
+              "revision": "35cbee82a89192f8a2e51460a517c779971cdedf",
+              "path": "development/research/source-evidence/20261117/block-a-1215-1216-packaged-fluid-tags/lane-exact-1215-1216-fluid-resource-recovery/raw/1.21.5/data/minecraft/tags/fluid/lava.json",
+              "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b"
+            },
+            {
+              "revision": "35cbee82a89192f8a2e51460a517c779971cdedf",
+              "path": "development/research/source-evidence/20261117/block-a-1215-1216-packaged-fluid-tags/lane-exact-1215-1216-fluid-resource-recovery/raw/1.21.5/data/minecraft/tags/fluid/water.json",
+              "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004"
+            },
+            {
+              "revision": "35cbee82a89192f8a2e51460a517c779971cdedf",
+              "path": "development/research/source-evidence/20261117/block-a-1215-1216-packaged-fluid-tags/lane-exact-1215-1216-fluid-resource-recovery/raw/1.21.6/data/minecraft/tags/fluid/lava.json",
+              "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b"
+            },
+            {
+              "revision": "35cbee82a89192f8a2e51460a517c779971cdedf",
+              "path": "development/research/source-evidence/20261117/block-a-1215-1216-packaged-fluid-tags/lane-exact-1215-1216-fluid-resource-recovery/raw/1.21.6/data/minecraft/tags/fluid/water.json",
+              "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004"
+            }
+          ]
         }
       ]
     },
