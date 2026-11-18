@@ -1,0 +1,9 @@
+# Flying player above a bubble column
+
+1.21.1, Mojmap: `net/minecraft/world/level/block/BubbleColumnBlock.java`, `entityInside`, lines 49-76 dispatches the air-above case to `Entity.onAboveBubbleCol`; `net/minecraft/world/entity/Entity.java`, `onAboveBubbleCol`, lines 2357-2367 directly writes Y using `max(-0.9, y - 0.03)` for drag-down or `min(1.8, y + 0.1)` otherwise. `net/minecraft/world/entity/player/Player.java`, lines 1834-1836 has a fluid-pushing flight predicate but no bubble callback override, so LocalPlayer inherits the direct response.
+
+1.21.2, Mojmap: `net/minecraft/world/level/block/BubbleColumnBlock.java`, `entityInside`, lines 50-77 keeps that dispatch; `net/minecraft/world/entity/player/Player.java`, `onAboveBubbleCol`, lines 355-359 adds `if (!this.getAbilities().flying) super.onAboveBubbleCol(...)`. `net/minecraft/world/entity/Entity.java`, lines 2455-2465 retains the same direct Y response. The separate inside-column callback remains inherited from `Entity.onInsideBubbleColumn`, lines 2467-2478, with no flying guard.
+
+Difference: In 1.21.1 a flying player receives the above-column Y write; in 1.21.2 `Player` suppresses the entire above-column callback response while `abilities.flying` is true. The inside-column Y write still applies to flying players in 1.21.2. The same 1.21.2 block callback is reachable during ordinary client entity/block collision traversal (`Entity.java:1057-1061`); movement emulation remains client-only by project invariant.
+
+Movement meaning: A flying LocalPlayer entering or standing in a bubble column with air above no longer gains the column's upward velocity or the downward drag response in 1.21.2. A flying LocalPlayer still receives those direct Y changes while the block above the bubble column is non-air. The exact checked introduction boundary is 1.21.1 to 1.21.2.

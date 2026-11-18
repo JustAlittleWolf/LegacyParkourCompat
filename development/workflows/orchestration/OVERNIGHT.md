@@ -22,6 +22,8 @@ Dispatch routine workers with explicit native arguments `model="gpt-6-luna"`, `r
 
 ## First dispatch and checks
 
+If workers repeatedly finish faster than one orchestrator can dispatch, split its existing reservation into three disjoint work streams. Explicitly grant two Sol medium schedulers permission to select and launch up to six Luna high workers each. The orchestrator fills up to eight direct technical slots. Count all live technical descendants once toward the same target of 20 and account for the two schedulers separately against host capacity. Each stream prepares its next contracts before its current workers finish and refills on any completion. Keep one integration writer per checkout. Verify a real nested worker launch before relying on delegated capacity. If the host rejects nesting, use longer direct assignments and record the actual limit.
+
 Read the live backlog, latest evidence and checkout ownership. Start from accepted work awaiting product reconciliation and bounded coverage gaps that can close this run. Recheck recorded active ownership against live workers before assigning. Classify unexplained local edits as user-owned. Have the technical owners establish the first real evidence commit and first eligible product commit. Continue after both checkpoints.
 
 Defer standalone product code reviews until project end. The integrator checks fidelity and wiring during integration and runs the prescribed test-disabled build on coherent batches. Keep independent source acceptance and full-pair audit gates. Tests, runtime launches, Docker restarts and remote pushes require separate authorization.
