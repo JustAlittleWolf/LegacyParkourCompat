@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.boat.BoatRiderOrientationHook
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.TypedInstance;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,8 +21,10 @@ abstract class AbstractBoatPassengerOrientationMixin {
             target = "Lnet/minecraft/core/TypedInstance;is(Lnet/minecraft/tags/TagKey;)Z"
         )
     )
-    @SuppressWarnings("rawtypes")
-    private boolean legacyparkourcompat$preserveHistoricalRiderOrientation(TypedInstance passenger, TagKey tag) {
+    private boolean legacyparkourcompat$preserveHistoricalRiderOrientation(
+        TypedInstance<EntityType<?>> passenger,
+        TagKey<EntityType<?>> tag
+    ) {
         if (passenger instanceof LocalPlayer rider && (Object) this instanceof Boat boat
             && MovementRuntime.find(BoatRiderOrientationHook.class, rider)
                 .map(hook -> hook.preserveRiderOrientation(boat, rider))
