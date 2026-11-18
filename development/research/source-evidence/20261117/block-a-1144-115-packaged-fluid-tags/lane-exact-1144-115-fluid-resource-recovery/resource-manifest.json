@@ -1,0 +1,108 @@
+{
+  "Schema": "lpc-pinned-fluid-tag-resource-input-v1",
+  "Scope": "1.14.4--1.15 packaged builtin water/lava defaults only",
+  "Inputs": [
+    {
+      "Version": "1.14.4",
+      "ReadyPath": "decompiled_minecraft/1.14.4/mojmap.ready.json",
+      "ReadySHA256": "ec7b6a6d9ba72f8a19908527977c970a8e2b3007b0e0b4323a725fb5943d3043",
+      "SourceManifestPath": "decompiled_minecraft/1.14.4/mojmap.sources.sha256",
+      "SourceManifestSHA256": "af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b",
+      "ArtifactManifestPath": "decompiled_minecraft/1.14.4/mojmap.artifacts.sha256",
+      "ArtifactManifestSHA256": "308cc33ef6dffc047432ade6affc88eccc9de94a736ee9a98571fd92915c2970",
+      "ArtifactClientRow": "b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a *1.14.4/client.jar",
+      "MetadataPrivatePath": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-exact-1144-115-fluid-resource-recovery\\1.14.4.version.json",
+      "MetadataOfficialURL": "https://piston-meta.mojang.com/v1/packages/be146d5f66a3627ed0a87c234c4d8dde8ab35098/1.14.4.json",
+      "MetadataSHA1": "be146d5f66a3627ed0a87c234c4d8dde8ab35098",
+      "MetadataSHA256": "615f466a39d2c19ae9b6e2401aa7bd07dbda337f976bcce383326b8d6ba4e532",
+      "ClientPrivatePath": ".minecraft-decompile-cache/1.14.4/client.jar",
+      "ClientOfficialURL": "https://piston-data.mojang.com/v1/objects/8c325a0c5bd674dd747d6ebaa4c791fd363ad8a9/client.jar",
+      "ClientOfficialSHA1": "8c325a0c5bd674dd747d6ebaa4c791fd363ad8a9",
+      "ClientVerifiedSHA1": "8c325a0c5bd674dd747d6ebaa4c791fd363ad8a9",
+      "ClientPinnedSHA256": "b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a",
+      "ClientBytes": 25191691
+    },
+    {
+      "Version": "1.15",
+      "ReadyPath": "decompiled_minecraft/1.15/mojmap.ready.json",
+      "ReadySHA256": "c6b66b63bafaf2096ad7606111f1d0fae1f2178d624d6a8c9ded5ad3ac1aaa31",
+      "SourceManifestPath": "decompiled_minecraft/1.15/mojmap.sources.sha256",
+      "SourceManifestSHA256": "251a3019ccc3fd067f66365f3545b69a983383a28b19a1038debf1791be29340",
+      "ArtifactManifestPath": "decompiled_minecraft/1.15/artifacts.sha256",
+      "ArtifactManifestSHA256": "acc29974470e4f4864c695e1f1d084e746874663c47a365ca1fa41ff9fcc0cae",
+      "ArtifactClientRow": "41eee66b4c8e76c018745a63a46a15097cc1c6482c94b38801054938a010b21b *1.15/client.jar",
+      "MetadataPrivatePath": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-exact-115-1151-fluid-resource-recovery\\1.15-version.json",
+      "MetadataOfficialURL": "https://piston-meta.mojang.com/v1/packages/833322370ab320e77717097082effe1d124d48bd/1.15.json",
+      "MetadataSHA1": "833322370ab320e77717097082effe1d124d48bd",
+      "MetadataSHA256": "d154eaf07885a7fd6dfc6014bb9caf08fecc19ccd9a0862b31b1c7d1639e7785",
+      "ClientPrivatePath": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-exact-115-1151-fluid-resource-recovery\\1.15-client.jar",
+      "ClientOfficialURL": "https://piston-data.mojang.com/v1/objects/7b07fd09d1e3aae1bc7a1304fedc73bfe5d81800/client.jar",
+      "ClientOfficialSHA1": "7b07fd09d1e3aae1bc7a1304fedc73bfe5d81800",
+      "ClientVerifiedSHA1": "7b07fd09d1e3aae1bc7a1304fedc73bfe5d81800",
+      "ClientPinnedSHA256": "41eee66b4c8e76c018745a63a46a15097cc1c6482c94b38801054938a010b21b",
+      "ClientBytes": 15517346
+    }
+  ],
+  "ResourceEntries": [
+    {
+      "Version": "1.14.4",
+      "ArchiveEntry": "data/minecraft/tags/fluids/water.json",
+      "OutputFile": "1.14.4/data/minecraft/tags/fluids/water.json",
+      "Bytes": 94,
+      "SHA256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+      "ReplacePresent": true,
+      "ReplaceValue": false,
+      "Values": [
+        "minecraft:water",
+        "minecraft:flowing_water"
+      ],
+      "Includes": []
+    },
+    {
+      "Version": "1.14.4",
+      "ArchiveEntry": "data/minecraft/tags/fluids/lava.json",
+      "OutputFile": "1.14.4/data/minecraft/tags/fluids/lava.json",
+      "Bytes": 92,
+      "SHA256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+      "ReplacePresent": true,
+      "ReplaceValue": false,
+      "Values": [
+        "minecraft:lava",
+        "minecraft:flowing_lava"
+      ],
+      "Includes": []
+    },
+    {
+      "Version": "1.15",
+      "ArchiveEntry": "data/minecraft/tags/fluids/water.json",
+      "OutputFile": "1.15/data/minecraft/tags/fluids/water.json",
+      "Bytes": 94,
+      "SHA256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+      "ReplacePresent": true,
+      "ReplaceValue": false,
+      "Values": [
+        "minecraft:water",
+        "minecraft:flowing_water"
+      ],
+      "Includes": []
+    },
+    {
+      "Version": "1.15",
+      "ArchiveEntry": "data/minecraft/tags/fluids/lava.json",
+      "OutputFile": "1.15/data/minecraft/tags/fluids/lava.json",
+      "Bytes": 92,
+      "SHA256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+      "ReplacePresent": true,
+      "ReplaceValue": false,
+      "Values": [
+        "minecraft:lava",
+        "minecraft:flowing_lava"
+      ],
+      "Includes": []
+    }
+  ],
+  "Limits": [
+    "Packaged vanilla client defaults only; no user/world custom datapack merge, pack priority, reload state, or runtime-effective membership claim.",
+    "Only water/lava resources and any direct tag references are covered; no fluid travel or broader movement parity claim."
+  ]
+}

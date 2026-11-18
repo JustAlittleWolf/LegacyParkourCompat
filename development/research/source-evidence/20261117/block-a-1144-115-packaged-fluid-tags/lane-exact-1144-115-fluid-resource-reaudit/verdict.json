@@ -1,0 +1,31 @@
+{
+  "schema": "lpc-independent-fluid-tag-resource-reaudit-v1",
+  "verdict": "PASS",
+  "scope": "Exact packaged-default water/lava fluid-tag entries for 1.14.4 and 1.15 only",
+  "independentRoster": {
+    "path": "archive-entry-roster.json",
+    "sha256": "a15868befc5ff6630f6d9f7682a67765f93acb635a2f08ab814fc52cbbe075c1"
+  },
+  "auditedAuthorInputs": [
+    {
+      "path": "lane-exact-1144-115-fluid-resource-recovery/resource-manifest.json",
+      "sha256": "0dabdc349e0d71d2883ec738f7c351b2f0763ab83811df2894d758ed6bd49268"
+    },
+    {
+      "path": "lane-exact-1144-115-fluid-resource-recovery/comparison.md",
+      "sha256": "0d8ca5f14dd93615d70836b86a58389ebbe355d3ffeba668261cdac09ff1532b"
+    }
+  ],
+  "checks": [
+    "1.14.4 and 1.15 exact client JARs match official metadata SHA-1 and size; actual SHA-256 matches the source ready marker and artifact manifest client row.",
+    "Version-root ready markers, source-manifest hashes and artifact-manifest hashes match their published files.",
+    "All four frozen ZIP entries occur exactly once and their raw SHA-256 and byte counts match the author manifest.",
+    "Directly parsed all four raw JSON entries: replace is present and false; values are the two corresponding source/flowing fluid IDs; no values are tag includes."
+  ],
+  "result": "The author manifest and comparison agree with the independently frozen archive/entry roster and direct ZIP reads.",
+  "limits": [
+    "Packaged vanilla client defaults only.",
+    "No claim about custom datapack merging, pack priority, reload state, or runtime-effective membership.",
+    "No fluid travel or broader movement parity claim."
+  ]
+}

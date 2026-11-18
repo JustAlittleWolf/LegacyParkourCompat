@@ -1,0 +1,49 @@
+{
+  "scope": "exact packaged-default WATER/LAVA fluid tags",
+  "versions": [
+    {
+      "version": "1.14.4",
+      "jarSha1": "8c325a0c5bd674dd747d6ebaa4c791fd363ad8a9",
+      "jarSha256": "b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a",
+      "metadataSha256": "615f466a39d2c19ae9b6e2401aa7bd07dbda337f976bcce383326b8d6ba4e532",
+      "jarSize": 25191691,
+      "officialSha1": "8c325a0c5bd674dd747d6ebaa4c791fd363ad8a9",
+      "officialSize": 25191691
+    },
+    {
+      "version": "1.15",
+      "jarSha1": "7b07fd09d1e3aae1bc7a1304fedc73bfe5d81800",
+      "jarSha256": "41eee66b4c8e76c018745a63a46a15097cc1c6482c94b38801054938a010b21b",
+      "metadataSha256": "d154eaf07885a7fd6dfc6014bb9caf08fecc19ccd9a0862b31b1c7d1639e7785",
+      "jarSize": 15517346,
+      "officialSha1": "7b07fd09d1e3aae1bc7a1304fedc73bfe5d81800",
+      "officialSize": 15517346
+    }
+  ],
+  "entries": [
+    {
+      "version": "1.14.4",
+      "path": "data/minecraft/tags/fluids/water.json",
+      "membershipCount": 1,
+      "entrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18"
+    },
+    {
+      "version": "1.14.4",
+      "path": "data/minecraft/tags/fluids/lava.json",
+      "membershipCount": 1,
+      "entrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
+    },
+    {
+      "version": "1.15",
+      "path": "data/minecraft/tags/fluids/water.json",
+      "membershipCount": 1,
+      "entrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18"
+    },
+    {
+      "version": "1.15",
+      "path": "data/minecraft/tags/fluids/lava.json",
+      "membershipCount": 1,
+      "entrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
+    }
+  ]
+}
