@@ -5,9 +5,11 @@ import me.wolfii.legacyparkourcompat.change.common.AutoJumpCollisionCandidates;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
@@ -15,7 +17,10 @@ import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.border.BorderStatus;
+import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -26,8 +31,8 @@ import java.util.List;
 
 /**
  * Reproduces the old AutoJump full-cube grid aggregate only when its complete
- * query envelope is loaded, interior, entity-free, and contains only the
- * supported ordinary full-cube blocks or air.
+ * query envelope is loaded, entity-free, and contains only supported cells.
+ * Most cases are interior and use only ordinary full-cube blocks or air.
  * Cells where the 1.13 and 1.13.1 pruning rules disagree must be air.
  * Other queries retain the native iterable and object identities.
  *
@@ -52,6 +57,12 @@ import java.util.List;
  * defines the X/Y/Z scan and merge order. Exact 1.14.1 Yarn build 10,
  * {@code ViewableWorld.getCollisionShapes} and {@code CuboidBlockIterator.step},
  * emits translated per-block shapes instead. The checked cutover is 1.14.1.
+ *
+ * <p>The bounded east-border case uses Ornithe Feather 1.13.1 and 1.13.2
+ * {@code WorldView.getBlockCollisions}: full Stone support and synthetic
+ * border cells occupy the same grid before aggregate overlap and
+ * {@code VoxelSet.forEachBox}. The supporting floor touches the probe's
+ * lower face but changes which box the AutoJump ray encounters first.
  */
 @MovementChange(emulates = ParkourVersion.V1_14)
 public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook {
@@ -108,8 +119,15 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         int sizeY = (int) sizeYLong;
         int sizeZ = (int) sizeZLong;
         var border = level.getWorldBorder();
-        if (minX <= border.getMinX() || maxX >= border.getMaxX()
-            || minZ <= border.getMinZ() || maxZ >= border.getMaxZ()) {
+        if (minX <= border.getMinX() || minZ <= border.getMinZ() || maxZ >= border.getMaxZ()) {
+            return null;
+        }
+        double east = border.getMaxX();
+        boolean eastBorder = maxX >= east;
+        int floorZ = Mth.floor(player.getZ());
+        if (eastBorder && (!admitsEastBorder(player, world, query, selected, border)
+            || minX != east - 3.0 || maxX != east + 2.0
+            || minY != query.minY - 1.0 || sizeY != 4 || minZ != floorZ - 2 || maxZ != floorZ + 3)) {
             return null;
         }
 
@@ -128,6 +146,25 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                         return null;
                     }
                     var state = chunk.getBlockState(pos);
+                    boolean edgeY = y == minY || y == maxY - 1;
+                    boolean includesV1_13_1 = !(edgeX && edgeY || edgeY && edgeZ || edgeZ && edgeX);
+                    if (eastBorder) {
+                        boolean floor = y == minY && z == floorZ && (x == east - 2.0 || x == east - 1.0);
+                        if (floor) {
+                            if (!state.is(Blocks.STONE) || state.getCollisionShape(level, pos, context) != Shapes.block()) {
+                                return null;
+                            }
+                            fullCells.add(new Cell(x, y, z));
+                        } else {
+                            if (!state.is(Blocks.AIR)) {
+                                return null;
+                            }
+                            if (includesV1_13_1 && x >= east) {
+                                fullCells.add(new Cell(x, y, z));
+                            }
+                        }
+                        continue;
+                    }
                     if (state.isAir()) {
                         continue;
                     }
@@ -135,9 +172,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                         || state.getCollisionShape(level, pos, context) != Shapes.block()) {
                         return null;
                     }
-                    boolean edgeY = y == minY || y == maxY - 1;
                     boolean includesV1_13 = !(edgeX && edgeZ) && (!(edgeX || edgeZ) || y != maxY - 1);
-                    boolean includesV1_13_1 = !(edgeX && edgeY || edgeY && edgeZ || edgeZ && edgeX);
                     if (includesV1_13 != includesV1_13_1) {
                         return null;
                     }
@@ -148,6 +183,11 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                     }
                 }
             }
+        }
+        // The in-scan clearance samples were already certified by the AIR check.
+        if (eastBorder && (!loadedAir(level, new BlockPos(minX + 1, maxY, floorZ))
+            || !loadedAir(level, new BlockPos(maxX - 1, maxY, floorZ)))) {
+            return null;
         }
 
         BitSet cells = new BitSet(sizeX * sizeY * sizeZ);
@@ -192,7 +232,51 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                 }
             }
         }
+        if (eastBorder) {
+            VoxelShape probe = Shapes.create(query);
+            // Check overlap of the whole aggregate. Keep every box in greedy order
+            // once any part of the union overlaps, including the floor run.
+            if (result.stream().noneMatch(box -> Shapes.joinIsNotEmpty(probe, box, BooleanOp.AND))) {
+                return List.of();
+            }
+        }
         return List.copyOf(result);
+    }
+
+    private static boolean admitsEastBorder(Player player, Level world, AABB query, ParkourVersion selected,
+        WorldBorder border) {
+        if (selected != ParkourVersion.V1_13_1 || !(player instanceof LocalPlayer)
+            || world != player.level() || !world.isClientSide() || border.getStatus() != BorderStatus.STATIONARY) {
+            return false;
+        }
+        double west = border.getMinX();
+        double east = border.getMaxX();
+        double north = border.getMinZ();
+        double south = border.getMaxZ();
+        double x = player.getX();
+        double y = player.getY();
+        double z = player.getZ();
+        double width = player.getBbWidth();
+        double endX = query.maxX - width;
+        AABB box = player.getBoundingBox();
+        int row = Mth.floor(z);
+        var speed = player.getEffect(MobEffects.SPEED);
+        var jump = player.getEffect(MobEffects.JUMP_BOOST);
+        return west == Math.rint(west) && east == Math.rint(east) && north == Math.rint(north) && south == Math.rint(south)
+            && x > west + 1.0 && x < east - 1.0 && z > north + 1.0 && z < south - 1.0
+            && width == 0.6F && player.getBbHeight() == 1.8F
+            && box.minX >= east - 2.0 && box.maxX > east - 1.0 && box.maxX < east
+            && box.minZ >= row && box.maxZ <= row + 1.0
+            && y == Math.rint(y) && query.minY == y && query.maxY == y + player.getBbHeight()
+            && query.minX == x - width && query.minZ == z - width && query.maxZ == z + width
+            && endX > east && endX < east + 1.0
+            && speed != null && speed.getAmplifier() == 1 && jump != null && jump.getAmplifier() == 1;
+    }
+
+    private static boolean loadedAir(CollisionGetter level, BlockPos pos) {
+        BlockGetter chunk = level.getChunkForCollisions(SectionPos.blockToSectionCoord(pos.getX()),
+            SectionPos.blockToSectionCoord(pos.getZ()));
+        return chunk != null && chunk.getBlockState(pos).is(Blocks.AIR);
     }
 
     private static boolean isSupportedBlock(BlockState state) {
