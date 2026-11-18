@@ -6,7 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintDoubleTapGroundHo
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Mojmap 1.19, 1.19.1 and 1.19.2 LocalPlayer#aiStep requires player ground
+ * Mojmap 1.18.2, 1.19, 1.19.1 and 1.19.2 LocalPlayer#aiStep require player ground
  * or underwater state to arm or complete the forward double tap. Mojmap
  * 1.19.3 adds a grounded-vehicle alternative. The held-key route is separate.
  */
