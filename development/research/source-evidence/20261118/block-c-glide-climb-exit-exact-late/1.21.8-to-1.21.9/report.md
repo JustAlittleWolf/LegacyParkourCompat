@@ -1,0 +1,31 @@
+# Elytra glide on climbable blocks: 1.21.8 → 1.21.9
+
+## Scope and result
+
+Compared the already-active, ordinary dry on-foot player route with default chest Elytra, including the pre-travel fall-distance cap, the direct glide eligibility/state gates relevant to that route, and the first movement/cancellation order when the player is on a ladder or vine at the start of travel. **No movement difference found in this bounded slice.** The route and order below are the same in both releases. This is not a full-pair coverage claim.
+
+## Exact source identity and integrity
+
+Both sources use Mojmap names.
+
+- **1.21.8:** canonical tree `decompiled_minecraft/1.21.8/mojmap/`. `mojmap.ready.json` identifies version `1.21.8`, Mojmap, 6,105 source files, Java 25, and client SHA-256 `ea74e9c5e92d01f95f3d39196ddb734e19a077a58b4c433c34109487d600276f`. Its source-manifest SHA-256 is `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`; ready-marker SHA-256 `2e3bf302503eb127061cc605797b390f5f4a4b508f09350a59d78ced857ba7d7`; provenance-file SHA-256 `90fcb3707371f2cfc5414e0089cfa231f505821d7aca45211c7c816332bb4cfa`. The relevant `LivingEntity.java`, `Entity.java`, and `player/Player.java` actual SHA-256 values match their entries in `mojmap.sources.sha256`: `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`, `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`, and `8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987`, respectively.
+- **1.21.9:** canonical source files are under `decompiled_minecraft/1.21.9/mojmap/`. There is no adjacent `mojmap.ready.json` or `mojmap.sources.sha256` marker in this tree. The canonical `mojmap/.decompile-provenance.json` is present (SHA-256 `37d3049478585a43ffcace14fc8f2ee814b35ceedd8c9bad8b60adaed9b72c4f`) and records pipeline `lpc-decompile-v1`, runtime Eclipse Adoptium Java `25.0.3+9-LTS` on Windows 11 amd64, plus exact input hashes. In particular, the 1.21.9 version metadata input `https://piston-meta.mojang.com/v1/packages/91f383c21d8cd06abc9a569f2976b58da192a642/1.21.9.json` is pinned to `3cca801f41f83059092c88f7de3ea74247da4c394f3e672b7a41451151c293d5`, and client JAR input `https://piston-data.mojang.com/v1/objects/ce92fd8d1b2460c41ceda07ae7b3fe863a80d045/client.jar` to `40c0a32c46601f71f6a61dae9f126202ded5cc453cfb8da6e42ae73f2a3f5c1b`. The provenance's recorded source hashes match the present `LivingEntity.java`, `Entity.java`, and `player/Player.java`: `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66`, `bd6074b108212bde667877700af1a52649472630c906c57c2a36c96a6fcee74c`, and `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82`, respectively.
+
+## Paired source evidence
+
+- **1.21.8, Mojmap:** `world/entity/LivingEntity.java`: `travel` dispatch at 2245–2253; `travelFallFlying` at 2353–2367; `travelInAir` at 2276–2299; `handleRelativeFrictionAndCalculateMovement` at 2446–2453; `handleOnClimbable` at 2473–2488; `updateFallFlying` at 2871–2891; `canGlide` at 2893–2905; `onClimbable` at 1632 onward. `world/entity/Entity.java`: `checkFallDistanceAccumulation` and `resetFallDistance` at 2674–2682. `world/entity/player/Player.java`: `canGlide` override at 1463–1466, `tryToStartFallFlying` / `startFallFlying` at 1519–1530, and `onClimbable` override at 2123–2125.
+- **1.21.9, Mojmap:** `world/entity/LivingEntity.java`: `travel` dispatch at 2275–2283; `travelFallFlying` at 2383–2397; `travelInAir` at 2306–2329; `handleRelativeFrictionAndCalculateMovement` at 2476–2485; `handleOnClimbable` at 2503–2518; `updateFallFlying` at 2901–2921; `canGlide` at 2923–2935; `onClimbable` at 1662 onward. `world/entity/Entity.java`: `checkFallDistanceAccumulation` and `resetFallDistance` at 2742–2750. `world/entity/player/Player.java`: `canGlide` override at 1321–1323, `tryToStartFallFlying` / `startFallFlying` at 1376–1387, and `onClimbable` override at 1955–1957.
+
+## Behavior in both versions
+
+1. `updateFallFlying` runs before the travel call while the fall-flying bit is active. It first calls `checkFallDistanceAccumulation`, which writes `fallDistance = 1.0` only when vertical delta is greater than `-0.5` and existing distance exceeds `1.0`. On the logical client, its subsequent equipment/cancellation branch is skipped by the server-side gate.
+2. The active flag selects `travelFallFlying` after the dry-fluid gate. If `onClimbable()` is true at that pre-move query, it calls `travelInAir(input)` and only then `stopFallFlying()`; otherwise it computes Elytra movement and moves while leaving the flag active.
+3. The climb branch's `travelInAir` calls `handleRelativeFrictionAndCalculateMovement`; that applies `handleOnClimbable` to velocity and resets fall distance before `move`. Thus the earlier cap is transient for this branch: the first air-style climb movement runs, then the fall-flying flag is cleared.
+4. `stopFallFlying` directly writes shared flag 7 as `true`, then `false`. The dry airborne `Player.tryToStartFallFlying` eligibility is unchanged: it requires not already gliding, `canGlide()`, and not in water. `canGlide()` requires not grounded, not riding, no Levitation, and some eligible gear; the player override additionally rejects abilities flight. It does not reject climbing. The climb decision is made later in `travelFallFlying`.
+5. `LivingEntity.onClimbable()` uses the in-block state and `BlockTags.CLIMBABLE` (updating last climbable position on success); `Player.onClimbable()` delegates unless abilities flight is active. These gates are the same across the pair.
+
+The compared gates, writes, and operation order are textually equivalent across the cited paired methods. The line shifts reflect surrounding source drift, not a change in this route. The concrete movement consequence remains identical: an already-active local glide that begins travel while the feet are on a climbable block takes one air-style movement with climb velocity handling/fall-distance reset, then its glide bit is turned off.
+
+## Exclusions
+
+No input/sprint or shallow-water comparison; no effects beyond the direct Levitation eligibility gate; no fluid/contact/geometry differences; no glide start/final tick, custom gear, or runtime test. No wiki, implementation, product history, source generation, build, or launch was used.
