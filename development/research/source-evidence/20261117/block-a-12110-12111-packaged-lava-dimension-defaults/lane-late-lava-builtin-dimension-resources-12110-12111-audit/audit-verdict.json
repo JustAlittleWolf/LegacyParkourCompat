@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "result": "confirmed",
+  "scope": "Exact client ZIP resources for Overworld, Nether, and End dimension_type entries; fields ultrawarm and attributes[\"minecraft:gameplay/fast_lava\"] only.",
+  "method": "Read-only local artifact hashing and in-memory ZIP entry reads; no JAR execution or network access.",
+  "authorInputs": [
+    {
+      "expectedSha256": "a7f58fa99a0bab9b9ed9ff76f0e318f5e6f00fa788faf1ccbc68bb273559de75",
+      "matches": true,
+      "path": "resource-roster.json",
+      "actualSha256": "a7f58fa99a0bab9b9ed9ff76f0e318f5e6f00fa788faf1ccbc68bb273559de75"
+    },
+    {
+      "expectedSha256": "9f425a00611136ea8437d92733437c6656f3a5e929efea90f6dc2435f19517b1",
+      "matches": true,
+      "path": "determinations.md",
+      "actualSha256": "9f425a00611136ea8437d92733437c6656f3a5e929efea90f6dc2435f19517b1"
+    },
+    {
+      "expectedSha256": "cfa0bfb7335f0c7c205db095bd85bb41ead5ae413e3dbb46042cd5d4afd1171c",
+      "matches": true,
+      "path": "artifact-pins.json",
+      "actualSha256": "cfa0bfb7335f0c7c205db095bd85bb41ead5ae413e3dbb46042cd5d4afd1171c"
+    },
+    {
+      "expectedSha256": "189b623de93355f897efebfb9fe35bb0cec662af3250648813c353324e90c89e",
+      "matches": true,
+      "path": "publication-pins.addendum.md",
+      "actualSha256": "189b623de93355f897efebfb9fe35bb0cec662af3250648813c353324e90c89e"
+    }
+  ],
+  "archiveEntryRoster": [
+    {
+      "version": "1.21.10",
+      "entry": "data/minecraft/dimension_type/overworld_caves.json",
+      "compressedLength": 273,
+      "rawLength": 566
+    },
+    {
+      "version": "1.21.10",
+      "entry": "data/minecraft/dimension_type/overworld.json",
+      "compressedLength": 275,
+      "rawLength": 567
+    },
+    {
+      "version": "1.21.10",
+      "entry": "data/minecraft/dimension_type/the_end.json",
+      "compressedLength": 237,
+      "rawLength": 476
+    },
+    {
+      "version": "1.21.10",
+      "entry": "data/minecraft/dimension_type/the_nether.json",
+      "compressedLength": 246,
+      "rawLength": 480
+    },
+    {
+      "version": "1.21.11",
+      "entry": "data/minecraft/dimension_type/overworld_caves.json",
+      "compressedLength": 521,
+      "rawLength": 1422
+    },
+    {
+      "version": "1.21.11",
+      "entry": "data/minecraft/dimension_type/overworld.json",
+      "compressedLength": 522,
+      "rawLength": 1423
+    },
+    {
+      "version": "1.21.11",
+      "entry": "data/minecraft/dimension_type/the_end.json",
+      "compressedLength": 445,
+      "rawLength": 1156
+    },
+    {
+      "version": "1.21.11",
+      "entry": "data/minecraft/dimension_type/the_nether.json",
+      "compressedLength": 442,
+      "rawLength": 1184
+    }
+  ],
+  "resources": [
+    {
+      "entry": "data/minecraft/dimension_type/overworld.json",
+      "length": 567,
+      "rawBytesEqual": true,
+      "laneRawFile": "1.21.10\\data\\minecraft\\dimension_type\\overworld.json",
+      "ultrawarm": {
+        "value": false,
+        "state": "explicit"
+      },
+      "version": "1.21.10",
+      "sha256": "e55609ea78fa17ae6cac9456de8ad3cbb317b897c82c0b77c3458294d62eccdc",
+      "laneRawSha256": "e55609ea78fa17ae6cac9456de8ad3cbb317b897c82c0b77c3458294d62eccdc",
+      "fastLavaAttribute": {
+        "state": "absent"
+      }
+    },
+    {
+      "entry": "data/minecraft/dimension_type/the_nether.json",
+      "length": 480,
+      "rawBytesEqual": true,
+      "laneRawFile": "1.21.10\\data\\minecraft\\dimension_type\\the_nether.json",
+      "ultrawarm": {
+        "value": true,
+        "state": "explicit"
+      },
+      "version": "1.21.10",
+      "sha256": "26953e0426b058a44a4c1f2060a1a15823c03dd511f57dd7ef97dfa6327a3825",
+      "laneRawSha256": "26953e0426b058a44a4c1f2060a1a15823c03dd511f57dd7ef97dfa6327a3825",
+      "fastLavaAttribute": {
+        "state": "absent"
+      }
+    },
+    {
+      "entry": "data/minecraft/dimension_type/the_end.json",
+      "length": 476,
+      "rawBytesEqual": true,
+      "laneRawFile": "1.21.10\\data\\minecraft\\dimension_type\\the_end.json",
+      "ultrawarm": {
+        "value": false,
+        "state": "explicit"
+      },
+      "version": "1.21.10",
+      "sha256": "cddd6141dd674f204d54e7bc5ca11c3a99293028bd3dd02d27ae9fbdbb75db27",
+      "laneRawSha256": "cddd6141dd674f204d54e7bc5ca11c3a99293028bd3dd02d27ae9fbdbb75db27",
+      "fastLavaAttribute": {
+        "state": "absent"
+      }
+    },
+    {
+      "entry": "data/minecraft/dimension_type/overworld.json",
+      "length": 1423,
+      "rawBytesEqual": true,
+      "laneRawFile": "1.21.11\\data\\minecraft\\dimension_type\\overworld.json",
+      "ultrawarm": {
+        "state": "absent"
+      },
+      "version": "1.21.11",
+      "sha256": "5f16d8adb6905488738c4edd3c06660d9890e98fedf19708d3e350ab7c0bea8d",
+      "laneRawSha256": "5f16d8adb6905488738c4edd3c06660d9890e98fedf19708d3e350ab7c0bea8d",
+      "fastLavaAttribute": {
+        "state": "absent"
+      }
+    },
+    {
+      "entry": "data/minecraft/dimension_type/the_nether.json",
+      "length": 1184,
+      "rawBytesEqual": true,
+      "laneRawFile": "1.21.11\\data\\minecraft\\dimension_type\\the_nether.json",
+      "ultrawarm": {
+        "state": "absent"
+      },
+      "version": "1.21.11",
+      "sha256": "e9a7ee8fad95b15e17692254b8693bf504294fefed511243a5521f8e847241d6",
+      "laneRawSha256": "e9a7ee8fad95b15e17692254b8693bf504294fefed511243a5521f8e847241d6",
+      "fastLavaAttribute": {
+        "value": true,
+        "state": "explicit"
+      }
+    },
+    {
+      "entry": "data/minecraft/dimension_type/the_end.json",
+      "length": 1156,
+      "rawBytesEqual": true,
+      "laneRawFile": "1.21.11\\data\\minecraft\\dimension_type\\the_end.json",
+      "ultrawarm": {
+        "state": "absent"
+      },
+      "version": "1.21.11",
+      "sha256": "16042eb4533b0cb0b0e5d385f725430cb42207b96baeb2b3a5a90cc1a74a6a63",
+      "laneRawSha256": "16042eb4533b0cb0b0e5d385f725430cb42207b96baeb2b3a5a90cc1a74a6a63",
+      "fastLavaAttribute": {
+        "state": "absent"
+      }
+    }
+  ],
+  "defaultDimensionTypeEntry": {
+    "entry": "data/minecraft/dimension_type/default.json",
+    "versions": [
+      {
+        "version": "1.21.10",
+        "status": "absent-from-client-ZIP"
+      },
+      {
+        "version": "1.21.11",
+        "status": "absent-from-client-ZIP"
+      }
+    ]
+  },
+  "sourcePins": [
+    {
+      "version": "1.21.10",
+      "client": {
+        "url": "https://piston-data.mojang.com/v1/objects/d3bdf582a7fa723ce199f3665588dcfe6bf9aca8/client.jar",
+        "actualSha256": "e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482",
+        "actualSha1": "d3bdf582a7fa723ce199f3665588dcfe6bf9aca8",
+        "sha1Expected": "d3bdf582a7fa723ce199f3665588dcfe6bf9aca8",
+        "actualSize": 30592168,
+        "sizeExpected": 30592168
+      },
+      "canonicalMojmap": {
+        "capturedMetadataSha256": "3680286cdcfde9f4c540938a20d7fe917f5f189bf326791f6a9fc9d8798aea29",
+        "root": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.10",
+        "readyMarkerSha256": "2374d901074b72cd69f0229381d6a11edea7983613c538a2e2e18d9fc73dbeb0",
+        "provenanceSha256": "9a1db4c050c3caa28a1313f89dae9da3b28feaa5f8afba42cab798b47d7ad77c",
+        "manifestVersionJsonSha256": "15faa7deb7cd39479db123ad4664e2fb83e05d4729b7e4a8ff813107376e349a",
+        "canonicalVersionJsonMatchesCapturedMetadata": false,
+        "readyClientSha256": "e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482",
+        "manifestClientSha256": "e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482",
+        "status": "ready",
+        "artifactsSha256": "c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c",
+        "versionIdInProvenance": "1.21.10"
+      },
+      "metadata": {
+        "actualSha256": "3680286cdcfde9f4c540938a20d7fe917f5f189bf326791f6a9fc9d8798aea29",
+        "versionMetadataSha1Expected": "b14d03617088d907aef01138b042e8e5c1ab35d4",
+        "clientUrl": "https://piston-data.mojang.com/v1/objects/d3bdf582a7fa723ce199f3665588dcfe6bf9aca8/client.jar",
+        "clientSizeInMetadata": 30592168,
+        "metadataId": "1.21.10",
+        "actualSha1": "b14d03617088d907aef01138b042e8e5c1ab35d4",
+        "clientSha1InMetadata": "d3bdf582a7fa723ce199f3665588dcfe6bf9aca8",
+        "url": "https://piston-meta.mojang.com/v1/packages/b14d03617088d907aef01138b042e8e5c1ab35d4/1.21.10.json"
+      }
+    },
+    {
+      "version": "1.21.11",
+      "client": {
+        "url": "https://piston-data.mojang.com/v1/objects/ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd/client.jar",
+        "actualSha256": "1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd",
+        "actualSha1": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+        "sha1Expected": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+        "actualSize": 31152600,
+        "sizeExpected": 31152600
+      },
+      "canonicalMojmap": {
+        "capturedMetadataSha256": "471a6eeadf1c74f84ed5d4290fb7234b746373478a4d6ac651962b93f0cb36d9",
+        "root": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11",
+        "readyMarkerSha256": "0ad98d0ebd654650492c97eb58bc324d33864787f0ce10d99faec3ae2f5b804b",
+        "provenanceSha256": "99c9fb741eb5e4ac8fb5780e2158da324d7c8b6afc179d494e5986f78fe29f72",
+        "manifestVersionJsonSha256": "9b55607ecf8a37c9cd5b7d17ffb5c283d7c8ca4333b34ef8bb20dcd24419b3a8",
+        "canonicalVersionJsonMatchesCapturedMetadata": false,
+        "readyClientSha256": "1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd",
+        "manifestClientSha256": "1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd",
+        "status": "ready",
+        "artifactsSha256": "c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c",
+        "versionIdInProvenance": "1.21.11"
+      },
+      "metadata": {
+        "actualSha256": "471a6eeadf1c74f84ed5d4290fb7234b746373478a4d6ac651962b93f0cb36d9",
+        "versionMetadataSha1Expected": "718cd84b4912691fe5de829aab6876a4b7f6c5c4",
+        "clientUrl": "https://piston-data.mojang.com/v1/objects/ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd/client.jar",
+        "clientSizeInMetadata": 31152600,
+        "metadataId": "1.21.11",
+        "actualSha1": "718cd84b4912691fe5de829aab6876a4b7f6c5c4",
+        "clientSha1InMetadata": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+        "url": "https://piston-meta.mojang.com/v1/packages/718cd84b4912691fe5de829aab6876a4b7f6c5c4/1.21.11.json"
+      }
+    }
+  ],
+  "metadataFinding": "Captured raw metadata SHA-256 differs from the canonical artifacts.sha256 version.json SHA-256 for both releases; canonical client.jar SHA-256 matches the captured raw client JAR and each mojmap.ready.json clientSha256. Canonical metadata bytes are not included among inspected sidecars, so changed metadata content/fields cannot be identified.",
+  "interpretationLimit": "Packaged raw defaults only; no custom datapacks, effective runtime registry, defaulting semantics, or movement outcome inferred."
+}
