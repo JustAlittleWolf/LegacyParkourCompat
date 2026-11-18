@@ -1,0 +1,22 @@
+# 1.16.5 → 1.17 Entity.turn pitch response
+
+## Exact source identity
+
+- **1.16.5, Mojmap:** `decompiled_minecraft/1.16.5/mojmap/net/minecraft/world/entity/Entity.java`, `turn(double,double)`, lines 340–352. File SHA-256: `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`. Its entry in `mojmap.sources.sha256` matches this hash. The `mojmap.ready.json` pins that manifest to SHA-256 `9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b`; the ready marker pins `artifacts.sha256` to `f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c`.
+- **1.17 (1.17.0), Mojmap:** `decompiled_minecraft/1.17/mojmap/net/minecraft/world/entity/Entity.java`, `turn(double,double)`, lines 377–388; `setXRot(float)`, lines 3021–3027; `setYRot(float)`, lines 3009–3015. Entity.java SHA-256 `81231ad8ac1b9a7a9f7ee186352c7e73c0c5211a3034c3a35c04badc6914c8ef` matches its entry in `.decompile-provenance.json`'s `sources` map. The cache's exact `version.json`, client JAR and Mojang client mappings file SHA-256 values match both their `.pin.json` and the corresponding provenance inputs: `537c6fa7…e1df0f6`, `14122287…fa1c30f`, `191b957a…8b0471`. `version.json` identifies release `1.17`. Additional relied-source hashes also match their release source manifests: 1.16.5 `LivingEntity.java` `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88`, `Player.java` `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`, `LocalPlayer.java` `6011569e766bb1568609147be9aa14e9c08c51948e3d3a60fd066e848f6a8c2b`; 1.17 equivalents `LivingEntity.java` `8e81e5f1317d154fa41b676721ff581badd46296f77bcebcadb3c63448e528ed`, `Player.java` `9ad4c439814caf5f51cf6da9a86c5d22906b0a28b5b606bdeb1b770617d90516`, `LocalPlayer.java` `08dbb8615cc6c7776f35ce269223699d39f758d15786babfe11e497421c5f4d4`. These source and cache checks were read-only.
+
+## Difference
+
+In 1.16.5, `turn` first calculates `double f = e * 0.15` (pitch) and `double g = d * 0.15` (yaw). It adds each double to the existing float rotation and casts the sum once to float. It clamps `xRot` directly, then applies the same double-add/one-cast procedure to `xRotO`/`yRotO` and clamps `xRotO` directly.
+
+In 1.17, it narrows each input to float before multiplying by `0.15F`: `float f = (float)e * 0.15F`, `float g = (float)d * 0.15F`. It then adds those float deltas to the current rotations through `setXRot`/`setYRot`; each setter assigns only finite values. The final `xRot` clamp also goes through `setXRot`. Old-rotation fields use float compound addition (`xRotO += f`, `yRotO += g`) before clamping `xRotO`. Both versions call `vehicle.onPassengerTurned(this)` afterward when riding. Neither Player nor LocalPlayer declares a `turn` override in these source trees, so a direct ordinary local-player call uses this Entity implementation.
+
+For finite input `e = 400.00002`, starting `xRot = xRotO = 0` (and `d = 0`), the Java-precision operations give 1.16.5 pitch `60.000004F` and 1.17 pitch `60.000008F`; both remain inside the final clamp. This is a finite public-method input above 360 degrees, independent of device callback scheduling. It isolates the earlier float narrowing/multiplication from the older double multiply/add followed by one float cast.
+
+## Next active Elytra move
+
+The nearby branch in `LivingEntity.travel(Vec3)` is entered when `isFallFlying()` is true: 1.16.5 lines 1979–2008 and 1.17 lines 2064–2093. Each reads the current pitch into a radians float (`this.xRot * (float)(Math.PI / 180.0)` in 1.16.5; `this.getXRot() * ...` in 1.17), reads the look vector, and uses those values in the glide cosine, downward-pitch lift, and look-direction velocity terms before setting movement and calling `move`. Thus the above direct pitch response is live input to the next active Elytra movement calculation; whether a tiny resulting trajectory difference survives every later rounding/collision step depends on the state. This source-only check does not establish a runtime trajectory.
+
+## Scope and limits
+
+Compared only ordinary direct `Entity.turn` pitch response, its immediate setters/clamp, and the next active Elytra travel consumer. Device handling, callback scheduling, rendering, teleport and network paths were not analyzed. No implementation, launch, test or build was performed.
