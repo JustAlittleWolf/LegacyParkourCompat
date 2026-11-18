@@ -1,0 +1,17 @@
+# Immutable author-verdict binding
+
+Bound input: pre-author blind freeze `freeze.md`, SHA256 `ECF0D4F341C03B2563136ECC88DA8472A16BF67DEF3D06870633B9099B7017B1`. The sole author record read for this binding was `source/coverage-1151-1152.md`, whose supplied SHA256 validated as `6ED538A7FC08F3EE0968DECD7E465CB067DE5CE906D79587C4FCD5ED594E4E71`. The blind freeze remains unchanged.
+
+## Evidence identity clarification
+
+The coverage author notes that hidden `.decompile-provenance.json` files are absent at the two canonical mapping roots. This does not mean the version-level Mojmap evidence sidecars are absent: ready markers, `mojmap.provenance.json`, `mojmap.sources.sha256`, and `artifacts.sha256` were present and verified in the blind audit. Ready-marker SHA256 values are 1.15.1 `AFBB16C3CB832FFEE8E4763BF9933D9635ECD811C9FBD7166554B78E59788504` and 1.15.2 `64A0E40B784D525CE50937C63E465FC4F564EFB1F7AF17F2BAC3C77A36907BE0`; each identifies its exact release and `mojmap` namespace and pins the source-manifest hash. Version-level provenance SHA256 values are 1.15.1 `6A7AF1F5D65D7AF165C2AB9A90C1FAE20169B38E70C8E92DBC5F59D94EFE9461` and 1.15.2 `D4802D35EE2927A44D753871F184C3255C060EB94457A5C65A8BC121A087954E`. The source manifests were verified against every source file consumed by the blind audit.
+
+The Mojang client-mappings hashes in the pinned version metadata (`client.txt`: 1.15.1 `054ee5085ec49b6d037d10d43c04fd4c9c3b9f4b`; 1.15.2 `1fbf9f0bc9c326af859b3ccf71c2a8f5edc47ef8`) are mapping-content pins, not proof that a raw mapping artifact is locally available. 1.15.1 version-level provenance records the official mapping-file digest and remapped-client digest; 1.15.2 provenance has `mappingArtifacts: null`. No local mapping artifact bytes were part of the permitted raw inputs, so local raw mapping-artifact availability is not asserted. The audited canonical trees remain identified as exact 1.15.1/1.15.2 Mojmap outputs by their ready/provenance records and source manifests, with this artifact-availability limit.
+
+## Separate verdicts
+
+- **Packed default tag payload:** no difference. At both endpoints `water.json` is 94 bytes, SHA256 `698E1662335B6241879B380A58D478EE019A1E789362B004050B5CCAC421AD18`, `replace:false`, direct members `minecraft:water` and `minecraft:flowing_water`, no tag includes. `lava.json` is 92 bytes, SHA256 `F3A67622F1F6A4C69E7792F1E3731B04236962B5BE1821671ACA0D1B59C316DD`, `replace:false`, direct members `minecraft:lava` and `minecraft:flowing_lava`, no tag includes.
+- **Effective water dependency at fall-flying predicate:** unchanged and live. The normal entity state refresh calls `checkAndHandleWater(FluidTags.WATER)`, writes `wasInWater`, and `Entity.isInWater()` returns that latch; `Player.tryToStartFallFlying()` retains the same `!this.isInWater()` gate. Equal vanilla payloads do not erase this dependency. The loaded tag collection can vary with datapacks or received tags, so actual effective membership remains conditional on those runtime inputs.
+- **Lava relevance:** no dependency for this bounded predicate. The refresh passes `FluidTags.WATER`, and the predicate consumes `isInWater`; the unchanged lava tag does not affect that path.
+
+Auditor verdict: agree with the author's bounded no-difference conclusion for packed defaults and paired source behavior. Do not generalize it to a concrete active datapack/received-tag state, other consumers, intermediate versions, or runtime parity.
