@@ -11754,6 +11754,96 @@
             }
           ],
           "decision": "Accept exact equal-input continuity in water/lava body-height, current push and ordinary local first move. The r2 dependency audit closes LocalPlayer dispatch, fluid virtual producers, and the effective Player.isPushedByFluid override. Official artifact origin for locally prepared 26.1.2 remains unverified in the supplied provenance."
+        },
+        {
+          "exactPair": "26.1--26.1.1",
+          "family": "block-slowdown",
+          "snapshot": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/block-slowdown/26.1--26.1.1/source/comparison.md",
+            "sha256": "ae5993f3ec0fbb71b565536e7ac26c01a0ec71ab8c6775da19b41b05172c730b"
+          },
+          "review": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/block-slowdown/26.1--26.1.1/blind-audit/verdict.md",
+            "sha256": "ad1abf69ca379b9c013955813925ee838a23e398757cd31152ce3a7e5fdcfce7"
+          },
+          "frozenIndependentRoster": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/block-slowdown/26.1--26.1.1/blind-audit/frozen.md",
+            "sha256": "548817dfecdf0446f5210085a6e629f4a58c7e3918b4c2bbce4c33f467fc9c43"
+          },
+          "decision": "Accept bounded continuity of Honey slide eligibility/velocity/fall-distance, Cobweb and Berry Bush stuck multipliers, and next non-piston move consumption under equal contact, query and entity inputs."
+        },
+        {
+          "exactPair": "26.1.1--26.1.2",
+          "family": "block-slowdown",
+          "snapshot": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/block-slowdown/26.1.1--26.1.2/source/comparison-r1.md",
+            "sha256": "1f90c478f21f6726dacf016038aaadafa377197e912e96325836fe10729a7fc7"
+          },
+          "review": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/block-slowdown/26.1.1--26.1.2/blind-audit/verdict-r1.md",
+            "sha256": "95863b622ddb1f306e66a7cca0bc452ea745dd124be61a15b64a476c6c6304e2"
+          },
+          "frozenIndependentRoster": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/block-slowdown/26.1.1--26.1.2/blind-audit/frozen.md",
+            "sha256": "17886d08b0cd14e4891ceb8927460c910efb41f3609ceef1f0660bfcf41703e6"
+          },
+          "earlierSnapshot": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/block-slowdown/26.1.1--26.1.2/source/comparison.md",
+            "sha256": "ee5594651788e111a6f0b680a3a76e673676e2dde68e833f8670b5dbe0c7388f"
+          },
+          "earlierReview": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/block-slowdown/26.1.1--26.1.2/blind-audit/verdict.md",
+            "sha256": "ed130d44428485bc363e211b5b8eb2d3beb7bf6a5ef5dd9e1b2997fa82147c5e"
+          },
+          "decision": "Accept the corrected bounded no-difference result for Honey, Cobweb and Berry Bush. Equal pre-contact position, velocity, on-ground and entity/effect/block/query values are required. Abilities flight, shape production, berry damage and independently authenticated upstream artifact origin remain separate."
+        },
+        {
+          "exactPair": "26.1--26.1.1",
+          "family": "nether-portal",
+          "snapshot": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/nether-portal/26.1--26.1.1/source/comparison.md",
+            "sha256": "e4a82fd0b2063fdb16ce60c46c299300d250754b52d2cccd2da7c49be3154288"
+          },
+          "review": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/nether-portal/26.1--26.1.1/blind-audit/verdict.md",
+            "sha256": "e50f89866a3f2069f85cb5953fdb930d775763354e06eb14bb93a58cc2ada44c"
+          },
+          "frozenIndependentRoster": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/nether-portal/26.1--26.1.1/blind-audit/frozen.md",
+            "sha256": "128e599d7e2fe4c1304f156ea3d81b5c985599d70154b23bdc14c194b855cfa1"
+          },
+          "decision": "Accept ordinary non-riding Nether portal contact/admission, local effects and cooldown, processor timing and server eligibility through the admitted teleport call. Coordinate delivery and geometry/exit search remain separate."
+        },
+        {
+          "exactPair": "26.1.1--26.1.2",
+          "family": "nether-portal",
+          "snapshot": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/nether-portal/26.1.1--26.1.2/source/comparison.md",
+            "sha256": "218299f14cc3159287e27a60f5abe7aa37ee4b33c24344a428c63fe615b59ac6"
+          },
+          "review": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/nether-portal/26.1.1--26.1.2/blind-audit/verdict.md",
+            "sha256": "aefc3b2a2a82b88377c476993122252e2cd629544354ee122611cf44ac78eeb0"
+          },
+          "frozenIndependentRoster": {
+            "revision": "c702ee745d674693ac654ed7c5557171d6c4972d",
+            "path": "development/research/source-evidence/20261118/environment-contact-261-2612/nether-portal/26.1.1--26.1.2/blind-audit/frozen.md",
+            "sha256": "9fe94b92850a61fd3e2bd2c19ce1564e9ed3f1f68413a92926cae9dbaa4956ab"
+          },
+          "decision": "Accept bounded Nether portal contact, eligibility, cooldown progression and authoritative position correction continuity with equal inputs. The first actual coordinate assignment is in setPosRaw inside teleportSetPosition. Claims beyond frozen call-site scope or packet delivery remain unverified."
         }
       ]
     },
