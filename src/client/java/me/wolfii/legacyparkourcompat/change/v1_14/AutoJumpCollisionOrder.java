@@ -63,8 +63,7 @@ import java.util.List;
  * {@code WorldView.getBlockCollisions} put full Stone support and synthetic
  * border cells in the same grid before {@code VoxelSet.forEachBox}.
  * Original 1.13 skips X/Z corners and skips the high-Y row only at an
- * X or Z edge and is supported here only for the audited east fixture.
- * 1.13.1 and 1.13.2 instead skip cells on two scan edges for all four single-face fixtures.
+ * X or Z edge. 1.13.1 and 1.13.2 instead skip cells on two scan edges.
  * The supporting floor touches the probe's lower face but changes which
  * box the AutoJump ray encounters first.
  */
@@ -192,10 +191,15 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                 }
             }
         }
-        // The in-scan clearance samples were already certified by the AIR check.
-        if (borderProbe != null && (!loadedAir(level, BlockPos.containing(player.getX(), maxY, player.getZ()))
-            || !loadedAir(level, borderProbe.capSample(maxY)))) {
-            return null;
+        if (borderProbe != null) {
+            // The scan already certified physical AIR below maxY. The extra head read is at
+            // maxY. The first-hit center in original 1.13 west/north/south is one block lower,
+            // so both of its cap samples are in the scan.
+            boolean capExtendsAboveScan = selected != ParkourVersion.V1_13 || borderProbe.face() == Direction.EAST;
+            if (!loadedAir(level, BlockPos.containing(player.getX(), maxY, player.getZ()))
+                || (capExtendsAboveScan && !loadedAir(level, borderProbe.capSample(maxY)))) {
+                return null;
+            }
         }
 
         BitSet cells = new BitSet(sizeX * sizeY * sizeZ);
@@ -278,7 +282,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
     private static BorderProbe admitBorder(Player player, Level world, AABB query, ParkourVersion selected,
         WorldBorder border, Direction face, int minX, int maxX, int minZ, int maxZ) {
         boolean original = selected == ParkourVersion.V1_13;
-        if ((!original && selected != ParkourVersion.V1_13_1) || (original && face != Direction.EAST)
+        if ((!original && selected != ParkourVersion.V1_13_1)
             || !(player instanceof LocalPlayer) || world != player.level() || !world.isClientSide()
             || border.getStatus() != BorderStatus.STATIONARY) {
             return null;
@@ -313,7 +317,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         double queryInward = positive ? query.min(normal) : -query.max(normal);
         double rayEnd = (positive ? query.max(normal) : -query.min(normal)) - width;
         // Recover the axial segment from the actual inflated probe; keep the original east gate exact.
-        double tolerance = original ? 0.0 : 1.0E-7;
+        double tolerance = original && face == Direction.EAST ? 0.0 : 1.0E-7;
         if (outwardMin != edge - 3 || outwardMax != edge + 2 || acrossMin != row - 2 || acrossMax != row + 3
             || bodyInward < edge - 2.0 || bodyOutward <= edge - 1.0 || bodyOutward >= edge
             || box.min(tangent) < row || box.max(tangent) > row + 1.0
