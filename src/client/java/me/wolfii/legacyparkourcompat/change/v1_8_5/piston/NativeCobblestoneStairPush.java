@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_8_9.piston;
+package me.wolfii.legacyparkourcompat.change.v1_8_5.piston;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -10,8 +10,8 @@ import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 
 import java.util.OptionalDouble;
 
-/** Keeps native piston stair responses through the independently unimplemented 1.8.9 rule. */
-@MovementChange(emulates = ParkourVersion.V1_8_9)
+/** Keeps the native cobblestone stair response for profiles through 1.8.8. */
+@MovementChange(emulates = ParkourVersion.V1_8_5)
 public final class NativeCobblestoneStairPush implements PistonStairPushHook {
     @Override
     public String variant() {
