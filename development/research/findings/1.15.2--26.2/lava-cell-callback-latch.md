@@ -1,0 +1,9 @@
+# Lava presence uses a block-cell latch in 1.15.2
+
+In 1.15.2 Mojmap, `Entity.move` clears the lava flag before `checkInsideBlocks`. Each visited `LiquidBlock` sets it when the block's configured fluid belongs to LAVA. `Entity.isInLava` reads the retained flag in the next base tick and during held jump and travel. In 26.2 unobfuscated, `EntityFluidInteraction.update` measures fluid height before the living AI step, and `Entity.isInLava` requires a positive height after its first-tick gate.
+
+The audited witness places a standing, airborne, nonflying local player above the surface of a shallow lava cell while the body still overlaps the cell. The same stored `Blocks.LAVA` with `LiquidBlock.LEVEL=7` produces flowing amount 1 and a surface at `1/9.0F`; the player's box bottom is at `1/3`. The old callback sets the flag using the configured `Fluids.LAVA` field. The newer tracker reads the derived `Fluids.FLOWING_LAVA` state and records no depth at that position. With the reviewed loaded-cell and held-jump inputs, the difference is visible in the next jump and travel step.
+
+Independent source comparisons confirm the same latch mechanism in 1.15 and 1.15.1. The pinned default LAVA resources for those releases, 1.15.2 and 26.2 contain the source and flowing IDs. Custom tag membership and runtime parity remain open.
+
+[Exact finding](../../source-evidence/20261117/block-a-1152-262-lava-presence-source/lane-lava-presence-source-1152-262/finding-lava-cell-callback-latch.md), [finding verdict](../../source-evidence/20261117/block-a-1152-262-lava-presence-source/lane-lava-presence-source-1152-262-audit/finding-verdict.md), [packaged-tag audit](../../source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-audit/evidence.md), [alias resource audit](../../source-evidence/20261117/block-a-115-1151-packaged-fluid-tags/lane-exact-115-1151-fluid-resource-audit/audit.md).
