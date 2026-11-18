@@ -1,0 +1,22 @@
+# Blind source audit: ordinary local airborne locomotion
+
+Verdict: no difference found in the bounded ordinary dry, local-player airborne acceleration/speed-selection path, input projection, numeric math, or the requested displacement vector immediately before collision resolution.
+
+## Evidence identity and integrity
+
+- Pair: Minecraft 1.21.10 → 1.21.11; Mojmap on both sides. Ready markers identify exact versions and Mojmap, and success logs report exact metadata verification and required movement sources present.
+- 1.21.10 client SHA-256: `e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482`; client mappings SHA-256: `2a6f53f4c1fd048e8fa956e3a3fbbb0afc02d5bbc23e52a16b328aed61b9bf39`.
+- 1.21.11 client SHA-256: `1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd`; client mappings SHA-256: `517799a8485e107e932dc1bd27c002b2d0b9207eb2396b685bcfe6c3321a9fbd`.
+- Both ready markers' source-manifest and artifact-manifest SHA-256 values were recalculated and matched. For each compared source file below, its SHA-256 matched the entry in that version's `mojmap.sources.sha256`.
+- Source hashes (1.21.10 / 1.21.11): `LocalPlayer.java` `9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1` / `948e94f8e874b2f72e9a689e6e3ba1933f5728ec381d64f3bb5e2388718bd477`; `LivingEntity.java` `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66` / `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8`; `Entity.java` `8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18` / `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3`.
+
+## Bounded path and comparison
+
+1. Local input enters `LocalPlayer.applyInput`, which obtains the movement vector, runs `modifyInput`, then assigns its components to `xxa` and `zza` (1.21.10 `LocalPlayer.java:612-625`; 1.21.11 `LocalPlayer.java:653-666`). For ordinary input with no item actively being used, `modifyInput` applies the same `0.98F` scaling, the same conditional sneak-speed scaling, then calls the same square-movement projection (1.21.10 `LocalPlayer.java:627-643`; 1.21.11 `LocalPlayer.java:668-684`).
+2. The square-movement projection is unchanged: calculate float length, return on nonpositive length, normalize by `1.0F / length`, calculate `distanceToUnitSquare`, clamp `length * distance` with `Math.min(..., 1.0F)`, and scale normalized input. The helper keeps the same absolute-value ratio, `Mth.sqrt(1.0F + Mth.square(ratio))`, and branch/order (1.21.10 `LocalPlayer.java:645-662`; 1.21.11 `LocalPlayer.java:686-703`).
+3. `LivingEntity.travel` selects the air path for the same-state ordinary dry, non-fall-flying case (1.21.10 `LivingEntity.java:2275-2284`; 1.21.11 `LivingEntity.java:2309-2321`). In that path, airborne friction selection remains `onGround() ? ... : getFlyingSpeed()` (1.21.10 `LivingEntity.java:2520-2526`; 1.21.11 `LivingEntity.java:2578-2584`); for the bounded airborne state this selects the unchanged `getFlyingSpeed()` implementation. `handleRelativeFrictionAndCalculateMovement` calls `moveRelative(getFrictionInfluencedSpeed(...), input)`, then the same unchanged pre-move climbable response and invokes `move(MoverType.SELF, deltaMovement)` (1.21.10 `LivingEntity.java:2476-2485`; 1.21.11 `LivingEntity.java:2534-2543`). Climbable state is excluded from this witness.
+4. `Entity.moveRelative` still adds `getInputVector(input, selectedSpeed, yRot)` to current delta movement. `getInputVector` preserves the same `lengthSqr` threshold (`1.0E-7`), normalize-only-if-length-squared-greater-than-one gate, scaling order, float sine/cosine angle conversion, and component expressions (1.21.10 `Entity.java:1590-1605`; 1.21.11 `Entity.java:1608-1623`). The first displacement request is this resulting delta passed to `Entity.move`; collision resolution itself was not compared.
+
+## Boundary
+
+This verdict is limited to ordinary movement with no actively used item and excludes the listed grounded, jumping, gravity, drag, swimming, crawling, rotation, ability, climbing, riding, sprint/sneak, timer, external-response and collision-provider behavior. In 1.21.11, `LocalPlayer.modifyInput` changes the active-item multiplier from literal `0.2F` to `this.itemUseSpeedMultiplier()` (1.21.10 line 634; 1.21.11 lines 674-676). That conditional path is outside this ordinary-input verdict and needs separately bounded review if item-use movement is assigned. This report does not assert pair-wide tick coverage or an intermediate patch boundary.

@@ -1,0 +1,26 @@
+# Exact claim review: local position-derived speed cache
+
+## Bound inputs
+
+- Comparison under review: `comparison.md`, raw SHA-256 `d67bed94c6d6bf15cf116d936eaa6a853edccb20737e66e9b53eb0f6cf1c7a9d` (verified).
+- Frozen blind audit: `../blind-audit/frozen.md`, raw SHA-256 `3214170d60086b50c4cc5e5385ee650b0a852a84cc87de4358d5889b74547df5` (verified).
+- Exact sources: canonical `decompiled_minecraft/1.21.10/mojmap` and `decompiled_minecraft/1.21.11/mojmap`; Mojmap source manifests and ready-marker identities as recorded in the two inputs. The additional comparison source bindings for `Avatar`, `AbstractClientPlayer`, `SynchedEntityData`, `ServerPlayer`, and `AbstractMinecart` were checked against the corresponding source-manifest entries and current file bytes; they match.
+
+## Verdict
+
+**Accept the bounded negative movement claim:** the added `Entity` cache is reached by an ordinary loaded local player's inherited tick chain, but the exact vanilla client source has no local movement-state consumer of `lastKnownSpeed` / `getKnownSpeed` / `hasMovedHorizontallyRecently`. The cache writes alone do not alter position, velocity, collision, or travel. The conclusion is limited to the exact 1.21.10 and 1.21.11 Mojmap endpoints; it makes no intermediate patch-cutover or runtime-parity claim.
+
+The comparison's inheritance route is correct and more complete than the earlier freeze: `LocalPlayer.tick()` → `AbstractClientPlayer.tick()` (updates `clientAvatarState`, then calls `super.tick()`) → `Player.tick()` → `LivingEntity.tick()` → `Entity.tick()` / `baseTick()`. In 1.21.11 `Player` extends `Avatar`, which extends `LivingEntity`; the chain then reaches `Entity`. `computeSpeed()` runs inside `Entity.baseTick()` before `LivingEntity`'s `aiStep` movement work. The sample is the net three-axis displacement between base-tick entries, with no elapsed-time division. It is not a same-tick post-travel measurement.
+
+The field writer/reset inventory is complete: `lastKnownSpeed` begins at zero and is assigned only by `computeSpeed()`; `lastKnownPosition` is seeded/advanced by `computeSpeed()` and nulled by `reapplyPosition()`. `computeSpeed()` is dispatched from `Entity.baseTick()` and also from `AbstractMinecart.tick()`; the latter is vehicle/non-player scope. The source tree contains no additional writes to either cache field. `refreshDimensions()` calls `reapplyPosition()`, and the changed-pose `DATA_POSE` callback routes to `refreshDimensions()`. The next sample after any null-baseline reset is zero. `setPos()` alone does not clear the baseline.
+
+## Claim corrections and residuals
+
+1. The comparison calls `KineticWeapon.getMotion()` the **sole** call site of `Entity.getKnownSpeed()`. That wording is not exhaustive: `ServerPlayer.getKnownSpeed()` also calls `$$0.getKnownSpeed()` on a vehicle in its delegation branch, and `Entity.getKnownSpeed()` dispatches to a controlling Player. These are server/riding dispatch paths. The override otherwise returns packet-derived `lastKnownClientMovement`; they do not consume the ordinary client `LocalPlayer` cache. The correction does not change the negative local verdict. The frozen blind audit had already recorded the ServerPlayer vehicle delegation.
+2. The comparison correctly records `AbstractMinecart.tick()`'s `computeSpeed()` call as outside the player-only slice. The earlier frozen audit omitted that non-local writer dispatch; it does not affect ordinary local-player reachability or the reader verdict.
+
+For readers, the exact tree has `Entity.hasMovedHorizontallyRecently()` and `Entity.getKnownSpeed()` as the cache-reading APIs. The former's only sites are the `FollowBoatGoal` checks; the latter's external sites are kinetic-weapon motion and the server vehicle delegation just described. `KineticWeapon`'s damage path is guarded by `!level.isClientSide()` in `ItemStack.onUseTick`; it is a combat/new-feature path. `FollowBoatGoal` is a `PathfinderMob` goal whose player cases refer to boat controllers/followed passengers. Neither supplies an ordinary client-local movement consumer. `AbstractClientPlayer.tick()`'s `clientAvatarState` update and local auto-jump/input checks use separate state, not this cache.
+
+The comparison lists the reset callers relevant to player-capable root methods: `Entity.snapTo`, entity loading/reposition-after-load, `Entity.teleportSetPosition`, `Entity.refreshDimensions`, `LivingEntity.setPosToBed`, and `Player.die`, all through `reapplyPosition()`. That list is not a complete whole-tree call-site inventory: source search also finds `OldMinecartBehavior` (through `AbstractMinecart.reapplyPosition`), `AbstractHurtingProjectile`, `FishingHook`, `Slime`, and `Shulker`; those are non-player paths. Pose/dimension refresh is the ordinary posture boundary in the assigned local-player trace. Other pathways do not establish a new historical locomotion effect in this bounded comparison.
+
+No trajectory witness is available in the assigned source slice: the cache is sampled before that tick's player movement and no eligible vanilla local movement consumer reads it. The observed remote consumers are bounded to AI/vehicle dispatch and server-only combat. Rendering, item-combat calculations, and vehicle/non-player behavior remain outside this verdict.
