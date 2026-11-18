@@ -51,13 +51,15 @@ final class MovingStonePlane {
             return OptionalDouble.empty();
         }
 
+        boolean west = request.x < 0.0;
+        Direction facing = west ? Direction.WEST : Direction.EAST;
         BlockPos pos = source.pos();
         var level = player.level();
         var chunk = level.getChunkForCollisions(
             SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()));
         if (chunk == null || chunk.getBlockState(pos) != source.state()
             || !(chunk.getBlockEntity(pos) instanceof PistonMovingBlockEntity piston)
-            || piston.getDirection() != Direction.EAST || !piston.isExtending() || piston.isSourcePiston()
+            || piston.getDirection() != facing || !piston.isExtending() || piston.isSourcePiston()
             || !piston.getMovedState().is(Blocks.STONE)) {
             return OptionalDouble.empty();
         }
@@ -69,12 +71,13 @@ final class MovingStonePlane {
 
         int x = pos.getX(), y = pos.getY(), z = pos.getZ();
         List<AABB> parts = shape.toAabbs();
-        AABB nativeBox = new AABB(x - 0.5, y, z, x + 0.5, y + 1.0, z + 1.0);
+        double faceX = west ? x + 1.0 : x;
+        AABB nativeBox = new AABB(faceX - 0.5, y, z, faceX + 0.5, y + 1.0, z + 1.0);
         if (parts.size() != 1 || !nativeBox.equals(parts.getFirst())) return OptionalDouble.empty();
 
-        AABB plane = new AABB(x, y, z, x, y + 1.0, z + 1.0);
+        AABB plane = new AABB(faceX, y, z, faceX, y + 1.0, z + 1.0);
         AABB swept = query.sweptBox();
-        if (start.maxX != x || !swept.intersects(plane)
+        if ((west ? start.minX : start.maxX) != faceX || !swept.intersects(plane)
             || start.minY >= y + 1.0 || afterY.minY <= y
             || start.minZ <= z || start.maxZ >= z + 1.0
             || !oldEnvelopeContainsOnlyCandidate(player, swept, pos, source.state())) {
@@ -89,7 +92,7 @@ final class MovingStonePlane {
             && !player.isInWater() && !player.isInLava() && !player.onClimbable() && !player.getAbilities().flying
             && player.getBbWidth() == 0.6F && player.getBbHeight() == 1.8F
             && Double.isFinite(request.x) && Double.isFinite(request.y)
-            && request.x > 0.0 && request.y < 0.0 && request.z == 0.0;
+            && request.x != 0.0 && request.y < 0.0 && request.z == 0.0;
     }
 
     private static boolean oldEnvelopeContainsOnlyCandidate(LocalPlayer player, AABB swept,
