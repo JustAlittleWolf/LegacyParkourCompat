@@ -5720,6 +5720,40 @@
             "path": "development/research/source-evidence/20261117/block-a-1142-1144-dismount-position/lane-portal-passenger-position-1142-1144/roster.md",
             "sha256": "7831bb830ac1157d8d2279d3c2263635ccc3bd85ea85a2c7594904336ae7d60c"
           }
+        },
+        {
+          "exactPair": "1.14.3--1.14.4",
+          "decision": "ACCEPT bounded source continuity for checked stand-up placement, portal eligibility and direct correction application. The exact sources preserve the non-Boat/non-Horse helper's possible first server correction and the guarded outer correction after super returns. Boat/Horse use direct placement in the helper and can still reach the outer correction. Packet delivery, client arrival and runtime remain separate.",
+          "snapshot": {
+            "revision": "f0ed66ff85857224786242c4473034f20f5f289e",
+            "path": "development/research/source-evidence/20261117/block-a-1143-1144-dismount-position-source/lane-portal-passenger-position-1143-1144/comparison.corrected-r1.md",
+            "sha256": "850bb8cbd6847ebb5cb7d09d3128f2163fce1d9511b68237434986754a8fc3d9"
+          },
+          "review": {
+            "revision": "f0ed66ff85857224786242c4473034f20f5f289e",
+            "path": "development/research/source-evidence/20261117/block-a-1143-1144-dismount-position-source/lane-portal-passenger-position-1143-1144-audit/verdict-r1.md",
+            "sha256": "79b27056a78a060b1c4e91006206b966dc2585eeef606a0c3ae89b96ed1c13a6"
+          },
+          "roster": {
+            "revision": "f0ed66ff85857224786242c4473034f20f5f289e",
+            "path": "development/research/source-evidence/20261117/block-a-1143-1144-dismount-position-source/lane-portal-passenger-position-1143-1144-audit/source-roster.json",
+            "sha256": "9579006ef4de7b5accb6b2e50bf68b5dd9921afdb797b9ec7002ea910f510e14"
+          },
+          "priorSnapshot": {
+            "revision": "f0ed66ff85857224786242c4473034f20f5f289e",
+            "path": "development/research/source-evidence/20261117/block-a-1143-1144-dismount-position-source/lane-portal-passenger-position-1143-1144/comparison.md",
+            "sha256": "ddc5b432e2e6dfea23b5490a7f822c1f13764d602591c9300a65b5c7bd4c4d00"
+          },
+          "priorReview": {
+            "revision": "f0ed66ff85857224786242c4473034f20f5f289e",
+            "path": "development/research/source-evidence/20261117/block-a-1143-1144-dismount-position-source/lane-portal-passenger-position-1143-1144-audit/verdict.json",
+            "sha256": "89f87b77ac3b061d39e6fad6c8259c99165b602557781232ba563190e9c852e3"
+          },
+          "authorRoster": {
+            "revision": "f0ed66ff85857224786242c4473034f20f5f289e",
+            "path": "development/research/source-evidence/20261117/block-a-1143-1144-dismount-position-source/lane-portal-passenger-position-1143-1144/source-roster.json",
+            "sha256": "75a5c718cdd481a27bf24192c5ce1097c818df95b106ba02575b670d6b997959"
+          }
         }
       ]
     },
