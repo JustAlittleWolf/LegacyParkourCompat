@@ -14,6 +14,8 @@ The accepted camera/DDA source evidence establishes that the 1.8.9 camera pick c
 
 The accepted integer-origin DDA follow-up separately shows that the 26.2 traversal can visit one extra cell behind an integer ray origin. Its specific Anvil example is conditional on an adapter replaying old `updateShape` writes on modern provider visits and on no later Anvil write before movement. It does not establish that product code has such an observer or that the extra shape query hits. This evidence is about traversal order and a possible last-writer change; it does not extend the 1.9 provider finding or establish runtime parity.
 
+The [bounded writer lifecycle follow-up](../../source-evidence/20261117/block-b-solid-collision/anvil-mutable-writer-lifecycle/binding.md) traces a tick-scheduled downward pick followed by an ordinary SELF collision query. Its quiet-interval conditions exclude rain sampling, intervening writers, and active or queued Anvil-containing chunk compilation. It also records why the retained modern final hit cannot attest the historical last writer.
+
 ## Exact local source identities
 
 Read-only sources are under `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/<version>/ornithe-feather/net/minecraft/block/AnvilBlock.java`. The 1.8.9 source is the Feather Gen2 build 2 export (`feather-gen2-1.8.9+build.2-mergedv2.jar`, `feather-gen2-1.8.9+build.2.tiny`). The 1.9.4 source provenance records the Feather Gen2 build 2 mapping artifacts (`feather-gen2-1.9.4+build.2-mergedv2.jar`, `feather-gen2-1.9.4+build.2.tiny`). The local 1.9.1–1.9.3 decompile provenance files identify the Feather namespace and exact source/tool hashes. Direct SHA-256 checks of the relevant source files:
