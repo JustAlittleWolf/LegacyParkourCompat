@@ -10,9 +10,11 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.border.BorderStatus;
 import net.minecraft.world.level.border.WorldBorder;
@@ -24,13 +26,18 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Full-cell AutoJump collection shared by the 1.13 fallback and the 1.14 change.
  * The selected profile controls the existing scan pruning and border admission.
  */
 public final class AutoJumpFullCubeCandidates {
+    private static final Set<Block> NON_WHITE_WOOL_AND_CONCRETE = nonWhiteWoolAndConcrete();
+
     private AutoJumpFullCubeCandidates() {}
 
     private record Cell(int x, int y, int z) { }
@@ -141,7 +148,8 @@ public final class AutoJumpFullCubeCandidates {
                     if (state.isAir()) {
                         continue;
                     }
-                    if (!AutoJumpCollisionCandidates.isHistoricalFullCube(state)
+                    if ((!AutoJumpCollisionCandidates.isHistoricalFullCube(state)
+                        && !NON_WHITE_WOOL_AND_CONCRETE.contains(state.getBlock()))
                         || state.getCollisionShape(level, pos, context) != Shapes.block()) {
                         return null;
                     }
@@ -185,6 +193,25 @@ public final class AutoJumpFullCubeCandidates {
             }
         }
         return List.copyOf(result);
+    }
+
+    /**
+     * Ornithe Feather Gen2 build.2: 1.13, 1.13.1 and 1.13.2 {@code Block}
+     * static registrations and 1.14 {@code Blocks} static registrations give all
+     * wool/concrete colors the base {@code Block.getCollisionShape} cube used by
+     * {@code WorldView.getBlockCollisions} for aggregation. Yarn 1.14.1 build.10
+     * {@code Blocks} registers the same variants and {@code Block.getCollisionShape}
+     * supplies the same cube to the per-block collision iterator.
+     * 26.2 unobfuscated {@code Blocks.WOOL}, {@code Blocks.CONCRETE} and
+     * {@code ColorCollection.pick} identify the matching registered blocks.
+     */
+    private static Set<Block> nonWhiteWoolAndConcrete() {
+        Set<Block> blocks = Collections.newSetFromMap(new IdentityHashMap<>());
+        blocks.addAll(Blocks.WOOL.asList());
+        blocks.addAll(Blocks.CONCRETE.asList());
+        blocks.remove(Blocks.WOOL.pick(DyeColor.WHITE));
+        blocks.remove(Blocks.CONCRETE.pick(DyeColor.WHITE));
+        return Collections.unmodifiableSet(blocks);
     }
 
     private record BorderProbe(Direction face, int edge, int row) {
