@@ -1,0 +1,13 @@
+0496fda381628e90b3b3ff8ae376a5bae24cbd662366f34d70991252fab2fe70 *1.13.2/ornithe-feather/net/minecraft/block/state/BlockState.java
+2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf *1.13.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java
+bae1d6d653260e42d735b9652e5c89711f1bd78eacba7993e2460f2f2528640a *1.13.2/ornithe-feather/net/minecraft/client/world/ClientWorld.java
+1d6ec8b80f74635401745c2c027bf36555c85348ca5693764f2668363b17d269 *1.13.2/ornithe-feather/net/minecraft/entity/Entity.java
+bb691358c9a43c9f46e85575bf4d0a4ad671d0eb912502acc3a6a3f625e42f1c *1.13.2/ornithe-feather/net/minecraft/entity/living/LivingEntity.java
+4ed22f6c5a3c55d67eed782070ac722201df4d624adbc90779f1fd29c2876633 *1.13.2/ornithe-feather/net/minecraft/entity/living/player/PlayerEntity.java
+ee71cfdedcaa27458f48168ab761b435cf9c878b04f21e971ddbafb6254aa3fd *1.13.2/ornithe-feather/net/minecraft/util/math/BlockPos.java
+0f573d00cc10386f94cf51671c62815979973053c9e67a806e9fee98e55a4d8d *1.13.2/ornithe-feather/net/minecraft/util/math/Box.java
+6d5c496ff65377fee9f00c826e48c7be14d3889e5ae5191e110a464007549082 *1.13.2/ornithe-feather/net/minecraft/util/math/Direction.java
+2211b0cb3da7d8789a4a4df96509b95e6b1be8b222be2f530e7bd0695573bd69 *1.13.2/ornithe-feather/net/minecraft/util/math/MathHelper.java
+0023de30da608db73c6c6188334d2bb19039d86fe4d6f5e4ad79d732a5d2cd1a *1.13.2/ornithe-feather/net/minecraft/world/World.java
+708af6a3880fb58b67bf4604a5509b351719a9c2a0c06a8ec261586435bf00ce *1.14.4/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java
+8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6 *26.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java
