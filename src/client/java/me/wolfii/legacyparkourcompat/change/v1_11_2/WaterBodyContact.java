@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_9_3;
+package me.wolfii.legacyparkourcompat.change.v1_11_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -15,13 +15,15 @@ import net.minecraft.world.phys.AABB;
 import java.util.Optional;
 
 /**
- * Ornithe Feather 1.9 through 1.9.4: Entity.checkWaterCollisions passes the
+ * Ornithe Feather 1.9 through 1.11.2: Entity.checkWaterCollisions passes the
  * vertically shrunk and contracted box to World.applyLiquidDrag. Stable 1.9
  * switches the exclusive maximum from 1.8.9's floor(max + 1.0) to ceil(max).
  * 26.2 unobfuscated EntityFluidInteraction.update uses the unshrunk body box.
- * Restore the old contact result for the supported loaded body scan.
+ * Restore the contact result for the supported loaded body scan. Exact
+ * 1.10–1.11.2 source and alias audit: development/research/source-evidence/
+ * 20261118/block-a-early-body-ceil-mid-aliases/.
  */
-@MovementChange(emulates = ParkourVersion.V1_9_3)
+@MovementChange(emulates = ParkourVersion.V1_11_2)
 public final class WaterBodyContact implements WaterBodyContactHook {
     @Override
     public Optional<AABB> probe(AABB body) {
