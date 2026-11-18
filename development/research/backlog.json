@@ -21868,7 +21868,7 @@
           }
         }
       },
-      "nextAction": "Bind and independently audit the exact 1.15.1/1.15.2 default WATER/LAVA fluid tag payloads, then narrowly reconcile the NO_PACKAGED_RESOURCE claim for the Elytra gate (!isInWater) and rerun exact-pair coverage. Do not infer full closure from the six block tags; source coverage remains partial.",
+      "nextAction": "Carry the live WATER tag dependency into the Elytra gate's earlier NO_PACKAGED_RESOURCE disposition and rerun exact-pair coverage. The shipped WATER and LAVA payload comparison is closed for this scope. Effective datapack and received tags remain conditional.",
       "recordLimit": "The accepted r2 audit addresses a hash citation only and reuses prior technical checks. Exact pair remains partial; no implementation or runtime claim.",
       "examinedSlices": [
         "LocalPlayer Elytra-start eligibility and MobEffect hidden-effect stacking/restoration plus LivingEntity modifier-refresh callbacks, within the report's bounded source scope."
@@ -22056,6 +22056,25 @@
             "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
             "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/beehive-source.md",
             "sha256": "2f8b36753699a05f93fa54dcb04671f2288353d640f0136a06760a728ff10811"
+          }
+        },
+        {
+          "exactPair": "1.15.1--1.15.2",
+          "decision": "ACCEPT unchanged exact shipped WATER and LAVA tag bytes and unchanged live WATER dependency at the local fall-flying !isInWater gate. The effective loaded WATER membership can vary with datapacks or received tags. LAVA is outside this predicate's inputs.",
+          "snapshot": {
+            "revision": "b5560eb4eb185c2b1ef69174a4a3c9a98247e869",
+            "path": "development/research/source-evidence/20261118/1151-1152-tag-gate/source/coverage-1151-1152.md",
+            "sha256": "6ed538a7fc08f3ee0968decd7e465cb067de5ce906d79587c4fcd5ed594e4e71"
+          },
+          "review": {
+            "revision": "b5560eb4eb185c2b1ef69174a4a3c9a98247e869",
+            "path": "development/research/source-evidence/20261118/1151-1152-tag-gate/blind-audit/author-verdict.md",
+            "sha256": "6128d8ed67353c3459bf96ad9e4ea24adf311cb9cc6480aed6ab67f884ebbcc9"
+          },
+          "roster": {
+            "revision": "b5560eb4eb185c2b1ef69174a4a3c9a98247e869",
+            "path": "development/research/source-evidence/20261118/1151-1152-tag-gate/blind-audit/freeze.md",
+            "sha256": "ecf0d4f341c03b2563136ecc88da8472a16bf67def3d06870633b9099b7017b1"
           }
         }
       ]
@@ -24104,6 +24123,216 @@
         }
       ],
       "recordLimit": "Local ability flight overlapping an already-live fall-flying flag in the stated dry ordinary path. Exact accepted early and late aliases are individually archived. Middle ranges, network and runtime remain separate."
+    },
+    {
+      "pair": "1.18--1.18.1",
+      "sourceCoverage": "partial; bounded fluid operations only",
+      "dependencyClosure": "partial; raw re-decompilation and default/runtime resource verification open",
+      "independentCoverageAudit": "Bounded operation verdict only; full-pair audit remains open.",
+      "runtimeParity": "unverified",
+      "nextAction": "Raw client, mappings and resource bytes were unavailable to this audit. Preserve the verified Java comparison and verify exact raw inputs for claims that depend on shipped or active resources.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.18--1.18.1",
+          "decision": "ACCEPT no Java-source difference for bounded player fluid contact/current, eye-water state and ordinary non-flight water/lava travel.",
+          "snapshot": {
+            "revision": "88e289d40587a70468a2fa474b6902636081e927",
+            "path": "development/research/source-evidence/20261118/118-1182/source/coverage.md",
+            "sha256": "806b2141891d22b2336b641c8701ec8a172ce24e6cc5174f4e1f3dfe0aa0c4c2"
+          },
+          "claim": {
+            "revision": "88e289d40587a70468a2fa474b6902636081e927",
+            "path": "development/research/source-evidence/20261118/118-1182/source/eye-fluid-tag-membership.md",
+            "sha256": "28ee43d9f1aa9324d214e82bb2d1a36e43ac57594273cc7ac9bb5e570dfabe5b"
+          },
+          "review": {
+            "revision": "88e289d40587a70468a2fa474b6902636081e927",
+            "path": "development/research/source-evidence/20261118/118-1182/blind-audit/independent-verdict.md",
+            "sha256": "78e96216bb229c493f9fc966ae4feb7404ef8602eb2fb7c582010e93ea88caa2"
+          },
+          "roster": {
+            "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+            "path": "development/research/source-evidence/20261118/118-1182/blind-audit/frozen-roster.md",
+            "sha256": "b78b369136469752f6de19ad4f7acf28a63022a982e3ad8ed548fec4a5f7ac71"
+          },
+          "rosterExpansion": {
+            "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+            "path": "development/research/source-evidence/20261118/118-1182/blind-audit/roster-expansion.md",
+            "sha256": "4873a2a817b00ceb22a6870df6648d0a00a32ce7867d55396790d85962941ea3"
+          },
+          "sourceIntegrity": {
+            "revision": "88e289d40587a70468a2fa474b6902636081e927",
+            "path": "development/research/source-evidence/20261118/118-1182/blind-audit/source-integrity.tsv",
+            "sha256": "6915f40843844b1dff9e4bb5662fc42958531e9bd56518cf37cdbb2e24a64ade"
+          }
+        }
+      ]
+    },
+    {
+      "pair": "1.18.1--1.18.2",
+      "sourceCoverage": "partial; bounded fluid operations only",
+      "dependencyClosure": "partial; raw re-decompilation and default/runtime resource verification open",
+      "independentCoverageAudit": "Bounded operation verdict only; full-pair audit remains open.",
+      "runtimeParity": "unverified",
+      "nextAction": "Raw client, mappings and resource bytes were unavailable to this audit. Preserve the verified Java comparison and verify exact raw inputs for claims that depend on shipped or active resources. A movement change would require a concrete vanilla player consumer whose queried membership differs.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.18.1--1.18.2",
+          "decision": "ACCEPT the bounded Java comparison and the generic eye-tag change from first matching tag to a holder membership set. REJECT the claimed vanilla player movement consequence: the traced movement consumers query WATER, which remains true under the audited WATER/LAVA overlap case.",
+          "snapshot": {
+            "revision": "88e289d40587a70468a2fa474b6902636081e927",
+            "path": "development/research/source-evidence/20261118/118-1182/source/coverage.md",
+            "sha256": "806b2141891d22b2336b641c8701ec8a172ce24e6cc5174f4e1f3dfe0aa0c4c2"
+          },
+          "claim": {
+            "revision": "88e289d40587a70468a2fa474b6902636081e927",
+            "path": "development/research/source-evidence/20261118/118-1182/source/eye-fluid-tag-membership.md",
+            "sha256": "28ee43d9f1aa9324d214e82bb2d1a36e43ac57594273cc7ac9bb5e570dfabe5b"
+          },
+          "review": {
+            "revision": "88e289d40587a70468a2fa474b6902636081e927",
+            "path": "development/research/source-evidence/20261118/118-1182/blind-audit/independent-verdict.md",
+            "sha256": "78e96216bb229c493f9fc966ae4feb7404ef8602eb2fb7c582010e93ea88caa2"
+          },
+          "roster": {
+            "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+            "path": "development/research/source-evidence/20261118/118-1182/blind-audit/frozen-roster.md",
+            "sha256": "b78b369136469752f6de19ad4f7acf28a63022a982e3ad8ed548fec4a5f7ac71"
+          },
+          "rosterExpansion": {
+            "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+            "path": "development/research/source-evidence/20261118/118-1182/blind-audit/roster-expansion.md",
+            "sha256": "4873a2a817b00ceb22a6870df6648d0a00a32ce7867d55396790d85962941ea3"
+          },
+          "sourceIntegrity": {
+            "revision": "88e289d40587a70468a2fa474b6902636081e927",
+            "path": "development/research/source-evidence/20261118/118-1182/blind-audit/source-integrity.tsv",
+            "sha256": "6915f40843844b1dff9e4bb5662fc42958531e9bd56518cf37cdbb2e24a64ade"
+          }
+        }
+      ]
+    },
+    {
+      "pair": "1.21.6--1.21.7",
+      "sourceCoverage": "partial; bounded fluid operations only",
+      "dependencyClosure": "incomplete pair-wide; the audited Java and shipped fluid inputs are closed for this slice",
+      "independentCoverageAudit": "Bounded operation verdict only; full-pair audit remains open.",
+      "runtimeParity": "unverified",
+      "nextAction": "Retain the bounded result and continue any remaining pair-level source investigation separately.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.21.6--1.21.7",
+          "decision": "ACCEPT unchanged bounded player fluid contact/height/current, eye state and ordinary non-ability-flight water/lava travel. The exact bundled WATER/LAVA tags and four dimension default members are unchanged.",
+          "snapshot": {
+            "revision": "9acb9320381eae31731e4271a51b2b1cb8929b69",
+            "path": "development/research/source-evidence/20261118/1216-1218/source/coverage.md",
+            "sha256": "55295b5d9bf8aeda4882ccf9913423cd43e1c2538166adc85c144aab2afcd8c0"
+          },
+          "scopeFreeze": {
+            "revision": "9acb9320381eae31731e4271a51b2b1cb8929b69",
+            "path": "development/research/source-evidence/20261118/1216-1218/source/scope-freeze.md",
+            "sha256": "08152fcc8a085d5702a12d25b0cbe84a70a0e750c54766dff2d12c47fdd4501d"
+          },
+          "review": {
+            "revision": "9acb9320381eae31731e4271a51b2b1cb8929b69",
+            "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/author-verdict.md",
+            "sha256": "b2f357389aecba8d03978ed45e86e155723a826eb1ee9dfd1efb9ef947295bf9"
+          },
+          "independentAudit": {
+            "revision": "9acb9320381eae31731e4271a51b2b1cb8929b69",
+            "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/independent-audit.md",
+            "sha256": "fd9313933afd75dce63ee61e23a9ec011cf838cd30c3e71fb8b9b0a3be8f7e40"
+          },
+          "roster": {
+            "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+            "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/frozen-roster.md",
+            "sha256": "d3a172f7f169da08f8979ea09411f651ad09590d20abcc83e99db5e31fcf4fd8"
+          },
+          "rosterAddenda": [
+            {
+              "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+              "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/roster-correction.md",
+              "sha256": "5192181dab36e523109df73e630abab6bbb5f6e724904356becdf0e9685e9ec2"
+            },
+            {
+              "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+              "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/roster-hash-completion.md",
+              "sha256": "11126612ec8e4a4005d758ea336006ff4f7b466ef13250b739b101fc9fbd1439"
+            },
+            {
+              "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+              "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/height-dependency-addendum.md",
+              "sha256": "9b3be15a1722d10071ab7926372a1d0fed47b6925e33898f3702212e5d3b55a6"
+            },
+            {
+              "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+              "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/tag-dimension-resource-addendum.md",
+              "sha256": "4c4341d615aa4d3f716c0abfb340b8a8fef880c69cd1dbf9a4fbfdcd5fdeb74f"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "1.21.7--1.21.8",
+      "sourceCoverage": "partial; bounded fluid operations only",
+      "dependencyClosure": "partial; the raw 1.21.8 shipped-default resource dependency remains open",
+      "independentCoverageAudit": "Bounded operation verdict only; full-pair audit remains open.",
+      "runtimeParity": "unverified",
+      "nextAction": "Verify pinned 1.21.8 client, mappings and version bytes and compare the six exact default tag and dimension resource entries. Active datapack inputs remain conditional.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.21.7--1.21.8",
+          "decision": "ACCEPT unchanged Java behavior for bounded player fluid contact/height/current, eye state and ordinary non-ability-flight water/lava travel. The audit could not verify exact 1.21.8 raw artifacts or bundled tag and dimension payloads.",
+          "snapshot": {
+            "revision": "9acb9320381eae31731e4271a51b2b1cb8929b69",
+            "path": "development/research/source-evidence/20261118/1216-1218/source/coverage.md",
+            "sha256": "55295b5d9bf8aeda4882ccf9913423cd43e1c2538166adc85c144aab2afcd8c0"
+          },
+          "scopeFreeze": {
+            "revision": "9acb9320381eae31731e4271a51b2b1cb8929b69",
+            "path": "development/research/source-evidence/20261118/1216-1218/source/scope-freeze.md",
+            "sha256": "08152fcc8a085d5702a12d25b0cbe84a70a0e750c54766dff2d12c47fdd4501d"
+          },
+          "review": {
+            "revision": "9acb9320381eae31731e4271a51b2b1cb8929b69",
+            "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/author-verdict.md",
+            "sha256": "b2f357389aecba8d03978ed45e86e155723a826eb1ee9dfd1efb9ef947295bf9"
+          },
+          "independentAudit": {
+            "revision": "9acb9320381eae31731e4271a51b2b1cb8929b69",
+            "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/independent-audit.md",
+            "sha256": "fd9313933afd75dce63ee61e23a9ec011cf838cd30c3e71fb8b9b0a3be8f7e40"
+          },
+          "roster": {
+            "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+            "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/frozen-roster.md",
+            "sha256": "d3a172f7f169da08f8979ea09411f651ad09590d20abcc83e99db5e31fcf4fd8"
+          },
+          "rosterAddenda": [
+            {
+              "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+              "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/roster-correction.md",
+              "sha256": "5192181dab36e523109df73e630abab6bbb5f6e724904356becdf0e9685e9ec2"
+            },
+            {
+              "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+              "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/roster-hash-completion.md",
+              "sha256": "11126612ec8e4a4005d758ea336006ff4f7b466ef13250b739b101fc9fbd1439"
+            },
+            {
+              "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+              "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/height-dependency-addendum.md",
+              "sha256": "9b3be15a1722d10071ab7926372a1d0fed47b6925e33898f3702212e5d3b55a6"
+            },
+            {
+              "revision": "7663ae8c82647bf27c8d205dc07ebd6f7a7d7d51",
+              "path": "development/research/source-evidence/20261118/1216-1218/blind-audit/tag-dimension-resource-addendum.md",
+              "sha256": "4c4341d615aa4d3f716c0abfb340b8a8fef880c69cd1dbf9a4fbfdcd5fdeb74f"
+            }
+          ]
+        }
+      ]
     }
   ],
   "productRevision": "67db60727182f874919d7460ad56e79a09df8bdd",
