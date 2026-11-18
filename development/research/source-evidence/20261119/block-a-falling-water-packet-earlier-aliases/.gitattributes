@@ -1,0 +1,2 @@
+audit.md -text whitespace=cr-at-eol
+earlier-aliases.md whitespace=-blank-at-eof
