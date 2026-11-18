@@ -444,7 +444,7 @@ abstract class LocalPlayerMixin {
     @Unique
     private boolean legacyparkourcompat$doubleTapGroundAdmits(LocalPlayer player) {
         return MovementRuntime.find(SprintDoubleTapGroundHook.class, player)
-            .map(change -> change.admits(MovementRuntime.profile(player).target(), player))
+            .map(change -> change.admits(player))
             .orElse(true);
     }
 

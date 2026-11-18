@@ -1,0 +1,3 @@
+/comparison.md -text whitespace=cr-at-eol
+/verdict.md -text
+/input-identity-correction.md -text

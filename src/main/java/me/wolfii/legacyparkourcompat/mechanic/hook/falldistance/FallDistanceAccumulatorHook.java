@@ -11,4 +11,8 @@ import net.minecraft.world.entity.Entity;
 @MechanicType("entity.fall-distance-accumulator")
 public interface FallDistanceAccumulatorHook extends VersionedMechanic {
     double updatedDistance(Entity entity, double previousDistance, double resolvedY, boolean onGround, double nativeUpdatedDistance);
+
+    static double subtractFloatDisplacement(double previousDistance, double resolvedY) {
+        return (float)previousDistance - (float)resolvedY;
+    }
 }

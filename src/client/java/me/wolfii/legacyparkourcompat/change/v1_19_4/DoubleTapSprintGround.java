@@ -14,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
 @MovementChange(emulates = ParkourVersion.V1_19_4)
 public final class DoubleTapSprintGround implements SprintDoubleTapGroundHook {
     @Override
-    public boolean admits(ParkourVersion selected, Player player) {
+    public boolean admits(Player player) {
         return (player.isPassenger() ? player.getVehicle().onGround() : player.onGround())
             || player.isUnderWater();
     }
