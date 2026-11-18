@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
@@ -58,11 +59,12 @@ import java.util.List;
  * {@code ViewableWorld.getCollisionShapes} and {@code CuboidBlockIterator.step},
  * emits translated per-block shapes instead. The checked cutover is 1.14.1.
  *
- * <p>For the bounded east-border case, Ornithe Feather 1.13, 1.13.1 and 1.13.2
+ * <p>For the bounded border cases, Ornithe Feather 1.13, 1.13.1 and 1.13.2
  * {@code WorldView.getBlockCollisions} put full Stone support and synthetic
  * border cells in the same grid before {@code VoxelSet.forEachBox}.
  * Original 1.13 skips X/Z corners and skips the high-Y row only at an
- * X or Z edge. 1.13.1 and 1.13.2 instead skip cells on two scan edges.
+ * X or Z edge and is supported here only for the audited east fixture.
+ * 1.13.1 and 1.13.2 instead skip cells on two scan edges for all four single-face fixtures.
  * The supporting floor touches the probe's lower face but changes which
  * box the AutoJump ray encounters first.
  */
@@ -121,16 +123,21 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         int sizeY = (int) sizeYLong;
         int sizeZ = (int) sizeZLong;
         var border = level.getWorldBorder();
-        if (minX <= border.getMinX() || minZ <= border.getMinZ() || maxZ >= border.getMaxZ()) {
+        boolean west = minX <= border.getMinX();
+        boolean east = maxX >= border.getMaxX();
+        boolean north = minZ <= border.getMinZ();
+        boolean south = maxZ >= border.getMaxZ();
+        int borderFaces = (west ? 1 : 0) + (east ? 1 : 0) + (north ? 1 : 0) + (south ? 1 : 0);
+        if (borderFaces > 1) {
             return null;
         }
-        double east = border.getMaxX();
-        boolean eastBorder = maxX >= east;
-        int floorZ = Mth.floor(player.getZ());
-        if (eastBorder && (!admitsEastBorder(player, world, query, selected, border)
-            || minX != east - 3.0 || maxX != east + 2.0
-            || minY != query.minY - 1.0 || sizeY != 4 || minZ != floorZ - 2 || maxZ != floorZ + 3)) {
-            return null;
+        BorderProbe borderProbe = null;
+        if (borderFaces == 1) {
+            Direction face = west ? Direction.WEST : east ? Direction.EAST : north ? Direction.NORTH : Direction.SOUTH;
+            borderProbe = admitBorder(player, world, query, selected, border, face, minX, maxX, minZ, maxZ);
+            if (borderProbe == null || minY != query.minY - 1.0 || sizeY != 4) {
+                return null;
+            }
         }
 
         List<Cell> fullCells = new ArrayList<>();
@@ -153,9 +160,8 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                     boolean includesV1_13_1 = !(edgeX && edgeY || edgeY && edgeZ || edgeZ && edgeX);
                     boolean includedForSelected = selected == ParkourVersion.V1_13
                         ? includesV1_13 : includesV1_13_1;
-                    if (eastBorder) {
-                        boolean floor = y == minY && z == floorZ && (x == east - 2.0 || x == east - 1.0);
-                        if (floor) {
+                    if (borderProbe != null) {
+                        if (y == minY && borderProbe.isSupport(x, z)) {
                             if (!state.is(Blocks.STONE) || state.getCollisionShape(level, pos, context) != Shapes.block()) {
                                 return null;
                             }
@@ -164,7 +170,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                             if (!state.is(Blocks.AIR)) {
                                 return null;
                             }
-                            if (includedForSelected && x >= east) {
+                            if (includedForSelected && borderProbe.outwardCell(x, z) >= borderProbe.edge()) {
                                 fullCells.add(new Cell(x, y, z));
                             }
                         }
@@ -187,8 +193,8 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
             }
         }
         // The in-scan clearance samples were already certified by the AIR check.
-        if (eastBorder && (!loadedAir(level, new BlockPos(minX + 1, maxY, floorZ))
-            || !loadedAir(level, new BlockPos(maxX - 1, maxY, floorZ)))) {
+        if (borderProbe != null && (!loadedAir(level, BlockPos.containing(player.getX(), maxY, player.getZ()))
+            || !loadedAir(level, borderProbe.capSample(maxY)))) {
             return null;
         }
 
@@ -234,7 +240,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                 }
             }
         }
-        if (eastBorder) {
+        if (borderProbe != null) {
             VoxelShape probe = Shapes.create(query);
             // Check overlap of the whole aggregate. Keep every box in greedy order
             // once any part of the union overlaps, including the floor run.
@@ -245,34 +251,80 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         return List.copyOf(result);
     }
 
-    private static boolean admitsEastBorder(Player player, Level world, AABB query, ParkourVersion selected,
-        WorldBorder border) {
-        if ((selected != ParkourVersion.V1_13 && selected != ParkourVersion.V1_13_1) || !(player instanceof LocalPlayer)
-            || world != player.level() || !world.isClientSide() || border.getStatus() != BorderStatus.STATIONARY) {
-            return false;
+    private record BorderProbe(Direction face, int edge, int row) {
+        int outwardCell(int x, int z) {
+            int coordinate = face.getAxis() == Direction.Axis.X ? x : z;
+            return face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? coordinate : -coordinate - 1;
         }
-        double west = border.getMinX();
-        double east = border.getMaxX();
-        double north = border.getMinZ();
-        double south = border.getMaxZ();
-        double x = player.getX();
-        double y = player.getY();
-        double z = player.getZ();
-        double width = player.getBbWidth();
-        double endX = query.maxX - width;
-        AABB box = player.getBoundingBox();
-        int row = Mth.floor(z);
+
+        boolean isSupport(int x, int z) {
+            int outward = outwardCell(x, z);
+            int tangent = face.getAxis() == Direction.Axis.X ? z : x;
+            return tangent == row && (outward == edge - 2 || outward == edge - 1);
+        }
+
+        BlockPos capSample(int y) {
+            // Use the floored center of the first greedy ray box in world coordinates.
+            return switch (face) {
+                case EAST -> new BlockPos(edge + 1, y, row);
+                case WEST -> new BlockPos(-edge - 1, y, row);
+                case NORTH -> new BlockPos(row, y, -edge - 1);
+                case SOUTH -> new BlockPos(row, y, edge);
+                default -> throw new IllegalStateException("Expected a horizontal AutoJump border face");
+            };
+        }
+    }
+
+    private static BorderProbe admitBorder(Player player, Level world, AABB query, ParkourVersion selected,
+        WorldBorder border, Direction face, int minX, int maxX, int minZ, int maxZ) {
+        boolean original = selected == ParkourVersion.V1_13;
+        if ((!original && selected != ParkourVersion.V1_13_1) || (original && face != Direction.EAST)
+            || !(player instanceof LocalPlayer) || world != player.level() || !world.isClientSide()
+            || border.getStatus() != BorderStatus.STATIONARY) {
+            return null;
+        }
+        double west = border.getMinX(), east = border.getMaxX();
+        double north = border.getMinZ(), south = border.getMaxZ();
+        double x = player.getX(), y = player.getY(), z = player.getZ();
+        double width = player.getBbWidth(), height = player.getBbHeight();
         var speed = player.getEffect(MobEffects.SPEED);
         var jump = player.getEffect(MobEffects.JUMP_BOOST);
-        return west == Math.rint(west) && east == Math.rint(east) && north == Math.rint(north) && south == Math.rint(south)
+        if (!(intSafe(west) && intSafe(east) && intSafe(north) && intSafe(south)
+            && west == Math.rint(west) && east == Math.rint(east) && north == Math.rint(north) && south == Math.rint(south)
             && x > west + 1.0 && x < east - 1.0 && z > north + 1.0 && z < south - 1.0
-            && width == 0.6F && player.getBbHeight() == 1.8F
-            && box.minX >= east - 2.0 && box.maxX > east - 1.0 && box.maxX < east
-            && box.minZ >= row && box.maxZ <= row + 1.0
-            && y == Math.rint(y) && query.minY == y && query.maxY == y + player.getBbHeight()
-            && query.minX == x - width && query.minZ == z - width && query.maxZ == z + width
-            && endX > east && endX < east + 1.0
-            && speed != null && speed.getAmplifier() == 1 && jump != null && jump.getAmplifier() == 1;
+            && width == 0.6F && height == 1.8F && y == Math.rint(y) && query.minY == y
+            && speed != null && speed.getAmplifier() == 1 && jump != null && jump.getAmplifier() == 1)) {
+            return null;
+        }
+
+        Direction.Axis normal = face.getAxis();
+        boolean onX = normal == Direction.Axis.X;
+        boolean positive = face.getAxisDirection() == Direction.AxisDirection.POSITIVE;
+        Direction.Axis tangent = onX ? Direction.Axis.Z : Direction.Axis.X;
+        double along = onX ? x : z, across = onX ? z : x;
+        int row = Mth.floor(across);
+        int edge = (int) (positive ? (onX ? east : south) : -(onX ? west : north));
+        int scanMin = onX ? minX : minZ, scanMax = onX ? maxX : maxZ;
+        int outwardMin = positive ? scanMin : -scanMax, outwardMax = positive ? scanMax : -scanMin;
+        int acrossMin = onX ? minZ : minX, acrossMax = onX ? maxZ : maxX;
+        AABB box = player.getBoundingBox();
+        double bodyInward = positive ? box.min(normal) : -box.max(normal);
+        double bodyOutward = positive ? box.max(normal) : -box.min(normal);
+        double queryInward = positive ? query.min(normal) : -query.max(normal);
+        double rayEnd = (positive ? query.max(normal) : -query.min(normal)) - width;
+        // Recover the axial segment from the actual inflated probe; keep the original east gate exact.
+        double tolerance = original ? 0.0 : 1.0E-7;
+        if (outwardMin != edge - 3 || outwardMax != edge + 2 || acrossMin != row - 2 || acrossMax != row + 3
+            || bodyInward < edge - 2.0 || bodyOutward <= edge - 1.0 || bodyOutward >= edge
+            || box.min(tangent) < row || box.max(tangent) > row + 1.0
+            || Math.abs(query.maxY - (y + height)) > tolerance
+            || Math.abs(queryInward - ((positive ? along : -along) - width)) > tolerance
+            || Math.abs(query.min(tangent) - (across - width)) > tolerance
+            || Math.abs(query.max(tangent) - (across + width)) > tolerance
+            || rayEnd <= edge || rayEnd >= edge + 1.0) {
+            return null;
+        }
+        return new BorderProbe(face, edge, row);
     }
 
     private static boolean loadedAir(CollisionGetter level, BlockPos pos) {
