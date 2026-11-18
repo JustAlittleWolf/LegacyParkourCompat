@@ -47,6 +47,8 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.travel.UnloadedChunkGravityHo
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerDimensionsHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.PortalDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.PowderSnowClimbHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.PowderSnowFrostBlockSampleHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.PowderSnowFreezeSlowdownHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SlowFallingFallDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepPitchResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.SprintJumpImpulseHook;
@@ -61,6 +63,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.WaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintSlowdownHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import me.wolfii.legacyparkourcompat.movement.access.WaterJumpDepthAccess;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -94,6 +97,26 @@ import java.util.OptionalDouble;
 
 @Mixin(LivingEntity.class)
 abstract class LivingEntityMixin {
+    @Inject(
+        method = "aiStep()V",
+        at = @At(
+            value = "INVOKE_STRING",
+            target = "Lnet/minecraft/util/profiling/ProfilerFiller;push(Ljava/lang/String;)V",
+            args = "ldc=push"
+        ),
+        require = 1,
+        allow = 1
+    )
+    private void legacyparkourcompat$recomputePowderSnowFrost(CallbackInfo ci) {
+        if ((Object)this instanceof LocalPlayer player && Minecraft.getInstance().player == player) {
+            MovementRuntime.find(PowderSnowFreezeSlowdownHook.class, player).ifPresent(hook ->
+                hook.recompute(player, () -> MovementRuntime.find(PowderSnowFrostBlockSampleHook.class, player)
+                    .map(sample -> sample.sample(player))
+                    .orElseGet(() -> ((EntityInvoker)player).legacyparkourcompat$invokeGetBlockStateOnLegacy()))
+            );
+        }
+    }
+
     @WrapMethod(method = "aiStep()V")
     private void legacyparkourcompat$scopeHoneyBlockContact(Operation<Void> original) {
         if ((Object)this instanceof LocalPlayer player) {
