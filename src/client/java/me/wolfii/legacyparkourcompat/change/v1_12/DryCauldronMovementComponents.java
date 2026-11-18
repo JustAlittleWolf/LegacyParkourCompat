@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_8_9;
+package me.wolfii.legacyparkourcompat.change.v1_12;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.StrictAxisClipping;
@@ -38,12 +38,14 @@ import java.util.List;
  * Entity.move step alternatives below the wall top. Collection preserves the
  * component faces in both the primary and raised sweeps. Authorized placement
  * can create the starting overlap; command history is not needed to check it.
- * The exact Feather 1.8 through 1.8.9 sources preserve this bounded result.
+ * Exact Feather 1.8 through 1.12.2 preserve this bounded result.
  * 1.8 requests a full-height descent in the rejected step candidate.
- * 1.8.1 through 1.8.9 descend by the clipped ascent. Both routes tie the
- * ordinary horizontal clip under the canopy, so Entity.move keeps it.
+ * Later aliases descend by the clipped ascent. Both routes tie the
+ * ordinary horizontal clip under the canopy, so Entity.move keeps it. From
+ * 1.11.1 the ordinary World collector passes forceShape=false. Cauldron
+ * ignores that flag and offers the same five ordered components.
  */
-@MovementChange(emulates = ParkourVersion.V1_8_9)
+@MovementChange(emulates = ParkourVersion.V1_12)
 public final class DryCauldronMovementComponents implements BlockMovementCollisionHook, BlockComponentClipHook {
     private static final double EPSILON = 1.0E-7;
 
