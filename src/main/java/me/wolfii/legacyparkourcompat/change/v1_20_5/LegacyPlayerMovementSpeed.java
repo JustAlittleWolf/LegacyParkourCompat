@@ -9,8 +9,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -18,17 +20,17 @@ import java.util.UUID;
  * Object2ObjectOpenHashMap values consumed by calculateValue() in descending
  * Fastutil table-slot order; Player.getSpeed() casts that result to float. In
  * 1.21.1 (Mojmap), those maps use ResourceLocation keys, changing the slots for
- * Speed, Slowness and sprint. This reproduces the old order only for the three
- * proven builtin identifiers with known history since attribute construction.
+ * Speed, Slowness and sprint. This reproduces the old order for those three
+ * total multipliers with known history since attribute construction.
  *
  * AttributeInstance.getModifiers(Operation), addModifier,
  * addOrUpdateTransientModifier, removeModifier, removeModifiers, replaceFrom
  * and load in 1.20.6 (Mojmap), and the corresponding methods (apply replaces
  * load) in 26.2 (unobfuscated), create default Fastutil maps and mark every
  * modifier mutation dirty. The client observer retains all identifiers seen
- * at those dirty boundaries, including removed identifiers, and rejects any
- * non-total operation. With only these three identifiers ever present, the
- * UUID map never exceeds three entries and its default 32 slots never resize.
+ * at those dirty boundaries, including removed identifiers. The only admitted
+ * non-total operation is the single Frost addition, which occupies a separate
+ * operation bucket. The total UUID map still never exceeds three entries.
  * Their home slots are distinct (sprint 23, Slowness 18, Speed 14), so insert,
  * replace and delete history cannot move any surviving entry. Sorting by
  * descending home slot is therefore exact for this bounded history, without
@@ -48,17 +50,31 @@ public final class LegacyPlayerMovementSpeed implements PlayerMovementSpeedHook 
     private static final int PROVEN_TABLE_CAPACITY = 32;
     @Override
     public Optional<Float> movementSpeed(Snapshot snapshot) {
-        if (!snapshot.history().complete() || !snapshot.history().totalOnly()) {
+        if (!snapshot.history().complete() || !snapshot.history().totalsAndFrostOnly()) {
             return Optional.empty();
         }
         for (Identifier observedIdentifier : snapshot.history().identifiers()) {
-            if (MovementSpeedModifierIdentity.oldUuid(observedIdentifier) == null) {
+            if (!MovementSpeedModifierIdentity.FROST.equals(observedIdentifier)
+                && MovementSpeedModifierIdentity.oldUuid(observedIdentifier) == null) {
                 return Optional.empty();
             }
         }
 
         List<LegacyModifier> ordered = new ArrayList<>(snapshot.modifiers().size());
+        Set<Identifier> seen = new HashSet<>();
+        double value = snapshot.baseValue();
+        boolean hasFrost = false;
         for (Modifier modifier : snapshot.modifiers()) {
+            if (!seen.add(modifier.identifier())) {
+                return Optional.empty();
+            }
+            if (MovementSpeedModifierIdentity.FROST.equals(modifier.identifier()) && modifier.operation() == 0) {
+                // 1.20.5/.6 Mojmap LivingEntity.tryAddFrost and AttributeInstance.calculateValue:
+                // the powder-snow ADD_VALUE is applied before the total-multiplier bucket.
+                value += modifier.amount();
+                hasFrost = true;
+                continue;
+            }
             if (modifier.operation() != 2) {
                 return Optional.empty();
             }
@@ -68,12 +84,11 @@ public final class LegacyPlayerMovementSpeed implements PlayerMovementSpeedHook 
             }
             ordered.add(new LegacyModifier(modifier, oldTableSlot(oldId)));
         }
-        if (ordered.isEmpty()) {
+        if (ordered.isEmpty() && !hasFrost) {
             return Optional.empty();
         }
 
         ordered.sort(Comparator.comparingInt(LegacyModifier::slot).reversed());
-        double value = snapshot.baseValue();
         for (LegacyModifier legacyModifier : ordered) {
             value *= 1.0 + legacyModifier.modifier().amount();
         }

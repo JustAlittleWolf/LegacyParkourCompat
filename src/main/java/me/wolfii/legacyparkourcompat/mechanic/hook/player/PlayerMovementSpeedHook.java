@@ -31,7 +31,7 @@ public interface PlayerMovementSpeedHook extends VersionedMechanic {
     }
 
     /** Bounded observation of modifier IDs seen since attribute construction. */
-    record History(Set<Identifier> identifiers, boolean complete, boolean totalOnly) {
+    record History(Set<Identifier> identifiers, boolean complete, boolean totalOnly, boolean totalsAndFrostOnly) {
         public History {
             identifiers = Set.copyOf(identifiers);
         }

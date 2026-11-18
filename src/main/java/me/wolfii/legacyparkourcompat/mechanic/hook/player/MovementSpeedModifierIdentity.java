@@ -4,8 +4,9 @@ import net.minecraft.resources.Identifier;
 
 import java.util.UUID;
 
-/** Proven identifier-to-UUID correspondences for the three vanilla speed modifiers. */
+/** Shared identities for bounded vanilla movement-speed reconstruction. */
 public final class MovementSpeedModifierIdentity {
+    public static final Identifier FROST = Identifier.withDefaultNamespace("powder_snow");
     private static final Identifier SPEED = Identifier.withDefaultNamespace("effect.speed");
     private static final Identifier SLOWNESS = Identifier.withDefaultNamespace("effect.slowness");
     private static final Identifier SPRINTING = Identifier.withDefaultNamespace("sprinting");

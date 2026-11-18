@@ -4,10 +4,12 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.OnPositionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.travel.PowderSnowFrostBlockSampleHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -23,9 +25,21 @@ import net.minecraft.world.phys.Vec3;
  * The public getOnPos()/getOnPosLegacy() keep their native offset arguments.
  */
 @MovementChange(emulates = ParkourVersion.V1_19_4)
-public final class OnPosition implements OnPositionHook {
+public final class OnPosition implements OnPositionHook, PowderSnowFrostBlockSampleHook {
     @Override
     public BlockPos onPosition(Entity entity, float offset, VanillaFn<BlockPos> vanilla) {
+        return legacyPosition(entity, offset);
+    }
+
+    @Override
+    public BlockState sample(Player player) {
+        // 1.19.4 Mojmap LivingEntity.tryAddFrost uses the floor-based Entity.getBlockStateOnLegacy;
+        // 1.20 Mojmap Entity.getBlockStateOnLegacy uses the tracked support position when present.
+        // Resolve this sample independently from the general on-position hook's earlier native fence.
+        return player.level().getBlockState(legacyPosition(player, 0.2F));
+    }
+
+    private static BlockPos legacyPosition(Entity entity, float offset) {
         Vec3 position = entity.position();
         int x = Mth.floor(position.x);
         int y = Mth.floor(position.y - offset);
