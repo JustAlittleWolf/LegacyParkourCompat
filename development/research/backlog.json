@@ -9091,6 +9091,42 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
           }
+        },
+        {
+          "exactPair": "1.20.6--1.21",
+          "snapshot": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.20.6-to-1.21/report.md",
+            "sha256": "331d0c572e31ae77461f03119179db70c3299031d0f498120361fe34c66da21d"
+          },
+          "review": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.20.6-to-1.21/verdict.md",
+            "sha256": "ccff33799a6fa109a5a886b734c47dafdd1aa2f3ec7be0315bf1c9f1a23f2264"
+          },
+          "companions": [
+            {
+              "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.20.6-to-1.21/identity.md",
+              "sha256": "99afb5171ab5488df54c9053edb3afc12b10cf8045b039d7bcf0f4ecf32bf575"
+            },
+            {
+              "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.20.6-to-1.21/phase-two-addendum.md",
+              "sha256": "da5fd2a563eee5cf20a4687d43646df32f7e95c1b730f4f4e28103a52b7b283a"
+            }
+          ],
+          "decision": "Accepted ordinary local finite first-setter continuity across exact 1.20.6 to 1.21, with separate provenance and second-phase binding.",
+          "manifest": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/README.md",
+            "sha256": "edb4c9890d2048dae01d43529e36e8e220021735f6e3f84eb6a4bdd3e339cbe2"
+          },
+          "productAssociationReceipt": {
+            "revision": "c0704c7b8a06b44d680ee9f48858cedc1a3e50ab",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/integration-receipt.md",
+            "sha256": "84c638037b4b8e30d36afaf095e6f5d209c070312eab74432e00afb31acfd5b4"
+          }
         }
       ]
     },
@@ -10236,6 +10272,42 @@
             "applicability": "Exact 1.9 through 1.12.2 and exact 1.20.5 through 1.21.1 for ordinary dry non-passenger local ability flight while chest Elytra fall-flying flag is live. The return callback clears bit 7 after travel and the separate fall-distance callback. The V1_8_9 and V1_20_2 fences retain native behavior outside the accepted lower intervals; later profiles use native fallback.",
             "build": "BUILD SUCCESSFUL in 7s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
+          }
+        },
+        {
+          "exactPair": "1.21.1--1.21.2",
+          "snapshot": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21.1-to-1.21.2/report.md",
+            "sha256": "fee374a8b55ec931727265edad321cf8cd4e6c67f8d31b7c3f1f79ae9dc9d97e"
+          },
+          "review": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21.1-to-1.21.2/verdict.md",
+            "sha256": "245811badbe89fbf2dbe2f47cc3270b1b052b95415de1b76b96fcdbbb800b7ea"
+          },
+          "companions": [
+            {
+              "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21.1-to-1.21.2/acceptance.md",
+              "sha256": "9445b0e8ed422d9d96997e5a4699ff3c887ec97a80b3fdb60ced7fdaa9ba8308"
+            },
+            {
+              "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21.1-to-1.21.2/correction.md",
+              "sha256": "0cc1e0142dbd74dac3339cf97ad4626d8ece0a8ebacfb113eb166badab1fc134"
+            }
+          ],
+          "decision": "Accepted exact 1.21.1 to 1.21.2 raw pitch setter cutoff for the scoped ordinary finite local mouse-turn route.",
+          "manifest": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/README.md",
+            "sha256": "edb4c9890d2048dae01d43529e36e8e220021735f6e3f84eb6a4bdd3e339cbe2"
+          },
+          "productAssociationReceipt": {
+            "revision": "c0704c7b8a06b44d680ee9f48858cedc1a3e50ab",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/integration-receipt.md",
+            "sha256": "84c638037b4b8e30d36afaf095e6f5d209c070312eab74432e00afb31acfd5b4"
           }
         }
       ]
@@ -14952,6 +15024,30 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
           }
+        },
+        {
+          "exactPair": "1.20.5--1.20.6",
+          "snapshot": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.20.5-to-1.20.6/report.md",
+            "sha256": "104fd7bf66c9ed9247ceb38a5337b07ac3b578a4cef268ffec5217f2bc39ecde"
+          },
+          "review": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.20.5-to-1.20.6/verdict.md",
+            "sha256": "79015323fcffb8da794453c8d1c69de972f577cd0007a70f97542ce2e84ff0dc"
+          },
+          "decision": "Accepted exact finite witness confirms the scoped historical first-setter path across the pair; the infinite author example was rejected.",
+          "manifest": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/README.md",
+            "sha256": "edb4c9890d2048dae01d43529e36e8e220021735f6e3f84eb6a4bdd3e339cbe2"
+          },
+          "productAssociationReceipt": {
+            "revision": "c0704c7b8a06b44d680ee9f48858cedc1a3e50ab",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/integration-receipt.md",
+            "sha256": "84c638037b4b8e30d36afaf095e6f5d209c070312eab74432e00afb31acfd5b4"
+          }
         }
       ]
     },
@@ -15043,6 +15139,30 @@
             "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+          }
+        },
+        {
+          "exactPair": "1.21--1.21.1",
+          "snapshot": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21-to-1.21.1/report.md",
+            "sha256": "2b7b95e3446c85a8b4bfd69e79a38ba9dbbad2bade7224fb848a63f7a9d8a3ee"
+          },
+          "review": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21-to-1.21.1/verdict.md",
+            "sha256": "2d02babe53b99883b92a29ccba54fa68e07e22de9654c9589bc4e4e58a3667af"
+          },
+          "decision": "Accepted exact ordinary local first-setter continuity across 1.21 to 1.21.1.",
+          "manifest": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/README.md",
+            "sha256": "edb4c9890d2048dae01d43529e36e8e220021735f6e3f84eb6a4bdd3e339cbe2"
+          },
+          "productAssociationReceipt": {
+            "revision": "c0704c7b8a06b44d680ee9f48858cedc1a3e50ab",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/integration-receipt.md",
+            "sha256": "84c638037b4b8e30d36afaf095e6f5d209c070312eab74432e00afb31acfd5b4"
           }
         }
       ]
@@ -21196,6 +21316,73 @@
             "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.21.1--26.2",
+          "snapshot": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21.1-to-26.2/report.md",
+            "sha256": "1cd80e3e5d24fbcd84988dd470b7ee22b619e9579a112240cb4e0b4db770c9ab"
+          },
+          "review": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21.1-to-26.2/verdict.md",
+            "sha256": "aa73b09290c5abc024b5cee9685bc66cb0ffb78dc677578c44ac62dd8f07334b"
+          },
+          "companions": [
+            {
+              "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21.1-to-26.2/acceptance.md",
+              "sha256": "e51715b3e48947441d9cb78c17ae6d55af2e78dc7039ab70d88ec8995779304f"
+            },
+            {
+              "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/1.21.1-to-26.2/correction.md",
+              "sha256": "00f51c04b2320f389b2335da2e1c2e0e18dc397209c859eaa3a1f2494e153a45"
+            }
+          ],
+          "decision": "Accepted source witness for the distinction between the 1.21.1 first-setter and 26.2 modulo path before the remaining clamp. Applies only to the exact audited ordinary local mouse-turn route.",
+          "manifest": {
+            "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/README.md",
+            "sha256": "edb4c9890d2048dae01d43529e36e8e220021735f6e3f84eb6a4bdd3e339cbe2"
+          },
+          "productAssociationReceipt": {
+            "revision": "c0704c7b8a06b44d680ee9f48858cedc1a3e50ab",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/integration-receipt.md",
+            "sha256": "84c638037b4b8e30d36afaf095e6f5d209c070312eab74432e00afb31acfd5b4"
+          },
+          "boundedProductAssociation": {
+            "productCommit": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+            "code": [
+              {
+                "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/EntityTurnPitchClamp.java",
+                "sha256": "b514fe79393fdfb03ddce17a524d106ebd2ac4862924edafd65efe6c34896f2b"
+              },
+              {
+                "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_20_2/EntityTurnPitchNative.java",
+                "sha256": "24061aafbf44d0a503a611619d5a53d975630359203d000a4fdb0864bba73775"
+              }
+            ],
+            "exactSourceArchive": {
+              "revision": "9ec57a6256b39ea8a290b298322d827d8b3002de",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/README.md",
+              "sha256": "edb4c9890d2048dae01d43529e36e8e220021735f6e3f84eb6a4bdd3e339cbe2"
+            },
+            "review": {
+              "revision": "c0704c7b8a06b44d680ee9f48858cedc1a3e50ab",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/integration-receipt.md",
+              "sha256": "84c638037b4b8e30d36afaf095e6f5d209c070312eab74432e00afb31acfd5b4"
+            },
+            "standaloneBuildTree": "d2d74eedc026224e8d01bdfc30e01c5ec7bae252",
+            "combinedBuildRevision": "4c469a61931cee22d2777420ad4b8fae02e772e9",
+            "combinedBuildTree": "ea17360dcb1c6c553456d4e52baa9d42808dfce8",
+            "applicability": "Ordinary local finite first float setXRot argument in Entity.turn across 1.20.5 through 1.21.1. Clamp only out-of-range values; the later clamp and other setters keep native behavior. Identity fence before 1.20.5, native fallback from 1.21.2.",
+            "build": "BUILD SUCCESSFUL in 8s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         }
       ],
