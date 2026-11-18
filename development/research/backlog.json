@@ -11704,6 +11704,56 @@
             "path": "development/research/source-evidence/20261118/block-b-modern-collision/hinged-1.21.11--26.1-audit.md",
             "sha256": "dd0a1c53f82d1bbbab03aac193a8f810d40fb55e2e669d3cda92f5b3c6651a33"
           }
+        },
+        {
+          "exactPair": "26.1--26.1.1",
+          "snapshot": {
+            "revision": "e6f0bff11817f7e6a67d0a856984553f68bc94d2",
+            "path": "development/research/source-evidence/20261118/fluid-java-261-2612/26.1--26.1.1/source/comparison.md",
+            "sha256": "6169a1379d843d7859c67f4394108b6919783bf91ee3fe07f8e9a65c5a9e6f39"
+          },
+          "review": {
+            "revision": "e6f0bff11817f7e6a67d0a856984553f68bc94d2",
+            "path": "development/research/source-evidence/20261118/fluid-java-261-2612/26.1--26.1.1/blind-audit/verdict.md",
+            "sha256": "ac2f4a054e2812c9d510a73c0b8f53d0a1975cf143e19b8fd68dffd07d9609bb"
+          },
+          "frozenIndependentRoster": {
+            "revision": "e6f0bff11817f7e6a67d0a856984553f68bc94d2",
+            "path": "development/research/source-evidence/20261118/fluid-java-261-2612/26.1--26.1.1/blind-audit/frozen.md",
+            "sha256": "eef8bd31dc06231ce3a7f7e8deea807a2ab200466ac28dc249be046bf9ff6e3e"
+          },
+          "decision": "Accept bounded fluid body-height, current application and ordinary nonriding/nonflying first water/lava traversal continuity under equal flow values and FAST_LAVA dimension input. Independent evidence leaves equivalence of supplemental flow producer implementations open for this pair."
+        },
+        {
+          "exactPair": "26.1.1--26.1.2",
+          "snapshot": {
+            "revision": "e6f0bff11817f7e6a67d0a856984553f68bc94d2",
+            "path": "development/research/source-evidence/20261118/fluid-java-261-2612/26.1.1--26.1.2/source/comparison.md",
+            "sha256": "d4e863c4aef0ac682f67f4f0a4e605486532a36b7cfcac69836a68e60de13a3f"
+          },
+          "review": {
+            "revision": "e6f0bff11817f7e6a67d0a856984553f68bc94d2",
+            "path": "development/research/source-evidence/20261118/fluid-java-261-2612/26.1.1--26.1.2/blind-audit/verdict-r2.md",
+            "sha256": "93cd264bbd2129d1982f68ab89e527c5af847f530b5083700f0f10bc5c804af4"
+          },
+          "frozenIndependentRoster": {
+            "revision": "e6f0bff11817f7e6a67d0a856984553f68bc94d2",
+            "path": "development/research/source-evidence/20261118/fluid-java-261-2612/26.1.1--26.1.2/blind-audit/frozen.md",
+            "sha256": "f8c583b81c688442a121065b6bbcaa729ad9bbfb4c3d4450b8a03463d2d66c17"
+          },
+          "earlierReviews": [
+            {
+              "revision": "e6f0bff11817f7e6a67d0a856984553f68bc94d2",
+              "path": "development/research/source-evidence/20261118/fluid-java-261-2612/26.1.1--26.1.2/blind-audit/verdict.md",
+              "sha256": "9f87f6e75d882c986982f4f77593d0b39337560f6e232b413f98865c4e679caf"
+            },
+            {
+              "revision": "e6f0bff11817f7e6a67d0a856984553f68bc94d2",
+              "path": "development/research/source-evidence/20261118/fluid-java-261-2612/26.1.1--26.1.2/blind-audit/verdict-r1.md",
+              "sha256": "4daca44b067bb66157860b701ec4ed5115e7ee3d9e1ce4ab324626856c73676f"
+            }
+          ],
+          "decision": "Accept exact equal-input continuity in water/lava body-height, current push and ordinary local first move. The r2 dependency audit closes LocalPlayer dispatch, fluid virtual producers, and the effective Player.isPushedByFluid override. Official artifact origin for locally prepared 26.1.2 remains unverified in the supplied provenance."
         }
       ]
     },
@@ -20994,6 +21044,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.16.3--1.16.4",
+          "snapshot": {
+            "revision": "9e1287c46dd0783dfeff9f68e3a0241b0abd5e78",
+            "path": "development/research/source-evidence/20261118/fluid-java-1163-1164/source/comparison.md",
+            "sha256": "a7b339489e6ef5f36b41deaa3b3325e0af24b5529434ecc34f2273452da7ae09"
+          },
+          "review": {
+            "revision": "9e1287c46dd0783dfeff9f68e3a0241b0abd5e78",
+            "path": "development/research/source-evidence/20261118/fluid-java-1163-1164/blind-audit/verdict.md",
+            "sha256": "f490cd8eb9e2e9dbf6439441a3e538aaed1f390997c10451464eb6957ca7ecde"
+          },
+          "frozenIndependentRoster": {
+            "revision": "9e1287c46dd0783dfeff9f68e3a0241b0abd5e78",
+            "path": "development/research/source-evidence/20261118/fluid-java-1163-1164/blind-audit/frozen.md",
+            "sha256": "1df66a690fa77d08a4602662734c5680f753bbde974c7acdd1159b43617eb930"
+          },
+          "decision": "Accept exact conditional Java fluid continuity for water/lava body admission and height, current accumulation/normalization/player response, and first ordinary local water/lava movement, drag and gravity. Equivalent effective tags, sampled world inputs and player state are premises."
         }
       ]
     },
