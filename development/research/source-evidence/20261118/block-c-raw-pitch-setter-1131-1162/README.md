@@ -1,10 +1,8 @@
 # Direct mouse-turn pitch response: 1.13.1–1.16.2 source snapshot
 
-This archive tracks twelve adjacent edges for the ordinary direct player pitch setter and final clamp, with the bounded current-pitch consumer in active local Elytra travel. Eleven comparisons have exact, independently reviewed source-body results. One adjacent comparison is still awaiting a clean independent audit binding. Source identity acceptance and release publication schemas are recorded separately; none of these records establishes full movement parity or a product range extension.
+This archive preserves exact, independently reviewed source-body comparisons for all twelve adjacent edges from 1.13.1 through 1.16.2. The scope is the ordinary direct player pitch setter and final clamp, with the bounded current-pitch consumer in active local Elytra travel. Exact source identity status is kept separate from mapping-root publication layout, product integration, and runtime parity.
 
-The scope is the direct player response to `Entity.turn(double,double)` and the cited current-pitch read by active local Elytra travel. UI, input scheduling, renderer interpolation, network/teleport paths, raw global pitch setters, runtime behavior, and full pair parity are excluded.
-
-## Accepted exact-source comparisons
+The scope is the direct player response to `Entity.turn(double,double)` and the cited current-pitch read by active local Elytra travel. UI, input scheduling, renderer interpolation, network/teleport paths, raw global pitch setters, runtime behavior, and full pair parity are excluded. These records do not establish a product range extension.
 
 | Pair | Source report SHA-256 | Independent verdict SHA-256 |
 | --- | --- | --- |
@@ -12,6 +10,7 @@ The scope is the direct player response to `Entity.turn(double,double)` and the 
 | 1.13.2→1.14 | `a8cd96e7ac71bcb7a2a89c77dd7eddd9650a3005af7cb41797f61cc665325641` | `15c2e0583e4b47abc8267d160500eb41d5269084a7af3799cf85cfe63c254912` |
 | 1.14→1.14.1 | `45c2643103a0261e224c5accbe4aa55d203852ece72302bcd28d919395a4730a` | `12c58d372fa6fb2c92efdc517b0c07121901d4f081aa2af2b0cd6023e2501490` |
 | 1.14.1→1.14.2 | `11e030aab01e39028a61ef70580b28ba2d8304c9a1cd20c011c45ba862a05ae8` | `2c6b0cb23f068c2254bed12270dbf69ac61da8436fafe61ec48101b22c2b4792` |
+| 1.14.2→1.14.3 | `14f98ed4f76770b68a14bc55274c116d06fd2e7e0160c2332033ac946aba86c9` | `920e54390fcc3fdf5dab5c16bf7651f0011e97623a0ccb5139201ba278f1bab3` |
 | 1.14.3→1.14.4 | `1226d91c44996395041fea50477e8f675f2b5c68c21c5c31789e44833d8f8dd1` | `31d9b8c4ead2ac4d4a5141a6eb02ecf71f3df33c89aaa0d9d9bc033590b27c42` |
 | 1.14.4→1.15 | `059e7902646c68a00fd5fac4be3dc53c816238813212171950cd4be2e4cdb4e5` | `1fcda7a8c2e776b934df199e1e5ae57ba7ba6476461413804d3c05cac881c903` |
 | 1.15→1.15.1 | `a4a286452ca6108fadee6583f5df69851103bcfc6636714d97ef48b806bcae93` | `e75e3e635cdce98dff4ea3727174236729250269762121a209799c577574d933` |
@@ -20,16 +19,12 @@ The scope is the direct player response to `Entity.turn(double,double)` and the 
 | 1.16→1.16.1 | `c6fcf05cbbdc01fd9a661958ce9728a0831aa290bff07d743e32e2341d987bf0` | `518ed12e2da0eea0e4cecd075a0557ce836c155cb30cfd493e879dedf5d909f4` |
 | 1.16.1→1.16.2 | `a07f7a719687b5d4c16282b6cc7de7ed8667f47e2a1783ca35720962abbd97dc` | `1deb7b62474fa218aded58feb175605678b85a37b16d9e00056589c4155be070` |
 
-The 1.13.1→1.13.2 verdict notes the 1.13.2 ready marker lacks a provenance-hash field; its ready-pinned source manifest and whole-tree verification support source identity, while the sidecar linkage is weaker. Its finite `1.0e40` witness is source-level float narrowing, not a hardware-input claim. The 1.13.2→1.14 comparison uses canonical source ID `1.14`, not a separate `1.14.0` directory.
+The 1.13.1→1.13.2 verdict notes the 1.13.2 ready marker lacks a provenance-hash field; its ready-pinned source manifest and whole-tree verification support source identity, while that sidecar linkage is weaker. Its finite `1.0e40` witness is source-level float narrowing, not a hardware-input claim. The 1.13.2→1.14 comparison uses canonical source ID `1.14`, not a separate `1.14.0` directory.
 
-For 1.14.1, 1.14.2 and 1.14.3, exact Yarn source rows are verified through their nested `.decompile-provenance.json` manifests. That is an accepted source identity under this workflow; do not imply newer version-root `yarn.ready.json`, `yarn.sources.sha256` or `artifacts.sha256` sidecars exist. The 1.14.3→1.14.4 audit separately records that the 1.14.4 Feather source and manifest hashes match, while the exact Feather build/mapping payloads are absent from the local cache; the Mojmap `mappingArtifacts` namespace-array mismatch remains an audit qualification. These limitations do not alter the bounded source-body comparison and do not establish payload rehash or product range readiness.
+For the 1.14.1, 1.14.2, and 1.14.3 Yarn source roots, exact source rows are verified through nested `.decompile-provenance.json` manifests. This is accepted source identity under the canonical provenance workflow. It does not mean newer version-root `yarn.ready.json`, `yarn.sources.sha256`, or `artifacts.sha256` sidecars exist; the audit artifacts state that layout explicitly. The 1.14.3→1.14.4 audit also records that the 1.14.4 Feather source and manifest hashes match, while the exact Feather build/mapping payloads are absent from local cache; a Mojmap `mappingArtifacts` namespace-array mismatch remains a qualification. These source-layout or payload qualifications do not change the bounded body comparisons and do not establish payload rehash or product range readiness.
 
-The 1.14.4→1.15 audit corrects a one-character omission in the author's 1.15 ready-marker digest; both originals are preserved. The 1.15→1.15.1 audit's accepted finite >360 first-write arithmetic witness differs from the author's +150 example; both clamp to 90F, and no runtime observation is claimed. The 1.15.1→1.15.2 audit notes the 1.15.2 ready marker lacks an explicit provenance link, while source/artifact/diagnostic pins match and provenance was hashed separately. The 1.15.2→1.16 audit corrects an initial no-finite->360 reading: a finite source-level input can transiently produce `368.64F`, but both releases clamp the persisted pitch to `90.0F`; the raw-artifact-cache caveat remains. The 1.16.1→1.16.2 comparison includes its separately bound `identity.md` sidecar.
+The 1.14.4→1.15 audit corrects a one-character omission in the author's 1.15 ready-marker digest; both originals are preserved. The 1.15→1.15.1 audit's accepted finite >360 first-write arithmetic witness differs from the author's +150 example; both clamp to 90F, with no runtime observation claimed. The 1.15.1→1.15.2 audit notes the 1.15.2 ready marker lacks an explicit provenance link, while source/artifact/diagnostic pins match and provenance was hashed separately. The 1.15.2→1.16 audit corrects an initial no-finite->360 reading: a finite source-level input can transiently produce `368.64F`, but both releases clamp persisted pitch to `90.0F`; raw-artifact-cache availability remains a caveat. The 1.16.1→1.16.2 comparison includes its separately bound `identity.md` sidecar.
 
-`git diff --check` reports original whitespace in these bound inputs: `edges/1.13.2-to-1.14/report.md`, `edges/1.14-to-1.14.1/verdict.md`, `edges/1.14.1-to-1.14.2/report.md`, , `edges/1.15.2-to-1.16/verdict.md`, and `edges/1.14.3-to-1.14.4/report.md`. They are kept byte-exact to preserve supplied bindings; remaining owned text passes this check.
-
-## Awaiting clean independent binding
-
-- 1.14.2→1.14.3: report and former audit remain outside this archive until the clean replacement audit arrives.
+`git diff --check` reports original whitespace in these bound inputs: `edges/1.13.2-to-1.14/report.md`, `edges/1.14-to-1.14.1/verdict.md`, `edges/1.14.1-to-1.14.2/report.md`, `edges/1.15.2-to-1.16/verdict.md`, and `edges/1.14.3-to-1.14.4/report.md`, plus `edges/1.14.2-to-1.14.3/verdict.md`. They are kept byte-exact to preserve supplied bindings; remaining owned text passes this check.
 
 Base: `aae9c86464638cb5ed7faa535c92569b89484906`. No product or backlog claim is made.
