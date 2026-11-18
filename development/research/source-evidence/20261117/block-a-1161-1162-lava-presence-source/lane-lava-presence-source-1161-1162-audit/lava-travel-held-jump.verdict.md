@@ -1,0 +1,19 @@
+# Verdict — lava travel and held-jump consumers
+
+**Verdict: Accept the consumer-body comparison; qualify the stated movement consequence by first-tick order and water contact.** This is a bounded claim review, not full-pair coverage acceptance.
+
+Reviewed scratch input: `lava-travel-held-jump.lf.md`, SHA-256 `54df65ee0d8a61324f75695beef4ea44a0b1afdd96597e6d09d3ce00f0a4c060` (digest matched).
+
+## Confirmed consumer comparison
+
+For `net/minecraft/world/entity/LivingEntity.java`, extracted brace-balanced slices of `travel(Vec3)`, the held-jump `if (this.jumping && this.isAffectedByFluids())` block, and `jumpInLiquid(Tag<Fluid>)` are byte-for-byte equal after LF normalization. The normalized slice SHA-256 values are respectively `39d6496758dd957db4c5dd06453db1f5e5341fafb4693b281fac86bc0b86765e`, `5b03c80816b6adf97ecb22988a2f75916442a7f8e593f91f9333e5521a2eab58`, and `96e2568ab34c6f20fc8a2e2d75e50764dc0113fce576fc07d0c581fa1bff0392` on both versions. `Player.travel` delegates to `super.travel` in its non-flying branch and its `jumpFromGround` override delegates to `super`; those relevant operations are also the same apart from line offsets.
+
+The unchanged lava travel branch requires effective AI or local control, `isInLava()`, `isAffectedByFluids()`, and `!canStandOnFluid(blockPositionFluid)`. For the local player, `LocalPlayer.isEffectiveAi()` returns true; `Player.isAffectedByFluids()` is `!abilities.flying`, and `LivingEntity.canStandOnFluid` returns false. Once entered, it applies the relative input and move, uses the unchanged `<= getFluidJumpThreshold()` depth split, applies the same velocity scaling/falling adjustment, gravity gate and horizontal-collision escape described in the scratch. The held-jump block chooses lava depth only when `isInLava()` is true; its unchanged `jumpInLiquid` body adds `0.04F` to Y regardless of the supplied tag.
+
+## Required consequence qualifications
+
+1. The local-player call chain clears `firstTick` at the end of `baseTick`, before `LivingEntity.aiStep` runs. So the new `firstTick` predicate does not by itself block this tick's held jump/travel. For these consumers, the changed input is the old callback flag versus the refreshed positive-depth predicate.
+2. Held jump also uses `isInWater()` and the selected depth. If the player contacts both water and lava, the old water-first early return can leave old lava depth at zero while the new cache contains positive lava depth; the new held-jump branch may then take the water path. Since `jumpInLiquid(WATER)` and `jumpInLiquid(LAVA)` have the same `+0.04F` body, changing only the selected tag does not guarantee a different vertical impulse. State the water/depth/ground preconditions or use a lava-only witness when claiming a movement delta.
+3. The scratch's lava-only near-surface case remains a separating held-jump witness: an old callback-positive flag with zero sampled depth, airborne, held jump, no water, fluid-affect enabled, and after first tick yields old `+0.04F` Y versus no fluid-jump impulse under the new positive-depth predicate. The same input change can select or skip the travel branch, whose low-depth old and native-fallback/new results differ in operation sequence; exact trajectory results are not verified here.
+
+No consumer-body source change was found. The source-derived difference is in Entity's lava-presence producer/cache, so this consumer claim depends on that producer verdict and the applicability conditions above. `FluidTags.LAVA` membership remains unverified from raw tag resources; these conclusions are conditional on the described state being a member of that tag. No runtime/gameplay check or intermediate release was used.
