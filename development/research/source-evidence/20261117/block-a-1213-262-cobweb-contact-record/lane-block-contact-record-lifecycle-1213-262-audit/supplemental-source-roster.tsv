@@ -1,0 +1,6 @@
+version	mapping	path	sha256
+1.21.3	mojmap	net/minecraft/world/entity/player/Player.java	a803203e92aa4729d5f5c9b16085b6a43ce51d9907d309eb96736e9c7c1340de
+1.21.3	mojmap	net/minecraft/world/entity/EntityType.java	433a855503eff559bf0d9c009080b4ff1dec73c497a455a1d22d6812ab9e7656
+26.2	unobfuscated	net/minecraft/world/entity/player/Player.java	8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531
+26.2	unobfuscated	net/minecraft/world/entity/EntityTypes.java	1b1b09812ed04d143f487d754aff5ed10ed696e8da04ce836ccbdbe0794d5a6c
+26.2	unobfuscated	net/minecraft/core/Direction.java	30fb61592f1a154bb8fc239ab8df1cd2b209f63317e0c7dde4d5b9b3e260d754
