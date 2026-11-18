@@ -3016,6 +3016,52 @@
             },
             "runtimeParity": "unverified"
           }
+        },
+        {
+          "exactPair": "1.12.2--1.13.2",
+          "decision": "ACCEPT bounded early AutoJump east-border witness with the historical outsideWorldBorder flag false and exact empty clearance samples. Old individual maxY=65 yields timer 1, exact 1.13.2 finite aggregate maxY=67 yields timer 0. Exact 1.14 separate infinite provider bound is retained. History-independent witness and implementation remain on hold.",
+          "snapshot": {
+            "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/author-clearance-addendum.md",
+            "sha256": "14e5b9566c6bd0a868441830053ebe67f83ee99ef451d1956a692249b49033f6"
+          },
+          "review": {
+            "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/east-fixture-final-audit.md",
+            "sha256": "dc5d6d7de8e3dcb265655fe66ac9f297f7422b90c003f0dd6db58e72c442f1bf"
+          },
+          "binding": {
+            "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/binding.md",
+            "sha256": "18da791bf375fd9d545c6365fdb884649f11db17efb61a1cd113b16253cebb72"
+          },
+          "earlierEvidence": [
+            {
+              "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/author-analysis.md",
+              "sha256": "d62ffcb2be2b95f3ddb18f542a0eb7b1ee09d986a70d4818e00b3a804f872d99"
+            },
+            {
+              "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/cut-chain-verdict.md",
+              "sha256": "91bbb4ddda9462a535a10102f5179f51d9d20466954752145af432ed38e1a2cb"
+            },
+            {
+              "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/binding-addendum.md",
+              "sha256": "b5b7bd46039c89e70842e439b0ace0eda2f22f85451266edefbd61715c7363bd"
+            },
+            {
+              "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/old-alias-verdict.md",
+              "sha256": "01e68d4683765eea545b05da61d251bafae01a77c3632ae3644dbc3b12f920f8"
+            },
+            {
+              "revision": "bd4902b40dfa4380d86902bb62efb8aded7bc171",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-east-1122-1132/114-endpoint-author-report.md",
+              "sha256": "59521c01515b13b3d50af364dd1fba2d1f4d6d77e0ffbb2076ce1a52dbc43691"
+            }
+          ]
         }
       ]
     },
@@ -6329,7 +6375,43 @@
         "runtimeParity": "unverified"
       },
       "implementationEvidence": "Candidate be9fc91e809f897bf065087824e5090f5c1a8f09 integrated on current main as @V1_16_2; V1_16 and V1_16_2 aliases resolve the historical client dismount behavior for selected 1.15.2 only and native behavior for 1.16+. Client Player.rideTick wraps the stop-riding decision only for LocalPlayer; shared flag/input state remain distinct. Static diff check only; runtime parity unverified.",
-      "openIssues": []
+      "openIssues": [],
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.15.2--1.16.1",
+          "decision": "ACCEPT bounded source difference in callback lava latch admission, depth cache and dependent jump/travel. Exact 1.16.1 requires lava surface above the normal box bottom and uses a cached depth split. Raw pinned input artifacts, shipped tag resources and intermediate onset remain open.",
+          "snapshot": {
+            "revision": "74755c98c2b3e5178da5de3d9843f3cd7f5d66ff",
+            "path": "development/research/source-evidence/20261117/block-a-1152-1161-lava-presence/lane-lava-presence-source-1152-1161/comparison.md",
+            "sha256": "ea24239644b5bb918ba266e0574611a460ba9e0400d48924ca85887f058599fa"
+          },
+          "review": {
+            "revision": "74755c98c2b3e5178da5de3d9843f3cd7f5d66ff",
+            "path": "development/research/source-evidence/20261117/block-a-1152-1161-lava-presence/lane-lava-presence-source-1152-1161-audit/gate-verdict.md",
+            "sha256": "249aa44bb9bda43bf74557fb6153dc27a03b44ce68f55d34a2c4b2e430ea885a"
+          },
+          "sourceInputAudit": {
+            "revision": "74755c98c2b3e5178da5de3d9843f3cd7f5d66ff",
+            "path": "development/research/source-evidence/20261117/block-a-1152-1161-lava-presence/lane-lava-presence-source-1152-1161-audit/source-input-audit.md",
+            "sha256": "b9fc268d63be1dd12b7dca424d9f5e2394961edf3e8452fbd7e4830a3c9fce27"
+          },
+          "roster": {
+            "revision": "74755c98c2b3e5178da5de3d9843f3cd7f5d66ff",
+            "path": "development/research/source-evidence/20261117/block-a-1152-1161-lava-presence/lane-lava-presence-source-1152-1161-audit/source-roster.md",
+            "sha256": "7b7cf479bb5901487413929365459d7705f796307cd5581e608b5663a689d663"
+          },
+          "tagsAvailability": {
+            "revision": "74755c98c2b3e5178da5de3d9843f3cd7f5d66ff",
+            "path": "development/research/source-evidence/20261117/block-a-1152-1161-lava-presence/lane-lava-water-tags-1152-1161/comparison.md",
+            "sha256": "4b9a44617e5805b64af53ea505dd8eed69594034f10b2da9fbc66e6124040bfd"
+          },
+          "tagRoster": {
+            "revision": "74755c98c2b3e5178da5de3d9843f3cd7f5d66ff",
+            "path": "development/research/source-evidence/20261117/block-a-1152-1161-lava-presence/lane-lava-water-tags-1152-1161/roster.md",
+            "sha256": "91e1b233a01ed29e8b586ea84153e42c111ec8724f3b9d66d4fc33f519261886"
+          }
+        }
+      ]
     },
     {
       "pair": "1.16.5--1.17.1",
@@ -7114,6 +7196,50 @@
             "revision": "931bdd207f73857f421bcd2c4225af2367d24903",
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/shulker-adjacent-support-timing-1201-1202/binding.md",
             "sha256": "6fb2e64250d83f8316e120bf56acd743114fec0d6fe96f25e2936f0550cbd10a"
+          }
+        },
+        {
+          "exactPair": "1.20.1--1.20.2",
+          "decision": "ACCEPT no difference in the assigned ordinary LocalPlayer fluid Java paths: admission, current push including concrete source/flowing subtype dispatch, vertical response, escape clearance and held-jump depth-cache handoff. Effective shipped WATER/LAVA tag membership remains open.",
+          "snapshot": {
+            "revision": "b8fac97a3975ca52d653cf30a75832dc21d30ec9",
+            "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-contact-1201-1202/comparison.corrected-r1.md",
+            "sha256": "74afdce1697062534c51aad9b6c8a9efff5d6b8ae8ff5e6519d6315cbf57b488"
+          },
+          "review": {
+            "revision": "b8fac97a3975ca52d653cf30a75832dc21d30ec9",
+            "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-contact-1201-1202-audit/verdict-r1.md",
+            "sha256": "bbde444336b0454011182b56e7f30cead66112efce1e8e22addcf894cef5e6b4"
+          },
+          "subtypeReview": {
+            "revision": "b8fac97a3975ca52d653cf30a75832dc21d30ec9",
+            "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-contact-1201-1202-audit/verdict-r2.md",
+            "sha256": "855f4a0ea40003c6fa6b0742ceeca6f4e8ee23e06a943d48ed8c918fddf66712"
+          },
+          "subtypeRoster": {
+            "revision": "b8fac97a3975ca52d653cf30a75832dc21d30ec9",
+            "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-contact-1201-1202-audit/subtype-roster.md",
+            "sha256": "eb02dfb414b4d2570d3f0f88ecc5de35188a453ab9d01d8b6b5835f4bfa4fc7d"
+          },
+          "initialReview": {
+            "revision": "b8fac97a3975ca52d653cf30a75832dc21d30ec9",
+            "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-contact-1201-1202-audit/verdict.md",
+            "sha256": "6ff8e836720be2a4d3394b9708eab132fa076417f43a30ed4631216c12f82c2d"
+          },
+          "roster": {
+            "revision": "b8fac97a3975ca52d653cf30a75832dc21d30ec9",
+            "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-contact-1201-1202-audit/source-roster.md",
+            "sha256": "b67fe32d009a9002d0683f241d12390f1a61244f21715b3969394e4810949fc7"
+          },
+          "sourceIdentity": {
+            "revision": "b8fac97a3975ca52d653cf30a75832dc21d30ec9",
+            "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-contact-1201-1202-audit/source-roster-addendum.md",
+            "sha256": "cd8c5bf193416dc8bc35764b12a1a8cbe3cc740508aa425ea440b76e1346e75b"
+          },
+          "tagsAvailability": {
+            "revision": "b8fac97a3975ca52d653cf30a75832dc21d30ec9",
+            "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-tags-1201-1202/comparison.md",
+            "sha256": "47ade6a61d5f119ad5b73b5baa2b15ee78f3e73a72762424f32defcf9bcba9f9"
           }
         }
       ]
@@ -13434,7 +13560,23 @@
         ],
         "productApplicability": "not checked",
         "runtimeParity": "unverified"
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.15--26.2",
+          "decision": "ACCEPT bounded portal-tag dismount correction endpoints. Both payloads carry absolute XYZ. 1.15 applies absolute rotation and zeroes client velocity; 26.2 preserves rotation/deltas and gates application on nonpassenger state. Packet arrival, intermediate releases and client-only product applicability remain open.",
+          "snapshot": {
+            "revision": "4e75b170282e681faaf1e34b61d5a2e43ffe7d19",
+            "path": "development/research/source-evidence/20261117/block-a-115-262-portal-dismount/lane-portal-dismount-115-262-server-response/source-roster-comparison-1.15-to-26.2.md",
+            "sha256": "64dc9971f362bed4ed047112fe183bbf45efbe4b59cbdd81f3c1c728c0e99769"
+          },
+          "review": {
+            "revision": "4e75b170282e681faaf1e34b61d5a2e43ffe7d19",
+            "path": "development/research/source-evidence/20261117/block-a-115-262-portal-dismount/lane-portal-dismount-115-262-server-response-audit/independent-source-audit.md",
+            "sha256": "d924784af772346415c94e983b00984380ba0e6a9992a1cfc8064c529fec8e81"
+          }
+        }
+      ]
     },
     {
       "pair": "1.17.1--26.2",
