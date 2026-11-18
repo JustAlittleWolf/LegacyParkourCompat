@@ -14,7 +14,7 @@ public final class EntityTurnPitchClamp implements EntityTurnPitchHook {
      * Entity.setXRot(float) before its later clamp; the setter stores finite
      * values verbatim (Entity.java:377–388, 3021–3027). This direct operation is
      * accepted continuously through Mojmap 1.20.4 Entity.turn/setXRot
-     * (Entity.java:398–414, 3309–3315) and 1.21.1 Entity.turn/setXRot
+     * (Entity.java:398–410, 3309–3315) and 1.21.1 Entity.turn/setXRot
      * (Entity.java:401–413, 3363–3369). Mojmap 1.21.2 changes the setter to
      * remainder by 360.0F then clamp (Entity.java:3489–3494); 26.2 unobfuscated
      * Entity.turn/setXRot retains that later setter behavior (Entity.java:489–501,
