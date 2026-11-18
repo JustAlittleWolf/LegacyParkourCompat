@@ -7987,6 +7987,54 @@
             "sha256": "364e11f7d7501e6b6e64b0350b075489b5b90a9ed3eca1344dcfd4547b893857"
           },
           "decision": "Accepted exact 1.20 to 1.20.1 ordinary callback arithmetic, pitch setter order and first active Elytra movement. The independently verified inline event-poll path precedes the next reachable client tick for this witness."
+        },
+        {
+          "exactPair": "1.19.4--1.20",
+          "snapshot": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.19.4--1.20/source/comparison.md",
+            "sha256": "bfa50de90ec6357ec7c35360c503b48aa27a699885ac73b7dc37ffb3be0460b9"
+          },
+          "review": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.19.4--1.20/blind-audit/verdict.md",
+            "sha256": "58a0ebf1618705c30a9a95005ea56b79c868b5b1b7b52eb3e02c07b3d4aac7e7"
+          },
+          "frozenIndependentRoster": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.19.4--1.20/blind-audit/frozen.md",
+            "sha256": "a8a07a0abb70905af10be972a1ca67fb946ad696185e977d127b52e0a43cf8fa"
+          },
+          "decision": "Accept bounded continuity of body admission/height, current accumulation/player scale, eye sampling and first normal water/lava movement under equal effective fluid tags and world/player inputs. Separately, 1.19.4 resets fall distance under Slow Falling with nonpositive vertical motion and 1.20 omits that reset; the fluid gravity, drag and velocity math still agree."
+        },
+        {
+          "exactPair": "1.20--1.20.1",
+          "snapshot": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20--1.20.1/source/comparison-r1.md",
+            "sha256": "8de7634ad761856243c90f1935d91872080a25034b885f9f20231e3d3e14ad8d"
+          },
+          "review": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20--1.20.1/blind-audit/verdict-r1.md",
+            "sha256": "9d7fa28c4a07f474d118a2e23711828085897e79a084089fe43f031297ad050a"
+          },
+          "frozenIndependentRoster": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20--1.20.1/blind-audit/frozen.md",
+            "sha256": "9a7d7b9afd9b8107664a21c2004fc8d60f610692c26ea3f6aa63ccb822dca082"
+          },
+          "earlierReview": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20--1.20.1/blind-audit/verdict.md",
+            "sha256": "c9b1c0b25292ac5877023137768f0c0bf9f46c98788783a9ea708dc252c53a52"
+          },
+          "earlierSnapshot": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20--1.20.1/source/comparison.md",
+            "sha256": "93f6424003875573ba0053a3d61a937a3172d9ca02dc19e47dcf5f7fb3227df1"
+          },
+          "decision": "Accept the four exact fluid operation comparisons under equal effective fluid tags and queried inputs. The corrected local eye reader is LocalPlayer.isUnderWater() using wasUnderwater, written from the previous eye-tag cache before Entity.baseTick refreshes it."
         }
       ]
     },
@@ -9011,6 +9059,49 @@
             "sha256": "a9fd27434b2393fcef4bcfff80f62ae103482adbda3535e40a5121bfd5c7ccb9"
           },
           "decision": "Accepted exact 1.20.3 to 1.20.4 ordinary callback arithmetic, pitch clamp, and reachable first active Elytra move under the reviewed awake, dry, nonpassenger and abilities-flight-off constraints."
+        },
+        {
+          "exactPair": "1.20.2--1.20.3",
+          "snapshot": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20.2--1.20.3/source/comparison.md",
+            "sha256": "2ca246968f841b315a20216bf6e6de8ae545ba3a99e08b4fec7a6320872ab372"
+          },
+          "review": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20.2--1.20.3/blind-audit/verdict.md",
+            "sha256": "dd6a31c75d00ede4dce584afdad123ed5b1f2923336959bfac2f7cdf44b2ba49"
+          },
+          "frozenIndependentRoster": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20.2--1.20.3/blind-audit/frozen.md",
+            "sha256": "9ad14a7fcbf2c8144b4596e3e0fcd7da1f7850fda8d086729f91975fc15dc6ab"
+          },
+          "decision": "Accept the narrowly reviewed equal-input local water/lava contact, current, eye writer, and first move. The ordinary nonflying living travel dispatch passes through Player.travel; its removed after-move statistics/exhaustion bookkeeping is outside these movement writes. Local provenance-label limitations stay bound."
+        },
+        {
+          "exactPair": "1.20.3--1.20.4",
+          "snapshot": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20.3--1.20.4/source/comparison.md",
+            "sha256": "112b37f4daa4d7f06d786e768869ce849679a336449226c4d55d4e8519f5c314"
+          },
+          "review": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20.3--1.20.4/blind-audit/verdict-r1.md",
+            "sha256": "3374228085f52b3e65cb5dd492c182e0170f52d4f64d404d10b5e0c414d68061"
+          },
+          "frozenIndependentRoster": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20.3--1.20.4/blind-audit/frozen.md",
+            "sha256": "aa6faaceb8a3725565cfbee24d62c837229bd8688f993be36473be5263eea4ef"
+          },
+          "earlierReview": {
+            "revision": "eddbb175c5b006ac9634ce6e2fea6c83ae2f4466",
+            "path": "development/research/source-evidence/20261118/fluid-java-1194-1204/1.20.3--1.20.4/blind-audit/verdict.md",
+            "sha256": "46606b1f91a907baf867704916db4ea5003b9eb1264ef090d00f043fc1661aa9"
+          },
+          "decision": "Accept bounded conditional continuity of body admission and height, current and player normalization, eye sampling plus the actual LocalPlayer cached reader/order, and the first ordinary water/lava update including the swimming prelude. The corrected author pin supersedes the older digest issue."
         }
       ]
     },
