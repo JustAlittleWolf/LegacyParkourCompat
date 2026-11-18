@@ -7926,6 +7926,56 @@
             "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
           },
           "exactPair": "1.20--1.20.1"
+        },
+        {
+          "exactPair": "1.19.4--1.20",
+          "snapshot": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.19.4--1.20/source/comparison-r1.md",
+            "sha256": "ea497165a8f694b94ac524a08d46d632023a2c99d4ccbadd4f9dffd293beb2f1"
+          },
+          "review": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.19.4--1.20/blind-audit/verdict-r1.md",
+            "sha256": "b9a006e99759ff39282cfcb1c355ce5813592503300beebba00401273ba2e521"
+          },
+          "frozenIndependentRoster": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.19.4--1.20/blind-audit/frozen.md",
+            "sha256": "a3b09ac8ebdbe3a77bd64d584c4f23e413eef634ad952a3ddb9db5c4841f67e2"
+          },
+          "supersededReport": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.19.4--1.20/source/comparison.md",
+            "sha256": "ad94e58bc818d4f6ce63e8f4f1dc40ce2a8ebc87ced76a94811e097ea400b47c"
+          },
+          "supersededReview": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.19.4--1.20/blind-audit/verdict.md",
+            "sha256": "7d68e54f7cdefd6ef3776fd2c6a97cbcde873d57607d2db2e5537c2bec6b287c"
+          },
+          "decision": "Accepted same-state ordinary mouse-turn pitch and first active Elytra movement vector across exact 1.19.4 to 1.20. Position translation and outgoing velocity agree within the audited no-contact witness. A separate fall-distance counter-state delta remains.",
+          "fallDistancePrelude": "With Slow Falling and incoming vertical velocity <= 0, 1.19.4 immediately writes fallDistance = 0.0F while 1.20 omits that write. A nonzero incoming counter can retain a difference through the scoped no-contact Elytra move. Grounded and ability-flight wrapper resets can overwrite it in their separate routes.",
+          "schedulerLimit": "The post-simulation turn can affect a later movement tick. Callback delivery and accumulation timing were not established."
+        },
+        {
+          "exactPair": "1.20--1.20.1",
+          "snapshot": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20--1.20.1/source/comparison.md",
+            "sha256": "c7636e0a6fd75718d25eff372326fe9f8a77cb37ed3fe819e4122041d78fba2e"
+          },
+          "review": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20--1.20.1/blind-audit/verdict.md",
+            "sha256": "500009c6d87a122201b1b1cd67ce50267f4af266f41203a4bec94f4523e1c246"
+          },
+          "frozenIndependentRoster": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20--1.20.1/blind-audit/frozen.md",
+            "sha256": "364e11f7d7501e6b6e64b0350b075489b5b90a9ed3eca1344dcfd4547b893857"
+          },
+          "decision": "Accepted exact 1.20 to 1.20.1 ordinary callback arithmetic, pitch setter order and first active Elytra movement. The independently verified inline event-poll path precedes the next reachable client tick for this witness."
         }
       ]
     },
@@ -8319,6 +8369,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.20.1--1.20.2",
+          "snapshot": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.1--1.20.2/source/comparison.md",
+            "sha256": "9a7d7d5a6e8441ddced16992da4f21a89e5aeb32ca6a981d6b7be3af1a1ae760"
+          },
+          "review": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.1--1.20.2/blind-audit/verdict.md",
+            "sha256": "eb4077ab548d80b5e97a96acd63e96fccb3e837b7e05e3b075ab2ff04d027fd0"
+          },
+          "frozenIndependentRoster": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.1--1.20.2/blind-audit/frozen.md",
+            "sha256": "009e557c12f953dabb99f7f43c948146b1479c0f0ee5c42035714900676da4f2"
+          },
+          "decision": "Accepted exact 1.20.1 to 1.20.2 ordinary callback arithmetic, virtual pitch setter and first active Elytra movement. A queued callback can execute before simulation when drained; arrival before any given logical tick remains conditional."
         }
       ]
     },
@@ -8893,6 +8962,44 @@
             "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
             "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
           }
+        },
+        {
+          "exactPair": "1.20.2--1.20.3",
+          "snapshot": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.2--1.20.3/source/comparison.md",
+            "sha256": "ab21e646ed3d68207013640569b61ef11d24d039a9ef4bb2e65547d6db08ae1f"
+          },
+          "review": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.2--1.20.3/blind-audit/verdict.md",
+            "sha256": "4ff0c8caa962da7311e438cd4288ff196aa69996b21d546ad41bda256c274331"
+          },
+          "frozenIndependentRoster": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.2--1.20.3/blind-audit/frozen.md",
+            "sha256": "4baf1caa137d135e36d64ea99f25df032d90f21f29efc2341685e7dce77cd64f"
+          },
+          "decision": "Accepted exact 1.20.2 to 1.20.3 ordinary callback and pitch equivalence and first active clear-space Elytra movement with independent witness narrowing. The after-move statistics difference and the 1.20.2 provenance linkage caveat remain separate."
+        },
+        {
+          "exactPair": "1.20.3--1.20.4",
+          "snapshot": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.3--1.20.4/source/comparison.md",
+            "sha256": "98da72622791eaa98392a970833ac80ee6f005ef522bd090f016201494f10c5d"
+          },
+          "review": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.3--1.20.4/blind-audit/verdict.md",
+            "sha256": "d3a41a110bce9c1179a58adb94662be9c7ba36c21a8ddbeaf9f4224e82de3293"
+          },
+          "frozenIndependentRoster": {
+            "revision": "ee30fad38ecac269c0c295df025cb97f227a446b",
+            "path": "development/research/source-evidence/20261118/mouse-turn-1194-1204/1.20.3--1.20.4/blind-audit/frozen.md",
+            "sha256": "a9fd27434b2393fcef4bcfff80f62ae103482adbda3535e40a5121bfd5c7ccb9"
+          },
+          "decision": "Accepted exact 1.20.3 to 1.20.4 ordinary callback arithmetic, pitch clamp, and reachable first active Elytra move under the reviewed awake, dry, nonpassenger and abilities-flight-off constraints."
         }
       ]
     },
