@@ -1,0 +1,42 @@
+# Independent respawn velocity applicability audit
+
+Date: 2026-11-18. Host: Windows; execution: PowerShell. Product checkout was read-only. The only product-side read was exact decompiled Minecraft source plus the assigned finding revision; no wiki, implementation, backlog, or product history was consulted.
+
+## Assignment and claim under audit
+
+Assigned claim: for equivalent newly replaced client players during respawn, prior profiles through 1.21.1 do not copy the previous player's delta movement, and the fresh/reset state is zero. The comparison target is native 26.2 under `ClientboundRespawnPacket.shouldKeep((byte)2)`.
+
+Finding revision checked: `development/research/findings/1.21.1--1.21.2/keep-entity-data-respawn-velocity-copy.md`, SHA-256 `CFCD79C796DD4CE10A3B6979B98E399E8B17186A4A4ACDBD4B6A06245B4FD994` (matches assignment).
+
+## Source observations
+
+- 1.7.10, Ornithe Feather: `Minecraft.respawnPlayer(int)` replaces the player with `interactionManager.createPlayer(...)` and invokes new player's `resetPos()` (Minecraft.java:1700-1715). Entity.resetPos() zeros all three velocity components once `world != null` (Entity.java:161-175). No old-player velocity getter/copy is present in this replacement path.
+- 1.8.9, Ornithe Feather: `Minecraft.respawnPlayer(int)` similarly creates a new LocalClientPlayerEntity, copies synced entity data, and calls `resetPos()` (Minecraft.java:1799-1816); Entity.resetPos() zeroes velocityX/Y/Z (Entity.java:180-194). This is the same relevant branch despite additional data transfer.
+- 1.13.2, Ornithe Feather: `Minecraft.respawnPlayer(DimensionType)` replaces the player, transfers synced entity data, and invokes resetPos (Minecraft.java:1454-1476); Entity.resetPos() assigns zero to each velocity component (Entity.java:260-276). No old-player velocity transfer is in this branch.
+- 1.14.3, Yarn: `ClientPlayNetworkHandler.onPlayerRespawn(PlayerRespawnS2CPacket)` creates a fresh ClientPlayerEntity and invokes `afterSpawn()` before adding it (ClientPlayNetworkHandler.java:974-1007). PlayerEntity.afterSpawn delegates to Entity.afterSpawn; the latter calls `setVelocity(Vec3d.ZERO)` when world exists and resets pitch (PlayerEntity.java:460-465; Entity.java:272-285). No old-player delta copy occurs in this operation.
+- 1.20.6, Mojmap: `ClientPacketListener.handleRespawn` creates a new LocalPlayer at lines 1109-1114, copies entity data and optionally attributes, then unconditionally calls `resetPos()` at lines 1124-1137. `LocalPlayer.resetPos()` calls `setDeltaMovement(Vec3.ZERO)` at lines 629-645. There is no transfer of the previous player's delta in the replacement operation.
+- 1.21 and 1.21.1, Mojmap: `ClientPacketListener.handleRespawn` likewise creates a new LocalPlayer, copies entity data / attributes according to flags, then calls `resetPos()` unconditionally (1.21: lines 1112-1142; 1.21.1: lines 1112-1143). `LocalPlayer.resetPos()` sets `Vec3.ZERO` (1.21: lines 625-641; 1.21.1: lines 625-637). The 1.21.1 `Entity.deltaMovement` field also initializes to `Vec3.ZERO` (Entity.java:165), although the unconditional reset is the direct evidence.
+- Native 26.2, unobfuscated: `ClientboundRespawnPacket` defines `KEEP_ENTITY_DATA = 2`, `KEEP_ALL_DATA = 3`, and `shouldKeep(mask)` returns `(dataToKeep & mask) != 0` (ClientboundRespawnPacket.java:12-14, 34-36). `handleRespawn` creates `newPlayer`; within `packet.shouldKeep((byte)2)`, it copies entity data, then calls the exact signature `newPlayer.setDeltaMovement(oldPlayer.getDeltaMovement())` and copies rotations (ClientPacketListener.java:1289-1318). The false branch calls `newPlayer.resetPos()`. Entity.deltaMovement is field-initialized to `Vec3.ZERO` (Entity.java:223). Therefore, with the keep-entity-data bit enabled, 26.2's explicit copy preserves the old delta; absent that line, the fresh entity's delta remains zero because this branch skips resetPos but construction starts at zero. This directly validates the operation and its branch/method signatures.
+
+The older evidence shows that earlier respawn replacement behavior zeroes velocity through reset/after-spawn paths, rather than carrying prior-player velocity. It supports the assigned claim through the exact 1.21.1 endpoint. The earlier samples include old client respawn method, packet-handler replacement, and the modern resetPos path; they are representative source anchors, not an exhaustive inspection of every intermediate patch or every possible historical profile. No exact intermediate introduction release is inferred.
+
+The existing finding's ordinary End transfer / `dataToKeep=3` path is outside this audit. Server flag production, position-correction relative flags, and trajectory/persistence beyond the client replacement operation were not re-audited.
+
+## Evidence identity and integrity
+
+Source folders below are the canonical local `decompiled_minecraft/` release/mapping directories. Hashes are SHA-256 of the listed source files as read. For entries with a provenance manifest, the source digest matched the manifest. The file hashes bind the exact bytes inspected; missing manifests are explicitly not treated as provenance verification.
+
+- `1.7.10/ornithe-feather`: `.decompile-provenance.json` SHA-256 `11BADA441EBE07661402D1C40E1C490B78B279ECAA084F9A4DC3AE2DD54CAF6F`; `Minecraft.java` `F1161EE015867615AC8F719AA5B1C58AB3B3FFA91382627F751B8D0AC3C28F96`; `Entity.java` `AF4EF7B11BC709D96BD3EEA1260A61D38A1A04996BDF87F2A77C459DDF070A69` (both match manifest). Manifest records Feather build.2 input SHA-256 `1A22781AA3BAC248E25C619842EC2EC5C126D015436D528D411A9E85A6F491A7`.
+- `1.8.9/ornithe-feather`: no provenance manifest present; `Minecraft.java` `1181BB145EB52ECBA28FCE3DB96FCA1E639C85012472D96EC0BA71BD02E15020`; `Entity.java` `D4C10932CB5BB1067A5A58BE4E1BB1B42BDDE3B6FC893D88178CC07435A1696B`.
+- `1.13.2/ornithe-feather`: no provenance manifest present; `Minecraft.java` `B1D35473CD12BDF38E87F9888B4ED6F620614CBE914CF7E7A40C601D4E284875`; `Entity.java` `1D6EC8B80F74635401745C2C027BF36555C85348CA5693764F2668363B17D269`.
+- `1.14.3/yarn`: manifest SHA-256 `81EA0021EB122D4E3340E20D47D6ECB7079365BA767A038D26A8264CDDACC28A`; `ClientPlayNetworkHandler.java` `5DAB323EBB5147BE91219928928ABAADAA320A3281FAD8F6957D3D96D5EEB4A7`; `Entity.java` `9B204A5F9AF6CA50C09DB4B6185FF37C39980C1A8CD1B5FD004713ECFFAE5C14`; `PlayerEntity.java` `E3F361AC4E369D01473F3D84044EE33F9685D182C4485E2E80B7F62756950963` (all match manifest). Manifest records Yarn 1.14.3+build.13 mapping input SHA-256 `AD9E77F907CFC6780FB348AD4B3A948FFC8CEA3BFE50ABCC792428645E49E06E`.
+- `1.20.6/mojmap`: no provenance manifest present; `ClientPacketListener.java` `E121E998EC25211AAECF91FFFD0EA699CEBD47EDDEA9134EFD3F2FFBEF8EB7CD`; `LocalPlayer.java` `6B429DFA6E0681251EC985DDA1627F808652A7BBE5B70DC85C8FA0FE0ED46FFA`.
+- `1.21/mojmap`: manifest SHA-256 `90246F277AEFD2350E42E17245FAA51928A949C8DB4427F3BE04A732527DEB7C`; `ClientPacketListener.java` `822E00D89E8DEF4CF7A8C22FDFEFBA3B9DC2135A7630E4EBE561A9D547D7F79D`; `LocalPlayer.java` `C555E68AC3C63AB9B4F9A9E31933E263B96350A2BC599D11A0DE5928BC24B583`; `Entity.java` `B81905C7879E2CC5C5063A41D865C4164AD919F156306705BE791D1017B99850` (all match manifest).
+- `1.21.1/mojmap`: no provenance manifest present; the audited `ClientPacketListener.java` and `LocalPlayer.java` have the same respective SHA-256 bytes as the 1.21 directory above; `Entity.java` `B81905C7879E2CC5C5063A41D865C4164AD919F156306705BE791D1017B99850`.
+- `26.2/unobfuscated`: no provenance manifest present; `ClientPacketListener.java` `9CB0CC8AFEBAE9F4E42F428A52719C645817D03893DC371E6711C7BD16EAC1B6`; `Entity.java` `7AFB9C1294893FFE73E3B1ACFFCAD41C648F15DE8378BFF3DFFAFF869BB811D5`; `ClientboundRespawnPacket.java` `B2997582CB12FAE6923D0D7C02EF864444AB7A6F476CBEBFE8A225EBFF4D3B03`.
+
+## Verdict
+
+**Applicability confirmed for the exact inspected snapshots through 1.21.1 and native behavior confirmed in 26.2.** No contradiction found: prior sampled implementations do not copy the old player's delta and reset/fresh state is zero; 26.2 explicitly copies the previous delta under the keep-entity-data bit. The broad phrase “earlier implemented profiles through 1.21.1” is bounded here to those exact release snapshots, not every stable patch or the full ChangeResolver profile set. Missing provenance manifests for several snapshots limit artifact provenance confidence but do not change the observed local source operations. This audit did not alter the finding or any product source.
+
+
