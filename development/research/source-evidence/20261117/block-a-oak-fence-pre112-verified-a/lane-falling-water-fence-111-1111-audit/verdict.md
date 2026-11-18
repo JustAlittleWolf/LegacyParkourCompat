@@ -1,0 +1,26 @@
+# Independent bounded source audit: 1.11 → 1.11.1
+
+## Immutable inputs
+
+- Author report: `lane-falling-water-fence-111-1111/report.md`; SHA-256 `D27497DBA3358C69C6364560887B196164FE4C62BED457765B6D569D17C52804` (verified before review).
+- Frozen independent roster: `source-roster.md`; SHA-256 `5F3F58CF6751E9432CCD5494CD2DB31620917778EA326BC859C6B96EE03EFF73` (written before opening the report).
+- Exact source pair: 1.11 and 1.11.1, Ornithe Feather. Source-manifest SHA-256 values: 1.11 `8B3E5DA58494F1DBA77410960753B0BF646425A1ADA491D8242CC71E6C7A59CA`; 1.11.1 `0D5F4697D4E4CE53B36D0DBFEC89D44830EB76753A6643B49E42F0857753066D`. The ten files listed in the author's source roster have hashes matching both manifests and match the report's file hashes. Relevant `LiquidBlock.java` is byte-identical across releases (`c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244`).
+- Additional dependency files checked for oak identity and loaded gates: `Block.java`, `Material.java`, `Blocks.java`, `World.java`, `ChunkSource.java`, `Entity.java`, `LivingEntity.java`, `PlayerEntity.java`, `ClientPlayerEntity.java`, and `LocalClientPlayerEntity.java`; every cited behavior below was checked in both releases.
+
+## Verdict
+
+**Accept the bounded no-difference conclusion** for (1) a dry ordinary oak fence as a horizontal neighbor at the flowing-water cell or at its above cell and (2) direct local-player reachability to the water-current velocity write. The report correctly limits its claim to these probes and the exact endpoint pair; it does not establish an intermediate patch boundary or full-pair coverage.
+
+## Source basis
+
+- `Block.java:927-935` in both releases registers legacy block ID 85 / key `fence` as `FenceBlock(Material.WOOD, PlanksBlock.Variant.OAK.getColor())`. `Material.isSolid()` defaults to true (`Material.java:63-65`); `Block.isFaceSolid()` returns the position's material solidity (`Block.java:343-345`). `FenceBlock` is non-cube and non-solid-render but does not override `isFaceSolid` (`FenceBlock.java:106-119` in 1.11; `109-122` in 1.11.1). Thus the ordinary dry oak fence satisfies either horizontal-face probe despite being non-cube.
+- `LiquidBlock.getFlow()` is identical in both files (`LiquidBlock.java:131-172`). For `LEVEL >= 8`, it visits horizontal neighbors in `Direction.Plane.HORIZONTAL` order. For each, it tests the neighbor face first and tests the neighbor's above-cell face only if the first test is false (Java `||` short-circuit). Either oak-fence position makes the predicate true; the routine normalizes the prior horizontal vector, adds `(0,-6,0)`, breaks after the first matching direction, and normalizes at return. A fence in both positions does not inject the downward component twice. The ordinary neighbor-depth fallback separately requires the neighbor material not to block movement, which wood does not satisfy.
+- `LocalClientPlayerEntity.tick()` has the same gate and call in both versions: only if `world.isChunkLoaded(new BlockPos(x,0,z))` does it call `super.tick()` (`LocalClientPlayerEntity.java:159-162`). The inherited player/living tick chain reaches `Entity.tick()` → `baseTick()` → `checkWaterCollisions()` (`Entity.java:313-319, 375` in 1.11; `317-323, 379` in 1.11.1; `LivingEntity.tick()` calls `super.tick()` in both). `checkWaterCollisions()` invokes `World.applyLiquidDrag` with the same player shape and water material in both releases (`Entity.java:884-899` in 1.11; `934-950` in 1.11.1).
+- `World.applyLiquidDrag()` first checks `isAreaLoaded(bounds..., true)` and returns false before reading fluids if the area is not loaded (`World.java:1592-1600` in 1.11; `1571-1579` in 1.11.1). When loaded, both versions scan x/y/z in the same nested-loop order, accumulate `applyMaterialDrag` results, require a nonzero vector and `entity.hasLiquidCollision()`, normalize once, then add `x`, `y`, and `z` sequentially at scale `0.014` (`World.java:1607-1633` in 1.11; `1586-1612` in 1.11.1). `Entity.hasLiquidCollision()` returns true in both releases (`Entity.java:2069-2071`; `2128-2130`). No per-neighbor chunk-loaded gate is present in `LiquidBlock.getFlow()`; the world area preflight is the gate around the fluid scan.
+
+## Report corrections
+
+1. The no-difference result is supported, but the report omits the `World.applyLiquidDrag()` `isAreaLoaded(..., true)` early return. Include this because the requested player reachability includes loaded gates.
+2. The `Entity.tick()` line citation is not release-specific as written: 1.11 begins at line 313 and calls `checkWaterCollisions()` at 375; 1.11.1 begins at 317 and calls it at 379. The report's `checkWaterCollisions()` range for 1.11.1 should extend through its return at line 950. The `World.applyLiquidDrag()` ranges in the report are correctly paired: 1.11 is 1592-1634, and 1.11.1 is 1571-1613.
+
+No source blocker. This verdict does not accept full-pair coverage, implementation applicability beyond the named behavior, runtime parity, or any intermediate release boundary.
