@@ -6776,6 +6776,52 @@
             "path": "development/research/source-evidence/20261118/block-c-llama-rider-earlier-alias/README.md",
             "sha256": "988cbadad70fbe2ca08b608f6cd8c88d1019320f7f1c738feb4fdc4c636fa01b"
           }
+        },
+        {
+          "exactPair": "1.15.2--1.16",
+          "decision": "ACCEPT identical built-in WATER and LAVA definitions in exact 1.15.2 and stable 1.16 client archives. The four entries retain source and flowing IDs with replace false and no includes. Custom pack merging, runtime registry composition and fluid movement remain separate.",
+          "snapshot": {
+            "revision": "552e124179e38dd334a5872135c735ec67305efb",
+            "path": "development/research/source-evidence/20261117/block-a-1152-116-packaged-fluid-tags/lane-exact-1152-116-fluid-resource-recovery/comparison.md",
+            "sha256": "cf79515761fc6c4a825654c746154cbfdae78eee3e23da9b076de2945123657c"
+          },
+          "review": {
+            "revision": "552e124179e38dd334a5872135c735ec67305efb",
+            "path": "development/research/source-evidence/20261117/block-a-1152-116-packaged-fluid-tags/lane-exact-1152-116-fluid-resource-audit/verdict.json",
+            "sha256": "4de0c97e82a3a4d9a6e0eed607f4eaa61ac81ab42bf883476edc3618bfb56023"
+          },
+          "roster": {
+            "revision": "552e124179e38dd334a5872135c735ec67305efb",
+            "path": "development/research/source-evidence/20261117/block-a-1152-116-packaged-fluid-tags/lane-exact-1152-116-fluid-resource-audit/independent-roster.json",
+            "sha256": "18b24975f876e5195cd68072cf7d2c98a2909bd85a4e73bd784fbc42d2c32071"
+          },
+          "manifest": {
+            "revision": "552e124179e38dd334a5872135c735ec67305efb",
+            "path": "development/research/source-evidence/20261117/block-a-1152-116-packaged-fluid-tags/lane-exact-1152-116-fluid-resource-recovery/resource-manifest.json",
+            "sha256": "68b6a53bfd16f55c392943fbddb64b6f91b639075a50af459513b4e30da4095f"
+          },
+          "resources": [
+            {
+              "revision": "552e124179e38dd334a5872135c735ec67305efb",
+              "path": "development/research/source-evidence/20261117/block-a-1152-116-packaged-fluid-tags/lane-exact-1152-116-fluid-resource-recovery/1.15.2/data/minecraft/tags/fluids/water.json",
+              "sha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18"
+            },
+            {
+              "revision": "552e124179e38dd334a5872135c735ec67305efb",
+              "path": "development/research/source-evidence/20261117/block-a-1152-116-packaged-fluid-tags/lane-exact-1152-116-fluid-resource-recovery/1.15.2/data/minecraft/tags/fluids/lava.json",
+              "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
+            },
+            {
+              "revision": "552e124179e38dd334a5872135c735ec67305efb",
+              "path": "development/research/source-evidence/20261117/block-a-1152-116-packaged-fluid-tags/lane-exact-1152-116-fluid-resource-recovery/1.16/data/minecraft/tags/fluids/water.json",
+              "sha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18"
+            },
+            {
+              "revision": "552e124179e38dd334a5872135c735ec67305efb",
+              "path": "development/research/source-evidence/20261117/block-a-1152-116-packaged-fluid-tags/lane-exact-1152-116-fluid-resource-recovery/1.16/data/minecraft/tags/fluids/lava.json",
+              "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
+            }
+          ]
         }
       ]
     },
