@@ -1,0 +1,39 @@
+# Source roster: 26.1.2 → 26.2, unobfuscated
+
+Canonical local source root (read-only): `D:\Javastuff\LegacyParkourCompat\decompiled_minecraft\<version>\unobfuscated\`.
+Published source-manifest identities supplied by assignment:
+- 26.1.2: `54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0`
+- 26.2: `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`
+
+Both ready markers declare status `ready`, mapping `unobfuscated`, and those source manifest hashes. Locally computed SHA-256 of each `unobfuscated.sources.sha256` exactly matches its ready marker and the assigned identity. Provenance markers identify exact versions, namespace, Vineflower 1.12.0, Java 25, and output provenance. All listed source SHA-256 values below were computed from the canonical files and independently matched the corresponding manifest row.
+
+| Version | Relative source | SHA-256 |
+|---|---|---|
+| 26.1.2 | `net/minecraft/world/level/block/DoorBlock.java` | `e97e2857c3afedd0162a93b6ceed5cea6ad13303951930f703e864c070ec0dad` |
+| 26.1.2 | `net/minecraft/world/level/block/TrapDoorBlock.java` | `893754c8f7f127d311f7ccd5de8fea104fd377f59a086fe703dcc1aadb0cd2ef` |
+| 26.1.2 | `net/minecraft/world/level/block/WeatheringCopperDoorBlock.java` | `6881b4dc3f4c9064dc1b90f7e4f65dc89276320d7f84b8c112de2ac66a7b54eb` |
+| 26.1.2 | `net/minecraft/world/level/block/WeatheringCopperTrapDoorBlock.java` | `ce49eb6c79ad2f7b2e8aa21d63c809b082cbd51c854ee58cbdf3099a0a2ab158` |
+| 26.1.2 | `net/minecraft/world/level/block/Blocks.java` | `ba8a258b33f73fe03f93e7b02f9c25d4f66cf3aaab04c4580d0863cc71bc866f` |
+| 26.1.2 | `net/minecraft/world/level/block/Block.java` | `1693cfb7b84190a2fe664470a56d59e78ed5bd7d722a2bd16888b036d4d8e977` |
+| 26.1.2 | `net/minecraft/world/level/block/state/BlockBehaviour.java` | `9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13` |
+| 26.1.2 | `net/minecraft/world/phys/shapes/Shapes.java` | `cfa63cbed77c922a68e7e8a6a3b78b09a22c7de51e0146e481e9c9d26db66f58` |
+| 26.1.2 | `com/mojang/math/OctahedralGroup.java` | `6f6b3a2eb4ec1f944cba52899751f3eeff9298dba77167f4d9d152ed24f2abbf` |
+| 26.1.2 | `com/mojang/math/SymmetricGroup3.java` | `2f1236b191892d0df8bd13455f30e7ad47cec3348bf75de370a65b52173c4fa1` |
+| 26.2 | `net/minecraft/world/level/block/DoorBlock.java` | `cbbfb567e366d043ecc8742188f7de36799b54d5ea46e0bb944688eeba7760c5` |
+| 26.2 | `net/minecraft/world/level/block/TrapDoorBlock.java` | `3fe7ff071a7bf9d03b072dd453fe18d546f5d7f780839a39e5ea2d08bb48f3f8` |
+| 26.2 | `net/minecraft/world/level/block/WeatheringCopperDoorBlock.java` | `6881b4dc3f4c9064dc1b90f7e4f65dc89276320d7f84b8c112de2ac66a7b54eb` |
+| 26.2 | `net/minecraft/world/level/block/WeatheringCopperTrapDoorBlock.java` | `ce49eb6c79ad2f7b2e8aa21d63c809b082cbd51c854ee58cbdf3099a0a2ab158` |
+| 26.2 | `net/minecraft/world/level/block/Blocks.java` | `f3f2faeed23e9697407069a1d523107491590b8710175523ea05294d5bd00435` |
+| 26.2 | `net/minecraft/world/level/block/Block.java` | `cec6a05e644e4a7feb8253cc4ca772a98f0e116fb098a1b7ee7302984ac7ecab` |
+| 26.2 | `net/minecraft/world/level/block/state/BlockBehaviour.java` | `9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e` |
+| 26.2 | `net/minecraft/world/phys/shapes/Shapes.java` | `6ed9460d58727770bdec59c4f3184f075644f3c411be1eeab2eae17e8ece1891` |
+| 26.2 | `com/mojang/math/OctahedralGroup.java` | `6f6b3a2eb4ec1f944cba52899751f3eeff9298dba77167f4d9d152ed24f2abbf` |
+| 26.2 | `com/mojang/math/SymmetricGroup3.java` | `2f1236b191892d0df8bd13455f30e7ad47cec3348bf75de370a65b52173c4fa1` |
+
+Relevant members: `DoorBlock.java:47–85, 270–271`; `TrapDoorBlock.java:44–73, 165–166`; `Block.java:191–203`; `Shapes.java:403–424, 426–454`; `BlockBehaviour.java:329–347, 924–948`; `Blocks.java` registrations for door/trapdoor and waxed copper blocks; weathering subclasses contain no shape override.
+
+Ready/provenance marker computed hashes (not source manifests):
+- 26.1.2 `unobfuscated.ready.json`: `f24af0f4d38543c2bd9c19b50f347d4e89d6027050e4b21ae070734843946bb7`
+- 26.1.2 `unobfuscated.provenance.json`: `8d727f880cc91f4a297e148c5b75976303d051457334bc689268fbdf631a012a`
+- 26.2 `unobfuscated.ready.json`: `f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f`
+- 26.2 `unobfuscated.provenance.json`: `a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1`

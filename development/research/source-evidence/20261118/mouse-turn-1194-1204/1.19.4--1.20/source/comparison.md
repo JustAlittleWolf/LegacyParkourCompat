@@ -1,0 +1,30 @@
+# 1.19.4 → 1.20 source comparison: captured mouse pitch to active Elytra travel
+
+## Evidence identity
+
+Both sides are exact Mojmap decompilations from the local canonical source tree. For 1.19.4, `mojmap.ready.json` identifies version `1.19.4`, mapping `mojmap`, status `ready`, client SHA-256 `0e79cf7f07c107e9a1fe22ed703e472372b44149e64114944f0811abbd25f3ec`, and source-manifest SHA-256 `6286e325371e085dfee1ab7987e66d4b6d1a984a49b6ec8ea730045cd24cecb3`. The checked `mojmap.provenance.json` SHA-256 is `0efcfc6075852711cff5d62c3177258cba273c206c8a2d2642bdf3487c676b34`; `artifacts.sha256` pins `client_mappings.txt` to `5ef270b938f89cfc77371e0deee9f9044c41d9a373fa11dcb1fd1923272c4606`.
+
+For 1.20 (official release ID `1.20`), `mojmap/.decompile-provenance.json` SHA-256 is `573f0bb3e18e39ae882769a007a1c97d711da123034f9a1c894eb407ef58030f`. Its inputs pin `client.jar` to `5ac9ead135746f5f27048f2e01d8d5bdc2dabc4d91422f73ef2435f4c3d24aff`, official `client.txt` mappings to `fdd921d6bcc7657850f78514d36bb57af0b8a340786d12c46ec18d9c46c039de`, and `1.20.json` metadata to `24f4700f86471b6f3d3e4d68fefcd4177820dade5ce003c095fcf0e429abbc5f`. The relevant local source files match the per-file hashes in each side's source manifest/provenance:
+
+| Source | 1.19.4 SHA-256 | 1.20 SHA-256 |
+|---|---|---|
+| `net/minecraft/client/MouseHandler.java` | `45e708b9d74447b2f9fa1d44b5af8098ba2414eac4552be9195b55cd299d4a32` | `702359936208db4060f390cf9443520389e987d27c2d3c5237130fea408589e4` |
+| `net/minecraft/world/entity/Entity.java` | `3667fee610cbc5f58012e3a8fb8d6c4849f649fb7fe5300595158112d8b4b58b` | `94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759` |
+| `net/minecraft/client/player/LocalPlayer.java` | `8e7da18f42d09fbb994f522c2b0e65fcb2bb83cabb21024360299d44d9674c58` | `69a2d043d2c0595bd364d625a5445e4934d9e07fef020cd79fafb42f59952ac2` |
+| `net/minecraft/world/entity/LivingEntity.java` | `c8d91af61f87aaa1666de79696d7cd9d4a8212d05f873bdaf28d7bb2926bf165` | `decf8cd70d194098ad51d0c82e5a0087e0687881e0a2dc66456f2ba6ea76676f` |
+| `net/minecraft/world/entity/player/Player.java` | `5e4436afccb361156f8184e7a5cfd91d5b12dcfe8f5937b4ac23dd3edda737a2` | `873d82c6f5471d06812929e471d970fd973bfbe21638e4e348a6fcde45637dac` |
+
+## Bounded trace and comparison
+
+**MouseHandler.turnPlayer** is the scoped consumer of already accumulated callback deltas (1.19.4 and 1.20: 
+et/minecraft/client/MouseHandler.java:212–254`). With the mouse grabbed, active window, smooth camera off, and not first-person scoping, both versions reset both smooth-turn accumulators, compute `sensitivity = option * 0.6F + 0.2F`, `sensitivity³`, then `sensitivity³ * 8.0`; multiply accumulated X/Y deltas by that last factor; clear accumulated deltas; apply invert-Y only to Y; notify the tutorial; and, when a player exists, call `player.turn(x, y * invert)`. Expression types, order, gates and call order match. Device callback acquisition and accumulation are outside this slice.
+
+**Entity.turn → pitch setter/clamp** matches exactly in both versions (`Entity.java:391–402` in 1.19.4; `:395–406` in 1.20). It casts input Y to `float`, multiplies by `0.15F`, invokes `setXRot(getXRot() + deltaPitch)`, applies the corresponding yaw update, then invokes `setXRot(clamp(getXRot(), -90.0F, 90.0F))`; it next increments the old-rotation fields, clamps old pitch, and notifies a vehicle if present. `Entity.setXRot` rejects non-finite values before assigning `xRot` in both versions (`Entity.java:3155–3161` and `:3273–3279`, respectively). `LivingEntity`, `Player`, and `LocalPlayer` do not override this setter in either source, so virtual dispatch reaches this implementation. For finite ordinary callback values, the live pitch result and its clamp are therefore the same.
+
+**Reachable first Elytra travel move:** `Player.travel` in both versions selects `super.travel` when the player is not in the separate abilities-flying branch (`Player.java:1440–1465` in 1.19.4; `:1446–1471` in 1.20). In `LivingEntity.travel`, the locally controlled-instance gate must pass; water and lava branches precede the `isFallFlying()` branch (`LivingEntity.java:1983–2048` in 1.19.4; `:2004–2068` in 1.20). Thus an airborne, non-fluid local player with the fall-flying flag set reaches the Elytra move. That branch reads the current `getLookAngle()` and current pitch, performs the same lift, dive, pitch-up, and horizontal-alignment calculations in the same order, writes `deltaMovement * (0.99F, 0.98F, 0.99F)`, then calls `move(SELF, deltaMovement)` (`LivingEntity.java:2048–2080` in 1.19.4; `:2068–2100` in 1.20). The post-turn orientation is used immediately; no smoothing or interpolation is introduced in `getLookAngle()`.
+
+## Result, closure, and residuals
+
+No source difference was found in the requested ordinary captured-delta → virtual pitch setter/clamp → first active Elytra travel path. There is no canonical-form finding for this bounded claim. A different flight mode has a distinct gate: `Player.travel`'s abilities-flying branch restores vertical velocity from its pre-travel value, resets fall distance, and clears the fall-flying flag after delegating; it is not the active Elytra branch compared above.
+
+One adjacent source difference was checked to close the travel prelude: 1.19.4 resets `fallDistance` when its controlled `LivingEntity.travel` prelude sees non-positive vertical velocity and `SLOW_FALLING`; 1.20 retains the `0.01` gravity assignment but removes that reset (`LivingEntity.java:1985–1990` vs `:2006–2010`). This state write is independent of mouse delta and does not change the first Elytra velocity calculation. It is recorded here as an out-of-slice disposition, not a pitch/flight-move finding; damage calculation is excluded by project scope. No broader movement inventory, other callback modes, rendering, device plumbing, or intermediate patch boundary is claimed. This is source equivalence, not runtime parity evidence.

@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "auditKind": "independent blind exact-source audit",
+  "scope": "ordinary nonfalling water current for on-foot nonflying local player; endpoints 1.11.2 and 26.2 only",
+  "verdict": "ACCEPTED_WITH_REACHABILITY_AND_RUNTIME_RESOURCE_CAVEATS",
+  "evidence": {
+    "comparison": {
+      "path": "lane-water-current-source-1112-262/comparison.md",
+      "sha256": "fdc66edbfcaa2f8794070f009c7a6952a86b88f8dc68b50164c8c20c5a64bf8c"
+    },
+    "roster": {
+      "path": "lane-water-current-source-1112-262-audit/roster.json",
+      "canonicalSha256": "29c3701d20effb61dba30cc6ee8b0e814e7d3e7a4b99671b5e555f2135c48dd6",
+      "sourceCount": 34
+    },
+    "sourcePair": [
+      {
+        "version": "1.11.2",
+        "mapping": "ornithe-feather",
+        "readyMarkerSha256": "ceabfb266993567aab8c867525365e18aa0a0d7ba5a2cb7b6cfcc83d21318c40",
+        "provenanceSha256": "dcdb65e1361297a584c5b93f581b1b539911911c6cec1a203740baa5379732c6",
+        "sourceManifestSha256": "d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0",
+        "sourceCount": 1921,
+        "readySourceCount": 1921
+      },
+      {
+        "version": "26.2",
+        "mapping": "unobfuscated",
+        "readyMarkerSha256": "f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f",
+        "provenanceSha256": "a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1",
+        "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+        "sourceCount": 7055,
+        "readySourceCount": 7055
+      }
+    ],
+    "rosterValidation": {
+      "sourceHashesChecked": 34,
+      "mismatches": 0,
+      "manifestFileCountsMatchReadyMarkers": true,
+      "manifestExtensions": {
+        "1.11.2/ornithe-feather": {
+          ".java": 1921
+        },
+        "26.2/unobfuscated": {
+          ".java": 7055
+        }
+      }
+    }
+  },
+  "verifiedClaims": {
+    "oldScan": {
+      "source": "1.11.2/ornithe-feather",
+      "refs": [
+        "net/minecraft/entity/Entity.java:317-323,325-379,927-940",
+        "net/minecraft/world/World.java:1571-1610",
+        "net/minecraft/block/LiquidBlock.java:50-65,131-176",
+        "net/minecraft/entity/living/player/PlayerEntity.java:1735-1738"
+      ],
+      "facts": [
+        "LocalClientPlayerEntity.tick -> ClientPlayerEntity -> PlayerEntity.tick -> Entity.tick/baseTick reaches checkWaterCollisions.",
+        "On-foot check uses getShape().grown(0.0,-0.4F,0.0).contract(0.001).",
+        "World floors minima, ceils maxima, calls isAreaLoaded with inclusive ceiled maxima, then scans each integer coordinate with upper-exclusive loops. Matching material cells pass when ceil(box.maxY) >= y+1-getHeightLoss(LEVEL).",
+        "Each LiquidBlock contributes a normalized getFlow vector; World sums them, normalizes the sum, and directly adds 0.014 of that unit direction to velocity if length>0 and hasLiquidCollision. Player gate is !abilities.flying.",
+        "LEVEL 7 has height loss 8/9 and top y+1/9; LEVEL 6 is one step fuller."
+      ]
+    },
+    "newScanAndImpulse": {
+      "source": "26.2/unobfuscated",
+      "refs": [
+        "net/minecraft/client/player/LocalPlayer.java:227-230",
+        "net/minecraft/world/entity/player/Player.java:232-260,1693-1696",
+        "net/minecraft/world/entity/Entity.java:510-532,1645-1668,4088-4097",
+        "net/minecraft/world/entity/EntityFluidInteraction.java:32-88,91-119,153-188"
+      ],
+      "facts": [
+        "LocalPlayer.tick and Player.tick reach Entity.baseTick, which refreshes fluid interaction before later travel/movement in the same entity tick.",
+        "Fluid interaction box is bounding box deflated by 0.001. Scan minima are floor; maxima are ceil(max)-1; preflight requires full nearby chunks without loading and at least one fluid in checked sections. The detailed scan admits nonempty fluid states whose top is not below box.minY.",
+        "For a nonflying Player, isPushedByFluid is true, so current collection is enabled; inWater then applies water current at scale 0.014.",
+        "Each matching tagged nonempty cell updates tracker height to max(fluidTop-playerBoundingBox.minY, prior height), scales its normalized flow by that height when below 0.4, and increments count even for zero flow. Player impulse averages accumulated flow by 1/count; it does not normalize the final sum.",
+        "Impulse is skipped for zero count or accumulated length squared below 1.0E-5F. With horizontal prior motion below 0.003 and scaled impulse length below 0.0045000000000000005, the impulse is normalized and raised to that minimum before addDeltaMovement."
+      ]
+    },
+    "amountVersusLegacyLevel": {
+      "refs": [
+        "net/minecraft/world/level/block/LiquidBlock.java:65-79,120-126",
+        "net/minecraft/world/level/material/WaterFluid.java:111-141",
+        "net/minecraft/world/level/material/FlowingFluid.java:462-477"
+      ],
+      "facts": [
+        "The modern LiquidBlock state cache maps legacy block-state LEVEL 1..7 to flowing FluidState amounts 7..1; its LEVEL 7 state therefore carries amount 1, and LEVEL 6 carries amount 2.",
+        "WaterFluid.Flowing reads amount from its fluid-state LEVEL property; source water is a distinct source state with amount 8.",
+        "FlowingFluid.getLegacyLevel maps non-source amount 1 to block LEVEL 7 and amount 2 to LEVEL 6. The current algorithm reads FluidState directly; block LEVEL is a legacy representation, not its current numeric input.",
+        "With no same-type fluid above, getHeight is own height amount/9, so amount 1 has top y+1/9."
+      ]
+    },
+    "flowAndReachability": {
+      "refs": [
+        "net/minecraft/block/FlowingLiquidBlock.java:23-50,84-125",
+        "net/minecraft/block/LiquidBlock.java:131-172",
+        "net/minecraft/world/level/material/FlowingFluid.java:55-96,187-195",
+        "net/minecraft/world/level/material/WaterFluid.java:102-141"
+      ],
+      "facts": [
+        "A sourceward row can produce the relevant stepped states: old nonfalling liquid depth advances by 1 per horizontal step from source; modern water dropoff is 1 and horizontal spread derives amount from highest neighbor minus dropoff.",
+        "At a level-7/amount-1 cell with a level-6/amount-2 east neighbor and blocked west/north/south sides, both getFlow routines have only the east contribution. Old difference is 6-7=-1; modern is 1/9-2/9=-1/9. Both normalize to west unit flow.",
+        "Walls west/north/south plus a solid floor prevent lateral/downward escape and make the edge state persistent; no matching fluid above preserves the shallow 1/9 top."
+      ]
+    }
+  },
+  "witness": {
+    "setup": "Standing default-size player centered at (8.5,0,8.5), zero horizontal delta, on foot and nonflying. Solid floor at y=-1 and solid side walls enclosing the channel. Cell (8,0,8) is old water LEVEL 7 / modern flowing water FluidState amount 1 (legacy block LEVEL 7); east cell (9,0,8) is LEVEL 6 / amount 2. Continue sourceward nonfalling water east with corresponding stepped states through x=14 and a source at x=15; no matching fluid above.",
+    "scan": "Old bounds are x,z approximately [8.201,8.799], y [0.401,1.399], scanning x=8,z=8,y=0..1; modern box is x,z [8.201,8.799], y [0.001,1.799], also scanning x=8,z=8,y=0..1. In both, only water contributor is (8,0,8). The modern expanded preflight remains within loaded chunk (0,0) and its checked section contains fluid; old inclusive area-loaded bounds are also within that chunk.",
+    "calculation": "Old world sum is one west unit vector and adds 0.014 west. Modern tracker height is 1/9; one flow is scaled to 1/9, count=1, and scale 0.014 gives 0.014/9 = 0.0015555555555555555 west. The zero horizontal prior motion meets the 0.003 component gate and impulse is below the 0.0045000000000000005 minimum, so modern adds 0.0045000000000000005 west.",
+    "result": "Source-derived per-update impulse differs: 0.014 west versus 0.0045000000000000005 west."
+  },
+  "caveats": [
+    "The immutable comparison omits explicit west/north/south boundaries in its layout. Its single-update arithmetic holds with the stated floor and pre-fluid-update state, but adding solid side walls makes the terminal shallow state persist and removes reachability ambiguity.",
+    "26.2 FluidTagsProvider source adds WATER and FLOWING_WATER to FluidTags.WATER and FluidIds identifies their keys. This is data-provider/source evidence. The source manifests cover Java only; generated or shipped runtime tag resources were not independently checked, so water-tag membership is a runtime-resource gate for this witness.",
+    "The witness is source-level math and state reachability, not a launched runtime trajectory or parity result. Endpoints do not locate an introduction patch within 1.11.2..26.2 and do not establish full-pair tick-graph coverage or pair freeze."
+  ],
+  "hashContract": {
+    "encoding": "UTF-8",
+    "lineEndings": "LF",
+    "bom": false,
+    "auditCanonicalization": "JSON UTF-8 with sorted keys and separators (comma, colon), excluding auditSha256"
+  },
+  "auditSha256": "52fecc460f52be5a30f333e328713b4b2f370f4ca2396b7c866e44d802b2b4ef"
+}

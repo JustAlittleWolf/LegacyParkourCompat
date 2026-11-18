@@ -1,0 +1,45 @@
+# Independent destination audit: mouse turn batching into live fall-flying pitch
+
+**Verdict: ACCEPT the bounded source claim.** In the checked 1.20.4→26.2 pair, cursor movement is turned into player rotation at different points in the local frame/tick schedule. A reachable finite pair of opposing cursor deltas makes the next local fall-flying travel consume different authoritative pitch; the 26.2 setter's modulo-before-clamp affects the post-batch value. This establishes a source-level movement difference for this slice, not runtime parity or an exact intermediate release boundary.
+
+## Exact inputs and provenance gate
+
+- 1.20.4 Mojmap source root: `decompiled_minecraft/1.20.4/mojmap/`. Ready marker is `mojmap.ready.json`, SHA-256 `6225B97979420CC743C8B7156A0CE512EF27D0DBF48BFFFBC40D3E1C8CB044D1`; it identifies version `1.20.4`, `mojmap`, `ready`, Vineflower, Java 25, and 5,048 source files. Provenance: `mojmap.provenance.json`, SHA-256 `10914D9B7B3FC29DE066CA24F7D905E4D4F0A451A6C81729A2D1981ADDFC1385`. Source manifest: `mojmap.sources.sha256`, SHA-256 `FD3C8668483E5FF208C847474F6CBD3952A909C4AA602ED98B24E3D11A9602A1`; artifact manifest: `artifacts.sha256`, SHA-256 `EE3EFC771D264C0BC49D5472ABB9763A646F8D221841D0A61201ECD991CB3948`.
+- 26.2 published unobfuscated source root: `decompiled_minecraft/26.2/unobfuscated/`. Ready marker is `unobfuscated.ready.json`, SHA-256 `F9406ADB6BF7CB4C1AB0792A798AB2CB90E082AD4C2EEE032C9F674D0EA8070F`; it identifies version `26.2`, `unobfuscated`, `ready`, Vineflower, Java 25, and 7,055 source files. Provenance: `unobfuscated.provenance.json`, SHA-256 `A328F5333A1B27AADDE4422B23159A323AE219CCD26F11207C1A5461366F27D1`. Source manifest: `unobfuscated.sources.sha256`, SHA-256 `A7AD74FC712567EB87136AFC1EAFCFD602B4088E9869F3596331FD34FAEFE894`; artifact manifest: `artifacts.sha256`, SHA-256 `BA9DC53A41BCA9744EC1C8AB2CE9363764A22333C39EF64D5105F4E3BF5C98BA`.
+- The cited Java source bytes were SHA-256 checked against their endpoint source manifests. The raw client JARs and 1.20.4 `client_mappings.txt` are **not present** at the provenance-declared cache paths `build/movement-campaign-2026-10-07/artifacts/{1.20.4,26.2}/client.jar` and `.../1.20.4/client_mappings.txt`. The artifact manifests and ready/provenance records exist, so the published source trees are ready and source hashes are verifiable, but this audit did not independently re-hash the missing raw cache inputs. No regeneration or network lookup was performed.
+
+## Trace
+
+### 1.20.4 Mojmap
+
+`MouseHandler.setup` registers the cursor-position callback as `minecraft.execute(() -> onMove(...))` (`MouseHandler.java:169–184`). `onMove` accepts the current window; with the mouse grabbed and window active it adds each callback's `(xpos - previous xpos, ypos - previous ypos)` to accumulated deltas, calls `turnPlayer()` **inside that callback**, and only then stores the new cursor coordinates (`MouseHandler.java:187–222`). `turnPlayer` obtains sensitivity `s`, computes `k = s * 0.6F + 0.2F`, `k³`, and `8k³`; with smooth camera off and the player not scoping in first person it uses `8k³ * accumulatedD{X,Y}`. It zeroes both accumulators before calling `player.turn`, and applies the invert-Y option to the pitch delta (`MouseHandler.java:224–260`). The end-of-`runTick` call to `turnPlayer` is after all scheduled local ticks (`Minecraft.java:1160–1175`), but ordinarily finds no mouse delta left after each callback's immediate turn.
+
+`BlockableEventLoop.execute` runs the runnable inline when `scheduleExecutables()` is false, otherwise queues it (`BlockableEventLoop.java:86–91`). The native cursor callback is handled on the client/game thread; thus on the ordinary render-thread callback path `onMove` and its `turnPlayer` run before the next client tick. If callbacks instead enter from a thread requiring scheduling, the task order must be checked for that path; the witness below uses ordinary client GLFW callbacks.
+
+`Entity.turn` converts pitch delta with `(float) yo * 0.15F`, adds it to live `xRot`, then clamps live pitch to `[-90,90]`; it updates `xRotO` separately afterward (`Entity.java:398–407`). `setXRot` in 1.20.4 is a direct field assignment (`Entity.java:3309–3314`); no modulo is applied there.
+
+### 26.2 unobfuscated
+
+`MouseHandler.setup` likewise sends GLFW cursor callbacks through `minecraft.execute` (`MouseHandler.java:235–261`). `onMove` only accumulates per-event coordinate deltas when the window is active and updates `xpos/ypos`; it does not turn the player (`MouseHandler.java:263–279`). At the beginning of each client loop, `Minecraft.run` calls `RenderSystem.pollEvents()` and then `runTick` (`Minecraft.java:899–905`). Within `runTick`, scheduled executables and any local client ticks run first; `mouseHandler.handleAccumulatedMovement()` runs afterward (`Minecraft.java:1164–1202`). That handler performs one turn for the accumulated cursor delta (only when the window is active, mouse is grabbed, and player exists), then clears the accumulator (`MouseHandler.java:281–332`). Thus the local tick(s) in that `runTick` see the pre-batch live pitch; the first local tick in a later `runTick` sees the post-batch pitch.
+
+The non-smooth, non-scoped sensitivity calculation remains `k = s * 0.6F + 0.2F`, `sensitivityMod = k³`, and `sens = 8 * sensitivityMod`; `turnPlayer` passes accumulated Y times `sens` to `player.turn`, with the invert-Y option applied (`MouseHandler.java:350–377`). `Entity.turn` still scales pitch by `0.15F`, calls `setXRot` with the sum, then clamps that result to `[-90,90]` (`Entity.java:489–497`). The called 26.2 `setXRot` first applies `% 360.0F`, then `Math.clamp(...,-90,90)` (`Entity.java:3910–3916`). This is an authoritative live `xRot` write, not only a renderer interpolation write.
+
+### Actual local fall-flying consumer
+
+For the reachable local player, `LocalPlayer.aiStep` reaches `LivingEntity.aiStep`, which calls `travel`; 1.20.4's fall-flying branch is inside `LivingEntity.travel` (`LivingEntity.java:2035–2044, 2099–2125, 2511–2603`), and 26.2 dispatches `LivingEntity.travel` to `travelFallFlying` when `isFallFlying()` (`LivingEntity.java:2430–2438, 2581–2627, 3043–3140`). In 1.20.4 the branch reads both `getLookAngle()` and live `getXRot()` to compute `cos(pitch)^2`, lift, downward conversion, and the negative-pitch dive term before writing velocity and moving. In 26.2 `updateFallFlyingMovement` reads live `getLookAngle()` and `getXRot()` for `leanAngle`, derives `liftForce = square(cos(leanAngle))`, and uses it for lift and pitch-dependent velocity changes before `travelFallFlying` moves. This consumer is player movement; rendering interpolation (`xRotO`) is not the operand used by these travel methods.
+
+## Concrete reachable witness
+
+Conditions: local player alive and in active fall-flying travel; on the ordinary client window; mouse grabbed and window active; first-move seed already passed; sensitivity slider `1.0`; smooth camera off; first-person non-scoped; invert-Y off; current live pitch `0°`. Deliver two ordinary finite cursor-Y deltas in one event batch, `+700 px` and then `-100 px` (net `+600 px`). The X deltas can be zero.
+
+For sensitivity `1.0`, `k = 0.8F`, `8k³ = 4.096`; pitch scale is `4.096 * 0.15F = 0.6144°` per pixel (up to the Java float rounding in the source expressions).
+
+- **1.20.4, per-callback:** `+700 px` attempts about `+430.08°`; the callback's `Entity.turn` clamps live pitch to `+90°`. The next callback applies about `-61.44°`, leaving live pitch about `+28.56°`. The next local fall-flying tick therefore consumes the per-event-clamped pitch.
+- **26.2, one batch after tick:** before mouse handling, that run's local fall-flying tick consumes the previous pitch, `0°`. The handler then combines the deltas to `+600 px`, about `+368.64°`; `Entity.setXRot` performs `368.64F % 360.0F` (about `8.64°`) before its clamp. The first local fall-flying tick in a later `runTick` consumes about `+8.64°`. Without the setter's modulo, that batched write would clamp to `+90°`, so modulo is material to the post-batch witness.
+
+The travel formula reads the pitch live, so these angles change the fall-flying velocity calculation. Exact resulting trajectory is not claimed here; no simulation was run. The case uses finite ordinary mouse movement, legal sensitivity, and no NaN/infinity or extreme state injection. The delta values intentionally cross the 360-degree modulo threshold so the setter behavior is observable.
+
+## Scope and limits
+
+This is a bounded source difference for callback-versus-batch scheduling and the active fall-flying pitch operand. Input plumbing is not proposed as a standalone historical mechanic; the movement-relevant fact is when and how the authoritative pitch supplied to player travel is written. Renderer interpolation and camera-only effects are excluded. No full tick graph, all-player-movement inventory, intermediate patch scan, product implementation, test, game launch, or runtime parity claim is included. There was no author draft supplied for this audit.
+

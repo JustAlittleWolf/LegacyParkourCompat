@@ -1,0 +1,307 @@
+{
+  "rosterArtifact": "source-roster.json",
+  "rosterSha256": "c5a39b8a201aed35b1540a03d284a89208b9b3cd484d59459dc1ad7253502439",
+  "phase": "blind source audit result; awaiting immutable rebind review",
+  "evidence": [
+    {
+      "path": "net/minecraft/world/level/block/DoorBlock.java",
+      "members": "SHAPES, getShape",
+      "lines": "52, 79-84",
+      "version": "26.1.2"
+    },
+    {
+      "path": "net/minecraft/world/level/block/TrapDoorBlock.java",
+      "members": "SHAPES, getShape",
+      "lines": "48, 71-73",
+      "version": "26.1.2"
+    },
+    {
+      "path": "net/minecraft/world/level/block/DoorBlock.java",
+      "members": "SHAPES, getShape",
+      "lines": "52, 79-84",
+      "version": "26.2"
+    },
+    {
+      "path": "net/minecraft/world/level/block/TrapDoorBlock.java",
+      "members": "SHAPES, getShape",
+      "lines": "48, 71-73",
+      "version": "26.2"
+    },
+    {
+      "path": "net/minecraft/world/level/block/Block.java",
+      "members": "boxZ",
+      "lines": "193-202",
+      "version": "both"
+    },
+    {
+      "path": "net/minecraft/world/phys/shapes/Shapes.java",
+      "members": "rotateHorizontal, rotateAll",
+      "lines": "403-448",
+      "version": "both"
+    },
+    {
+      "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+      "members": "getCollisionShape, Cache",
+      "lines": "333-340, 924-953",
+      "version": "both"
+    },
+    {
+      "path": "net/minecraft/world/level/block/state/properties/BlockSetType.java",
+      "members": "BlockSetType behavior flags",
+      "lines": "complete file hash in roster",
+      "version": "both"
+    },
+    {
+      "path": "net/minecraft/world/level/block/WeatheringCopperDoorBlock.java",
+      "members": "extends DoorBlock",
+      "lines": "14",
+      "version": "both"
+    },
+    {
+      "path": "net/minecraft/world/level/block/WeatheringCopperTrapDoorBlock.java",
+      "members": "extends TrapDoorBlock",
+      "lines": "14",
+      "version": "both"
+    },
+    {
+      "path": "net/minecraft/world/level/block/Blocks.java",
+      "members": "vanilla door/trapdoor and copper registrations",
+      "lines": "source hashes in roster",
+      "version": "both"
+    },
+    {
+      "path": "com/mojang/math/OctahedralGroup.java",
+      "lines": "70-73, 146-158",
+      "members": "BLOCK_ROT_Y_90/Y_180/Y_270, BLOCK_ROT_X_90/X_270 coordinate transforms",
+      "version": "both"
+    },
+    {
+      "path": "com/mojang/math/SymmetricGroup3.java",
+      "lines": "60-72",
+      "members": "axis permutation",
+      "version": "both"
+    }
+  ],
+  "disposition": "No source-confirmed collision-shape change: both getShape functions and the shared static shape construction are semantically identical. No collision finding proposed.",
+  "pairDelta": {
+    "DoorBlock": "getShape selector and SHAPES initializer identical. The only inspected DoorBlock difference is setPlacedBy (out-of-scope placement/write behavior).",
+    "TrapDoorBlock": "getShape selector and SHAPES initializer identical. Other edits in class are not collision-provider changes."
+  },
+  "limitations": [
+    "This is an individual bounded claim and does not freeze full-pair source coverage.",
+    "No implementation, wiki, or product source was read.",
+    "DoorBlock.setPlacedBy differs across pair but placement/world-state changes were excluded from the assigned collision slice."
+  ],
+  "collisionDispatch": {
+    "stateCache": "BlockBehaviour.Cache computes collision shape via block.getCollisionShape(state, EmptyBlockGetter.INSTANCE, BlockPos.ZERO, CollisionContext.empty()); cached collision shape is returned by BlockState.getCollisionShape when cache exists",
+    "registration": "Base and WeatheringCopper door/trapdoor subclasses dispatch to these inherited providers; Blocks registrations supply block-set type and properties, not alternate collision providers",
+    "BlockBehaviour": "getCollisionShape returns state.getShape when hasCollision, otherwise empty",
+    "defaultProperties": "Properties.hasCollision defaults true"
+  },
+  "geometry": {
+    "units": "coordinates in sixteenths (0..16)",
+    "directionalShapeMap": {
+      "WEST": [
+        13,
+        0,
+        0,
+        16,
+        16,
+        16
+      ],
+      "DOWN": [
+        0,
+        13,
+        0,
+        16,
+        16,
+        16
+      ],
+      "EAST": [
+        0,
+        0,
+        0,
+        3,
+        16,
+        16
+      ],
+      "UP": [
+        0,
+        0,
+        0,
+        16,
+        3,
+        16
+      ],
+      "SOUTH": [
+        0,
+        0,
+        0,
+        16,
+        16,
+        3
+      ],
+      "NORTH": [
+        0,
+        0,
+        13,
+        16,
+        16,
+        16
+      ]
+    },
+    "seedBoxBlockCoordinates": [
+      0,
+      0,
+      13,
+      16,
+      16,
+      16
+    ],
+    "thickness": "3/16 block",
+    "normalizedBox": [
+      0,
+      0,
+      0.8125,
+      1,
+      1,
+      1
+    ]
+  },
+  "door": {
+    "selector": "SHAPES[OPEN ? (HINGE == RIGHT ? FACING.counterClockWise : FACING.clockWise) : FACING]",
+    "table": [
+      {
+        "hinge": "either",
+        "open": false,
+        "facing": "NORTH",
+        "shape": "NORTH"
+      },
+      {
+        "hinge": "either",
+        "open": false,
+        "facing": "EAST",
+        "shape": "EAST"
+      },
+      {
+        "hinge": "either",
+        "open": false,
+        "facing": "SOUTH",
+        "shape": "SOUTH"
+      },
+      {
+        "hinge": "either",
+        "open": false,
+        "facing": "WEST",
+        "shape": "WEST"
+      },
+      {
+        "hinge": "LEFT",
+        "open": true,
+        "facing": "NORTH",
+        "shape": "EAST"
+      },
+      {
+        "hinge": "RIGHT",
+        "open": true,
+        "facing": "NORTH",
+        "shape": "WEST"
+      },
+      {
+        "hinge": "LEFT",
+        "open": true,
+        "facing": "EAST",
+        "shape": "SOUTH"
+      },
+      {
+        "hinge": "RIGHT",
+        "open": true,
+        "facing": "EAST",
+        "shape": "NORTH"
+      },
+      {
+        "hinge": "LEFT",
+        "open": true,
+        "facing": "SOUTH",
+        "shape": "WEST"
+      },
+      {
+        "hinge": "RIGHT",
+        "open": true,
+        "facing": "SOUTH",
+        "shape": "EAST"
+      },
+      {
+        "hinge": "LEFT",
+        "open": true,
+        "facing": "WEST",
+        "shape": "NORTH"
+      },
+      {
+        "hinge": "RIGHT",
+        "open": true,
+        "facing": "WEST",
+        "shape": "SOUTH"
+      }
+    ],
+    "ignoredForShape": [
+      "HALF lower/upper",
+      "POWERED",
+      "BlockSetType/material",
+      "level",
+      "pos",
+      "CollisionContext"
+    ]
+  },
+  "trapdoor": {
+    "selector": "SHAPES[OPEN ? FACING : (HALF == TOP ? DOWN : UP)]",
+    "table": [
+      {
+        "shape": "NORTH",
+        "open": true,
+        "facing": "NORTH",
+        "half": "either"
+      },
+      {
+        "shape": "EAST",
+        "open": true,
+        "facing": "EAST",
+        "half": "either"
+      },
+      {
+        "shape": "SOUTH",
+        "open": true,
+        "facing": "SOUTH",
+        "half": "either"
+      },
+      {
+        "shape": "WEST",
+        "open": true,
+        "facing": "WEST",
+        "half": "either"
+      },
+      {
+        "shape": "UP",
+        "open": false,
+        "facing": "either",
+        "half": "BOTTOM"
+      },
+      {
+        "shape": "DOWN",
+        "open": false,
+        "facing": "either",
+        "half": "TOP"
+      }
+    ],
+    "ignoredForShape": [
+      "POWERED",
+      "WATERLOGGED",
+      "BlockSetType/material",
+      "level",
+      "pos",
+      "CollisionContext"
+    ]
+  },
+  "schema": 1,
+  "scope": "DoorBlock and TrapDoorBlock stationary collision shape providers, 26.1.2 to 26.2"
+}

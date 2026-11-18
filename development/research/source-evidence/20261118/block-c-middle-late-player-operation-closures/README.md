@@ -1,0 +1,20 @@
+# Middle and late player-operation evidence (2026-11-18)
+
+This archive contains eight exact report/audit pairs whose frozen report bytes are bound by their independent verdicts. Each bounded disposition applies only to its stated versions and source slice; none establishes whole-pair coverage or runtime parity.
+
+| Pair | Bounded disposition | Report SHA-256 | Verdict SHA-256 |
+|---|---|---|---|
+| 1.20.3→1.20.4 sprint state | Accepted no-difference for ordinary local on-foot sprint-state input sampling, start/timer/stop gates, and sprint-flag writes. Signed identity correction records the original verdict's one-character report-hash typo. | `29bbfc038e49467298a5d040a1ad6e8377dc056eed2bf9652c7832ee3ddc4ccf` | `bc68407198bf46a9f87949d9883b8ae31f1433f052504d91366dd01309a54cda` |
+| 1.20.2→1.20.3 sprint state | Accepted no-difference for ordinary local on-foot sprint input/state. Active-item slowdown and transitive gates stay outside the accepted comparison. | `32cd1266830ca1303a3cdfef80683cfc4b4dffe7d374b6cb2053aee5105da82f` | `600994b3bcafa51464dff94932fe0429543b3501b702eebeb35228542a9b396a` |
+| 1.16.1→1.16.2 local travel handoff | Accepted no-difference for ordinary no-effect on-foot local input/pose/ownership through travel dispatch and listed direct post-travel writes/callback order. Suffocation and lava state are excluded. | `7a597b0a615bb4307b4be61321780badadd5ff1517363eca5fbffebf34be7a75` | `7163aaf47fb632a9f3209640993e4af27466aa7b8982d481a0a8039f09ded1ad` |
+| 1.16.3→1.16.4 external state writers | Accepted bounded negative: the changed server methods reviewed do not add a producer of client-local movement state; the changed book path updates inventory. | `30549876caeb6c6089a1a4fa2003a4bb977944a111740a7cc009b641596d9124` | `f34627f83de8f6e0c3485c13e1ff342072ffb82bbf3236d8a59eb507d5811317` |
+| 26.1.2→26.2 local stab attacker movement | Accepted bounded negative: ordinary local input does not reach `Player.stabAttack`; no local attacker movement/sprint delta from that operation. Damage outcomes and custom states are excluded. | `cd13f04751df3f2294cb5804716eb598856d459e7d40588f705cd9e3ada21d17` | `4a645bbb4eb5ad31868e91dd8e27cac31992c0d332b684aaeca8ec670ac7eafe` |
+| 26.1.2→26.2 effect movement consumers | Source-byte integrity comparison only for the named ordinary effect consumers. 26.2 provenance has summary-excerpt-only log evidence and no mapping-artifact record; no product conclusion is made. | `0a5c3404dcf354d79d5b28e66b26bc97ffd198198a37c367a774a81df41031f7` | `e9a7a615e9e57fc67b0eed1b0791ade5353ea33adda852410aa1f9cae856a34a` |
+| 1.21.4→1.21.5 correction pitch gate | Ordinary valid local correction route is unaffected. Helper behavior for arbitrary out-of-range endpoint data remains conditional and separate. | `aadfb14b9e8d9bc08cce70ecee1f39732d0aa13b2dbc325ad5964526d318f53a` | `d9db9aa606a4460c62ed272507e339f4afb4de9261526cbde4badb6bffe169ae` |
+| 1.12.2→1.13 glide denominator witness | Accepted exact ordinary dry already-gliding witness: old tiny nonzero horizontal denominator vs new zero guarded by `> 0.0`; the delta depends on trig expressions. No reachable old divide-by-zero claim. Product reconciliation remains separate. | `2ce93a63aab79b313d82351815aba47a98a901edda5d4f3c0932b29fcde3adfc` | `ae1a949932631fd3d0e0e3b1671230ba7bf2fec8a6d3f0e65550e0a41da0c1c9` |
+
+## Corrected input identity
+
+The frozen 1.20.3→1.20.4 verdict contains a one-character report-digest transcription error. The independent signed `input-identity-correction.md` (`87a1f7ffcbf5cdaa06b0de89c81aa855be1a6628dc39bb3f9c2629df179385c9`) binds the unchanged verdict (`bc68407198bf46a9f87949d9883b8ae31f1433f052504d91366dd01309a54cda`) to the exact report bytes (`29bbfc038e49467298a5d040a1ad6e8377dc056eed2bf9652c7832ee3ddc4ccf`). The verdict is preserved without edits.
+
+All included evidence is copied byte-for-byte and each verdict was checked for its exact report digest. No central backlog, product implementation, build, test, or runtime claim is represented here.

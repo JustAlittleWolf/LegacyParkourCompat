@@ -1,0 +1,19 @@
+# Additive independent audit: r1 rebind
+
+## Rebind
+
+The exact `lane-lava-presence-source-1152-116/outputs-r1.sha256` manifest matched the assigned SHA256 `0fddb8fc73766311689c832a1f621f616312b76b00b4bf19de2dd56782fc4bb9`. Each of its four enumerated author files (`comparison-r1.md` and the three `*-r1.md` findings) matched its listed SHA256 before review. Scope is this immutable r1 set only.
+
+## Corrected Player travel path
+
+The prior audit statement that 1.16 `Player` had no `travel` override was wrong. Exact local source shows `@Override public void travel(Vec3)` at `decompiled_minecraft/1.16/mojmap/net/minecraft/world/entity/player/Player.java:1379–1410`, and the paired 1.15.2 override at `Player.java:1447–1478`. Both wrappers call `super.travel` in their non-flying `else` branch. That branch has no post-travel vertical-velocity adjustment; it does run movement-stat accounting after the call. Each wrapper also has a swimming prelude before delegation, which is not a lava-specific post-adjustment. In the flying branch both wrappers call `super.travel` and then restore vertical velocity to its pre-call value times `0.6`; the old LivingEntity lava branch's nested player-flying check excludes that case, while 1.16 Player's `isAffectedByFluids() == !abilities.flying` excludes it at the new lava gate. Therefore the authored r1 scope—non-flying Player movement reaches the compared LivingEntity lava logic without a later Player vertical rewrite—is correct.
+
+The paired Player.java actual SHA256 values match their source manifests: 1.15.2 `1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793`; 1.16 `a849960d47bf00a2cddfb6636c78c518532a11967ba08829f19c5ebced08681e`.
+
+## Per-claim verdicts
+
+1. **Lava presence surface gate — accept.** The r1 text correctly scopes the surface predicate to `LiquidBlock.entityInside`, retains its literal float/double comparison, and states the processed-move reset/callback ordering. Its corrected consumer timing is accurate: current jump and travel admission decisions precede the later `move` callback, so a newly written flag is available to a later consumer pass. The stated `noPhysics` and zero-limited piston bypasses are confirmed in the paired `Entity.move` sources. Tag membership and complete caller inventory remain open.
+2. **Lava travel admission and velocity — accept.** The compared LivingEntity branch bodies and the per-player applicability statement are source-supported. 1.16 shallow/deep selection and its threshold/math are exact at the cited scope. The player wrapper correction above validates the r1 path: non-flying Player delegates to `super.travel` with no post-call vertical rewrite; flying is gated out of the lava branch. Cached `isInLava` and base-tick `fluidHeight` remain distinct inputs. No trajectory is established.
+3. **Held jump lava immersion — accept.** The old water-height/ground split and unqualified-by-lava-height impulse, the new `isAffectedByFluids` gate and threshold/ground branches, and the unchanged `+0.04F` impulse match source. The controlled-camera input path is accurately attributed to `LocalPlayer.serverAiStep`, reached through effective-AI dispatch, followed by the LocalPlayer → Player → LivingEntity aiStep delegation. The callback timing is correctly described as later than the current pass's jump decision.
+
+The earlier review's 1.16 no-override rationale is explicitly withdrawn and replaced by the checked wrapper analysis above. The three bounded source differences remain accepted. The earlier 1.15.2 provenance-linkage caveat and the full-pair, resource-membership, other-patch and runtime gates remain unchanged; r1 does not close them.

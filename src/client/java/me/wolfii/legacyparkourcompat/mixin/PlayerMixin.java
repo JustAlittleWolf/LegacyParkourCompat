@@ -6,9 +6,11 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.AbilityFlightGlideFlagHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.BubbleColumnPlayerCallbackHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.LocalPlayerShiftDismountHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerClimbabilityFlyingGateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.SwimmingUpdateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.AirSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.FlightFallDistanceHook;
@@ -19,9 +21,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeCollisionQ
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeDistanceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SneakEdgeProbeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.SwimmingPitchHook;
+import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
@@ -38,6 +42,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 abstract class PlayerMixin {
+    @WrapOperation(
+        method = "updateSwimming()V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Avatar;updateSwimming()V")
+    )
+    private void legacyparkourcompat$swimmingStateUpdate(Avatar avatar, Operation<Void> original) {
+        Player player = (Player) (Object) this;
+        if (MovementRuntime.find(SwimmingUpdateHook.class, player)
+            .map(hook -> hook.shouldDelegate(player))
+            .orElse(true)) {
+            original.call(avatar);
+        }
+    }
+
     @WrapOperation(
         method = "rideTick()V",
         at = @At(
@@ -194,6 +211,9 @@ abstract class PlayerMixin {
         }
         MovementRuntime.find(FlightFallDistanceHook.class, player)
             .ifPresent(behavior -> behavior.afterTravel(player));
+        MovementRuntime.find(AbilityFlightGlideFlagHook.class, player)
+            .filter(behavior -> behavior.shouldClearAfterTravel(player))
+            .ifPresent(behavior -> ((EntityInvoker) player).legacyparkourcompat$setSharedFlag(7, false));
     }
 
     @Redirect(
@@ -205,10 +225,13 @@ abstract class PlayerMixin {
     )
     private Vec3 legacyparkourcompat$swimmingPitchLook(Player player) {
         Vec3 vanilla = player.getLookAngle();
-        return MovementRuntime.find(SwimmingPitchHook.class, player)
-            .filter(behavior -> behavior.supports(MovementRuntime.profile(player).target()))
-            .map(behavior -> new Vec3(vanilla.x, behavior.lookY(player, vanilla.y), vanilla.z))
-            .orElse(vanilla);
+        double lookY = MovementRuntime.find(SwimmingPitchHook.class, player)
+            .map(behavior -> behavior.lookY(player, vanilla.y))
+            .orElse(vanilla.y);
+        if (Double.doubleToRawLongBits(lookY) == Double.doubleToRawLongBits(vanilla.y)) {
+            return vanilla;
+        }
+        return new Vec3(vanilla.x, lookY, vanilla.z);
     }
 
     @Unique

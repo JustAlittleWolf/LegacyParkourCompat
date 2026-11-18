@@ -1,0 +1,32 @@
+# Independent audit — 1.13 → 1.13.1 lava scan upper bound
+
+## Verdict
+
+**ACCEPTED for the bounded claims in the compared artifact, with a movement-gate clarification.** The lava-scan interval, half-open voxel iteration, vanilla material predicate, held-jump/travel ordering, local-player tick path, and missing-client-chunk result are unchanged in the examined endpoints. The artifact's stated no-difference result is supported. It does not establish full-pair coverage or the exact intermediate patch boundary.
+
+The artifact's discussion of the local-player current-chunk gate names the `tick` gate but does not call out a second, movement-relevant gravity gate inside `LivingEntity.moveRelative`. I checked that gate independently: it is unchanged and uses the same placeholder chunk result on a missing client chunk. This is a coverage clarification, not a contradicted claim.
+
+## Immutable inputs
+
+- Compared artifact: `lane-lava-scan-upper-bound-113-1131/comparison.md`, SHA-256 `2125d50733837c5c01a2a46e7c263352739c4d3a00b86258d6d71c78b06692bc` (recomputed; matches the assigned identity).
+- Frozen primary roster: `source-roster.md`, SHA-256 `6295c37a0169a32cc74d5c66b7be6dc4fea389c1203f9c69979c7e98931f2715`.
+- Frozen dependency supplement: `source-roster-supplement.md`, SHA-256 `c474854e3d9bfaea87bf54629f274cc4ac06a616f14cf046281168ab4ac6e9b8`.
+- Source publication: exact 1.13 and 1.13.1 Ornithe Feather `build.2`, run `prep-1.13-1.13.1-feather-2026-10-09-r1`. Both version-root ready and provenance manifest hashes are recorded in the frozen roster. The mapping artifact and raw client digests agree with each version's provenance. The source manifest digests agree with the provenance and ready manifests. All files in both frozen rosters were rehashed and matched their source manifests.
+
+## Independent source findings
+
+1. **Scan bounds and upper-edge rule — unchanged.** `Entity.isInLava` passes `getShape().contract(0.1F, 0.4F, 0.1F)` and `Material.LAVA` into `World.containsMaterial` in 1.13 (`Entity.java:1052–1054`) and 1.13.1 (`Entity.java:1053–1055`). `Box.contract` delegates to `grown(-dx,-dy,-dz)` in both sources (`Box.java:222–223`); therefore the Y scan bounds are `shape.minY + (double)0.4F` and `shape.maxY - (double)0.4F`. In both `World.containsMaterial` bodies (1.13 `World.java:1299–1321`; 1.13.1 `World.java:1310–1332`), lower indices use `floor`, upper indices use `ceil`, and nested loops visit `x`, then `y`, then `z` in half-open `[lower, upper)` ranges. `MathHelper.ceil(double)` is the same cast-then-conditional-increment method (`MathHelper.java:76–78` both). An exact integral maximum is excluded; a fractional maximum includes the voxel containing it. The scan itself adds no area-loaded check.
+
+2. **Block predicate — unchanged and state-based.** The scan tests `MaterialPredicate.of(material)` against each `getBlockState` result. `MaterialPredicate.test` checks non-null and `state.getMaterial() == material` (`MaterialPredicate.java:25–27`); `BlockState.getMaterial` delegates to the block (`BlockState.java:51–52`). This lava scan does not query `FluidState`.
+
+3. **Held jump and local travel order — unchanged.** `LocalClientPlayerEntity.mobTick` copies held input into `this.jumping` (1.13 line 636; 1.13.1 line 640), processes local input, then calls `super.mobTick` (lines 833 and 837 respectively). The paired `LivingEntity.mobTick` bodies test held jump before the travel section. If the jump branch is eligible, `isInLava()` is checked before the ordinary ground jump; otherwise it takes the water branch. The subsequent travel section scales sideways/forward speed, calls `flyingTick`, obtains the shape and invokes `moveRelative` (1.13 `LivingEntity.java:1833–1925`; 1.13.1 `1852–1926`). `moveRelative` has the same locally-controlled/logical-update gate and evaluates water before lava (`1459–1469`; `1478–1488`). The lava predicate is read again in the same place/order.
+
+4. **Local-player tick gate — same effective behavior.** `LocalClientPlayerEntity.tick` wraps `super.tick()` in `world.isChunkLoaded(new BlockPos(x, 0.0, z))` (1.13 line 180; 1.13.1 line 182). `WorldView.isChunkLoaded(BlockPos)` delegates with `allowEmpty=true`; the concrete client implementation short-circuits to true when `allowEmpty` is true in both versions (`ClientWorld.java:112–113`). Thus the local tick and its held-jump/travel path are not skipped for a missing current chunk by this condition.
+
+5. **Movement gravity/current-chunk gate — unchanged, additional coverage checked.** In the normal movement branch of `LivingEntity.moveRelative`, after `move`, the code resets a mutable position to `(x,0,z)` and subtracts gravity only when the world is server-side or both `isChunkLoaded(position)` and `getChunk(position).isLoaded()` are true (1.13 line 1567; 1.13.1 line 1586). The fallback velocity assignment for an unloaded client chunk is also the same. This is distinct from the local-player `tick` gate above and remains unchanged.
+
+6. **Missing client chunk dispatch — same placeholder outcome.** In 1.13, `World.getBlockState` calls `getChunk(pos)` → `getChunkAt(x >> 4,z >> 4)` → `ChunkSource.getChunk(x,z)`; `ClientChunkCache.getChunk(x,z)` returns the shared `EmptyChunk` when no loaded entry exists (`World.java:508–514,181–186`; `ClientChunkCache.java:61–63`). In 1.13.1, `World.getChunkAt` calls `chunkSource.getChunk(x,z,true,true)` and fails only if that still returns null; the client cache returns its `EmptyChunk` for a missing entry when `generate` is true (`World.java:519–525,191–197`; `ClientChunkCache.java:47–49`). `EmptyChunk.getBlockState` returns `VOID_AIR` in both versions (`EmptyChunk.java:40–42`) and is not marked loaded. So scan positions in a missing client chunk test as non-lava, and the movement current-chunk loaded check stays false after the same lookup. The distinct API signatures do not change the reachable client result.
+
+## Limits
+
+This is an independent bounded audit of the frozen roster and the exact immutable artifact above. It does not audit the rest of the player tick, neighboring operations, later patches between 1.13 and 1.13.1, implementations, or runtime parity. No product files, research backlog, wiki evidence, build, tests, or runtime were used.

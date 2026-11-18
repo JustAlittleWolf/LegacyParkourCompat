@@ -1,0 +1,25 @@
+# 1.9.3 → 1.9.4: ordinary End portal transfer packet path
+
+## Source identity and readiness
+
+- Both sides are exact `1.9.3` / `1.9.4`, `ornithe-feather` sources. The 1.9.3 mapping artifact recorded in `.decompile-provenance.json` is Feather Gen2 `1.9.3+build.2` mergedv2. For 1.9.4, `ornithe-feather.ready.json` says ready, maps to Feather Gen2 `1.9.4+build.2`, and binds the source manifest SHA-256 `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`. Its verification marker reports 1,819 source files verified, zero source-file differences, and zero missing published source files.
+- Independently checked every actual `.java` file against the 1.9.3 provenance source map and 1.9.4 `ornithe-feather.sources.sha256`: 1,819 files per release, zero hash mismatches on either side. The selected call/payload roster is [source-roster.sha256](source-roster.sha256), SHA-256 `B9957651F591E98D42CD7D7708E9C00C4C483D70445DED311C2AF8ED8381A6C9`.
+- 1.9.4 verification also reports one difference in a regenerated derived remap intermediate; the marker explicitly states the published decompiled sources and raw source inputs match. This does not affect the source readiness result for this comparison.
+
+## Ordinary Overworld → End call and packet order
+
+The trigger path is `EndPortalBlock.onEntityCollision` (both releases, `net/minecraft/block/EndPortalBlock.java:56-67`): on the logical server, if the entity is not riding, has no passengers, can use portals and intersects the portal shape, it calls `entity.changeDimension(1)`. This comparison follows that ordinary player transfer only.
+
+`ServerPlayerEntity.changeDimension` (`net/minecraft/server/entity/living/player/ServerPlayerEntity.java:458-487`) sets `inTeleportationState`; for dimension 0 → 1 it increments the enter-End stat and delegates to `PlayerManager.changeDimension`.
+
+In `PlayerManager.changeDimension` (`net/minecraft/server/PlayerManager.java:489-514`), `int i = player.dimension` captures old dimension 0 before `player.dimension = 1`. The server then sends `PlayerRespawnS2CPacket` for dimension 1, calls `updatePermissions(player)`, removes the player from the old world and calls the transfer helper with `i` (the old dimension). For permission update, the source computes a byte event value from permission level (24 for level ≤ 0, 28 for level ≥ 4, otherwise `24 + level`) and sends `EntityEventS2CPacket` (`PlayerManager.java:481-486, 676-688`).
+
+The helper (`PlayerManager.java:516-569`) uses the now-current `entity.dimension == 1` to select the End spawn, sets position and angles, and ticks the entity once in the old world. Because the helper's `dimension` argument is the captured old value 0, `dimension != 1` then holds: it clamps the integer-cast X/Z, sets position and angles again, runs the portal-forcer placement, adds the player to the destination world and ticks it there, then calls `setWorld(toWorld)`. After the helper and `onChangedDimension`, the manager directly invokes `player.networkHandler.teleport(player.x, player.y, player.z, player.yaw, player.pitch)`. Thus the forced correction is issued after the respawn and permission packets and after the transfer helper's old-world and destination-world ticks; it is not the destination tick itself.
+
+That `teleport` call (`ServerPlayNetworkHandler.java:490-516`) uses an empty relative-argument set. It stores the absolute target, increments the teleport ID (wrapping at `Integer.MAX_VALUE` to 0), records `requestedTeleportTime = this.ticks`, updates server player position/angles, and sends `PlayerMoveS2CPacket(x, y, z, yaw, pitch, emptySet, id)`.
+
+On the client (`ClientPlayNetworkHandler.java:863-883`), the respawn packet first replaces the world when its dimension differs, updates player dimension, then invokes `Minecraft.respawnPlayer` and sets game mode. The relevant `Minecraft.respawnPlayer` body is equal on both releases (`Minecraft.java:1929-1957`); the file's overall hash differs, but not this method. The following `handlePlayerMove` (`ClientPlayNetworkHandler.java:546-595`) resolves relative coordinates if present; for this absolute correction it zeros X/Y/Z velocity, updates player position/angles, sends `AcceptTeleportC2SPacket(id)`, then sends `PlayerMoveC2SPacket.PositionAndAngles(player.x, player.shape.minY, player.z, yaw, pitch, false)`. This correction/ACK is handled in the packet handler; the normal local-player tick path (`LocalClientPlayerEntity.java:143-156`) is separate.
+
+## Pair disposition
+
+**Terminal no-difference for this bounded operation.** The End portal trigger, server player override, `PlayerManager` old-dimension capture/order/transfer/correction, server teleport packet writer, client respawn and position-correction handlers, packet payload classes, and normal local-player tick method are source-identical across this pair. `Minecraft.java` has a different whole-file hash, but the scoped `respawnPlayer` body is byte-for-byte equal. No 1.9.3 → 1.9.4 change to this ordinary End-transfer packet path is supported by the exact sources. This is only a no-difference disposition for the requested path, not full-pair movement coverage.

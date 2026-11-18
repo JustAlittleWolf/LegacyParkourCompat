@@ -1,0 +1,22 @@
+Assignment: builtin minecraft:lava and minecraft:water effective fluid-tag members, exact 1.16.1 -> 1.16.2.
+Mapping/source identity: Mojmap; exact pair output pins are in the version-root mojmap.ready.json, mojmap.provenance.json, and artifacts.sha256 records.
+
+Frozen resource roster (client archive data paths; inspect raw values/includes and effective members per version):
+1.16.1: data/minecraft/tags/fluids/lava.json
+1.16.1: data/minecraft/tags/fluids/water.json
+1.16.2: data/minecraft/tags/fluids/lava.json
+1.16.2: data/minecraft/tags/fluids/water.json
+
+Comparison status: blocked before resource inspection. The two exact client.jar files are absent from the provenance-pinned cache path and the checked standard Minecraft launcher paths. No exact 1.16.1-resource-manifest.json or 1.16.2-resource-manifest.json exists under development/research/source-evidence. Decompiled Java source output does not contain the requested raw tag records. Therefore no raw includes or effective members are asserted, and no no-difference or difference claim is made.
+
+Pinned official client archive SHA-256 values from each exact version's mojmap.ready.json and artifacts.sha256:
+1.16.1 client.jar b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef
+1.16.2 client.jar 19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d
+
+Locally verified supporting record hashes:
+1.16.1 mojmap.ready.json c19d707f7d6622733b5189599ff77aa7999cc11a3d900f29d150f9fab203ffcb
+1.16.1 mojmap.provenance.json a6ff065188a400ec891980cdf2e6c0c238bf5e05168a2f69b29c6cecc2214b98
+1.16.1 artifacts.sha256 a113f9d59fa4582effb2ebf548c4388a54c9c5654fbf57fae7974dce896d1f98
+1.16.2 mojmap.ready.json e5f69bab646b6143b0660a97fade59595ff2e924d36567b9cd285c8babd31214
+1.16.2 mojmap.provenance.json a9b166406064e877751542fe7df27acc32be3843f6fdc2280dac32ce0b54207c
+1.16.2 artifacts.sha256 7b8551bdc108a1584039ac22e35b6b75c3584ed85aba24561c7d340f5cbeb108

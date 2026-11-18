@@ -1,0 +1,32 @@
+# Minecraft 1.16.1 → 1.16.2: player swim pitch correction
+
+## Result
+
+No source change in the ordinary `Player.travel` pitch-directed swim correction or its `LivingEntity.travel` water caller between the exact Mojmap 1.16.1 and 1.16.2 source sets. The correction's complete `Player.travel` method body is byte-for-byte identical after extraction (UTF-8 method-text SHA-256 `cd4385e5f6986c16dedd181882c022c8acf8339538e3fb455761d24b64dfe60c`; 1,289 bytes). `LivingEntity.travel` is also identical (6,220 bytes; SHA-256 `39d6496758dd957db4c5dd06453db1f5e5341fafb4693b281fac86bc0b86765e`). This is a checked no-difference slice, not evidence for other 1.16.1→1.16.2 player movement.
+
+## Exact behavior and order
+
+In both versions, `Player.travel(Vec3)` first saves current X/Y/Z, then gates the correction with `isSwimming() && !isPassenger()`. It samples `this.getLookAngle().y` once into local `double g`. This is the look-vector **Y component**, not rotation-vector index or pitch itself. `getLookAngle()` passes current `xRot` and `yRot` floats to `calculateViewVector`; that method multiplies each by `(float)(Math.PI / 180.0)`, computes float `Mth.cos`/`Mth.sin` intermediates in the same order, and constructs `new Vec3(k * l, -m, j * l)`. `Vec3` stores double components and accepts double constructor parameters, so the float `-m` is widened to double when the vector is built; `.y` and `g` are double thereafter. There is no cast back to float in the swim correction.
+
+Next, both versions choose double `h` as `0.085` if `g < -0.2`, otherwise `0.06`. They apply the correction only if `g <= 0.0`, `jumping`, or (through short-circuit OR evaluation) the block at `new BlockPos(getX(), getY() + 1.0 - 0.1, getZ())` has nonempty fluid. Only after that gate do they sample `getDeltaMovement()` and set it to `vec32.add(0.0, (g - vec32.y) * h, 0.0)`. The subtraction and multiplication are double operations. The correction precedes both the flying branch and `super.travel(vec3)`; ordinary nonflying swimming therefore enters the inherited `LivingEntity.travel` with the corrected velocity.
+
+For the eligible water branch, `LivingEntity.travel` uses `moveRelative(g, vec3)` and then calls `this.move(MoverType.SELF, this.getDeltaMovement())`. `Player` extends `LivingEntity` and neither class declares `move(MoverType, Vec3)` in these source sets, so this virtual call resolves to the real inherited `Entity.move`. The water branch then applies its normal collision response and drag after that move. The compared `LivingEntity.travel` method is identical across the pair.
+
+## Adjacent inherited-move change
+
+`Entity.move` is not wholly identical across this pair: 1.16.1 clears `this.isTouchingLava = false` immediately before `checkInsideBlocks()` (1.16.1 `Entity.java:551–559`); 1.16.2 removes that assignment (1.16.2 `Entity.java:567–574`). The method's other extracted differences are only this removed line; its collision, movement, and post-move statements otherwise match. The associated state model also changes: 1.16.1 `setInLava()` sets the field and `isInLava()` returns it (`Entity.java:1065–1071`); 1.16.2 `isInLava()` instead checks `!firstTick && fluidHeight.getDouble(FluidTags.LAVA) > 0.0` (`Entity.java:1071–1073`). `checkInsideBlocks()` still dispatches block `entityInside` callbacks in both versions (`Entity.java:803–828` / `818–843`). This is an adjacent lava-state transition, separate from the unchanged swim-pitch correction; it should be tracked as its own movement/state candidate if pair coverage requires it.
+
+## Exact source identity and citations
+
+Both sides are the prepared exact releases, mapping `mojmap`, decompiler Vineflower, Java runtime 25. Ready markers say `status: ready`; the source-manifest SHA-256 recorded in each ready marker matches the manifest bytes. Relevant source hashes below match each side's `mojmap.sources.sha256` entries. Paths are relative to `decompiled_minecraft/<version>/mojmap/`.
+
+| Source / member | 1.16.1 | 1.16.2 |
+| --- | --- | --- |
+| `net/minecraft/world/entity/player/Player.java`, `travel(Vec3)` | lines 1380–1410; SHA-256 `a849960d47bf00a2cddfb6636c78c518532a11967ba08829f19c5ebced08681e` | lines 1387–1417; SHA-256 `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960` |
+| `net/minecraft/world/entity/LivingEntity.java`, `travel(Vec3)` | lines 1912 onward; SHA-256 `b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26` | lines 1914 onward; SHA-256 `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88` |
+| `net/minecraft/world/entity/Entity.java`, `getLookAngle()` / `calculateViewVector(float,float)` | lines 1680–1682 / 1237–1245; SHA-256 `27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576` | lines 1700–1702 / 1243–1251; SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666` |
+| `net/minecraft/world/phys/Vec3.java`, `y` field and double constructor | lines 12–14, 39–43; SHA-256 `555519ac5fa0ce1a240f90e7db64d5dbc4b005012d91edebcf940009fcbf03f2` | lines 12–14, 40–44; SHA-256 `b889010c321c45b497e71ff782d108a718ed23a5f605d6162904045e1e01fd48` |
+| `net/minecraft/world/entity/Entity.java`, `move(MoverType,Vec3)` | lines 469–577; SHA-256 `27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576` | lines 485–592; SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666` |
+
+Canonical manifest-file hashes: 1.16.1 `mojmap.ready.json` SHA-256 `c19d707f7d6622733b5189599ff77aa7999cc11a3d900f29d150f9fab203ffcb`, `mojmap.provenance.json` SHA-256 `a6ff065188a400ec891980cdf2e6c0c238bf5e05168a2f69b29c6cecc2214b98`; 1.16.2 `mojmap.ready.json` SHA-256 `e5f69bab646b6143b0660a97fade59595ff2e924d36567b9cd285c8babd31214`, `mojmap.provenance.json` SHA-256 `a9b166406064e877751542fe7df27acc32be3843f6fdc2280dac32ce0b54207c`. Canonical manifests: for 1.16.1, `mojmap.ready.json` records source-manifest SHA-256 `76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754`; its `mojmap.sources.sha256` bytes hash to that value. For 1.16.2 the recorded and verified value is `10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7`. Both `mojmap.provenance.json` files identify the same exact batch run for versions `[1.16.1, 1.16.2]`, mapping option `mojmap`, `decompileMinecraft`, Vineflower `1.12.0`, Java `25.0.3+9-LTS`; ready markers identify client SHA-256 values `b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef` and `19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d` respectively.
+

@@ -1,0 +1,2 @@
+Supplemental dependency added after reading the immutable comparison: MathHelper.ceil/floor used by containsMaterial bounds.
+net/minecraft/util/math/MathHelper.java	579e05d110460f444bcac86729141545095cb5932c0f8d34c9a4dcfcd9a35e80	579e05d110460f444bcac86729141545095cb5932c0f8d34c9a4dcfcd9a35e80

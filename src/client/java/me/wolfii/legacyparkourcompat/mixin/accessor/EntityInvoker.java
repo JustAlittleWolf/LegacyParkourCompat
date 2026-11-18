@@ -16,6 +16,9 @@ public interface EntityInvoker {
     @Invoker("getBlockPosBelowThatAffectsMyMovement")
     BlockPos legacyparkourcompat$invokeGetBlockPosBelowThatAffectsMyMovement();
 
+    @Invoker("getBlockStateOnLegacy")
+    BlockState legacyparkourcompat$invokeGetBlockStateOnLegacy();
+
     @Invoker("getBlockSpeedFactor")
     float legacyparkourcompat$invokeGetBlockSpeedFactor();
 

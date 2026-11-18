@@ -1,0 +1,371 @@
+{
+  "schema": 1,
+  "pair": {
+    "mapping": "unobfuscated",
+    "older": "26.1.2",
+    "newer": "26.2"
+  },
+  "coverage": {
+    "unexamined": [
+      "Family implementation internals for the five named families",
+      "All excluded operation families above",
+      "Intermediate patch boundary within 26.1.2→26.2"
+    ],
+    "partial": [
+      "No claim acceptance or independent full-pair closure; this is a scoped pre-claim consumer audit.",
+      "Exact caller-side LocalPlayer movement scheduling is outside assignment boundary."
+    ],
+    "examined": [
+      "Manifest and ready/provenance identity for both exact versions",
+      "Shared Entity.move to collideBoundingBox/collectColliders/collideWithShapes path",
+      "Nonzero movement collision guard and per-axis movement guard/order",
+      "CollisionGetter dry block collision dispatch",
+      "BlockCollisions traversal, shape/context delegation, and per-chunk cache",
+      "BlockBehaviour default collision-shape cache and context overloads",
+      "Exact shared generic source files named in roster"
+    ]
+  },
+  "notes": [
+    "Exact-source roster is frozen before any author draft was opened.",
+    "26.1.2 CollisionGetter.getBlockCollisionsFromContext is private; 26.2 makes it a default interface method. The ordinary getBlockCollisions route reaches the same constructor in both sources.",
+    "BlockCollisions, BlockState, EntityCollisionContext, and generic axis clipping code are present in the roster on both sides; source identity is independently bound by per-file SHA-256 and each version source manifest.",
+    "Entity.move dispatches through the shared Entity collision consumer. The exact LocalPlayer caller is outside this consumer slice."
+  ],
+  "status": "frozen-pre-claim",
+  "sourceIdentities": [
+    {
+      "sourceManifestSha256": "54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0",
+      "readySourceFileCount": 6882,
+      "mapping": "unobfuscated",
+      "version": "26.1.2",
+      "files": [
+        {
+          "scope": "Shared inherited player collision consumer; exclude step candidate generation, step-up alternatives, restitution, post-collision support/fall checks.",
+          "path": "net/minecraft/world/entity/Entity.java",
+          "members": [
+            "move(MoverType, Vec3)",
+            "collide(Vec3): non-step movement/collision selection and zero-vector gate",
+            "collideBoundingBox(Entity, Vec3, AABB, Level, List<VoxelShape>)",
+            "collectColliders(Entity, Level, List<VoxelShape>, AABB)",
+            "collideWithShapes(Vec3, AABB, List<VoxelShape>)"
+          ],
+          "sha256": "8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf"
+        },
+        {
+          "scope": "Ordinary dry block collision iterable and dispatch; fluids/support/prediction helpers excluded.",
+          "path": "net/minecraft/world/level/CollisionGetter.java",
+          "members": [
+            "getBlockCollisions(Entity, AABB)",
+            "getBlockCollisionsFromContext(CollisionContext, AABB)",
+            "getChunkForCollisions(int, int)"
+          ],
+          "sha256": "dddff4897e8d5d01e3ac132d85c474e6a3b9bae928e48b8c907aa9eabdb7fb01"
+        },
+        {
+          "scope": "Grid traversal, per-chunk lookup cache, state filtering, contextual collision-shape retrieval and shape/AABB intersection.",
+          "path": "net/minecraft/world/level/BlockCollisions.java",
+          "members": [
+            "constructors(Entity|CollisionContext, AABB, boolean, BiFunction)",
+            "getChunk(int, int)",
+            "computeNext()"
+          ],
+          "sha256": "eb8a8f6f07b1d6384f17987818f056d41adfd6b2ad120d26774bfa550f4fc51e"
+        },
+        {
+          "scope": "Read-only path contract.",
+          "path": "net/minecraft/world/level/BlockGetter.java",
+          "members": [
+            "BlockGetter API used by chunk lookup and block-state retrieval"
+          ],
+          "sha256": "623a44206db93d8fb2eefc9353345689cc35e0c1742b5d61789eab2b098b687d"
+        },
+        {
+          "scope": "Default collision chunk lookup contract.",
+          "path": "net/minecraft/world/level/LevelReader.java",
+          "members": [
+            "getChunkForCollisions(int, int)"
+          ],
+          "sha256": "8fbfb7cf6d6ff8a19e784198d6bf75a1eae346cd8371d3d23eb3c8af546621a1"
+        },
+        {
+          "scope": "Concrete level collision chunk lookup used by ordinary player world.",
+          "path": "net/minecraft/world/level/Level.java",
+          "members": [
+            "getChunkForCollisions(int, int)"
+          ],
+          "sha256": "77cc835fc1a79cd970bc3f4897fe5f398958fcbc874400c297f465f0c7819f01"
+        },
+        {
+          "scope": "Generic shape delegation and ordinary default-shape cache behavior only; no block-family implementation details.",
+          "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+          "members": [
+            "BlockStateBase.getCollisionShape(BlockGetter, BlockPos)",
+            "BlockStateBase.getCollisionShape(BlockGetter, BlockPos, CollisionContext)",
+            "BlockBehaviour.getCollisionShape(BlockState, BlockGetter, BlockPos, CollisionContext)",
+            "BlockStateBase.Cache(BlockState): collisionShape initialization"
+          ],
+          "sha256": "9db85de84e502903e6fe497f043b58620b92089236ffb213f0b93db979428d13"
+        },
+        {
+          "scope": "Generic state contract only.",
+          "path": "net/minecraft/world/level/block/state/BlockState.java",
+          "members": [
+            "BlockState type/interface declarations used by the shared consumer"
+          ],
+          "sha256": "df5b24701ee69145a78901ee0e370e063b63b3e74a0aae32c89b2ae45bc6d205"
+        },
+        {
+          "scope": "Ordinary entity context; fluid and placement variants excluded.",
+          "path": "net/minecraft/world/phys/shapes/CollisionContext.java",
+          "members": [
+            "empty()",
+            "of(Entity)",
+            "getCollisionShape(BlockState, CollisionGetter, BlockPos)"
+          ],
+          "sha256": "8702d23bea0f119e0d63ce15ff59088559a319283186372fd69adebeed4dcd69"
+        },
+        {
+          "scope": "Generic player context fields and shape delegation; no family predicate matrices.",
+          "path": "net/minecraft/world/phys/shapes/EntityCollisionContext.java",
+          "members": [
+            "EntityCollisionContext(Entity, boolean, boolean)",
+            "getCollisionShape(BlockState, CollisionGetter, BlockPos)",
+            "isAbove(VoxelShape, BlockPos, boolean)"
+          ],
+          "sha256": "2f0a2bfd72a3d35121e3ef4ab80755f04cefaa7dd933988e2246b39ff5c39291"
+        },
+        {
+          "scope": "Axis clipping and query/shape broad-phase helpers only.",
+          "path": "net/minecraft/world/phys/shapes/Shapes.java",
+          "members": [
+            "collide(Direction.Axis, AABB, Iterable<VoxelShape>, double)",
+            "joinIsNotEmpty(VoxelShape, VoxelShape, BooleanOp)",
+            "create(AABB)",
+            "block()"
+          ],
+          "sha256": "cfa63cbed77c922a68e7e8a6a3b78b09a22c7de51e0146e481e9c9d26db66f58"
+        },
+        {
+          "scope": "Generic shape operations only.",
+          "path": "net/minecraft/world/phys/shapes/VoxelShape.java",
+          "members": [
+            "move(BlockPos)",
+            "move(Vec3)",
+            "axis bounds and coordinate access used by shared query/clipping"
+          ],
+          "sha256": "419a46bbcc8b48e1c075127954eb243dcc60d10d4087bf256d895cf91a2ff854"
+        },
+        {
+          "scope": "Axis-resolution order gate.",
+          "path": "net/minecraft/core/Direction.java",
+          "members": [
+            "axisStepOrder(Vec3)"
+          ],
+          "sha256": "30fb61592f1a154bb8fc239ab8df1cd2b209f63317e0c7dde4d5b9b3e260d754"
+        },
+        {
+          "scope": "BlockCollisions enumeration gate.",
+          "path": "net/minecraft/core/Cursor3D.java",
+          "members": [
+            "advance()",
+            "nextX()",
+            "nextY()",
+            "nextZ()",
+            "getNextType()"
+          ],
+          "sha256": "9a1fdc92bb95013c7e70da467a0b5e5b1c9787daafcb0e7e3a8c950dd0e7287f"
+        },
+        {
+          "scope": "Chunk-cache key computation.",
+          "path": "net/minecraft/core/SectionPos.java",
+          "members": [
+            "blockToSectionCoord(int)"
+          ],
+          "sha256": "d51026c59b229f1282cf6b2cb5941e819b4b3ffd60c502ae3a991e3fee69ff29"
+        },
+        {
+          "scope": "Chunk-cache key computation.",
+          "path": "net/minecraft/world/level/ChunkPos.java",
+          "members": [
+            "pack(int, int)"
+          ],
+          "sha256": "9c8ba639b8669cacadc5eec9fd1e77af5924b93d7d15eadef4b7fba898ff5177"
+        }
+      ]
+    },
+    {
+      "sourceManifestSha256": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894",
+      "readySourceFileCount": 7055,
+      "mapping": "unobfuscated",
+      "version": "26.2",
+      "files": [
+        {
+          "scope": "Shared inherited player collision consumer; exclude step candidate generation, step-up alternatives, restitution, post-collision support/fall checks.",
+          "path": "net/minecraft/world/entity/Entity.java",
+          "members": [
+            "move(MoverType, Vec3)",
+            "collide(Vec3): non-step movement/collision selection and zero-vector gate",
+            "collideBoundingBox(Entity, Vec3, AABB, Level, List<VoxelShape>)",
+            "collectColliders(Entity, Level, List<VoxelShape>, AABB)",
+            "collideWithShapes(Vec3, AABB, List<VoxelShape>)"
+          ],
+          "sha256": "7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5"
+        },
+        {
+          "scope": "Ordinary dry block collision iterable and dispatch; fluids/support/prediction helpers excluded.",
+          "path": "net/minecraft/world/level/CollisionGetter.java",
+          "members": [
+            "getBlockCollisions(Entity, AABB)",
+            "getBlockCollisionsFromContext(CollisionContext, AABB)",
+            "getChunkForCollisions(int, int)"
+          ],
+          "sha256": "8e7d1a54d27e0f187667439539c59b8892f966f1b9c8107eb162c6d43f830f6c"
+        },
+        {
+          "scope": "Grid traversal, per-chunk lookup cache, state filtering, contextual collision-shape retrieval and shape/AABB intersection.",
+          "path": "net/minecraft/world/level/BlockCollisions.java",
+          "members": [
+            "constructors(Entity|CollisionContext, AABB, boolean, BiFunction)",
+            "getChunk(int, int)",
+            "computeNext()"
+          ],
+          "sha256": "eb8a8f6f07b1d6384f17987818f056d41adfd6b2ad120d26774bfa550f4fc51e"
+        },
+        {
+          "scope": "Read-only path contract.",
+          "path": "net/minecraft/world/level/BlockGetter.java",
+          "members": [
+            "BlockGetter API used by chunk lookup and block-state retrieval"
+          ],
+          "sha256": "623a44206db93d8fb2eefc9353345689cc35e0c1742b5d61789eab2b098b687d"
+        },
+        {
+          "scope": "Default collision chunk lookup contract.",
+          "path": "net/minecraft/world/level/LevelReader.java",
+          "members": [
+            "getChunkForCollisions(int, int)"
+          ],
+          "sha256": "8fbfb7cf6d6ff8a19e784198d6bf75a1eae346cd8371d3d23eb3c8af546621a1"
+        },
+        {
+          "scope": "Concrete level collision chunk lookup used by ordinary player world.",
+          "path": "net/minecraft/world/level/Level.java",
+          "members": [
+            "getChunkForCollisions(int, int)"
+          ],
+          "sha256": "1ae4f565ad909f4e90786089b5b4f125e8a7d18e2ef7d8c376172a5787fc5639"
+        },
+        {
+          "scope": "Generic shape delegation and ordinary default-shape cache behavior only; no block-family implementation details.",
+          "path": "net/minecraft/world/level/block/state/BlockBehaviour.java",
+          "members": [
+            "BlockStateBase.getCollisionShape(BlockGetter, BlockPos)",
+            "BlockStateBase.getCollisionShape(BlockGetter, BlockPos, CollisionContext)",
+            "BlockBehaviour.getCollisionShape(BlockState, BlockGetter, BlockPos, CollisionContext)",
+            "BlockStateBase.Cache(BlockState): collisionShape initialization"
+          ],
+          "sha256": "9c7a103492d0714c90397da88eb696912ff6a9ca1c005d984c4746d52637fd1e"
+        },
+        {
+          "scope": "Generic state contract only.",
+          "path": "net/minecraft/world/level/block/state/BlockState.java",
+          "members": [
+            "BlockState type/interface declarations used by the shared consumer"
+          ],
+          "sha256": "df5b24701ee69145a78901ee0e370e063b63b3e74a0aae32c89b2ae45bc6d205"
+        },
+        {
+          "scope": "Ordinary entity context; fluid and placement variants excluded.",
+          "path": "net/minecraft/world/phys/shapes/CollisionContext.java",
+          "members": [
+            "empty()",
+            "of(Entity)",
+            "getCollisionShape(BlockState, CollisionGetter, BlockPos)"
+          ],
+          "sha256": "0af02ec998df9e5b093a1b1887255619dd9b9a08604de40b452c11922fbf3bca"
+        },
+        {
+          "scope": "Generic player context fields and shape delegation; no family predicate matrices.",
+          "path": "net/minecraft/world/phys/shapes/EntityCollisionContext.java",
+          "members": [
+            "EntityCollisionContext(Entity, boolean, boolean)",
+            "getCollisionShape(BlockState, CollisionGetter, BlockPos)",
+            "isAbove(VoxelShape, BlockPos, boolean)"
+          ],
+          "sha256": "2f0a2bfd72a3d35121e3ef4ab80755f04cefaa7dd933988e2246b39ff5c39291"
+        },
+        {
+          "scope": "Axis clipping and query/shape broad-phase helpers only.",
+          "path": "net/minecraft/world/phys/shapes/Shapes.java",
+          "members": [
+            "collide(Direction.Axis, AABB, Iterable<VoxelShape>, double)",
+            "joinIsNotEmpty(VoxelShape, VoxelShape, BooleanOp)",
+            "create(AABB)",
+            "block()"
+          ],
+          "sha256": "6ed9460d58727770bdec59c4f3184f075644f3c411be1eeab2eae17e8ece1891"
+        },
+        {
+          "scope": "Generic shape operations only.",
+          "path": "net/minecraft/world/phys/shapes/VoxelShape.java",
+          "members": [
+            "move(BlockPos)",
+            "move(Vec3)",
+            "axis bounds and coordinate access used by shared query/clipping"
+          ],
+          "sha256": "419a46bbcc8b48e1c075127954eb243dcc60d10d4087bf256d895cf91a2ff854"
+        },
+        {
+          "scope": "Axis-resolution order gate.",
+          "path": "net/minecraft/core/Direction.java",
+          "members": [
+            "axisStepOrder(Vec3)"
+          ],
+          "sha256": "30fb61592f1a154bb8fc239ab8df1cd2b209f63317e0c7dde4d5b9b3e260d754"
+        },
+        {
+          "scope": "BlockCollisions enumeration gate.",
+          "path": "net/minecraft/core/Cursor3D.java",
+          "members": [
+            "advance()",
+            "nextX()",
+            "nextY()",
+            "nextZ()",
+            "getNextType()"
+          ],
+          "sha256": "9a1fdc92bb95013c7e70da467a0b5e5b1c9787daafcb0e7e3a8c950dd0e7287f"
+        },
+        {
+          "scope": "Chunk-cache key computation.",
+          "path": "net/minecraft/core/SectionPos.java",
+          "members": [
+            "blockToSectionCoord(int)"
+          ],
+          "sha256": "544127e222e5e03a4c57cc0bb0a6f0b9edc2f6e242a6239a7ea927fab8f0a662"
+        },
+        {
+          "scope": "Chunk-cache key computation.",
+          "path": "net/minecraft/world/level/ChunkPos.java",
+          "members": [
+            "pack(int, int)"
+          ],
+          "sha256": "ec132793821577de7bddda628eebc3e6bc053625fa2515b8cf0b2f875efab34d"
+        }
+      ]
+    }
+  ],
+  "boundary": {
+    "included": "Ordinary logical-client player collision consumer beginning at Entity.move: normal non-riding, dry, nonzero displacement block collision query; context, shared block iteration and chunk cache, default collision-shape cache/delegation, movement-axis clipping and its direction-order gates. The zero-displacement branch is recorded as a gate.",
+    "excluded": [
+      "All family-specific slab/stair/door/trapdoor/gate state, box, context and cache matrices",
+      "Step-up candidate and alternate-step collision routes",
+      "Restitution and bounce response",
+      "Support-only and below-space probes",
+      "AutoJump",
+      "Fluid collision and fluid responses",
+      "Dynamic blocks and other block roles",
+      "Entity collision provider internals",
+      "Logical-server movement and non-player or vehicle behavior"
+    ]
+  }
+}

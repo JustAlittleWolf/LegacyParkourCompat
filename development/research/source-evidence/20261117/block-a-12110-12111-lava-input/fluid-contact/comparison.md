@@ -1,0 +1,44 @@
+# Blind source comparison: 1.21.10 → 1.21.11 fluid contact
+
+## Evidence identity and integrity
+
+Canonical Mojmap trees: `decompiled_minecraft/1.21.10/mojmap/` and `decompiled_minecraft/1.21.11/mojmap/`. Both `mojmap.ready.json` markers identify their exact version and `mojmap`; their declared source-manifest, artifact-manifest, and diagnostics hashes matched the bytes on disk. Every source path in each manifest was present and its SHA-256 matched. Manifest counts and total source bytes also matched the ready markers.
+
+| Version | Source files / bytes | Ready marker SHA-256 | Provenance SHA-256 | Source manifest SHA-256 |
+| --- | ---: | --- | --- | --- |
+| 1.21.10 | 6,386 / 28,999,290 | `2374d901074b72cd69f0229381d6a11edea7983613c538a2e2e18d9fc73dbeb0` | `9a1db4c050c3caa28a1313f89dae9da3b28feaa5f8afba42cab798b47d7ad77c` | `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1` |
+| 1.21.11 | 6,622 / 29,464,971 | `0ad98d0ebd654650492c97eb58bc324d33864787f0ce10d99faec3ae2f5b804b` | `99c9fb741eb5e4ac8fb5780e2158da324d7c8b6afc179d494e5986f78fe29f72` | `0c4d83fef84c101d9db88f331acec7960f3c8346228c28995e6cf57bbfcae555` |
+
+Relevant exact source SHA-256 values:
+
+| Mojmap source | 1.21.10 | 1.21.11 |
+| --- | --- | --- |
+| `net/minecraft/world/entity/Entity.java` | `8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18` | `32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3` |
+| `net/minecraft/world/entity/LivingEntity.java` | `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66` | `19ed2d565858c401c69a06750b054a633a20ea864cab3a753b5c767f0bdd60e8` |
+| `net/minecraft/world/level/LevelReader.java` | `13367316fa089c952dbc1cdbccfcc35cb521365a0659123cef7f4d11c5429a23` | `562cd72343484c0e48f55dfe1ff50e5bb10516135d601aff264867fac9d9ff09` |
+| `net/minecraft/world/level/material/FluidState.java` | `1bfc76676cc7cf136220c05f3506ae4d931cfa33ce0833d307b28048a5d28c61` | `146a5e6a19a93da631a6f4ed57020791bde31087fcedc6d52c68b1c582b71b0f` |
+| `net/minecraft/tags/FluidTags.java` | `1960057695560fbedaba1c722fdb6ddc0c97a8f233726a15de0191fde242d08f` | `d4375be43c190e80d0452e71e5441576e5fa796fc7d256cea3841b63cfe14afd` |
+
+The paired methods below were also extracted and compared byte-for-byte after their signatures; matching UTF-8 body hashes are recorded where useful.
+
+## Verified no-difference slices
+
+1. **Water/lava scan and shallow-flow axis.** `Entity.updateFluidHeightAndDoFluidPushing(TagKey<Fluid>, double)` is body-identical (body SHA-256 `d5dbdc977d98d36277426cd8f00d9efaadad778cff1734c308bca4548f11fe07` on both sides): 1.21.10 `Entity.java:3485–3550`; 1.21.11 `Entity.java:3509–3574`. Both abort before scanning when touching an unloaded chunk; deflate the player/entity box by `0.001`; floor minima and ceil maxima; scan x, then y, then z with exclusive upper bounds; match the supplied fluid tag; accept a surface when its height is at least the deflated box `minY`; and retain the maximum `surfaceY - minY` as fluid depth. For current accumulation, each contributing flow vector is scaled by the accumulated maximum depth only while depth `< 0.4`, then summed. Player flow is averaged by contributing cell count and scaled by the caller’s coefficient; the minimum-current adjustment is restricted to x/z velocity both below `0.003` and a resulting current length below `0.0045000000000000005`. No scan-order, shallow-depth, current-vector, or release-axis change was found.
+
+2. **Contact/category predicates and call order.** `Entity.updateInWaterStateAndDoFluidPushing` clears `fluidHeight`, updates water current/contact first, computes the lava-current coefficient, updates the LAVA-tagged fluid contact/current, then returns `isInWater() || lavaContact`. `isInWater()` remains `wasTouchingWater`; `isInLava()` remains `!firstTick && fluidHeight.getDouble(FluidTags.LAVA) > 0.0`. In `entityBaseTick`, this fluid update remains before eye-fluid update and swimming update (1.21.10 `Entity.java:496–500`; 1.21.11 `Entity.java:502–506`). Water’s false/true transition, first-tick splash gate, fall-distance reset and `wasTouchingWater` write have no change (1.21.10 `Entity.java:1491–1504`; 1.21.11 `Entity.java:1509–1522`).
+
+3. **Vertical fluid-fall adjustment.** `LivingEntity.getFluidFallingAdjustedMovement(double, boolean, Vec3)` is body-identical (body SHA-256 `ce5ebc4714b96d9f513356e3fe0ab075596c47fe5882eab793ec2e69c27c8974` on both sides): 1.21.10 `LivingEntity.java:2488–2501`; 1.21.11 `LivingEntity.java:2546–2559`. When gravity is nonzero and sprinting is false, the Y component becomes `-0.003` when the descending flag is true, `abs(y - 0.005) >= 0.003`, and `abs(y - gravity / 16.0) < 0.003`; otherwise it becomes `y - gravity / 16.0`. X and Z are copied unchanged. Zero gravity or sprinting returns the supplied vector unchanged.
+
+4. **Local fluid travel and collision release.** The fluid travel branch still uses water contact before lava contact and keeps the same ordinary water and lava arithmetic/order: water movement, collision Y override `0.2`, multiply by water drag on X/Z and `0.8F` on Y, then falling adjustment; lava movement, shallow-fluid test against `getFluidJumpThreshold()`, shallow multiplication `(0.5, 0.8F, 0.5)`, falling adjustment, then gravity addition `(0, -gravity / 4, 0)`; finally, horizontal collision plus `isFree(x, y + 0.6F - currentY + startingY, z)` releases the player upward at Y `0.3F`. Compare 1.21.10 `LivingEntity.java:2275–2284, 2331–2381` with 1.21.11 `LivingEntity.java:2319–2321, 2368–2432`; the newer code extracts `shouldTravelInFluid`, water and lava helpers and `jumpOutOfFluid`. The same movement predicate and exit test remain. The new `floatInWaterWhileRidden` path is vehicle behavior and was excluded.
+
+5. **Loaded-client-chunk preflight.** `Entity.touchingUnloadedChunk()` is body-identical (SHA-256 `169bc127008597d6a6eca767d6d7b5ea6f608e5690b04de49fc630635ea9fc72` on both sides): inflate the bounding box by `1.0`, floor min X/Z, ceil max X/Z, and negate `level().hasChunksAt(minX, minZ, maxX, maxZ)`. `LevelReader.hasChunksAt(int,int,int,int)` also has identical method text. The fluid scan still returns false on that preflight before querying fluid states or writing `fluidHeight`.
+
+6. **Native fluid-tag dependency.** Both scans use `FluidTags.WATER` and `FluidTags.LAVA`; both keys are `TagKey`s in the fluid registry with default-namespace names `water` and `lava`. `FluidState.is(TagKey<Fluid>)` remains `getType().builtInRegistryHolder().is(tag)`, so native registry-tag membership is the operative dependency. `FluidState.getTags()` remains the built-in registry holder’s tags. The source-only type rename from `ResourceLocation` to `Identifier` in `FluidTags.create` does not alter either key. No tag-data or provider expansion was needed for these operations.
+
+## Observed adjacent source change outside the permitted feature scope
+
+The lava-current coefficient in `Entity.updateInWaterStateAndDoFluidPushing` changes from `dimensionType().ultraWarm() ? 0.007 : 0.0023333333333333335` (1.21.10 `Entity.java:1486–1487`) to `environmentAttributes().getDimensionValue(EnvironmentAttributes.FAST_LAVA) ? 0.007 : 0.0023333333333333335` (1.21.11 `Entity.java:1504–1505`). The 1.21.11 `FAST_LAVA` attribute defaults false and its built-in Nether dimension sets it true (`EnvironmentAttributes.java:126–128`, `DimensionTypes.java:71–85`); the built-in overworld does not override the false default (`DimensionTypes.java:38–54`). In 1.21.10, the built-in overworld has `ultraWarm=false` and Nether has `ultraWarm=true` (`DimensionTypes.java:14–53`, with record component order at `DimensionType.java:25–40`), so the vanilla built-in values agree. The adjacent source nevertheless replaces the old dimension-property input with a new environment-attribute/customization input. Since the assignment excludes modern-feature expansion, this is recorded as an out-of-scope input change, not an accepted ordinary player-movement finding.
+
+## Result
+
+No independent in-scope finding for the assigned ordinary fluid scan, shallow-depth flow release, loaded-chunk preflight, tag predicate, or fluid-falling vertical adjustment. The pair interval is 1.21.10→1.21.11 only; this comparison makes no claim about an earlier introduction boundary.

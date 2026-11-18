@@ -1,0 +1,11 @@
+# Dry cauldron component clipping in exact 1.8.9
+
+The [early cauldron provider dossier](../early-cauldron-provider-dossier.md) establishes the occupied basin geometry. This supplement covers a separate strict component response for the exact dry cauldron and an ordinary local SELF request along +Z. The supported player begins embedded across the east face by about 5e-8 blocks. The old collector preserves the five boxes in floor, west, north, east, south order. It clips Z at the south wall by strict X/Y overlap. With the same occupied union, the 26.2 voxel clipper's orthogonal X sample is outside the shape and preserves +0.2Z. This comparison uses the equal occupied union.
+
+The [independent verdict](verdict.md) supplies the corrected float-width and step gates. The bottom slab at (1,0,0) supports feet y=0.5. The top slab at (1,2,0) starts at y=2.5. At center x=1.299999961920929, z=0.500000011920929, 0.6F width gives X from 0.9999999500000001 to 1.5999999738418580. The south-plane gap is 0.0749999761581420, about +0.075Z. The canopy limits both step routes to about 0.2 rise, short of the 0.5 required to clear the wall. The strict horizontal result ties ordinary movement, so 1.8.9 keeps the normal clipped move. Without the canopy, the old step alternative can remove the horizontal distinction. In 26.2 the equal-union control has no horizontal clip and never enters step resolution.
+
+An authorized set-block command can create the overlap at the supported stationary player, without a block-write entity check or a source-identified push-out before the immediate request. Natural movement reachability and runtime parity are unverified. The audited state uses a dry cauldron and two supported dry slabs in loaded cells, with ordinary AIR in the rest of the relevant envelope. Water, other profiles, other component providers and alternate movement requests are outside this evidence.
+
+- [Original preserved draft](finding.md), SHA-256 2f708b26d42e35d31ec662d5d6db2ecf2e204b7fdc18d26549fd15da3a50016b.
+- [Revised source receipt](finding-r2.md), SHA-256 29075e1d51ae4885ac53420c481c1b0ef002b96e8883cd426065c4f2e1e519e2.
+- [Independent verdict](verdict.md), SHA-256 51456db253a63c257acfb32bf1156d4f1ddb9721dde5164a30533193c5aa05c8.

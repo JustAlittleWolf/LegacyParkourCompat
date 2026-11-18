@@ -1,0 +1,98 @@
+{
+  "evidence": [
+    {
+      "readyMarkerVersion": "1.15.2",
+      "mapping": "mojmap",
+      "readyMarkerStatus": "ready",
+      "provenanceNamespace": "mojmap",
+      "files": [
+        {
+          "manifestSha256": "3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd",
+          "path": "net/minecraft/client/player/LocalPlayer.java",
+          "actualSha256": "3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd",
+          "matchesManifest": true
+        },
+        {
+          "manifestSha256": "191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e",
+          "path": "net/minecraft/world/entity/Entity.java",
+          "actualSha256": "191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e",
+          "matchesManifest": true
+        },
+        {
+          "manifestSha256": "46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54",
+          "path": "net/minecraft/world/entity/LivingEntity.java",
+          "actualSha256": "46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54",
+          "matchesManifest": true
+        },
+        {
+          "manifestSha256": "cc7638d876a7e70cd111891cdb7be424741a4a5bdd4851f3623881c30734c24e",
+          "path": "net/minecraft/world/level/block/LiquidBlock.java",
+          "actualSha256": "cc7638d876a7e70cd111891cdb7be424741a4a5bdd4851f3623881c30734c24e",
+          "matchesManifest": true
+        }
+      ],
+      "readySourceManifestSha256": "cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7",
+      "clientSha256": "4a73008a73f3824b7c711750a5a37556df8614f193c0a531e292dad159a73a7c",
+      "actualArtifactManifestSha256": "208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406",
+      "provenanceSha256": "d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e",
+      "version": "1.15.2",
+      "sourceFileCount": 3332,
+      "provenanceVersion": "1.15.2",
+      "versionMetadataId": "1.15.2",
+      "readyArtifactManifestSha256": "208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406",
+      "actualSourceManifestSha256": "cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7"
+    },
+    {
+      "readyMarkerVersion": "1.16",
+      "mapping": "mojmap",
+      "readyMarkerStatus": "ready",
+      "provenanceNamespace": "mojmap",
+      "files": [
+        {
+          "manifestSha256": "ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b",
+          "path": "net/minecraft/client/player/LocalPlayer.java",
+          "actualSha256": "ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b",
+          "matchesManifest": true
+        },
+        {
+          "manifestSha256": "27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576",
+          "path": "net/minecraft/world/entity/Entity.java",
+          "actualSha256": "27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576",
+          "matchesManifest": true
+        },
+        {
+          "manifestSha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26",
+          "path": "net/minecraft/world/entity/LivingEntity.java",
+          "actualSha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26",
+          "matchesManifest": true
+        },
+        {
+          "manifestSha256": "e7b138668f426eaf7c2f89b34dd0448f6ba0eb133963929ebf12d64840f22fb3",
+          "path": "net/minecraft/world/level/block/LiquidBlock.java",
+          "actualSha256": "e7b138668f426eaf7c2f89b34dd0448f6ba0eb133963929ebf12d64840f22fb3",
+          "matchesManifest": true
+        }
+      ],
+      "readySourceManifestSha256": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a",
+      "clientSha256": "00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71",
+      "actualArtifactManifestSha256": "b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2",
+      "provenanceSha256": "371d50521a183f4a3f42fac2d18021f228e0a4e6b2e8a9838c2805391709f2a9",
+      "version": "1.16",
+      "sourceFileCount": 3572,
+      "provenanceVersion": "1.16",
+      "versionMetadataId": "1.16",
+      "readyArtifactManifestSha256": "b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2",
+      "actualSourceManifestSha256": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a"
+    }
+  ],
+  "schema": 1,
+  "pair": [
+    "1.15.2",
+    "1.16"
+  ],
+  "sourceRoots": [
+    "decompiled_minecraft/1.15.2/mojmap",
+    "decompiled_minecraft/1.16/mojmap"
+  ],
+  "coverage": "Bounded lava producer, travel and held-jump slices only; not full-pair coverage."
+}

@@ -1,0 +1,70 @@
+{
+  "audit": "independent blind exact-source audit",
+  "pair": [
+    "1.14.3",
+    "1.14.4"
+  ],
+  "frozenBeforeLaneComparison": true,
+  "sourceIdentity": {
+    "older": {
+      "namespace": "Yarn named source",
+      "intermediaryArtifactSha256": "f2e9990c00fa87ddc7158a95afb735a947ae26d1997b52916226e11c612542a9",
+      "release": "1.14.3",
+      "provenanceSha256": "81ea0021eb122d4e3340e20d47d6ecb7079365ba767a038d26a8264cddacc28a",
+      "mapping": "Yarn 1.14.3+build.13",
+      "clientSha256": "4063062677433988e012fba53e42e4c21adb6919ac7f061f19f3c6e75b334e07",
+      "mappingArtifactSha256": "ad9e77f907cfc6780fb348ad4b3a948ffc8cea3bfe50abcc792428645e49e06e"
+    },
+    "newer": {
+      "namespace": "Mojmap named source",
+      "sourceManifestSha256": "af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b",
+      "mappingArtifacts": [
+        "feather-gen2-1.14.4+build.2-mergedv2.jar",
+        "feather-gen2-1.14.4+build.2.tiny"
+      ],
+      "release": "1.14.4",
+      "provenanceSha256": "9d1ad405e1e787d2fca5ed1897e6797b1f3cd79527da50d713232f46e2f30d97",
+      "mappingLabel": "Mojmap",
+      "clientSha256": "b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a"
+    }
+  },
+  "slices": [
+    {
+      "compare": "Entity.stopRiding and immediate passenger/vehicle relation update path; inherited by LivingEntity and player",
+      "newerFiles": [
+        "net/minecraft/world/entity/Entity.java"
+      ],
+      "olderFiles": [
+        "net/minecraft/entity/Entity.java"
+      ],
+      "operation": "Generic entity vehicle detachment"
+    },
+    {
+      "compare": "portal block dispatch into entity portal handler, portal tick transition predicate or checked absence; distinguish block eligibility from generic dismount",
+      "newerFiles": [
+        "net/minecraft/world/level/block/NetherPortalBlock.java",
+        "net/minecraft/world/entity/Entity.java"
+      ],
+      "olderFiles": [
+        "net/minecraft/block/PortalBlock.java",
+        "net/minecraft/entity/Entity.java"
+      ],
+      "operation": "Portal-entry handling and portal-specific vehicle eligibility"
+    },
+    {
+      "compare": "serverbound dismount command caller, stopRiding trigger, exact ServerPlayer correction call, coordinate values, guards, packet-relative flags and local XYZ application path",
+      "newerFiles": [
+        "net/minecraft/network/protocol/game/ServerboundPlayerCommandPacket.java",
+        "net/minecraft/server/network/ServerGamePacketListenerImpl.java",
+        "net/minecraft/world/entity/Entity.java"
+      ],
+      "olderFiles": [
+        "net/minecraft/server/network/packet/PlayerActionC2SPacket.java",
+        "net/minecraft/server/network/ServerPlayNetworkHandler.java",
+        "net/minecraft/entity/Entity.java"
+      ],
+      "operation": "Server-triggered player dismount and position correction"
+    }
+  ],
+  "bounds": "Logical-server player position response only. No general movement tick, other vehicle physics, portal destination generation, or unrelated teleport causes."
+}

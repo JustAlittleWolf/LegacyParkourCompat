@@ -1,0 +1,20 @@
+# 1.12.1 → 1.12.2 Elytra near-vertical look slice
+
+## Evidence identity and limits
+
+- Compared only the canonical local source directories `decompiled_minecraft/1.12.1/ornithe-feather/` and `decompiled_minecraft/1.12.2/ornithe-feather/`, using Feather names. The inspected complete files are byte-identical across the two directories:
+  - `net/minecraft/entity/living/LivingEntity.java`: SHA-256 `190e9ac551538e015d9e4d6c42856e5ba32b593131cf6d93895e7b29533f1ee6`.
+  - `net/minecraft/entity/Entity.java`: SHA-256 `80f091bf32166c88cf8bbd31caf72d84fa16224410733c7d2a0f00563f294a0a`.
+  - `net/minecraft/util/math/MathHelper.java`: SHA-256 `579e05d110460f444bcac86729141545095cb5932c0f8d34c9a4dcfcd9a35e80`.
+- The 1.12.2 canonical version root has provenance and ready metadata. It identifies `versionId: 1.12.2`, namespace `ornithe-feather`, Feather mapping option, and mapping inputs `feather-gen2-1.12.2+build.2-mergedv2.jar` and `feather-gen2-1.12.2+build.2.tiny`. The provenance records client SHA-256 `8ada07da5ee77dad3527bd7278fbd05ee1fc8a597813b216a871a2d7d64cc64f`; the local artifact manifest pins those mapping inputs to `e48244030c53979793bdfbe48d7f1f3536f7e4f678ee5890a416198037cd46ca` and `a3aa1c8e73e81bd09432ba1f4b2e88aaacbedb2d8fa3cbf797536d2bdf0d4e58`, respectively. The provenance file SHA-256 is `747425a26da363d1abc8a2cecd83a74504aeb1f58be93aa53f48c690e35318ce`; the source manifest SHA-256 is `b8a37ccfccd2aac5f40f5e34fec85873dbdfa93a266043c103e592e4a8c949da`, and it records the `LivingEntity.java` hash above.
+- The 1.12.1 canonical version root has only the `ornithe-feather/` source directory and a hidden sibling `.ornithe-feather.previous-…` directory. It has no canonical 1.12.1 provenance, ready marker, or source manifest. The source bytes and hashes are directly verifiable, but their exact decompile/mapping inputs are unverified by this checkout. No inference is made from the hidden previous directory.
+
+## Slice and result
+
+`LivingEntity.java`, `moveRelative`, lines 1425–1464 in both releases, admits the local, dry, already-fall-flying case through the movement-control, water, and lava gates. The glide path reads `this.getLookVector()` directly at line 1434, derives `i` as `this.pitch * (float)(Math.PI / 180.0)` at 1435, then computes `j = sqrt(vec3d.x² + vec3d.z²)` at 1436. The look vector is not normalized here; `j` is its horizontal magnitude, produced by a nonnegative square root.
+
+The negative vertical-speed correction at 1442–1447 divides by `j` only under `velocityY < 0.0 && j > 0.0`. The following pitch correction at 1449–1454 is gated only by `i < 0.0F`; it computes `o = k * -MathHelper.sin(i) * 0.04`, applies the vertical term, then subtracts `vec3d.x * o / j` and `vec3d.z * o / j` without a `j > 0.0` guard. Thus an ordinary negative pitch within the player's allowed pitch interval, including its lower endpoint, reaches this correction before the first `move` call at line 1464. The later horizontal speed adjustment has its own `j > 0.0` guard at 1456.
+
+`Entity.java`, lines 1239–1244, constructs the current look vector from the old sine-table cosine/sine calls; `getLookVector` at 1690–1692 passes current pitch and yaw directly. `MathHelper.java`, lines 15–20 and 428, uses a 65,536-entry sine table with float angle scaling, integer truncation, and `& 65535` indexing; cosine offsets the truncated index by `16384.0F`. This quantization creates lookup aliases for nearby finite angles. At pitch `-90.0F`, the source expressions still give a finite positive `j` from the table's residual at index 32768 (the table value is `(float)Math.sin(Math.PI)`), while the glide-angle `i` remains negative, so the unguarded pitch correction is evaluated. This is source-derived arithmetic, not a runtime trajectory claim.
+
+All three complete relevant files have identical hashes on the two sides, so the gate order, float conversion, raw look-vector use, denominator sign/magnitude, lookup indexing, and endpoint/near-endpoint alias behavior do not change between 1.12.1 and 1.12.2. This bounded slice yields no adjacent-release movement difference. No runtime/A-B or broad pair-coverage conclusion is made.

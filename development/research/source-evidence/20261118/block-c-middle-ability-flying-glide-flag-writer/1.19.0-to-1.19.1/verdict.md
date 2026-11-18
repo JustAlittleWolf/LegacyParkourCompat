@@ -1,0 +1,25 @@
+# Independent source audit: 1.19 → 1.19.1 Elytra glide flag clear
+
+## Verdict
+
+**ACCEPTED — the bounded no-difference claim is supported.** The audited behavior is a local, dry, airborne, nonpassenger player with `mayfly`, ordinary active chest-slot Elytra, and shared flag 7 already true, who turns on lawful creative flight. Both exact Mojmap releases execute the Elytra travel branch during that tick's real movement and then clear shared flag 7 in the same post-move `Player.travel` sequence. No source difference appears in the audited operation.
+
+This verdict accepts only this bounded claim. It does not claim full-pair movement coverage, runtime parity, or an exact intermediate patch boundary.
+
+## Evidence identity
+
+- Original relied report: `c-mid-119-1191-ability-flight-glide-clear-source/report.md`; SHA-256 `7873cd743d6c433370acc9a1aac2503b2f806cb18eecadfd283d55dc32c15d06` (verified before opening).
+- Canonical read-only root: `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/`; Mojmap in both releases. Readiness markers report exact IDs `1.19` and `1.19.1`, status `ready`, Vineflower, Java 25.
+- 1.19 readiness SHA-256 `b00a68db8600ec8cdc3917357aff59eb0537be6f382e621e5ed3eeb900898b88`; provenance SHA-256 `833cf50d6eab0f24475dcc11085c1414c85eee0e708ff17c59bc8dcd2ae9c35a`; source-manifest SHA-256 `78bf3f9d5b4b5437240dd0707fa7a9ff56e6d1e267bd8edc13adc8313b535e26`.
+- 1.19.1 readiness SHA-256 `c7b5373078eb777895a4f4b10d8c99eb289cb14fa1835004c1eb4563b6a8a690`; provenance SHA-256 `de0de05299c59d3b05d96e744b27f5a5cef377880ae4a7b402337aa0ffe00245`; source-manifest SHA-256 `25a8e35111971be21a85fefd567ada685098f45e35e431163afdbe0fa66dfde1`.
+- Current file hashes were checked against each source manifest and the relied report. `LocalPlayer.java`: 1.19 `c5f346728f551d278e88b457e54e539885e0d8e549ed7394887d090f28224805`; 1.19.1 `36ae4aabd609b457fffb7a8b14abb50db9ac775857dde1774c0c68a8cf50deef`. `Player.java`: 1.19 `4b5d3d71ac1c4b64efdeb1ad86a4b6f84afffe210e272850e620339430942de1`; 1.19.1 `155c5fcfba322d968f3180383e7d283ddeb5edee4e04314906310d4e3ce0ccc1`. `LivingEntity.java`: 1.19 `00c591dd2cac49ee5ccad8705f7dd879ad5d29f0360b98742166294989b3531c`; 1.19.1 `fee2df5155449098556a138d2530d06b7a35979e43c6aa0ae1fffd6251853e77`. `Entity.java`: 1.19 `3a8ce3090d29aad1bbfeca31de300d34b42a7e902f0e78b13efd5653cd588766`; 1.19.1 `759de9cded43bd882afcf5b7023bcf804d92419acb656b493f3b490c83eb18b6`.
+
+## Independent trace
+
+1. `LocalPlayer.aiStep` has the `getAbilities().mayfly` gate. In a non-always-flying game mode it toggles `abilities.flying` after the jump-toggle sequence; the Elytra-start path is separately gated by `!abilities.flying` and is not required once glide is active. The compared `aiStep` body is identical across the releases after its line offset. See 1.19 `LocalPlayer.java:725-829` and 1.19.1 `LocalPlayer.java:731-835`.
+2. The actual living-entity tick calls `updateFallFlying()` and then virtual `this.travel(...)` in both releases. For the stated airborne, nonpassenger, non-levitation case with active chest Elytra, `updateFallFlying` retains its local true condition; its shared-flag write is guarded by `!level.isClientSide`, so it does not clear flag 7 on the local client. `isFallFlying()` directly returns shared flag 7. Those method bodies/caller sequences are identical across the pair. See `LivingEntity.java:2623-2650` (1.19), `2626-2653` (1.19.1), and `3045-3047` (1.19), `3048-3050` (1.19.1); tick call at 1.19 `2585-2589`, 1.19.1 `2588-2592`.
+3. The `Player.travel` branch is guarded by `abilities.flying && !isPassenger()`. It saves vertical velocity and flying speed, updates flying speed, calls `super.travel`, restores vertical velocity and flying speed, then calls `resetFallDistance()` followed by `setSharedFlag(7, false)`. The bodies are identical. See 1.19 `Player.java:1459-1489` and 1.19.1 `Player.java:1464-1494`.
+4. `LivingEntity.travel` selects its fall-flying branch from `isFallFlying()` after the water and lava branches. In the stipulated dry air, it applies Elytra movement math, writes velocity, and calls `move(MoverType.SELF, ...)` before `Player.travel` resumes. That branch's `onGround && !level.isClientSide` shared-flag clear does not apply to this local client. Bodies are identical. See 1.19 and 1.19.1 `LivingEntity.java:2042-2149`.
+5. `Entity.move` performs collision, position update, ground-state update and `checkFallDamage` as part of that real move. Separately, the Elytra branch can assign `fallDistance = 1.0F` before movement when vertical velocity is above `-0.5`; the player-level `resetFallDistance()` later sets `fallDistance = 0.0F`. This float reset is not the shared flag-7 clear. The compared bounded `Entity.move` bodies are identical. See both `Entity.java:548-605`; `LivingEntity.travel` above; and `Entity.resetFallDistance()` at 1.19/1.19.1 `2138-2140`.
+
+Compared bounded bodies (`LocalPlayer.aiStep`, `Player.travel`, `LivingEntity.travel`, `Entity.move`) were independently checked for equality after aligning line offsets; all four comparisons were equal. No candidate difference or unresolved dependency was found within this operation.

@@ -1,0 +1,3 @@
+# Frozen source reports and verdicts retain exact original bytes and line endings.
+*.md -text
+README.md text eol=lf

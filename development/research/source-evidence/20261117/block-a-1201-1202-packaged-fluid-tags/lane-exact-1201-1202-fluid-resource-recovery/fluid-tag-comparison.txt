@@ -1,0 +1,26 @@
+Exact packaged vanilla fluid tag membership: Minecraft 1.20.1 vs 1.20.2
+Category: data/minecraft/tags/fluids/
+
+[minecraft:water]
+direct 1.20.1: minecraft:flowing_water, minecraft:water
+direct 1.20.2: minecraft:flowing_water, minecraft:water
+only 1.20.1: 
+only 1.20.2: 
+result: IDENTICAL
+effective 1.20.1: minecraft:flowing_water, minecraft:water
+effective 1.20.2: minecraft:flowing_water, minecraft:water
+only 1.20.1: 
+only 1.20.2: 
+result: IDENTICAL
+
+[minecraft:lava]
+direct 1.20.1: minecraft:flowing_lava, minecraft:lava
+direct 1.20.2: minecraft:flowing_lava, minecraft:lava
+only 1.20.1: 
+only 1.20.2: 
+result: IDENTICAL
+effective 1.20.1: minecraft:flowing_lava, minecraft:lava
+effective 1.20.2: minecraft:flowing_lava, minecraft:lava
+only 1.20.1: 
+only 1.20.2: 
+result: IDENTICAL

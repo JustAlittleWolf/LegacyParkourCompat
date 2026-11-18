@@ -1,0 +1,23 @@
+# Independent source audit: Elytra glide versus climbable handling
+
+**Verdict: ACCEPTED, bounded no-difference claim.** The candidate accurately reports that the assigned operation has no source difference between exact releases 1.15 and 1.15.1 for the stated ordinary local-player path. This verdict does not establish full-pair coverage, an intermediate patch boundary, or runtime parity.
+
+## Immutable claim and evidence identity
+
+- Candidate: `C:/Users/Wolfi/.codex/visualizations/2026/11/17/01a1eb7b-b9ff-7a20-8686-0295dde20f26/c-glide-climb-115-1151-alias-gate/report.md`
+- Candidate SHA-256 (exact file bytes): `9badc428d02eeaad350402d162e26880da72903b47e69547f6bf746f4332f002`
+- Exact source trees: `decompiled_minecraft/1.15/mojmap/` and `decompiled_minecraft/1.15.1/mojmap/`.
+- Both root-level provenance files identify `runId=prep-1.15-1.15.1-mojmap-2026-10-09-r1`, their respective exact `versionId` and `requestedVersionId` (`1.15`; `1.15.1`), and `namespace=mojmap`. Their declared client and official client-mapping SHA-256 values match the candidate: 1.15 `41eee66b4c8e76c018745a63a46a15097cc1c6482c94b38801054938a010b21b` / `11415bc25024658f0ef1c1a0028df282135299e526a689de2f29c4662edf931a`; 1.15.1 `6e28ecd008d0ca5e1dcd346dbc2882430f02a77a78864d57acc49fc8bc1b5358` / `f46186d0ed9d17e073e16ae2c98675dbbc70b4a29495700837aa5de9c1b42c34`.
+- I independently hashed each cited Java file in both trees. Each pair is byte-identical and matches both source manifests: `LocalPlayer.java` `7227da5233e3c72ced008187b92a6a86842f84778eaa9f40fa1eb117286af823`; `Player.java` `6985e11ad9be553e9a2f25e5decc20a9da5c3b59b68f4e83a5b9f448cd2e48a0`; `LivingEntity.java` `139c3866ad2c6a1ad73496f22ff1a4b5259998442092ffbafb8664428e28bf79`; `Entity.java` `191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e`. The actual source-manifest hashes also match provenance: 1.15 `251a3019ccc3fd067f66365f3545b69a983383a28b19a1038debf1791be29340`; 1.15.1 `c8fdce2f9432b72fc13c19a48f9ab3be203cac41a617139e81bac3552245912d`.
+
+## Independent trace and bounds
+
+The same byte-identical source establishes the claim:
+
+- `LocalPlayer.isEffectiveAi()` returns `true` (`net/minecraft/client/player/LocalPlayer.java:490–492`). `LocalPlayer.aiStep()` handles the jump-to-start-gliding condition and reads the chest slot at `:715–719`; `Player.tryToStartFallFlying()` requires airborne, not already fall-flying and not in water, then checks an enabled chest Elytra and sets shared flag 7 (`net/minecraft/world/entity/player/Player.java:1586–1600`). The local tick captures `wasFallFlying` and calls `super.aiStep()` (`LocalPlayer.java:722, 778`).
+- `LivingEntity.aiStep()` calls `updateFallFlying()` before `travel()` (`net/minecraft/world/entity/LivingEntity.java:2285–2287`). The updater retains the active flag for an airborne, non-passenger player with an enabled Elytra in the chest slot; its shared-flag rewrite is server-only (`LivingEntity.java:2299–2317`). Its checks do not inspect climbability. The requested active, valid chest-Elytra path satisfies those gates.
+- `Player.travel()` delegates to `super.travel()` when ordinary ability flight is off (`net/minecraft/world/entity/player/Player.java:1471–1483`). In `LivingEntity.travel()`, the effective-AI/local-instance gate is at `:1831–1832`; dry travel proceeds through the water/lava gates at `:1840–1842`. Active fall-flight is tested before the `else` branch (`:1842–1845` vs. `:1885–1895`). The glide branch reads the pre-move delta and uses strict `vec36.y > -0.5`, then writes `fallDistance = 1.0F` before glide math and `move(MoverType.SELF, ...)` (`:1843–1846, 1870–1871`).
+- Ladder and vine feet make `onLadder()` true for a non-spectator (`LivingEntity.java:1226–1236`), but the generic `handleOnClimbable()` reset and velocity clamp occur only in the non-glide branch (`:1885–1891`); the handler's reset is at `:1989–2003`. Thus the active-glide path bypasses that cleanup.
+- `Entity.move()` invokes `checkFallDamage` after collision resolution (`net/minecraft/world/entity/Entity.java:450–484`). `Entity.checkFallDamage` then resets accumulated distance on landing or adds downward movement to it (`:875–884`); `LivingEntity` overrides the call and delegates to the base (`net/minecraft/world/entity/LivingEntity.java:245–261`). This is the immediate later fall-distance boundary following the pre-move `1.0F` write.
+
+These operation gates, ordering, comparison, literal, and downstream movement call are the same in both source trees because the cited complete Java files have matching bytes. No trajectory was simulated. The accepted scope is only the candidate's bounded Elytra-versus-climbable operation for 1.15 → 1.15.1; other tick inventory and pair closure remain unreviewed.

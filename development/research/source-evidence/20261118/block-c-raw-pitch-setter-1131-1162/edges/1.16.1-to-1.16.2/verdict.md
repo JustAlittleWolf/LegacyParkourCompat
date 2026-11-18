@@ -1,0 +1,43 @@
+# Independent source trace: `Entity.turn` pitch setter (1.16.1 → 1.16.2)
+
+## Verdict
+
+The bounded `Entity.turn(double, double)` pitch operation has **no source difference** between the exact local Mojmap 1.16.1 and 1.16.2 sources. Both perform the same double-precision delta calculation, float-to-double promotion for addition, cast back to float at the first field write, and immediate `Mth.clamp` to `[-90.0F, 90.0F]`. This trace supports no pitch-setter change for this pair.
+
+## Ordinary player call path
+
+`MouseHandler` calls `this.minecraft.player.turn(j, k * n)` when a player exists (both releases, `net/minecraft/client/MouseHandler.java` lines 242–243). The ordinary mouse path therefore reaches the same inherited `Entity.turn` operation for the player. The paired `MouseHandler.java` bytes are identical; each source manifest records SHA-256 `2611dceb1078a63a33d621bf02f466ae70f6d015c902813935b9836f39415949`.
+
+## Exact operation and numeric proof
+
+- 1.16.1: `decompiled_minecraft/1.16.1/mojmap/net/minecraft/world/entity/Entity.java`, `turn(double d, double e)`, lines 332–345. The body starts `double f = e * 0.15;`, then writes `this.xRot = (float)(this.xRot + f);`, then clamps with `this.xRot = Mth.clamp(this.xRot, -90.0F, 90.0F);` (lines 333, 335, 337). `e * 0.15` and the addition are `double`; `xRot` is a `float` field. Java promotes the float operand to double for `+`, and the explicit cast narrows the sum to float before assignment. The subsequent clamp receives/returns float.
+- 1.16.2: `decompiled_minecraft/1.16.2/mojmap/net/minecraft/world/entity/Entity.java`, `turn(double d, double e)`, lines 340–353. The same statements occur in the same order at lines 341, 343, and 345, with the same declared types and cast.
+- Concrete finite post-cast proof: from `xRot = 0.0F`, pass finite `e = 3000.0`. The double computation `e * 0.15` rounds to `450.0`; `0.0F + 450.0` is evaluated as double, and `(float)` stores `450.0F` at the first `xRot` write. Thus the first write is finite and greater than 360 degrees in both releases. The immediately following clamp changes it to `90.0F`; the transient 450-degree value is not the value that survives `turn`.
+- The same method then updates/clamps `xRotO`; only after those writes does it call `vehicle.onPassengerTurned(this)` when a vehicle exists. There is no intervening callback between the first `xRot` assignment and its clamp.
+
+## Active player Elytra consumer
+
+`LivingEntity.travel(Vec3)` contains an active `else if (this.isFallFlying())` movement branch in both versions (1.16.1 lines 1912, 1977 onward; 1.16.2 lines 1914, 1979 onward). Within that branch the first look-direction read is `Vec3 vec37 = this.getLookAngle()` (1.16.1 line 1983; 1.16.2 line 1985). The inherited `Entity.getLookAngle()` passes `this.xRot` and `this.yRot` into `calculateViewVector` (1.16.1 `Entity.java` lines 1680–1682; 1.16.2 lines 1700–1702), whose pitch radians and trigonometric terms are at 1.16.1 lines 1237–1244 and 1.16.2 lines 1243–1250. The travel branch then explicitly calculates `float j = this.xRot * (float) (Math.PI / 180.0)` (1.16.1 line 1984; 1.16.2 line 1986); its cosine and negative-pitch sine feed vertical velocity adjustments (`vec36`) before the branch writes velocity and moves. This is reachable for a player while fall-flying and demonstrates a real movement consumer of the clamped pitch. Since `turn` clamps first, this consumer sees the clamped field, not the transient 450-degree example.
+
+## Canonical source readiness and cited bytes
+
+Canonical read-only roots: `decompiled_minecraft/1.16.1/mojmap/` and `decompiled_minecraft/1.16.2/mojmap/`.
+
+- 1.16.1 ready marker: `decompiled_minecraft/1.16.1/mojmap.ready.json`, SHA-256 `c19d707f7d6622733b5189599ff77aa7999cc11a3d900f29d150f9fab203ffcb`; it identifies version `1.16.1`, mapping `mojmap`, ready status, 3,572 source files, source manifest SHA-256 `76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754`, artifact manifest SHA-256 `a113f9d59fa4582effb2ebf548c4388a54c9c5654fbf57fae7974dce896d1f98`, and client SHA-256 `b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef`.
+- 1.16.1 provenance: `decompiled_minecraft/1.16.1/mojmap.provenance.json`, SHA-256 `a6ff065188a400ec891980cdf2e6c0c238bf5e05168a2f69b29c6cecc2214b98`; records exact version, Mojmap namespace and the 1.16.1/1.16.2 batch run with pinned tool/runtime identity.
+- 1.16.1 source sidecar: `decompiled_minecraft/1.16.1/mojmap.sources.sha256`, SHA-256 `76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754`. Its entries match the cited files: `Entity.java` SHA-256 `27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576`; `LivingEntity.java` SHA-256 `b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26`.
+- 1.16.1 artifact sidecar: `decompiled_minecraft/1.16.1/artifacts.sha256`, SHA-256 `a113f9d59fa4582effb2ebf548c4388a54c9c5654fbf57fae7974dce896d1f98`. Its exact rows identify the mapping artifact `client-mojmap.jar` (`f92d3ad192db28f84522436cc12bb92498ef3b8090f88e906d56d1fb8744490d`) and raw client (`b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef`).
+- 1.16.2 ready marker: `decompiled_minecraft/1.16.2/mojmap.ready.json`, SHA-256 `e5f69bab646b6143b0660a97fade59595ff2e924d36567b9cd285c8babd31214`; it identifies version `1.16.2`, mapping `mojmap`, ready status, 3,516 source files, source manifest SHA-256 `10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7`, artifact manifest SHA-256 `7b8551bdc108a1584039ac22e35b6b75c3584ed85aba24561c7d340f5cbeb108`, and client SHA-256 `19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d`.
+- 1.16.2 provenance: `decompiled_minecraft/1.16.2/mojmap.provenance.json`, SHA-256 `a9b166406064e877751542fe7df27acc32be3843f6fdc2280dac32ce0b54207c`; records exact version, Mojmap namespace and the same 1.16.1/1.16.2 batch run with pinned tool/runtime identity.
+- 1.16.2 source sidecar: `decompiled_minecraft/1.16.2/mojmap.sources.sha256`, SHA-256 `10d312ca29ee48e25f4727adafb9fcfbd741dcebe81b343d3dcffa071952a7a7`. Its entries match the cited files: `Entity.java` SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`; `LivingEntity.java` SHA-256 `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88`.
+- 1.16.2 artifact sidecar: `decompiled_minecraft/1.16.2/artifacts.sha256`, SHA-256 `7b8551bdc108a1584039ac22e35b6b75c3584ed85aba24561c7d340f5cbeb108`. Its exact rows identify the mapping artifact `client-mojmap.jar` (`559df3579e366e11884d733f7a06530ee3f174b1eadeb8051f8492f6103b6d90`) and raw client (`19960f4e3c60f2723f361844d2b4020b8bf2160bd91a1e1efde8ce5aea4ff73d`).
+
+All cited source and sidecar digests above were recomputed from the canonical files and match their ready-marker/source-manifest references. No source generation, network access, build, test, or runtime execution was performed.## Phase 2 independent audit
+
+The frozen author inputs were rehashed before review. `c-raw-pitch-setter-1161-1162-source/report.md` is SHA-256 `a07f7a719687b5d4c16282b6cc7de7ed8667f47e2a1783ca35720962abbd97dc`; `identity.md` is SHA-256 `7b01da1fcb1f08de84f2169da649b13455061810773a4157c7d08615d8278cf6`. Both match the supplied immutable identities.
+
+The frozen report's bounded no-difference result agrees with this independent trace: both `Entity.turn` bodies have the same double delta and sum, float cast at the first `xRot` assignment, and immediate float clamp; the finite `e = 3000.0` witness produces transient `450.0F` before clamping to `90.0F`. The active fall-flying `LivingEntity.travel` branch reads pitch first through `getLookAngle()` and next directly for radians, after the setter has returned. The compared `Entity.java` and `LivingEntity.java` source hashes in the report agree with the canonical source manifests and the hashes independently recorded above. I found no technical contradiction in the frozen report's bounded claims.
+
+The identity correction is consistent with the canonical version-root `mojmap.ready.json`, `mojmap.provenance.json`, source-manifest, and artifact-manifest hashes recorded in this verdict. It appropriately limits the result to the cited source identity and bounded methods; it does not claim complete pair coverage. The frozen report did not inspect the ordinary input caller; this verdict independently records `MouseHandler` dispatch evidence, which adds a call-path fact without changing the frozen report's scope or result.
+
+Audit disposition: accept the frozen report's bounded source result as independently corroborated, bound to the exact report and identity hashes above. This verdict update is append-only; the original verdict bytes remain an exact prefix.

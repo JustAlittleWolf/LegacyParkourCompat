@@ -1,0 +1,4 @@
+FAILED: exact tag data unavailable; comparison not performed.
+Pair: 1.16.1 -> 1.16.2; target tags: minecraft:lava, minecraft:water.
+Roster/comparison file SHA-256: 0912ffd2ba849b5c61cd3beaa55812087f96b925e7fe8250723b3aee7563c2ed
+Blocker: source-artifact pins exist, but pinned client.jar bytes were not locally present at the pinned cache path or checked exact-version launcher cache paths; no permitted exact resource manifests were found. No raw tag JSON, includes, or effective member sets were available to inspect.

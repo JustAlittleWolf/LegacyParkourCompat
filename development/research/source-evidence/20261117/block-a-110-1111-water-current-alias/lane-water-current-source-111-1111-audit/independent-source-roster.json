@@ -1,0 +1,221 @@
+{
+  "audit": "blind-source-roster",
+  "pair": [
+    "1.11",
+    "1.11.1"
+  ],
+  "canonicalMapping": "Ornithe Feather",
+  "roots": [
+    {
+      "version": "1.11",
+      "mapping": "ornithe-feather",
+      "readySha256": "3c4102230dba0f9d2d07f752bbd2a19d2717375f6e31fb618c0450b7fd82bd45",
+      "provenanceSha256": "6f775c806fd1401a4d1756e9ef88da8d73185fe1d13598235f85c424405f4c40",
+      "sourceManifestSha256": "8b3e5da58494f1dba77410960753b0bf646425a1ada491d8242cc71e6c7a59ca",
+      "artifactManifestSha256": "ae874615f961d67e402c978ff01cd3f26f61145e6b3c21ef318c1ab71f7794fd",
+      "sourceFileCount": 1918
+    },
+    {
+      "version": "1.11.1",
+      "mapping": "ornithe-feather",
+      "readySha256": "454036a978074d3a34359dfebf03d6ef3e3335d1318b88d6b17e4f1f5ab566cf",
+      "provenanceSha256": "0f6c92b8fbf4b1053a26a4cb61dc8f20c695e74a1963b49d911b8c7fbf01a055",
+      "sourceManifestSha256": "0d5f4697d4e4ce53b36d0dbfec89d44830eb76753a6643b49e42f0857753066d",
+      "artifactManifestSha256": "ebbf181f60d7bc922df56826f528d1ea8a064783ac0f0f2b576e73db1fc2a958",
+      "sourceFileCount": 1921
+    }
+  ],
+  "coverage": [
+    {
+      "operation": "on-foot nonflying local player water-current application",
+      "slices": [
+        "LocalClientPlayerEntity tick caller and super tick order",
+        "ClientPlayerEntity and PlayerEntity inherited caller edges",
+        "LivingEntity travel water branch and post-branch fallthrough",
+        "Entity fluid-state predicate and drag-collision caller"
+      ]
+    },
+    {
+      "operation": "water drag/current world scan",
+      "slices": [
+        "World.applyLiquidDrag / liquid scan exact AABB bounds and ceil/floor conversion",
+        "area threshold and empty-query fallback",
+        "shape/material/type dispatch",
+        "per-cell velocity contribution and aggregate velocity normalization",
+        "LiquidBlock.getFlow per-cell level/direction and face-solid/down-neighbor behavior"
+      ]
+    },
+    {
+      "operation": "inputs and geometry",
+      "slices": [
+        "Box grow/contract bounds",
+        "BlockPos coordinate/floor conversions",
+        "Direction horizontal iteration order",
+        "BlockState material and liquid LEVEL access",
+        "Block liquid drag dispatch and default behavior"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "version": "1.11",
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+      "sha256": "207a0ff4ee996916cd1fc73f47bfaae64f92719916cafed8395b1f2a8f797809"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+      "sha256": "a0d787681de5caecda03fea1536dac0c07e6ca5cfbfe3b5fbb700cbe77c86fb6"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/entity/living/LivingEntity.java",
+      "sha256": "1f2e31fa6a905ccc2a51a0338f2aaf448f2b0569f28644e8205d864e570d9b2b"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "3209feaacd1e798b521a193eeb081d92c96881a70a18254ef24a58e911a4fd97"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "f64905888809d5666a63c8e403f171c13907502b8d982c5b3b8fce192360ff47"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/block/LiquidBlock.java",
+      "sha256": "c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/block/FlowingLiquidBlock.java",
+      "sha256": "6be4da4408c29a730fb33227514d8ad93f20b0adc87eda66796d069e3ae93be2"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/block/LiquidSourceBlock.java",
+      "sha256": "0c82f8ec6d69b0181f8f81138e75326d0ea1fcc7ade9ea6ad12f2e3850245b13"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "3fe8fdabe68da83fcfa01c0e6b8f5272fe81d71f6bf553506bdcef54757b0488"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/block/state/BlockState.java",
+      "sha256": "3fb6f06df86c3b89716b5efaed5d97eee670d007d3c4535e47eb0fdd993e92eb"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/block/state/AbstractBlockState.java",
+      "sha256": "122d460e5c4bec8bb5beb1eb6cc36497144da5680983369508bd3b47990bf590"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/util/math/Box.java",
+      "sha256": "f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/util/math/BlockPos.java",
+      "sha256": "7b20e050ca9cb8a320b457cf86176ef82e5e661f48c0c6d90c4fa37555a075ba"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/util/math/Direction.java",
+      "sha256": "116a61f67e93f895d29c71128b392fbde5f1ca85f1b51d9f7fce55a0dd5960bf"
+    },
+    {
+      "version": "1.11",
+      "path": "net/minecraft/util/math/MathHelper.java",
+      "sha256": "97aa2499681fdd8cee6564f777310ee396bc447fef78c2273a990e9202d9641b"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+      "sha256": "207a0ff4ee996916cd1fc73f47bfaae64f92719916cafed8395b1f2a8f797809"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+      "sha256": "8b37fd286b2dac1b343bd708b80284b43bb31c61bafc63bdcf6620ba3a59065c"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/entity/living/LivingEntity.java",
+      "sha256": "bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "5a906de1d40a4a5ba8aedc9a6a9dc704e0ed862df177cf967fb1a9454765fa96"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/block/LiquidBlock.java",
+      "sha256": "c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/block/FlowingLiquidBlock.java",
+      "sha256": "6be4da4408c29a730fb33227514d8ad93f20b0adc87eda66796d069e3ae93be2"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/block/LiquidSourceBlock.java",
+      "sha256": "0c82f8ec6d69b0181f8f81138e75326d0ea1fcc7ade9ea6ad12f2e3850245b13"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ab873436b24487ab0ee8055bf7a478349c7f7978398aea8e387796a6c820996a"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/block/state/BlockState.java",
+      "sha256": "3fb6f06df86c3b89716b5efaed5d97eee670d007d3c4535e47eb0fdd993e92eb"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/block/state/AbstractBlockState.java",
+      "sha256": "122d460e5c4bec8bb5beb1eb6cc36497144da5680983369508bd3b47990bf590"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/util/math/Box.java",
+      "sha256": "f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/util/math/BlockPos.java",
+      "sha256": "cae83dec555da3aed05529f4ed4b04f44ee21adb0773baa0ec0173491ee2f9fe"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/util/math/Direction.java",
+      "sha256": "116a61f67e93f895d29c71128b392fbde5f1ca85f1b51d9f7fce55a0dd5960bf"
+    },
+    {
+      "version": "1.11.1",
+      "path": "net/minecraft/util/math/MathHelper.java",
+      "sha256": "97aa2499681fdd8cee6564f777310ee396bc447fef78c2273a990e9202d9641b"
+    }
+  ]
+}

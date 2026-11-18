@@ -1,0 +1,14 @@
+# Frozen blind source roster
+
+Scope: 1.21.3 Mojmap -> 26.2 unobfuscated; PistonMovingBlockEntity caller path bounded to local-player environmental block contact and movement callback span.
+
+Root identities, verified before source inspection:
+- 1.21.3 `decompiled_minecraft/1.21.3/mojmap`; ready/provenance/source-manifest files verified; all 5,655 manifest entries matched file SHA-256.
+- 26.2 `decompiled_minecraft/26.2/unobfuscated`; ready/provenance/source-manifest files verified; all 7,055 manifest entries matched file SHA-256.
+
+Frozen paired Java source roster (relative to each mapping root):
+1. `net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java` — caller entry and entity movement dispatch; inspect only piston-to-entity path relevant to local-player environmental block contact.
+2. `net/minecraft/world/entity/Entity.java` — `move` gates, environmental block scan entry points, callback list operations, and state needed to witness scanned-span/retained-record behavior.
+3. `net/minecraft/client/player/LocalPlayer.java` — establish the local-player tick/movement call path only where needed to connect the caller operation to player movement.
+
+Bounded questions: exact caller origin/end source; no-argument versus explicit-span scan; `move` zero-limiter and noPhysics gates; callback list clear/remove/copy operation; source-backed state witness where the scan span or retained callback record differs. No geometry evaluation, runtime, solid-shape analysis, general movement inventory, or other callers/classes are in this audit.

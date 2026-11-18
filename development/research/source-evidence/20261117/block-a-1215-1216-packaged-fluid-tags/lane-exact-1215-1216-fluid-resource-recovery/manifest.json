@@ -1,0 +1,106 @@
+{
+  "scope": "Mojang packaged default client ZIP resource entries only",
+  "versions": [
+    "1.21.5",
+    "1.21.6"
+  ],
+  "resourceSearch": [
+    "data/minecraft/tags/fluid/water.json",
+    "data/minecraft/tags/fluid/lava.json",
+    "data/minecraft/tags/fluids/water.json",
+    "data/minecraft/tags/fluids/lava.json"
+  ],
+  "files": [
+    {
+      "version": "1.21.5",
+      "zipEntry": "data/minecraft/tags/fluid/water.json",
+      "currentFilename": "raw/1.21.5/data/minecraft/tags/fluid/water.json",
+      "rawTagIdentity": "minecraft:water",
+      "bytes": 74,
+      "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004",
+      "replacePresent": false,
+      "replaceValue": null,
+      "orderedValues": [
+        "minecraft:water",
+        "minecraft:flowing_water"
+      ],
+      "bom": false,
+      "crlf": false
+    },
+    {
+      "version": "1.21.5",
+      "zipEntry": "data/minecraft/tags/fluid/lava.json",
+      "currentFilename": "raw/1.21.5/data/minecraft/tags/fluid/lava.json",
+      "rawTagIdentity": "minecraft:lava",
+      "bytes": 72,
+      "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b",
+      "replacePresent": false,
+      "replaceValue": null,
+      "orderedValues": [
+        "minecraft:lava",
+        "minecraft:flowing_lava"
+      ],
+      "bom": false,
+      "crlf": false
+    },
+    {
+      "version": "1.21.6",
+      "zipEntry": "data/minecraft/tags/fluid/water.json",
+      "currentFilename": "raw/1.21.6/data/minecraft/tags/fluid/water.json",
+      "rawTagIdentity": "minecraft:water",
+      "bytes": 74,
+      "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004",
+      "replacePresent": false,
+      "replaceValue": null,
+      "orderedValues": [
+        "minecraft:water",
+        "minecraft:flowing_water"
+      ],
+      "bom": false,
+      "crlf": false
+    },
+    {
+      "version": "1.21.6",
+      "zipEntry": "data/minecraft/tags/fluid/lava.json",
+      "currentFilename": "raw/1.21.6/data/minecraft/tags/fluid/lava.json",
+      "rawTagIdentity": "minecraft:lava",
+      "bytes": 72,
+      "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b",
+      "replacePresent": false,
+      "replaceValue": null,
+      "orderedValues": [
+        "minecraft:lava",
+        "minecraft:flowing_lava"
+      ],
+      "bom": false,
+      "crlf": false
+    }
+  ],
+  "comparisonFile": "comparison.md",
+  "comparisonSha256": "9ae60c1f8c0871e91205cb44b1ebfffce8499c8d52edb57c183a8aa12c8a8c4c",
+  "sourcePublication": {
+    "v1216": {
+      "metadataActualSha1": "8dd125560431a618094435343acccd45191bb006",
+      "readyMarkerPresent": false,
+      "metadataSize": 43719,
+      "clientPinSha256": "9592df8587d6d3ec0334c873ad432dc76006d6129afdce9a7eac52638339a24a",
+      "clientOfficialSha1": "740a125b83dd3447feaa3c5e891ead7fbb21ae28",
+      "metadataPinSha256": "ea1c91ccb9760c9f7e697c29ed679427dd20cdac9ce35937125e5690973df6dd",
+      "clientSize": 29516555
+    },
+    "v1215": {
+      "readyStatus": "ready",
+      "clientOfficialSha1": "b88808bbb3da8d9f453694b5d8f74a3396f1a533",
+      "metadataOfficialSha1": "b341cd0e91419ab72b5d9dadad8d86a045d6b9a7",
+      "clientSha256": "522672ad20b460c02c2e39b6c5035ef6a849af28eb11ab2ac7eb293d395a8c11",
+      "readyArtifactManifestSha256": "d35b1b9389d8958e33893faa63d94c86f22af30385233ca947fd410aa5c36656",
+      "artifactManifestClientSha256": "522672ad20b460c02c2e39b6c5035ef6a849af28eb11ab2ac7eb293d395a8c11",
+      "readySourceManifestSha256": "365cc2d22446ceba0e36f46aa1c95ce4cc31514dbd657505680fb660f3adefd9",
+      "metadataRecoveredSha256": "1751e36c5dda2bbf847d543d4f9a59c51035fe474b8528aca7f76c688f32fe88",
+      "readyMarker": "decompiled_minecraft/1.21.5/mojmap.ready.json",
+      "metadataArtifactManifestSha256": "4a9a484109ee5c3f430b685ddc719712e962e8d06c761cd58ec0a1e6fea2f18c",
+      "clientSize": 28984409
+    }
+  },
+  "limitation": "No claims about datapacks or runtime resolution."
+}

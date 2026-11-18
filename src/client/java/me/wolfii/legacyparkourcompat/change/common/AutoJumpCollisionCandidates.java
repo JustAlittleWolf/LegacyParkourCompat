@@ -6,7 +6,10 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.WorldBlockQueryBoundsContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.BlockQueryBounds;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -21,6 +24,15 @@ public final class AutoJumpCollisionCandidates {
         ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla) {
         return selected.olderThan(ParkourVersion.V1_10) ? vanilla.get()
             : Iterables.concat(level.getBlockCollisions(player, query), level.getEntityCollisions(player, query));
+    }
+
+    /** Full-cube providers verified against the 1.13 through 1.14 AutoJump sources. */
+    public static boolean isHistoricalFullCube(BlockState state) {
+        return state.is(Blocks.STONE) || state.is(Blocks.DIRT)
+            || state.is(Blocks.COBBLESTONE) || state.is(Blocks.OAK_PLANKS)
+            || state.is(Blocks.STONE_BRICKS) || state.is(Blocks.SANDSTONE) || state.is(Blocks.OBSIDIAN)
+            || state.is(Blocks.GOLD_BLOCK) || state.is(Blocks.IRON_BLOCK) || state.is(Blocks.DIAMOND_BLOCK)
+            || state.is(Blocks.WOOL.pick(DyeColor.WHITE)) || state.is(Blocks.CONCRETE.pick(DyeColor.WHITE));
     }
 
     public static Iterable<VoxelShape> withQueryBounds(Player player, CollisionGetter level, AABB query,

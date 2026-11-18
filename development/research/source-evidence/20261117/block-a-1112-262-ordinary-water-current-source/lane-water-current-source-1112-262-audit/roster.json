@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "scope": "ordinary nonfalling water current, on-foot nonflying LocalPlayer",
+  "sources": [
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/block/FlowingLiquidBlock.java",
+      "sha256": "6be4da4408c29a730fb33227514d8ad93f20b0adc87eda66796d069e3ae93be2"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/block/LiquidBlock.java",
+      "sha256": "c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/block/material/Material.java",
+      "sha256": "5d682e9ea5a30540e62a68879fbdabd2dc1fb79781a8350c61370c1166654a7d"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/block/state/BlockState.java",
+      "sha256": "3fb6f06df86c3b89716b5efaed5d97eee670d007d3c4535e47eb0fdd993e92eb"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+      "sha256": "207a0ff4ee996916cd1fc73f47bfaae64f92719916cafed8395b1f2a8f797809"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/entity/living/LivingEntity.java",
+      "sha256": "bb7dc6c9e423a9568d6433d51bba12e7aee4555fbf3fb3e2b87f618382279f2f"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+      "sha256": "87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/util/math/Box.java",
+      "sha256": "f788b8146b14f299ccb58ea0854609f845c298a963295d503de2e30e15d66f3a"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/util/math/MathHelper.java",
+      "sha256": "97aa2499681fdd8cee6564f777310ee396bc447fef78c2273a990e9202d9641b"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/util/math/Vec3d.java",
+      "sha256": "059dd21505c13b6febbbe880889f3aa6b00f7648ba1b770268eb8841674e90e8"
+    },
+    {
+      "side": "1.11.2/ornithe-feather",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/client/player/LocalPlayer.java",
+      "sha256": "8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/data/tags/FluidTagsProvider.java",
+      "sha256": "e01d6d0ce140e0f374690b341e68bce4676e019894b130f3f6a038d7a64d3f12"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/tags/FluidTags.java",
+      "sha256": "5973c1d50c0ed73bae0149cfc7ad6a68dbdadb815f76ef024bca1a11fba2b653"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/util/Mth.java",
+      "sha256": "30455c684f2401c79290847822bca82e77162c4a2bcf8618e85cac9898a2dc17"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/entity/Entity.java",
+      "sha256": "7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/entity/EntityDimensions.java",
+      "sha256": "27fa1fb5c3e9bf49123a238675f6bea29e65ad5b0362a9a64dcb5d5f5407376a"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/entity/EntityFluidInteraction.java",
+      "sha256": "5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/entity/EntityType.java",
+      "sha256": "350a5090fa1ae3afdc6490101f2e719aeef84864b0d4a247816d54788e37ae7f"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/entity/EntityTypes.java",
+      "sha256": "1b1b09812ed04d143f487d754aff5ed10ed696e8da04ce836ccbdbe0794d5a6c"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/entity/LivingEntity.java",
+      "sha256": "7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/entity/player/Player.java",
+      "sha256": "8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/level/block/LiquidBlock.java",
+      "sha256": "36740700683ec26c564d9566aa46277563abff6f038affa4ac1e370d807569f7"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/level/block/state/BlockState.java",
+      "sha256": "df5b24701ee69145a78901ee0e370e063b63b3e74a0aae32c89b2ae45bc6d205"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/level/material/FlowingFluid.java",
+      "sha256": "f8c0c4430e81efdf39b221968272ed8e3a4d030fa5192e04e04d34c9fbd37b28"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/level/material/Fluid.java",
+      "sha256": "e7759a85dea543266b734086b2061332bc9f62ba3330be0f203f1f8baaa2c80d"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/level/material/FluidIds.java",
+      "sha256": "bf5a2f48f19028316e2ee9701cd7a6d08a75dec9b2bae9c6b2fa860b8145ec1c"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/level/material/FluidState.java",
+      "sha256": "e35608d5775013c67653ea350309b5150a97f36aa65c27f1c6247ae2aa840f18"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/level/material/Fluids.java",
+      "sha256": "b5e32830c171564b244dfe7b08142af560199c6a508e05161b5d291ec4f0e618"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/level/material/WaterFluid.java",
+      "sha256": "14cb3d49ef1db28fdab367cd6a4f196f20b7886b8768153c6e82906e9d25f0ad"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/phys/AABB.java",
+      "sha256": "1ffdd0f6d26a4dd1e26407ea9a386eab7903e43462e60c9ae5fdc50a0468f10b"
+    },
+    {
+      "side": "26.2/unobfuscated",
+      "path": "net/minecraft/world/phys/Vec3.java",
+      "sha256": "026c8461113b32116f0183ec42fa1cb4c7414cec38b685484d2309f9a0cb9a33"
+    }
+  ],
+  "sourceManifests": {
+    "1.11.2/ornithe-feather": "d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0",
+    "26.2/unobfuscated": "a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894"
+  },
+  "rosterSha256": "29c3701d20effb61dba30cc6ee8b0e814e7d3e7a4b99671b5e555f2135c48dd6"
+}

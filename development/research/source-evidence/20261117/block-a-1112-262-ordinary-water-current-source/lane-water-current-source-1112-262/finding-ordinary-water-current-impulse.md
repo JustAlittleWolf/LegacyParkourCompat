@@ -1,0 +1,9 @@
+# Ordinary shallow-water current impulse differs
+
+1.11.2, Ornithe Feather: `net/minecraft/entity/Entity.java`, `checkWaterCollisions` (`927-942`); `net/minecraft/world/World.java`, `applyLiquidDrag` (`1571-1613`); `net/minecraft/block/LiquidBlock.java`, `getFlow` / `applyMaterialDrag` (`131-176`); `net/minecraft/entity/living/player/PlayerEntity.java`, `hasLiquidCollision` (`1735-1738`).
+
+26.2, published unobfuscated: `net/minecraft/world/entity/EntityFluidInteraction.java`, `update` and `Tracker.applyCurrentTo` (`32-88`, `153-188`); `net/minecraft/world/entity/Entity.java`, `updateFluidInteraction` (`1645-1668`); `net/minecraft/world/entity/player/Player.java`, `isPushedByFluid` (`1693-1696`).
+
+Difference: For the nonflying player path, 1.11.2 sums the normalized flow vector from each touched liquid block, normalizes the total once, and adds a fixed `0.014` impulse. 26.2 scales each contributing flow by the running fluid height when that height is below `0.4`, averages the accumulated vector by the number of contributing cells for players, then scales by `0.014`; for low prior horizontal motion it raises an impulse below `0.0045000000000000005` to that minimum. A steady enclosed horizontal water channel gives a terminal old `LEVEL=7` / modern flowing amount `1` cell beside a fuller east neighbor (`LEVEL=6` / amount `2`): both flow vectors point west, but old adds `0.014` west while 26.2 height-scales to `0.014/9` and the minimum gate adds `0.0045000000000000005` west.
+
+Movement meaning: For a standing local player at rest over this shallow terminal cell, the source-derived current impulse differs each update. The 26.2 water-tag membership needed to realize this as runtime water remains contingent on effective tag resources, which were not independently verified. This endpoint comparison does not claim an intermediate introduction version or runtime parity.

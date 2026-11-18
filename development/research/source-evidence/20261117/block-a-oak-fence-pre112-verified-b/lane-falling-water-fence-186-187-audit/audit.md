@@ -1,0 +1,23 @@
+# Independent audit: 1.8.6 → 1.8.7 falling-water / dry oak fence
+
+## Frozen input and provenance
+
+I froze the blind source roster before opening the assigned draft. The frozen roster is `roster.md`, SHA-256 `0da426e9fdaff4ce6400bdcd58fc0aab5ceb1de693f283cf42852c0a7e332b798`. Its selected 12 source-file hashes matched each exact local manifest and were identical on both sides. The exact source trees are Ornithe Feather Gen2 build.2 for 1.8.6 and 1.8.7. Local provenance manifest SHA-256 values: 1.8.6 `c96f635864596f6cbd6e34ba7ba184c22a8139b25f099cc8fbbff46a85286ea9`; 1.8.7 `6c6a5b64243ae7931ea1fa72a6c33440d5eec4070461cba80cdf51bf95dd93ef`.
+
+Independently hashed every manifest-listed local source file against its recorded hash: 1,612 entries per version, zero missing files or hash mismatches. Comparing the full path/hash inventories yields 16 changed files; all are UI, networking, integrated/server or utility files, with no change to player movement, block, liquid, collision or local player sources. In particular the full assigned roster's `LivingEntity.java` also matches byte-for-byte (SHA-256 `082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e`). The comparison and source roster digests supplied by the coordinator were verified: `comparison.md` SHA-256 `b1f37c2d58d7444f0438d641fb0ca24acc8a2d8157fac1162082149061761c45`; lane `roster.md` SHA-256 `07ffeda35a8a2b630ad747225a0a53c6bb991f3e8bc15308fbcead9fdd9dbfb5`.
+
+## Trace audit
+
+The operation-1 result is supported. `Block.java` constructs legacy oak fence with `Material.WOOD` at lines 1016–1020. `Material.WOOD` has default `isSolid() == true` (`Material.java:7, 60–62`); fence non-cube geometry (`FenceBlock.java:113–121`) does not override the face-solid predicate, so base `Block.isFaceSolid` observes the material (`Block.java:329–331`). For falling liquid (`LiquidBlock.java:150–160`, `LEVEL >= 8`), the horizontal loop tests the cell at the same height and then the cell above via short-circuit `||`; on a solid-face cue it normalizes the accumulated vector, adds `(0, -6, 0)`, breaks, then normalizes for return. Both water-state gates and numeric/order details reside in a source file with the same exact hash on both releases. This confirms the cue can induce downward flow beside a dry ordinary fence and confirms no 1.8.6-to-1.8.7 source delta for that operation.
+
+Operation 2 is also supported. Each `Entity.tick` calls `checkWaterCollisions` (`Entity.java:299–300`); it queries a slightly contracted entity box extended down by `0.4F` (`Entity.java:746–759`). `World.applyLiquidDrag` floors bounds and returns false before iteration when the whole region is not loaded; for matching liquid blocks it checks `l >= p + 1 - getHeightLoss(level)`, accumulates `applyMaterialDrag`, then adds normalized current times `0.014` to XYZ velocity only when vector length is positive and `hasLiquidCollision()` is true (`World.java:1486–1526`). It returns liquid presence independently of whether current was applied. `LiquidBlock.applyMaterialDrag` adds `getFlow`; `PlayerEntity.hasLiquidCollision` disables current while flying (`PlayerEntity.java:1617–1619`). `LocalClientPlayerEntity.tick` calls inherited tick only with the player's current chunk loaded (`LocalClientPlayerEntity.java:104–115`). The inherited `LivingEntity.checkFallDamage` has a second water collision query when not already in water (`LivingEntity.java:151–154`); that call path is unchanged too. Hash identity confirms all these bodies are the same in both releases.
+
+The source trace proves unchanged gates and code, not a runtime trajectory or a cutover within any other interval. No finding is warranted for these two assigned operations on this pair.
+
+## Audit disposition and roster note
+
+**PASS — candidate no-difference disposition substantiated for the assigned operations.** The candidate's cited source facts, predicates, operation order and velocity gate agree with exact local source. The candidate's source hash/provenance statements also match independent checks.
+
+My frozen blind roster contains one bookkeeping error: its planned registration row attributes the oak fence registration to `Blocks.java`; the actual registration is `Block.java:1016–1020`. The frozen file is retained unchanged to preserve its pre-draft identity. This typo did not affect the source set hash scan, trace or verdict; the candidate comparison cites the correct `Block.java` location.
+
+This audit covers only the assigned fence-water cue and local-player current application. It does not certify full-pair source coverage, implementation, intermediate boundaries or runtime parity.
