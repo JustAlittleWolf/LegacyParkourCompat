@@ -13,19 +13,28 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
  * 1.8 through 1.8.9 Ornithe Feather: World.applyLiquidDrag visits the integral
  * upper endpoint. LiquidBlock.getFlow maps falling depth to zero, samples the
- * lower west source through air, then applies the dry oak-fence face cue above
- * that side. Vec3d.normalize supplies the two normalization steps around the
+ * lower west source through air, then tests the dry wooden fence above that
+ * side. In these exact releases Block registers the six wood fences with
+ * Material.WOOD and Block.isFaceSolid checks its solidity. Vec3d.normalize
+ * supplies the two normalization steps around the
  * (0, -6, 0) addition. Stable 1.9 World.applyLiquidDrag excludes this cell.
  * In 26.2 unobfuscated, EntityFluidInteraction.update has its own box and
  * contextual tracker. The legacy water scan supplies this projected current.
  */
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class FallingWaterCurrent implements FallingWaterCurrentHook {
+    private static final Set<BlockState> FENCE_CUES = Set.of(
+        Blocks.OAK_FENCE.defaultBlockState(), Blocks.SPRUCE_FENCE.defaultBlockState(),
+        Blocks.BIRCH_FENCE.defaultBlockState(), Blocks.JUNGLE_FENCE.defaultBlockState(),
+        Blocks.ACACIA_FENCE.defaultBlockState(), Blocks.DARK_OAK_FENCE.defaultBlockState()
+    );
+
     @Override
     public Optional<Sample> sample(Level level, BlockPos pos, BlockState state,
                                    Function<BlockState, Optional<Vec3>> horizontalFlow) {
@@ -45,7 +54,7 @@ public final class FallingWaterCurrent implements FallingWaterCurrentHook {
             BlockState above = level.getBlockState(adjacent.above());
             BlockState below = level.getBlockState(adjacent.below());
             if (side == Direction.WEST) {
-                if (above != Blocks.OAK_FENCE.defaultBlockState() || below != Blocks.WATER.defaultBlockState()) {
+                if (!FENCE_CUES.contains(above) || below != Blocks.WATER.defaultBlockState()) {
                     return Optional.empty();
                 }
             } else if (!above.isAir() || !below.isAir()) {
