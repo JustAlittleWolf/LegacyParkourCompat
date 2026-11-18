@@ -1,0 +1,60 @@
+{
+  "sourceProvenanceSha256": "cc4ef194e3d7ca445cb4403fdf1311cc8ddbd1412b922f78726c8b1bcfb9c291",
+  "sourceRuntime": "Eclipse Adoptium:25.0.3+9-LTS:Windows 11:amd64",
+  "sourcePipeline": "lpc-decompile-v1;threads=1;generic=true;ascii=true;synthetic=remove;indent=4;inner-warnings=false;runtime=false;prefix=net/minecraft,com/mojang;remap=ignoreConflicts,renameInvalidLocals,rebuildSourceFilenames,fixPackageAccess",
+  "sourceInputCount": 40,
+  "sourceTools": {
+    "jar:asm-9.10.1.jar": "ed825d10ab1399c8c0cb669e688cf0c8c82629b4c8399b58352b68e92ca10fcb",
+    "jar:asm-analysis-9.10.1.jar": "dede75a21306b65974ecd8f87114ff6970f09fb794157a4ca09ab25c888c2bfc",
+    "jar:asm-commons-9.10.1.jar": "6d0abefb7cbf972ea16edb37ec14835372505063a45f976ab7ea889ed9497895",
+    "jar:asm-tree-9.10.1.jar": "3dfb0d5b6a106cd40b5b250e39935fbf2f927f4477546a5369a3ac609cf0506b",
+    "jar:asm-util-9.10.1.jar": "1bb99d091fba2597dc6d51193e9bbcf0d8447e7ed96bd8f0198b18152f09655c",
+    "jar:buildSrc.jar": "714bb35fe117c3b42bded8c47a2a768ec769104802d4abf75b04a7420ea42853",
+    "jar:error_prone_annotations-2.48.0.jar": "b49c5c958316ed67a09c699dda9aa749caf434d51d863dea599ef36a49b9c855",
+    "jar:gson-2.14.0.jar": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f",
+    "jar:mapping-io-0.9.1.jar": "aedc94b25a2fe7c09c898144ce33a1ef396680e984b07525d34916922d6ee3f4",
+    "jar:tiny-remapper-0.14.1.jar": "c4d3b3e27089a5b96d21eb5184a75898c6e5062ebca4fee5f92db34c389b8952",
+    "jar:vineflower-1.12.0.jar": "1dfcfe974395734fa467ce620661c7623d05ba83670de0529b1fbd63ff548b9d"
+  },
+  "newMappedClient": {
+    "sha256": "847244506ec99f4dac6b816c4acf11e6d0f4f88e0fb3976388661847c679dbc0",
+    "contentSha256": "38a6f3fc763e73bff1cf121f7b09c7508af0fb2e381b70d3754b6aa1c90aca6d",
+    "zipEntries": 4265,
+    "classEntries": 4027,
+    "reviewedClassSha256": "bb18f4cc6a86a850eaddcecfaadcef97c4ce9a20006fc66a1f979f78d2acdab3"
+  },
+  "originalMappedClientSha256": "d118ff5b9eb93fed06680466cb26c41a30647cdb2fc8744638cf9b35cf7864e5",
+  "historicalVerificationMappedClientSha256": "b28c33e023928045c8fd7ed7727a860a6820241e371ddb16108366c6192b718c",
+  "originalSourceManifestSha256": "2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211",
+  "originalArtifactManifestSha256": "fdcacd9150f98ea70acafc5cab754027ab1a09828ff0eaa8e542dd7890d9ce1e",
+  "originalReadyMarkerSha256": "1d1c644c1deb05c02d11dc575ad834f4f72489124701d9b2b90357f43dc37b38",
+  "originalReleaseCatalogSha256": "845dfb7f8b28ce06bf0752b597ef2d4d65df973e4b59d8d6ff429ad2d3adde04",
+  "newReleaseCatalogSha256": "ac37f92737df1a9d7660047136fedd3edebd90bd6e552f53ddc3f222079bc8fa",
+  "newFeatherMetadataSha256": "6110b2fe29f2a7386cdee42effba7d5696bd3a883d4b7bd9fa3b572b6aaa8f3a",
+  "newSourceCount": 2711,
+  "canonicalSourceCount": 2711,
+  "identicalCanonicalFiles": 2711,
+  "changedCanonicalFiles": [],
+  "newOnlyFiles": [],
+  "canonicalOnlyFiles": [],
+  "canonicalReviewedSourceSha256": "2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf",
+  "newReviewedSourceSha256": "2583495f3a02b4791aa036e6a8d354d7596c4984761969a0f29b29d8d9bf42bf",
+  "reviewedCanonicalRanges": {
+    "pushAwayFrom": {
+      "lines": [
+        401,
+        449
+      ],
+      "canonicalLfSha256": "46b114f856580fc2c8b9d14a128a463141be0c0291b3fbd36e7fe7c807824293",
+      "sameLinesInRegeneratedFile": true
+    },
+    "mobTick": {
+      "lines": [
+        653,
+        723
+      ],
+      "canonicalLfSha256": "41d9c9a41a402b3fddea53c94082fdab6397f0664dbb8a05224fc67d84ae3f3c",
+      "sameLinesInRegeneratedFile": true
+    }
+  }
+}
