@@ -11463,6 +11463,26 @@
             }
           ],
           "decision": "Accept finite pre-travel thresholds and the exact bounded finite writer order, including the stuck branch, horizontal blocked-axis resets, fall-on callback and horizontal speed factor. The digest correction is included. New non-finite Vec3 setter guards remain a separate source difference with no reachable ordinary witness established."
+        },
+        {
+          "snapshot": "4e897598272cd6f1dc743e8cf110975c2b364405",
+          "exactPair": "1.21.10--1.21.11",
+          "decision": "Accepted bounded Honey slide and reset plus Web/Berry slowdown and first ordinary SELF consumption at Entity.move entry. WEAVING, traversal/axis and onInsideBlock ordering, flying guarded Player writes and broader run-toolchain verification remain outside this freeze.",
+          "report": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.10--1.21.11/source/comparison.md",
+            "sha256": "c61fe6e6b511f740e5582ca315b367b07cf5f0842e3c27086aeccc47e78c184f"
+          },
+          "independentVerdict": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.10--1.21.11/blind-audit/verdict.md",
+            "sha256": "37239d79aacc4ae3c32493f20d8eb592b975d74ea9d9a9f14ddb2d2c333af6ae"
+          },
+          "frozenAudit": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.10--1.21.11/blind-audit/frozen.md",
+            "sha256": "a8e0615da46f246a9e8ebcf51a29a6069e61501ad8f2d5ad6ba01b680d3d2ef0"
+          }
         }
       ]
     },
@@ -13625,6 +13645,46 @@
             "revision": "58b766c9305a4244aabce6b388c4ed227e9309af",
             "path": "development/research/source-evidence/20261118/block-b-adjacent-movement/b12-edge-support-1.21.8--1.21.9/provenance-supplement.md",
             "sha256": "6a3e84316028d91225d98a007049898d7c3033d3b94bc99e30386f23b95db11c"
+          }
+        },
+        {
+          "snapshot": "4e897598272cd6f1dc743e8cf110975c2b364405",
+          "exactPair": "1.21.8--1.21.9",
+          "decision": "Accepted bounded equal-input continuity of Honey slide math and fall-distance reset, Web including WEAVING and eligible Berry slowdown writers, and first ordinary SELF multiplier consume/clear/velocity zeroing. Exact 1.21.9 input provenance is bound. Long or complex traversal remains outside this result.",
+          "report": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.8--1.21.9/source/comparison-r1.md",
+            "sha256": "3869ad7451fa1a9d350afbbda6884dd26f9b5e1b17cbe7e25aa68c5fd0320137"
+          },
+          "independentVerdict": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.8--1.21.9/blind-audit/verdict.md",
+            "sha256": "74af143f17ceef91d9f2c93e9d52cca9689253d90311f9ff61db16f080bfca02"
+          },
+          "frozenAudit": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.8--1.21.9/blind-audit/frozen.md",
+            "sha256": "0de29689dc36cee2c2fbddcbe7a2819a5c894716fa150eb5011256c0e72095b2"
+          }
+        },
+        {
+          "snapshot": "4e897598272cd6f1dc743e8cf110975c2b364405",
+          "exactPair": "1.21.9--1.21.10",
+          "decision": "Accepted Honey slide and reset, Web/Berry slowdown writes, direct contact staging, and first ordinary SELF multiplier consumption. Final r1 scope excludes duplicated LocalPlayer material, Berry damage and piston behavior.",
+          "report": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.9--1.21.10/source/comparison-r1.md",
+            "sha256": "a8de439869efb56a45f6ac862f9a53609e9a9a24066885089efb84ec5bf47d85"
+          },
+          "independentVerdict": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.9--1.21.10/blind-audit/verdict-r1.md",
+            "sha256": "a6a7526dbdca9811d232737137ce5729720a93b67173a2e504d02beb5bab468e"
+          },
+          "frozenAudit": {
+            "revision": "4e897598272cd6f1dc743e8cf110975c2b364405",
+            "path": "development/research/source-evidence/20261118/direct-contact-1218-12111/1.21.9--1.21.10/blind-audit/frozen.md",
+            "sha256": "700c60d6f1256fd0d5e77a660fec01a2d48e1c90b899a973ad83708960eb980a"
           }
         }
       ]
@@ -17131,6 +17191,36 @@
             "applicability": "Finite first setXRot argument in ordinary local Entity.turn, 1.17 through 1.21.1. Native fence through exact 1.16.5 and native fallback from 1.21.2. Pitch arithmetic width, yaw, later writes and callback scheduling are separate operations.",
             "build": "BUILD SUCCESSFUL in 14s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
+          }
+        },
+        {
+          "snapshot": "86b314fbf40bda7e7e310d2763bd2e534c4c0e05",
+          "exactPair": "1.20.4--1.20.5",
+          "decision": "Accepted bounded no difference for ordinary unmounted, non-spectator LocalPlayer Nether portal contact, pending callback and cooldown ordering on the noPhysics=false movement branch. Spectator movement takes the position-only route and skips inside callbacks. ServerLevel retains dwell and transfer authority. No scoped local position or velocity delta.",
+          "report": {
+            "revision": "86b314fbf40bda7e7e310d2763bd2e534c4c0e05",
+            "path": "development/research/source-evidence/20261118/1204-1205-nether-process/author/coverage.md",
+            "sha256": "071b7addb94396988cf9efcd25578e76b44611c6e7ffae4f3edd639acb2e75cf"
+          },
+          "independentVerdict": {
+            "revision": "86b314fbf40bda7e7e310d2763bd2e534c4c0e05",
+            "path": "development/research/source-evidence/20261118/1204-1205-nether-process/audit/verdict.md",
+            "sha256": "4c649fdaeda3344733e90f81b365b934d21ed4a820342177d636c3863821b861"
+          },
+          "frozenAudit": {
+            "revision": "86b314fbf40bda7e7e310d2763bd2e534c4c0e05",
+            "path": "development/research/source-evidence/20261118/1204-1205-nether-process/audit/blind.md",
+            "sha256": "469bd86cee270d9ae6cea7da7ca2528c1a222e8b3a47c052f41ada87f22f0ae7"
+          },
+          "reversibleProjectionManifest": {
+            "revision": "86b314fbf40bda7e7e310d2763bd2e534c4c0e05",
+            "path": "development/research/source-evidence/20261118/1204-1205-nether-process/projection.json",
+            "sha256": "fe37dc8c647538a93ffac7dba7cd566c3b97dc60812baf3ed1c36122bfb9566f"
+          },
+          "independentRoundTrip": {
+            "revision": "86b314fbf40bda7e7e310d2763bd2e534c4c0e05",
+            "path": "development/research/source-evidence/20261118/1204-1205-nether-process/round-trip-verdict.md",
+            "sha256": "5d737e3c949fb1ab1f9b1b88ca7c86aceefb6221e649d691835ec0528eb76879"
           }
         }
       ]
