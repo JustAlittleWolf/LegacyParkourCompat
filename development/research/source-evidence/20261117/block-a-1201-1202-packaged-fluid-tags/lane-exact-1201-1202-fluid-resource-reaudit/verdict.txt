@@ -1,0 +1,23 @@
+# Independent exact archive resource audit verdict
+
+## Pair and bounded scope
+
+Minecraft 1.20.1 → 1.20.2, default packaged resources only, builtin WATER and LAVA fluid tags. No resource-pack override or runtime registry behavior was assessed.
+
+## Roster and source identity
+
+The frozen roster is in `frozen-roster.txt` (SHA-256 `e1a5c2674e225e62379cf7e9828405fb4bb4cdfdd55667a64283d32170fcc251`). It was recorded before opening the author comparison or resource manifest. The two exact client JAR candidates matched their catalog/verified identity SHA-1 and size, client SHA-256, ready marker client pin, and `client.jar` artifact SHA-256 pin. Ready-marker file SHA-256, artifact-manifest SHA-256, and source-manifest SHA-256 values matched local shared pins for both versions. Exact version metadata SHA-1 matched each catalog and identity record.
+
+Archive extraction independently found one copy each of `data/minecraft/tags/fluids/water.json` and `data/minecraft/tags/fluids/lava.json` in each JAR. No `data/minecraft/tags/fluid/` aliases were present. Across both versions, the water resource is 74 bytes with SHA-256 `dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004` and membership `minecraft:water`, `minecraft:flowing_water`; the lava resource is 72 bytes with SHA-256 `71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b` and membership `minecraft:lava`, `minecraft:flowing_lava`. No include references occur in these resources, so effective membership equals direct membership.
+
+## Comparison and manifest audit
+
+The named `fluid-tag-comparison.txt` SHA-256 is `87a7b95e5a8bfd0812ddb8866b58d8fb2b74fe7c07d1217f60a13e51bb14eb98`, matching the requested pin. It reports direct and effective membership as identical for both tags, with no added or removed IDs. Independent entry paths, byte lengths, and SHA-256 values match all manifest tag records.
+
+The named LF `resource-manifest.lf.json` SHA-256 is `d0ab90e6e47992ec53459a552ccda423403c960ba11f6e00cb205c9937e47b8f`, matching the requested pin. It contains 86 LF bytes and no CR bytes. Adding CR before the first 85 LF bytes while leaving the final LF bare reconstructs SHA-256 `43835d993ba94414bbe80c1570d84ea7dd6e707a8334e525c5d2d66dc7f735a0`; both LF and reconstructed mixed-ending forms parse to the same JSON shape.
+
+## Verdict
+
+Accepted for default-only packaged-resource coverage of builtin WATER and LAVA tags: 1.20.1 and 1.20.2 are identical. This does not make claims about resource packs, runtime registry composition, other tag families, other versions, or movement parity.
+
+No product, wiki, backlog, build, test, game, TAS, Gym, server, network, or archive-execution action was performed. Scratch writes are confined to this reaudit directory.

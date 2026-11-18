@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "pair": [
+    "1.20.1",
+    "1.20.2"
+  ],
+  "category": "fluids",
+  "roots": [
+    "minecraft:water",
+    "minecraft:lava"
+  ],
+  "identities": [
+    {
+      "version": "1.20.1",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/a5cf661d31d9dfcd3d1645be80f43954f63f63b0/1.20.1.json",
+      "metadataSha1": "a5cf661d31d9dfcd3d1645be80f43954f63f63b0",
+      "clientUrl": "https://piston-data.mojang.com/v1/objects/0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838/client.jar",
+      "clientSha1": "0c3ec587af28e5a785c0b4a7b8a30f9a8f78f838",
+      "clientSha256": "56b71336d2b4fdffd197f56595b0da93e32a946f78f382a299b8f4b92758bb0f",
+      "readyMarkerSha256": "f8dc81374dc42521ee9d17a04ea0dc77f1c5384548cfc01c9621b3d84b670fed",
+      "artifactManifestSha256": "5f1fc7dcd4ee82ddb7ea0c3be6fd21ceb1910cc691594bda163bfa19b01c7db2",
+      "sourceManifestSha256": "858b56764113e591c60d09bc63e4d90f9c1d67a705645f0c793e8b28f2378465",
+      "readyDeclaredClientSha256": "56b71336d2b4fdffd197f56595b0da93e32a946f78f382a299b8f4b92758bb0f"
+    },
+    {
+      "version": "1.20.2",
+      "metadataUrl": "https://piston-meta.mojang.com/v1/packages/cf1d87e6969d34f7b553939bb1c72177c5fffe86/1.20.2.json",
+      "metadataSha1": "cf1d87e6969d34f7b553939bb1c72177c5fffe86",
+      "clientUrl": "https://piston-data.mojang.com/v1/objects/82d1974e75fc984c5ed4b038e764e50958ac61a0/client.jar",
+      "clientSha1": "82d1974e75fc984c5ed4b038e764e50958ac61a0",
+      "clientSha256": "fa1a19be56a506426308abbc1cad85f299a7fc6dae4335559351ba0246713fda",
+      "readyMarkerSha256": "5ff3322f287c250ee914c7ca3840d053bffc3c2c5f35e91b59314d948292483f",
+      "artifactManifestSha256": "ee67da9733953b30ae4077c587184e59772b745d780abd27a7b023780b459f54",
+      "sourceManifestSha256": "e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887",
+      "readyDeclaredClientSha256": "fa1a19be56a506426308abbc1cad85f299a7fc6dae4335559351ba0246713fda"
+    }
+  ],
+  "tags": [
+    {
+      "version": "1.20.1",
+      "entry": "data/minecraft/tags/fluids/lava.json",
+      "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b",
+      "byteLength": 72
+    },
+    {
+      "version": "1.20.1",
+      "entry": "data/minecraft/tags/fluids/water.json",
+      "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004",
+      "byteLength": 74
+    },
+    {
+      "version": "1.20.2",
+      "entry": "data/minecraft/tags/fluids/lava.json",
+      "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b",
+      "byteLength": 72
+    },
+    {
+      "version": "1.20.2",
+      "entry": "data/minecraft/tags/fluids/water.json",
+      "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004",
+      "byteLength": 74
+    }
+  ],
+  "comparison": {
+    "file": "fluid-tag-comparison.txt",
+    "encoding": "UTF-8 without BOM",
+    "lineEndings": "LF",
+    "sha256": "87a7b95e5a8bfd0812ddb8866b58d8fb2b74fe7c07d1217f60a13e51bb14eb98"
+  },
+  "tagPathPresence": [
+    {
+      "version": "1.20.1",
+      "category": "fluid",
+      "water": "absent",
+      "lava": "absent"
+    },
+    {
+      "version": "1.20.2",
+      "category": "fluid",
+      "water": "absent",
+      "lava": "absent"
+    }
+  ],
+  "samePackIncludes": [],
+  "membershipMethod": "For each exact packaged root tag, parse values in UTF-8 JSON; no include references were present, so effective membership equals the direct resource-id values."
+}
