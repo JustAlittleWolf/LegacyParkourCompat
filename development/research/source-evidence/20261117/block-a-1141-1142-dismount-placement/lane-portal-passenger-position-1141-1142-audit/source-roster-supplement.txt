@@ -1,0 +1,18 @@
+# Frozen source-roster supplement — dismount placement dependency
+
+Added before adjudicating the submitted claim, after tracing the PlayerEntity.stopRiding override through its superclass chain. This supplements the immutable initial roster; it does not alter that file. The newly identified operation was missing from the submitted comparison's ordinary-dismount account.
+
+Exact roots and mapping builds are the same as the initial roster: `decompiled_minecraft/1.14.1/yarn/` (Yarn 1.14.1+build.10) and `decompiled_minecraft/1.14.2/yarn/` (Yarn 1.14.2+build.7). Each actual source SHA-256 below was rechecked against the corresponding `.decompile-provenance.json` `sources` entry.
+
+| Version | Source | SHA-256 | Frozen members / dependency |
+|---|---|---|---|
+| 1.14.1 | net/minecraft/entity/LivingEntity.java | 331e2d7dfa936a6f7197910ba374c4a60b479c8565ff7c64a4d6a9e1e8b52dda | stopRiding; method_6038 (dismount placement) |
+| 1.14.2 | net/minecraft/entity/LivingEntity.java | e8224e7df98ccf0986bb390f35e64293263d17b9ab1dbdfeb661c65d28b6ee78 | stopRiding; method_6038 (dismount placement) |
+| 1.14.1 | net/minecraft/world/ViewableWorld.java | 67e88826a77d5ed6dbdf7701acab287bd6b34f1e394625a6a701c1181556fd2e | doesNotCollide(Entity, BoundingBox); getCollisionShapes(Entity, BoundingBox, Set) |
+| 1.14.2 | net/minecraft/world/ViewableWorld.java | 67e88826a77d5ed6dbdf7701acab287bd6b34f1e394625a6a701c1181556fd2e | doesNotCollide(Entity, BoundingBox); getCollisionShapes(Entity, BoundingBox, Set) |
+| 1.14.1 | net/minecraft/block/BlockState.java | 9106f1649a2ac0965f6b3b13f2ec8437d7b16d2ce72e217c4f105b4524732238 | getCollisionShape; hasSolidTopSurface |
+| 1.14.2 | net/minecraft/block/BlockState.java | c35e64104be023c3f7940dec7b459fb4252d552b6770baa45f4fb4c345dd7035 | getCollisionShape; hasSolidTopSurface |
+| 1.14.1 | net/minecraft/block/Block.java | f5ef3ec7cecd508d948ac5f4a09ce04a4882da000e70a518a1882a00946d56fe | isFaceFullSquare |
+| 1.14.2 | net/minecraft/block/Block.java | e90cdc7b0b78310c59eb5a96cfbfed0f0ec8aaf7156d20f0876e4a04711c2d1f | isFaceFullSquare |
+
+Generic server `ServerPlayNetworkHandler.onPlayerMove` collision-recheck logic remains excluded. Collision queries above are included only as direct dependencies of the player dismount-placement operation.
