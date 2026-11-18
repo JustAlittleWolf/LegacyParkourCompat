@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mechanic;
 
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpEntityPrefixHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpPartialCandidateHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.effect.MobEffects;
@@ -11,23 +12,25 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
-/** Retains the observed start of the first grounded forward move during its AutoJump callback. */
+/** Retains the observed start of an admitted forward move during its AutoJump callback. */
 final class AutoJumpTravelContext {
     private static final ThreadLocal<Travel> CURRENT = new ThreadLocal<>();
 
     private AutoJumpTravelContext() {}
 
+    private enum Route { GROUNDED, CLIPPED, LANDING }
+
     private static final class Travel {
         private final LocalPlayer player;
         private final Vec3 start;
-        private final boolean clipped;
+        private final Route route;
         private boolean consumed;
         private boolean inCallback;
 
-        private Travel(LocalPlayer player, boolean clipped) {
+        private Travel(LocalPlayer player, Route route) {
             this.player = player;
             this.start = player.position();
-            this.clipped = clipped;
+            this.route = route;
         }
     }
 
@@ -38,14 +41,17 @@ final class AutoJumpTravelContext {
         }
         boolean clipped = MovementRuntime.find(AutoJumpEntityPrefixHook.class, player)
             .map(AutoJumpEntityPrefixHook::observesClippedGroundedTravel).orElse(false);
-        if (!clipped && !MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
+        boolean landing = !clipped && MovementRuntime.find(AutoJumpPartialCandidateHook.class, player)
+            .map(AutoJumpPartialCandidateHook::observesForwardLanding).orElse(false);
+        if (!clipped && !landing && !MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
             .map(AutoJumpCollisionOrderHook::observesGroundedTravel).orElse(false)) {
             action.run();
             return;
         }
         Travel prior = CURRENT.get();
-        if (isFirstForwardTravel(player, input, clipped)) {
-            CURRENT.set(new Travel(player, clipped));
+        Route route = clipped ? Route.CLIPPED : landing ? Route.LANDING : Route.GROUNDED;
+        if (isForwardTravel(player, input, route)) {
+            CURRENT.set(new Travel(player, route));
         } else {
             CURRENT.remove();
         }
@@ -66,15 +72,18 @@ final class AutoJumpTravelContext {
         }
         travel.consumed = true;
         double actualX = player.getX() - travel.start.x;
-        travel.inCallback = mover == MoverType.SELF && player.onGround()
-            && requested.y < 0.0 && player.getY() == travel.start.y
-            && (travel.clipped
-                ? dx == 0.0F && actualX == 0.0 && requested.x == 0.0 && dz > 0.0F
-                    && (float)((double)dz * dz) > 0.001F && (float)(player.getZ() - travel.start.z) == dz
-                    && (float)requested.z > dz
-                : dx > 0.0F && dz == 0.0F && (float)((double)dx * dx) > 0.001F
-                    && (float)actualX == dx && (float)requested.x == dx
-                    && requested.z == 0.0 && player.getZ() == travel.start.z);
+        boolean unmodifiedEast = dx > 0.0F && dz == 0.0F && (float)((double)dx * dx) > 0.001F
+            && (float)actualX == dx && (float)requested.x == dx && requested.z == 0.0
+            && player.getZ() == travel.start.z;
+        travel.inCallback = mover == MoverType.SELF && player.onGround() && requested.y < 0.0
+            && switch (travel.route) {
+                case GROUNDED -> unmodifiedEast && player.getY() == travel.start.y;
+                case CLIPPED -> player.getY() == travel.start.y && dx == 0.0F && actualX == 0.0
+                    && requested.x == 0.0 && dz > 0.0F && (float)((double)dz * dz) > 0.001F
+                    && (float)(player.getZ() - travel.start.z) == dz && (float)requested.z > dz;
+                case LANDING -> unmodifiedEast && !player.horizontalCollision
+                    && requested.y < player.getY() - travel.start.y && player.getY() < travel.start.y;
+            };
         try {
             action.run();
         } finally {
@@ -87,18 +96,23 @@ final class AutoJumpTravelContext {
         return travel != null && travel.player == entity && travel.inCallback ? travel.start : null;
     }
 
-    private static boolean isFirstForwardTravel(LocalPlayer player, Vec3 input, boolean clipped) {
+    private static boolean isForwardTravel(LocalPlayer player, Vec3 input, Route route) {
         Vec3 previous = player.getDeltaMovement();
         var speed = player.getEffect(MobEffects.SPEED);
         var keys = player.input.keyPresses;
-        return player.onGround() && player.getPose() == Pose.STANDING && OrdinaryPlayerContext.matches(player)
+        return player.onGround() == (route != Route.LANDING)
+            && player.getPose() == Pose.STANDING && OrdinaryPlayerContext.matches(player)
             && !player.noPhysics && !player.isSpectator() && !player.isSprinting() && !player.isShiftKeyDown()
             && !player.isInWater() && !player.isInLava() && !player.getAbilities().flying
-            && previous.x == 0.0 && previous.z == 0.0 && previous.y < 0.0
+            && (route == Route.LANDING ? previous.x >= 0.0 : previous.x == 0.0)
+            && previous.z == 0.0 && previous.y < 0.0
             && input.x == 0.0 && input.y == 0.0 && input.z > 0.0
             && keys.forward() && !keys.backward() && !keys.left() && !keys.right()
-            && (clipped ? speed == null && player.getYRot() == 0.0F && !keys.jump()
-                : speed != null && speed.getAmplifier() == 1)
+            && switch (route) {
+                case GROUNDED -> speed != null && speed.getAmplifier() == 1;
+                case CLIPPED -> speed == null && player.getYRot() == 0.0F && !keys.jump();
+                case LANDING -> speed == null && player.getYRot() == -90.0F && !keys.jump();
+            }
             && !player.hasEffect(MobEffects.JUMP_BOOST);
     }
 }
