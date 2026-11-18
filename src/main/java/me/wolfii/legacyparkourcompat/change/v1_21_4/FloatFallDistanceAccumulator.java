@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.change.v1_21_4;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.falldistance.FallDistanceAccumulatorHook;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Restores the float rounding of the accumulator update while leaving its call site and gates native.
@@ -19,7 +20,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.falldistance.FallDistanceAccu
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class FloatFallDistanceAccumulator implements FallDistanceAccumulatorHook {
     @Override
-    public double updatedDistance(double nativeUpdatedDistance) {
+    public double updatedDistance(Entity entity, double previousDistance, double resolvedY, boolean onGround, double nativeUpdatedDistance) {
         return (float) nativeUpdatedDistance;
     }
 }
