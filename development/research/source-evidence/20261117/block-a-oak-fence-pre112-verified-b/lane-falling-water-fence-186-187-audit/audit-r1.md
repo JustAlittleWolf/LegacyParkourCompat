@@ -1,0 +1,3 @@
+# Audit digest correction
+
+The frozen audit roster at `lane-falling-water-fence-186-187-audit/roster.md` hashes to `0da426e9fdaf4ce6400bdcd58fc0aab5ceb1de693f283cf42852c0a7e332b798`. My earlier `audit.md` transcribed this digest incorrectly; its own identity is SHA-256 `55af8c908bef36f4a85a7035e8a64e2721dd88ba528131393d0c1e519ea4394b`. The authors' comparison and roster hashes remain `b1f37c2d58d7444f0438d641fb0ca24acc8a2d8157fac1162082149061761c45` and `07ffeda35a8a2b630ad747225a0a53c6bb991f3e8bc15308fbcead9fdd9dbfb5`, respectively. This addendum corrects only digest transcription; it does not change the source audit or any prior file.
