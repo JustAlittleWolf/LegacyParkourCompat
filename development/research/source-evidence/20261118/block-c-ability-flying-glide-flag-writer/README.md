@@ -2,7 +2,7 @@
 
 ## Verified checkpoint
 
-This checkpoint preserves eighteen exact source report/verdict pairs for the ordinary local ability-flight / fall-gliding overlap and direct local flag-writer operation. Scope is the stated overlap when the synchronized fall-flying flag is already true and local `abilities.flying` becomes true, through the specific movement call and direct flag write. It does not establish network latency, authority synchronization guarantees, broad middle-range aliases, activation parity, runtime parity, or whole-pair coverage.
+This archive preserves nineteen exact source report/verdict pairs for the ordinary local ability-flight / fall-gliding overlap and direct local flag-writer operation. Scope is the stated overlap when the synchronized fall-flying flag is already true and local `abilities.flying` becomes true, through the specific movement call and direct flag write. It does not establish network latency, authority synchronization guarantees, broad middle-range aliases, activation parity, runtime parity, or whole-pair coverage.
 
 | Pair | Bounded disposition | Report SHA-256 | Verdict SHA-256 |
 |---|---|---|---|
@@ -18,6 +18,7 @@ This checkpoint preserves eighteen exact source report/verdict pairs for the ord
 | 1.11→1.11.1 | Accepted bounded no-difference: the local player clears flag 7 after the inherited glide branch returns from its movement call. Piston handling is a separate branch. | `bb7e71a24fbc90446a470779f1ca510dd403e1815b1aa569ef492340c87453fb` | `cc1a5a8f86bbd1a86d2c6dfe1718709d9be3d32600764682300ac3a16d647086` |
 | 1.11.1→1.11.2 | Accepted only for the actual flag-7 predicate in the stated operation; this adjacent alias audit does not establish when the overlap is entered. | `414dfb0fd7e7ae6cda1b074f5ce53c5d40bfdecf9fc6213139422396aac49590` | `bebc80c6f29006a5224431a4f9f3d7c2a0be99f0c3989795d679a495ae4b3d39` |
 | 1.11.2→1.12 | Accepted bounded no-difference: initial 1.12 has the same direct post-move false flag write; its `verticalSpeed` argument is outside the active-glide operation. | `17302b3ba7b606615d1fc9da194fff35085b9a352d7e632d7cb716eef6c33138` | `a2b1df0db2fd9238689986d646cf575d4708c04006e0c01e3eb11bd299d50762` |
+| 1.12→1.12.1 | Accepted bounded no-difference for the direct post-movement flag-writer operation; no broader timing or adjacent-version conclusion. | `2f9fe3265fcad94d6da11e65d4d639a63f8df702ecc05c658f60f11e3a814ed6` | `e23e0986249c5462dcbfdcc401deb91f5f78870730b3490e4a617bd2f172f406` |
 | 1.12.1→1.12.2 | Accepted bounded no-difference for live flag 7 plus ability flight; audit corrects the enclosing member name at line 1847 to `LivingEntity.mobTick()`. This does not establish a version boundary. | `c87ad544f3dd6adfd659311d4322cce4d896b934c5e07dd83e412cbae47f6a60` | `9ec91356a6d6ef0f2c8e214e74f1b1ad1c1d5cc3c7d1dc33615acba68f3949c6` |
 | 1.20.5→1.20.6 | Accepted bounded no-difference for normally reachable local creative-flight toggle overlapping a live Elytra flag for one travel call, with glide move before `Player.travel` clears bit 7. | `2d3d2cd150aeb9d7d414512ef5a34ed97291149ec23361c3eff2adcc4e0c5ce2` | `14b4dbef14910b89310027465c9439425136144485b825a30eea8755334bc5fa` |
 | 1.20.6→1.21 | Accepted ordinary dry controlled-local overlap/no-difference through after-move flag clear. 1.20.6 cache limitation is recorded; A/B is excluded. | `6d61b9784d85c0601cf7f5b32f8ea0df2969648be0177ecea79ecb67128832f0` | `ca0b201510150fd822fa7eb32c1047a8732447bb21c4b315c1437782d44efc65` |
@@ -27,8 +28,8 @@ This checkpoint preserves eighteen exact source report/verdict pairs for the ord
 
 The ability-flight `fallDistance` reset is treated as a separate operation; the flag-writer comparison does not expand its timing claim. No server movement, packet latency, or general .9→1.12.2 / .20.6→.21 alias result is inferred.
 
-## Pending coverage
+## Coverage boundary
 
-The 1.12→1.12.1 patch-boundary pair is still in progress; the 1.12.1→1.12.2 and 1.20.5→1.20.6 pairs are now included. This is a verified subset checkpoint, not the final archive; wait for the remaining exact scope list before final bundle freeze.
+These 19 exact report/verdict pairs complete the assigned scope list. Other version boundaries, network timing, server movement, and runtime parity remain outside the conclusions.
 
 Every included report and verdict was rehashed, checked for exact input binding, and copied byte-for-byte. No implementation, product parity, or runtime claim is made.
