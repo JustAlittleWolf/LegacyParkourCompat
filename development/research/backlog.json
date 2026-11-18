@@ -17053,7 +17053,24 @@
             "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
             "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
           },
-          "decision": "Accept the finite in-range direct pitch-source witness at the arithmetic-width boundary. Outputs are 60.000003814697266F and 60.00000762939453F respectively; the saturated example clamps to 90.0F on both sides. An actual changed next-move witness remains open."
+          "decision": "Accept the finite in-range direct pitch-source witness at the arithmetic-width boundary. Outputs are 60.000003814697266F and 60.00000762939453F respectively; the saturated example clamps to 90.0F on both sides. An actual changed next-move witness remains open.",
+          "laterIndependentMovementWitness": {
+            "snapshot": {
+              "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+              "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/report.md",
+              "sha256": "f94d39bf82443713e9ae0fdbb6f9b835aea0a38d536f0a19012d5eadb6546525"
+            },
+            "review": {
+              "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+              "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/verdict.md",
+              "sha256": "9882f4b790f6183945cfd1cd96c9670d02fd58548e76c5969de71e49db7d318f"
+            },
+            "correction": {
+              "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+              "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/identity-correction.md",
+              "sha256": "76e863d515c3f200d7292c1a8dd8c21259b2bfee222a6dd488bd917ad4ee991e"
+            }
+          }
         },
         {
           "exactPair": "1.16.5--1.17",
@@ -17085,6 +17102,46 @@
             }
           ],
           "decision": "Static existing-product correspondence is covered for the accepted 1.16.5 opening lid-slab overlap plus 0.01 amount, conditional on native 26.2 query admission of the LocalPlayer. The amount hook does not reproduce historical query membership or claim all earlier resolver aliases have exact source support."
+        },
+        {
+          "exactPair": "1.16.5--1.17",
+          "turnAxis": "pitch",
+          "snapshot": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/report.md",
+            "sha256": "f94d39bf82443713e9ae0fdbb6f9b835aea0a38d536f0a19012d5eadb6546525"
+          },
+          "review": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/verdict.md",
+            "sha256": "9882f4b790f6183945cfd1cd96c9670d02fd58548e76c5969de71e49db7d318f"
+          },
+          "correction": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-117/identity-correction.md",
+            "sha256": "76e863d515c3f200d7292c1a8dd8c21259b2bfee222a6dd488bd917ad4ee991e"
+          },
+          "decision": "Accept the finite dry active-Elytra next-move source witness from the lawful sensitivity-1 callback, e=4.096000411987318. The separate sensitivity-0.5 callback witness was withdrawn. Keeps product eligibility open."
+        },
+        {
+          "exactPair": "1.16.5--1.17",
+          "turnAxis": "yaw",
+          "snapshot": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/yaw-1165-to-117/report.md",
+            "sha256": "8b862816c21c161606ed6c3b62172b7a969b69586e9f04f893ac515703c821c1"
+          },
+          "review": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/yaw-1165-to-117/verdict.md",
+            "sha256": "2bf8217436772233d8e9efd0753af108dd4cb86083abca2bc31cb0a523ef2605"
+          },
+          "correction": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/yaw-1165-to-117/correction.md",
+            "sha256": "3c867ee9bf12a3b1ca982176ac1dbe99e744e83055c9659af5a5c0dcc8a8fe09"
+          },
+          "decision": "Accept a finite direct yaw width/precision witness that changes the first ordinary relative-acceleration X component after crossing the sine lookup bucket. The corrected cosine bucket and Z component agree."
         }
       ]
     },
@@ -17937,6 +17994,36 @@
               "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b"
             }
           ]
+        },
+        {
+          "exactPair": "1.16.5--26.2",
+          "turnAxis": "pitch",
+          "snapshot": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-262/report.md",
+            "sha256": "fd9f8cefc4299e7cb3c115d11aacc18d6ee5b89497b676a76adb2a685daabd75"
+          },
+          "review": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/pitch-1165-to-262/verdict.md",
+            "sha256": "daf002a0331adea131de6bb6e62d914d575164f321940787db9ac6114eddc46a"
+          },
+          "decision": "Accept the bounded 5.7D direct pitch argument lookup-cell crossing and first active Elytra move request when holding either release's travel formula fixed. The 0.1D result is quantized to the same old-kernel sample. Preserve exact 26.2 ready-output identity qualification."
+        },
+        {
+          "exactPair": "1.16.5--26.2",
+          "turnAxis": "yaw",
+          "snapshot": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/yaw-1165-to-262/report.md",
+            "sha256": "a510c56eb06f211b44e0fd3f7107fd4fedee84c52f9c5a99e6b82fe74304f944"
+          },
+          "review": {
+            "revision": "54d34113e2db3827eca267c57799edf18cb439d9",
+            "path": "development/research/source-evidence/20261118/block-c-turn-precision-pitch-yaw/edges/yaw-1165-to-262/verdict.md",
+            "sha256": "69f0ccda6361e03666c99641158eca493d0c0865801b9c222795584888e421ee"
+          },
+          "decision": "Accept a finite direct yaw width/precision witness through the first relative-acceleration write using the same 26.2 trig kernel for both stored yaws. This leaves physical-device event preprocessing and product eligibility open."
         }
       ]
     },
