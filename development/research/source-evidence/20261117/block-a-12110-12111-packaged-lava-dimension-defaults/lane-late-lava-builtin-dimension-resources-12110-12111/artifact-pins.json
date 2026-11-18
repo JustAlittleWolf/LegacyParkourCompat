@@ -1,0 +1,28 @@
+[
+  {
+    "version": "1.21.10",
+    "versionMetadataUrl": "https://piston-meta.mojang.com/v1/packages/b14d03617088d907aef01138b042e8e5c1ab35d4/1.21.10.json",
+    "versionMetadataSha1Expected": "b14d03617088d907aef01138b042e8e5c1ab35d4",
+    "versionMetadataSha1Actual": "b14d03617088d907aef01138b042e8e5c1ab35d4",
+    "versionMetadataSha256": "3680286cdcfde9f4c540938a20d7fe917f5f189bf326791f6a9fc9d8798aea29",
+    "clientUrl": "https://piston-data.mojang.com/v1/objects/d3bdf582a7fa723ce199f3665588dcfe6bf9aca8/client.jar",
+    "clientSha1Expected": "d3bdf582a7fa723ce199f3665588dcfe6bf9aca8",
+    "clientSha1Actual": "d3bdf582a7fa723ce199f3665588dcfe6bf9aca8",
+    "clientSizeExpected": 30592168,
+    "clientSizeActual": 30592168,
+    "clientSha256": "e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482"
+  },
+  {
+    "version": "1.21.11",
+    "versionMetadataUrl": "https://piston-meta.mojang.com/v1/packages/718cd84b4912691fe5de829aab6876a4b7f6c5c4/1.21.11.json",
+    "versionMetadataSha1Expected": "718cd84b4912691fe5de829aab6876a4b7f6c5c4",
+    "versionMetadataSha1Actual": "718cd84b4912691fe5de829aab6876a4b7f6c5c4",
+    "versionMetadataSha256": "471a6eeadf1c74f84ed5d4290fb7234b746373478a4d6ac651962b93f0cb36d9",
+    "clientUrl": "https://piston-data.mojang.com/v1/objects/ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd/client.jar",
+    "clientSha1Expected": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+    "clientSha1Actual": "ba2df812c2d12e0219c489c4cd9a5e1f0760f5bd",
+    "clientSizeExpected": 31152600,
+    "clientSizeActual": 31152600,
+    "clientSha256": "1473c9489ac50fda3c435049a76a70d61a10b8610db27f5ba9d8756b686cd3bd"
+  }
+]

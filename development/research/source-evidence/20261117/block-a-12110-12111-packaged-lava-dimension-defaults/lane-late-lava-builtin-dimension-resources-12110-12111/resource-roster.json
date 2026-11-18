@@ -1,0 +1,66 @@
+[
+  {
+    "version": "1.21.10",
+    "entry": "data/minecraft/dimension_type/overworld.json",
+    "status": "present",
+    "output": "1.21.10/data/minecraft/dimension_type/overworld.json",
+    "size": 567,
+    "sha256": "e55609ea78fa17ae6cac9456de8ad3cbb317b897c82c0b77c3458294d62eccdc"
+  },
+  {
+    "version": "1.21.10",
+    "entry": "data/minecraft/dimension_type/the_nether.json",
+    "status": "present",
+    "output": "1.21.10/data/minecraft/dimension_type/the_nether.json",
+    "size": 480,
+    "sha256": "26953e0426b058a44a4c1f2060a1a15823c03dd511f57dd7ef97dfa6327a3825"
+  },
+  {
+    "version": "1.21.10",
+    "entry": "data/minecraft/dimension_type/the_end.json",
+    "status": "present",
+    "output": "1.21.10/data/minecraft/dimension_type/the_end.json",
+    "size": 476,
+    "sha256": "cddd6141dd674f204d54e7bc5ca11c3a99293028bd3dd02d27ae9fbdbb75db27"
+  },
+  {
+    "version": "1.21.11",
+    "entry": "data/minecraft/dimension_type/overworld.json",
+    "status": "present",
+    "output": "1.21.11/data/minecraft/dimension_type/overworld.json",
+    "size": 1423,
+    "sha256": "5f16d8adb6905488738c4edd3c06660d9890e98fedf19708d3e350ab7c0bea8d"
+  },
+  {
+    "version": "1.21.11",
+    "entry": "data/minecraft/dimension_type/the_nether.json",
+    "status": "present",
+    "output": "1.21.11/data/minecraft/dimension_type/the_nether.json",
+    "size": 1184,
+    "sha256": "e9a7ee8fad95b15e17692254b8693bf504294fefed511243a5521f8e847241d6"
+  },
+  {
+    "version": "1.21.11",
+    "entry": "data/minecraft/dimension_type/the_end.json",
+    "status": "present",
+    "output": "1.21.11/data/minecraft/dimension_type/the_end.json",
+    "size": 1156,
+    "sha256": "16042eb4533b0cb0b0e5d385f725430cb42207b96baeb2b3a5a90cc1a74a6a63"
+  },
+  {
+    "version": "1.21.10",
+    "entry": "data/minecraft/dimension_type/default.json",
+    "status": "missing",
+    "output": null,
+    "size": null,
+    "sha256": null
+  },
+  {
+    "version": "1.21.11",
+    "entry": "data/minecraft/dimension_type/default.json",
+    "status": "missing",
+    "output": null,
+    "size": null,
+    "sha256": null
+  }
+]
