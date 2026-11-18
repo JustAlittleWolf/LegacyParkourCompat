@@ -1,0 +1,12 @@
+# Glide-climb exact alias gates (2026-11-18)
+
+This wave preserves exact source comparisons and independent verdicts for adjacent alias gates, without changing their bound artifacts. The prior 1.18.2/1.19.2 scope proof is already archived at the base commit and is referenced below rather than copied again.
+
+| Pair | Frozen report SHA-256 | Independent verdict SHA-256 | Bounded disposition |
+|---|---|---|---|
+| 1.19.1–1.19.2 already-active dry Elytra at climbable feet | `fe17c39e0c8847e3b872645e81fa79afa0505dc0c99346d1b0d13e8b1047f1f8` | `35f3a2ac4a7c6dbc1a9a8ceb2e2a6c57ad1e94de7bdfa05a82ccd3677ea6ea98` | Accepted no-difference for the bounded branch: with active ordinary dry fall-flying and vertical delta strictly greater than `-0.5`, both releases write `fallDistance = 1.0F` before Elytra damping and movement. A climbable feet block does not select or suppress the dry branch. Activation timing and final tick value remain outside scope. |
+| 1.19–1.19.1 already-active dry Elytra at climbable feet | `62eeb88e913f8d4aec58eb747128df4e0231d06aacf61b7425aa385ddfe1afd9` | `aadb32534227e2c8f4b075862231b1722134c6a2bb909684ccf5063dd4adcbff` | Accepted no-difference in the source pair for the same bounded pre-move write. The independent audit rejects current implementation fidelity for ladder/vine feet: active limiter-stage and hook gates suppress the historical write. This is a narrow unresolved product reachability discrepancy; no product parity or resolution is asserted. |
+
+Previously archived scope/reachability proof: `development/research/source-evidence/20261118/block-c-player-direct-state/glide-fall-distance-climb/comparison.md` (SHA-256 `7d5f95456c9f1f7d2373b9a08aae27e99d1059efe0c06a679126f4da89aeac21`) and `verdict.md` (SHA-256 `128b50a9f2227f2e568a76e654f34267cc5d15860bfbcc72f4b89afd9934b0d8`). Those artifacts bound the 1.18.2/1.19.2 climbable-feet reachability witness and related later glide scope; they remain at the existing base path and are not duplicated here.
+
+The four report/verdict files above are frozen byte-for-byte copies. Static whitespace checking uses Git's `cr-at-eol` and `-blank-at-eof` exceptions for these verbatim artifacts, because their original CRLF, trailing-space, and final blank-line bytes are part of the bound hashes; the README itself uses LF with no trailing whitespace.
