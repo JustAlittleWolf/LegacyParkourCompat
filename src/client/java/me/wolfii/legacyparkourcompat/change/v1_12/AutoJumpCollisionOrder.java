@@ -3,25 +3,30 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.AutoJumpCollisionCandidates;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
+import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Feather 1.12.2 World.getCollisions visits X/Z/Y, skips horizontal corners and
@@ -30,17 +35,27 @@ import java.util.List;
  * Feather 1.13 WorldView.getBlockCollisions unions shapes; VoxelShape.getBoundingBoxes /
  * VoxelSet.forEachBox changes this first-hit order. First new release: 1.13.
  *
- * Admission is deliberately limited to the accepted unconnected-fence witness,
- * air and bottom smooth-stone slabs, inside the border with loaded surroundings.
+ * The unconnected-fence witness admits air and bottom smooth-stone slabs
+ * inside the border with loaded surroundings.
  * Feather 1.12.2 FenceBlock.addCollisions emits one post for an unconnected fence;
  * SlabBlock.getShape supplies the bottom half box. Unobfuscated 26.2 FenceBlock /
  * CrossCollisionBlock and SlabBlock preserve those single-box geometries. Query
- * each actual state with the player CollisionContext; never sort decomposed unions
- * or assume that a multi-part provider's optimized order is its historical order.
+ * each actual state with the player CollisionContext.
+ *
+ * The separate single-Brewing-Stand fixture needs the ordered components of
+ * Ornithe Feather 1.12–1.12.2 BrewingStandBlock.addCollisions: stem, then full
+ * plate. The Feather 1.13 BrewingStandBlock.SHAPE union and VoxelSet.forEachBox
+ * expose the plate first. The active 26.2 historical collision union retains
+ * the old occupied volume but likewise flattens it plate first. Reuse its old
+ * ordered provider components on the audited slab-floor AutoJump path.
  * Other providers, entities' historical geometry and runtime parity remain open.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook {
+    private static final AABB BREWING_STAND_STEM =
+        new AABB(7.0 / 16.0, 0.0, 7.0 / 16.0, 9.0 / 16.0, 14.0 / 16.0, 9.0 / 16.0);
+    private static final AABB BREWING_STAND_PLATE = new AABB(0.0, 0.0, 0.0, 1.0, 2.0 / 16.0, 1.0);
+
     private record Cell(BlockPos pos, BlockState state) {}
 
     @Override
@@ -65,6 +80,8 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
             return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
         }
         List<Cell> cells = new ArrayList<>();
+        BlockPos brewingStand = null;
+        boolean brewingStandSurroundings = true;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
@@ -75,30 +92,79 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                 for (int y = minY; y <= maxY; y++) {
                     pos.set(x, y, z);
                     BlockState state = chunk.getBlockState(pos);
-                    if (!supported(state, level, pos)) {
-                        return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
-                    }
                     boolean edgeX = x == x0 || x == x1 - 1;
                     boolean edgeZ = z == z0 || z == z1 - 1;
-                    if (!state.isAir() && x >= x0 && x < x1 && y >= y0 && y < y1 && z >= z0 && z < z1
-                        && !(edgeX && edgeZ) && (!(edgeX || edgeZ) || y != y1 - 1)) {
+                    boolean visited = x >= x0 && x < x1 && y >= y0 && y < y1 && z >= z0 && z < z1
+                        && !(edgeX && edgeZ) && (!(edgeX || edgeZ) || y != y1 - 1);
+                    if (state.is(Blocks.BREWING_STAND)) {
+                        if (brewingStand != null || !visited) {
+                            return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
+                        }
+                        brewingStand = pos.immutable();
+                    } else {
+                        if (!supported(state, level, pos)) {
+                            return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
+                        }
+                        brewingStandSurroundings &= state.is(Blocks.AIR)
+                            || isDryBottomSlab(state) && y + 0.5 <= query.minY;
+                    }
+                    if (!state.isAir() && visited) {
                         cells.add(new Cell(pos.immutable(), state));
                     }
                 }
             }
         }
         CollisionContext context = CollisionContext.of(player);
-        // The provider still sees its original state/world/player context. Each admitted
-        // provider has one box, so emitting boxes separately retains its source order.
-        Iterable<VoxelShape> blocks = () -> cells.stream().map(cell -> {
+        List<VoxelShape> standParts = brewingStand == null || !brewingStandSurroundings ? List.of()
+            : brewingStandParts(player, level, query, context, brewingStand, selected);
+        if (brewingStand != null && standParts.isEmpty()) {
+            return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
+        }
+
+        Iterable<VoxelShape> blocks = () -> cells.stream().flatMap(cell -> {
+            if (cell.state().is(Blocks.BREWING_STAND)) {
+                return standParts.stream().map(shape -> shape.move(cell.pos()).bounds());
+            }
             List<AABB> parts = context.getCollisionShape(cell.state(), level, cell.pos()).move(cell.pos()).toAabbs();
             if (parts.size() != 1) {
                 throw new IllegalStateException("Admitted auto-jump provider must supply one collision box: " + cell);
             }
-            return parts.getFirst();
+            return Stream.of(parts.getFirst());
         })
             .filter(query::intersects).map(Shapes::create).iterator();
         return com.google.common.collect.Iterables.concat(blocks, level.getEntityCollisions(player, query));
+    }
+
+    private static List<VoxelShape> brewingStandParts(Player player, CollisionGetter level, AABB query,
+        CollisionContext context, BlockPos stand, ParkourVersion selected) {
+        BlockPos playerSupport = BlockPos.containing(player.getX(), player.getY() - 0.5, player.getZ());
+        if (selected != ParkourVersion.V1_12 || !(level instanceof Level clientLevel)
+            || clientLevel != player.level() || !clientLevel.isClientSide()
+            || query.minY != player.getY() || query.minY != stand.getY() - 0.5
+            || playerSupport.getY() != stand.getY() - 1
+            || !query.intersects(new AABB(stand))
+            || !isDryBottomSlab(loadedState(level, stand.below()))
+            || !isDryBottomSlab(loadedState(level, playerSupport))
+            || !loadedState(level, stand.above()).is(Blocks.AIR)
+            || !clientLevel.getEntities(player, query.inflate(0.25), entity -> true).isEmpty()) {
+            return List.of();
+        }
+
+        BlockState state = loadedState(level, stand);
+        if (!state.is(Blocks.BREWING_STAND)) {
+            return List.of();
+        }
+        List<VoxelShape> parts = MovementRuntime.find(BlockCollisionShapeHook.class, state.getBlock(), player)
+            .filter(hook -> hook.supports(selected))
+            .flatMap(hook -> hook.collisionShapes(state, level, stand, context))
+            .orElseGet(List::of);
+        if (parts.size() != 2 || !parts.get(0).toAabbs().equals(List.of(BREWING_STAND_STEM))
+            || !parts.get(1).toAabbs().equals(List.of(BREWING_STAND_PLATE))) {
+            return List.of();
+        }
+        VoxelShape occupied = Shapes.or(parts.get(0), parts.get(1));
+        VoxelShape playerShape = context.getCollisionShape(state, level, stand);
+        return Shapes.joinIsNotEmpty(occupied, playerShape, BooleanOp.NOT_SAME) ? List.of() : parts;
     }
 
     private static boolean supported(BlockState state, CollisionGetter level, BlockPos pos) {
@@ -106,7 +172,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
             return true;
         }
         if (state.is(Blocks.SMOOTH_STONE_SLAB)) {
-            return state.getValue(SlabBlock.TYPE) == SlabType.BOTTOM && !state.getValue(SlabBlock.WATERLOGGED);
+            return isDryBottomSlab(state);
         }
         if (!(state.is(Blocks.OAK_FENCE) || state.is(Blocks.SPRUCE_FENCE) || state.is(Blocks.BIRCH_FENCE)
             || state.is(Blocks.JUNGLE_FENCE) || state.is(Blocks.ACACIA_FENCE) || state.is(Blocks.DARK_OAK_FENCE)
@@ -120,6 +186,17 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
             && !state.getValue(FenceBlock.WATERLOGGED)
             && loadedAir(level, pos.north()) && loadedAir(level, pos.east())
             && loadedAir(level, pos.south()) && loadedAir(level, pos.west());
+    }
+
+    private static boolean isDryBottomSlab(BlockState state) {
+        return state.is(Blocks.SMOOTH_STONE_SLAB) && state.getValue(SlabBlock.TYPE) == SlabType.BOTTOM
+            && !state.getValue(SlabBlock.WATERLOGGED);
+    }
+
+    private static BlockState loadedState(CollisionGetter level, BlockPos pos) {
+        var chunk = level.getChunkForCollisions(SectionPos.blockToSectionCoord(pos.getX()),
+            SectionPos.blockToSectionCoord(pos.getZ()));
+        return chunk == null ? Blocks.VOID_AIR.defaultBlockState() : chunk.getBlockState(pos);
     }
 
     private static boolean loadedAir(CollisionGetter level, BlockPos pos) {
