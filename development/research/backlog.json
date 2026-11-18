@@ -11125,6 +11125,249 @@
             "sha256": "be52f100b04cfa91eb1851aed4c252c47f5a0313049e8f5781ae6af1edf50a3a"
           },
           "decision": "Accept bounded ordinary non-riding water continuity for admission, contact, push, eye sample, cited swimming/descent gates and the first water move. The extracted predicate preserves the compared ordering; ridden float, lava, dimension metadata and unexamined LocalPlayer gates remain separate."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "airborne",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/airborne/source/comparison.md",
+            "sha256": "dc4b1a06072a3686237d34099b1d4553fb9a7fb093ebe01f66f3ebcdb79d62c5"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/airborne/blind-audit/verdict.md",
+            "sha256": "5afb9c77e7d203a55f9962164fc8e6bbf7e20a53e67096ca55860aab550e413b"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/airborne/blind-audit/frozen.md",
+            "sha256": "37601153c44129ed4728b735ce0f28ae53dca4d028cf5f2fe23f359846ca0eb1"
+          },
+          "decision": "Accept equal-input ordinary dry airborne input projection, speed selection and the first pre-clip SELF displacement request. Active item use and realized collision outcomes remain separate."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "dispatch",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/dispatch/source/comparison.md",
+            "sha256": "f4109c1401fb35c82b4e0769b84cc3b1fb04d3f05c0f5a96496454f92f9a558f"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/dispatch/blind-audit/verdict.md",
+            "sha256": "100bfce35b3ef32c430de47a3b007a1e5a3d567798c2944937dfcb903eeecba9"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/dispatch/blind-audit/frozen.md",
+            "sha256": "5ae9d5f0e93a6ccc3d854b1a7c7e3f790bf4c40f1bb71619ebe5225846118776"
+          },
+          "decision": "Accept the ordered loaded ordinary local tick to first dry-air movement-calculation call. Client admission/load behavior and later dry-air math remain separate. The new position-delta observer has a separate probe."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "effects-modifiers",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/effects-modifiers/source/comparison.md",
+            "sha256": "9d18baa65685c3139624dd289a73c5bb7d661e0cd74ca06cf517fcbb421449a5"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/effects-modifiers/blind-audit/verdict-r1.md",
+            "sha256": "46765598c1e50c761aa18a8d8d6cf50b489dc9dad2aa853b8f964f4d948812f9"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/effects-modifiers/blind-audit/frozen.md",
+            "sha256": "def6e953c433286d4c6468af6969d4585ff6cfd0e14f4c78a3d2651eaa022512"
+          },
+          "historicalArtifacts": [
+            {
+              "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+              "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/effects-modifiers/blind-audit/verdict.md",
+              "sha256": "98b6da0b79b8a1d32034cf8b5c90625575861ec57b36ed281062f50643c4433b"
+            }
+          ],
+          "decision": "Accept the audited ordinary effect expiry, movement speed modifier apply/update/remove order, and scoped speed, jump and gravity readers. Retain the corrected MobEffects file digest. Additional safe-fall, Dolphin's Grace, Slow Falling, registration, packet and presentation claims remain outside scope."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "equipment",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/equipment/source/comparison.md",
+            "sha256": "09cd49bdc3d4b4b25db01c262c26e2d6001d9a9122a153c3bc51c3948c7a3def"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/equipment/blind-audit-independent/verdict.md",
+            "sha256": "fa83852eae16dc55b35a9ff3e9745001a6bc9635440dc72cb639ff8d59cb70bc"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/equipment/blind-audit-independent/frozen.md",
+            "sha256": "7a3da27db6f426bc3e612e5470649aac317aaa4bcdf5ef92eb47b7b2d0105cd3"
+          },
+          "decision": "Accept the active-use input-scale reader refactor and ordinary default 0.2F effect correspondence. The new-only spear component does not establish historical applicability. No eligible historical product delta."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "gravity-drag",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/gravity-drag/source/comparison-r1.md",
+            "sha256": "5a2a92b0fcd7b51c2255d2b4d5ab1cb8317694c7ac1537ff779a8f4629c5ae11"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/gravity-drag/blind-audit/verdict.md",
+            "sha256": "fc12402587d469bd4d21367c4697763c27f6f0f20e6edd34f3fb85adcef7e8d0"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/gravity-drag/blind-audit/frozen.md",
+            "sha256": "5e9a566056a6bb78bd809043632e548c3e0b22b16202d4082b53d15c18941610"
+          },
+          "historicalArtifacts": [
+            {
+              "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+              "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/gravity-drag/source/comparison.md",
+              "sha256": "570200e4ed673fd5164cdd7172369ec4ddd5748c7245c6bf72d54994992dcd2b"
+            }
+          ],
+          "decision": "Accept bounded equal-input ordinary dry nonriding gravity/drag and first travel calculations. The corrected report and frozen source ledger jointly bind the Player wrapper."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "grounded",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/grounded/source/comparison.md",
+            "sha256": "0171b46fb27c6b0314af1e25eb4b156148aed11ebc2c5e7552a3c2b920bb6a37"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/grounded/blind-audit/verdict.md",
+            "sha256": "bb7094f31cf1e982e6feac38aedf7dc2948670652440f39e8b190e6776423b6e"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/grounded/blind-audit/frozen.md",
+            "sha256": "5616d5de6df30ec722d85b23cc9a4dfb2fc2b4e153a308017ba7ff5f99dda10a"
+          },
+          "decision": "Accept equal-input ordinary grounded acceleration, friction scaling and first SELF dispatch. Upstream input production and active item use remain separate."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "jump",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/jump/source/comparison-r1.md",
+            "sha256": "fc188af2c85cfbabbbc9f790199b3e1db7f15a3524da302988d6be6839aeb5aa"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/jump/blind-audit/verdict-r1.md",
+            "sha256": "c5ae3e30575f5b336a1c01584fd9e0332a7d4b4797f698385b7998a8c2bedfcf"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/jump/blind-audit/frozen.md",
+            "sha256": "d53f0021ed8c95dfc48c9cebe96ea925c6398cc40d4eb452c5d3c54c2fbcd144"
+          },
+          "historicalArtifacts": [
+            {
+              "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+              "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/jump/blind-audit/verdict.md",
+              "sha256": "484de3fc6d83cb0d6396b227ceed3ed33ef61d8611833ad4f9339dce1d4ebd13"
+            },
+            {
+              "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+              "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/jump/source/comparison.md",
+              "sha256": "ad98a8bf4ee292f638b76942bd54b4f3cfe9d18567dd1b42e75c6a7a72b95910"
+            }
+          ],
+          "decision": "Accept the corrected ordinary nonflying dry zero-delay ground jump: call jumpFromGround, set noJumpDelay to 10, and flow into the first dry travel calculation. The synchronization marker and wider network consequences remain separate."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "pose-size",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/pose-size/source/comparison.md",
+            "sha256": "4161addb8fb0cb46c9a9743694c6abb4436c77f2e5675c938c0f23dbb192c1b5"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/pose-size/blind-audit/verdict.md",
+            "sha256": "fa39d5b5e0931bc45b8542e651a6c4b3313dc49a123562c1a674fe389ba9fc08"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/pose-size/blind-audit/frozen.md",
+            "sha256": "0ecd72e05f1ae0d6a88eda368ba3e81de885921a3350f3dfe36d518c9d423950"
+          },
+          "decision": "Accept the held-equal requested crouch pose, fit outcome, non-sleeping dimensions and first refresh/reposition sequence. Pose input production, collision internals and downstream speed-cache implications remain separate."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "speed-consumers",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/speed-consumers/source/comparison.md",
+            "sha256": "d67bed94c6d6bf15cf116d936eaa6a853edccb20737e66e9b53eb0f6cf1c7a9d"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/speed-consumers/blind-audit/verdict.md",
+            "sha256": "64b7f7a30c780e6c67f4bffcc859b50fd45f8949e51e8b0a7df921bf31723078"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/speed-consumers/blind-audit/frozen.md",
+            "sha256": "3214170d60086b50c4cc5e5385ee650b0a852a84cc87de4358d5889b74547df5"
+          },
+          "decision": "Accept source-only observation that the position-derived Entity speed cache is written before ordinary local locomotion but the inspected vanilla local movement has no eligible reader. Server/vehicle consumers and non-player writers remain separate."
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "scope": "velocity-threshold",
+          "snapshot": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/velocity-threshold/source/comparison-r1.md",
+            "sha256": "6550a3a37cd51e48072fc9395b408fadbe3f41ee774650e2585c2ab10315fa6a"
+          },
+          "review": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/velocity-threshold/blind-audit/verdict-r2.md",
+            "sha256": "b20afbd7a751c918c7dd3be8efc5e4597a7201735c7959b885c023671d1ff41d"
+          },
+          "frozenIndependentRoster": {
+            "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+            "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/velocity-threshold/blind-audit/frozen.md",
+            "sha256": "60a48ca6772a7843bbefd712bb8dc39e0c233ab58d7fee22a0d9a168d631960f"
+          },
+          "historicalArtifacts": [
+            {
+              "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+              "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/velocity-threshold/blind-audit/verdict-r1.md",
+              "sha256": "48be9ab92f23d4e19cc73c85362d74049576eb77831ca36cda73ec9b362f2ec2"
+            },
+            {
+              "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+              "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/velocity-threshold/blind-audit/verdict.md",
+              "sha256": "7dbd070d72a92cedae2291ac9d1b711e367768505fba6afecf943e6583185f2c"
+            },
+            {
+              "revision": "6e755c3e915b84504c6fa3c7f7427c35a6a88820",
+              "path": "development/research/source-evidence/20261118/12110-12111-local-locomotion/velocity-threshold/source/comparison.md",
+              "sha256": "eec89743cb57c69122cb6616da2fcbe2f51fb9bd692a001a0ba342d3ba7e614a"
+            }
+          ],
+          "decision": "Accept finite pre-travel thresholds and the exact bounded finite writer order, including the stuck branch, horizontal blocked-axis resets, fall-on callback and horizontal speed factor. The digest correction is included. New non-finite Vec3 setter guards remain a separate source difference with no reachable ordinary witness established."
         }
       ]
     },
