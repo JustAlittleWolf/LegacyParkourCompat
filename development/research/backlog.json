@@ -19114,6 +19114,39 @@
             "path": "development/research/source-evidence/20261117/block-a-1213-262-cobweb-contact-record/lane-block-contact-record-lifecycle-1213-262-audit/supplemental-source-roster.tsv",
             "sha256": "dcf88aa021db82a958af58160ff76929906c9df47e32cdd277be373bb969b0b2"
           }
+        },
+        {
+          "decision": "ACCEPT the corrected exact block-contact producer, ownership and consumer inventory. In 1.21.3 the ordinary client uses the gated live-list fallback; the distinct server packet appenders act on ServerPlayer. In 26.2 accepted ordinary moves record their span, the no-argument consumer copies and clears the deque, and the piston caller uses the explicit span and a separate tail removal. An early or threshold-suppressed piston move can remove an older tail if one is queued. The existing client correction writer does not clear either accumulator through teleportSetPosition. Runtime incidence and implementation applicability remain open.",
+          "snapshot": {
+            "revision": "cfb78fef23e61efbe16d5f09c5728c6d5697f46d",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-block-contact-producer-inventory/lane-block-contact-record-producers-1213-262/inventory.corrected-r1.md",
+            "sha256": "a0945dc7b1bf076cfd3732b6524ec0d190b6c266d9b610be446d6e5d8080b0ca"
+          },
+          "review": {
+            "revision": "cfb78fef23e61efbe16d5f09c5728c6d5697f46d",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-block-contact-producer-inventory/lane-block-contact-record-producers-1213-262-audit/verdict-r1.md",
+            "sha256": "04cdde0c624c67bb23846efa9aaf0c6fb3e161ea6b65fd6ced42fb6426dfbe14"
+          },
+          "roster": {
+            "revision": "cfb78fef23e61efbe16d5f09c5728c6d5697f46d",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-block-contact-producer-inventory/lane-block-contact-record-producers-1213-262/frozen-roster.corrected-r1.tsv",
+            "sha256": "7207b8b90fece803e627353c4b09d9628b9cae24f97a88b3503cb3941155338f"
+          },
+          "priorSnapshot": {
+            "revision": "cfb78fef23e61efbe16d5f09c5728c6d5697f46d",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-block-contact-producer-inventory/lane-block-contact-record-producers-1213-262/inventory.md",
+            "sha256": "7f46b7ca997c677fc48acb9d6e2a3e64f02a9e785cedab3e5eaa2b8611222b72"
+          },
+          "priorReview": {
+            "revision": "cfb78fef23e61efbe16d5f09c5728c6d5697f46d",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-block-contact-producer-inventory/lane-block-contact-record-producers-1213-262-audit/audit-verdict.md",
+            "sha256": "76eb7be109028a4896b300d83b12aa8e89393a66e238f3b241dc5f573fbc24ce"
+          },
+          "auditRoster": {
+            "revision": "cfb78fef23e61efbe16d5f09c5728c6d5697f46d",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-block-contact-producer-inventory/lane-block-contact-record-producers-1213-262-audit/audit-roster.tsv",
+            "sha256": "96871f858e90a2060b2bb7826f3686dd6e602720042f3018fd2dd1ae3960932b"
+          }
         }
       ]
     }
