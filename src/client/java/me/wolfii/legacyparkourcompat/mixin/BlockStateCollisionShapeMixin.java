@@ -69,7 +69,8 @@ abstract class BlockStateCollisionShapeMixin {
                     var access = (PistonMovingBlockEntityAccessor) piston;
                     hook.collisionShape(piston.getMovedState(), piston.getDirection(),
                         piston.isExtending(), piston.isSourcePiston(), access.legacyparkourcompat$progress(),
-                        access.legacyparkourcompat$previousProgress()).ifPresent(cir::setReturnValue);
+                        access.legacyparkourcompat$previousProgress(), level, pos, context, cir.getReturnValue())
+                        .ifPresent(cir::setReturnValue);
                 }
             });
         }
