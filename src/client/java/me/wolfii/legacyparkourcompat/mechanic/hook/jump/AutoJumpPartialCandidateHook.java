@@ -15,6 +15,10 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 /** Supplies an ordered partial before the aggregate for a closed mixed candidate query. */
 @MechanicType("player.auto_jump.partial_candidate")
 public interface AutoJumpPartialCandidateHook extends VersionedMechanic {
+    default boolean observesForwardLanding() {
+        return false;
+    }
+
     default Optional<Partial> candidate(Player player, Level level, AABB query, ProbeSegments probes,
                                        BlockState state, BlockPos pos, CollisionContext context) {
         return Optional.empty();
