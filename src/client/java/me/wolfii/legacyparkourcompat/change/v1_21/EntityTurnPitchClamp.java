@@ -9,16 +9,18 @@ import net.minecraft.world.entity.Entity;
 @MovementChange(emulates = ParkourVersion.V1_21)
 public final class EntityTurnPitchClamp implements EntityTurnPitchHook {
     /**
-     * Mojmap 1.21.1 Entity.turn(double,double) sends its raw float pitch sum to
-     * Entity.setXRot(float), whose first write stores it before the later turn
-     * clamp. 26.2 unobfuscated Entity.turn(double,double) preserves that first
-     * setter order, while Entity.setXRot(float) applies remainder by 360 before
-     * clamping. Clamp only this first setter argument to recover the bounded
-     * historical result. Non-finite inputs remain on vanilla's rejection path;
-     * unchanged in-range floats retain their exact bits, including signed zero.
-     * The accepted source comparisons cover 1.20.5–1.21.1 and the 1.21.1→1.21.2
-     * cutoff (1.21.1 Entity.turn 401–413, setXRot 3359–3369; 26.2 Entity.turn
-     * 489–501, setXRot 3906–3916).
+     * Mojmap 1.17 Entity.turn(double,double) narrows the pitch delta to float,
+     * multiplies by 0.15F, adds it to the current pitch, and calls
+     * Entity.setXRot(float) before its later clamp; the setter stores finite
+     * values verbatim (Entity.java:377–388, 3021–3027). This direct operation is
+     * accepted continuously through Mojmap 1.20.4 Entity.turn/setXRot
+     * (Entity.java:398–410, 3309–3315) and 1.21.1 Entity.turn/setXRot
+     * (Entity.java:401–413, 3363–3369). Mojmap 1.21.2 changes the setter to
+     * remainder by 360.0F then clamp (Entity.java:3489–3494); 26.2 unobfuscated
+     * Entity.turn/setXRot retains that later setter behavior (Entity.java:489–501,
+     * 3906–3916). Clamp only the first setter argument. Non-finite inputs remain
+     * on vanilla's rejection path; unchanged in-range floats retain their exact
+     * bits, including signed zero.
      */
     @Override
     public float transformFirstPitchArgument(Entity entity, float vanillaArgument) {
