@@ -1,0 +1,216 @@
+{
+  "pair": "1.14.3 -> 1.14.4",
+  "method": "Exact local mapping identities; no same mapping family was present for both",
+  "sourceIdentities": [
+    {
+      "version": "1.14.3",
+      "mapping": "Yarn 1.14.3+build.13",
+      "clientJarSha256": "4063062677433988e012fba53e42e4c21adb6919ac7f061f19f3c6e75b334e07",
+      "versionMetadataSha256": "ebf2df95d9bd83c6687f287d5a6f5f41f74bc1b39159fcbb74ff6d1d19d8464c",
+      "intermediaryJarSha256": "f2e9990c00fa87ddc7158a95afb735a947ae26d1997b52916226e11c612542a9",
+      "yarnJarSha256": "ad9e77f907cfc6780fb348ad4b3a948ffc8cea3bfe50abcc792428645e49e06e",
+      "provenancePath": "decompiled_minecraft/1.14.3/yarn/.decompile-provenance.json",
+      "provenanceSha256": "81ea0021eb122d4e3340e20d47d6ecb7079365ba767a038d26a8264cddacc28a",
+      "provenanceSourceCount": 3159
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "Mojmap (official client mappings)",
+      "clientJarSha256": "b3b2a798e2d67b566008fe4a03767ae2c7ff3f8c7ba6751e7b71fc7299672d0a",
+      "clientMappingsSha256": "2dd53a5e70ba493cf6e33c0fc52bbdf4c57f9429c7a13842565aa825fd44d910",
+      "readyMarkerPath": "decompiled_minecraft/1.14.4/mojmap.ready.json",
+      "readyMarkerSha256": "ec7b6a6d9ba72f8a19908527977c970a8e2b3007b0e0b4323a725fb5943d3043",
+      "sourceManifestPath": "decompiled_minecraft/1.14.4/mojmap.sources.sha256",
+      "sourceManifestSha256": "af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b",
+      "readyDeclaredSourceManifestSha256": "af98406f3d4ed31494fbdce1078d1f3df3f712501878f9a0e9ad5879bdf23c3b",
+      "provenanceRecordPath": "decompiled_minecraft/1.14.4/mojmap.provenance.json",
+      "provenanceRecordSha256": "9d1ad405e1e787d2fca5ed1897e6797b1f3cd79527da50d713232f46e2f30d97",
+      "readyStatus": "ready",
+      "sourceFileCount": 3250
+    }
+  ],
+  "sourceFiles": [
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "9b204a5f9af6ca50c09db4b6185ff37c39980c1a8cd1b5fd004713ecffae5c14",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/entity/LivingEntity.java",
+      "sha256": "e8aed9c63c0dfbe88e4b9e11c58881bc6e04b9cbaecbde5e3606e3afa406d72b",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/server/network/ServerPlayerEntity.java",
+      "sha256": "45b2ea744bf16153c51e3cd31719e746f6e6a821616383f9a4e683b1046a8f3a",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/server/network/ServerPlayNetworkHandler.java",
+      "sha256": "0467b26f218892f6ed2851688cc20ecde313fa76f6d84419af775c849eb568c3",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/client/network/ClientPlayNetworkHandler.java",
+      "sha256": "5dab323ebb5147be91219928928abaadaa320a3281fad8f6957d3d96d5eeb4a7",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/block/BlockState.java",
+      "sha256": "c93fd032a3f9bd83e852eb7ce95e7afe8acd895556ed942fabc596f04be06e04",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "d8728c19555875aee8f47ea138bf836d02acf9076d69fce289baad93c60e715f",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/util/shape/VoxelShape.java",
+      "sha256": "70a870fdeea376e9936ea62287f96c3377ac319c9877c0e19cb857dbd1ac96d2",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/world/PortalForcer.java",
+      "sha256": "0df8b72d123678a86c95582fa40f1fefa8f0ecb0d85946e6c6c7bb747addecf5",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/util/math/MathHelper.java",
+      "sha256": "21ed846ac48a5a2fbcdb2ac31fd5b74a461485effd881112c903c09d9297504a",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/entity/Entity.java",
+      "sha256": "31c6be42d165102d3e6dc4295fdfef6e8971fc3aea13f938a5b3a33b91d524a7",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/entity/LivingEntity.java",
+      "sha256": "428762178a876efd4069086e6b7d51f571ea0401f44e7eff0927b7d26d9ef681",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/server/level/ServerPlayer.java",
+      "sha256": "0b07bb15e2e3001f03dab2dc943cbca4814ada36c82b6d83f933be4ff01c4b92",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/server/network/ServerGamePacketListenerImpl.java",
+      "sha256": "912f528c03da34fa703646b6383c2b49ac3493efd7ba78cb8ff27aa7f693b67d",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/client/multiplayer/ClientPacketListener.java",
+      "sha256": "6dddf37b79830d5413d91675e0bed8b4a3f0a179ac4535616dc57b510b778b45",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/level/block/state/BlockState.java",
+      "sha256": "2bcc0167cb566df8745abbe967f0a8750038ad5a9b7843f5fb25bab714d73188",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/level/block/Block.java",
+      "sha256": "276022cfc5bc00437fe65a23bbcdc9c078026e68d88930eb3244581f6dbfcf5f",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/phys/shapes/VoxelShape.java",
+      "sha256": "6a49550faa944196e16d55a8d28ca8b6cd49f1b75bb491ddc345b935ea0651b4",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/level/PortalForcer.java",
+      "sha256": "c2132bfa4c2e024fba903456c5e1fe3bb1bb647a98fc31bd0e0466509bb46e06",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/util/Mth.java",
+      "sha256": "57e0babfbc9ce864e539c7632ebb72c2e14a208c2db1c3a1bfc16ee0237ae576",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/entity/EntityContext.java",
+      "sha256": "fca9d7507c99d6fe2413c35a37898aab14b46d3f2c4778fc23f07516fd0d7fc9",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/entity/EntityContextImpl.java",
+      "sha256": "60929b779990ff142c5c3dfe00008b6a3a3aae866e1228987ca5fe3266a0fb4b",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.3",
+      "mapping": "yarn",
+      "path": "net/minecraft/util/shape/VoxelShapes.java",
+      "sha256": "e485fa88440027dcd73d6bcd15a69438be6ee3f70ac1ba9465cb69720a0bc47c",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/phys/shapes/CollisionContext.java",
+      "sha256": "da5b700fdc06b7ef3a58ba14753f73ca9a5ba40120736be79b5e795a925f0a82",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/phys/shapes/EntityCollisionContext.java",
+      "sha256": "07c5f8bc5f075a61b078bc434ec635fe10c27f2c5250ebd70dbabd37ee60f5c4",
+      "matchesPublishedSourceHash": true
+    },
+    {
+      "version": "1.14.4",
+      "mapping": "mojmap",
+      "path": "net/minecraft/world/phys/shapes/Shapes.java",
+      "sha256": "f1a2e60ae358236de7379e66543f99d474e3d431e42c5afbda688cb99b70985d",
+      "matchesPublishedSourceHash": true
+    }
+  ]
+}

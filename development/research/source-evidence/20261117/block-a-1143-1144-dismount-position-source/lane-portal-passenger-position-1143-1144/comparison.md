@@ -1,0 +1,29 @@
+# 1.14.3 → 1.14.4 narrow source comparison
+
+## Result
+
+No movement difference is established in the assigned player paths. The pair is not frozen: this is a bounded comparison, not a full-pair inventory or coverage audit. The locally published sources use different mapping identities: Yarn for 1.14.3 and Mojmap for 1.14.4. I compared the operations semantically and did not infer equivalence from matching symbols.
+
+## Logical-server dismount placement
+
+1.14.3 Yarn `LivingEntity.stopRiding` saves the prior vehicle, calls `Entity.stopRiding`, and invokes `method_6038(oldVehicle)` only when the relation changed and `world.isClient` is false (`LivingEntity.java:2322–2326`). In 1.14.4 Mojmap the corresponding `findStandUpPosition(oldVehicle)` guard is `oldVehicle != null && oldVehicle != getVehicle() && !level.isClientSide` (`LivingEntity.java:2325–2329`). This is reachable when a living entity successfully changes vehicles through the generic start-riding path.
+
+The generic placement methods preserve the same ordered neighbor offsets, vehicle-direction-derived candidate positions, bounding-box collision checks, standable-top checks, water fallback, one-block-up fallback, and final position. Boat and horse dismount use the alternate yaw/width branch in both releases. The standability API changed: 1.14.3 `hasSolidTopSurface` and 1.14.4 `entityCanStandOn` both form the collision shape with the current entity context, take its upward face, and test that face against the unit full square. The old `EntityContextImpl` and new `EntityCollisionContext` both capture sneaking, bounding-box minimum Y, and the living entity main-hand item (otherwise air); their `isAbove` threshold is also the same. The old and new full-face caches both test the `NOT_SAME` difference from their full-unit shape. No route-level placement or standability difference was found in the compared helpers.
+
+The writer route changed names and server bookkeeping. Old generic `Entity.requestTeleport` sets `teleportRequested`, calls `setPositionAndAngles`, and checks the chunk; new generic `Entity.teleportTo` is gated on `ServerLevel`, sets `teleported`, calls `moveTo`, and updates chunk position. For the player case, `ServerPlayerEntity.requestTeleport(x,y,z)` and `ServerPlayer.teleportTo(x,y,z)` both delegate to their network handler with current yaw and pitch. No player XYZ arithmetic difference was found in this caller path.
+
+## Portal-adjacent predicate and position route
+
+The portal entry and transfer path was checked because it stores the entry information used to select an exit. 1.14.3 `setInPortal`/`tickPortal` use a server-side gate, a 300-tick default cooldown, one-tick base wait, and `!hasVehicle()` before dimension transfer. 1.14.4 `handleInsidePortal`/`handleNetherPortal` carry the corresponding delay state, same 300/one-tick defaults, and `!isPassenger()` gate. The ServerPlayer cooldown/delay override decrements only when not in its teleportation/dimension-change state in each release.
+
+Both releases capture portal entry position, normalized horizontal/vertical offsets, and portal facing, then pass those values, current position and velocity, and `instanceof Player` into the target portal search. The paired PortalForcer methods retain the 128-block search extent, negative-result cache behavior, ticket path, and output computation call. The offset helper formula is identical in source: `MathHelper.minusDiv(a,b,c)` and `Mth.pct(a,b,c)` each return `(a - b) / (c - b)`. No portal-specific player-position difference was found in these bounded routes.
+
+## Absolute server correction and logical-client writer
+
+1.14.3 `ServerPlayerEntity.requestTeleport` delegates XYZ plus current angles to `ServerPlayNetworkHandler.requestTeleport`; 1.14.4 `ServerPlayer.teleportTo` delegates to `ServerGamePacketListenerImpl.teleport`. Each handler records the requested absolute position and teleport ID/time, directly updates the server player, and emits a player-position packet. With the empty relative-argument set used by this route, XYZ are absolute.
+
+The paired logical-client handlers require main-thread execution (`forceMainThread` / `ensureRunningOnSameThread`). For each XYZ axis, a relative flag adds the packet value to current position and preserves that velocity component; an absolute axis resets the matching previous-render position and zeroes that velocity component. Relative rotation flags add to current yaw/pitch. Both then use the absolute writer. Old `Entity.setPositionAnglesAndUpdate` and new `Entity.absMoveTo` clamp X/Z to ±3.0E7, leave Y unbounded, clamp pitch to ±90 degrees, retain packet yaw, perform the same yaw-wrap adjustment, update prior position/rotation fields, and rebuild the bounding box through `setPosition`/`setPos`. No XYZ correction difference was found in this route.
+
+## Evidence boundary
+
+This covers only dismount placement, portal entry/exit position, ServerPlayer absolute correction, and the matching logical-client direct writer. It excludes generic vehicle motion, unrelated packet handlers, and other movement areas. No product files, wiki materials, backlog, or primary source trees were edited.
