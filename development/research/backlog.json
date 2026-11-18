@@ -8806,6 +8806,47 @@
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/clip-core-12110-12111/binding.md",
             "sha256": "b1d0c2cc13f650eba5434798af81c6c7d96abc2bd61f99284f59f16e0119a068"
           }
+        },
+        {
+          "decision": "ACCEPT bounded unchanged on-foot local fluid scan, unloaded-chunk preflight, vertical fall, water/lava travel and exit at fixed fluid states, tags and coefficient.",
+          "snapshot": {
+            "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
+            "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/fluid-contact/comparison.md",
+            "sha256": "d4bee3bc70d586f446f32824d074a06d46fe4bcc30a30326792c937a9558b4a2"
+          },
+          "review": {
+            "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
+            "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/fluid-contact/verdict.md",
+            "sha256": "1f7fbda9b5eddead3c4292344317baeff2841f88f5dd2b5236611ee6a94d5e9b"
+          }
+        },
+        {
+          "decision": "ACCEPT ultrawarm-to-FAST_LAVA current coefficient dependency. The three built-in dimension defaults agree. An applicable vanilla DataFixer conversion was not found, and the new syncable value reaches the client dimension query. Target map resources, external codec unknown-key behavior and real-map impact remain unresolved.",
+          "snapshot": {
+            "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
+            "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/fluid-contact/comparison.corrected-r1.md",
+            "sha256": "f32f527933fa36746f4289064d1e51d58f7e39aca66c14ce404ffabb46c33a27"
+          },
+          "findingDraft": {
+            "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
+            "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/fluid-contact/lava-current-input.md",
+            "sha256": "de0ec1cbe40f9416c3a0614cae2ed1154b36c3539b7e0c39528feec9afcf6990"
+          },
+          "review": {
+            "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
+            "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/fluid-contact/verdict-r1.md",
+            "sha256": "61a51b480c9bc36e4222485270e801b7750eb541c19a2abe6f32fc7a5f8094af"
+          },
+          "dimensionDependency": {
+            "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
+            "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/dimension-migration/comparison.corrected-provenance.md",
+            "sha256": "6183ac3a8206ecdcf62690d5994ccbfe7045173967d5d1c96fad51ea9c55772e"
+          },
+          "dimensionReview": {
+            "revision": "cc6ced41e8df50b9a71e6a5996e60ac4329f525f",
+            "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/dimension-migration/verdict.md",
+            "sha256": "96f740e7ac43a74cafa12058c14016ca9ca740fad8b30688e923e6b180e0f69b"
+          }
         }
       ]
     },
