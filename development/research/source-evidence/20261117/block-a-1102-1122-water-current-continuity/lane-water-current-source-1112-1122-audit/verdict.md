@@ -1,0 +1,19 @@
+# Independent source audit verdict
+
+**Verdict: AGREE — no difference in the assigned ordinary, nonfalling LocalPlayer water-current operation.** The comparison’s bounded no-difference claim is supported by the exact 1.11.2/1.12.2 source trees. No finding is warranted for this slice. This does not freeze the whole release pair or establish intermediate patch boundaries.
+
+## Audited path and result
+
+Both version roots declare exact releases 1.11.2/1.12.2 and `ornithe-feather`, with ready and provenance records. I recomputed every source file hash in each `ornithe-feather.sources.sha256`: 1,921/1,921 and 2,050/2,050 files match; each source-manifest digest matches its ready marker. The source bytes therefore match the exact source identities relied on by the comparison.
+
+The local player’s loaded-chunk guard and `tick()` dispatch reach `PlayerEntity.tick()` → `LivingEntity.tick()` → `Entity.tick()` → `Entity.baseTick()`. The corresponding calls and the `baseTick()` call to `checkWaterCollisions()` occur in the same order. `checkWaterCollisions()` uses `getShape().grown(0.0, -0.4F, 0.0).contract(0.001)`, material `WATER`, and the same boat exclusion and state updates in both versions. `Entity.getShape()`, `Box.grown`/`contract`, floor/ceil helpers, `Entity.baseTick`, `Entity.tick`, and `LocalClientPlayerEntity.tick` have identical bodies. `LivingEntity.checkFallDamage()` also has an identical body; after movement, `Entity.move()` calls it in both versions. That path can repeat the same water-current query when `!isInWater()`; its water call is unchanged. `Entity.move()` has an unrelated 1.12.2 flap-sound branch, with no change to that call’s water behavior.
+
+`World.applyLiquidDrag(Box, Material, Entity)` is text-identical. It floors box minima and ceils maxima, loops X/Y/Z with exclusive maxima, and requires the complete computed region to pass `isAreaLoaded(..., true)` before scanning. Matching-material cells pass the same `l >= p + 1 - getHeightLoss((Integer) state.get(LEVEL))` threshold. The block hook adds each accepted cell’s flow in scan order. The same `getFlow`, liquid-state/depth and height helpers, default/ liquid `applyMaterialDrag`, and vector `add`/`length`/`normalize` bodies are used. The aggregate is applied only when its length is positive and `hasLiquidCollision()` is true: normalize once, then add `0.014` times each component to velocity. Contact can return true even for a zero aggregate. The world area helper and `ClientWorld.isChunkLoadedAt(..., allowEmpty)` are identical.
+
+## Bounded exclusions and evidence limitation
+
+The changed `LiquidBlock.isFaceSolid` implementation is only consulted by `getFlow()` when the current liquid state has `LEVEL >= 8`; that falling-flow path is excluded from this ordinary nonfalling verdict. The 1.12.2 `Entity.checkWaterState()` deep probe is called from the flying-water-avoiding mob goal, not the local-player path. Neither is evidence for a difference in this bounded claim.
+
+The ready/provenance records’ historical `build/movement-campaign-2026-10-07` output and artifact-cache paths, and their recorded full verification log, are not present in this checkout. I did not regenerate sources or re-verify raw artifacts. The retained version-root artifact-manifest digests match their ready records; the retained verification JSON reports no raw input differences, while noting a regenerated intermediate remapped-JAR hash difference. The complete current source trees independently match their declared source manifests, so this limits re-checking provenance inputs but does not leave a source-body gap for this verdict.
+
+Frozen blind roster: `roster.md` in this audit directory. Immutable claim and comparison roster hashes are recorded in `sha256.txt`.
