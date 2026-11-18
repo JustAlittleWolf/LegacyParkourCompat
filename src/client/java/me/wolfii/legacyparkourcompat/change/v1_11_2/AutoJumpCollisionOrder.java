@@ -1,7 +1,8 @@
 package me.wolfii.legacyparkourcompat.change.v1_11_2;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import me.wolfii.legacyparkourcompat.change.common.AutoJumpCollisionCandidates;
+import me.wolfii.legacyparkourcompat.change.common.AutoJumpBoxCandidates;
+import me.wolfii.legacyparkourcompat.change.common.AutoJumpBoxCandidates.ScanRules;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook;
@@ -11,15 +12,16 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * The accepted Feather 1.12.2/1.13 World.getCollisions / WorldView.getBlockCollisions
- * first-height witness does not close earlier releases' provider order. Preserve the
- * existing block-before-entity assembly there instead of extrapolating the V1_12 scan.
+ * 1.11.1 and 1.11.2 Feather Gen2 build.2 World.getCollisions visits X/Z/Y
+ * and skips only the top cap on a single horizontal edge, as in 1.12.
+ * FenceBlock and the isolated BrewingStandBlock append their boxes through
+ * addCollisions with forceShape=false to LocalClientPlayerEntity.autoJump.
  */
 @MovementChange(emulates = ParkourVersion.V1_11_2)
-public final class UnprovedEarlierAutoJumpCollisionOrder implements AutoJumpCollisionOrderHook {
+public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook {
     @Override
     public Iterable<VoxelShape> autoJumpCollisions(Player player, CollisionGetter level, AABB query,
         ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla) {
-        return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
+        return AutoJumpBoxCandidates.collect(player, level, query, selected, vanilla, ScanRules.SKIP_TOP_CAP_INTERIOR);
     }
 }
