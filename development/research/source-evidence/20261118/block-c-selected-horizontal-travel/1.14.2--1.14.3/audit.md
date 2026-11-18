@@ -1,0 +1,45 @@
+# Independent source audit: 1.14.2 to 1.14.3 horizontal travel
+
+## Scope and verdict
+
+Bounded audit of Java 1.14.2 → 1.14.3 stable, Yarn sources: ordinary dry, unmounted, local player movement while nonsprinting, on the ground or in air. Compared consumed ordinary input, relative input acceleration, movement-speed selection, and horizontal drag/friction. Treat block coefficient/slipperiness, yaw, and `onGround` as supplied identically. The path excludes camera/setter work, swim/crawl/Elytra/flight/jump/climb, sprint and timers, vertical gravity/threshold, collision/support/stepping and providers.
+
+**Verdict: no source-confirmed difference in the assigned horizontal operations.** The applicable input scaling, vector math, acceleration selection, speed accessor and horizontal multiplier retain the same operation order, gates, numeric types and constants. The `MovementType` enum argument's decompiled name changes (`field_6308` to `SELF`), outside this operation's horizontal calculation and collision boundary.
+
+This verdict covers only the bounded slice above. It does not establish the complete player-tick pair, other movement branches, intermediate patch boundaries, or runtime parity.
+
+## Immutable source identity
+
+- `decompiled_minecraft/1.14.2/yarn`: release 1.14.2; Yarn `1.14.2+build.7`; manifest SHA-256 `786546F99684423CC2563BE45C9C3334DFCC2C7DB58DDB74BA39CE403BD0869A`. Manifest inputs identify the exact client as `.../ca6c5a139045967229975c0c0b7f93e78b4314c2/client.jar` (SHA-256 `9b740c9fd4955981125ebd3cd086baa8b4392963d043a3480b5b942a96637c25`) and Yarn artifact `.../yarn/1.14.2+build.7/yarn-1.14.2+build.7-v2.jar` (SHA-256 `3c91c928d10797ba688b1f7e61063fd4bc56a3ee0f66fa2609ef960ec08b239b`).
+- `decompiled_minecraft/1.14.3/yarn`: release 1.14.3; Yarn `1.14.3+build.13`; manifest SHA-256 `81EA0021EB122D4E3340E20D47D6ECB7079365BA767A038D26A8264CDDACC28A`. Manifest inputs identify the exact client as `.../af100b34ec7ef2b8b9cf7775b544d21d690dddec/client.jar` (SHA-256 `4063062677433988e012fba53e42e4c21adb6919ac7f061f19f3c6e75b334e07`) and Yarn artifact `.../yarn/1.14.3+build.13/yarn-1.14.3+build.13-v2.jar` (SHA-256 `ad9e77f907cfc6780fb348ad4b3a948ffc8cea3bfe50abcc792428645e49e06e`).
+
+Both manifest hashes were recomputed and match the assigned pins. For every source file listed below, the file's actual SHA-256 was recomputed and matched its `sources` entry in that release's manifest. The exact hashes are included to bind this audit to the bytes examined:
+
+| Source file | 1.14.2 SHA-256 | 1.14.3 SHA-256 |
+|---|---|---|
+| `net/minecraft/client/input/Input.java` | `0a14d641cea95ecd6a836a2aecf0a7627dbf236460160a263a85b574a0216e4e` | same |
+| `net/minecraft/client/input/KeyboardInput.java` | `ade8c1b46b4b25888d326a963f645dd4fe82f53ef0797c2e499fe37e9bb47aa0` | same |
+| `net/minecraft/client/network/ClientPlayerEntity.java` | `90c96701849c9212ea7714f02e7bc9011d0a7d0aaf1f7b46464497ba3ca14947` | `28b6b4031e02afd4a2e6b4a80e5a7ca06f16dac42ca0f92cab25e2c2dc9e14ae` |
+| `net/minecraft/entity/Entity.java` | `7c0e9cab0842a45e42fa9f27c9661de3fd0fd076c35ff989aa0477198eb38edc` | `9b204a5f9af6ca50c09db4b6185ff37c39980c1a8cd1b5fd004713ecffae5c14` |
+| `net/minecraft/entity/LivingEntity.java` | `e8224e7df98ccf0986bb390f35e64293263d17b9ab1dbdfeb661c65d28b6ee78` | `e8aed9c63c0dfbe88e4b9e11c58881bc6e04b9cbaecbde5e3606e3afa406d72b` |
+| `net/minecraft/entity/player/PlayerEntity.java` | `333bb39db18af4cef320eb73b7abe359d438fb2a6ca7d8798ee449da6c684398` | `e3f361ac4e369d01473f3d84044ee33f9685d182c4485e2e80b7f62756950963` |
+| `net/minecraft/util/math/Vec3d.java` | `c56acd6b7b03e1a05d01687c490b5533c53c1b97ba637f7492a2d6d1744b55dc` | same |
+| `net/minecraft/util/math/MathHelper.java` | `21ed846ac48a5a2fbcdb2ac31fd5b74a461485effd881112c903c09d9297504a` | same |
+
+## Paired evidence
+
+All paths below are relative to the corresponding `decompiled_minecraft/<version>/yarn/` root. Line numbers are for the exact files whose hashes are listed above.
+
+- **Local input arrival and keyboard values:** `net/minecraft/client/network/ClientPlayerEntity.java`, 1.14.2 lines 614–622 and 1.14.3 lines 614–622 call `input.tick(...)`; item-use slowdown is a separate `0.2F` path excluded by the ordinary-input precondition. `net/minecraft/client/input/KeyboardInput.java`, both releases lines 13–25, maps opposing keys to zero and each single direction to `1`/`-1`; it applies a `0.3` multiplier only under the explicit sneak/slow-move condition. `Input.java` is byte-identical in both releases. In the ordinary unmodified case, the values supplied to the consumer are the same.
+- **Input consumed before travel:** `net/minecraft/entity/LivingEntity.java`, 1.14.2 lines 2204–2210 and 1.14.3 lines 2214–2220, applies `sidewaysSpeed *= 0.98F` and `forwardSpeed *= 0.98F`, then calls `travel(new Vec3d(sidewaysSpeed, upwardSpeed, forwardSpeed))`. Same float multiplications, order and call arguments.
+- **Dry land branch and drag:** `LivingEntity.java`, 1.14.2 lines 1823–1829 and 1849; 1.14.3 lines 1833–1839 and 1859. In the ordinary non-water/non-lava/non-fall-flying branch, it reads the supplied underfoot coefficient `v`, computes `w = onGround ? v * 0.91F : 0.91F`, calls `updateVelocity(method_18802(v), arg)`, applies the unchanged `method_18801` result, moves, then writes the horizontal result multiplied by `w`. Thus the grounded multiplier retains `v * 0.91F`; the airborne multiplier remains `0.91F`. The intervening collision and vertical handling are outside this assignment.
+- **Relative input rotation and normalization:** `net/minecraft/entity/Entity.java`, 1.14.2 lines 1011–1026 and 1.14.3 lines 1055–1070, adds `movementInputToVelocity(arg, f, yaw)` to velocity. The helper uses double `lengthSquared`, returns zero below `1.0E-7`, normalizes only above `1.0`, multiplies by float `f`, computes float sine/cosine after the same degrees-to-radians expression, then rotates the horizontal components with the same arithmetic order. The relevant `Vec3d` length/normalize/multiply helpers and `MathHelper.sin/cos` are byte-identical across the pair.
+- **Acceleration and speed selection:** `net/minecraft/entity/LivingEntity.java`, 1.14.2 lines 1944–1949 and 1.14.3 lines 1954–1959, returns `getMovementSpeed() * (0.21600002F / (v * v * v))` on ground and `field_6281` in air. `net/minecraft/entity/player/PlayerEntity.java`, 1.14.2 lines 498–503 and 1406–1408; 1.14.3 lines 499–504 and 1408–1410, selects `0.02F` for nonsprinting air acceleration, assigns movementSpeed from the movement-speed attribute, and returns the attribute value from `getMovementSpeed()`. `PlayerEntity.tickMovement()` calls `super.tickMovement()` before these assignments in both versions (1.14.2 lines 492–503; 1.14.3 lines 493–504), so the ordering of the stored values relative to this travel path is preserved as well.
+
+## Coverage and limits
+
+Checked paired slices: local input handoff, ordinary keyboard-direction construction and modifier gates, `LivingEntity.tickMovement` input attenuation and travel call, dry land travel branch, `Entity.updateVelocity`/`movementInputToVelocity`, vector/trigonometric helpers, `LivingEntity.method_18802`/`getMovementSpeed`, and `PlayerEntity` speed selection/accessor ordering. No difference was found in this owned slice. Block/slipperiness implementation and block lookup were treated as supplied per assignment; collision mechanics, trajectory outcomes and all excluded branches were not assessed. No implementation, test, build, launch, wiki/product/Git review, or source generation was performed.
+
+## Phase 2 independent report review
+
+**Verdict: ACCEPT** the bounded no-difference conclusion in the author report (`author/report.md`, 7,034 bytes, SHA-256 `85A6735F5D791A0449F2524D41945B14995565810B1A19A777AE9E37FE41C52A`). The report's dry travel branch, supplied slipperiness/onGround drag, acceleration selector, player attribute accessor, `0.98F` input attenuation, relative vector transform, and order of player speed-field updates agree with the independently frozen audit. I additionally checked the report's path claims: `PlayerEntity.travel` delegates through `super.travel` for the dry nonflying case in both releases (`PlayerEntity.java:1362–1390` / `1364–1392`); `LivingEntity.tick` invokes `this.tickMovement()` (`LivingEntity.java:2029` / `2039`); and `PlayerEntity.tick` reaches `super.tick()` (`PlayerEntity.java:191–219` / `192–220`). No discrepancy changes applicability or the bounded verdict. The report explicitly limits itself to this slice and does not claim complete pair coverage. The report's source table omits `Input.java`, `KeyboardInput.java`, `Vec3d.java`, and `MathHelper.java`; my frozen audit independently checked those used source bytes and their ordinary input/helper behavior, and found no conflict. This acceptance is for the bounded source conclusion only.

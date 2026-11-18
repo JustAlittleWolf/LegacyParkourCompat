@@ -1,0 +1,44 @@
+# Blind source audit: grounded creative-flight toggle and jump
+
+## Frozen independent source trace
+
+Frozen before reading the comparison report.
+
+### Exact source and provenance identity
+
+- Older: Minecraft `1.20.4`, Mojang mappings (`mojmap`), canonical source root `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.20.4/mojmap/`.
+- Newer: Minecraft `26.2`, published unobfuscated names (`unobfuscated`), canonical source root `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/26.2/unobfuscated/`.
+- Ready markers identify exact versions/mapping, Vineflower output, Java 25 and source manifest SHA-256s: `decompiled_minecraft/1.20.4/mojmap.ready.json` (`fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1`) and `decompiled_minecraft/26.2/unobfuscated.ready.json` (`a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`). Corresponding provenance JSON SHA-256s: `10914d9b7b3fc29de066ca24f7d905e4d4f0a451a6c81729a2d1981addfc1385` and `a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1`.
+- Exact relevant source file SHA-256s, verified against the two source manifests:
+  - 1.20.4 `client/player/LocalPlayer.java`: `bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5`; `world/entity/player/Player.java`: `218da60bc4f8c9279f56eb87e2cf2c0af79562fbe3d818a408429c656efb95dd`; `world/entity/LivingEntity.java`: `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`; `world/entity/Entity.java`: `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+  - 26.2 `client/player/LocalPlayer.java`: `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`; `world/entity/player/Player.java`: `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`; `world/entity/LivingEntity.java`: `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`; `world/entity/Entity.java`: `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`.
+
+### Source trace and reachability
+
+- In 1.20.4 `LocalPlayer.aiStep` (roughly lines 646–802), for a non-spectator with `mayfly`, a fresh jump press starts `jumpTriggerTime` at 7; another fresh press while that timer is nonzero toggles `abilities.flying`, if not swimming. There is no `jumpFromGround()` at that toggle site. The held jump flight acceleration later in this method is conditional on `abilities.flying && isControlledCamera()` and adds `input-jump * getFlyingSpeed() * 3.0F` to Y. The grounded-flight cleanup follows `super.aiStep()` (line ~801).
+- In 26.2 `LocalPlayer.aiStep` (lines 767–920), the corresponding fresh-press timer branch still sets 7 and toggles on a subsequent press, with non-spectator/non-swimming checks and the additional `(getVehicle() == null || jumpableVehicle() != null)` gate. On a toggle from not-flying to flying, the new code checks `onGround()` and calls `jumpFromGround()` immediately (lines 838–849). The same method then applies held-jump flight acceleration when flying and camera-controlled (lines 871–883), before `super.aiStep()`. Its grounded-flight cleanup is after that call (line ~915).
+- Reachable concrete sequence: active local creative-style ability (`mayfly=true`, `flying=false`), non-spectator, grounded, not swimming, not fall-flying, not riding, controlled camera; jump key up and `jumpTriggerTime=0`. First rising press sets timer to 7. Parent `Player.aiStep` decrements it after `LocalPlayer.aiStep`, leaving 6. One tick with jump released decrements to 5. A second rising press then sees positive timer 5 and toggles flight on. It passes all gates and the grounded branch invokes `jumpFromGround()` before the usual LivingEntity jump/travel step. Thus the timer/edge gates do not make the direct jump unreachable.
+- Numeric first-tick witness (ordinary solid ground, no jump effect/modifier or sprint, no existing upward velocity, default jump attribute): 26.2 `Attributes.JUMP_STRENGTH` defaults to `0.42F`; `LivingEntity.jumpFromGround` writes `max(0.42F, currentY)`. With jump still held, local flight input adds `0.05F * 3.0F = 0.15F`. The subsequent `LivingEntity.aiStep` jump handling also runs while grounded and jumping, but uses `max(jumpPower, movementY)`, so it preserves the resulting ~`0.57` Y instead of reducing it. `Player.travel` captures that Y before superclass travel and restores vertical velocity as captured Y times `0.6`, i.e. ~`0.342` after the first movement. The same call stack reaches travel/move in this tick; the restored velocity is post-travel state, not the displacement amount. Vanilla collision/travel inputs determine actual displacement.
+- `LivingEntity.jumpFromGround` in 26.2 has the same core write as above and sprint impulse, setting movement Y to `max(jumpPower, oldY)`. Its jump check precedes travel in `LivingEntity.aiStep` (lines 3088–3142); that supports the same-tick sequence. The 26.2 `Player.travel` nonpassenger flying branch (lines 1402–1424) caches Y, runs superclass travel, and applies the `* 0.6` restoration.
+- Subsequent ordinary jump: after the player lands, 26.2 `LocalPlayer.aiStep` turns flight off when grounded outside spectator mode (post-`super.aiStep` guard). With flight off and the player grounded, a later normal jump reaches the ordinary `LivingEntity` jump path. This is separate from the immediate jump initiated by the flight toggle.
+
+**Independent conclusion (frozen):** the candidate operation is source-confirmed and reachable. The distinct delta is the 26.2 immediate grounded `jumpFromGround()` on the rising-edge ability-flight toggle; the existing 7-tick timer admits a second press (example leaves 5), and the call is followed by held vertical flight input, normal jump processing, travel/movement, and the flight `0.6` vertical-velocity restoration in the same tick.
+
+## Post-freeze audit correction
+
+The frozen trace’s first-pass concrete sequence began with the first jump press while grounded. That particular setup is not a valid ordinary-ground witness: the first press sets the 7-tick trigger, then the same tick’s normal grounded jump phase jumps, so the player is no longer grounded for an immediate second press. Keep the source conclusion, but use this independently checked reachable sequence instead:
+
+1. Start airborne and descending in ordinary fall (not fall-flying), with active `mayfly`, flight off, non-spectator, unmounted, not swimming, jump key up, `jumpTriggerTime=0`, and no jump-delay blocker. Put the feet `0.01` above a solid floor with downward Y velocity `-0.1`.
+2. On the first rising jump press, `LocalPlayer.aiStep` sees timer 0 and sets it to 7. The ordinary jump phase occurs before travel while still airborne, so does not call a grounded jump. The same tick’s downward movement hits the floor and sets on-ground from downward vertical collision. Parent `Player.aiStep` then decrements timer to 6.
+3. Keep jump released for the next grounded tick. Its normal movement leaves the player supported; the parent decrements timer 6 to 5.
+4. On the next rising press, the player is grounded and timer is still 5. The toggle succeeds, turns on flight, and calls `jumpFromGround()` directly. This resolves the requested second-press timer and grounded reachability gates without requiring a first jump to remain grounded.
+
+The grounded collision/on-ground update is in `26.2/unobfuscated/net/minecraft/world/entity/Entity.java` around `move` / `setOnGroundWithMovement` (lines 711 onward and 675–679); the timer decrement is `26.2/unobfuscated/net/minecraft/world/entity/player/Player.java` lines 442–444; the jump-before-travel order and grounded jump test are in `26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java` lines 3088–3142. This does not alter the frozen source comparison; it narrows the concrete reachability witness.
+
+## Comparison against the pinned witness report
+
+Compared only after the independent source trace was frozen. The supplied report SHA-256 matched `10e54c69c6126af5d7ddc860c5eec4e95549cf1708e9478630df3ff4f07428e6`.
+
+**Verdict: independently confirmed, with one witness clarification.** The report correctly identifies the 26.2 direct grounded jump call, the subsequent held-flight acceleration, the later ordinary jump using `max(jumpPower, currentY)`, 0.6 travel restoration, and absence of the direct jump at the 1.20.4 toggle site. Its stated conditions are the second-tap conditions, so they are compatible with a first tap during the final falling tick. The concrete first-tap/second-tap sequence above makes that reachability explicit. I found no claim that changes the source disposition. This is source acceptance only, not runtime parity evidence.
+
+The immutable independent-trace section as first frozen had SHA-256 `d0cb8fd59bb2e14d5d528397f312709e0af2c5cdccd8af97c90d7cea11959c43`; post-freeze correction and comparison are appended separately.

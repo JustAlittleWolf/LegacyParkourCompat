@@ -1,0 +1,25 @@
+# 1.16 → 1.16.1 local yaw movement source comparison
+
+## Frozen scope and verdict
+
+Compared exact Mojmap `1.16` and `1.16.1` sources for the direct ordinary yaw component only: `Entity.turn` current/previous rotation arithmetic and gates, plus the current-yaw contribution to ordinary nonfluid ground/air relative movement. **No difference found in this bounded scope.** This is a no-difference coverage result, not a claim that the full release pair is frozen.
+
+## Exact source identity
+
+- `1.16`, Mojmap: ready marker source-manifest SHA-256 `e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a`; source manifest file SHA-256 matched. Ready marker SHA-256 `5b6cb24f95e83b856c53f646d6477f2e46dae2276737dee56dd07c5bd745e4a`; provenance manifest SHA-256 `371d50521a183f4a3f42fac2d18021f228e0a4e6b2e8a9838c2805391709f2a9`. Provenance identifies exact release `1.16`, Mojmap, client SHA-256 `00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71`, and official mapping artifact SHA-256 `53d46abe149aadd367be8789207c53a7cee46ba8382e5bfd60247eb22984119d`.
+- `1.16.1`, Mojmap: ready marker source-manifest SHA-256 `76fdd121070c2012f48cbdf5cf0c78490116afc94117c30b0858eedcd6ab9754`; source manifest file SHA-256 matched. Ready marker SHA-256 `c19d707f7d6622733b5189599ff77aa7999cc11a3d900f29d150f9fab203ffcb`; provenance manifest SHA-256 `a6ff065188a400ec891980cdf2e6c0c238bf5e05168a2f69b29c6cecc2214b98`. Provenance identifies exact release `1.16.1`, Mojmap, client SHA-256 `b4831e7b63b10588ff06ea86322108d916c536446f3aea3ae988b7fe3e1f66ef`; the artifact manifest pins Mojmap mappings at SHA-256 `6cc374f819bca44d940f8912044b07bdac3e240a02e37117ae1d4ad63c21409b`.
+- Relevant source files were checked against both source manifests. `Entity.java` SHA-256 is `27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576` in both releases; `LivingEntity.java` SHA-256 is `b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26` in both releases. Their source bytes are identical across this pair.
+
+## Compared slices
+
+- `net/minecraft/world/entity/Entity.java`, `turn`, lines 332–344 in both releases. Both take `double d, double e`; compute `f = e * 0.15` then `g = d * 0.15` as doubles; add/cast each to current `xRot`/`yRot`; clamp current `xRot`; add/cast the same doubles to previous `xRotO`/`yRotO`; clamp previous `xRotO`; then notify a vehicle if present. Operation order, widths, casts and gates are unchanged. For yaw specifically, current and previous yaw each receive `g` separately with a float cast after double addition; neither is clamped here.
+- `Entity.java`, `load`, lines 1394–1427 in both releases. Rotation list values are read as floats into current yaw/pitch, then copied to previous yaw/pitch before validity checks. Nonfinite position coordinates throw. The joint current-yaw/current-pitch finite gate guards position reapplication and `setRot`; no separate previous-rotation finite gate is present. Ordering and gate are unchanged.
+- `Entity.java`, `moveRelative` / `getInputVector`, lines 1073–1088 in both releases. `moveRelative` passes the current `yRot` to the helper, then adds the returned vector to delta movement. The helper's length-squared threshold (`< 1.0E-7`), normalize-only-if-`> 1.0` rule, scaling order and yaw rotation expression are unchanged.
+- `net/minecraft/world/entity/LivingEntity.java`, `jumpFromGround`, lines 1880–1893 in both releases. It sets vertical jump velocity, then only when sprinting adds the yaw-derived horizontal impulse `(-Mth.sin(g) * 0.2F, 0.0, Mth.cos(g) * 0.2F)`, where `g` is the current float yaw multiplied by float `(Math.PI / 180.0)`. The gate, float width, operation order and impulse are unchanged.
+- `net/minecraft/world/entity/LivingEntity.java`, `travel`, lines 1912–2043, and `handleRelativeFrictionAndCalculateMovement`, lines 2060–2069 in both releases. Under the effective-AI/local-control gate, the ordinary branch after water, lava and fall-flying branches obtains block friction and calls `handleRelativeFrictionAndCalculateMovement`; that method contributes the yaw-relative input via `moveRelative(getFrictionInfluencedSpeed(f), vec3)` before collision movement. This same ordinary nonfluid ground/air route and call order occur in both releases. Ground/air affects the friction selection, not which yaw-relative contribution is called.
+
+The `getInputVector` trigonometric implementation and the speed/acceleration computation are separate dependencies and were not treated as independent yaw findings here. Mouse/input-device plumbing, pitch behavior, flight movement and collision outcomes were outside this slice.
+
+## Coverage boundary
+
+Examined the bounded yaw mutation, its load-time current/previous rotation initialization and finite guard, the sprint-jump yaw impulse, and ordinary nonfluid ground/air relative-velocity contribution. No claim is made about the remainder of the player tick, intermediate-release introduction boundaries, or the separate acceleration/trigonometry dependencies.
