@@ -7,7 +7,9 @@ import me.wolfii.legacyparkourcompat.mechanic.PlayerCorrectionContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.DirectPlayerPositionCorrectionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.ForcedRotationPitchHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionPositionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionPitchStateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.network.PlayerCorrectionRotationHook;
+import me.wolfii.legacyparkourcompat.mixin.accessor.EntityRotationAccessor;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.game.ClientboundPlayerRotationPacket;
@@ -67,11 +69,15 @@ public abstract class ClientPacketListenerMixin {
     ) {
         LocalPlayer previous = PlayerCorrectionContext.player();
         PlayerCorrectionRotationHook.Angles historicalAngles = null;
+        PlayerCorrectionPitchStateHook.PitchState historicalPitch = null;
         DirectPlayerPositionCorrectionHook positionCorrection = entity instanceof LocalPlayer player
             ? MovementRuntime.find(DirectPlayerPositionCorrectionHook.class, player).orElse(null)
             : null;
         Vec3 previousDeltaMovement = positionCorrection == null ? null : entity.getDeltaMovement();
         if (!interpolate && entity instanceof LocalPlayer player && MovementRuntime.appliesTo(player)) {
+            historicalPitch = MovementRuntime.find(PlayerCorrectionPitchStateHook.class, player)
+                .flatMap(hook -> hook.resolvedState(player.getXRot(), change.xRot(), relatives.contains(Relative.X_ROT)))
+                .orElse(null);
             PlayerCorrectionContext.set(player);
             historicalAngles = MovementRuntime.find(PlayerCorrectionRotationHook.class, player)
                 .map(hook -> hook.apply(player.getYRot(), player.getXRot(), change.yRot(), change.xRot(),
@@ -91,6 +97,10 @@ public abstract class ClientPacketListenerMixin {
                 // absMoveTo copies the angles after the setters, including their finite checks.
                 entity.yRotO = entity.getYRot();
                 entity.xRotO = entity.getXRot();
+            }
+            if (historicalPitch != null) {
+                entity.xRotO = historicalPitch.previousPitch();
+                ((EntityRotationAccessor) entity).legacyparkourcompat$setRawXRot(historicalPitch.currentPitch());
             }
             return result;
         } finally {
