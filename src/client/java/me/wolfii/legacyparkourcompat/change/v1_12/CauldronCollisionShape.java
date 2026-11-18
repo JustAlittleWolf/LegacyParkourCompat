@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -23,18 +24,21 @@ import java.util.Optional;
  * upper interior from the full block. Preserve the old five component bounds
  * for empty and water cauldrons; level does not select collision geometry.
  * The native outline remains unchanged.
- * Union decomposition and internal collision planes can differ from the old
- * collector's five separate boxes, so this does not claim strict clipping parity.
+ * Ordinary shape queries use the occupied union. The dry movement collector
+ * can request the authored parts for its bounded 1.8.9 clipping witness.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class CauldronCollisionShape implements BlockCollisionShapeHook {
-    private static final VoxelShape SHAPE = Shapes.or(
+    private static final List<VoxelShape> PARTS = List.of(
         Shapes.box(0.0, 0.0, 0.0, 1.0, 5.0 / 16.0, 1.0),
         Shapes.box(0.0, 0.0, 0.0, 2.0 / 16.0, 1.0, 1.0),
         Shapes.box(0.0, 0.0, 0.0, 1.0, 1.0, 2.0 / 16.0),
         Shapes.box(14.0 / 16.0, 0.0, 0.0, 1.0, 1.0, 1.0),
         Shapes.box(0.0, 0.0, 14.0 / 16.0, 1.0, 1.0, 1.0)
     );
+
+    private static final VoxelShape SHAPE = Shapes.or(PARTS.getFirst(),
+        PARTS.subList(1, PARTS.size()).toArray(VoxelShape[]::new));
 
     private final String blockId;
 
@@ -53,6 +57,13 @@ public final class CauldronCollisionShape implements BlockCollisionShapeHook {
     @Override
     public String blockId() {
         return this.blockId;
+    }
+
+    @Override
+    public Optional<List<VoxelShape>> collisionShapes(
+        BlockState state, BlockGetter level, BlockPos pos, CollisionContext context
+    ) {
+        return Optional.of(state.is(Blocks.CAULDRON) ? PARTS : List.of(SHAPE));
     }
 
     @Override
