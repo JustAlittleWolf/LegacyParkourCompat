@@ -7807,6 +7807,24 @@
             "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
           },
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
+          "independentVerdict": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/early-seam-audit.md",
+            "sha256": "0e7b1c063e8defdf706a82ddac459591feea50c09ef2b044998339e6c1e5aeae"
+          },
+          "decision": "Shared ordinary getBlockCollisions cursor yields equivalent candidates at a fixed, already-loaded FULL chunk seam away from the border. The 1.17.1 one-axis direct route, wider scan gates and downstream math stay open."
+        },
+        {
+          "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
+          "independentVerdict": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/early-scaffolding-audit.md",
+            "sha256": "214d719cfc41e6eca428b3dd6c4644bea04dd4b5d4369d8875cdba9793606ed3"
+          },
+          "decision": "Exact 1.18 to 1.18.1 and 1.18.1 to 1.18.2 dry legal fixed Scaffolding retain the context/shape gates and ordinary collision-and-step consumer. Scheduled falling updates, fluid support and climb/contact effects stay separate."
         }
       ]
     },
@@ -8324,6 +8342,15 @@
             }
           ],
           "decision": "Accepted Frost non-air gate at exact 1.19.4 to 1.20, with 1.20.2 confirming continuation. Tracked support replaces center-floor selection where present. Empty support omits the earlier lower special-block check. Retry needs an empty first result, onGroundNoBlocks false and a known movement vector. Frost-specific product alias coverage remains open."
+        },
+        {
+          "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
+          "independentVerdict": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/mid-registry-audit.md",
+            "sha256": "b61f291157d04f042d990a8e785f8e1921ccc5b24656f090aaeb809d2956f19f"
+          },
+          "decision": "Pinned 1.19.4 to 1.20 to 1.20.1 registry/material rewrite preserves ordinary collision and direct motion-blocking for the reviewed Hive/Nest, Lantern, End Rod, and Dirt Path roster."
         }
       ]
     },
@@ -9391,6 +9418,15 @@
             "sha256": "46606b1f91a907baf867704916db4ea5003b9eb1264ef090d00f043fc1661aa9"
           },
           "decision": "Accept bounded conditional continuity of body admission and height, current and player normalization, eye sampling plus the actual LocalPlayer cached reader/order, and the first ordinary water/lava update including the swimming prelude. The corrected author pin supersedes the older digest issue."
+        },
+        {
+          "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
+          "independentVerdict": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/late-geometry-audit.md",
+            "sha256": "49909a2ab58a65b22210f2fc2b34f0dd21f6d1c0393a7a3d9fb6374d00ffd5db"
+          },
+          "decision": "Exact 1.20.2 to 1.20.3 and 1.20.3 to 1.20.4 codec/provider edges preserve audited legal dry collision, support and step-response behavior for Scaffolding, Dripleaf and its stem, Pointed Dripstone, Turtle Egg and Chain."
         }
       ]
     },
@@ -21760,6 +21796,20 @@
           },
           "sourceProvenanceQualification": "Published-ready; 1.15.2 ready marker lacks an explicit provenance link; pins and separate provenance hash are documented.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
+          "independentVerdict": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/beehive-audit.md",
+            "sha256": "6f73d025cf849c0ad25225cc2d7402b2165dd9e119956b0c33ee39d71b1913a7"
+          },
+          "decision": "Fixed dry hive, nest, concrete and ordinary stationary concrete powder retain registered collision geometry. Drops and special falling/hardening operations remain outside this disposition.",
+          "report": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/beehive-source.md",
+            "sha256": "2f8b36753699a05f93fa54dcb04671f2288353d640f0136a06760a728ff10811"
+          }
         }
       ]
     },
@@ -22266,6 +22316,48 @@
           ],
           "sourceProvenanceQualification": "Published-ready; includes the separately bound `identity.md` sidecar.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
+          "independentVerdict": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/stationary-audit.md",
+            "sha256": "c98760ed6eff373e5f72a5db55a1a94f356a670125c871ed29dbece1a42bfb34"
+          },
+          "decision": "Fixed dry anvil, bell, lectern, grindstone and stonecutter retain the audited ordinary collision shapes and dispatch.",
+          "report": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/stationary-source.md",
+            "sha256": "366dddc1158f331d1c13e3b18048264813945f0804084413fc7b1e57ec2bd495"
+          }
+        },
+        {
+          "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
+          "independentVerdict": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/containers-audit.md",
+            "sha256": "75fe0b5317ad377abdcce5ee3f41683264bc83a356cad68bd8a7f276680e7d85"
+          },
+          "decision": "Ordinary, trapped and Ender Chests plus Hopper retain the audited stationary shapes and ordinary collision dispatch. Preserve the stated cache and query scope.",
+          "report": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/containers-source.md",
+            "sha256": "e1695d8b7f475d463c5dcf7622110efb1cbc778f8447a10bd63e7e456e355003"
+          }
+        },
+        {
+          "snapshot": "fb482b8a55df11732ac6d8788a65e19862a78116",
+          "independentVerdict": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/connected-audit.md",
+            "sha256": "baef5ebe3d56502504fac6296f4c576408077792b23f07554a3e7f15f74bbb87"
+          },
+          "decision": "Dry fixed cobblestone wall, Oak and Nether Brick Fence, Iron Bars and Glass Pane retain audited ordinary shapes, state selection and query behavior. The independent audit corrects source line starts and includes its BlockBehaviour comparison. The original producer documentation pin remains open.",
+          "report": {
+            "revision": "fb482b8a55df11732ac6d8788a65e19862a78116",
+            "path": "development/research/source-evidence/20261118/block-b-mid-patch-providers/connected-source.md",
+            "sha256": "fabb721a6a64ae2816a5751167fa9525dab02a07ddda48805b819bc5e3896d5a"
+          }
         }
       ]
     },
