@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "generatedBy": "PowerShell Get-FileHash SHA256",
+  "files": {
+    "source-roster.txt": "2d40192c852c2e52a85342f451488fd211cfa06e86f276935223f6eb0c5e0690",
+    "comparison.md": "e18be223845bbed936496eef5ebe8fbce5489a1b7a6e297197bb1308e4d15415"
+  }
+}
