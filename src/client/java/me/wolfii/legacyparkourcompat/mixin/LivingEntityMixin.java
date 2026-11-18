@@ -131,7 +131,9 @@ abstract class LivingEntityMixin {
 
     @WrapMethod(method = "travelInAir(Lnet/minecraft/world/phys/Vec3;)V")
     private void legacyparkourcompat$scopeHoneyAirTravel(Vec3 input, Operation<Void> original) {
-        HoneyContactScope.duringAirTravel((LivingEntity)(Object)this, () -> original.call(input));
+        LivingEntity entity = (LivingEntity)(Object)this;
+        MovementRuntime.observeAutoJumpAirTravel(entity, input,
+            () -> HoneyContactScope.duringAirTravel(entity, () -> original.call(input)));
     }
 
     @Inject(method = "isPushable()Z", at = @At("RETURN"), cancellable = true)

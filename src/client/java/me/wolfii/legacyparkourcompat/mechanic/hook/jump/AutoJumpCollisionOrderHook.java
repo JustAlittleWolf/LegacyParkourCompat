@@ -9,6 +9,7 @@ import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.Nullable;
 
 /** Supplies collision candidates in the historical order used by auto-jump. */
 @FunctionalInterface
@@ -23,5 +24,10 @@ public interface AutoJumpCollisionOrderHook extends VersionedMechanic {
         return this.autoJumpCollisions(player, level, query, selected, vanilla);
     }
 
-    record ProbeSegments(Vec3 leftStart, Vec3 leftEnd, Vec3 rightStart, Vec3 rightEnd) {}
+    default boolean observesGroundedTravel() {
+        return false;
+    }
+
+    record ProbeSegments(Vec3 leftStart, Vec3 leftEnd, Vec3 rightStart, Vec3 rightEnd,
+                         @Nullable Vec3 groundedTravelStart) {}
 }
