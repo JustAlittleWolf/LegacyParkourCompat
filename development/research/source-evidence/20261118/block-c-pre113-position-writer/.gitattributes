@@ -2,3 +2,5 @@
 /verdict.md -text whitespace=cr-at-eol
 /alias-comparison.md -text whitespace=cr-at-eol
 /alias-verdict.md -text whitespace=cr-at-eol
+/final-alias-comparison.md -text whitespace=cr-at-eol
+/final-alias-verdict.md -text whitespace=cr-at-eol
