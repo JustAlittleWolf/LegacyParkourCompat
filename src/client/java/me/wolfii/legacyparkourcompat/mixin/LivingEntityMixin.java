@@ -165,7 +165,7 @@ abstract class LivingEntityMixin {
         target = "Lnet/minecraft/world/entity/LivingEntity;setXRot(F)V"))
     private void legacyparkourcompat$sleepPitchReset(LivingEntity entity, float pitch, Operation<Void> original) {
         boolean resets = MovementRuntime.find(SleepPitchResetHook.class, entity)
-            .map(hook -> hook.resetsPitch(MovementRuntime.profile(entity).target()))
+            .map(SleepPitchResetHook::resetsPitch)
             .orElse(true);
         if (resets) {
             original.call(entity, pitch);
