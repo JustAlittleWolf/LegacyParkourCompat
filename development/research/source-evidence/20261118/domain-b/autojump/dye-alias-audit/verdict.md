@@ -1,0 +1,30 @@
+# Independent AutoJump candidate provider audit
+
+Status: **COMPLETED — PASS for both bounded batches.** This independently verifies only the loaded, interior, entity-free, border-free AutoJump query/provider substitution claims supplied for audit. It does not accept the whole AutoJump operation or establish runtime parity.
+
+## Immutable inputs
+
+- Plain-block source report: `candidate-base-alias-source.md`, SHA-256 `A5E1D939D50DFE835E9A920BB497065C0C3BA457307A6C8033DAB18833844AA4` (verified against exact bytes).
+- Dye source report: `candidate-dye-alias-source/evidence.md`, SHA-256 `561DFF455D748AB31994838EC2DBFCCFB6AB2B5D4AFB26605AA6EBA5EA678735` (verified against exact bytes).
+- Exact historical inputs checked: 1.13, 1.13.1, 1.13.2 and 1.14 Ornithe Feather Gen2 build.2; 1.14.1 Yarn build.10. The listed provenance and source-manifest digests match the source tree. 1.13.1 and 1.13.2 `Block.java` and `Blocks.java` have identical hashes as reported. I inspected the exact AutoJump, collision-query, registration, shape-provider and relevant state-predicate bodies directly.
+- 26.2 was inspected only for raw dye-color names and wool/concrete registry identifier derivation/registration (`BlockItemIds`, `ColorCollection` and the wool/concrete registration declarations). No modern collision/provider implementation was consulted.
+
+## Batch A — plain dirt, cobblestone, oak planks
+
+**Verdict: PASS for all three substitutions in all five historical releases.** Each is a distinct ordinary block identity, but the same full unit-cube collision shape provider as stone; none has a candidate-specific subclass or provider flag that affects this query. Replacing stone by any of these names therefore preserves the collision shape and the query's emitted shape/order contribution.
+
+In 1.13, 1.13.1, 1.13.2 and 1.14 the queried block-collision path takes the full-cube singleton identity branch and folds occupied cells into the aggregate voxel set. Every named block returns that same singleton. Their cells therefore make the same aggregate occupancy; the merge branch does not distinguish the block registry identities.
+
+In 1.14.1 the AutoJump caller uses the `ViewableWorld.getCollisionShapes(Entity, BoundingBox, Set)` overload. In the requested domain there is no border output, no entity output and all relevant chunks/cells are loaded. Its block iterator uses bounds `floor(min - 1.0E-7) - 1` through `floor(max + 1.0E-7) + 1` on each axis, skips only cells with all three edge flags set, and applies the `method_17900` shape-extends-outside-unit-cell gate for one-edge cells; for two-edge cells it checks the moving-piston singleton identity. The ordinary aliases and stone all have a unit-cube collision shape, so their edge predicate result is equal (false) and none is the moving-piston identity. The block iterator and candidate order are unchanged by substitution. This is a per-block query, not the older full-cube singleton aggregation path.
+
+For each source version, AutoJump first queries the block at the player's bounding-box top (`getShape().maxY` in 1.13–1.14; `getBoundingBox().maxY` in 1.14.1), then the block one cell above; both must have empty collision shapes. It builds the candidate query from the player's current bottom point to the moved bottom point plus player height, expanded/grown horizontally by player width. The two side-lane segments use endpoints raised by `0.51`; candidates must intersect one of those segments. For an intersecting candidate box, the code samples its center, checks collision shapes at `centerBlockPos.up(t)` for integer `t >= 1 && t < o`, updates the clearance cursor only when `t > 1`, and rejects if a sampled shape exceeds jump clearance. The comparison threshold `o` begins at `1.2F` and can be increased by Jump Boost. Finally the found candidate top is compared with the player's bottom: jump is armed only when height exceeds `0.5F` and is at most `o`. All these provider reads depend on the common full-cube shape and its maximum Y/emptiness; none of the three aliases changes them.
+
+## Batch B — non-white wool and concrete variants
+
+**Verdict: PASS for each of the 15 named non-white colors in both families, in all five historical releases.** The registry spellings are the 15 non-white color prefixes, including `light_gray`; the old Feather dye/map-color symbol `SILVER` for light gray changes only the color argument, not the block identifier or collision provider. Historical declarations register each color as a distinct ordinary `Block` with the family material and color-dependent map color. Family collision/strength/sound properties are shared across that family, and the base shape/collision implementation is common to all variants. No color-specific collision subclass, shape override, or query identity predicate is present in the audited provider route. The 1.14.1 one-edge shape predicate and moving-piston check likewise do not distinguish these variants. Each variant consequently has the same inclusion result, per-block iteration position and clearance geometry as white within the specified query envelope.
+
+The 26.2 evidence confirms only that a 16-entry color collection plus `prefixWithColor`/`createSimpleColored` yields separate `*_wool` and `*_concrete` IDs, and that those IDs feed the named registration families. It supports raw-state representability/name spelling, not any modern collision behavior or historical parity.
+
+## Scope and residual limits
+
+No misidentified era block state or movement-input delta was found inside these provider proofs. The reports correctly keep coarse dirt, other block families/shapes, arbitrary block-identity checks, entity/world-border/unloaded-cell cases, non-provider predicates and source patch cutover timing outside this verification. The separately established stone timing witness was explicitly not re-evaluated. Same input geometry is assumed when comparing a substitution; this verdict does not audit AutoJump's independent input, speed, effect, timing or movement-vector calculations. No product source, Git history, backlog, wiki material, tests, build or game launch was accessed.

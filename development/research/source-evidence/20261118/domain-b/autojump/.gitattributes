@@ -1,0 +1,3 @@
+/detector-entry-audit/audit.md -text whitespace=cr-at-eol,-blank-at-eof
+/dye-alias-source/evidence.md -text whitespace=cr-at-eol,-blank-at-eof
+/reference-y-audit/autojump-y-independent-audit.md -text whitespace=cr-at-eol,-blank-at-eof
