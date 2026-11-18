@@ -25,3 +25,7 @@ For a non-spectating standing player whose feet are at the farmland surface (`po
 With `requireLoaded=false`, that call skips `entity.tick()` while running the remaining world/chunk update path. 1.11.2's `setPosition` changes current coordinates and bounding box without those teleport updates.
 
 Movement meaning: The player movement path is `PlayerEntity` (inheriting `Entity.move`) -> landing support `BlockState` selection -> `Entity.checkFallDamage` -> `FarmlandBlock.onFallenOn` -> `FarmlandBlock.setDirt` -> `World.getEntities(null,box)` -> player position update.
+
+## Absolute server-player correction
+
+Stable 1.12.2 is the first checked release in this interval whose farmland relocation calls virtual `teleport`. For `ServerPlayerEntity`, the existing override sends an absolute position correction through `ServerPlayNetworkHandler.teleport`. The direct `setPosition` path in 1.11.2, 1.12, and 1.12.1 bypasses that producer. The four checked `ClientPlayNetworkHandler.handlePlayerMove` receiver bodies are identical. [Receiver comparison](../../source-evidence/20261118/block-a-farmland-absolute-correction/receiver.md), [independent audit](../../source-evidence/20261118/block-a-farmland-absolute-correction/verdict.md).
