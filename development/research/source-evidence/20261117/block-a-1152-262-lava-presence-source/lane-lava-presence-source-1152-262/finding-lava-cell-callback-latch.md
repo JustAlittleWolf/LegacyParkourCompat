@@ -1,0 +1,11 @@
+# Lava presence uses a block-cell latch in 1.15.2
+
+1.15.2, Mojmap: net/minecraft/world/entity/Entity.java, Entity.move resets the lava bit then calls checkInsideBlocks after movement (:533-540), the AABB cell scan invokes BlockState.entityInside (:791-823), and isInLava returns the stored bit (:1055-1060). net/minecraft/world/level/block/LiquidBlock.java, entityInside sets it when the block's fluid is in FluidTags.LAVA (:170-175).
+
+26.2, published unobfuscated: net/minecraft/world/entity/Entity.java, baseTick updates fluid interaction before living AI (:510-558, LivingEntity.java:2764-2806); isInLava reads the current tracker and rejects firstTick (Entity.java:1742-1744). net/minecraft/world/entity/EntityFluidInteraction.java, update scans a deflated box after the FULL-chunk/fluid-section gate, contributes only fluid surfaces at or above the box bottom, and reports in-fluid only for height greater than zero (:32-83, 91-119, 139-150).
+
+Difference: The same stored block state in both endpoints is Blocks.LAVA with LiquidBlock.LEVEL=7; its state cache resolves to Fluids.FLOWING_LAVA with FlowingFluid.LEVEL=1, FALLING=false, and amount 1. With no same lava above, the surface is 1/9.0F. For an on-foot player's box overlapping the block cell but with box.minY=1/3, the old callback latches lava presence while the new height sample has no fluid overlap. This movement difference is conditional on effective runtime FluidTags.LAVA membership: the old block callback tests its Fluids.LAVA field; the new sample tests the derived Fluids.FLOWING_LAVA type. Runtime tag-resource applicability remains unverified.
+
+Movement meaning: After a prior old movement callback leaves the latch set, held jump and travel read lava presence in the following living step; at the same position and vertical velocity, the 26.2 sample does not. Under the audited airborne, nonflying, loaded, no-other-fluid witness, this changes the held-jump/travel path and can produce a one-tick position and velocity difference. The bounded witness uses identical stored LiquidBlock.LEVEL=7 in both sources; fluid-state amount 1 is not the block-state level.
+
+Independent scope verdict: ../lane-lava-presence-source-1152-262-audit/verdict.md, SHA-256 8bfab8259c6db91742dac0f199599caa67600144ec6aedce2205ec288f030a36.
