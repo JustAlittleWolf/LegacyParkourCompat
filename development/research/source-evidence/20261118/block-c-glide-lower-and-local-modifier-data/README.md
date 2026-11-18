@@ -1,0 +1,14 @@
+# Glide lower gates and packaged modifier data (2026-11-18)
+
+This receipt archives four exact source/audit pairs. Frozen inputs are copied byte-for-byte; independent verdicts control corrections and limits for each report. These source findings do not establish product reachability or runtime parity.
+
+| Pair | Report SHA-256 | Audit verdict SHA-256 | Bounded disposition |
+|---|---|---|---|
+| 1.17.1→1.18 Elytra lower gate at climbable feet | `7d0db2cef6a8973477996de2999785421a5329e5dcce236e412225196845e85a` | `75405bdfcbb049131c0f18d2d979d7ecaf921379cb9fa58d386cef48e07602de` | Accepted unchanged for the bounded already-active dry glide operation: strict vertical `> -0.5` pre-move write of `1.0F`; the ordinary climbable cleanup path is bypassed. Product reachability remains a separate hold. |
+| 1.18→1.18.1 Elytra lower gate at climbable feet | `0549a8d8d7b3df67423796f645ea826ea70f24bb2ea58da097c66bea90c28cc9` | `f566b0573966180bf411be73fd6bc7557db1595e05ab9077bd1bbcbc2c0587e2` | Bounded no-difference result accepted. The verdict corrects the report's provenance conclusion and `LocalPlayer.java` hash typo; raw cached artifacts are unavailable for independent rehashing, while adjacent manifests and run records support exact source provenance. Product reachability remains separate. |
+| 1.21.6→1.21.7 packaged movement modifiers | `e53dbac9f90967a87743ce0e61db2db916191b12fae8863877ba3dcbd3bc7be5` | `d36cb8a8b552add66d5ed49a1ef1099b67b1bdb4c2ca0a02f084cd5d89e0a9fd` | Accepted for the exact inspected entries: packaged payload bytes are identical, with the two cached client JAR inputs independently verified. Adjacent .5/.8/.10 cached client JARs were absent in the bounded checks; no generalization to those releases or all modifier data is made. |
+| 1.18.1→1.18.2 Elytra lower gate | `48fffbee8c60d8039bcd0d1a90b8a2f0a3445c768969d76592b7c8a487abe5af` | `dd3e31ef596288d232f5b74c5ec91a4d134f6a07882ad35bdc6cfa7b23960ed2` | Accepted for the bounded pre-move assignment: both sides use entry vertical velocity strictly greater than `-0.5` to write `fallDistance = 1.0F`; possible later 1.18.2 move reset is separate. The verdict's report-hash transcription is corrected by the independently attested `1.18.1-1.18.2/input-identity-correction.md` (SHA-256 `805448afa98957571e76a72eae89c3db9d3330063c1e4362de857213301cc874`); the original verdict remains unchanged. Not full-pair or runtime parity. |
+
+This receipt does not resolve implementation reachability. It does not alter the product or central backlog.
+
+The report/verdict files are frozen byte-for-byte copies. Static whitespace checking uses Git's `cr-at-eol`, `-blank-at-eof`, and `-trailing-space` exceptions for these verbatim artifacts where original CRLF, Markdown hard-break spaces, other trailing-space, or final blank-line bytes require it; the README uses LF without trailing whitespace.
