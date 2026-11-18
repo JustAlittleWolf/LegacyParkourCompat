@@ -538,13 +538,16 @@ abstract class LocalPlayerMixin {
         Level level,
         Entity source,
         AABB query,
-        Operation<Iterable<VoxelShape>> vanilla
+        Operation<Iterable<VoxelShape>> vanilla,
+        @Local(name = "leftSegBegin") Vec3 leftStart, @Local(name = "leftSegEnd") Vec3 leftEnd,
+        @Local(name = "rightSegBegin") Vec3 rightStart, @Local(name = "rightSegEnd") Vec3 rightEnd
     ) {
         Player player = (Player) (Object) this;
+        var probes = new AutoJumpCollisionOrderHook.ProbeSegments(leftStart, leftEnd, rightStart, rightEnd);
         java.util.function.Supplier<Iterable<VoxelShape>> resolveCandidates = () ->
             MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
                 .map(change -> change.autoJumpCollisions(player, level, query,
-                    MovementRuntime.profile(player).target(), () -> vanilla.call(level, source, query)))
+                    MovementRuntime.profile(player).target(), probes, () -> vanilla.call(level, source, query)))
                 .orElseGet(() -> vanilla.call(level, source, query));
         Iterable<VoxelShape> candidates = MovementRuntime.find(WorldBlockQueryBoundsHook.class, player)
             .flatMap(change -> change.bounds(query))

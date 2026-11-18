@@ -54,4 +54,10 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
         ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla) {
         return AutoJumpFullCubeCandidates.collect(player, level, query, selected, vanilla);
     }
+
+    @Override
+    public Iterable<VoxelShape> autoJumpCollisions(Player player, CollisionGetter level, AABB query,
+        ParkourVersion selected, ProbeSegments probes, VanillaFn<Iterable<VoxelShape>> vanilla) {
+        return AutoJumpFullCubeCandidates.collect(player, level, query, selected, vanilla, probes);
+    }
 }

@@ -1,8 +1,12 @@
 package me.wolfii.legacyparkourcompat.change.common;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.collision.LegacyVoxelShapeBoxes;
+import me.wolfii.legacyparkourcompat.mechanic.collision.RawArrayVoxelShape;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook.ProbeSegments;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpPartialCandidateHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +27,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -45,14 +50,20 @@ public final class AutoJumpFullCubeCandidates {
     public static Iterable<VoxelShape> collect(Player player, CollisionGetter level, AABB query,
                                                    ParkourVersion selected,
                                                    VanillaFn<Iterable<VoxelShape>> vanilla) {
-        List<VoxelShape> aggregate = aggregate(player, level, query, selected);
+        return collect(player, level, query, selected, vanilla, null);
+    }
+
+    public static Iterable<VoxelShape> collect(Player player, CollisionGetter level, AABB query,
+                                               ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla,
+                                               @Nullable ProbeSegments probes) {
+        List<VoxelShape> aggregate = aggregate(player, level, query, selected, probes);
         return aggregate == null
             ? AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla)
             : aggregate;
     }
 
     private static List<VoxelShape> aggregate(Player player, CollisionGetter level, AABB query,
-                                               ParkourVersion selected) {
+                                               ParkourVersion selected, @Nullable ProbeSegments probes) {
         if (query.getXsize() <= 0.0 || query.getYsize() <= 0.0 || query.getZsize() <= 0.0
             || !Double.isFinite(query.minX) || !Double.isFinite(query.minY) || !Double.isFinite(query.minZ)
             || !Double.isFinite(query.maxX) || !Double.isFinite(query.maxY) || !Double.isFinite(query.maxZ)) {
@@ -110,6 +121,9 @@ public final class AutoJumpFullCubeCandidates {
         }
 
         List<Cell> fullCells = new ArrayList<>();
+        AutoJumpPartialCandidateHook.Partial partial = null;
+        boolean stoneAndAir = true;
+        int stoneCells = 0;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         CollisionContext context = CollisionContext.of(player);
         for (int x = minX; x < maxX; x++) {
@@ -146,12 +160,23 @@ public final class AutoJumpFullCubeCandidates {
                         continue;
                     }
                     if (state.isAir()) {
+                        stoneAndAir &= state.is(Blocks.AIR);
                         continue;
                     }
-                    if ((!AutoJumpCollisionCandidates.isHistoricalFullCube(state)
-                        && !NON_WHITE_WOOL_AND_CONCRETE.contains(state.getBlock()))
-                        || state.getCollisionShape(level, pos, context) != Shapes.block()) {
-                        return null;
+                    if (!AutoJumpCollisionCandidates.isHistoricalFullCube(state)
+                        && !NON_WHITE_WOOL_AND_CONCRETE.contains(state.getBlock())) {
+                        if (probes == null || partial != null || !includedForSelected) return null;
+                        partial = MovementRuntime.find(AutoJumpPartialCandidateHook.class, player)
+                            .flatMap(hook -> hook.candidate(player, world, query, probes, state, pos, context))
+                            .orElse(null);
+                        if (partial == null) return null;
+                        continue;
+                    }
+                    if (state.getCollisionShape(level, pos, context) != Shapes.block()) return null;
+                    if (state.is(Blocks.STONE)) {
+                        stoneCells++;
+                    } else {
+                        stoneAndAir = false;
                     }
                     if (includesV1_13 != includesV1_13_1) {
                         return null;
@@ -173,6 +198,9 @@ public final class AutoJumpFullCubeCandidates {
             }
         }
 
+        if (partial != null && (!stoneAndAir || stoneCells != partial.requiredFullCells()
+            || fullCells.size() != partial.requiredFullCells())) return null;
+
         BitSet cells = new BitSet(sizeX * sizeY * sizeZ);
         for (Cell cell : fullCells) {
             int x = cell.x - minX;
@@ -191,6 +219,11 @@ public final class AutoJumpFullCubeCandidates {
             if (result.stream().noneMatch(box -> Shapes.joinIsNotEmpty(probe, box, BooleanOp.AND))) {
                 return List.of();
             }
+        }
+        if (partial != null) {
+            VoxelShape probe = RawArrayVoxelShape.oneCell(query);
+            if (result.stream().noneMatch(box -> Shapes.joinIsNotEmpty(probe, box, BooleanOp.AND))) return null;
+            result.addFirst(partial.shape());
         }
         return List.copyOf(result);
     }
