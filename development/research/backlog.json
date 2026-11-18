@@ -17054,6 +17054,37 @@
             "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
           },
           "decision": "Accept the finite in-range direct pitch-source witness at the arithmetic-width boundary. Outputs are 60.000003814697266F and 60.00000762939453F respectively; the saturated example clamps to 90.0F on both sides. An actual changed next-move witness remains open."
+        },
+        {
+          "exactPair": "1.16.5--1.17",
+          "snapshot": {
+            "revision": "d84886cb7471e9b0a282e396409f43e623d4327e",
+            "path": "development/research/source-evidence/20261118/shulker-opening-push-product-applicability/applicability.md",
+            "sha256": "b1bc7bd08935b1548cdff0d0e721ed0a9c6e1f1b25dde605ef71c84b18b2b950"
+          },
+          "review": {
+            "revision": "aae9c86464638cb5ed7faa535c92569b89484906",
+            "path": "development/research/source-evidence/20261117/checkpoint01/mcpk-20261116/vd-full-checklist/shulker-push-cutover/review-revised-shulker-box-progress-push.md",
+            "sha256": "c9b4a39011efd065b318582a520644779b2e7ec1698e5a880348d550b75e6083"
+          },
+          "staticProductCode": [
+            {
+              "revision": "aae9c86464638cb5ed7faa535c92569b89484906",
+              "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/ShulkerOpeningPushAmount.java",
+              "sha256": "f1d0d5710a1727574dcb898e577119e2d2c675a455dd8c48247246020de78298"
+            },
+            {
+              "revision": "aae9c86464638cb5ed7faa535c92569b89484906",
+              "path": "src/client/java/me/wolfii/legacyparkourcompat/mixin/ShulkerBoxBlockEntityMixin.java",
+              "sha256": "a249b56dbe30c31a7cda7beb2027676d911c18153717790012b34d850e6feb6b"
+            },
+            {
+              "revision": "aae9c86464638cb5ed7faa535c92569b89484906",
+              "path": "src/main/java/me/wolfii/legacyparkourcompat/api/ParkourVersion.java",
+              "sha256": "04f35c28791cab6210851362c0e534085b37176f58bad14a341148ff4a413329"
+            }
+          ],
+          "decision": "Static existing-product correspondence is covered for the accepted 1.16.5 opening lid-slab overlap plus 0.01 amount, conditional on native 26.2 query admission of the LocalPlayer. The amount hook does not reproduce historical query membership or claim all earlier resolver aliases have exact source support."
         }
       ]
     },
@@ -18120,6 +18151,25 @@
           },
           "sourceProvenanceQualification": "Centrally authenticated nested source.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.9--1.9.1",
+          "snapshot": {
+            "revision": "ab60824c297b1cec393b04d4893d802dca478c36",
+            "path": "development/research/source-evidence/20261118/piston-response-19-192/1.9--1.9.1/source/comparison.md",
+            "sha256": "972367beb7e410616642b4d3956d60ae60e8f2c803bc13392513fe4840c90895"
+          },
+          "review": {
+            "revision": "ab60824c297b1cec393b04d4893d802dca478c36",
+            "path": "development/research/source-evidence/20261118/piston-response-19-192/1.9--1.9.1/blind-audit/verdict.md",
+            "sha256": "dc1375920945a65cb5a26424898a178f4c01f8519e795d49045f17b90e1fa002"
+          },
+          "frozenIndependentRoster": {
+            "revision": "ab60824c297b1cec393b04d4893d802dca478c36",
+            "path": "development/research/source-evidence/20261118/piston-response-19-192/1.9--1.9.1/blind-audit/frozen.md",
+            "sha256": "1be1b15d5d580d4a941a77a1b6ca5c09541874f258b41b438867cd6854ef7bbb"
+          },
+          "decision": "Accept conditional continuity in moving-piston callback admission, extension/retraction order, slime velocity component and axis-only requested move. The separate state-clear update flag changes 4 to 2; downstream movement consequences remain open."
         }
       ]
     },
@@ -18468,6 +18518,25 @@
           },
           "sourceProvenanceQualification": "Centrally authenticated legacy nested provenance.",
           "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.9.1--1.9.2",
+          "snapshot": {
+            "revision": "ab60824c297b1cec393b04d4893d802dca478c36",
+            "path": "development/research/source-evidence/20261118/piston-response-19-192/1.9.1--1.9.2/source/comparison.md",
+            "sha256": "90ef428831b2a9608e3af76e9091c82cb12d7c73dfff773de81f941579131867"
+          },
+          "review": {
+            "revision": "ab60824c297b1cec393b04d4893d802dca478c36",
+            "path": "development/research/source-evidence/20261118/piston-response-19-192/1.9.1--1.9.2/blind-audit/verdict.md",
+            "sha256": "7380cc08aae730923d98f3aeed5e319f015819174bb8b108f1cf10922da15a92"
+          },
+          "frozenIndependentRoster": {
+            "revision": "ab60824c297b1cec393b04d4893d802dca478c36",
+            "path": "development/research/source-evidence/20261118/piston-response-19-192/1.9.1--1.9.2/blind-audit/frozen.md",
+            "sha256": "1e4e2d3266d1e7cd09bffbc92ba9cd7fbbe79b8914da2c6eac4d9724d66d7f6a"
+          },
+          "decision": "Accept bounded conditional continuity of overlapping non-ignored entity admission, progress order, slime velocity write and axis-only move request. Actual clipped displacement, concrete overlap and trajectory remain open."
         }
       ]
     },
@@ -19599,6 +19668,25 @@
           },
           "sourceProvenanceQualification": "`report-accidental-append-trace.md` `92d44f37a27032d27be46ec92edc601ec1709802d3bedcee7cc9131ff5c28307` is trace only.",
           "decision": "Accept the independently checked bounded exact source comparison using the 7,751-byte recovered frozen report prefix. The preserved later append is a separate historical trace."
+        },
+        {
+          "exactPair": "1.12.1--1.12.2",
+          "snapshot": {
+            "revision": "d20a67d3876007175d6ede9aa4906c3c940f2e5e",
+            "path": "development/research/source-evidence/20261118/chunk-overlap-1121-1122/source/comparison.md",
+            "sha256": "00a207e95131627223381f833c3a6f6cd4340d8a3fa9f579698eed104e9c9007"
+          },
+          "review": {
+            "revision": "d20a67d3876007175d6ede9aa4906c3c940f2e5e",
+            "path": "development/research/source-evidence/20261118/chunk-overlap-1121-1122/blind-audit/verdict.md",
+            "sha256": "09aaec7bf8a00223d333674f805087bd17d0682ee2ff889b543cf23397fe8ace"
+          },
+          "frozenIndependentRoster": {
+            "revision": "d20a67d3876007175d6ede9aa4906c3c940f2e5e",
+            "path": "development/research/source-evidence/20261118/chunk-overlap-1121-1122/blind-audit/frozen.md",
+            "sha256": "be3d20d7cd0c3f1a6e42efd9bad5bd8c57aae26d0ed9503da351f0a10605253e"
+          },
+          "decision": "Accept scoped conditional no-difference. Forgetting removes the client cache mapping, later ordinary collision reads use EmptyChunk/air, and the allow-empty client tick query admits it. A precise ordinary walking query before replacement data is unproved; deferred removal from the block-entity tick list is a separate path."
         }
       ]
     },
