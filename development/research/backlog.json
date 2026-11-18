@@ -3583,6 +3583,15 @@
             "build": "BUILD SUCCESSFUL in 9s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
           }
+        },
+        {
+          "exactPair": "1.12.2--1.13.2",
+          "decision": "Accept bounded provider no-difference for fixed vanilla snow layers 2–8. Both supply a full-footprint collision prism of height (layers−1)/8 to ordinary local movement, including input to edge backoff and step-up. Shared collision engine and epsilon behavior remain separate.",
+          "review": {
+            "revision": "4346632468cc5d4948bdb75ce026384a1934902c",
+            "path": "development/research/source-evidence/20261118/block-b-snow-and-support/snow-1.12.2--1.13.2-audit.md",
+            "sha256": "c5c5898bb96f6bac8e6663d2215662936a336b02e40dbd8e893224c48d3668ca"
+          }
         }
       ]
     },
@@ -20441,6 +20450,20 @@
             "revision": "31bcba5de5db3547a62d8235407de6a6bee7ae6e",
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
+          }
+        },
+        {
+          "exactPair": "1.16.4--1.16.5",
+          "decision": "Accept bounded no-difference for the ordinary dry stationary support caller, generic provider dispatch, collision clipping, step-up, grounding, fall bookkeeping and sneak edge backoff. Compared shared source bodies are byte-identical; coverage of individual block-family providers remains separate.",
+          "snapshot": {
+            "revision": "4346632468cc5d4948bdb75ce026384a1934902c",
+            "path": "development/research/source-evidence/20261118/block-b-snow-and-support/support-1.16.4--1.16.5-coverage.md",
+            "sha256": "23e81521edae3c594a86fb768409505a70e01013a2572c0d2585208895942eab"
+          },
+          "review": {
+            "revision": "4346632468cc5d4948bdb75ce026384a1934902c",
+            "path": "development/research/source-evidence/20261118/block-b-snow-and-support/support-1.16.4--1.16.5-audit.md",
+            "sha256": "6ac8884c4007928d4906cfc961b869c85321a43f890be2f67a6a2754642b2c2e"
           }
         }
       ]
