@@ -17,12 +17,17 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * LocalClientPlayerEntity.autoJump consumes the first ray-intersecting box.
  * The source-backed interior fixture uses unconnected FenceBlock center
  * posts and bottom SlabBlock boxes. Exact 1.11 has the same cap rule.
+ * In the dry grounded stand fixture, BrewingStandBlock.addCollisions
+ * (70–72) emits the stem before the plate in all three 1.10 releases and
+ * the 1.11 anchors. Entity.move in 1.10.2 (514–624) clips the approach
+ * against the plate, while LocalClientPlayerEntity.autoJump (823 onward)
+ * consumes the stem first and rejects its rise from the bottom slab.
  */
 @MovementChange(emulates = ParkourVersion.V1_10_1)
 public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook {
     @Override
     public Iterable<VoxelShape> autoJumpCollisions(Player player, CollisionGetter level, AABB query,
         ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla) {
-        return AutoJumpBoxCandidates.collect(player, level, query, selected, vanilla, ScanRules.SKIP_BOTH_CAPS_FENCE_SLAB);
+        return AutoJumpBoxCandidates.collect(player, level, query, selected, vanilla, ScanRules.SKIP_BOTH_CAPS_WITH_BREWING_STAND);
     }
 }
