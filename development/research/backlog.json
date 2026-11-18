@@ -3594,6 +3594,26 @@
             "path": "development/research/source-evidence/20261118/block-b-snow-and-support/snow-1.12.2--1.13.2-audit.md",
             "sha256": "c5c5898bb96f6bac8e6663d2215662936a336b02e40dbd8e893224c48d3668ca"
           }
+        },
+        {
+          "exactPair": "1.13.1--1.13.2",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.13.1-to-1.13.2/report.md",
+            "sha256": "6fc626e980e9e0ae29cd827a041ccae540e86fb6cb71d2f495441644d16a1fe4"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.13.1-to-1.13.2/verdict.md",
+            "sha256": "f89eba13feafb76fc31ba9afeb9140cc7963fc50f957f86ce46238450ce039be"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Published-ready; 1.13.2 ready marker lacks a provenance-hash field, qualified in the verdict.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -6006,6 +6026,26 @@
             "path": "development/research/source-evidence/20261117/block-a-1143-1144-dismount-position-source/lane-portal-passenger-position-1143-1144/source-roster.json",
             "sha256": "75a5c718cdd481a27bf24192c5ce1097c818df95b106ba02575b670d6b997959"
           }
+        },
+        {
+          "exactPair": "1.13.2--1.14",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.13.2-to-1.14/report.md",
+            "sha256": "a8cd96e7ac71bcb7a2a89c77dd7eddd9650a3005af7cb41797f61cc665325641"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.13.2-to-1.14/verdict.md",
+            "sha256": "15c2e0583e4b47abc8267d160500eb41d5269084a7af3799cf85cfe63c254912"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Published-ready; exact canonical source ID is `1.14`.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -6484,6 +6524,26 @@
               "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
             }
           ]
+        },
+        {
+          "exactPair": "1.14.4--1.15",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14.4-to-1.15/report.md",
+            "sha256": "059e7902646c68a00fd5fac4be3dc53c816238813212171950cd4be2e4cdb4e5"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14.4-to-1.15/verdict.md",
+            "sha256": "1fcda7a8c2e776b934df199e1e5ae57ba7ba6476461413804d3c05cac881c903"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Published-ready; verdict corrects one omitted character in the 1.15 marker digest.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -7229,6 +7289,26 @@
               "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
             }
           ]
+        },
+        {
+          "exactPair": "1.15.2--1.16",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.15.2-to-1.16/report.md",
+            "sha256": "021ade5149924a90d72406f2d9502e6e0e81eb1914c66ae39c503b9cbbc2dcb3"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.15.2-to-1.16/verdict.md",
+            "sha256": "5c29f61e9c02b31349ed784416f78a431a451203af1a290cf1f9de2ca06e1de0"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Published-ready; raw artifact cache unavailable, manifests and source inventories are consistent.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -7582,6 +7662,70 @@
             }
           ],
           "exactPair": "1.18.1--1.18.2"
+        },
+        {
+          "exactPair": "1.17.1--1.18",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.17.1-to-1.18/report.md",
+            "sha256": "1ad1213578fd086fa7b199e11596ce1773667242714f383e8005efd44066764b"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.17.1-to-1.18/verdict.md",
+            "sha256": "c06debd4ffd253c957b58fe5a7676f762c12822c703b75bb9afb39d1db43fa03"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "companions": [
+            {
+              "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.17.1-to-1.18/identity.md",
+              "sha256": "fa7460cb8d8eefab0f4608591dd518ca93879d4df059ecf0487834dcf1b2e39c"
+            }
+          ],
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.18--1.18.1",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.18-to-1.18.1/report.md",
+            "sha256": "7c5ddca016665cdf72132e3767a8c431c1bc1e0f8a1b31b80afac4c474825c8f"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.18-to-1.18.1/verdict.md",
+            "sha256": "7eacb9563e555cda16f2f2eaf362eb7539b880d1cd3a28729bc9b8803ba80c18"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.18.1--1.18.2",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.18.1-to-1.18.2/report.md",
+            "sha256": "b97280980b087c13bb4d03c900f5cac6851a750fbd071a66347072de534d01bd"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.18.1-to-1.18.2/verdict.md",
+            "sha256": "c805d24b5bafb52680e8d5b75b8157446185f4276058200b7b452fa738e17f87"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -7746,6 +7890,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.19.2--1.19.3",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.19.2-to-1.19.3/report.md",
+            "sha256": "0bd49ecbeeb3b187a6c3a0a97f5f7a903f12507d6bc735f5deda3410c56a3c81"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.19.2-to-1.19.3/verdict.md",
+            "sha256": "3a648063522ce90a1d3372ef4abc6102283bc0794fc69df1f54cbe7fcad0618b"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -7820,6 +7983,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.19.3--1.19.4",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.19.3-to-1.19.4/report.md",
+            "sha256": "b5825d7088a32f78528f667ec98fc59fe8fda51fbf503e1e2206dc5fda9b7382"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.19.3-to-1.19.4/verdict.md",
+            "sha256": "049a91799316cf3506895f64423e92ab7fbf413124e7d338486d8b3284fb5ab5"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -15131,7 +15313,89 @@
         "revision": "4eb04ee5b5daacacdbd6f2ec02526ecb8df958e0",
         "path": "development/research/findings/1.14--1.14.4/swimming-pose-slowdown-gate.md"
       },
-      "sourceCheckpoint20261026": "Keyboard/Input/LocalClientPlayer complete bounded diff; two accepted threshold findings1.14.2; swimmingpredicateboundary confirmed. Item lifecycle/collision/restofpair unexamined."
+      "sourceCheckpoint20261026": "Keyboard/Input/LocalClientPlayer complete bounded diff; two accepted threshold findings1.14.2; swimmingpredicateboundary confirmed. Item lifecycle/collision/restofpair unexamined.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.14--1.14.1",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14-to-1.14.1/report.md",
+            "sha256": "45c2643103a0261e224c5accbe4aa55d203852ece72302bcd28d919395a4730a"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14-to-1.14.1/verdict.md",
+            "sha256": "12c58d372fa6fb2c92efdc517b0c07121901d4f081aa2af2b0cd6023e2501490"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Source-body accepted; nested Yarn provenance, version-root readiness open.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.14.1--1.14.2",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14.1-to-1.14.2/report.md",
+            "sha256": "11e030aab01e39028a61ef70580b28ba2d8304c9a1cd20c011c45ba862a05ae8"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14.1-to-1.14.2/verdict.md",
+            "sha256": "2c6b0cb23f068c2254bed12270dbf69ac61da8436fafe61ec48101b22c2b4792"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Source-body accepted; nested Yarn provenance, version-root readiness open.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.14.2--1.14.3",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14.2-to-1.14.3/report.md",
+            "sha256": "14f98ed4f76770b68a14bc55274c116d06fd2e7e0160c2332033ac946aba86c9"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14.2-to-1.14.3/verdict.md",
+            "sha256": "920e54390fcc3fdf5dab5c16bf7651f0011e97623a0ccb5139201ba278f1bab3"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Source-body accepted; nested Yarn provenance, version-root readiness open.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        },
+        {
+          "exactPair": "1.14.3--1.14.4",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14.3-to-1.14.4/report.md",
+            "sha256": "1226d91c44996395041fea50477e8f675f2b5c68c21c5c31789e44833d8f8dd1"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.14.3-to-1.14.4/verdict.md",
+            "sha256": "31d9b8c4ead2ac4d4a5141a6eb02ecf71f3df33c89aaa0d9d9bc033590b27c42"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Source-body accepted; 1.14.3 nested provenance and 1.14.4 mapping-payload/schema qualifications remain.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
+        }
+      ]
     },
     {
       "pair": "1.17--1.17.1",
@@ -15211,6 +15475,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.17--1.17.1",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.17-to-1.17.1/report.md",
+            "sha256": "0bcf6487bca05941d784bcfece7dcc2746adfdea6e9df8094ce5751ba3dbad77"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.17-to-1.17.1/verdict.md",
+            "sha256": "dfa8262fd1b850be6e43011b86ab8a1afb9f7054e3824e871dd915fb789fc7f2"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -16296,6 +16579,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.16.5--1.17",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.16.5-to-1.17/report.md",
+            "sha256": "8ee8e6fa5f2d3afa352cc52b906aa3064965dbbe8610689321823affe42ee587"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.16.5-to-1.17/verdict.md",
+            "sha256": "c8129fc5e1c5623b6278104d7c1ff796ac00628d4f95734c8993bcef133a170f"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the finite in-range direct pitch-source witness at the arithmetic-width boundary. Outputs are 60.000003814697266F and 60.00000762939453F respectively; the saturated example clamps to 90.0F on both sides. An actual changed next-move witness remains open."
         }
       ]
     },
@@ -16346,6 +16648,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.18.2--1.19",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.18.2-to-1.19/report.md",
+            "sha256": "be6b987dc68b832e6e8fd309dd1542bf37d77588400bf88bd7cc2feb5cf58350"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.18.2-to-1.19/verdict.md",
+            "sha256": "07c15f0f7b6ca9d6d4e5e45bb39f6a5f83821a445d39025bcd0005ba5e703ba6"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -16396,6 +16717,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.19--1.19.1",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.19-to-1.19.1/report.md",
+            "sha256": "be35361679d2e9669a072d32ee84e37c5ec5de55eb96e95d6ca9bacedaa171ea"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/1.19-to-1.19.1/verdict.md",
+            "sha256": "e772f80e9d19fefaee914c239170d259717950578ad7fb4b0536347cd4e415d5"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -16446,6 +16786,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.19.1--1.19.2",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.19.1-to-1.19.2/report.md",
+            "sha256": "264194e83a2e984f164df53bd19c9fb4fa57869ef8473ad5eb557474b68feb9b"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.19.1-to-1.19.2/verdict.md",
+            "sha256": "833e213363f7f4b9fc15f3129c5762713289204e516627d4942d14fbd26b4524"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -19256,6 +19615,25 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.16.2--1.16.3",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.16.2-to-1.16.3/report.md",
+            "sha256": "4450a902b2fdd8dd699256f981361659b73af20dfe393ebaa62913f3af6d782d"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.16.2-to-1.16.3/verdict.md",
+            "sha256": "72f121562475338fe89120f2399da5b40152f3c560bce1999ce47e8aca1feb6c"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -19973,6 +20351,26 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.15--1.15.1",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.15-to-1.15.1/report.md",
+            "sha256": "a4a286452ca6108fadee6583f5df69851103bcfc6636714d97ef48b806bcae93"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.15-to-1.15.1/verdict.md",
+            "sha256": "e75e3e635cdce98dff4ea3727174236729250269762121a209799c577574d933"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Published-ready.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -20148,6 +20546,26 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.15.1--1.15.2",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.15.1-to-1.15.2/report.md",
+            "sha256": "144e2a31b2c2840f63489eef1deee82c1a1ea7cca24341ed2bdb7b04f200656e"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.15.1-to-1.15.2/verdict.md",
+            "sha256": "b9c202781d12b390fabe8e6d7b75c6e148e1afdbbf64b7795059e110ae62f010"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Published-ready; 1.15.2 ready marker lacks an explicit provenance link; pins and separate provenance hash are documented.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -20627,6 +21045,33 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.16.1--1.16.2",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.16.1-to-1.16.2/report.md",
+            "sha256": "a07f7a719687b5d4c16282b6cc7de7ed8667f47e2a1783ca35720962abbd97dc"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.16.1-to-1.16.2/verdict.md",
+            "sha256": "1deb7b62474fa218aded58feb175605678b85a37b16d9e00056589c4155be070"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "companions": [
+            {
+              "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.16.1-to-1.16.2/identity.md",
+              "sha256": "7b01da1fcb1f08de84f2169da649b13455061810773a4157c7d08615d8278cf6"
+            }
+          ],
+          "sourceProvenanceQualification": "Published-ready; includes the separately bound `identity.md` sidecar.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -20763,6 +21208,26 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "exactPair": "1.16--1.16.1",
+          "snapshot": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.16-to-1.16.1/report.md",
+            "sha256": "c6fcf05cbbdc01fd9a661958ce9728a0831aa290bff07d743e32e2341d987bf0"
+          },
+          "review": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/edges/1.16-to-1.16.1/verdict.md",
+            "sha256": "518ed12e2da0eea0e4cecd075a0557ce836c155cb30cfd493e879dedf5d909f4"
+          },
+          "manifest": {
+            "revision": "8d2e74c77b82af37f14a4e44c8051d80093988b3",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1131-1162/README.md",
+            "sha256": "998543e90a7d39be5fa59f4083e7d6ce8d8b2aa97883882aafb8f54cfdd4293d"
+          },
+          "sourceProvenanceQualification": "Published-ready.",
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -20951,6 +21416,25 @@
             "path": "development/research/source-evidence/20261118/block-b-wall-and-fixtures/stationary-noncube-fixture-1.16.4--1.16.5-audit.md",
             "sha256": "dacfbaf6f144727150fb0211185d8adf20331238568712ae5f05ee7b3e4387f8"
           }
+        },
+        {
+          "exactPair": "1.16.4--1.16.5",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.16.4-to-1.16.5/report.md",
+            "sha256": "86e35b22b1b87b926aae5d8d2bad7c5886826db66ebb3ddaec5b9ab65550c571"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.16.4-to-1.16.5/verdict.md",
+            "sha256": "9a5dd7ac4a8b8a593ccc0026a6f0b35d04ca54ada6cc8cf6b9985241addeea21"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
@@ -21153,6 +21637,25 @@
             "sha256": "1df66a690fa77d08a4602662734c5680f753bbde974c7acdd1159b43617eb930"
           },
           "decision": "Accept exact conditional Java fluid continuity for water/lava body admission and height, current accumulation/normalization/player response, and first ordinary local water/lava movement, drag and gravity. Equivalent effective tags, sampled world inputs and player state are premises."
+        },
+        {
+          "exactPair": "1.16.3--1.16.4",
+          "snapshot": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.16.3-to-1.16.4/report.md",
+            "sha256": "142e32cf5dce476dbd84a3d7a35e23d7985f3fbfa38dda94b0642c181dcc5044"
+          },
+          "review": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/edges/1.16.3-to-1.16.4/verdict.md",
+            "sha256": "d1c4b41723df89e972675c98a3353ad5b5eb7426fb8714e36004f99962ff5af9"
+          },
+          "manifest": {
+            "revision": "9ef25ce2047fdeb52ea9b93e07c2e3a407800948",
+            "path": "development/research/source-evidence/20261118/block-c-raw-pitch-setter-1162-1194/README.md",
+            "sha256": "fe5834a935def73f5de840d529fd319181b52fb31fab1a3d661901c27e675641"
+          },
+          "decision": "Accept the independently scoped exact direct mouse-turn pitch setter/clamp and cited active-Elytra current-pitch consumer trace. The signed per-edge scope and witness qualifications apply. Product range eligibility and runtime movement parity remain open."
         }
       ]
     },
