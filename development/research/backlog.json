@@ -3342,6 +3342,25 @@
             "build": "BUILD SUCCESSFUL in 11s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
           }
+        },
+        {
+          "exactPair": "1.13.1--1.13.2",
+          "decision": "ACCEPT matching four cardinal 24-cell shared masks and source-ordered first hits in the exact Speed II two-Stone fixtures. The first qualifying box retains rise 2 in each direction. A Jump Boost II timer arm is conditional on the caller gates and exact physical AIR checks. The binding records the corrected additional head-read row. Corners, original 1.13, later infinite borders and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "8940903baf1358232bb2319ac976abfac8ca2a36",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-cardinal-shared-mask-1131-1132/report-r2.md",
+            "sha256": "b3b989c98259d59516b297a0d76152117435fc601a9b08de0f1fc1a2d84686ea"
+          },
+          "review": {
+            "revision": "8940903baf1358232bb2319ac976abfac8ca2a36",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-cardinal-shared-mask-1131-1132/verdict-r2.md",
+            "sha256": "afe023bc4039b05f37e34c7a4a16bed883b587ffcdff33dfaaa26c0d7a459984"
+          },
+          "binding": {
+            "revision": "8940903baf1358232bb2319ac976abfac8ca2a36",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-cardinal-shared-mask-1131-1132/binding.md",
+            "sha256": "d891e96ba4264ff3138e8eb4e60b520384003d9d7aadfb7e357b095fad83527b"
+          }
         }
       ]
     },
@@ -15336,7 +15355,32 @@
         }
       },
       "nextAction": "Keep this exact source pair frozen; do not infer the 1.9.2→1.9.3 onset or any wider range from it. Runtime parity remains unassessed.",
-      "recordLimit": "Source acceptance and pair coverage only. Audit addendum binds three same-pair reports; incidental RemoteHandshakeNetworkHandler version-string exposure is excluded from substantive evidence. No implementation or runtime parity claim."
+      "recordLimit": "Source acceptance and pair coverage only. Audit addendum binds three same-pair reports; incidental RemoteHandshakeNetworkHandler version-string exposure is excluded from substantive evidence. No implementation or runtime parity claim.",
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT no movement delta in the scoped ordinary Overworld-to-End transfer, respawn and absolute correction source path. Target End spawn, transfer call order, teleport ID, direct client XYZ/velocity response and effect resend agree. Packet delivery, post-tick position and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
+            "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-193-194/comparison.md",
+            "sha256": "5899fd571713a402781f7af8c2e09c77e42507e768be5e2ed627982639c3ddbb"
+          },
+          "review": {
+            "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
+            "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-193-194-audit/verdict.md",
+            "sha256": "d185da52194fce4a7285e81931f32916955f8c035d0360abf40ff06eda8fef79"
+          },
+          "roster": {
+            "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
+            "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-193-194-audit/source-roster.txt",
+            "sha256": "ea73ca94cdd4eb24cbdbb253e59cbe3e7d21d763e754aa0a07f0ff08bedcc5d9"
+          },
+          "rosterAddendum": {
+            "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
+            "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-193-194-audit/source-roster-addendum.txt",
+            "sha256": "da032f6602daf92c6220d24cc3857f8f089ecb092c85f14aa5e2a9ee8947bd07"
+          }
+        }
+      ]
     },
     {
       "pair": "1.9.1--1.9.2",
@@ -15390,6 +15434,29 @@
             "revision": "2d4f99058de3d22704662f699826a64979fdbd28",
             "path": "development/research/source-evidence/20261117/block-a-oak-fence-pre112-verified-b/lane-falling-water-fence-191-192-audit/source-roster.md",
             "sha256": "175d92328a221e084043bbdc727f5e1211a579c444df083f304fdf7e7405a9ee"
+          }
+        },
+        {
+          "decision": "ACCEPT corrected source continuity for the scoped Overworld-to-End packet route. If the source transfer and teleport send occur during the captured network handler player tick call, its return reaches the unconditional pre-call XYZ write. World.tickEntity with requireLoaded false skips the full entity tick calls. Other transfer routes, transport, arrival and runtime remain separate.",
+          "snapshot": {
+            "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
+            "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-191-192/comparison.corrected-r1.md",
+            "sha256": "f5df1a64b6899cf0f2db72990fa13f06a75c6eb39605ead130dc5342ca6b658c"
+          },
+          "review": {
+            "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
+            "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-191-192-audit/verdict-r1.md",
+            "sha256": "4e57c6ea0814a65f305b7267cd79e2764d356548e5f3d8bc84ca99fc53b9a033"
+          },
+          "roster": {
+            "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
+            "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-191-192-audit/roster.json",
+            "sha256": "26c89ab7e64e098b25c5dff457cc1996c1b8ed9919ea2257d62c303cd76cfbfb"
+          },
+          "priorReview": {
+            "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
+            "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-191-192-audit/verdict.md",
+            "sha256": "0c8daa15721115a7db36af462435905656e733e3d64efe58cc0b71fd2b460d21"
           }
         }
       ]
