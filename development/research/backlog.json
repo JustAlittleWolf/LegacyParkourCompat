@@ -3510,6 +3510,79 @@
             "build": "BUILD SUCCESSFUL in 12s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
           }
+        },
+        {
+          "decision": "Exact 1.13 can skip the superclass swimming-state writer for the audited fixture. Exact 1.13.1 delegates unconditionally in the nonflying arm.",
+          "snapshot": {
+            "revision": "433803266f043b58a6be477b6118544c964d1e05",
+            "path": "development/research/source-evidence/20261118/block-c-swim-state-writer/1.13-to-1.13.1/report.md",
+            "sha256": "6197165f66f254c57ed900b8d2eec75f90fa35594d43a9d93ea48857a9fedb60"
+          },
+          "review": {
+            "revision": "433803266f043b58a6be477b6118544c964d1e05",
+            "path": "development/research/source-evidence/20261118/block-c-swim-state-writer/1.13-to-1.13.1/verdict.md",
+            "sha256": "ba21b9998e9433896a19b41c3cd66d80893d707de2858e672b8827845542463f"
+          },
+          "exactPair": "1.13--1.13.1"
+        },
+        {
+          "decision": "Exact 26.2 delegates in the ordinary nonflying arm; the audited 1.13 fixture reuses the existing flag when the historical clearance predicate suppresses delegation.",
+          "snapshot": {
+            "revision": "433803266f043b58a6be477b6118544c964d1e05",
+            "path": "development/research/source-evidence/20261118/block-c-swim-state-writer/1.13-to-26.2/report.md",
+            "sha256": "a19278a995a24f7d9c2a6c30bef5ed57420a854979ca4d8046a6806986297e20"
+          },
+          "review": {
+            "revision": "433803266f043b58a6be477b6118544c964d1e05",
+            "path": "development/research/source-evidence/20261118/block-c-swim-state-writer/1.13-to-26.2/verdict.md",
+            "sha256": "c22225c458959a47674060e37cddba39038661d51c315003bdc2e98e7d5b2bd8"
+          },
+          "exactPair": "1.13--26.2"
+        },
+        {
+          "decision": "The ordinary local swimming route reaches the guarded old writer for the accepted source-water and stone fixture.",
+          "snapshot": {
+            "revision": "433803266f043b58a6be477b6118544c964d1e05",
+            "path": "development/research/source-evidence/20261118/block-c-swim-state-writer/1.13-ordinary-route-witness/report.md",
+            "sha256": "84f7ee2b9c864f0f73b24c9575f00ffeb52ff32874d744f425d2245b6a6848fa"
+          },
+          "review": {
+            "revision": "433803266f043b58a6be477b6118544c964d1e05",
+            "path": "development/research/source-evidence/20261118/block-c-swim-state-writer/1.13-ordinary-route-witness/verdict.md",
+            "sha256": "8907af733db10133307031ee13c94b3c03b12b830333152a5e6dcd7f392df120"
+          },
+          "exactVersion": "1.13",
+          "boundedProductAssociation": {
+            "productCommit": "364b9f00769eea817e904b6591545231cb8dfa79",
+            "code": [
+              {
+                "revision": "364b9f00769eea817e904b6591545231cb8dfa79",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_13/SwimmingUpdate.java",
+                "sha256": "29835931c2990eaa2188d5068c8a76cd7057db1ff29c5b4847277874a2af0bed"
+              },
+              {
+                "revision": "364b9f00769eea817e904b6591545231cb8dfa79",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/NativeSwimmingUpdate.java",
+                "sha256": "1dbbd3bcc9ce6402c67f073b5f1e2e726bea2f9548d3e9ccbbce9d4c73a5ba87"
+              }
+            ],
+            "exactSourceArchive": {
+              "revision": "433803266f043b58a6be477b6118544c964d1e05",
+              "path": "development/research/source-evidence/20261118/block-c-swim-state-writer/README.md",
+              "sha256": "ec4bf1754cdfb666afe4dd81a9d5aa3072da0281ab62776cdaa04c17c86eb22e"
+            },
+            "review": {
+              "revision": "a05df668f4a718593818ed2e91a16a2a9f312ceb",
+              "path": "development/research/source-evidence/20261118/block-c-swim-state-writer/integration-receipt.md",
+              "sha256": "780cd4d902dc1ce0748780847beac8b3d3bed779e12c2f993759ac0896dc7e8a"
+            },
+            "standaloneBuildTree": "798f940e99c4bd6c60893f1d602c6e7c3bb53a23",
+            "combinedBuildRevision": "bf519cdd19cded6a839890e7416aba101256ab46",
+            "combinedBuildTree": "c0b61964a25b1cc6997b553b5a71d4ce25e8201f",
+            "applicability": "Exact 1.13.0 only. Ordinary local nonflying nonpassenger player already swimming, default water feet block and default stone immediately above. Skip only the verified Avatar.updateSwimming superclass call. Other states and profiles delegate natively.",
+            "build": "BUILD SUCCESSFUL in 9s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
+          }
         }
       ]
     },
