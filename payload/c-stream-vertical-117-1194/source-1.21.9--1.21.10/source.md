@@ -1,0 +1,41 @@
+# Source comparison: 1.21.9 → 1.21.10
+
+## Verdict and boundary
+
+**Bounded verdict: no difference found** for ordinary local-player passive vertical air integration with dry/no-fluid state, no vehicle or passenger control, no fall flight/flying, no Slow Falling or Levitation, ordinary gravity, no climbable/powder-snow behavior, no block-stuck multiplier, and the ordinary non-collision path. The exact vertical-air update, movement-input helper, local-player-to-living tick dispatch, and common fall accumulation/reset code are unchanged. In `Entity.move`, the `1.21.10` edit adds a `MoverType.PISTON` exception while applying `stuckSpeedMultiplier`; ordinary `MoverType.SELF` retains the same operation. The multiplier/block-stuck and piston paths are outside this bounded case.
+
+This is a source-only endpoint comparison. It makes no claim about intermediate releases or runtime parity.
+
+## Source identity and authentication
+
+Both sides are Mojmap decompilations, consumed read-only.
+
+- **1.21.9:** `decompiled_minecraft/1.21.9/mojmap/`; client artifact SHA-256 `40c0a32c46601f71f6a61dae9f126202ded5cc453cfb8da6e42ae73f2a3f5c1b`; Mojang client mapping file (`client.txt`) SHA-256 `f223e9775abb66b6712c505cb1a73b48d615efebaf43a9f81dd58df9a9b1c7b3`. Provenance manifest SHA-256 `37d3049478585a43ffcace14fc8f2ee814b35ceedd8c9bad8b60adaed9b72c4f`. It records version metadata `1.21.9` and exact client/mapping input URLs and hashes.
+- **1.21.10:** ready marker `decompiled_minecraft/1.21.10/mojmap.ready.json` identifies version `1.21.10`, namespace `mojmap`, status `ready`, client SHA-256 `e65ca028bc58da12bf8413066c90ecd4d48c94fb351d9bbd22ecdff5c87f9482`, and source manifest `mojmap.sources.sha256`. Ready marker SHA-256 `2374d901074b72cd69f0229381d6a11edea7983613c538a2e2e18d9fc73dbeb0`; provenance marker SHA-256 `9a1db4c050c3caa28a1313f89dae9da3b28feaa5f8afba42cab798b47d7ad77c`; source manifest SHA-256 `4be26049350c1b314a0b198022cb1e7ab1e745e104047de7a5c7d099a9d7b7e1`.
+
+Actual Java source hashes were checked against the 1.21.9 provenance `sources` object and the 1.21.10 source manifest. `LivingEntity.java`, `LocalPlayer.java`, and `Player.java` are byte-identical across the pair:
+
+| Relative source | SHA-256 on both sides |
+| --- | --- |
+| `net/minecraft/world/entity/LivingEntity.java` | `b8b49d60769203f7bd5afe4a1bffcdcdbec30be28960324cdc43a2df85a6eb66` |
+| `net/minecraft/client/player/LocalPlayer.java` | `9c1df00e2f8379b2c19577a3691fee28071d8925210be3d3df928b5352e367e1` |
+| `net/minecraft/world/entity/player/Player.java` | `af857617b66a5776e63830771360b96f75e21d47d20db08f164a2dbeee801d82` |
+
+`Entity.java` differs as a whole file (`1.21.9`: `bd6074b108212bde667877700af1a52649472630c906c57c2a36c96a6fcee74c`; `1.21.10`: `8361dbb86fe6c975d21f69d008377b6f191669be751150c842517e9d0346fa18`), so its compared members below were checked directly.
+
+## Reachable path and paired evidence
+
+All references below are relative to each release's `mojmap/` source root; ranges are inclusive.
+
+1. **Local-player dispatch and ordinary travel gate:** `net/minecraft/client/player/LocalPlayer.java:834` calls `super.aiStep()` in both versions (the complete source hash is identical). In identical `net/minecraft/world/entity/LivingEntity.java:2833–2849`, the non-ridden path constructs input from `xxa/yya/zza` and calls `travel` only when `canSimulateMovement() && isEffectiveAi()`. `travel` at `2275–2284` chooses `travelInAir` after fluid and fall-flight branches are false. For the stated lane, `yya` has no jump writer, the player is dry and not fall-flying, and this reaches the same in-air operation on both sides.
+2. **Relative input and the small-input deadzone:** `net/minecraft/world/entity/Entity.java:1585–1600` (1.21.9) and `1590–1605` (1.21.10) are byte-for-byte equivalent. `getInputVector` returns zero when input length squared is below `1.0E-7`; otherwise it optionally normalizes only when length squared exceeds `1.0`, scales, rotates X/Z, and preserves the input Y component. `LivingEntity.handleRelativeFrictionAndCalculateMovement` at `2476–2485` is in the identical source file in both releases. It applies relative input, climbable handling, SELF movement, then returns the current velocity (or the climbable/jump correction, excluded here).
+3. **Vertical air integration:** identical `net/minecraft/world/entity/LivingEntity.java:2265–2273, 2306–2329`. In the no-effect ordinary case, effective gravity follows `getGravity`; `getDefaultGravity` reads `Attributes.GRAVITY`. In `travelInAir`, after the movement helper, vertical request is the returned Y; absent Levitation it subtracts effective gravity when the local world/chunk gate succeeds. The existing unloaded-client-chunk fallback is `-0.1` above minimum Y and `0.0` at/below it; this is preserved but not the ordinary loaded path. Unless `shouldDiscardFriction()` is true, Y is multiplied by `0.98F` for the ordinary non-`FlyingAnimal` branch, and the resulting vector is written by `setDeltaMovement`. The alternative discard-friction branch writes the unmultiplied Y and is also unchanged. The declared base-gravity constant remains `0.08` (`LivingEntity.java:167`); actual gravity remains attribute-driven and respects `isNoGravity` (`Entity.java` below).
+4. **Entity gravity switch:** `net/minecraft/world/entity/Entity.java:1355–1368` (1.21.9) and `1360–1373` (1.21.10) retain the same operation: `getGravity` returns zero under `isNoGravity`, otherwise default gravity; `applyGravity` adds `(0,-gravity,0)` only for nonzero gravity. This generic method is not the `LivingEntity.travelInAir` gravity application, but its no-gravity/default gate is unchanged.
+5. **Position request and movement deadzone:** `Entity.move` at `670–763` (1.21.9) / `670–765` (1.21.10). The unobstructed resolved vector is added to position and passed to `setPos` under the unchanged gate `resolved.lengthSqr() > 1.0E-7 || requested.lengthSqr() - resolved.lengthSqr() < 1.0E-7`. For no-physics the direct position write is `getY() + requested.y`; that branch is also unchanged but excluded from the ordinary local case. Collision resolution and support callbacks are treated as boundary calls. After resolution, Y collision/on-ground flags and fall-damage forwarding use the same code; vertical collision response is not evaluated as a no-collision outcome. The only changed nearby operation is the stuck-speed multiplier branch: 1.21.9 multiplies for all mover types; 1.21.10 skips multiplication for `PISTON`. `SELF` still multiplies and clears state in both, and no block-stuck multiplier is in this lane.
+6. **Common fall state:** `Entity.checkFallDamage`, lines `1387–1404` (1.21.9) / `1392–1409` (1.21.10), increments `fallDistance` only for non-water negative resolved Y using `fallDistance -= (float)resolvedY`, then on ground runs fall-on/event if distance is positive and calls `resetFallDistance()`. Operation and cast are identical. `Entity.resetFallDistance` writes `0.0` (1.21.9 `2748–2750`, 1.21.10 `2753–2755`). `checkFallDistanceAccumulation` has the same `getDeltaMovement().y() > -0.5 && fallDistance > 1.0` clamp (1.21.9 `2742–2746`, 1.21.10 `2747–2751`), but the only `LivingEntity` call is inside `updateFallFlying`, whose caller is gated by `isFallFlying()` at `2835–2837`; therefore that clamp is not reachable for this non-gliding lane. `LivingEntity.aiStep` also resets on Slow Falling/Levitation at `2841–2843`; both effects are excluded here.
+
+## Covered slice and limits
+
+Compared paired terminal slices: local-player `aiStep` dispatch; living tick travel gate; `travel` branch selection; air movement helper and small-input deadzone; gravity/no-gravity gate; vertical air integration and friction writes; `Entity.move` movement-length gate and Y position write; common negative-Y fall accumulation, on-ground reset, explicit reset, and fall-distance clamp plus its fall-flight caller gate. Excluded boundaries: collision/support shape/provider results, blocks and block-stuck state, fluids, climbing/powder snow, jump/input writers, effects, vehicles/passengers, fall flight, flying, and all non-player behavior.
+
+**No canonical difference draft created:** no independently actionable difference was confirmed within this assigned slice.
