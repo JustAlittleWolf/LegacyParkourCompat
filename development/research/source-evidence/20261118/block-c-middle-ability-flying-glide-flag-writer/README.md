@@ -1,0 +1,28 @@
+# Middle ability-flight glide flag-clear source evidence (2026-11-18)
+
+This archive preserves exact source reports and independent verdicts for narrowly bounded local ability-flight flag-clear operations. It does not establish full glide movement parity, runtime behavior, or a broad release alias range. The 1.20.4→1.20.5 record includes the original report, verdict, addendum and acceptance unchanged; signed `audit/acceptance-identity.md` records the corrected digest binding.
+
+| Pair | Bounded disposition | Report SHA-256 | Verdict SHA-256 |
+|---|---|---|---|
+| 1.12.2→1.13.0 | Direct flag-7 clear presence/timing accepted; broader glide calculations differ. | `78995290d9003999bb1d9f6919c97f01dca158bf2e128219ff8f59aa0e282cc0` | `ee3e52cec21aed6a111f49ad89e36c7bffe7df7368ac43ffc48486a6297ba8f6` |
+| 1.13.0→1.13.1 | Narrow direct-clear timing only; no full-pair freeze. | `d7e93adf48885c9a742dbcd485800f21f23372bbec353f03479659d75b0af6eb` | `6095b8510d123e44231409daff9b5e3123b399a2dc08bc512ad2ae1909951c35` |
+| 1.13.1→1.13.2 | Bounded flag-clear timing/reachability only. | `4eeec4c6b3d2f117f41d5ddfb22b75bf7b425b1c2dd8898dcb5ae072d518e526` | `f26a9db7b428dbb35713dbf326c39eae55a0dea795afd89e3cfb149c60f7a9c8` |
+| 1.13.2→1.14.0 | Direct clear operation scope only; exact adjacent proof does not close 1.14.1–1.14.3 provenance. | `df02e50a2a96c2608e65d96ec7feca3d4b0d7c5f7ae83f3ffc75ba59b484a22e` | `82433f54d16c5e3f3e92982df9a572e44a12057ee79719cd8c70bb1aa6602e1c` |
+| 1.14.4→1.15 | Separate flag-clear writer-timing slice only. | `34f83783930ea7268d3cbf0cb432d4440fdb58e07ae4294ab5b2f1a6bf866c51` | `b1041bb23129c1ed9e012464124c62163c62e1a055358743f87aaecab76efd7d` |
+| 1.15.0→1.15.1 | Clean replacement verdict accepts the bounded active-flight clear operation; it does not close full-pair coverage or patch-boundary questions. | `7f086392fc12505575a6cd2f34b8835728ca9c5098f79544e49f2565e7ec689f` | `29ac04b596cb464e281914ee0dcacc80cbdbe0e67a4c8d40b5254548f43bef2b` |
+| 1.15.1→1.15.2 | Bounded direct flag-clear timing; verdict retains source readiness/provenance caveat. | `57211f6c2e35d7aa9539ea663c6c4833f8490c61ee7d633e6deeeef684e5d085` | `45db0f5d85850ea06afe0fbcb14d20c966ba94e2d978ed981ce7fa385c426539` |
+| 1.15.2→1.16.0 | Direct clear timing only. | `9a640c491a5a2dd9918553988302dd4c86625c4933973c22cb11d8ab7060a5e9` | `1dc802549daea8d35333e69f09bc0a975a07a78038dc6ac5093921a8f4fe833f` |
+| 1.16.0→1.16.1 | Narrow flag-clear timing; exact report and audit cover fall-distance write order. | `ccea627197d20a196868ad82b53d8bf977ef7ac9c64cf97d528ff08750328d32` | `8841950b7c911a6618eede13c5adaa76e2ec401e10a95d80661f988a9969aacc` |
+| 1.16.1→1.16.2 | Bounded direct flag-clear slice; report path spelling is preserved. | `33787834adf5b3ec1af32133835c3133e4a9a43a3d550128d55800fa7682c089` | `bf5cf854eda33a739ed2d0bc27c3ff87d14d2f228e92e3bc3f1b31ce8082e759` |
+| 1.17.1→1.18.0 | Direct flag-clear operation remains unchanged; separate 1.18 fall-distance helper directly zeroes fall distance. | `52439eca02d3b82db2043c64d7fab32fceef546089d8825c26f5859253f09506` | `d5b41d5db882e55efb71bb8d4e0ad94a2e11270a294ccc3129ee2f6a2936ca41` |
+| 1.18.0→1.18.1 | Narrow direct-clear timing. | `e8107af3a75be099ab3f2992682437bf004cd33785fbc8eb415d3a48355f79a2` | `251d50c7897a1e54903b8b8e66c4d72ccb6578cdf3a1b5b858fc8c37739f5b47` |
+| 1.18.1→1.18.2 | Narrow flag-writer timing only; not inherited glide-body equivalence, which has a float/double cosine difference. | `8a960b012e22954b9812ba133c08ba59f66df39c4c5ac744bd72a6ffa51ef01e` | `a2d747997b52f6f02ce63be025bc08508294cc8ec85fc44cffbc38b24ea9e617` |
+| 1.18.2→1.19.0 | Direct clear and post-move fall-distance operations are separate scoped observations. | `61facb6e93a221ebf37d09eca6ee30293d117646647843db3a71cf12c16595a6` | `3f22497cb0b3bd06cf43a43ba6d5e178505c68e1f7f36334f8eb8ab8487ba2bd` |
+| 1.19.0→1.19.1 | Narrow direct-clear operation scope. | `7873cd743d6c433370acc9a1aac2503b2f806cb18eecadfd283d55dc32c15d06` | `687ae87d7b225724babec351fb609a8d6d127b26465eed569a938a1dec87ff76` |
+| 1.19.1→1.19.2 | Qualified narrow clear result; verdict corrects mapping-hash attribution. | `327111aa187a3c2374866f9e56646551c53e647b971a99de25c44d8795d93077` | `a73f45679376568c0025b13507eceadeb7777c74c9cc25bda4321c84212aa759` |
+| 1.19.2→1.19.3 | Bounded direct flag-clear comparison; separate in-glide fall-distance gate remains distinct. | `95e1e90d331cffbf0ddcac0e7c02b53784b968fd09670ee8c1f6917fb53bd9e5` | `d167ba3d4cbdec68b21b2ffc5bef044f53e32020b7f9dc59718cfae8dc07df1c` |
+| 1.19.3→1.19.4 | Narrow direct-clear comparison. | `004ebbe5af04c8baa8a2030ed06cfb65fb98dacdca5e264dd0f30ed6fa9840db` | `2000406723cc79763c8bec59a4b77d8f18d785de54365bda04717a63d6473fd2` |
+| 1.20.1→1.20.2 | Bounded direct-clear operation only; no .20.0 or .20.3 inference. | `356dd5fd3cfec94d383a214f87190de3a7e02834764040bbbb52e03a3f8db64a` | `31cca53f64ba69f1da80880c3cc7adbafcea8387e53340089856b03eee0c6008` |
+| 1.20.4→1.20.5 | Direct clear after `super.travel`, with fall-distance reset before clear. Grounded `jumpFromGround()` toggle is a separate operation; stale local flag state is conditional. No scheduling/latency inference. Signed identity correction binds unchanged originals. | `4f54e836291863c44ed5c0bdddc802ad0c90d4886895537d88434be7c9762fb9` | `6f5ec5d670ac1e9705eca2a2188560ea3383fa0262529c246f1408be2ace1ddb` |
+
+All listed reports, verdicts and correction material are copied byte-for-byte. No implementation, product/backlog update, build, test, network or runtime claim is represented. This is an incremental archive; no portable final bundle or immutable final pin is created until the scoped evidence list is frozen.

@@ -1,0 +1,16 @@
+# 1.20.3 to 1.20.4: creative flight and glide clearing
+
+## Exact source inputs
+
+Both sides are Mojmap. The 1.20.3 mapping-root manifest is `decompiled_minecraft/1.20.3/mojmap/.decompile-provenance.json` (SHA-256 `c3d605e55b287e800a86af8567a75edcb009d1a9a1744cfcb4e6f47667dcee0f`); it pins client `1.20.3` (`client.jar` SHA-256 `bef21938224902dd925e2d89dcfe1d2540656d4cf7a5abd2b93e0402d135c655`) and client mappings (`client.txt` SHA-256 `ad03c803d866062909dd378ed5f1611687dc0ed0a76cc7fd57e968a99d641e5f`). The 1.20.4 ready marker `decompiled_minecraft/1.20.4/mojmap.ready.json` identifies exact release `1.20.4`, Mojmap, and client SHA-256 `9221ab461a491bf9661cd8e773a5e662aaa43d600fa7970b8c12bbfb0431b838`; its artifact manifest pins `1.20.4/client_mappings.txt` to `ad03c803d866062909dd378ed5f1611687dc0ed0a76cc7fd57e968a99d641e5f`. The ready marker's source-manifest digest matches `mojmap.sources.sha256` (`fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1`). The four source files below were checked against both sides' per-source manifests and their actual bytes; each pair has the same SHA-256.
+
+## Compared slice and result
+
+- `net/minecraft/client/player/LocalPlayer.java`, `aiStep`, 1.20.3/1.20.4 lines 717–744: `mayfly` permits creative flight toggling; the local Elytra-start input path additionally requires `!abilities.flying`. Same source hash on both sides: `bb5cbfb03656a1866bb77c00431618befe792081223b35db4bd121ecbb151fd5`.
+- `net/minecraft/world/entity/player/Player.java`, `travel(Vec3)`, lines 1451–1472: if `abilities.flying && !isPassenger()`, save current Y velocity; call `super.travel` (the actual movement); replace Y velocity with saved Y times `0.6`; call `resetFallDistance()`; then call `setSharedFlag(7, false)`. This wrapper does not check Elytra equipment or current glide flag, and performs the two final state writes after movement in this order. Same source hash: `218da60bc4f8c9279f56eb87e2cf2c0af79562fbe3d818a408429c656efb95dd`.
+- `net/minecraft/world/entity/LivingEntity.java`, `travel(Vec3)`, lines 2035–2140: superclass movement selects its Elytra glide branch from `isFallFlying()` (shared bit 7); that branch computes movement and calls `move` before returning to `Player.travel`. Same source hash: `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d`.
+- `net/minecraft/world/entity/Entity.java`, `setSharedFlag(int, boolean)`, lines 2229–2240, clears the requested bit by writing `(byte)($$2 & ~(1 << $$0))`; `resetFallDistance()`, lines 2319–2321, separately writes `fallDistance = 0.0F`. Same source hash: `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9`.
+
+**Difference:** none in the assigned slice. For an airborne local player with lawful `mayfly` and `flying` enabled and not riding, a movement call runs first; afterward the wrapper scales the saved vertical velocity, zeroes fall distance, then clears shared glide bit 7. If bit 7 was set at entry, the superclass can perform one glide movement before that clear. The Elytra chest slot is not consulted by this wrapper. The fall-distance field reset and flag-bit clear are separate writes, unchanged across the pair.
+
+This is a bounded operation result only; it does not claim complete player-tick pair coverage or prove the intermediate patch introduction boundary.
