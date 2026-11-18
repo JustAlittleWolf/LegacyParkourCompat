@@ -42,7 +42,8 @@ import java.util.Set;
 public final class WaterCurrent implements WaterCurrentHook {
     private static final Set<Block> STAINED_GLASS = Set.copyOf(Blocks.STAINED_GLASS.asList());
     private static final Set<Block> LEGACY_PLACED_LEAVES = Set.of(
-        Blocks.OAK_LEAVES, Blocks.ACACIA_LEAVES, Blocks.DARK_OAK_LEAVES
+        Blocks.OAK_LEAVES, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES,
+        Blocks.JUNGLE_LEAVES, Blocks.ACACIA_LEAVES, Blocks.DARK_OAK_LEAVES
     );
 
     public boolean replacesNativeCurrent() { return true; }
@@ -144,9 +145,10 @@ public final class WaterCurrent implements WaterCurrentHook {
     /**
      * 1.8 through 1.12.2 Ornithe Feather: GLASS and LEAVES materials block
      * movement in LiquidBlock.getFlow, so this side skips the one-below read.
-     * Placed oak, acacia and dark oak are non-decaying (the placement sets
-     * legacy metadata bit 4). Source evidence under development/research/source-evidence/
-     * 20261119: block-a-nonfalling-water-oak-leaves and block-a-nonfalling-water-leaves2.
+     * The six reviewed placed leaf species are non-decaying (the placement
+     * sets legacy metadata bit 4). Source evidence under
+     * development/research/source-evidence/20261119: block-a-nonfalling-water-oak-leaves,
+     * block-a-nonfalling-water-leaves2 and block-a-nonfalling-water-legacy-leaf-siblings.
      */
     private static boolean isAdditionalDrySideBlocker(BlockState state) {
         return state.getFluidState().isEmpty()
