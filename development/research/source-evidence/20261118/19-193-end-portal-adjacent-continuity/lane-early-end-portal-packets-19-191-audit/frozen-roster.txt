@@ -1,0 +1,46 @@
+Independent blind source freeze: End Portal packet transfer, 1.9 -> 1.9.1
+
+Evidence identity
+- 1.9 / Ornithe Feather build 2; manifest SHA-256 8daacb7af8f210e716ee4b34c43b8a5d6f6b4b19831d2fd725cbe16ecf330a1a; exact tree .decompile-provenance.json; source entries 1819.
+  - pinned input SHA-256: https://maven.ornithemc.net/releases/net/ornithemc/feather-gen2/1.9+build.2/feather-gen2-1.9+build.2-mergedv2.jar = a4e09a92eab0fbf6ef4668e295db1949e9d52c42f145d56b6dfbf3a10c2c7c2a
+  - pinned input SHA-256: https://meta.ornithemc.net/v3/versions/feather/1.9 = ca32cbff5f91d52f6563a2d50a20e3f0fb1e1f76dbb6e41e53c847d2d6977371
+  - pinned input SHA-256: https://piston-data.mojang.com/v1/objects/2f67dfe8953299440d1902f9124f0f2c3a2c940f/client.jar = 0273b5c79d6b96799c6480ae61366d6b1d042655970de87f77f1a3f1ebea9307
+  - pinned input SHA-256: https://piston-meta.mojang.com/v1/packages/9178828493e41a24452841039710f05728c466d6/1.9.json = 8d6f1e7f3a99f1236914b61e64eeade955ba21e8150563457142d3981aeee688
+- 1.9.1 / Ornithe Feather build 2; manifest SHA-256 e9fb0da6511597e2de953a143f9570b82243e5b9504603686e557f06271da64a; exact tree .decompile-provenance.json; source entries 1819.
+  - pinned input SHA-256: https://maven.ornithemc.net/releases/net/ornithemc/feather-gen2/1.9.1+build.2/feather-gen2-1.9.1+build.2-mergedv2.jar = 6d5768353bf2ff2756d38537312548a8ac91d570f130d23c23e9412d2edd97b3
+  - pinned input SHA-256: https://meta.ornithemc.net/v3/versions/feather/1.9.1 = da56c9e7efe5c929b2ec8d99a8e2bbc6825847f2852a0e717fcd6c674db73dc4
+  - pinned input SHA-256: https://piston-data.mojang.com/v1/objects/9bc7f02323d90b9385c1a5dbd47fb144a3fb8835/client.jar = 56ad7e53f6f4ad393844e274aa2190692b61d2ad9f6b3d12b33a8b7332fd51f9
+  - pinned input SHA-256: https://piston-meta.mojang.com/v1/packages/fdca0cf4bdab9959fce30413202a00a1bce35be5/1.9.1.json = b423c2ee9dc43f9204fea8bf8cbad1780c52fbb62b107dc948cc72b56491fd56
+
+Frozen source roster (paths relative to decompiled_minecraft/<version>/ornithe-feather; hashes are manifest source SHA-256; each was also checked against current file bytes)
+- net/minecraft/block/EndPortalBlock.java | 1.9 5e04abb22c37fb6c8af646d93702b54c5abac4737edd92a8b2fc5c593bbf2ba5 | 1.9.1 5e04abb22c37fb6c8af646d93702b54c5abac4737edd92a8b2fc5c593bbf2ba5
+- net/minecraft/entity/Entity.java | 1.9 74d3ac34d7e6355c8fdcdd777dcd95ba9ef4626718c8772c1b58d0e28419e42a | 1.9.1 74d3ac34d7e6355c8fdcdd777dcd95ba9ef4626718c8772c1b58d0e28419e42a
+- net/minecraft/server/entity/living/player/ServerPlayerEntity.java | 1.9 dc6b4d3dfff336aed5efa03c9f97a3ae09531e0ae8cd80f8cb6de949333fbe10 | 1.9.1 dc6b4d3dfff336aed5efa03c9f97a3ae09531e0ae8cd80f8cb6de949333fbe10
+- net/minecraft/server/PlayerManager.java | 1.9 ec75fbd8978b92d18f16b649c65ed596ddce6a437fd22bb18fc0b86d2c937e86 | 1.9.1 ec75fbd8978b92d18f16b649c65ed596ddce6a437fd22bb18fc0b86d2c937e86
+- net/minecraft/server/world/ServerWorld.java | 1.9 2ee110ca2786b99cc1068b0d80275586e7c59e10cb130b9f7c2281063dfb8d59 | 1.9.1 5b3cae78f232c0a3258663d29bd594e5440f40908bf3343fc94d1b15347827cc
+- net/minecraft/world/World.java | 1.9 d1e23db2e20c86eb37b964a0df6838f1422ade7b0c2fff9c869ff8345979aa98 | 1.9.1 cdda70c97f0e4d6f6c454c8f6d3c0d47f0e0ae612e75062d8fe93ddd3963e6b0
+- net/minecraft/server/network/handler/ServerPlayNetworkHandler.java | 1.9 89609533320e02ed781c4aa87caf9eb55417756bba8a6b0ea53bb5f2e1836634 | 1.9.1 89609533320e02ed781c4aa87caf9eb55417756bba8a6b0ea53bb5f2e1836634
+- net/minecraft/server/world/PortalForcer.java | 1.9 13488be38f1b0426b40388e30fbbfec8ddfef885382b3354a9e7180254b4c947 | 1.9.1 13488be38f1b0426b40388e30fbbfec8ddfef885382b3354a9e7180254b4c947
+- net/minecraft/client/network/handler/ClientPlayNetworkHandler.java | 1.9 7f67bd2daa792cfc4aac1744d30f9cfdb28306ec55583d474ddc1a251561b1d6 | 1.9.1 7f67bd2daa792cfc4aac1744d30f9cfdb28306ec55583d474ddc1a251561b1d6
+- net/minecraft/network/packet/s2c/play/PlayerRespawnS2CPacket.java | 1.9 78a852ea1703863084a7f0a96567989c5298d277c0ff0f1cca3b1102c3a52c21 | 1.9.1 78a852ea1703863084a7f0a96567989c5298d277c0ff0f1cca3b1102c3a52c21
+- net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java | 1.9 8bad09e146ce746085103081b7e3c6d09855114868267e12be8d869f34f0e77e | 1.9.1 8bad09e146ce746085103081b7e3c6d09855114868267e12be8d869f34f0e77e
+- net/minecraft/network/packet/c2s/play/AcceptTeleportC2SPacket.java | 1.9 fb1c5b363e88df9a1edfa02fd569b4c0890e253d837724dc81a7aba08af61603 | 1.9.1 fb1c5b363e88df9a1edfa02fd569b4c0890e253d837724dc81a7aba08af61603
+
+Bounded source disposition
+No difference found in this assigned operation slice. The listed relevant file hashes are identical across 1.9 and 1.9.1 except World.java and ServerWorld.java as whole files; their examined tickEntity bodies are text-identical. This is a bounded result, not full-pair coverage or runtime evidence.
+
+Call path and ordering
+- EndPortalBlock.onEntityCollision (62-69) checks not riding, no passengers, portal-capable, logical server, and entity-shape intersection with the portal shape; then invokes entity.changeDimension(1). For a ServerPlayerEntity this is a virtual call to its override.
+- ServerPlayerEntity.changeDimension (455-483) marks inTeleportationState; for dimension 0 -> 1 records ENTER_THE_END, assigns dimension 1, then calls PlayerManager.changeDimension(player, 1).
+- PlayerManager.changeDimension(ServerPlayerEntity,int) (488-513) saves source dimension, obtains source world, assigns the new player.dimension, gets destination world, sends PlayerRespawnS2CPacket, updates permissions, removes the player now, clears removed, calls the helper, updates chunk tracking, sends absolute teleport, updates interaction world, then sends abilities/world/player/status info.
+- PlayerManager.changeDimension(Entity,int,ServerWorld,ServerWorld) (515-568) snapshots x,z and yaw, sets f=8.0, opens moving profiler. As caller assigned dimension=1 first, helper sees entity.dimension==1 and reaches the final branch. Since the requested dimension is 1, that branch uses toWorld.getSpawnPoint() (not getForcedSpawnPoint()), sets x/y/z to spawn coordinates and yaw/pitch to 90F/0F, then while alive calls fromWorld.tickEntity(entity,false). It pops moving; dimension != 1 is false, so the placing block does not run (no PortalForcer/addEntity/destination tick); finally entity.setWorld(toWorld).
+- Entity.changeDimension base method (approx. 1820-1880) is not the ServerPlayerEntity route. Its generic dimension==1 branch uses getForcedSpawnPoint(); retain this as a distinct non-player implementation and do not substitute it for the virtual ServerPlayer override/helper path.
+- The helper contains three isAlive-gated fromWorld.tickEntity(entity,false) call sites in its -1, 0, and final branches. The ordinary Overworld-to-End player call reaches only the final branch (one such call); its dimension==1 guard skips the later placing block and its unguarded toWorld.tickEntity call. The separate spectator transfer handler has two calls under one alive gate (ServerPlayNetworkHandler.handlePlayerSpectate 643-693), outside this ordinary End Portal route.
+- PortalForcer.onDimensionChanged is called from PlayerManager only inside the helper placing block (dimension != 1), so ordinary End entry bypasses it. PortalForcer itself distinguishes non-End Nether frame search/generation from End platform generation; neither changes this End-entry call order.
+
+Absolute packet and client semantics
+- ServerPlayNetworkHandler.teleport (490-516) with empty relativeArgs computes requestedTeleportPosition from supplied absolute x/y/z, advances teleport ID (wrapping at Integer.MAX_VALUE to 0), records tick, updates server player position/angles, and sends PlayerMoveS2CPacket with the absolute source values and empty relative flags.
+- ClientPlayNetworkHandler.handlePlayerRespawn (854-874) replaces ClientWorld and player.dimension when packet dimension differs, resets started, then respawns player and applies game mode.
+- ClientPlayNetworkHandler.handlePlayerMove (545-594) adds current XYZ only for each corresponding relative flag; with absolute flags absent it zeros velocityX, then velocityY, then velocityZ, before applying absolute coordinates/angles via updatePositionAndAngles. It sends AcceptTeleportC2SPacket(teleportId), then sends a PositionAndAngles movement packet using player x, shape.minY, z, yaw and pitch, onGround=false. First handled movement after reset seeds lastX/Y/Z, sets started and closes terrain screen.
+- ServerPlayNetworkHandler.handleAcceptTeleport (348-364) accepts only matching ID, snaps player to requestedTeleportPosition, and if in teleportation state updates lastGoodXYZ and ends teleportation; then clears requestedTeleportPosition. A mismatched ID does not execute this body or clear the request.
+
