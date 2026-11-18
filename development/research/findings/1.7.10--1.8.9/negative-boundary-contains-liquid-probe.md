@@ -63,3 +63,7 @@ Result: at this stipulated snapshot, 1.7.10 `containsLiquid` sees `(-2,11,0)` an
 ## Bounded status
 
 This establishes a conditional source-level probe difference for a specified local player/world snapshot. It does not establish runtime reproduction, continuous ordinary trajectory reachability for the full snapshot, the exact first patch that introduced or removed the scan correction, or any movement-loop implementation decision. Probe logic, external fluid velocity and world-border behavior are outside this packet.
+
+## Exact stable-release applicability
+
+Ornithe Feather sources place the cutoff at 1.8. `World.containsLiquid(Box)` in 1.7.10 extends the scan past a negative minimum coordinate. Stable 1.8 and every checked patch through 1.8.9 use inclusive floored bounds without that adjustment. The local-player water-travel probe remains reachable in 1.8 under the conditions above. Selectable profiles start at 1.8, so the old bound adjustment requires no compatibility change. [Cutoff comparison](../../source-evidence/20261118/block-a-negative-liquid-cutover/cutover.md), [independent audit](../../source-evidence/20261118/block-a-negative-liquid-cutover/audit.md).
