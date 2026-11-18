@@ -3412,6 +3412,19 @@
             "revision": "dd8c88c6ae19b1ea797c7c5fed248b8ccce81a2f",
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-cardinal-original-113/binding.md",
             "sha256": "8a694e5632d7d687794c5e299705808743b4573616ef3c846653b58252fbb2a8"
+          },
+          "productAssociation": {
+            "productCommit": "05d1c41f79a7097924abc57251c53be49e320f18",
+            "code": {
+              "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_14/AutoJumpCollisionOrder.java",
+              "sha256": "0bd778982004d66d9dfa07ff73e024ec3d30a20168beb1cd4c89863517f736a2"
+            },
+            "standaloneBuildTree": "ca5d5e3e3e9cede6b1e0edba6d331dedd2f7637b",
+            "combinedBuildRevision": "e210fba7e19bc3d6cabf7c5aaad70c66c3506dd4",
+            "combinedBuildTree": "ad739aa886b4465ee70f84c88e67dac1eed4a885",
+            "scope": "Exact original 1.13 ordinary loaded one-face cardinal fixtures with physical Stone supports and AIR, historical X/Z corner and high-Y pruning, and source greedy order.",
+            "build": "BUILD SUCCESSFUL in 9s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         }
       ]
