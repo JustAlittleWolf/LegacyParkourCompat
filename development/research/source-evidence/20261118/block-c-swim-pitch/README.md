@@ -1,0 +1,18 @@
+# Accepted swimming pitch source evidence
+
+This archive preserves four independently reviewed source comparisons for vertical look use in swimming movement. The claims are limited to their exact witnesses and source operations; they are not full-pair movement parity or runtime claims. A separate 1.13 swim-state writer remains outside this archive.
+
+| Pair | Bounded disposition | Report SHA-256 | Verdict SHA-256 |
+|---|---|---|---|
+| 1.12.2→1.13 | Corrected sign and movement witness: positive pitch looks down in the exact 1.13 vector formula, while the audited swimming adjustment is conditional on look-Y and its gates. Original report, correction, verdict and acceptance are preserved unchanged. | `f1392fa2a961632aa5a64489882a34cda6bb704f881469d7fcf5da7a7821b539` | `8464d4ed99da56c70a73f3dceb605ed122cc8342b2b80132fad846ed0e24ab6f` |
+| 1.13→1.13.1 | Bounded unchanged `y + 1.0 - 0.1` sample/velocity gate; later swimming-state reevaluation is a separate writer. | `2d1c907a53cc4fa87ad89682551b97ea2a39169f3aac1d35760412cb2662580d` | `815608ef69592487561293ab50f38c2a49ccbae22f3370411ed59b944d6d3ffa` |
+| 1.13.1→1.13.2 | Accepted exact math and call order; verdict corrects the report's candidate method-extraction digest attribution. | `f49df3bfbbaaf8c56b0bdea333e72d5f61f94f548f30a353e8ab78a2b4e18e94` | `e79a3102462a93cc30802f813152ebe17f0570ef048c3d0729e9efa163f5622b` |
+| 1.13.2→26.2 | Corrected witness rejects general look-Y equivalence: at the reported legal pitch, old and modern sine-table index arithmetic yields distinct look-Y and direct swimming vertical-velocity values. This is an exact endpoint witness, not full movement parity or a patch boundary. | `676d98d08a99735c2cca1c5e5642945d0d8806f1dedc39af741d5e4c00ded76d` | `4eca17c836a3d57c941fd6a155a5b5c494648047b4d0a916b4f9b0c1ec44580a` |
+
+## Read-only product disposition at base `aae9c864`
+
+The existing [SwimmingPitch.java](../../../../../src/client/java/me/wolfii/legacyparkourcompat/change/v1_13/SwimmingPitch.java) provider is `@V1_13_1` and returns the historical `-LegacyTrig.sin(floatPitchRadians)` Y component. The hook's `supports` method admits selected profiles from `V1_13` onward, so the same provider supplies the reviewed old Y math in 1.13, 1.13.1 and 1.13.2. [PlayerMixin.java](../../../../../src/client/java/me/wolfii/legacyparkourcompat/mixin/PlayerMixin.java) redirects `Player.travel`'s `getLookAngle()` and replaces only the Y component; the exact 26.2 path is gated by nonpassenger swimming conditions. Normal local travel requires `canSimulateMovement` and `isEffectiveAi`; ordinary remote-client ticks do not take that path, and `MovementRuntime` rejects logical-server operation. This is a static scope disposition only and does not claim runtime parity or broader movement completion.
+
+The product files inspected at the exact base were `SwimmingPitch.java` (`ffae228711c0df86ada8c2fb7a61b215f650c3a8334d985a0b6a9d856e96fff8`), `SwimmingPitchHook.java` (`c3bb52472f00804a678ab62ec699623159c0519e2ec8883f7e1567f023693e22`) and `PlayerMixin.java` (`f798c19796bca7d073288a759b879f8d1ad212877914735f4abfffae2db490b1`). No .14+ applicability is inferred. The separate 1.13 swim-state writer is excluded.
+
+The 1.12.2→1.13 and 1.13.2→26.2 corrections and acceptances are preserved as exact companion artifacts. No product/backlog edits, source generation, builds, tests, game/runtime checks or network operations were made.
