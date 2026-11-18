@@ -3,11 +3,14 @@ package me.wolfii.legacyparkourcompat.change.v1_10_1;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.piston.MovingPistonCollisionShapeHook;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -34,7 +37,8 @@ public final class RetractingPistonCollisionShape implements MovingPistonCollisi
     @Override
     public Optional<VoxelShape> collisionShape(BlockState movedState, Direction direction,
                                               boolean extending, boolean source,
-                                              float progress, float previousProgress) {
+                                              float progress, float previousProgress, BlockGetter level,
+                                              BlockPos owner, CollisionContext context, VoxelShape nativeShape) {
         if (extending || !source
             || !(movedState.is(Blocks.PISTON) || movedState.is(Blocks.STICKY_PISTON))
             || movedState.getValue(PistonBaseBlock.EXTENDED)) {
