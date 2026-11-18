@@ -9643,6 +9643,30 @@
             "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
           },
           "exactPair": "1.21.1--1.21.2"
+        },
+        {
+          "exactPair": "1.21.2--1.21.3",
+          "decision": "ACCEPT no scoped change to the local-player block-contact movement record lifecycle. Movement producers do not append in the normal or piston-limited move branch. The gated post-travel fallback and the piston-origin immediate callback use old position to current position, process the live list and clear it. Direct teleport invalidation and the reviewed callback visitation agree. Solid clipping and runtime parity remain separate.",
+          "snapshot": {
+            "revision": "0db6637e42daa88bc579f997d96540fa3af56297",
+            "path": "development/research/source-evidence/20261117/block-a-1212-1213-block-contact-record/lane-block-contact-record-lifecycle-1212-1213/comparison.md",
+            "sha256": "87d8c109a44bd60ed8d043f2345ee80e4aaaf749c5f901ef5e41d572eef98a52"
+          },
+          "review": {
+            "revision": "0db6637e42daa88bc579f997d96540fa3af56297",
+            "path": "development/research/source-evidence/20261117/block-a-1212-1213-block-contact-record/lane-block-contact-record-lifecycle-1212-1213-audit/comparison.md",
+            "sha256": "8bb2b65fe678aa271c486d0230f4dac13cd72fe792cde4b16686e1be55d0c8e4"
+          },
+          "roster": {
+            "revision": "0db6637e42daa88bc579f997d96540fa3af56297",
+            "path": "development/research/source-evidence/20261117/block-a-1212-1213-block-contact-record/lane-block-contact-record-lifecycle-1212-1213-audit/roster.md",
+            "sha256": "f34c8acae6be6de47d124590961a204cbadb2a6946469d71f9a45cd0c93a0480"
+          },
+          "authorRoster": {
+            "revision": "0db6637e42daa88bc579f997d96540fa3af56297",
+            "path": "development/research/source-evidence/20261117/block-a-1212-1213-block-contact-record/lane-block-contact-record-lifecycle-1212-1213/roster.md",
+            "sha256": "d7abe8107a01e718482fb6e518f360157da309135b0ee7732ff86e62e60eda62"
+          }
         }
       ]
     },
