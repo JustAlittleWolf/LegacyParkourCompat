@@ -19,20 +19,24 @@ import java.util.function.Function;
 /**
  * 1.8 through 1.8.9 Ornithe Feather: World.applyLiquidDrag visits the integral
  * upper endpoint. LiquidBlock.getFlow maps falling depth to zero, samples the
- * lower west source through air, then tests the dry wooden fence above that
- * side. In these exact releases Block registers the six wood fences with
- * Material.WOOD and Block.isFaceSolid checks its solidity. Vec3d.normalize
- * supplies the two normalization steps around the
+ * lower west source through air, then tests the dry fence above that side.
+ * Block registers the wood fences with Material.WOOD and the nether-brick
+ * fence with Material.STONE. Block.isFaceSolid checks material solidity.
+ * Vec3d.normalize supplies the two normalization steps around the
  * (0, -6, 0) addition. Stable 1.9 World.applyLiquidDrag excludes this cell.
  * In 26.2 unobfuscated, EntityFluidInteraction.update has its own box and
  * contextual tracker. The legacy water scan supplies this projected current.
+ *
+ * <p>Nether-brick evidence: development/research/source-evidence/20261118/
+ * block-a-18-nether-brick-falling-endpoint/.
  */
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class FallingWaterCurrent implements FallingWaterCurrentHook {
     private static final Set<BlockState> FENCE_CUES = Set.of(
         Blocks.OAK_FENCE.defaultBlockState(), Blocks.SPRUCE_FENCE.defaultBlockState(),
         Blocks.BIRCH_FENCE.defaultBlockState(), Blocks.JUNGLE_FENCE.defaultBlockState(),
-        Blocks.ACACIA_FENCE.defaultBlockState(), Blocks.DARK_OAK_FENCE.defaultBlockState()
+        Blocks.ACACIA_FENCE.defaultBlockState(), Blocks.DARK_OAK_FENCE.defaultBlockState(),
+        Blocks.NETHER_BRICK_FENCE.defaultBlockState()
     );
 
     @Override
