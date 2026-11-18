@@ -1,6 +1,6 @@
 # Late Elytra climb-exit route evidence (2026-11-18)
 
-This receipt preserves nine byte-bound source reports and independent verdicts for bounded, already-active dry glide/climb-exit routes. The comparisons are source-only and do not establish runtime parity, complete pair coverage, or product implementation parity.
+This receipt preserves ten byte-bound source reports and independent verdicts for bounded, already-active dry glide/climb-exit routes. The comparisons are source-only and do not establish runtime parity, complete pair coverage, or product implementation parity.
 
 | Pair | Frozen report SHA-256 | Independent verdict SHA-256 | Bounded result / correction |
 |---|---|---|---|
@@ -13,6 +13,7 @@ This receipt preserves nine byte-bound source reports and independent verdicts f
 | 1.21.11→26.1 | `168a388c62b9549e1f02b7cfaa8f42ea8a96ede6c474f36ddab1544ce92853c7` | `40e3b3cdfb543c0483ba708948c074fd6649dfdb76b468cfabbd1d0efbe90cd5` | Accepted for the stated source slice: no changed gate, operation order, movement call, or flag write in the bounded climbable exit path. Vanilla tag membership and runtime behavior remain outside scope. |
 | 26.1.1→26.1.2 | `84a2ba87e9bcdad0c3a51f8f7b83a39feb5077c3be01d6a96cbba362a18695c7` | `56c6fc06df3911badbd4b4db32b629b5b41d8a17eb02c3f9691ba3bd588f6896` | Accepted bounded no-difference result, conditional on live `Player.onClimbable()`: `travelInAir` then stop applies only when the effective state is `CLIMBABLE` and not excluded by `CAN_GLIDE_THROUGH`. No tag/resource membership inventory or full-pair audit. |
 | 26.1.2→26.2 | `d4ab6d6ac4f2c34fc416ba469a9c5534baa05228fe7501da83ab646588299c76` | `2a5b1fbb10e1f9ca1b7462c57283d46e9681211320cd7d7b31b2c142e86a914e` | Qualified acceptance for the bounded dry local-player route when live `onClimbable()` is true: ordinary air travel and stop-flag writes follow in order. 26.2 adds collision-gated `restituteMovementAfterCollisions` after `Entity.move`; geometry-dependent effects and broader movement equivalence are unreviewed. Tag membership remains excluded. |
+| 26.1→26.1.1 | 08912efbc602e9e67dd0c937e1b7959dd22d0636c277d73cbf169119f4d2519f | 7e5a884520a208bc91e8f26570b0e6498b6def92fe0157fef3d00bdc0870a393 + resolution cda5964b022829af3653f8488efb8e75ebe32014ea4dbe90fd239a13cea489f5 | Original audit's local-checkout provenance hold is resolved by the separate tie-break verdict: exact ready/provenance/source manifests are present and all 6,882 source entries per version verified. Accepted only for the bounded no-difference slice; tag membership and runtime stay open. |
 
 The report, original verdict, and addendum files are copied byte-for-byte. Addenda refine the exact movement order without rewriting frozen inputs. This receipt does not assert a new product implementation or downstream parity finding.
 

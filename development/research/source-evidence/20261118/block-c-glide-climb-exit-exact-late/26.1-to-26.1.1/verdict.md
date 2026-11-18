@@ -1,0 +1,32 @@
+# Independent audit: Elytra start and climb exit (26.1 → 26.1.1)
+
+## Verdict
+
+**Bounded behavior claim corroborated; exact-pair source acceptance withheld.** The five cited Java files exist in both local release directories, their actual SHA-256 values match the report, and the 26.1/26.1.1 bytes match each other. The audited tick and movement control flow is consistent with the report for the ordinary dry local-player scenario. However, this checkout does not contain either side's claimed `unobfuscated.provenance.json`, `unobfuscated.ready.json`, or `unobfuscated.sources.sha256`; their contents and source-publication identity cannot be independently verified. The exported `data/minecraft` trees also contain no files, so the concrete external tag membership is not established. This is not a full-pair coverage verdict or runtime-parity evidence.
+
+## Immutable input and local evidence
+
+Input report: `C:\Users\Wolfi\.codex\visualizations\2026\11\17\01a1eb7b-b9ff-7a20-8686-0295dde20f26\c-glide-261-2611-actual-climb-exit\report.md`
+
+Exact input file SHA-256: `08912efbc602e9e67dd0c937e1b7959dd22d0636c277d73cbf169119f4d2519f`.
+
+Inspected source roots: `decompiled_minecraft/26.1/unobfuscated/` and `decompiled_minecraft/26.1.1/unobfuscated/`. For **each** root, the actual whole-file SHA-256 values are:
+
+- `net/minecraft/client/player/LocalPlayer.java` — `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe`
+- `net/minecraft/world/entity/player/Player.java` — `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d`
+- `net/minecraft/world/entity/LivingEntity.java` — `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd`
+- `net/minecraft/world/entity/Entity.java` — `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf`
+- `net/minecraft/server/network/ServerGamePacketListenerImpl.java` — `16d32046e8a1435723f4009e51d5b557fdff71419034554f8cf5cc63240636db`
+
+Each hash was computed from the named local file, independently in both roots. In both roots, `Test-Path` returned false for all three claimed provenance/readiness/manifest files. Thus the report's listed original-client, version-metadata and source-manifest hashes are report assertions, not independently re-bound evidence in this audit. The Java file hashes prove local equality of those files only; they do not prove that the directories came from the stated exact artifacts.
+
+## Behavior retrace
+
+- **Tick placement and local start.** `LocalPlayer.tick()` calls `super.tick()` (`LocalPlayer.java:227–230`); `LivingEntity.tick()` calls `aiStep()` (`LivingEntity.java:2699–2700,2739`). `LocalPlayer.aiStep()` tests jump, `!justToggledCreativeFlight`, `!wasJumping`, `!onClimbable()` and `tryToStartFallFlying()`, then sends the start packet (`LocalPlayer.java:854–856`); its `super.aiStep()` follows (`LocalPlayer.java:914`). The inherited travel work therefore sees the locally set flag on that tick. `Player.canGlide()` also rejects creative flight (`Player.java:1406–1409`); `tryToStartFallFlying()` rejects an existing flag, failed `canGlide()`, or water, then sets flag 7 (`Player.java:1442–1453`). `LivingEntity.canGlide()` checks airborne, non-passenger, no Levitation and qualifying equipped glider (`LivingEntity.java:3148–3159,3946–3953`). This supports the report's stated ordinary eligible chest-Elytra case; it does not establish all equipment/data configurations.
+- **Pre-travel update and dry route.** The active flag invokes `updateFallFlying()` before travel (`LivingEntity.java:3060–3068`). It first calls the fall-distance cap (`LivingEntity.java:3126–3128`; `Entity.java:2835–2838`). Fluid travel is selected before the fall-flying branch, which precedes ordinary air (`LivingEntity.java:2392–2399`). Thus the report's glide-versus-air descriptions apply only when the fluid predicate does not select another branch.
+- **Actual climb-exit path and movement ownership.** With the active flag and `onClimbable()` true, `travelFallFlying()` calls `travelInAir(input)` and only then `stopFallFlying()` (`LivingEntity.java:2528–2532,2544–2547`). `travelInAir()` calls the private `handleRelativeFrictionAndCalculateMovement()` before its later vertical adjustment/friction writes (`LivingEntity.java:2430–2453`). That helper calls virtual `this.move(MoverType.SELF, ...)` before returning (`LivingEntity.java:2623–2632`). On the local player, dynamic dispatch reaches `LocalPlayer.move()`, which calls `super.move()` (`LocalPlayer.java:985–994`); `Entity.move()` performs collision resolution through `collide(delta)` and applies the resulting position (`Entity.java:704–748`). So an ordinary-air movement attempt occurs before the stop-flag sequence. Its realized displacement is still conditioned on live collision geometry and entity state; no trajectory was simulated here.
+- **Predicate and authority limits.** `onClimbable()` checks spectator first, then during fall flying checks `CAN_GLIDE_THROUGH`, then `CLIMBABLE`, then usable trapdoor (`LivingEntity.java:1689–1704`). The Java predicate ordering is verified; this export has no data files under either `data/minecraft` tree, so membership of a particular ladder/vine or glide-through block in those supplied tags is not verified. The server request path calls `tryToStartFallFlying()` and stops on failure (`ServerGamePacketListenerImpl.java:1737–1740`, as cited by the report); `updateFallFlying()`'s glide validation/wear/event branch is guarded by `!level().isClientSide()` (`LivingEntity.java:3126–3145`). These facts do not expand the audit to server physics, fluids, resource/tag contents, or concrete collision shapes.
+
+## Scope and disposition
+
+Independently retraced the cited startup/`aiStep`/travel/stop path, the requested relative-friction helper and virtual `move` dispatch, the fall-distance cap, and the server validation route. No source difference appears in the audited Java bytes. The report's bounded operational explanation is supported **conditional on the stated predicates and world inputs**. Exact source provenance and external tag/resource binding remain open; do not treat this verdict as accepting an exact 26.1--26.1.1 canonical source pair or freezing pair coverage. No product, research, wiki, or Git data was read or changed; no generation, tests, build, or launch was performed.
