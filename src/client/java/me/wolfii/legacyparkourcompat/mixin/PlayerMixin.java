@@ -210,10 +210,13 @@ abstract class PlayerMixin {
     )
     private Vec3 legacyparkourcompat$swimmingPitchLook(Player player) {
         Vec3 vanilla = player.getLookAngle();
-        return MovementRuntime.find(SwimmingPitchHook.class, player)
-            .filter(behavior -> behavior.supports(MovementRuntime.profile(player).target()))
-            .map(behavior -> new Vec3(vanilla.x, behavior.lookY(player, vanilla.y), vanilla.z))
-            .orElse(vanilla);
+        double lookY = MovementRuntime.find(SwimmingPitchHook.class, player)
+            .map(behavior -> behavior.lookY(player, vanilla.y))
+            .orElse(vanilla.y);
+        if (Double.doubleToRawLongBits(lookY) == Double.doubleToRawLongBits(vanilla.y)) {
+            return vanilla;
+        }
+        return new Vec3(vanilla.x, lookY, vanilla.z);
     }
 
     @Unique
