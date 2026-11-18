@@ -1,0 +1,9 @@
+# Lava-current dimension gate
+
+1.21.10, Mojmap: `net/minecraft/world/entity/Entity.java`, `updateInWaterStateAndDoFluidPushing`, lines 1483–1488; `net/minecraft/world/level/dimension/DimensionType.java`, `ultraWarm` record component and required `ultrawarm` codec field, lines 25–40 and 50–68.
+
+1.21.11, Mojmap: `net/minecraft/world/entity/Entity.java`, `updateInWaterStateAndDoFluidPushing`, lines 1501–1506; `net/minecraft/world/level/dimension/DimensionType.java`, optional `attributes` map defaulting to `EnvironmentAttributeMap.EMPTY`, lines 19–39 and 77–100; `net/minecraft/world/attribute/EnvironmentAttributes.java`, `FAST_LAVA` (`minecraft:gameplay/fast_lava`) with Boolean default false, lines 126–128; `net/minecraft/world/attribute/EnvironmentAttributeSystem.java`, dimension-value fallback, lines 95–103.
+
+Difference: The lava scan coefficient selects `0.007` from old `ultraWarm`; the newer source selects it from the optional `FAST_LAVA` environment attribute. A missing newer attribute uses false. Built-in bootstrap values agree (Overworld false, Nether true), but no target world's old/new dimension resource or persisted world state was supplied, and legacy-field handling or current mod representability was not assessed.
+
+Movement meaning: With identical flowing-lava fluid states and an on-foot, non-flying LocalPlayer, a differing Boolean changes the scan's coefficient-scaled averaged flow vector added to delta movement. The pre-minimum vector magnitude ratio is three; the scan's `0.0045000000000000005` minimum-current rule can make the final impulse equal when both paths clamp, or can leave different magnitudes when only one clamps. Applicability to a particular world remains open; this is not a universal mismatch.
