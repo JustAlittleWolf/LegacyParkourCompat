@@ -3426,6 +3426,30 @@
             "build": "BUILD SUCCESSFUL in 9s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
           }
+        },
+        {
+          "exactPair": "1.12.2--26.2",
+          "decision": "Accepted exact near-vertical look-vector behavior and first active dry movement consumption. The provenance-resolution supplement is included; it revalidates the complete local source manifests/trees while noting the original raw artifact cache is unavailable, so raw binaries are not newly rehashed.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1122-262-near-vertical-look-source/report.md",
+            "sha256": "152a5c403175787915ed6aa6b0d3e8414375e3346538418f7db25f82617b43a0"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1122-262-near-vertical-look-source/verdict.md",
+            "sha256": "01d64143d13d841636385eccdacf99644f3e47b10bf47effcb7d8a477e6109ec"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          },
+          "signedSupplement": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1122-262-near-vertical-look-source/provenance-resolution.md",
+            "sha256": "84d0d1f7daa26ce7d674d69aac4fad7710ec53b9c460c8cf05242a03336ad432"
+          }
         }
       ]
     },
@@ -12926,6 +12950,30 @@
             "path": "development/research/source-evidence/20261117/block-a-194-1102-water-current/lane-water-current-source-194-1102-audit/roster-r1.txt",
             "sha256": "cb2c01bb61da16a2702e752c08069fc208e95084384616a36cff3c64f0e07151"
           }
+        },
+        {
+          "exactPair": "1.9.4--1.10",
+          "decision": "Accepted bounded no-difference for ordinary dry movement of an already-flying local player at finite negative near-limit pitch with nonzero horizontal look component. A signed binding resolution corrects the verdict's report-digest typo.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-194-110-near-vertical-look-alias/report.md",
+            "sha256": "3f9ef667c4d326a3adafd1e5b7f12edc920b630695651d8b4c7b15c701bb7651"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-194-110-near-vertical-look-alias/verdict.md",
+            "sha256": "e9ca8b0ab7788b94e508cae0d81f79d3d54ab91505c841f4dd3fddb78e6bd687"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          },
+          "signedSupplement": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-194-110-near-vertical-look-alias/binding-resolution.md",
+            "sha256": "e32bd8229972786f802ed80ba5047ee286c83a25485a5780b9f930ce8729ff96"
+          }
         }
       ]
     },
@@ -15593,6 +15641,25 @@
             "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
             "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
           }
+        },
+        {
+          "exactPair": "1.9--1.9.1",
+          "decision": "Accepted bounded no-difference through the first move; near-vertical finite negative pitch retains the old lookup and denominator path.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-19-191-near-vertical-look-alias/report.md",
+            "sha256": "e6be06d5666bfc27b902ccd947b94fb36c1ee1cacf91843b3882323d1cea2600"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-19-191-near-vertical-look-alias/verdict.md",
+            "sha256": "56ed04890447e323087cbdb6c989dbd77286a506324e96ef13ae4e70cc74d238"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          }
         }
       ]
     },
@@ -15688,6 +15755,25 @@
             "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
             "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
             "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
+        },
+        {
+          "exactPair": "1.9.3--1.9.4",
+          "decision": "Accepted for the stated ordinary dry active look-vector source slice.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-193-194-near-vertical-look-alias/report.md",
+            "sha256": "9bbd41e786c522e60b7c01152b7732ac90f185f681f70487a281b165cd738870"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-193-194-near-vertical-look-alias/verdict.md",
+            "sha256": "7011d5141f9c01c6269179da7b2567f2ca378817eb4519a477c524705188e41d"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
           }
         }
       ]
@@ -15805,6 +15891,25 @@
             "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
             "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
             "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
+        },
+        {
+          "exactPair": "1.9.1--1.9.2",
+          "decision": "Accepted bounded no-difference for ordinary dry already-active look construction, trig lookup and first movement.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-191-192-near-vertical-look-alias/report.md",
+            "sha256": "3bc17d57ddb47563fcda86fe19c97152edeabc5094eefd751f8d905234eb71c2"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-191-192-near-vertical-look-alias/verdict.md",
+            "sha256": "d88f98712fee692265597447d8913519daa8d9972b1f31fd5ff3ce47037ef6a3"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
           }
         }
       ]
@@ -15996,6 +16101,25 @@
             "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
             "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
           }
+        },
+        {
+          "exactPair": "1.9.2--1.9.3",
+          "decision": "Split verdict: source slice no-difference accepted, but audit corrects the report's literal sample lookup index to 32767; stated `j > 0.0` and `i < 0.0F` gates still hold.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-192-193-near-vertical-look-alias/report.md",
+            "sha256": "238a53ad9128473f7dca443011f5c1c96361de566bd8d6913734a0ac69beb53b"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-192-193-near-vertical-look-alias/verdict.md",
+            "sha256": "2832c5b78b20dfed9f696c101d8c61a209d29517a9ab9d66c02d5cf196e56cea"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          }
         }
       ]
     },
@@ -16033,7 +16157,28 @@
         },
         "disposition": "COVERED_NO_CODE for literal 1.11.1 and 1.11.2 aliases; exact WallCollisionHeight provider annotations/resolver select the accepted historical height for 1.11.1 and native corrected behavior for 1.11.2.",
         "scope": "Exact profile alias/effective provider only; no runtime parity or broader wall coverage claim."
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.11.1--1.11.2",
+          "decision": "Bounded no-difference confirmed. Local dispatch uses actual player pitch/yaw, not the base `headYaw` path; the verdict closes that provenance gap.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1111-1112-near-vertical-look-alias/report.md",
+            "sha256": "42cf9929340fd9b6fdecc7e24eb405fe5f57e9df3277b6cf079d80a85dfab8ed"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1111-1112-near-vertical-look-alias/verdict.md",
+            "sha256": "d32f89a9a64b9c7567b993930dc3e8b9c94ea9a83804179d75dbfb778993723f"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          }
+        }
+      ]
     },
     {
       "pair": "1.10--1.10.1",
@@ -16129,6 +16274,25 @@
             "path": "development/research/source-evidence/20261117/block-a-110-1111-water-current-alias/lane-water-current-source-110-1101/source-roster.json",
             "sha256": "4aa1b97837a9ff3c6bd466a598cf607a0ea35ae497d6892a5b7ecf585ba74c24"
           }
+        },
+        {
+          "exactPair": "1.10--1.10.1",
+          "decision": "Accepted bounded no-difference for ordinary dry, already-active near-vertical Elytra look and movement slice.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-110-1101-near-vertical-look-alias/report.md",
+            "sha256": "15b8a50bd8f11c2e6399570c676e23381db4e28d18c8d62c205999b58abea205"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-110-1101-near-vertical-look-alias/verdict.md",
+            "sha256": "16f1efec453684ef7383d96098dfe5a852173a4c9742d4ed7347de2e3cfb164f"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          }
         }
       ]
     },
@@ -16158,7 +16322,28 @@
       "limits": [
         "Exact 1.10.1→1.10.2 only. This is source correspondence, not runtime parity."
       ],
-      "nextAction": "Keep this exact pair frozen with no movement delta; do not transfer acceptance across adjacent patch edges."
+      "nextAction": "Keep this exact pair frozen with no movement delta; do not transfer acceptance across adjacent patch edges.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.10.1--1.10.2",
+          "decision": "Accepted bounded no-difference for the named near-vertical look slice.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1101-1102-near-vertical-look-alias/report.md",
+            "sha256": "aba719842bdc89f48fa4ef9788683fa8b56f4c41154ef1284ac246a4ae6c6e83"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1101-1102-near-vertical-look-alias/verdict.md",
+            "sha256": "fbff63488add2b8542ddee823a2415022181edf5df02388c3320cf563d35335d"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          }
+        }
+      ]
     },
     {
       "pair": "1.11--1.11.1",
@@ -16355,6 +16540,25 @@
             "path": "development/research/source-evidence/20261117/block-a-110-1111-water-current-alias/lane-water-current-source-111-1111/source-roster.json",
             "sha256": "70b519af1fd367d6b033f409246cade964b5f7e2ab84093f4feffc4d6e7c7211"
           }
+        },
+        {
+          "exactPair": "1.11--1.11.1",
+          "decision": "Accepted bounded source comparison for the same active dry near-vertical look operation.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-111-1111-near-vertical-look-alias/report.md",
+            "sha256": "022baace6a8cd0220798ab694f904acab49e521bec1534344c0d64d798a17a63"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-111-1111-near-vertical-look-alias/verdict.md",
+            "sha256": "403eed609d5f61034c9cdd37a1f4a2cfe6b1b5589483477a43ae6ce863f03759"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          }
         }
       ]
     },
@@ -16395,6 +16599,25 @@
             "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
             "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
             "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
+        },
+        {
+          "exactPair": "1.12--1.12.1",
+          "decision": "Accepted bounded no-difference for ordinary dry already-active Elytra movement.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-112-1121-near-vertical-look-alias/report.md",
+            "sha256": "4b2a53ebda3a6332b6990f395158760c5f0604ad78f5822ca3254754afdec9da"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-112-1121-near-vertical-look-alias/verdict.md",
+            "sha256": "948b963172d503b8476953a3189173380a6b5cac9b0ac2ff534cfda2af492991"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
           }
         }
       ]
@@ -16498,6 +16721,25 @@
             "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
             "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
             "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
+        },
+        {
+          "exactPair": "1.12.1--1.12.2",
+          "decision": "Accepted bounded no-difference; verdict corrects the report's claim that canonical 1.12.1 hidden provenance is absent.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1121-1122-near-vertical-look-alias/report.md",
+            "sha256": "ac9b2bc553da669aaeb18fca8dd6205aee693b85c6a028a58e7c1d68f5c6ad83"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1121-1122-near-vertical-look-alias/verdict.md",
+            "sha256": "a309ba1e18856f685a97e7350ee9ee5a429e928ca4a639a794a84ee166f640f7"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
           }
         }
       ]
@@ -16967,6 +17209,30 @@
             "revision": "1aae7a9f16eb4ed5160477d0ff8f3d96eadb3f98",
             "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/c-queue-1102-111-sleep-resize/finding-draft.md",
             "sha256": "62d3bb8a6f25b64c23374adfc79b670cb7f85041bba824c96adfe777eed0f6e1"
+          }
+        },
+        {
+          "exactPair": "1.10.2--1.11",
+          "decision": "Bounded no-difference in the compared dry, already-active Elytra steering slice. The signed input correction preserves the original report/verdict and resolves a digest typo.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1102-111-near-vertical-look-alias/report.md",
+            "sha256": "8d28ad8a0d2037250462b350ddf3455284fd97b07e4fd52d0e1c4a433270cfef"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1102-111-near-vertical-look-alias/verdict.md",
+            "sha256": "e7a2f41d72da392f5e7ed93a639291d96cc9d28410daf4a054bd4133cbe653d6"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
+          },
+          "signedSupplement": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1102-111-near-vertical-look-alias/input-identity-correction.md",
+            "sha256": "66518a21de050ff36987b7829c2cecd166dfc163ca353627f8e9807032da3cdd"
           }
         }
       ]
@@ -17591,6 +17857,25 @@
             "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
             "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
             "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
+        },
+        {
+          "exactPair": "1.11.2--1.12",
+          "decision": "Core bounded no-difference accepted; evidence correction identifies the local pitch/yaw override rather than base headYaw as the effective path.",
+          "snapshot": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1112-112-near-vertical-look-alias/report.md",
+            "sha256": "e81591bd6b77f6aaa4f4a9f4773459e16e9812a3f04ea252b5db6ef397deb6c2"
+          },
+          "review": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/c-glide-1112-112-near-vertical-look-alias/verdict.md",
+            "sha256": "0aa65661bfc6b0fde62fa1d1bb8614653df1844b49b391e4e8d3fde9c39bb873"
+          },
+          "manifest": {
+            "revision": "06da1d202aa68971458a3cae21afff16f596026d",
+            "path": "development/research/source-evidence/20261118/block-c-near-vertical-look/README.md",
+            "sha256": "5e59cd91a5877ad78f65a9557b221587300adf9a52ff6d18c19cb564e247d4b5"
           }
         }
       ]
