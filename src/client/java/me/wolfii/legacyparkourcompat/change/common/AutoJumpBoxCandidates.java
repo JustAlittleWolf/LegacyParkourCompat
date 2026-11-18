@@ -65,9 +65,21 @@ public final class AutoJumpBoxCandidates {
     private record Cell(BlockPos pos, BlockState state) {}
 
     private record BorderProbe(Direction face, double edge, int floorY, int row) {
+        private int outwardStep() {
+            return face.getAxisDirection().getStep();
+        }
+
+        private Direction.Axis tangent() {
+            return face.getAxis() == Direction.Axis.X ? Direction.Axis.Z : Direction.Axis.X;
+        }
+
+        private double outward(Vec3 point) {
+            return outwardStep() * point.get(face.getAxis());
+        }
+
         private double outwardCell(int x, int z) {
             int coordinate = face.getAxis() == Direction.Axis.X ? x : z;
-            return face.getAxisDirection() == Direction.AxisDirection.POSITIVE ? coordinate : -coordinate - 1.0;
+            return outwardStep() > 0 ? coordinate : -coordinate - 1.0;
         }
 
         private boolean isFloor(int x, int y, int z) {
@@ -121,7 +133,7 @@ public final class AutoJumpBoxCandidates {
         if (crossedFaces == 1) {
             Direction face = west ? Direction.WEST : east ? Direction.EAST : north ? Direction.NORTH : Direction.SOUTH;
             borderProbe = admitBorder(player, level, query, selected, border, face, minY, maxY, early);
-            if (borderProbe == null || (early && !admitsEarlyEastBorder(player, face, borderProbe, probes,
+            if (borderProbe == null || (early && !admitsEarlyBorder(player, borderProbe, probes,
                 minX, maxX, minY, maxY, minZ, maxZ))) {
                 return AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla);
             }
@@ -286,12 +298,14 @@ public final class AutoJumpBoxCandidates {
         double bodyMin = positive ? box.min(axis) : -box.max(axis);
         double bodyMax = positive ? box.max(axis) : -box.min(axis);
         var speed = player.getEffect(MobEffects.SPEED);
+        double tangentTolerance = early && face != Direction.EAST ? 1.0E-7 : 0.0;
         if (x > west + 1.0 && x < east - 1.0 && z > north + 1.0 && z < south - 1.0
             && width == 0.6F && player.getBbHeight() == 1.8F
             && bodyMin >= edge - 2.0 && bodyMax < edge && box.min(tangent) >= row && box.max(tangent) <= row + 1.0
             && y == Math.rint(y) && query.minY == y && query.maxY == y + player.getBbHeight()
             && probeMin == normalCenter - width && end > edge && end < edge + 1.0
-            && query.min(tangent) == tangentCenter - width && query.max(tangent) == tangentCenter + width
+            && Math.abs(query.min(tangent) - (tangentCenter - width)) <= tangentTolerance
+            && Math.abs(query.max(tangent) - (tangentCenter + width)) <= tangentTolerance
             && speed != null && speed.getAmplifier() == 1 && !player.hasEffect(MobEffects.JUMP_BOOST)
             && clientLevel.getEntities(player, query.inflate(0.25), entity -> true).isEmpty()) {
             return new BorderProbe(face, edge, Mth.floor(y) - 1, row);
@@ -299,29 +313,61 @@ public final class AutoJumpBoxCandidates {
         return null;
     }
 
-    private static boolean admitsEarlyEastBorder(Player player, Direction face, BorderProbe probe,
-        @Nullable ProbeSegments segments, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
-        if (face != Direction.EAST || segments == null || segments.groundedTravelStart() == null) return false;
+    /**
+     * 1.10 through 1.11.2 Feather Gen2 build.2 World.getCollisions inserts
+     * Stone at the first exterior cell of the approached face. Its lower
+     * side cap changes at 1.11.1 but only touches this query's feet plane.
+     * The LocalClientPlayerEntity.autoJump side rays hit the next cell up.
+     */
+    private static boolean admitsEarlyBorder(Player player, BorderProbe probe, @Nullable ProbeSegments segments,
+                                             int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+        if (segments == null || segments.groundedTravelStart() == null) return false;
         Vec3 start = segments.groundedTravelStart();
         double edge = probe.edge();
         double feet = probe.floorY() + 1.0;
         int row = probe.row();
         double halfWidth = player.getBbWidth() * 0.5F;
-        if (start.x - halfWidth < edge - 2.0 || start.x + halfWidth >= edge || start.x >= player.getX()
-            || start.y != feet || start.z != player.getZ()
-            || minX != edge - 3.0 || maxX != edge + 1.0 || minY != feet - 2.0 || maxY != feet + 2.0
-            || minZ != row - 2 || maxZ != row + 2
-            || player.getBoundingBox().minX >= edge - 1.0 || player.getBoundingBox().maxX <= edge - 1.0) {
+        Direction.Axis axis = probe.face().getAxis();
+        Direction.Axis tangent = probe.tangent();
+        boolean alongX = axis == Direction.Axis.X;
+        boolean positive = probe.outwardStep() > 0;
+        int rawMin = alongX ? minX : minZ;
+        int rawMax = alongX ? maxX : maxZ;
+        // A mirrored unit cell at raw coordinate r begins at -r - 1.
+        int normalMin = positive ? rawMin : -rawMax - 1;
+        int normalMax = positive ? rawMax : -rawMin - 1;
+        int tangentMin = alongX ? minZ : minX;
+        int tangentMax = alongX ? maxZ : maxX;
+        AABB box = player.getBoundingBox();
+        double bodyMin = positive ? box.min(axis) : -box.max(axis);
+        double bodyMax = positive ? box.max(axis) : -box.min(axis);
+        double normalStart = probe.outward(start);
+        double tangentStart = start.get(tangent);
+        double tolerance = probe.face() == Direction.EAST ? 0.0 : 1.0E-7;
+        if (normalStart - halfWidth < edge - 2.0 || normalStart + halfWidth >= edge
+            || normalStart >= probe.outward(player.position()) || start.y != feet
+            || Math.abs(tangentStart - player.position().get(tangent)) > tolerance
+            || (probe.face() != Direction.EAST
+                && (tangentStart - halfWidth < row || tangentStart + halfWidth > row + 1.0))
+            || normalMin != edge - 3.0 || normalMax != edge + 1.0 || minY != feet - 2.0 || maxY != feet + 2.0
+            || tangentMin != row - 2 || tangentMax != row + 2
+            || bodyMin >= edge - 1.0 || bodyMax <= edge - 1.0) {
             return false;
         }
-        return crossesEastCell(segments.leftStart(), segments.leftEnd(), edge, feet, row)
-            && crossesEastCell(segments.rightStart(), segments.rightEnd(), edge, feet, row);
+        return crossesExteriorCell(segments.leftStart(), segments.leftEnd(), probe, feet, tolerance)
+            && crossesExteriorCell(segments.rightStart(), segments.rightEnd(), probe, feet, tolerance);
     }
 
-    private static boolean crossesEastCell(Vec3 from, Vec3 to, double edge, double feet, int row) {
-        return from.x < edge && to.x > edge && to.x < edge + 1.0
+    private static boolean crossesExteriorCell(Vec3 from, Vec3 to, BorderProbe probe, double feet, double tolerance) {
+        double edge = probe.edge();
+        double outer = probe.outward(to);
+        double fromTangent = from.get(probe.tangent());
+        double toTangent = to.get(probe.tangent());
+        int row = probe.row();
+        return probe.outward(from) < edge && outer > edge && outer < edge + 1.0
             && from.y == to.y && from.y > feet && from.y < feet + 1.0
-            && from.z == to.z && from.z > row && from.z < row + 1.0;
+            && Math.abs(toTangent - fromTangent) <= tolerance
+            && fromTangent > row && fromTangent < row + 1.0 && toTangent > row && toTangent < row + 1.0;
     }
 
     private static List<VoxelShape> brewingStandParts(Player player, CollisionGetter level, AABB query,

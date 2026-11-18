@@ -5,6 +5,8 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpEntityPrefixHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpPartialCandidateHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MoverType;
@@ -77,7 +79,8 @@ final class AutoJumpTravelContext {
             && player.getZ() == travel.start.z;
         travel.inCallback = mover == MoverType.SELF && player.onGround() && requested.y < 0.0
             && switch (travel.route) {
-                case GROUNDED -> unmodifiedEast && player.getY() == travel.start.y;
+                case GROUNDED -> player.getY() == travel.start.y
+                    && (unmodifiedEast || unmodifiedCardinal(player, travel.start, requested, dx, dz));
                 case CLIPPED -> player.getY() == travel.start.y && dx == 0.0F && actualX == 0.0
                     && requested.x == 0.0 && dz > 0.0F && (float)((double)dz * dz) > 0.001F
                     && (float)(player.getZ() - travel.start.z) == dz && (float)requested.z > dz;
@@ -89,6 +92,25 @@ final class AutoJumpTravelContext {
         } finally {
             travel.inCallback = false;
         }
+    }
+
+    private static boolean unmodifiedCardinal(LocalPlayer player, Vec3 start, Vec3 requested, float dx, float dz) {
+        float yaw = Mth.wrapDegrees(player.getYRot());
+        Direction face = Direction.fromYRot(yaw);
+        if (face == Direction.EAST || yaw != Mth.wrapDegrees(face.toYRot()) || player.horizontalCollision) {
+            return false;
+        }
+
+        Direction.Axis normal = face.getAxis();
+        boolean alongX = normal == Direction.Axis.X;
+        Direction.Axis tangent = alongX ? Direction.Axis.Z : Direction.Axis.X;
+        float normalMove = alongX ? dx : dz;
+        Vec3 actual = player.position().subtract(start);
+        // A cardinal yaw may leave a tiny cross-axis trigonometric residue.
+        return normalMove * face.getAxisDirection().getStep() > 0.0F
+            && (float)((double)normalMove * normalMove) > 0.001F
+            && (float)actual.get(normal) == normalMove && (float)requested.get(normal) == normalMove
+            && Math.abs(requested.get(tangent)) <= 1.0E-7 && Math.abs(actual.get(tangent)) <= 1.0E-7;
     }
 
     static @Nullable Vec3 callbackStart(Entity entity) {
