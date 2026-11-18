@@ -1,0 +1,43 @@
+Independent blind source roster — ordinary nonfalling water current, 1.9.4 → 1.10.2
+Host: Windows PowerShell; consumer checkout read-only; mapping family: Ornithe Feather.
+Boundary: AABB floor/ceil + loaded-area/chunk gate; ordinary liquid cell eligibility and ordered flow accumulation; aggregate normalization and 0.014 velocity writes; local client on-foot/no-fly eligibility path.
+Explicit exclusions: falling-flow special addition, aliases, body/eye liquid query behavior, swimming/current motion extrapolation, and product/wiki material.
+Frozen before opening author comparison.md.
+
+[1.9.4 | ready=decompiled_minecraft/1.9.4/ornithe-feather.ready.json | readyStatus=ready | sourceManifest=decompiled_minecraft/1.9.4/ornithe-feather.sources.sha256 | sourceManifestSHA256=c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19]
+provenance=decompiled_minecraft/1.9.4/ornithe-feather.provenance.json | mapping=feather-gen2-1.9.4+build.2-mergedv2.jar,feather-gen2-1.9.4+build.2.tiny | versionMetadata=1.9.4 | clientSHA256=23e90103a1ca2ac71100004c6d5846de09f85695f579843ef8da41571e60c908 | decompiler=Vineflower/1.12.0 | Java=25/25.0.3+9-LTS
+net/minecraft/world/World.java SHA256=2fe063e0ec224eed9fc7d01b8f788c32035eed5fee5a9d98ea5e82296236e05a
+  slice: World.java:216-234 isAreaLoaded(int...) inclusive chunk gate; 1560-1602 applyLiquidDrag bounds/scan/aggregate/write
+net/minecraft/block/Block.java SHA256=e62ece80c6a7e7121346f65f8fdfd9b148c29441a27de9f568bba9afe1d84fe6
+  slice: Block.java:522-524 applyMaterialDrag fallback
+net/minecraft/block/LiquidBlock.java SHA256=b988d19e379d01d291cb014cb05e1579311c589654ce9ff4faa7f43bbba0533e
+  slice: LiquidBlock.java:49-55 getHeightLoss; 131-172 getFlow (ordinary nonfalling branch 131-159; falling branch 160-168 excluded); 175-177 applyMaterialDrag
+net/minecraft/util/math/Direction.java SHA256=10bd074fa46e27658e7109836fe5456fa1f2017a15401f28fc12900d942f02ef
+  slice: Direction.java:315-340 Plane.HORIZONTAL iterator order
+net/minecraft/entity/Entity.java SHA256=bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0
+  slice: Entity.java:299-305 tick/baseTick dispatch; 360-362 checkWaterCollisions call; 849-865 query box/state updates; 2254-2257 logical-side movement gate
+net/minecraft/entity/living/LivingEntity.java SHA256=bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5
+  slice: LivingEntity.java:183-188 fall-collision recheck gate; 1302-1457 moveRelative water branch and normal on-foot path; 1489-1490 inherited tick dispatch; 1711 movement call; 1841-1843 local-control default
+net/minecraft/entity/living/player/PlayerEntity.java SHA256=d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85
+  slice: PlayerEntity.java:170-200 inherited tick dispatch; 1372-1390 flying/nofly override and delegated movement
+net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java SHA256=8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d
+  slice: LocalClientPlayerEntity.java:447-449 local-control override
+
+[1.10.2 | ready=decompiled_minecraft/1.10.2/ornithe-feather.ready.json | readyStatus=ready | sourceManifest=decompiled_minecraft/1.10.2/ornithe-feather.sources.sha256 | sourceManifestSHA256=91b0f478acb7b6f13463c35b268a30d2806f583402631a56f54ce2eb70d1ec71]
+provenance=decompiled_minecraft/1.10.2/ornithe-feather.provenance.json | mapping=feather-gen2-1.10.2+build.2-mergedv2.jar,feather-gen2-1.10.2+build.2.tiny | versionMetadata=1.10.2 | clientSHA256=7cdf7fcdc1c92584a233bf3c42bd7f0df1bdad3007d306831fe50410692be1e9 | decompiler=Vineflower/1.12.0 | Java=25/25.0.3+9-LTS
+net/minecraft/world/World.java SHA256=888ed0e9de765def87b05c4126ecdf0b10e9dd448b4543dd1cb98211e9951646
+  slice: World.java:216-234 isAreaLoaded(int...) inclusive chunk gate; 1570-1612 applyLiquidDrag bounds/scan/aggregate/write
+net/minecraft/block/Block.java SHA256=1971dbc284d511e2ed366f77bc77fd8cd07174baad3e7732e908d3daeb640c01
+  slice: Block.java:527-529 applyMaterialDrag fallback
+net/minecraft/block/LiquidBlock.java SHA256=b988d19e379d01d291cb014cb05e1579311c589654ce9ff4faa7f43bbba0533e
+  slice: LiquidBlock.java:49-55 getHeightLoss; 131-172 getFlow (ordinary nonfalling branch 131-159; falling branch 160-168 excluded); 175-177 applyMaterialDrag
+net/minecraft/util/math/Direction.java SHA256=10bd074fa46e27658e7109836fe5456fa1f2017a15401f28fc12900d942f02ef
+  slice: Direction.java:315-340 Plane.HORIZONTAL iterator order
+net/minecraft/entity/Entity.java SHA256=05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77
+  slice: Entity.java:304-310 tick/baseTick dispatch; 365-367 checkWaterCollisions call; 862-878 query box/state updates; 2296-2299 logical-side movement gate
+net/minecraft/entity/living/LivingEntity.java SHA256=d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82
+  slice: LivingEntity.java:185-189 fall-collision recheck gate; 1332-1489 moveRelative water branch and normal on-foot path; 1525-1526 inherited tick dispatch; 1747 movement call; 1877-1879 local-control default
+net/minecraft/entity/living/player/PlayerEntity.java SHA256=a055b84b98d98e828e177cad9bba47a1334ee9bf3ecd4331792979106235a302
+  slice: PlayerEntity.java:175-205 inherited tick dispatch; 1391-1409 flying/nofly override and delegated movement
+net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java SHA256=a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443
+  slice: LocalClientPlayerEntity.java:458-460 local-control override
