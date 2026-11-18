@@ -1,0 +1,37 @@
+# Independent source audit verdict — r1 rebind
+
+Pair: Minecraft 1.8.9 → 1.9.4, Ornithe Feather. **Verdict: ACCEPT r1** for the bounded server invocation/order and client packet/application claims, with the old-dimension argument and current-coordinate caveats below. This is a narrow rebind, not new pair coverage or runtime acceptance.
+
+## Immutable input identities
+
+- Author manifest `SHA256SUMS-r1.txt`: b5826205d436caa534e0f8242c79741310b5230cfe24fc3df8aa292a0a44ad6b
+- `operation-end-destination-order.r1.md`: a69fe34cf13ed004636329dc776bce44a1c7853429b420e87dc29faa9a8d052f
+- `operation-end-packet-client-application.r1.md`: 49656877648eea1f2ad000158b2631220952360ba1fe2d7c3585c8d5373f3cb7
+- `outcome.r1.md`: d902282f1a2875856e9f7bc95f9f48b25755cb865bb6c104d543ea8e3c53c256
+- Prior audit verdict, retained unchanged (`VERDICT.txt`): dd33df95417981163e157a257d972f8218c6ae16106ccbe9abbc609ba8f95c48
+- Pre-claim independent source roster, retained unchanged (`SOURCE_ROSTER.txt`): f1bacc3fa3d64aefb23f3ca303fd0ac9dedac4fc422e2e9ec5c151e645ff599b
+- Source-only client/C2S roster supplement, retained unchanged (`SOURCE_ROSTER_SUPPLEMENT.txt`): f8a13466553e40ba7dcf66784aa280a9d1cf3431fbb12bfc9c8011497e43c9bc
+
+Directly rechecked exact source file hashes:
+
+| Release | Source file | SHA-256 |
+|---|---|---|
+| 1.8.9 | `net/minecraft/server/entity/living/player/ServerPlayerEntity.java` | 047158bda6fa8fe2ea8a097972c098c5abe492ffbbe280006ae7592cd97fbb81 |
+| 1.8.9 | `net/minecraft/server/PlayerManager.java` | 0498b44f26782daa8b82db0c0823cef615c6bd7e7234a43c32456e15647d9a5d |
+| 1.8.9 | `net/minecraft/server/network/handler/ServerPlayNetworkHandler.java` | 47ef077a7fa0f74cf44e1c8bda449d1b220bf56503b2fef98fd8016e8092df5b |
+| 1.8.9 | `net/minecraft/entity/Entity.java` | d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b |
+| 1.9.4 | `net/minecraft/server/entity/living/player/ServerPlayerEntity.java` | 8e65663709c6a41f845ddb703b9ad96ecf05a67cc17bfadcda98328900cd67cd |
+| 1.9.4 | `net/minecraft/server/PlayerManager.java` | 4b77ddc263a0d9e17ffa359370ef56f9d1b59834ec53a21f29aeb8cc02a571c3 |
+| 1.9.4 | `net/minecraft/server/network/handler/ServerPlayNetworkHandler.java` | f96587355f356f95362dbca2c57c043fdb3ee8ee2fe81589f4c3379ab1a0336b |
+| 1.9.4 | `net/minecraft/entity/Entity.java` | bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0 |
+
+## Accepted source claims
+
+- **Old argument selects the forced accessor.** In both `PlayerManager.changeDimension(ServerPlayerEntity,int)` methods, `int i = player.dimension` is captured before `player.dimension = dimension`; the entity overload receives `i`. For dimension 0 → 1, the entity's new dimension is 1, so the dimension checks take the final branch, while the passed `dimension` remains 0. Thus `dimension == 1` is false and the helper selects `toWorld.getForcedSpawnPoint()`. It writes the selected block's integer X/Y/Z and yaw 90/pitch 0. The r1 notes correctly identify this in both releases.
+- **Conditional and unguarded forced-spawn reads.** 1.8.9 `ServerPlayerEntity.changeDimension` checks the End forced-spawn result locally and sends the preliminary absolute teleport only when non-null; 1.9.4 has no such pre-respawn branch. The later entity helper in each release selects and dereferences its forced-spawn `blockPos` without a local null check. This confirms the source predicate and unguarded helper, without asserting a concrete world's value or invariant.
+- **Final packet coordinates are current fields after the helper.** The entity helper writes the forced-spawn coordinates, then for a live entity calls `fromWorld.tickEntity(entity, false)` before `entity.setWorld(toWorld)`. The `setWorld` implementation only assigns the world reference. `onChangedDimension` updates chunk-map membership and requests the chunk at the player's current X/Z; it contains no direct X/Y/Z assignment. After that call, `PlayerManager` passes the then-current `player.x`, `player.y`, `player.z`, yaw and pitch to the final no-relative-args `networkHandler.teleport`. That network-handler method sends a `PlayerMoveS2CPacket` using the passed XYZ. Therefore the source proves what fields are read and when; it does **not** prove the final packet XYZ still equal the helper's forced-spawn write, because the live-entity old-world tick occurs between them.
+- **Client claims.** The corrected client note and outcome consistently refer to the same forced-spawn helper write and later packet carrying post-helper current coordinates. Remaining respawn, absolute-axis velocity clearing, teleport-ID acknowledgement and client movement-response claims remain bound to the unchanged prior audit verdict and its frozen source identities.
+
+## Boundary
+
+Acceptance covers exact source invocation and payload construction only. It makes no assertion about actual server forced-spawn values, effects of `tickEntity` on coordinates, runtime packet arrival or processing order, or movement parity. No product/wiki/backlog writes, build, tests, game/server launch, Git or network activity were performed.
