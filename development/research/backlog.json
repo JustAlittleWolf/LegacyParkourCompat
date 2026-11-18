@@ -14467,7 +14467,7 @@
       },
       "boundedSourceVerdicts": [
         {
-          "decision": "ACCEPT bounded settled-channel source witness. With one shallow flowing-water cell and zero prior horizontal motion, exact 1.11.2 applies 0.014 west and 26.2 applies the conditional 0.0045 minimum. The relevant effective runtime WATER tag remains a condition.",
+          "decision": "ACCEPT bounded settled-channel source witness. With one shallow flowing-water cell and zero prior horizontal motion, exact 1.11.2 applies 0.014 west and 26.2 applies the conditional 0.0045 minimum. Exact 26.2 packaged WATER membership is verified for the ordinary built-in default; loaded custom packs remain a condition.",
           "snapshot": {
             "revision": "24fcf61aac112219f0d7efdcb930730cdddbd63f",
             "path": "development/research/source-evidence/20261117/block-a-1112-262-ordinary-water-current-source/lane-water-current-source-1112-262/comparison.corrected-r1.md",
@@ -14497,6 +14497,18 @@
             "revision": "24fcf61aac112219f0d7efdcb930730cdddbd63f",
             "path": "development/research/source-evidence/20261117/block-a-1112-262-ordinary-water-current-source/lane-water-current-source-1112-262-audit/roster.json",
             "sha256": "0237e52965388e245b5fcb076f6fb9ee46f6c6457ac91e1b218f661e56d417c5"
+          },
+          "packagedTagEvidence": {
+            "review": {
+              "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+              "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-audit/evidence.md",
+              "sha256": "6a755b5238c87a839153d1969542f6a7fc74026e48111f284c2eed35e14b25cd"
+            },
+            "manifest": {
+              "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+              "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-recovery/resource-manifest.json",
+              "sha256": "237af4da29ec6f89a9d296d4ec4297d338db424a21a51538101771c9c26c2d76"
+            }
           }
         }
       ]
@@ -14670,7 +14682,7 @@
         },
         {
           "exactPair": "1.15.2--26.2",
-          "decision": "ACCEPT bounded callback-latch versus base-tick sampled-depth source mechanism and same stored LEVEL=7 flowing-lava endpoint witness. Under the stated ordinary held-jump and loaded-region conditions, old contact selects the lava impulse while the later low surface leaves measured depth zero and takes air travel. Runtime shipped LAVA tag membership and intermediate boundaries remain open.",
+          "decision": "ACCEPT bounded callback-latch versus base-tick sampled-depth source mechanism and same stored LEVEL=7 flowing-lava endpoint witness. Under the stated ordinary held-jump and loaded-region conditions, old contact selects the lava impulse while the later low surface leaves measured depth zero and takes air travel. Exact endpoint built-in packaged LAVA membership is verified. Custom loaded packs and intermediate boundaries remain open.",
           "snapshot": {
             "revision": "f8fabc75576c088c1f093255ef51ae6ce5e24894",
             "path": "development/research/source-evidence/20261117/block-a-1152-262-lava-presence-source/lane-lava-presence-source-1152-262/comparison.corrected-r1.md",
@@ -14690,7 +14702,60 @@
             "revision": "f8fabc75576c088c1f093255ef51ae6ce5e24894",
             "path": "development/research/source-evidence/20261117/block-a-1152-262-lava-presence-source/lane-lava-presence-source-1152-262/checksums.corrected-r1.json",
             "sha256": "c229e337b6d2ac6b6d48fbde51a8196f7c83c8f49087a548076c458420019027"
+          },
+          "packagedTagEvidence": {
+            "review": {
+              "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+              "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-audit/evidence.md",
+              "sha256": "6a755b5238c87a839153d1969542f6a7fc74026e48111f284c2eed35e14b25cd"
+            },
+            "manifest": {
+              "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+              "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-recovery/resource-manifest.json",
+              "sha256": "237af4da29ec6f89a9d296d4ec4297d338db424a21a51538101771c9c26c2d76"
+            }
           }
+        },
+        {
+          "exactPair": "1.15.2--26.2",
+          "decision": "VERIFIED identical built-in WATER/LAVA member IDs in the four packaged tag resources, recovered from independently rehashed exact client archives. Each contains source and flowing forms without includes. Custom datapack overlays, precedence and reload behavior remain separate.",
+          "snapshot": {
+            "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+            "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-recovery/comparison.md",
+            "sha256": "05815f03ea980dbd4a66b539ed44399a4ca2321d8dd293297088c62f8937bdd0"
+          },
+          "review": {
+            "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+            "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-audit/evidence.md",
+            "sha256": "6a755b5238c87a839153d1969542f6a7fc74026e48111f284c2eed35e14b25cd"
+          },
+          "manifest": {
+            "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+            "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-recovery/resource-manifest.json",
+            "sha256": "237af4da29ec6f89a9d296d4ec4297d338db424a21a51538101771c9c26c2d76"
+          },
+          "resources": [
+            {
+              "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+              "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-recovery/1.15.2/data/minecraft/tags/fluids/water.json",
+              "sha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18"
+            },
+            {
+              "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+              "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-recovery/1.15.2/data/minecraft/tags/fluids/lava.json",
+              "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
+            },
+            {
+              "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+              "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-recovery/26.2/data/minecraft/tags/fluid/water.json",
+              "sha256": "dcfa69a748d03dbf788d8f7b0e5eb6c8de6355a527fcaf74b9210fe4be2a3004"
+            },
+            {
+              "revision": "68f85b2a5bb9f276a682bc8a50ac23f441b673e9",
+              "path": "development/research/source-evidence/20261117/block-a-1152-262-packaged-fluid-tags/lane-exact-1152-262-fluid-resource-recovery/26.2/data/minecraft/tags/fluid/lava.json",
+              "sha256": "71f50fb9092d78260bc7434731fc5fd426a44e5284a6ad084ec71cb725630c6b"
+            }
+          ]
         }
       ]
     },
