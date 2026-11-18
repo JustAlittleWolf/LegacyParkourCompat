@@ -1,0 +1,39 @@
+# Independent audit verdict: 26.1.2 → 26.2 swim pitch vertical correction
+
+## Pre-report source freeze
+
+This source trace was recorded before opening the candidate report. Scope: the ordinary local player, active swimming, non-passenger, non-flying route through `Player.travel`, pitch-derived look-vector Y, direct vertical velocity correction, and inherited travel/move. Exact canonical sources are read-only; no product or Git history was consulted.
+
+### Source readiness and immutable identities
+
+Both canonical trees are `unobfuscated`, ready, exact-release outputs from Vineflower / Java 25. The ready markers bind the source and artifact manifests. Each listed Java hash below independently matches the corresponding source-manifest entry.
+
+| Version | ready marker SHA-256 | provenance SHA-256 | sources manifest SHA-256 | artifacts manifest SHA-256 | client SHA-256 |
+|---|---|---|---|---|---|
+| 26.1.2 | `f24af0f4d38543c2bd9c19b50f347d4e89d6027050e4b21ae070734843946bb7` | `8d727f880cc91f4a297e148c5b75976303d051457334bc689268fbdf631a012a` | `54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0` | `89f648229de83b0109460695c9f1f3bed7ef36efb84ede9224e80cce87118f92` | `b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0` |
+| 26.2 | `f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f` | `a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1` | `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894` | `ba9dc53a41bca9744ec1c8ab2ce9363764a22333c39ef64d5105f4e3bf5c98ba` | `40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290` |
+
+Relevant canonical Java source SHA-256 (26.1.2 / 26.2):
+
+- `net/minecraft/world/entity/player/Player.java`: `44cf28e0c64e78d39fd13368e9991381dbebab67029070cb9ddc43f09d45d14d` / `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531`
+- `net/minecraft/world/entity/Entity.java`: `8b83b1f036aabbd13d990897c540c993f7120f02955486cfcf229517d4097ccf` / `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5`
+- `net/minecraft/world/entity/LivingEntity.java`: `c3b64de8dbaba8ad8a7ccd4f33255346d8206e66f12ca91260971bf5e5ac93bd` / `7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a`
+- `net/minecraft/client/player/LocalPlayer.java`: `433fd995ad317af0f6ef0e50c1e8e3483cb8f00e0e327d4edf27a4dd99666ebe` / `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6`
+
+### Frozen tick and movement trace
+
+- Client route: `LocalPlayer.aiStep` calls `super.aiStep()` (both releases: `LocalPlayer.java:914`); `Player.aiStep` resets fall distance then calls `super.aiStep()` (`Player.java:442–453`). In `LivingEntity.aiStep`, after input state is prepared, ordinary non-ridden movement reaches `travel(input)` under `canSimulateMovement() && isEffectiveAi()` (26.1.2 `LivingEntity.java:3064–3074`; 26.2 `:3131–3141`). This excludes the passenger route. Client-only physics scope excludes server replay.
+- `Player.travel` first delegates to `super.travel(input)` for passengers. Otherwise, if `isSwimming()`, it reads `double lookAngleY = this.getLookAngle().y`, then chooses `multiplier = lookAngleY < -0.2 ? 0.085 : 0.06`. The direct vertical correction is gated by `lookAngleY <= 0.0 || this.jumping || !fluidAt(BlockPos.containing(x, y + 1.0 - 0.1, z))`; when true, it reads current movement and writes `movement.add(0.0, (lookAngleY - movement.y) * multiplier, 0.0)`. Both exact bodies are semantically and textually identical: 26.1.2 `Player.java:1381–1403`; 26.2 `Player.java:1402–1424`. Under the ordinary non-flying precondition it then calls `super.travel(input)` without the flying branch that restores Y to `originalMovementY * 0.6`.
+- The pitch-derived read is identical. `Entity.getLookAngle()` delegates to `calculateViewVector(getXRot(), getYRot())`; that converts degrees to radians in float operations, computes `realXRot=xRot*(float)(PI/180.0F)` and `realYRot=-yRot*(float)(PI/180.0F)`, looks up `Mth.cos/sin` in operation order, and returns `(ySin*xCos, -xSin, yCos*xCos)`. 26.1.2 `Entity.java:1879–1886, 2512–2514`; 26.2 `:1966–1973, 2579–2581`. Thus the swim correction's target Y is `-Mth.sin(xRot radians)` in both.
+- `LivingEntity.travel` selects fluid travel when `(isInWater || isInLava) && isAffectedByFluids() && !canStandOnFluid(block fluid state)`; otherwise fall-flying or air. In the ordinary water route, `travelInFluid` snapshots `isFalling = deltaMovement.y <= 0`, old Y, effective gravity; calls water travel, then `floatInWaterWhileRidden`. The non-passenger/ordinary player does not satisfy that final vehicle-only impulse gate. `travelInWater` chooses slowdown/speed, applies movement relative to yaw, calls `move(SELF, deltaMovement)`, optionally replaces Y with `0.2` for horizontal collision on climbable surface, multiplies motion by `(slowDown, 0.8F, slowDown)`, applies fluid-falling adjustment, then checks `jumpOutOfFluid(oldY)`. 26.1.2 `LivingEntity.java:2392–2408,2455–2494,2514–2525`; 26.2 `:2430–2446,2504–2543,2567–2578`. The fluid travel and direct pitch correction retain their order: pitch correction runs in `Player.travel` before inherited fluid travel.
+- Actual local movement dispatch is `LocalPlayer.move`, which calls `super.move` and then updates auto-jump/walked distance (`LocalPlayer.java:986–994`, both versions). `Entity.move` then collision-resolves the supplied delta and writes position (`26.1.2 Entity.java:704–758`; `26.2 :711–766`). A dependency gate changed in this inherited consumer: old sets vertical collision/on-ground state when `abs(delta.y)>0 || isLocalInstanceAuthoritative()`, whereas new computes `movedVertically=abs(delta.y)>0` and gates only on `movedVertically || isLocalInstanceAuthoritative()`; the two expressions are logically equivalent for finite ordinary deltas because `abs(y)>0` is the same test. The guard is textually unchanged after extraction to a local boolean; it does not change the direct Y correction or fluid route on the stated path. No collision-provider/source difference was audited as part of this bounded slice.
+
+### Independent source-side provisional verdict before candidate review
+
+No endpoint difference found in the `Player.travel` pitch read, LUT-backed math, vertical correction, thresholds, gates, or operation order. The source change seen in the adjacent `Entity.move` gate is predicate-equivalent for this bounded ordinary route and does not establish a swim pitch correction difference. This is a bounded source conclusion only, not pair coverage, runtime parity, or an intermediate patch boundary.
+
+## Independent comparison verdict
+
+**ACCEPT — bounded no-difference claim.** I compared the frozen trace against candidate `c-swim-pitch-vertical-2612-262-source/report.md`; actual report SHA-256 is `21be7ebe88caf86ed0b3e5e16fcb384e4501329cb84f1e75aeecf521441326e9`, matching the assigned immutable identity. The reported operation, expression grouping, float-to-double widening, LUT lookup, above-fluid block lookup/flooring, passenger/swim/flying gates, and order before inherited water travel are supported by the exact sources. Candidate Mth/BlockPos hashes independently match both source manifests; the ready-marker-bound manifest digests and actual canonical marker/provenance/artifact-manifest digests are recorded above and checked in the canonical trees. The only case variance in the candidate's 26.2 manifest digest is hexadecimal letter casing and does not alter the digest.
+
+The adjacent `Entity.move` vertical-collision guard does not introduce a bounded difference: old and new reduce to the same expression, `Math.abs(delta.y) > 0.0 || this.isLocalInstanceAuthoritative()`, with the newer source naming the first boolean `movedVertically`. Verdict is limited to this operation and these two endpoint sources; no intermediate introduction boundary, full-pair coverage, implementation acceptance, or runtime parity follows.
