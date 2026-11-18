@@ -12,7 +12,7 @@ public interface FlowScanAreaAdmissionHook extends VersionedMechanic {
      * {@code floor(bounds.minAxis)} and the maxima are the selected scan's exclusive
      * loop bounds, passed unchanged to the historical area check.
      *
-     * <p>For client player flow through 1.9.4, only the vertical overlap with block
+     * <p>For client player flow through 1.11.2, only the vertical overlap with block
      * levels {@code [0, 256)} restricts scanning.
      */
     boolean admits(int minBlockX, int minBlockY, int minBlockZ,
