@@ -22,6 +22,12 @@ Dispatch routine workers with explicit native arguments `model="gpt-6-luna"`, `r
 
 ## First dispatch and checks
 
+### Capacity checkpoint
+
+Include this instruction in each new orchestrator goal: "Keep up to 20 useful technical workers active across my domain, including nested workers. Refill on any completion. At each goal continuation or context recovery, and at least every 15 minutes while dispatching, reread the Capacity checkpoint in the primary checkout's development/workflows/orchestration/OVERNIGHT.md. Continue until user stop." Give stream schedulers the same instruction with their own slot allocation.
+
+At that checkpoint count running direct and nested technical workers once, excluding managers. If below target, dispatch ready work before waiting. If the queue is thin, split known implementation residuals by independent caller, boundary or applicability gate and let the stream schedulers dispatch concurrently. Reuse completed verdicts and built refs. If only serial or externally blocked work remains across the domains, record the actual count, exact dependency and next wake condition once. Check again when that condition changes. Use this short section for routine reminders and reread changed phase procedures in full. A checkpoint requires no routine message to the coordinator.
+
 Include the [implementation-first phase order](WORKFLOW.md#finish-known-implementations-before-new-discovery) in all four goals. At startup a single queue owner uses the commands below. Page with `--offset` when `nextOffset` is present. Give the domain owners disjoint sets of finding IDs and attach the MCPK claim IDs where relevant. Resolve disputed or missing historical evidence only for those existing operations until the global gate opens.
 
 ```powershell
