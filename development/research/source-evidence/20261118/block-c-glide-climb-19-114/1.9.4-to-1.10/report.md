@@ -1,0 +1,32 @@
+# C — 1.9.4 → 1.10 dry Elytra glide / ladder-vine climb gate
+
+## Bounded source identity
+
+Host: Windows 11, PowerShell. This is an exact adjacent release comparison of the locally published Ornithe Feather sources at `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.9.4/ornithe-feather/` and `.../1.10/ornithe-feather/`. The older release is **1.9.4**, not 1.19.4.
+
+- **1.9.4:** the local ready marker names `versionId=1.9.4`, `mapping=ornithe-feather`, Feather `feather-gen2-1.9.4+build.2-mergedv2.jar` and `feather-gen2-1.9.4+build.2.tiny`. Marker client SHA-256: `23e90103a1ca2ac71100004c6d5846de09f85695f579843ef8da41571e60c908`; version metadata (`1.9.4/version.json`) SHA-256: `4b21379203f0d87df8cc2ab4dd3c3689f139772f1cdb37b40688252547e2d5be`; mapping JAR SHA-256: `49a38d0adfbda1749e519c29844116e9f22e895cb505633261b7f587268f4125`; Tiny SHA-256: `9e21708d4bc32a43ac404735ea3238465889797110204a0375bcb069a3798027`. The marker's source-manifest SHA-256 is `c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19`. Current target source file hashes below match that manifest.
+- **1.10:** exact local provenance pins the client at `https://piston-data.mojang.com/v1/objects/ba038efbc6d9e4a046927a7658413d0276895739/client.jar`, SHA-256 `c00f8170ebf4fd834f552246743a64885a6dffb3dd1e3a3f3dba9676b7a0af35`, and release metadata `.../1.10.json`, SHA-256 `462441ee38c35c6ad52ffe2ab668b217eb2b29b51de25f1774a454560bc3a261`. Feather mapping metadata is the exact `.../feather/1.10` input, SHA-256 `a1eb1ccff25e2b76fa1d08e9b515508e97ac4837fbcacbd7f77b3a01026d3950`; mapping JAR is `feather-gen2-1.10+build.2-mergedv2.jar`, SHA-256 `ad7cf6744d81d0260c9d97ddfe8250b2fdbd54fe332d4d00266b3545d8ddf8dd`. Local provenance runtime is Eclipse Adoptium Java `25.0.3+9-LTS`, Windows 11 amd64. The current target source file hashes below match `.decompile-provenance.json`.
+
+Exact SHA-256 of compared source files (current bytes; also the recorded source-manifest entries):
+
+| Source | 1.9.4 | 1.10 |
+| --- | --- | --- |
+| `net/minecraft/entity/living/LivingEntity.java` | `bbb7703f18fd5da05c4e4a43a77ea644b388e63c01d34166d308ea52054be4e5` | `d40dd476b6b68c6ce45b4202823475deb546ecda2284da330ff6724b33815e82` |
+| `net/minecraft/entity/living/player/PlayerEntity.java` | `d658a0d95452d12bb7e347bfd802240eeecaf7f938e10dcd43e2640434387f85` | `db7bbbc15e2bcb0de18476fec1b88e73eccf8ae63b170276b1d8327dd0be796b` |
+| `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` | `8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d` | `a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443` |
+
+## Supplied state and trace
+
+A/B is the supplied ordinary local player state: a dry local player with a usable Elytra equipped in the chest slot, already fall-flying, at a ladder or vine. No spectator, water/lava, or creative-flight override is assumed. The chest item alone does **not** select the glide branch: `LivingEntity.isFallFlying()` returns tracked flag 7 (1.9.4 `LivingEntity.java:2052–2054`; 1.10 `:2088–2090`). The branch requires that flag already be active. The local input packet path only requests activation on a falling jump with a usable chest Elytra (1.9.4 `LocalClientPlayerEntity.java:707–711`; 1.10 `:730–734`); that request is not a prerequisite once the supplied active state holds.
+
+The local player's travel updater reaches `LivingEntity.moveRelative`: `LivingEntity` travel applies its input-speed multipliers, invokes `flyingTick()`, then invokes `moveRelative(sidewaysSpeed, forwardSpeed)` (1.9.4 `LivingEntity.java:1706–1712`; 1.10 `:1742–1749`). The movement method's outer gate is `isLocallyControlled() || isLogicalSideForUpdatingMovement()` (1.9.4 `LivingEntity.java:1302–1305`; 1.10 `:1332–1335`). The local-player override returns `true` directly (1.9.4 `LocalClientPlayerEntity.java:446–449`; 1.10 `:458–460`), so this path is active for the local client player. `PlayerEntity.moveRelative` only takes its special alternate route when `abilities.flying && !isRiding()`; otherwise it delegates to `super.moveRelative` (1.9.4 `PlayerEntity.java:1372–1387`; 1.10 `:1391–1406`). Under the supplied ordinary state, the `LivingEntity` implementation is effective.
+
+For a dry entity the water and lava guards pass. The next ordered branch is `if (isFallFlying())`; when true, it performs glide work and `move(...)` before the `else` branch that contains climb cleanup. Consequently the climb branch is unreachable during this call, even when `isClimbing()` would return true for the player position. That predicate reads vanilla block state at the floored `(x, getShape().minY, z)` location and returns true for ladder or vine unless the entity is a spectator (1.9.4 `LivingEntity.java:905–917`; 1.10 `:928–940`).
+
+Within the selected glide branch, before reading look direction or calculating glide acceleration and before the movement call, the exact gate is `if (velocityY > -0.5) fallDistance = 1.0F;` (1.9.4 `LivingEntity.java:1306–1312`; 1.10 `:1336–1342`, with same following glide body through the `move` at 1.9.4 `:1341` / 1.10 `:1371`). It is a strict greater-than comparison: values above `-0.5` assign float `1.0F`; exactly `-0.5` and lower leave the existing fall distance unchanged by this pre-move assignment. The assignment precedes movement. There is no post-move climb reset in this branch.
+
+By contrast, if flag 7 is false, the ordinary branch checks `isClimbing()` before `move`: it clamps horizontal velocity to `[-0.15, 0.15]`, sets `fallDistance = 0.0F`, caps downward velocity below `-0.15`, and can zero downward velocity while sneaking; after movement, horizontal collision while climbing sets vertical velocity to `0.2` (1.9.4 `LivingEntity.java:1376–1394`; 1.10 `:1406–1424`). Those cleanup effects are skipped while fall-flying. This is glide precedence over ladder/vine cleanup, not a change to ladder/vine detection.
+
+## A/B result and bounds
+
+The relevant gates, order, float literal, strict `velocityY > -0.5` threshold, pre-move `fallDistance = 1.0F`, flag-7 authority, and skipped climb cleanup are identical in 1.9.4 and 1.10. This bounded comparison found **no 1.9.4→1.10 difference** for the supplied state; it does not establish the pair's full movement inventory or a later patch's introduction boundary. Nearby unrelated edits in `moveRelative` (for example 1.10's no-gravity handling) were not treated as changes to this operation.
