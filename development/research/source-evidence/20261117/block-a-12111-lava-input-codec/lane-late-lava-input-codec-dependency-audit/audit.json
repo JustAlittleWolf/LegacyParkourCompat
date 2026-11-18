@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "roster_status": "frozen_before_author_comparison_review",
+  "frozen_inputs": {
+    "minecraft": "1.21.11",
+    "mappings": "official Mojang",
+    "version_metadata_file": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-late-lava-input-codec-dependency\\1.21.11.official.json",
+    "version_manifest_file": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-late-lava-input-codec-dependency\\version_manifest_v2.json",
+    "source_tree": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap",
+    "source_roster": [
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\resources\\RegistryDataLoader.java",
+        "sha256": "5a3b445e3747fdfe7d70bfe4cad92dca8f40c0ec802fb1e4244bf5b17ab151ae"
+      },
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\world\\level\\dimension\\DimensionType.java",
+        "sha256": "fc67fd2e178bbb95a252028b346268ee4097f1b0734649c2557ae41f26c8ec23"
+      },
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\world\\attribute\\EnvironmentAttributeMap.java",
+        "sha256": "5a851614620201fd26c9c8de8d08958f26bb6d0fd5719db2f8865fbe0ae0a41e"
+      },
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\world\\attribute\\EnvironmentAttributes.java",
+        "sha256": "a35798b671dc8c2467c0b3278a697af846b184567b8493fc0d9c4141085e2a46"
+      },
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\world\\attribute\\EnvironmentAttribute.java",
+        "sha256": "9e2270b058658b47c1471b93f6a17b82706d80a56addda7667d870f42d5cf41c"
+      },
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\world\\attribute\\AttributeTypes.java",
+        "sha256": "198ea5ed318885f39b6ceaa66370a29120b635d11b80481516a1434a0e9f75f1"
+      },
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\data\\worldgen\\DimensionTypes.java",
+        "sha256": "532319fc7694da6007767e3ce521e5e7ea3a7926c1e782eba132caf03cd202d3"
+      },
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\world\\level\\material\\LavaFluid.java",
+        "sha256": "8fabbb9a75d7620963f7a44141280bb08e0363ece7a425fcd37334e422af5abb"
+      },
+      {
+        "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\world\\entity\\Entity.java",
+        "sha256": "32314478c6036fa9f3f3cc409c61c622eefc5a282d60e1011a1a33cc29cf18a3"
+      }
+    ],
+    "dependency": {
+      "coordinate": "com.mojang:datafixerupper:9.0.19",
+      "archive": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-late-lava-input-codec-dependency\\datafixerupper-9.0.19.jar",
+      "sha256": "9653a39cf5c4853cc98628d902dcb23ffeb2755122ecc563bde38c8f60c0b61e",
+      "sha1": "4e91f9712fa1e83231d1501625381b0210a977da"
+    }
+  },
+  "source_class_roster": [
+    "net.minecraft.resources.RegistryDataLoader",
+    "net.minecraft.world.level.dimension.DimensionType",
+    "net.minecraft.world.attribute.EnvironmentAttributeMap",
+    "net.minecraft.world.attribute.EnvironmentAttributes",
+    "net.minecraft.world.attribute.EnvironmentAttribute",
+    "net.minecraft.world.attribute.AttributeTypes",
+    "net.minecraft.data.worldgen.DimensionTypes",
+    "net.minecraft.world.level.material.LavaFluid",
+    "net.minecraft.world.entity.Entity"
+  ],
+  "bytecode_class_roster": [
+    "com.mojang.serialization.Codec",
+    "com.mojang.serialization.DataResult",
+    "com.mojang.serialization.DynamicOps",
+    "com.mojang.serialization.JsonOps",
+    "com.mojang.serialization.JsonOps$JsonRecordBuilder",
+    "com.mojang.serialization.MapCodec",
+    "com.mojang.serialization.MapCodec$MapCodecCodec",
+    "com.mojang.serialization.MapDecoder",
+    "com.mojang.serialization.MapLike",
+    "com.mojang.serialization.codecs.FieldDecoder",
+    "com.mojang.serialization.codecs.OptionalFieldCodec",
+    "com.mojang.serialization.codecs.RecordCodecBuilder",
+    "com.mojang.serialization.codecs.RecordCodecBuilder$Instance"
+  ],
+  "author_comparison_opened": true,
+  "supplemental_source_dependencies": [
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\resources\\RegistryOps.java",
+      "sha256": "8774d98e4c817d5fa81d0c1c79f5ee27c75814c47c7d0ed9a6d8110448a60556"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\resources\\DelegatingOps.java",
+      "sha256": "4782bfeee8f39d2d1684b25b68a1e06ae0c50784895a3c571a237ba51bab6a21"
+    },
+    {
+      "path": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.21.11\\mojmap\\net\\minecraft\\world\\attribute\\EnvironmentAttributeSystem.java",
+      "sha256": "a8ad8c05fec7e241e2ba63ad377a3d2e363be4b9bd5e8482b3d32552a3f4c542"
+    }
+  ],
+  "supplemental_bytecode_dependencies": [
+    "com.mojang.serialization.MapDecoder$5"
+  ],
+  "author_comparison": {
+    "path": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-late-lava-input-codec-dependency\\comparison.corrected-r2.md",
+    "sha256": "051dd5c79037980accb4202a456fcd5cabdc975e5a26355a2da8821c30519c2d"
+  },
+  "verdict": {
+    "status": "verified_with_scope_limit",
+    "claims": [
+      {
+        "claim": "For otherwise-valid 1.21.11 DimensionType JSON decoded by the vanilla resource path, unrecognized top-level ultrawarm is ignored by the record codec and is not translated or retained.",
+        "result": "verified",
+        "evidence": "RegistryDataLoader resource path uses RegistryOps.create(JsonOps.INSTANCE,...), then direct decoder parse; DFU JsonOps.INSTANCE has compressMaps=false; MapCodecCodec -> MapDecoder map path calls named field decoders; they read only requested keys; no unknown-key rejection or remainder scan in the decode path."
+      },
+      {
+        "claim": "Omitting attributes makes the decoded DimensionType attributes equal EnvironmentAttributeMap.EMPTY.",
+        "result": "verified",
+        "evidence": "DimensionType.createDirectCodec uses optionalFieldOf(attributes, EMPTY); OptionalFieldCodec returns Optional.empty on missing key and Codec optionalFieldOf mapping applies default."
+      },
+      {
+        "claim": "FAST_LAVA default is false when no FAST_LAVA value/layer overrides it.",
+        "result": "verified_narrowly",
+        "evidence": "EnvironmentAttributes registers Boolean default false; EnvironmentAttributeSystem uses attribute.defaultValue when no sampler exists. An empty DimensionType attribute map supplies no dimension FAST_LAVA entry. This codec result does not establish other world layers/pack-provided overrides."
+      },
+      {
+        "claim": "Conditional input with ultrawarm=true and omitted attributes can decode successfully.",
+        "result": "verified_conditionally",
+        "evidence": "Only if every required DimensionType field, field codec, registry reference, numeric range and record constructor invariant is otherwise valid; unknown ultrawarm does not affect decode."
+      }
+    ],
+    "scope": "Exact direct 1.21.11 JSON codec behavior only. No legacy-to-modern migration, data-pack contents, effective world attribute composition, or runtime parity established."
+  }
+}
