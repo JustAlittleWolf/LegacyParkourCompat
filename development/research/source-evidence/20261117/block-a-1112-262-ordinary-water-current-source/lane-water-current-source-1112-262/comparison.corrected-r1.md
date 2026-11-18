@@ -1,0 +1,67 @@
+# Water current source comparison: 1.11.2 to 26.2
+
+Correction revision 1 follows independent audit lane-water-current-source-1112-262-audit/audit.json (canonical SHA-256 52fecc460f52be5a30f333e328713b4b2f370f4ca2396b7c866e44d802b2b4ef). The original comparison is preserved unchanged.
+
+## Evidence identity
+
+Exact local roots examined read-only:
+
+- `decompiled_minecraft/1.11.2/ornithe-feather`: release `1.11.2`, namespace/mapping `ornithe-feather`, Feather `1.11.2+build.2` merged-v2 and Tiny artifacts. Ready marker status `ready`; source manifest SHA-256 `d908c2af76598ad26999563bfef0089f1d3c8c32483eee6b108f0defa2773df0`. Actual manifest bytes match that digest. Provenance SHA-256 `dcdb65e1361297a584c5b93f581b1b539911911c6cec1a203740baa5379732c6`; ready-marker SHA-256 `ceabfb266993567aab8c867525365e18aa0a0d7ba5a2cb7b6cfcc83d21318c40`.
+- `decompiled_minecraft/26.2/unobfuscated`: release `26.2`, published unobfuscated namespace. Ready marker status `ready`; source manifest SHA-256 `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`. Actual manifest bytes match that digest. Provenance SHA-256 `a328f5333a1b27aadde4422b23159a323ae219ccd26f11207c1a5461366f27d1`; ready-marker SHA-256 `f9406adb6bf7cb4c1ab0792a798ab2cb90e082ad4c2eee032c9f674d0ea8070f`.
+
+The relevant Java files listed below were individually SHA-256 checked against their respective source manifests. 1.11.2 also has a verification marker recording 1,921 source files identical to a verification decompile and no raw-input artifact differences; its sole artifact difference was a regenerated derived remap JAR, explicitly explained in that marker. 26.2 has no local verification marker, so no independent re-decompile verification is claimed. The pinned client archive digests are `be3fff4f2cc005a1310a96389efdeb983d2bcb4b8e747c402acd616ae73d0ba2` (1.11.2) and `40896ee9f1e2bec3c934daac7e93d41e9e3d9c2f8ae0ca366d52ffbfd1afa290` (26.2), as recorded in each artifact manifest.
+
+## Compared operation and source facts
+
+### Scan AABB, touched cells, loading and bounds
+
+- 1.11.2 `Entity.checkWaterCollisions` passes `getShape().grown(0.0, -0.4F, 0.0).contract(0.001)` to `World.applyLiquidDrag` (`net/minecraft/entity/Entity.java:927-942`). 26.2 `Entity.getFluidInteractionBox` instead returns the entity bounding box deflated by `0.001` (`net/minecraft/world/entity/Entity.java:4088-4097`). Thus the scan boxes differ vertically: old water collision trims 0.4 from both vertical ends before its 0.001 contraction; the modern fluid box does not.
+- Old `World.applyLiquidDrag` floors each minimum and ceils each maximum, validates `isAreaLoaded(i,k,m,j,l,n,true)`, then loops each coordinate with `< ceil(max)`. Its effective scanned upper block is `ceil(max)-1`; its liquid predicate is matching block material plus `ceil(box.maxY) >= blockY + 1 - getHeightLoss(level)`. It sets the touched-water boolean and asks each touched block to add its flow vector (`net/minecraft/world/World.java:1571-1613`). `LiquidBlock.applyMaterialDrag` adds that cell's `getFlow` (`net/minecraft/block/LiquidBlock.java:131-176`). The loaded-area precheck receives the ceiled maximum inclusively, while the scan loop excludes it.
+- Modern `EntityFluidInteraction.update` computes minima with `floor`, upper blocks explicitly as `ceil(max)-1`, preflights an x/z-expanded area using full chunks without loading them, and skips the detailed scan if a chunk is absent or the checked sections contain no fluid (`net/minecraft/world/entity/EntityFluidInteraction.java:32-42,91-119`). Its detailed loop visits only those computed cells; it skips empty fluid states and fluid tops strictly below `box.minY` (`:52-88`). So the effective integer upper cell formula agrees, while the AABBs, loaded/empty preflight, and touched-cell predicates differ.
+- For a matching tagged fluid, modern height is `max(fluidTop - entity bounding-box minY, prior tracker height)`. On each contributing nonempty cell it calls `getFlow`; if the current tracker height is below `0.4`, it scales that flow by the current tracker height before accumulating. `accumulateCurrent` increments `currentCount` for every such cell, even for a zero vector (`EntityFluidInteraction.java:67-80,153-169`).
+
+### Aggregation and player velocity gate
+
+- Old behavior sums per-cell flow vectors first. If the sum has positive length and `entity.hasLiquidCollision()`, it normalizes the sum and adds `0.014` times that unit vector to all three velocity components (`World.java:1603-1610`). `PlayerEntity.hasLiquidCollision()` is `!abilities.flying` (`net/minecraft/entity/living/player/PlayerEntity.java:1735-1738`). The local client class extends `ClientPlayerEntity`, its `tick` calls `super.tick`, `ClientPlayerEntity` extends `PlayerEntity`, and `PlayerEntity.tick` calls `super.tick` (`net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:77,159-162`; `ClientPlayerEntity.java:21`; `PlayerEntity.java:174-204`). This reaches `Entity.tick -> checkWaterCollisions` (`Entity.java:378-380`).
+- Modern `Entity.updateFluidInteraction` scans with `ignoreCurrent = !isPushedByFluid()`, and for in-water entities that are pushed by fluids applies water current at scale `0.014` (`net/minecraft/world/entity/Entity.java:1645-1668`). `Player.isPushedByFluid()` is also `!abilities.flying` (`net/minecraft/world/entity/player/Player.java:1693-1696`). `LocalPlayer.tick` calls `super.tick`, `Player.tick` calls `super.tick`, and `Entity.baseTick` reaches `updateFluidInteraction` (`net/minecraft/client/player/LocalPlayer.java:227-230`; `net/minecraft/world/entity/player/Player.java:232-261`; `net/minecraft/world/entity/Entity.java:506-508,510-532`). Thus the ordinary local player reaches this current update through its normal tick chain.
+- The modern tracker omits the old final normalization of the total sum for players: it scales the accumulated vector by `1/currentCount`, then by the current scale. It skips only when the count is zero or squared accumulated length is below `1.0E-5F`. If both old horizontal motion components are below `0.003` and the scaled impulse length is below `0.0045000000000000005`, it raises impulse length to that threshold before adding it (`EntityFluidInteraction.java:166-188`). This makes shallow currents and mixtures of differing cell vectors materially distinct from old normalized-sum behavior.
+
+### Flow-vector correspondence and bounded reachable witness
+
+For nonfalling fluid, old `LiquidBlock.getFlow` forms horizontal depth differences and normalizes the resulting vector (`LiquidBlock.java:131-172`). Modern `FlowingFluid.getFlow` forms horizontal own-height differences, omits the falling-only downward term for nonfalling states, then normalizes (`net/minecraft/world/level/material/FlowingFluid.java:55-100`). Modern `getOwnHeight` is `amount/9` (`FlowingFluid.java:470-478`), and `getLegacyLevel` maps a flowing nonfalling amount to `8-amount` (`:462-464`). In the selected witness, old `LEVEL=7` corresponds to modern flowing amount `1`; the adjacent old `LEVEL=6` corresponds to modern amount `2`. Their flow directions agree.
+
+Persistent bounded vanilla layout for both endpoints: build a one-block-wide channel along `z=8`, from `x=8` through `x=15`, with a full solid floor at `y=-1` beneath the channel. Place full solid side walls at `(x,0,7)` and `(x,0,9)` for `x=8..15`, and full solid end walls at `(7,0,8)` and `(16,0,8)`. Keep the cells above the water row empty and place no matching fluid above it. Use flowing water at `y=0,z=8`: at `x=8`, old `LEVEL=7` / modern nonfalling amount `1`; at `x=9..14`, old levels `6..1` / modern amounts `2..7`; and source water at `x=15`, old `LEVEL=0` / modern source amount `8`. The end/side walls and floor are full cube blocks; keep chunks `(0,0)` and `(1,0)` loaded so the entire channel and east wall exist, while the player's scan and modern expanded preflight remain within chunk `(0,0)` and the fluid section is nonempty.
+
+The sourceward row is reachable and steady under each release's horizontal update: old flowing water takes the sourceward neighbor depth plus one (and level 7 cannot spread farther because the next depth reaches 8); modern water uses horizontal dropoff 1, with a sourceward neighbor amount one higher, while amount 1 cannot spread farther because side spread requires `amount - dropoff > 0`. The floor blocks downward escape, walls prevent lateral escape, the west end wall stops the terminal flow cell, and no same-type fluid above keeps the surface at `y+1/9`.
+
+Place a default standing local player at `(8.5,0,8.5)`, on foot, not riding, not flying, with zero horizontal velocity. Both releases use a 0.6-wide, 1.8-high standing player (`1.11.2 PlayerEntity.java:403`; `26.2 Avatar.java:21-26`). The old contracted water-collision box is approximately `x,z=[8.201,8.799]`, `y=[0.401,1.399]`; the modern deflated fluid box is `x,z=[8.201,8.799]`, `y=[0.001,1.799]`. Both scan `x=8,z=8,y=0..1`; the only current-contributing cell in that box is `(8,0,8)`. The modern preflight scans `x,z=7..9`, still in chunk `(0,0)`; old inclusive area-loaded bounds also remain in chunk `(0,0)`. Both local-player tick chains reach the ordinary water-current update described above.
+
+The terminal cell's only contributing horizontal gradient is its fuller east neighbor. Old depth difference is `6-7=-1`, giving a west unit flow after normalization. Modern own-height difference is `1/9-2/9=-1/9`, also giving a west unit flow after normalization. On the old side, the touched cell adds west `0.014` to velocity. On the modern side, `fluidTop - entityY = 1/9`; the one-cell player average is west unit flow scaled by `1/9` then `0.014`, length about `0.0015556`. With initial horizontal motion zero, the modern minimum gate raises it to `0.0045`. Thus the computed current/velocity impulse differs (`0.014` west vs `0.0045` west) for this nonfalling shallow end-of-stream cell. This is a source-derived arithmetic witness, not a runtime trajectory claim.
+
+26.2 Java data-generation source adds `FluidIds.WATER` and `FluidIds.FLOWING_WATER` to `FluidTags.WATER` (`net/minecraft/data/tags/FluidTagsProvider.java:11-24`), and `FluidIds` identifies the default-namespace keys (`net/minecraft/world/level/material/FluidIds.java:7-16`). The exact source roots contain Java files only; the generated/shipped runtime tag JSON was not independently verified. Therefore the calculated 26.2 water witness retains effective runtime tag membership as an applicability gate.
+
+## Source file digests
+
+Every digest below matches the corresponding `*.sources.sha256` entry and current file bytes.
+
+| Release | Source file | SHA-256 |
+|---|---|---|
+| 1.11.2 | `net/minecraft/world/World.java` | `27cfaa5ff45c2d88c492fc5dae3ea4a2bb4536fd64bff8498a9a7d0cb82efb58` |
+| 1.11.2 | `net/minecraft/entity/Entity.java` | `ce8104a17ce783df639cf9726e7b1cd0936563eaa7ba308603335bbe05d49440` |
+| 1.11.2 | `net/minecraft/entity/living/player/PlayerEntity.java` | `87fe94fa6cbf7aba18b9a5e3401664439eb8eba9958173da8fbcd05cc7ad948b` |
+| 1.11.2 | `net/minecraft/block/LiquidBlock.java` | `c91618c8445dd488dd61f4a01aed0799dae2faaf3585bc6f2d5164891e988244` |
+| 1.11.2 | `net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java` | `65c2747bd8c70def6be7f41f624d4c9493342b39ae7bed7967f9ff63608f59ed` |
+| 1.11.2 | `net/minecraft/client/entity/living/player/ClientPlayerEntity.java` | `207a0ff4ee996916cd1fc73f47bfaae64f92719916cafed8395b1f2a8f797809` |
+| 26.2 | `net/minecraft/world/entity/Avatar.java` | `01a8092bc2637e7d42a261fb564bffcabadd28625cc02b120e943559e2d4fe78` |
+| 26.2 | `net/minecraft/world/entity/EntityFluidInteraction.java` | `5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62` |
+| 26.2 | `net/minecraft/client/player/LocalPlayer.java` | `8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6` |
+| 26.2 | `net/minecraft/world/entity/Entity.java` | `7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5` |
+| 26.2 | `net/minecraft/world/entity/player/Player.java` | `8decc71b9c780664578ddb14591db2a2f207c72c05b676edded6f8e964576531` |
+| 26.2 | `net/minecraft/world/level/material/FlowingFluid.java` | `f8c0c4430e81efdf39b221968272ed8e3a4d030fa5192e04e04d34c9fbd37b28` |
+| 26.2 | `net/minecraft/world/level/material/FluidState.java` | `e35608d5775013c67653ea350309b5150a97f36aa65c27f1c6247ae2aa840f18` |
+| 26.2 | `net/minecraft/world/level/material/FluidIds.java` | `bf5a2f48f19028316e2ee9701cd7a6d08a75dec9b2bae9c6b2fa860b8145ec1c` |
+| 26.2 | `net/minecraft/data/tags/FluidTagsProvider.java` | `e01d6d0ce140e0f374690b341e68bce4676e019894b130f3f6a038d7a64d3f12` |
+
+## Terminal slice disposition
+
+**Difference found; independent source audit accepted with caveats.** 1.11.2 normalizes the summed touched-cell current to a fixed `0.014` player impulse; 26.2 height-scales each contributing flow, averages per fluid cell for players, then applies a conditional `0.0045` minimum. The constrained, enclosed channel witness differs as calculated. Effective runtime tag membership remains unverified. Exact endpoints only; this does not establish the introduction patch inside `1.11.2..26.2`, complete pair tick-graph coverage, pair freeze, or runtime parity.
