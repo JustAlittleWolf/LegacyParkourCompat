@@ -99,7 +99,7 @@
     {"finding": "development/research/findings/1.17.1--1.18.2/chorus-fruit-border-teleport.md", "implementation": "present", "changes": [], "sourceReview": "bounded decision retained; inspect exact evidence and limits", "implementationLimits": ["The differing destination acceptance is executed by server chorus teleport production. Preserve equivalent received teleport input; historical movement does not run on logical servers.", "Resolved by native behavior/scope disposition; no runtime parity claim."], "applicability": "Exact patch cutover unproved within the named source interval.", "sourceReviews": [{"decision": "ACCEPT, bounded", "claim": " A's collision traversal skips the world-border shape in the identified teleport validation path; B's shared candidate collision query includes the border check. `ChorusFruitItem` generates candidate positions and the server `LivingEntity.randomTeleport` path validates them with `noCollision`, so the reported source-level acceptance difference is reachable. Candidate choice, RNG/food-state production, and final teleport outcome are not accepted. Excluded food/combat production remains out of scope; this report accepts only the player pose-validation consumer conditionally associated with the item path. The border is not a block mechanic.\n", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-011-chorus-fruit-border-teleport.md"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}], "implementationDisposition": "no client code for this source producer/input difference", "noCodeDisposition": "The differing destination acceptance is executed by server chorus teleport production. Preserve equivalent received teleport input; historical movement does not run on logical servers.", "openIssues": [], "disposition": "excluded production; no movement patch required"},
     {"finding": "development/research/findings/1.17.1--1.18.2/elytra-cosine-precision.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_18/ElytraLiftForce.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_18_2/ElytraLiftForce.java"], "sourceReview": "bounded historical verdict; inspect preserved identity and limits", "sourceReviews": [{"decision": "ACCEPT, bounded", "claim": " `net/minecraft/world/entity/LivingEntity.java`, `travel`, computes the fall-flying cosine through `Mth.cos(float)` assigned to a float in A, versus `Math.cos(double)` in B. This changes intermediate precision and rounding at the identified operation. The player path is reachable through the player `travel` call when fall-flying with an eligible Elytra; `Player.tryToStartFallFlying` supplies the relevant player gate. Elytra exists in A and B. No downstream trajectory or practical displacement magnitude is established by this finding.\n", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-002-elytra-cosine-precision-artifact-correction-2026-10-09.md", "bindingLimit": "Exact recorded revision/path unresolved; snapshot/decision identity must be recovered before reliance."}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}, {"decision": "AUTHOR BINDING; pending independent identity review at publication", "claim": "B mapped-client JAR digest corrected; guarded cosine arithmetic remains the reviewed operation.", "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/F002-artifact-correction-binding-2026-10-09.md"}, "assertionPreserved": true}, {"decision": "ACCEPT, artifact identity correction", "claim": "B mapped-client JAR digest corrected; guarded cosine arithmetic remains the reviewed operation.", "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-09-F002-artifact-identity-review.md"}, "assertionPreserved": true}, {"decision": "ACCEPT, exact sampled boundaries", "claim": "Sprint-stop minor-collision gate changes at 1.18; cosine precision changes at 1.18.2. Four exact versions checked; missing final f in 1.18 ready-marker digest is metadata-only.", "snapshot": {"revision": "14443f43fbcc30152916ac75796846d796cf0268", "bindingLimit": "Exact snapshot file path not established; do not treat a commit-only record as a reviewed file.", "sha256": "66f5659dd17ff8441d10a02d95920ecd5d4e190c53c2c0893eac79efec36c6cb"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-09-1171-1182-boundaries-independent-review.md"}, "assertionPreserved": true}, {"decision": "ACCEPT, bounded", "claim": " `net/minecraft/world/entity/LivingEntity.java`, `travel`, computes the fall-flying cosine through `Mth.cos(float)` assigned to a float in A, versus `Math.cos(double)` in B. This changes intermediate precision and rounding at the identified operation. The player path is reachable through the player `travel` call when fall-flying with an eligible Elytra; `Player.tryToStartFallFlying` supplies the relevant player gate. Elytra exists in A and B. No downstream trajectory or practical displacement magnitude is established by this finding.\n", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-002-elytra-cosine-precision.md"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}], "openIssues": [], "integratedCommit": "a1c492c8f64bdf4fd041b0275c4f0c638505007b"},
     {"finding": "development/research/findings/1.17.1--1.18.2/fall-distance-reset-edge-gate.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_18/FallDistanceReset.java"], "sourceReview": "bounded decision retained; inspect exact evidence and limits", "implementationLimits": ["Resolved old move reset is suppressed through1.18.1 without exact-profile lower gate. Independent source review covered move bodies1.8.9 through1.18.1; first new reset1.18.2. Other reset writers and runtime parity remain separate."], "applicability": ["Accepted sampled first changed release 1.18.2; r1 witness rejected and r2 consumer/dependency correction accepted separately."], "sourceReviews": [{"decision": "ACCEPT, bounded", "claim": " B `Entity.move` applies edge back-off, resolves movement, and then—only if `fallDistance != 0` and resolved movement length squared is at least `1.0`—clips downward through blocks tagged `fall_damage_resetting` and water before writing the final position. A has no corresponding reset at this point. Targeted canonical jar tag inspection confirms B's block tag contains the `climbable` tag, sweet berry bush, and cobweb; these members existed in A. This is a conditional later-state writer, not a claim that every edge-gated move resets fall distance. Excluded health/fall-damage production is not being emulated.\n", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-005-fall-distance-reset-edge-gate.md"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}, {"decision": "REQUEST CHANGES to witness; boundary ACCEPT", "claim": "First changed release 1.18.2 accepted, but post-move WebBlock callback independently resets fallDistance and invalidates r1 consumer witness.", "snapshot": {"revision": "6702eda57a1f378576fca06778e11648cc0e5c8c", "bindingLimit": "Exact snapshot file path not established; do not treat a commit-only record as a reviewed file."}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-09-F005-independent-review.md"}, "assertionPreserved": false}, {"decision": "ACCEPT, r2 witness correction", "claim": "Firework/glide segment crosses reset selector, but final bbox excludes cobweb cell; post-move WebBlock writer cannot erase the reset. Original r1 REQUEST CHANGES retained.", "snapshot": {"revision": "96b6f7253491903c0da443d74102dcc451be1245", "bindingLimit": "Exact snapshot file path not established; do not treat a commit-only record as a reviewed file."}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-09-F005-r2-independent-review.md"}, "assertionPreserved": true}], "targetedSourceEvidence": [{"path": "1.18/mojmap/net/minecraft/world/entity/Entity.java", "sha256": "69417675ae8e0a5bd88b7372baea1e73b1f5217154f39446c8ad5c92731437f1"}, {"path": "1.18.1/mojmap/net/minecraft/world/entity/Entity.java", "sha256": "69417675ae8e0a5bd88b7372baea1e73b1f5217154f39446c8ad5c92731437f1"}, {"path": "1.18.2/mojmap/net/minecraft/world/entity/Entity.java", "sha256": "2228fdaca5793171cbd94038306d571a6ada78ca96f5734efb4cada5b744c10a"}], "implementationCommit": "7d02b7ed24ca58da741c2aeb47e1c8107ebe579e", "integratedCommit": "7d02b7ed24ca58da741c2aeb47e1c8107ebe579e"},
-    {"finding": "development/research/findings/1.17.1--1.18.2/llama-passenger-rider-height.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/NativePlayerPassengerPlacement.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_17_1/LlamaRiderHeight.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_18/LlamaRiderHeight.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_18_2/LlamaRiderHeight.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_17/LlamaRiderHeight.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_19_4/NativePlayerPassengerPlacement.java"], "sourceReview": "ACCEPT named Llama rider-Y difference and bounded 1.18.2–1.20.1 unchanged old offset path, separate from the later attachment system.", "implementationLimits": ["Bounded local client rider Y only, using vanilla carrier state. Unsupported profiles, families, poses, and later design retain existing native behavior.", "The extension remains limited to the sole direct local client passenger and the audited carrier dimensions. Native X/Z and rotation are retained. The 1.20 source provenance caveat remains."], "applicability": "Bounded direct local rider Y placement for adult default-scale vanilla Llama or TraderLlama. Selected 1.17 profiles use 0.67, 1.18 through 1.20.1 use 0.6. Older profiles and 1.20.2 attachment-point behavior have separate resolution.", "sourceReviews": [{"decision": "REQUEST CHANGES", "claim": " The behavioral claim is supported: A `Llama.getPassengersRidingOffset` returns `getBbHeight() * 0.67`, B returns `getBbHeight() * 0.6`; `Llama.positionRider` applies the offset to rider position. The player path is reachable via tamed, grown llama interaction (`AbstractChestedHorse.mobInteract` / `doPlayerRide`), then `Player.startRiding` and the entity ride tick. Llamas and player riding exist in both versions. However, the finding's cited `AbstractChestedHorse.java` raw hashes do not identify the canonical source bytes, despite the files themselves matching each version's checked source-manifest row:", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-013-llama-passenger-rider-height-source-hash-correction-2026-10-08.md", "bindingLimit": "Exact recorded revision/path unresolved; snapshot/decision identity must be recovered before reliance."}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": false}, {"decision": "ACCEPT, identity-only correction", "claim": "Only two producer source hashes corrected; source behavior and original other 13 verdicts unchanged. Original REQUEST CHANGES retained.", "snapshot": {"revision": "d7b09d64445c8d4700e1ad76b4d7b95cd0a33ca6", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-013-llama-passenger-rider-height-source-hash-correction-2026-10-08.md", "sha256": "1fbd87afa13a28150fef0cb6acfaa1d06751883b00b319e7d56e7bebc9263bbc"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}, {"decision": "REQUEST CHANGES", "claim": " The behavioral claim is supported: A `Llama.getPassengersRidingOffset` returns `getBbHeight() * 0.67`, B returns `getBbHeight() * 0.6`; `Llama.positionRider` applies the offset to rider position. The player path is reachable via tamed, grown llama interaction (`AbstractChestedHorse.mobInteract` / `doPlayerRide`), then `Player.startRiding` and the entity ride tick. Llamas and player riding exist in both versions. However, the finding's cited `AbstractChestedHorse.java` raw hashes do not identify the canonical source bytes, despite the files themselves matching each version's checked source-manifest row:", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-013-llama-passenger-rider-height.md"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}, {"decision": "ACCEPT the bounded 1.17.1 to 1.18 llama passenger Y change and retained 1.18.1/1.18.2 source path, with 1.20.2 attachment-point fence.", "snapshot": {"revision": "a967a4a3ac5f7c7510c6861380eb40f35b1e806c", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/comparison.md", "sha256": "2f9c33ea502b8d27f7c497d4cb01827a524caa04860f7942714fba877f6bfc2e"}, "review": {"revision": "a967a4a3ac5f7c7510c6861380eb40f35b1e806c", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/verdict.md", "sha256": "3d91a3be598c66bccc724b5182dce96651f68cc40b0cb305f6b74846be49d9e3"}}, {"decision": "ACCEPT exact 1.11 and 1.17 direct rider-Y endpoint formula. The sampled intermediate releases remain unaudited by this verdict.", "snapshot": {"revision": "1aae7a9f16eb4ed5160477d0ff8f3d96eadb3f98", "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/c-queue-111-1171-llama-y-alias/report.md", "sha256": "86f875f1ffcf6679aaa4c7767cc08fdb7281ce151e82b263605543e06bf1cef2"}, "review": {"revision": "1aae7a9f16eb4ed5160477d0ff8f3d96eadb3f98", "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/c-queue-111-1171-llama-y-alias/verdict.md", "sha256": "fc3d0de7aad01d99afb1af1bd3d6121fc04d97d924a77e4cb754be87aef2a0f9"}, "binding": {"revision": "1aae7a9f16eb4ed5160477d0ff8f3d96eadb3f98", "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/README.md", "sha256": "68a2d67d69c8cc4d42918e483582549cefc7784baf74cb309339d205ec68e813"}}, {"decision": "ACCEPT named Llama rider-Y difference and bounded 1.18.2–1.20.1 unchanged old offset path, separate from the later attachment system.", "snapshot": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/comparison.md", "sha256": "2f9c33ea502b8d27f7c497d4cb01827a524caa04860f7942714fba877f6bfc2e"}, "review": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/verdict.md", "sha256": "3d91a3be598c66bccc724b5182dce96651f68cc40b0cb305f6b74846be49d9e3"}, "extensionSnapshot": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/1.18.2-1.20.1/report.md", "sha256": "7c01b54e8bc570d2b80fc91a5e90fa2d0a7d623c24cafb7047e2cc3975cd638b"}, "extensionReview": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/1.18.2-1.20.1/verdict.md", "sha256": "85fccaba6f2313e97d37561c2c568ba2d6851d9c95b641f3cbd2369574d50952"}}], "openIssues": [], "sourceEvidenceGaps": [{"version": "1.17.1", "mapping": "mojmap", "path": "1.17.1/mojmap/net/minecraft/world/entity/animal/horse/Llama.java", "member": "getPassengersRidingOffset", "lines": [[164, 166]], "status": "different", "detail": "Canonical source read. Exact canonical file digest is absent/different in original: snippet content checked, original publication equivalence not asserted."}], "implementationCommit": "4e324652522b935ce5c4d59336be3f413c79385c", "integratedCommit": "bd62fe030ca0a85fea85ca30c62555bab63a86f2", "integrationEvidence": {"commit": "a967a4a3ac5f7c7510c6861380eb40f35b1e806c", "buildRevision": "9d3190a7f5c20fd917b388d74167fb23316c964c", "build": "SUCCESS with every Gradle Test task disabled and -x test."}, "runtimeParity": "unverified", "previousImplementationCommits": ["a967a4a3ac5f7c7510c6861380eb40f35b1e806c"], "compilation": {"revision": "bd62fe030ca0a85fea85ca30c62555bab63a86f2", "tree": "9cac395c85426a079f4b8d3e544711e6c27d0d85", "outcome": "BUILD SUCCESSFUL with every Gradle Test task disabled and -x test."}, "integrationReceipt": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/integration-receipt.md", "sha256": "92e1a15f93fc06c574277e5ced48821441a33c693333d759615f4d25ba3828b3"}},
+    {"finding": "development/research/findings/1.17.1--1.18.2/llama-passenger-rider-height.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/NativePlayerPassengerPlacement.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_17_1/LlamaRiderHeight.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_18/LlamaRiderHeight.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_18_2/LlamaRiderHeight.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_17/LlamaRiderHeight.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_19_4/NativePlayerPassengerPlacement.java"], "sourceReview": "ACCEPT named Llama rider-Y difference and bounded 1.18.2–1.20.1 unchanged old offset path, separate from the later attachment system.", "implementationLimits": ["Bounded local client rider Y only, using vanilla carrier state. Unsupported profiles, families, poses, and later design retain existing native behavior.", "The extension remains limited to the sole direct local client passenger and the audited carrier dimensions. Native X/Z and rotation are retained. The 1.20 source provenance caveat remains."], "applicability": "Bounded direct local rider Y placement for adult default-scale vanilla Llama or TraderLlama. Selected 1.17 profiles use 0.67, 1.18 through 1.20.1 use 0.6. Older profiles and 1.20.2 attachment-point behavior have separate resolution.", "sourceReviews": [{"decision": "REQUEST CHANGES", "claim": " The behavioral claim is supported: A `Llama.getPassengersRidingOffset` returns `getBbHeight() * 0.67`, B returns `getBbHeight() * 0.6`; `Llama.positionRider` applies the offset to rider position. The player path is reachable via tamed, grown llama interaction (`AbstractChestedHorse.mobInteract` / `doPlayerRide`), then `Player.startRiding` and the entity ride tick. Llamas and player riding exist in both versions. However, the finding's cited `AbstractChestedHorse.java` raw hashes do not identify the canonical source bytes, despite the files themselves matching each version's checked source-manifest row:", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-013-llama-passenger-rider-height-source-hash-correction-2026-10-08.md", "bindingLimit": "Exact recorded revision/path unresolved; snapshot/decision identity must be recovered before reliance."}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": false}, {"decision": "ACCEPT, identity-only correction", "claim": "Only two producer source hashes corrected; source behavior and original other 13 verdicts unchanged. Original REQUEST CHANGES retained.", "snapshot": {"revision": "d7b09d64445c8d4700e1ad76b4d7b95cd0a33ca6", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-013-llama-passenger-rider-height-source-hash-correction-2026-10-08.md", "sha256": "1fbd87afa13a28150fef0cb6acfaa1d06751883b00b319e7d56e7bebc9263bbc"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}, {"decision": "REQUEST CHANGES", "claim": " The behavioral claim is supported: A `Llama.getPassengersRidingOffset` returns `getBbHeight() * 0.67`, B returns `getBbHeight() * 0.6`; `Llama.positionRider` applies the offset to rider position. The player path is reachable via tamed, grown llama interaction (`AbstractChestedHorse.mobInteract` / `doPlayerRide`), then `Player.startRiding` and the entity ride tick. Llamas and player riding exist in both versions. However, the finding's cited `AbstractChestedHorse.java` raw hashes do not identify the canonical source bytes, despite the files themselves matching each version's checked source-manifest row:", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-013-llama-passenger-rider-height.md"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}, {"decision": "ACCEPT the bounded 1.17.1 to 1.18 llama passenger Y change and retained 1.18.1/1.18.2 source path, with 1.20.2 attachment-point fence.", "snapshot": {"revision": "a967a4a3ac5f7c7510c6861380eb40f35b1e806c", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/comparison.md", "sha256": "2f9c33ea502b8d27f7c497d4cb01827a524caa04860f7942714fba877f6bfc2e"}, "review": {"revision": "a967a4a3ac5f7c7510c6861380eb40f35b1e806c", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/verdict.md", "sha256": "3d91a3be598c66bccc724b5182dce96651f68cc40b0cb305f6b74846be49d9e3"}}, {"decision": "ACCEPT exact 1.11 and 1.17 direct rider-Y endpoint formula. The sampled intermediate releases remain unaudited by this verdict.", "snapshot": {"revision": "1aae7a9f16eb4ed5160477d0ff8f3d96eadb3f98", "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/c-queue-111-1171-llama-y-alias/report.md", "sha256": "86f875f1ffcf6679aaa4c7767cc08fdb7281ce151e82b263605543e06bf1cef2"}, "review": {"revision": "1aae7a9f16eb4ed5160477d0ff8f3d96eadb3f98", "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/c-queue-111-1171-llama-y-alias/verdict.md", "sha256": "fc3d0de7aad01d99afb1af1bd3d6121fc04d97d924a77e4cb754be87aef2a0f9"}, "binding": {"revision": "1aae7a9f16eb4ed5160477d0ff8f3d96eadb3f98", "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/README.md", "sha256": "68a2d67d69c8cc4d42918e483582549cefc7784baf74cb309339d205ec68e813"}}, {"decision": "ACCEPT named Llama rider-Y difference and bounded 1.18.2–1.20.1 unchanged old offset path, separate from the later attachment system.", "snapshot": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/comparison.md", "sha256": "2f9c33ea502b8d27f7c497d4cb01827a524caa04860f7942714fba877f6bfc2e"}, "review": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/verdict.md", "sha256": "3d91a3be598c66bccc724b5182dce96651f68cc40b0cb305f6b74846be49d9e3"}, "extensionSnapshot": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/1.18.2-1.20.1/report.md", "sha256": "7c01b54e8bc570d2b80fc91a5e90fa2d0a7d623c24cafb7047e2cc3975cd638b"}, "extensionReview": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/1.18.2-1.20.1/verdict.md", "sha256": "85fccaba6f2313e97d37561c2c568ba2d6851d9c95b641f3cbd2369574d50952"}}, {"decision": "ACCEPT exact inspected Llama rider-Y continuity through 1.20.1. The separate product receipt binds the compiled extension and the 1.20.2 attachment boundary.", "snapshot": {"revision": "0f5811c756897e3a320cf25e63f0017e479b2e08", "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.18.2-1.20.1-llama-y-alias/report.md", "sha256": "7c01b54e8bc570d2b80fc91a5e90fa2d0a7d623c24cafb7047e2cc3975cd638b"}, "review": {"revision": "0f5811c756897e3a320cf25e63f0017e479b2e08", "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.18.2-1.20.1-llama-y-alias/verdict.md", "sha256": "85fccaba6f2313e97d37561c2c568ba2d6851d9c95b641f3cbd2369574d50952"}, "binding": {"revision": "0f5811c756897e3a320cf25e63f0017e479b2e08", "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/README.md", "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"}}], "openIssues": [], "sourceEvidenceGaps": [{"version": "1.17.1", "mapping": "mojmap", "path": "1.17.1/mojmap/net/minecraft/world/entity/animal/horse/Llama.java", "member": "getPassengersRidingOffset", "lines": [[164, 166]], "status": "different", "detail": "Canonical source read. Exact canonical file digest is absent/different in original: snippet content checked, original publication equivalence not asserted."}], "implementationCommit": "4e324652522b935ce5c4d59336be3f413c79385c", "integratedCommit": "bd62fe030ca0a85fea85ca30c62555bab63a86f2", "integrationEvidence": {"commit": "a967a4a3ac5f7c7510c6861380eb40f35b1e806c", "buildRevision": "9d3190a7f5c20fd917b388d74167fb23316c964c", "build": "SUCCESS with every Gradle Test task disabled and -x test."}, "runtimeParity": "unverified", "previousImplementationCommits": ["a967a4a3ac5f7c7510c6861380eb40f35b1e806c"], "compilation": {"revision": "bd62fe030ca0a85fea85ca30c62555bab63a86f2", "tree": "9cac395c85426a079f4b8d3e544711e6c27d0d85", "outcome": "BUILD SUCCESSFUL with every Gradle Test task disabled and -x test."}, "integrationReceipt": {"revision": "5f4d2b1ff46c7626b547e700a73166e3ad9db8ca", "path": "development/research/source-evidence/20261118/block-c-llama-rider-height/integration-receipt.md", "sha256": "92e1a15f93fc06c574277e5ced48821441a33c693333d759615f4d25ba3828b3"}},
     {"finding": "development/research/findings/1.17.1--1.18.2/minor-horizontal-collision-sprint.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_17_1/SprintCollision.java"], "sourceReview": "bounded historical verdict; inspect preserved identity and limits", "sourceReviews": [{"decision": "ACCEPT, bounded", "claim": " A `net/minecraft/client/player/LocalPlayer.java`, `aiStep`, clears sprinting on horizontal collision. B adds the `!minorHorizontalCollision` condition. B `net/minecraft/world/entity/Entity.java`, `move`, writes the minor-collision state from the resolved movement; the player tick consumes that state. The finding's classification and angle guards belong to B's entity collision classifier. A wall contact is a reachable player input; a vanilla stone wall exists in both versions. This accepts the gate difference, not an inferred trajectory or an unbounded collision-shape change.\n", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-001-minor-horizontal-collision-sprint.md"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}, {"decision": "ACCEPT, exact sampled boundaries", "claim": "Sprint-stop minor-collision gate changes at 1.18; cosine precision changes at 1.18.2. Four exact versions checked; missing final f in 1.18 ready-marker digest is metadata-only.", "snapshot": {"revision": "14443f43fbcc30152916ac75796846d796cf0268", "bindingLimit": "Exact snapshot file path not established; do not treat a commit-only record as a reviewed file.", "sha256": "66f5659dd17ff8441d10a02d95920ecd5d4e190c53c2c0893eac79efec36c6cb"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-09-1171-1182-boundaries-independent-review.md"}, "assertionPreserved": true}], "openIssues": [], "integratedCommit": "a1c492c8f64bdf4fd041b0275c4f0c638505007b"},
     {"finding": "development/research/findings/1.17.1--1.18.2/overworld-min-y-unloaded-chunk-fall.md", "implementation": "present", "changes": [], "sourceReview": "bounded decision retained; inspect exact evidence and limits", "implementationLimits": ["Native player fallback reads the server-provided level minimum Y on both endpoints. Only the default Overworld configuration differs; equal received dimensions remove the difference.", "Resolved by native behavior/scope disposition; no runtime parity claim."], "applicability": "Exact patch cutover unproved within the named source interval.", "sourceReviews": [{"decision": "ACCEPT, bounded", "claim": " Default Overworld bounds differ: A has min Y `0` and height `256`; B has min Y `-64` and height `384`. In `LivingEntity.travel`, the client no-chunk fallback uses `y <= minBuildHeight ? 0 : -0.1`; `LevelReader.hasChunkAt(BlockPos)` checks horizontal chunk availability, and the later vertical friction multiplication can yield `-0.098` when not discarded. The source fact is accepted only under the finding's attached conditions: default Overworld, client-side ordinary travel, unloaded X/Z chunk, no levitation, and Y in `(-64, 0]`. It must not be generalized to other dimensions, loaded chunks, server travel, or all falls, nor automatically treated as an eligible old-map mechanic. World-height/environment state is not a historical block mechanic.", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-014-overworld-min-y-unloaded-chunk-fall.md"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}], "implementationDisposition": "no client code for this source producer/input difference", "noCodeDisposition": "Native player fallback reads the server-provided level minimum Y on both endpoints. Only the default Overworld configuration differs; equal received dimensions remove the difference.", "openIssues": [], "disposition": "excluded production; no movement patch required"},
     {"finding": "development/research/findings/1.17.1--1.18.2/position-packet-threshold.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_18/PositionPacketThreshold.java"], "sourceReview": "bounded historical verdict; inspect preserved identity and limits", "sourceReviews": [{"decision": "ACCEPT, bounded", "claim": " A `LocalPlayer.sendPosition` sends on squared displacement greater than `9e-4` (with its periodic fallback); B compares squared length against `Mth.square(2e-4)`, i.e. `4e-8`. Thus a `0.001` displacement satisfies B's positional threshold and not A's, before other packet flags/fallbacks. B's server `handleMovePlayer` path applies movement and snaps only when the post-move residual exceeds its separate `0.0625` squared threshold. This confirms packet timing/state-sync logic, not a client movement trajectory. No block mechanic is identified.", "snapshot": {"revision": "e531086eecc778432b40b2b9ef39499b8a7f0dba", "path": "workflows/source-campaign-2026-10-07/1.17.1--1.18.2/findings/F-007-position-packet-threshold.md"}, "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-08-mc1171-1182-snapshot-review.md"}, "assertionPreserved": true}, {"decision": "ACCEPT, sampled source boundary", "claim": "Position packet squared threshold first changes in exact 1.18.2 among checked 1.17.1/1.18/1.18.1/1.18.2; no separate server-trace reacceptance.", "review": {"revision": "4a5eae32b5819418dbd59eb4a763ee24ea1f2c52", "path": "development/research/archive/legacy-workflows/source-boundary-reviews/2026-10-09-F007-position-packet-threshold-boundary-review.md"}, "assertionPreserved": true}], "openIssues": [], "integratedCommit": "a1c492c8f64bdf4fd041b0275c4f0c638505007b"},
@@ -297,7 +297,7 @@
     {"finding": "development/research/findings/1.20.4--1.20.6/received-effect-amplifier-sign.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_20_2/LevitationAmplifier.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_20/NativeLevitationAmplifier.java"], "sourceReviews": [{"snapshot": {"rawPath": ".native-source/sprint-20261026/120-gravity/development/research/findings/1.20.4--1.20.6/received-effect-amplifier-sign.md", "path": "development/research/source-evidence/20261026/120-gravity/development/research/findings/1.20.4--1.20.6/received-effect-amplifier-sign.md", "sha256": "d87b5b9921b37b92615c12dbb9ff5fab8a2f2aa5879a4ccfa6b63ed61acd2259", "normalization": "none; byte-identical immutable source snapshot"}, "reviewer": "/root/audit_effect_sign", "decision": "ACCEPT bounded client interpretation of received vanilla effect amplifier; exact1.20.5 boundary"}], "openIssues": [], "integrationEvidence20261028": {"commit": "edad3b493e2d5fb5705062f4d964e5a753c0247b", "reviewer": "review_effect_28", "decision": "ACCEPT statictechnicalreview", "compiledRevision": "983f6d689ddbb9193ecc19ddba3830e1d1ca2140", "build": "gradlew.bat build -x test --init-script development/disable-tests.gradle --console=plain; BUILD SUCCESSFUL6s; allTesttasksdisabled", "runtimeParity": "unverified; no game/tests launched"}},
     {"finding": "development/research/findings/1.21.4--1.21.5/fall-distance-accumulator-precision.md", "implementation": "present", "changes": ["src/main/java/me/wolfii/legacyparkourcompat/change/v1_20_5/NativeFallDistanceAccumulator.java", "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_4/FloatFallDistanceAccumulator.java", "src/main/java/me/wolfii/legacyparkourcompat/change/v1_21_5/DoubleFallDistanceAccumulator.java"], "sourceReviews": [{"snapshot": {"rawPath": ".native-source/20261028/floatfall/findings/fall-distance-accumulator-precision.md", "rawSha256": "2b02e1b43d643c31cbb6d90964e52e893d9574f663c489f6b8a82734a742da15", "path": "development/research/source-evidence/20261028/fall-distance-accumulator-precision.md", "publishedSha256": "2b02e1b43d643c31cbb6d90964e52e893d9574f663c489f6b8a82734a742da15", "normalization": "CRLF to LF and blank EOF trimming only"}, "reviewer": "audit_floatfall_28", "decision": "ACCEPT floatfield/doublefield accumulator difference; per-delta floatcast retained; callback gating independent"}], "openIssues": [{"missing": "Other fallDistance writes and independent water-admission operation remain separate", "next_action": "Do not describe float hook as active in1.21.4 local movement: callback is separatelysuppressed. Integrate_water_fall_28 owns water writer predicate."}], "integrationEvidence20261028": {"commit": "a119242dacff64bba4992a27b4b2ec54ab3c34c2", "reviewer": "review_floatfall_28", "decision": "ACCEPT single ordinary accumulator write rounding, fenced1.21..1.21.4", "build": "BUILD SUCCESSFUL6s; all Gradle Test tasks disabled via init script plus -x test", "compiledRevision": "a119242dacff64bba4992a27b4b2ec54ab3c34c2", "runtimeParity": "unverified"}},
     {"finding": "development/research/findings/1.21.4--1.21.5/swim-sprint-food-stop.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/NativeSwimSprintFoodStop.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_4/SwimSprintFoodStop.java"], "sourceReviews": [{"snapshot": {"path": "development/research/source-evidence/20261026/swim-retention/development/research/findings/1.21.4--1.21.5/swim-sprint-food-stop.md", "sha256": "8eaefe06ed3aa3838e34476a48f3b79c24658607eda20d9b1de773e96f99ca0f"}, "reviewer": "audit_swim_food_extra_28", "decision": "ACCEPT fullrevision including1.14.2 comparison and26.2 persistence; firststable1.21.5"}], "openIssues": [], "integrationEvidence20261028": {"commit": "66555ab2e0eb64058315bafbed36b770c8f84df5", "reviewer": "implementation_queue_coordinator_28 independent technical reviewer", "decision": "ACCEPT food-failure mask only; native mobility/passenger fallback", "compiledRevision": "4a384c25ed79a079da8ea6a746327d879d13b896", "build": "BUILD SUCCESSFUL6s; build -x test --init-script development/disable-tests.gradle --console=plain; every Gradle Test task disabled", "runtimeParity": "unverified", "sourceFinding": {"path": "development/research/source-evidence/20261028/swim-food-range/finding.md", "sha256": "bfa37dfef44f3eca71e10a007d89ee2a0ddb59634d399b79c3959f2919ad42ca"}, "sourceComparison": {"path": "development/research/source-evidence/20261028/swim-food-range/comparison.tsv", "sha256": "99b499207cd574bf7d3df1adb5c8c80914b815c8d4292671f1b9973f46975cf7", "rawSha256": "e0f478f7c5a24f7e2ca51ccc286a9e3719e1ac3ae336755309721bba2ceffae9", "normalization": "CRLF to LF only"}, "sourceReviewer": "audit_swim_food_range_28", "range": "1.13 through1.21.4; V1_12 native fence"}},
-    {"finding": "development/research/findings/1.21.10--1.21.11/relative-movement-trigonometric-lookup-precision.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_10/FloatTableRelativeInputRotationTrig.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16/NativeRelativeInputRotationTrig.java"], "sourceReviews": [{"snapshot": {"path": "development/research/source-evidence/20261026/trig/development/research/findings/1.21.10--1.21.11/relative-movement-trigonometric-lookup-precision.md", "sha256": "736559a5501c67abd0850b49728a1f4a9d194ae2fecb28ffa50452f089e0e7a2"}, "reviewer": "audit_trig_28", "decision": "ACCEPT exact1.21.10/.11 and26.1/.2 source; snapshotintroductionunknown"}], "integrationEvidence20261028": {"commit": "e9c61b15443e3a7ab3f23c7fa7de1278c712a5a6", "reviewer": "review_trig_integration_28", "decision": "ACCEPT renewed after canonical1.21.9 identityverification", "compiledRevision": "3ba030df38b62503a25a9f0a3171173ca6cc3597", "build": "BUILD SUCCESSFUL14s; build -x test --init-script development/disable-tests.gradle; all Test tasks disabled", "range": "Only1.21.9/.10 nativegetInputVector trig repaired; earliernativebarrier preserves priorfallback", "source1_21_9": {"provenance": "37d3049478585a43ffcace14fc8f2ee814b35ceedd8c9bad8b60adaed9b72c4f", "Mth": "d2a84fa876d78eb9693b2625ff5dc2eb8568ea33a974b4368effb03b4390e7f1", "Entity": "bd6074b108212bde667877700af1a52649472630c906c57c2a36c96a6fcee74c"}, "runtimeParity": "unverified"}, "openIssues": [], "integrationEvidenceRange20261028": {"commit": "4a384c25ed79a079da8ea6a746327d879d13b896", "reviewer": "implementation_queue_coordinator_28 independent technical reviewer", "decision": "ACCEPT range extension with V1_16 native barrier and1.21.10 old float lookup", "compiledRevision": "4a384c25ed79a079da8ea6a746327d879d13b896", "build": "BUILD SUCCESSFUL6s; build -x test --init-script development/disable-tests.gradle --console=plain; every Gradle Test task disabled", "runtimeParity": "unverified", "range": "1.16.2 through1.21.10; prior overridden input operations preserve old float lookup", "source": {"path": "development/research/source-evidence/20261028/trig-range/finding.md", "sha256": "e43273c20117000a77e350fd11114a0c9b1eb0ef24dbc4d02537aaa6f4809a2b"}, "comparison": {"path": "development/research/source-evidence/20261028/trig-range/comparison.md", "sha256": "aabf4e430ee12075a8a5129c6df1e4a997b79eb7a5a521fe3d7d2601c1e1f7cb", "rawSha256": "8bfae90742025a4942881ff87a10e79427c151e820fc7c781203e1b5fd9d0138", "normalization": "CRLF to LF only"}, "aliases": [{"path": "development/research/source-evidence/20261028/trig-range/group-a.md", "sha256": "4f4041196e86714cc62b522e758bd84f48f9ef7fc1200a7c98f93f3cd80b4c45", "rawSha256": "6d8b772ed0ca53a195d184d09809467866d68dc847a474db05b4c4930185c399", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/trig-range/group-b.md", "sha256": "6221aeec9cc09d57456b8f17933f14f13244b614142a3e527fe79049dcfa9e95", "rawSha256": "cd7c6e5c6e0c7d4f9d6c6f1a438185b68d7f26c31d40c1d44172493f8fdb9f5a", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/trig-range/group-c.md", "sha256": "e42130ca6b7b6171156f9fbd0cf6ffc0589874a03c4e9cafcf53170998b22b7a", "rawSha256": "ebf5f16ba60f3f6ea3205873bae1ba066a126baff935d8c9920943d796774555", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/trig-range/group-d.md", "sha256": "8272dbdbd62f6a1e17d2ead6f71cbb05f6bdd2b352dacae0859346ab75eaf77c", "rawSha256": "3fcb4c55fbb93595378284a42c9313714209590447c5d16078b49421a1a524f9", "normalization": "CRLF to LF only"}], "sourceReviewer": "audit_trig_range_28 plus independent alias audits"}},
+    {"finding": "development/research/findings/1.21.10--1.21.11/relative-movement-trigonometric-lookup-precision.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_10/FloatTableRelativeInputRotationTrig.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16/NativeRelativeInputRotationTrig.java"], "sourceReviews": [{"snapshot": {"path": "development/research/source-evidence/20261026/trig/development/research/findings/1.21.10--1.21.11/relative-movement-trigonometric-lookup-precision.md", "sha256": "736559a5501c67abd0850b49728a1f4a9d194ae2fecb28ffa50452f089e0e7a2"}, "reviewer": "audit_trig_28", "decision": "ACCEPT exact1.21.10/.11 and26.1/.2 source; snapshotintroductionunknown"}, {"decision": "The older float-overload route and numeric witness are accepted only for the seven named sampled endpoints. This does not infer an older cutover or duplicate the already established 1.21.10→1.21.11 exact boundary.", "snapshot": {"revision": "0f5811c756897e3a320cf25e63f0017e479b2e08", "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/relative-movement-late-trig-samples/comparison.md", "sha256": "ae6ad5078165aae9d6e8d8368bf697df864bf70212b69839a2c9aec57c565f13"}, "review": {"revision": "0f5811c756897e3a320cf25e63f0017e479b2e08", "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/relative-movement-late-trig-samples/verdict.md", "sha256": "d58271a872e8fd4e7034aac14b341a76311dcc1e2337273a8cbb232c64eeb629"}, "binding": {"revision": "0f5811c756897e3a320cf25e63f0017e479b2e08", "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/README.md", "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"}}], "integrationEvidence20261028": {"commit": "e9c61b15443e3a7ab3f23c7fa7de1278c712a5a6", "reviewer": "review_trig_integration_28", "decision": "ACCEPT renewed after canonical1.21.9 identityverification", "compiledRevision": "3ba030df38b62503a25a9f0a3171173ca6cc3597", "build": "BUILD SUCCESSFUL14s; build -x test --init-script development/disable-tests.gradle; all Test tasks disabled", "range": "Only1.21.9/.10 nativegetInputVector trig repaired; earliernativebarrier preserves priorfallback", "source1_21_9": {"provenance": "37d3049478585a43ffcace14fc8f2ee814b35ceedd8c9bad8b60adaed9b72c4f", "Mth": "d2a84fa876d78eb9693b2625ff5dc2eb8568ea33a974b4368effb03b4390e7f1", "Entity": "bd6074b108212bde667877700af1a52649472630c906c57c2a36c96a6fcee74c"}, "runtimeParity": "unverified"}, "openIssues": [], "integrationEvidenceRange20261028": {"commit": "4a384c25ed79a079da8ea6a746327d879d13b896", "reviewer": "implementation_queue_coordinator_28 independent technical reviewer", "decision": "ACCEPT range extension with V1_16 native barrier and1.21.10 old float lookup", "compiledRevision": "4a384c25ed79a079da8ea6a746327d879d13b896", "build": "BUILD SUCCESSFUL6s; build -x test --init-script development/disable-tests.gradle --console=plain; every Gradle Test task disabled", "runtimeParity": "unverified", "range": "1.16.2 through1.21.10; prior overridden input operations preserve old float lookup", "source": {"path": "development/research/source-evidence/20261028/trig-range/finding.md", "sha256": "e43273c20117000a77e350fd11114a0c9b1eb0ef24dbc4d02537aaa6f4809a2b"}, "comparison": {"path": "development/research/source-evidence/20261028/trig-range/comparison.md", "sha256": "aabf4e430ee12075a8a5129c6df1e4a997b79eb7a5a521fe3d7d2601c1e1f7cb", "rawSha256": "8bfae90742025a4942881ff87a10e79427c151e820fc7c781203e1b5fd9d0138", "normalization": "CRLF to LF only"}, "aliases": [{"path": "development/research/source-evidence/20261028/trig-range/group-a.md", "sha256": "4f4041196e86714cc62b522e758bd84f48f9ef7fc1200a7c98f93f3cd80b4c45", "rawSha256": "6d8b772ed0ca53a195d184d09809467866d68dc847a474db05b4c4930185c399", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/trig-range/group-b.md", "sha256": "6221aeec9cc09d57456b8f17933f14f13244b614142a3e527fe79049dcfa9e95", "rawSha256": "cd7c6e5c6e0c7d4f9d6c6f1a438185b68d7f26c31d40c1d44172493f8fdb9f5a", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/trig-range/group-c.md", "sha256": "e42130ca6b7b6171156f9fbd0cf6ffc0589874a03c4e9cafcf53170998b22b7a", "rawSha256": "ebf5f16ba60f3f6ea3205873bae1ba066a126baff935d8c9920943d796774555", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/trig-range/group-d.md", "sha256": "8272dbdbd62f6a1e17d2ead6f71cbb05f6bdd2b352dacae0859346ab75eaf77c", "rawSha256": "3fcb4c55fbb93595378284a42c9313714209590447c5d16078b49421a1a524f9", "normalization": "CRLF to LF only"}], "sourceReviewer": "audit_trig_range_28 plus independent alias audits"}},
     {"finding": "development/research/findings/1.21.10--1.21.11/moving-border-collision-clock.md", "implementation": "partial", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_2/WorldBorderCollisionBarrier.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_10/ElapsedWorldBorderCollision.java"], "sourceReviews": [{"snapshot": {"path": "development/research/source-evidence/20261026/12110-collision/development/research/findings/1.21.10--1.21.11/moving-border-collision-clock.md", "sha256": "3f1beab6c0799d35e80e7506274ed80c42ea62bfbadcf266e4699cb0d01e49d2"}, "reviewer": "audit_border_28", "decision": "ACCEPT exact endpoint clock/collision source operation"}, {"decision": "Source-confirmed exact 1.21.4–1.21.10 elapsed world-border operation, packet anchor and collision admission/rounding, with existing independent endpoint verdict at 1.21.10–1.21.11.", "review": {"path": "development/research/source-evidence/20261117/block-b-solid-collision/moving-border-clock-scope-review.md", "revision": "deb2597b39bb3d327825b48cc42592a112d10a99", "sha256": "647eea0af54e40cc78174f0d1a0e5fa6f4cc401770c917827952962a9bfb10b8"}, "resolverReconciliation": {"path": "development/research/source-evidence/20261117/block-b-solid-collision/moving-border-clock-resolver-boundary.md", "revision": "deb2597b39bb3d327825b48cc42592a112d10a99", "sha256": "69f523eec7d3b3ea3dc4e6d683f7334bbdb422bd3fce90c7a5cfb3a5c719e6c3"}}], "integrationEvidence20261028": {"commit": "e2027ba3b3e8025d6bc6257bb9e3d161eb038820", "reviewer": "review_border_28", "decision": "ACCEPT single elapsed-time snapshot for gate and shape; packet lifecycle captures; current clock and nested type syntax corrected", "compiledRevision": "4a384c25ed79a079da8ea6a746327d879d13b896", "build": "BUILD SUCCESSFUL6s; build -x test --init-script development/disable-tests.gradle --console=plain; every Gradle Test task disabled", "runtimeParity": "unverified", "range": "1.21.9/.10 only; earlier1.21.6 native fence"}, "openIssues": [{"missing": "Elapsed-clock applicability before verified 1.21.4 remains open.", "next_action": "Preserve the earlier native lower barrier until separately accepted source coverage closes."}], "rangeIntegration20261028": {"source": [{"path": "development/research/source-evidence/20261028/border-early-range/comparison.md", "rawSha256": "fe6331ff5c100dc1b3c9f914fe6a66c20f2ad4efcb18ac4623ab5f0c585cb3bb", "sha256": "e1c0612adce67fa811489e6c85a999775a6bf84a3ee19de622dd13a80485a9ab", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/border-early-range/audit.md", "rawSha256": "3405033e82dc83cd92837be7c258996747635baf50c02854a3c4f3738469e73b", "sha256": "9ecc53ef92ab7f2ac1c1f3adcdea77952be3e8ab853a57d4aa7c68a3738609ec", "normalization": "CRLF to LF only"}], "reviewedTip": "0677341a72bfe6b960be5c1f83992959df3760b2", "featureCommit": "8cdce238548d277f15bf6df71f9ebf78d4191e96", "compiledRevision": "d58c962d62b831ae844a2f97d53f0aeb0a9607c9", "range": "1.21.6 through1.21.10;1.21.5 and earlier intentionally native outside closedrange", "review": "Independent exact source identity rebind plus product wiring and merged-tip review ACCEPT; root inspected V1_21_5 lower native barrier and unchanged elapsed implementation", "build": "BUILD SUCCESSFUL5s; build -x test --init-script development/disable-tests.gradle --console=plain; every Testtask disabled", "runtimeParity": "unverified"}, "applicability": "Exact 1.21.4–1.21.10 elapsed border collision. 1.21.2/1.21.3 profile preserves earlier native fallback. 1.21.11 begins the native tick-based path.", "implementationCommit": "deb2597b39bb3d327825b48cc42592a112d10a99", "integratedCommit": "89efc24cd64c0d4a501715e17368d40fa40bc706", "integrationEvidence": {"commit": "deb2597b39bb3d327825b48cc42592a112d10a99", "buildRevision": "89efc24cd64c0d4a501715e17368d40fa40bc706", "build": "SUCCESS with every Gradle Test task disabled and -x test."}, "implementationLimits": ["Retains one elapsed-time sample for admission and shape, existing packet lifecycle and native missing-track fallback."], "runtimeParity": "unverified"},
     {"finding": "development/research/findings/1.21.10--1.21.11/sprint-jump-trigonometric-lookup.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_20_2/NativeSprintJumpTrigLookup.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_10/FloatTableSprintJumpTrigLookup.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_11/NativeSprintJumpTrigLookup.java"], "sourceReviews": [{"snapshot": {"path": "development/research/findings/1.21.10--1.21.11/sprint-jump-trigonometric-lookup.md", "sha256": "d02cec80591b08887f459f45219f4b2d37a6dc07be3b02afd3a3edba72dc7c90", "rawSha256": "d02cec80591b08887f459f45219f4b2d37a6dc07be3b02afd3a3edba72dc7c90"}, "reviewer": "sprint-trig-cold-audit", "decision": "ACCEPT exact1.21.10→1.21.11 lookup operation and26.2 persistence;1.21.9 source checked in technicalreview"}], "integrationEvidence20261028": {"commit": "c6535baf65503528e0439332ae830d87c42a0852", "reviewer": "review_sprint_jump_trig_28", "decision": "ACCEPT bounded1.21.9/.10; earlier REVISE was outside-scope unimplemented coverage, not regression", "compiledRevision": "c98c05e25d91c2abdd7d520f6b51ab24fea40734", "build": "BUILD SUCCESSFUL11s; build -x test --init-script development/disable-tests.gradle --console=plain; everyTest taskdisabled", "runtimeParity": "unverified"}, "openIssues": [], "rangeIntegration20261028": {"commit": "42a8069c145ea2d20576e64bb3f3346d75ac235c", "reviewer": "review_sprint_jump_trig_28", "decision": "ACCEPT bounded source operation/range", "compiledRevision": "4e8158a4dd4d1abd0939931a22c16ccfe9e51c1d", "build": "BUILD SUCCESSFUL10s; build -x test --init-script development/disable-tests.gradle --console=plain; every Test task disabled", "runtimeParity": "unverified", "range": "1.20.5 through1.21.10; priorfloat .2F impulse operation unchanged", "sources": [{"path": "development/research/source-evidence/20261028/sprint-trig-range/closure.md", "sha256": "6c933f018b06177bf9a24130584ef9b7e5deaa59780e632f3c2e0be5f2c3fb49", "rawSha256": "230c0a0c0cf1dc9838bc95a0b36e1f974b6e92cac2e153a69205cfbdce46667a", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/sprint-trig-range/identity-followup.md", "sha256": "3c51162e7fd4e1c9ae69b42c5efa4eac103749c5208c5b4cc7cc524dbd43935d", "rawSha256": "2953d1ad2ffef8c44b72734987c7b66e6f465eea935a0f85facfd0b1d0d04947", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/sprint-trig-range/audit.md", "sha256": "8694bee56999724397958b622883906a12719948baa6835b2db4598fe825c34a", "rawSha256": "a60ae9e6e91a31adb3d6bf1fdc19100635740dda13c096ece2799c1fd68724b0", "normalization": "CRLF to LF only"}]}},
     {"finding": "development/research/findings/1.21.10--1.21.11/autojump-fallback-trigonometric-lookup.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_9/NativeAutoJumpFallbackTrig.java", "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21_10/AutoJumpFallbackTrig.java"], "sourceReviews": [{"snapshot": {"path": "development/research/findings/1.21.10--1.21.11/autojump-fallback-trigonometric-lookup.md", "sha256": "fbdf8a08472aff07e893a7c7a0a26f08950a4322b934b7ccf886aa7834572b67", "rawSha256": "3d5133f74aaecd054a2d377462ec6ae58e2f256d8255f8266fed38ea9fb468e6"}, "reviewer": "autojump-fallback-direction-v2-audit", "auditSha256": "6a15b8e9cb81b2b1d3ac4a868659b96e8a1e363b8cd0ddf5b85784828326ca8e", "decision": "ACCEPT corrected exactbinary32yaw/nonzeroinput; no measuredtrajectory"}], "integrationEvidence20261028": {"commit": "c7fe966d06ed9beb406cd21708ebaabbed698e78", "reviewer": "review_autojump_trig_28", "decision": "ACCEPT exact1.21.9/.10 lookup operation; native earlierbarrier intentionally preserves unimplemented coverage", "compiledRevision": "a64eeb1318b5cc1d3839cb5d5e18cb597eb95619", "build": "BUILD SUCCESSFUL9s; build -x test --init-script development/disable-tests.gradle --console=plain; every Test task disabled", "runtimeParity": "unverified"}, "openIssues": [], "rangeIntegration20261028": {"commit": "542ba9a7adce9ea35313cc49ee50e0e2e94dc30f", "reviewer": "review_autojump_trig_28", "decision": "ACCEPT bounded source operation/range", "compiledRevision": "4e8158a4dd4d1abd0939931a22c16ccfe9e51c1d", "build": "BUILD SUCCESSFUL10s; build -x test --init-script development/disable-tests.gradle --console=plain; every Test task disabled", "runtimeParity": "unverified", "range": "1.10 through1.21.10; V1_9 native pre-feature fence", "sources": [{"path": "development/research/source-evidence/20261028/autojump-trig-range/closure.md", "sha256": "1e979a4fce35c5dde183e11fb9a79e55ed1ab165d9ab680bb4f74762ee3559cb", "rawSha256": "26f96c5fbbc3ec5e19a016f7103211e1c4a74f0f21b4773b59a1a5873aa03977", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/autojump-trig-range/identity-followup.md", "sha256": "04342b09b94999c8df523ff6a84017e08d594c1c426a5f0e31bdbc621c7b260a", "rawSha256": "04342b09b94999c8df523ff6a84017e08d594c1c426a5f0e31bdbc621c7b260a", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/autojump-trig-range/matrix.md", "sha256": "13318f2dd74f66605faf108422031fc0fe43bb944e803fba05f41dfa50b2e696", "rawSha256": "13318f2dd74f66605faf108422031fc0fe43bb944e803fba05f41dfa50b2e696", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/autojump-trig-range/audit-early.md", "sha256": "2a5d9266e23e3fea83720fddae72a06bbdd9c1fb59f72001288a22d591119c66", "rawSha256": "0419382a8c9522bbaad01b779ccad45c270b9597ab34bc1fc70d46701ded82a8", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/autojump-trig-range/audit-mid1.md", "sha256": "65cef0adfab868862fc358ee8ffbac10c758834c32efe9a51f719b3b3542b0c9", "rawSha256": "d925759b745bfc1ed4d69dc0c7109b01246108bf95bcae22f65689a5d5fbe6aa", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/autojump-trig-range/audit-mid2.md", "sha256": "b5c454625387368db354f9719b13b6d3bca0c87ca75d192f21faa97db2e989e5", "rawSha256": "184cd58145ea66cc20e77d8e8c4b5cc9a6abf846f27957c2dafb928538ead127", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/autojump-trig-range/audit-late1.md", "sha256": "9df1dbf400f771254ebee7c17e6dabfd16b694d1a01310dfeed07553c9bd2d86", "rawSha256": "9df1dbf400f771254ebee7c17e6dabfd16b694d1a01310dfeed07553c9bd2d86", "normalization": "CRLF to LF only"}, {"path": "development/research/source-evidence/20261028/autojump-trig-range/audit-late2.md", "sha256": "d76db3c24c7e2a3f7fb59e6e3eb93e24683e912fd93c8eab3987487ebbc59b79", "rawSha256": "134bb519956c80224118fff1b727bd53f0b0dd3144025cdc54a028a35b2fe2c3", "normalization": "CRLF to LF only"}]}},
@@ -6941,7 +6941,73 @@
         "status": "bounded source closures independently checked; historical full-pair freeze identities remain separate",
         "remaining": "Resources, shape/ray providers, witness/trajectory and current full-pair binding as qualified by the reports. No further broad rescan queued."
       },
-      "runtimeParity": "unverified"
+      "runtimeParity": "unverified",
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted unchanged for the bounded already-active dry glide operation: strict vertical `> -0.5` pre-move write of `1.0F`; the ordinary climbable cleanup path is bypassed. Product reachability remains a separate hold.",
+          "snapshot": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.17.1-1.18/report.md",
+            "sha256": "7d0db2cef6a8973477996de2999785421a5329e5dcce236e412225196845e85a"
+          },
+          "review": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.17.1-1.18/verdict.md",
+            "sha256": "75405bdfcbb049131c0f18d2d979d7ecaf921379cb9fa58d386cef48e07602de"
+          },
+          "binding": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/README.md",
+            "sha256": "9422ba0f9bf1aac4f0f610172aaf23ab1c3aa23c7a868bd66bbdbb57bb8fb803"
+          },
+          "exactPair": "1.17.1--1.18"
+        },
+        {
+          "decision": "Bounded no-difference result accepted. The verdict corrects the report's provenance conclusion and `LocalPlayer.java` hash typo; raw cached artifacts are unavailable for independent rehashing, while adjacent manifests and run records support exact source provenance. Product reachability remains separate.",
+          "snapshot": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.18-1.18.1/report.md",
+            "sha256": "0549a8d8d7b3df67423796f645ea826ea70f24bb2ea58da097c66bea90c28cc9"
+          },
+          "review": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.18-1.18.1/verdict.md",
+            "sha256": "f566b0573966180bf411be73fd6bc7557db1595e05ab9077bd1bbcbc2c0587e2"
+          },
+          "binding": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/README.md",
+            "sha256": "9422ba0f9bf1aac4f0f610172aaf23ab1c3aa23c7a868bd66bbdbb57bb8fb803"
+          },
+          "exactPair": "1.18--1.18.1"
+        },
+        {
+          "decision": "Accepted for the bounded pre-move assignment: both sides use entry vertical velocity strictly greater than `-0.5` to write `fallDistance = 1.0F`; possible later 1.18.2 move reset is separate. The verdict's report-hash transcription is corrected by the independently attested `1.18.1-1.18.2/input-identity-correction.md` (SHA-256 `805448afa98957571e76a72eae89c3db9d3330063c1e4362de857213301cc874`); the original verdict remains unchanged. Not full-pair or runtime parity.",
+          "snapshot": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.18.1-1.18.2/report.md",
+            "sha256": "48fffbee8c60d8039bcd0d1a90b8a2f0a3445c768969d76592b7c8a487abe5af"
+          },
+          "review": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.18.1-1.18.2/verdict.md",
+            "sha256": "dd3e31ef596288d232f5b74c5ec91a4d134f6a07882ad35bdc6cfa7b23960ed2"
+          },
+          "binding": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/README.md",
+            "sha256": "9422ba0f9bf1aac4f0f610172aaf23ab1c3aa23c7a868bd66bbdbb57bb8fb803"
+          },
+          "addenda": [
+            {
+              "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+              "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.18.1-1.18.2/input-identity-correction.md",
+              "sha256": "805448afa98957571e76a72eae89c3db9d3330063c1e4362de857213301cc874"
+            }
+          ],
+          "exactPair": "1.18.1--1.18.2"
+        }
+      ]
     },
     {
       "pair": "1.18.2--1.19.2",
@@ -7108,7 +7174,28 @@
       ],
       "unexaminedSlices": [],
       "openDependencies": [],
-      "runtimeParity": "unverified"
+      "runtimeParity": "unverified",
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted for the bounded active-glide cap/climbable slice, with no demonstrated local-player movement delta. Audit corrects local travel eligibility: `LocalPlayer.isEffectiveAi()` is true in both versions; do not describe the local player as its own controlling passenger.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.19.3-to-1.19.4-cap-route/report.md",
+            "sha256": "0d0c28041f1035c35e9cd8bafd79ea6c3c9707efbdae82b6c6ef9424836fe830"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.19.3-to-1.19.4-cap-route/verdict.md",
+            "sha256": "d7012da48bef0b6dd0ea69310f26dd59233bd4aadd39e715a9481824661871ce"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.19.3--1.19.4"
+        }
+      ]
     },
     {
       "pair": "1.19.4--1.20.1",
@@ -7179,6 +7266,51 @@
             "path": "development/research/source-evidence/20261117/block-a-1194-1201-block-contact/verdict.md",
             "sha256": "3e5fc33642be324dba0c06428240ebd9e45465605e627c4b3949b0f4e461271f"
           }
+        },
+        {
+          "decision": "The bounded default no-effect dry glide path remains unchanged. Audit separates the new pre-travel effect-conditioned reset: Slow Falling and Levitation reset fall distance in `aiStep`; Slow Falling now also resets at positive Y, while at non-positive Y the reset value coincides. The verdict's omitted report-hash character is addressed by unchanged-source identity correction `input-identity-correction.md` (SHA-256 `3b8da1c34c49e6d66738fc8f26f8cd351b88a7345ebd2c47f0e5f9cfd14139fb`). Existing product association `1979eb208d79c349295dfd00e94e4e249b09a35c` covers the separate effect reset; the central backlog record remains partial.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.19.4-to-1.20.0-effect-writer/report.md",
+            "sha256": "5661c38b860bc1897ee3fddbc57dbf00b79b5d4aa8476918ae786d6c0ad1cb3e"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.19.4-to-1.20.0-effect-writer/verdict.md",
+            "sha256": "1e1633590d77fe6fe0d4d562928044b2a5eba57aa59ebaa98d20a39550080f52"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "addenda": [
+            {
+              "revision": "5499504691579996c7d9edddb1079b64b536937b",
+              "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.19.4-to-1.20.0-effect-writer/input-identity-correction.md",
+              "sha256": "3b8da1c34c49e6d66738fc8f26f8cd351b88a7345ebd2c47f0e5f9cfd14139fb"
+            }
+          ],
+          "exactPair": "1.19.4--1.20.0"
+        },
+        {
+          "decision": "Accepted for the bounded start-to-first-move slice: listed player source files are byte-identical, and canonical 1.20.1 ready/provenance sidecars are present. Raw cache JARs and historical host paths are absent; source manifests match. No final tick, contact/geometry, or full pair claim.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20-to-1.20.1-start-route/report.md",
+            "sha256": "ff2a8e7b8d0a8c46fee6c7447826f0913a29be663727a2b5125effd2c692347c"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20-to-1.20.1-start-route/verdict.md",
+            "sha256": "06307283438d07204c7a38d9c8960915b2c352dedf5e6674f3152c4433b85d36"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.20--1.20.1"
         }
       ]
     },
@@ -7484,6 +7616,25 @@
             "path": "development/research/source-evidence/20261117/block-a-1201-1202-fluid-java/lane-fluid-tags-1201-1202/comparison.md",
             "sha256": "47ade6a61d5f119ad5b73b5baa2b15ee78f3e73a72762424f32defcf9bcba9f9"
           }
+        },
+        {
+          "decision": "Report identity is the exact hash recorded in the independent verdict. The audit accepts the bounded no-difference result and adds the omitted `checkSlowFallDistance()` cap: strict Y velocity `> -0.5` and current fall distance `> 1.0F`, then assign `1.0F`, before glide calculations and first move.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.1-to-1.20.2-cap-route/report.md",
+            "sha256": "6e2c4bd5dc7ad8c7a2729437aa20c9494723c334d11df7d52c24aaef8d69e578"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.1-to-1.20.2-cap-route/verdict.md",
+            "sha256": "9578e23a64b6093ce6edaf90abd1e91490e5cedd011486aba362949de3767641"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.20.1--1.20.2"
         }
       ]
     },
@@ -7977,6 +8128,44 @@
             "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/README.md",
             "sha256": "68a2d67d69c8cc4d42918e483582549cefc7784baf74cb309339d205ec68e813"
           }
+        },
+        {
+          "decision": "Accepted for the bounded dry, already-active client glide and adjacent ordinary/climbable routing: no movement-behavior difference. Exact source/provenance checks are recorded in the verdict; no pair-wide or runtime claim.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.2-to-1.20.3-cap-route/report.md",
+            "sha256": "154cb6554a2c41c243fb31a9cae3cbb2ec5dea42108ef80f908cfd79c633c97f"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.2-to-1.20.3-cap-route/verdict.md",
+            "sha256": "15d12e086b901edea3133c015a9f10bd26c16c82ae08a65949317af77bfe11f3"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.20.2--1.20.3"
+        },
+        {
+          "decision": "Accepted for the bounded active dry route, damping/move order, active-flag retention/cancellation, and climbable cleanup bypass; no pair-wide or runtime claim. Provenance limits remain: 1.20.3's local provenance does not hash-pin client mappings, and the 1.20.4 report's source-manifest filename differs from the actual marker name.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.3-to-1.20.4-active-route/report.md",
+            "sha256": "def8833e5528cb630ff1368d625734e7d406ba7f75b3bba8bf84d57e8278f9ae"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.3-to-1.20.4-active-route/verdict.md",
+            "sha256": "910957dfba5c62690bd2e71555b912832e47e0660ec59651db60e647e43e82af"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.20.3--1.20.4"
         }
       ]
     },
@@ -8112,7 +8301,28 @@
         ]
       },
       "unexaminedSlices": [],
-      "openDependencies": []
+      "openDependencies": [],
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted for the bounded active dry route and cap before first move. Audit adds the omitted dynamic `LivingEntity.checkFallDamage` dispatch and `Entity.move` fall-resetting-block clip gate; both are state-equivalent in this local-client path. Start-from-rest climbable gating is separate from the stipulated already-active flag. No full-pair or runtime claim.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.6-to-1.21.0-active-cap-route/report.md",
+            "sha256": "58b0f8f665323c72c86952e1d230129ade5217f0de43c9832896c135c634d862"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.6-to-1.21.0-active-cap-route/verdict.md",
+            "sha256": "43ea68e30046f3d6995188d6b1dcb4117677fbf4829c62c5a0812574ce4e8a10"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.20.6--1.21.0"
+        }
+      ]
     },
     {
       "pair": "1.20.6--1.21.11",
@@ -9053,6 +9263,44 @@
             "path": "development/research/source-evidence/20261118/block-c-ack-and-jump/README.md",
             "sha256": "f2583d6336adf0f75cdfd04856535b75fed8fd013bd7454d58c628ad6c0ea3b0"
           }
+        },
+        {
+          "decision": "Accepted bounded no-difference claim: exact source files, cap phase, and route order match. The final verdict hash includes its post-review wording correction; its report binding is unchanged.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21.2-to-1.21.3-cap-route/report.md",
+            "sha256": "167c724d0ed08b1d7de6a20bb049a0232711fc8e55445553187f38947b8eec77"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21.2-to-1.21.3-cap-route/verdict.md",
+            "sha256": "34148e62a25683d9a413ca025f9cbbdcbb9aa3da8077124e8c5a3117f43874d4"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.21.2--1.21.3"
+        },
+        {
+          "decision": "`canGlide` gains a flying veto while the ordinary initiation caller relocates the same veto; no ordinary fall-flying initiation delta is established. The earlier climbable-position side-effect/order difference is not proved to change movement state. Broader equipment qualification remains outside the audit.",
+          "snapshot": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.1-1.21.2-flight-veto/report.md",
+            "sha256": "43135324cfe6719a5e9f4c37943a902675e8e4b82a51c03e5cb67382935eeea7"
+          },
+          "review": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.1-1.21.2-flight-veto/verdict.md",
+            "sha256": "be29f99eb7bdeee117a489fbbd805bbe5d905bc1f4e5b3c5e9a6cad414ddcc4c"
+          },
+          "binding": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/README.md",
+            "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
+          },
+          "exactPair": "1.21.1--1.21.2"
         }
       ]
     },
@@ -9305,6 +9553,32 @@
             "path": "development/research/source-evidence/20261117/block-a-12110-12111-lava-input/dimension-migration/verdict.md",
             "sha256": "96f740e7ac43a74cafa12058c14016ca9ca740fad8b30688e923e6b180e0f69b"
           }
+        },
+        {
+          "decision": "Accepted for the bounded already-active dry climb-exit slice. Archive original verdict with signed `travel-order-addendum.md` (SHA-256 `d1393f1f12a77cb8da31a1ad106c6225486a68933c237329ae8299737fabcbce`), which corrects the original no-move statement: the nested helper invokes movement before late flag clear. The `.21.11` `CAN_GLIDE_THROUGH` predicate is a separate bounded witness; tag-resource inventory and runtime are excluded.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.10-to-1.21.11/report.md",
+            "sha256": "c06d237d049085aacd812f92f1d32bd4911bff05cfc3d3a676339b0b97f9d723"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.10-to-1.21.11/verdict.md",
+            "sha256": "fc15ab13ebd27dfc331d2aabd8677a13d43dd4ed9953d7e88a4c42faceee6f08"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "addenda": [
+            {
+              "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+              "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.10-to-1.21.11/travel-order-addendum.md",
+              "sha256": "d1393f1f12a77cb8da31a1ad106c6225486a68933c237329ae8299737fabcbce"
+            }
+          ],
+          "exactPair": "1.21.10--1.21.11"
         }
       ]
     },
@@ -9958,6 +10232,70 @@
             "path": "development/research/source-evidence/20261117/checkpoint04/later-source-20261116/1.21.11--26.1.2/collision_provider_residual/resource-audit/verdict-r3.md",
             "sha256": "44d0f3d4f1bab38131d8cfb7fd6f0fe7e53f17d14282bd7822b2e2e410167918"
           }
+        },
+        {
+          "decision": "Accepted for the stated source slice: no changed gate, operation order, movement call, or flag write in the bounded climbable exit path. Vanilla tag membership and runtime behavior remain outside scope.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.11-to-26.1/report.md",
+            "sha256": "168a388c62b9549e1f02b7cfaa8f42ea8a96ede6c474f36ddab1544ce92853c7"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.11-to-26.1/verdict.md",
+            "sha256": "40e3b3cdfb543c0483ba708948c074fd6649dfdb76b468cfabbd1d0efbe90cd5"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "exactPair": "1.21.11--26.1"
+        },
+        {
+          "decision": "Accepted bounded no-difference result, conditional on live `Player.onClimbable()`: `travelInAir` then stop applies only when the effective state is `CLIMBABLE` and not excluded by `CAN_GLIDE_THROUGH`. No tag/resource membership inventory or full-pair audit.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1.1-to-26.1.2/report.md",
+            "sha256": "84a2ba87e9bcdad0c3a51f8f7b83a39feb5077c3be01d6a96cbba362a18695c7"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1.1-to-26.1.2/verdict.md",
+            "sha256": "56c6fc06df3911badbd4b4db32b629b5b41d8a17eb02c3f9691ba3bd588f6896"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "exactPair": "26.1.1--26.1.2"
+        },
+        {
+          "decision": "Original audit's local-checkout provenance hold is resolved by the separate tie-break verdict: exact ready/provenance/source manifests are present and all 6,882 source entries per version verified. Accepted only for the bounded no-difference slice; tag membership and runtime stay open.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1-to-26.1.1/report.md",
+            "sha256": "08912efbc602e9e67dd0c937e1b7959dd22d0636c277d73cbf169119f4d2519f"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1-to-26.1.1/verdict.md",
+            "sha256": "7e5a884520a208bc91e8f26570b0e6498b6def92fe0157fef3d00bdc0870a393"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "addenda": [
+            {
+              "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+              "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1-to-26.1.1/provenance-resolution.md",
+              "sha256": "cda5964b022829af3653f8488efb8e75ebe32014ea4dbe90fd239a13cea489f5"
+            }
+          ],
+          "exactPair": "26.1--26.1.1"
         }
       ]
     },
@@ -10080,7 +10418,47 @@
         "limits": [
           "Full pair remains partial; no runtime parity."
         ]
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted for the bounded dry route and first move. A separate `Entity.move` local fall-distance gate changes after the cap. Audit corrects sidecar presence; raw client/mapping JARs were not rehashed. Product disposition and parity remain separate. `FallDamageCallbackHook` statically covers this move-time gate (`ac4c439793b53e5d948e9852d0ce700abc748477`); the separate downstream `maybeBackOffFromEdge` ordinary witness remains in REPAIR scope.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21.3-to-1.21.4-move-gate/report.md",
+            "sha256": "9b1f305a38c514fa6a239ce7b8f446eebe922f644cac702ac3493b57782b6c67"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21.3-to-1.21.4-move-gate/verdict.md",
+            "sha256": "053e4c089f318a1d0c4e4417863d99ea11536ff546848d03aa8b3e7de7dc94f2"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.21.3--1.21.4"
+        },
+        {
+          "decision": "Bounded ordinary Java modifier-path no-difference accepted. The audit corrects the `ItemAttributeModifiers` source path and leaves resource/registry/tag-driven dependencies open.",
+          "snapshot": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.3-1.21.4-modifier-dependencies/report.md",
+            "sha256": "a10c1e60c43ab025b79cb7947a74d6d60c1aef5d6749440c3ded1a1785c16716"
+          },
+          "review": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.3-1.21.4-modifier-dependencies/verdict.md",
+            "sha256": "3e5c6d4ed1ecc6d403f7712d95fa5393f524346ab5ff0914997440cd62151565"
+          },
+          "binding": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/README.md",
+            "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
+          },
+          "exactPair": "1.21.3--1.21.4"
+        }
+      ]
     },
     {
       "pair": "1.21.4--1.21.5",
@@ -10155,7 +10533,28 @@
       "blockEffectsContracts20261029": {
         "metadata": "blockEffectsContracts20261029",
         "status": "bounded source contracts independently accepted with corrections; pair remains open"
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted for the bounded dry route. In 1.21.5, climbable handling diverts active glide through ordinary air movement, reaches its first move, then clears the fall-flying flag; 1.21.4 continues its glide path. The audit could not reopen the source-manifest files, so full manifest digest claims are not verified. No intermediate boundary or runtime trajectory is established.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21.4-to-1.21.5-climbable-route/report.md",
+            "sha256": "611228b23786fdbea4a9a656eb0ed0a9fbfa3447fc7d79fd1d9e554fa9c5e9c9"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21.4-to-1.21.5-climbable-route/verdict.md",
+            "sha256": "d0edc35f22b9a753abafc9256f855e46bcced93de8280a5442af06f3f105ab9e"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.21.4--1.21.5"
+        }
+      ]
     },
     {
       "pair": "1.21.5--1.21.8",
@@ -10407,6 +10806,146 @@
             "path": "development/research/source-evidence/20261118/block-c-intermediate-player-gates/README.md",
             "sha256": "16b5da99f3988ff95f5ceade954ff6e0b5311f870c197009610e50bbbd3361d0"
           }
+        },
+        {
+          "decision": "Accepted for the bounded route and phase. Audit follows `travelInAir` through the relative-friction/climbable helper: the helper resets fall distance on climbable feet before its move. That sequence is equal across the pair.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.5-to-1.21.6/report.md",
+            "sha256": "dd4c4f6d1905729ad9eee81fcfe458ed3ffbdc21cfef7b16a176bd4b481f4fbf"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.5-to-1.21.6/verdict.md",
+            "sha256": "e414c532a63dc62ad2fe66b7340022d1af064df59528c77ad4246995964f51e7"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "exactPair": "1.21.5--1.21.6"
+        },
+        {
+          "decision": "Accepted for the bounded source pair. The original verdict is archived unchanged with signed `travel-order-addendum.md` (SHA-256 `8ffe0faadc06ca6c75ffc68b41c8bdd874d00b121d974ee2366abc778e5bb4d4`), which corrects its velocity-only wording: nested helper movement occurs before the stop-flag writes.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.6-to-1.21.7/report.md",
+            "sha256": "fda2fa518b4d52d43b54e93269b3de864824e2c18ce3a75d26fb40242ccef43d"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.6-to-1.21.7/verdict.md",
+            "sha256": "1596173e4d703f133ed5193433bf371314eae1a16cc60de12247f091a53596ea"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "addenda": [
+            {
+              "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+              "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.6-to-1.21.7/travel-order-addendum.md",
+              "sha256": "8ffe0faadc06ca6c75ffc68b41c8bdd874d00b121d974ee2366abc778e5bb4d4"
+            }
+          ],
+          "exactPair": "1.21.6--1.21.7"
+        },
+        {
+          "decision": "Accepted bounded no-difference result for already-active local dry glide at ordinary or climbable feet, including velocity gates and first-movement/flag-write order. No full-pair, implementation, or runtime claim.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.7-to-1.21.8/report.md",
+            "sha256": "8e11cd4519f36bf6383d7028066eb10dbafcb28b460a71eb46a2bdb86eaa8030"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.7-to-1.21.8/verdict.md",
+            "sha256": "6c491d691a474cfdfcccf597328d55a5ff9ffa44e13d0f476158ca78a1285011"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "exactPair": "1.21.7--1.21.8"
+        },
+        {
+          "decision": "Accepted for the exact inspected entries: packaged payload bytes are identical, with the two cached client JAR inputs independently verified. Adjacent .5/.8/.10 cached client JARs were absent in the bounded checks; no generalization to those releases or all modifier data is made.",
+          "snapshot": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.21.6-1.21.7-packaged-modifiers/report.md",
+            "sha256": "e53dbac9f90967a87743ce0e61db2db916191b12fae8863877ba3dcbd3bc7be5"
+          },
+          "review": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/1.21.6-1.21.7-packaged-modifiers/verdict.md",
+            "sha256": "d36cb8a8b552add66d5ed49a1ef1099b67b1bdb4c2ca0a02f084cd5d89e0a9fd"
+          },
+          "binding": {
+            "revision": "ae77924340bef9a41f76903f61ce533d7602eefd",
+            "path": "development/research/source-evidence/20261118/block-c-glide-lower-and-local-modifier-data/README.md",
+            "sha256": "9422ba0f9bf1aac4f0f610172aaf23ab1c3aa23c7a868bd66bbdbb57bb8fb803"
+          },
+          "exactPair": "1.21.6--1.21.7"
+        },
+        {
+          "decision": "No mismatch in the audited sprint/swim/sleep/fall-flight flags, ability defaults, and sampled inherited predicates. Shift-input transport remains unadjudicated; no intermediate boundary or full pair freeze is claimed.",
+          "snapshot": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.5-1.21.8-state-predicates/report.md",
+            "sha256": "a00d1e98ff90a954e3a7de225cf01c84aa66c77a0b948509e98f023ffa028b86"
+          },
+          "review": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.5-1.21.8-state-predicates/verdict.md",
+            "sha256": "6823007e6f883c5054146b172e6cb8761f01eb473af650b829d81dbff96353b0"
+          },
+          "binding": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/README.md",
+            "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
+          },
+          "exactPair": "1.21.5--1.21.8"
+        },
+        {
+          "decision": "Bounded Java lifecycle, equipment/enchantment aggregation, and ordinary movement-speed paths show no changed operation. Packaged built-in modifier resources remain unverified.",
+          "snapshot": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.5-1.21.8-modifier-consumers/report-r2.md",
+            "sha256": "c7f7e356e14be0eac09c73553ed4a0076671172e42f07ffd742942f30e76c66a"
+          },
+          "review": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.5-1.21.8-modifier-consumers/verdict.md",
+            "sha256": "2cbeec3ba864ee02fca06fce837dceca33d0de1f76dcd1f26377ff5897a13c7c"
+          },
+          "binding": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/README.md",
+            "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
+          },
+          "exactPair": "1.21.5--1.21.8"
+        },
+        {
+          "decision": "Exactly 22 listed enchantment-tag paths have equal sets and digests in the bound manifests. This proves neither underlying enchantment definitions nor attribute/item modifier payload equality; that dependency remains open.",
+          "snapshot": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.5-1.21.8-s6-resource-manifest/manifest-supplement.md",
+            "sha256": "1ca61b7ae2f38dfaee5a26981281239b7106aa10c015b22297038f724a28037e"
+          },
+          "review": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.5-1.21.8-s6-resource-manifest/verdict.md",
+            "sha256": "4e340785f152f744cebf47e0100188dbbd2082202d02bdf23fd68df574a93ee4"
+          },
+          "binding": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/README.md",
+            "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
+          },
+          "exactPair": "1.21.5--1.21.8"
         }
       ]
     },
@@ -10599,6 +11138,63 @@
             "path": "development/research/source-evidence/20261118/block-c-intermediate-player-gates/README.md",
             "sha256": "16b5da99f3988ff95f5ceade954ff6e0b5311f870c197009610e50bbbd3361d0"
           }
+        },
+        {
+          "decision": "Accepted only for the report's bounded already-active ordinary dry on-foot route, pre-travel cap and first-move ordering. No full-pair or runtime claim.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.8-to-1.21.9/report.md",
+            "sha256": "7f24b5c2271c503bcca6cf10e23a78307a35004b4b7798c7e67ea4b22105ee34"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.8-to-1.21.9/verdict.md",
+            "sha256": "4614f909a5ce5420088e6eff08db9d4073a95641e1a5b63a555b9d94d952f86b"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "exactPair": "1.21.8--1.21.9"
+        },
+        {
+          "decision": "Accepted bounded no-difference result. Nested ordinary-air helper movement precedes climb-exit flag clear. Hidden .9 provenance and .10 adjacent source manifests were checked; no full-pair or runtime claim.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.9-to-1.21.10/report.md",
+            "sha256": "e93f47cb26cd036f9f26ebebccbedf7f930f86dbbd0ca886278102d64116625a"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/1.21.9-to-1.21.10/verdict.md",
+            "sha256": "3bb5224be3dfbe011fec3a7afdb0d37617a17c974f75371d627f5bcb07b0fce0"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "exactPair": "1.21.9--1.21.10"
+        },
+        {
+          "decision": "Bounded Java effect lifecycle, player defaults, and equipment modifier paths accepted as no-difference. Packaged enchantment defaults and exact intermediate boundaries remain open.",
+          "snapshot": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.8-1.21.10-modifier-lifecycle/report.md",
+            "sha256": "8d52a382eca0d659dd3062a2835c4c7fb2db6b143a9deec04adf03f78353f289"
+          },
+          "review": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/1.21.8-1.21.10-modifier-lifecycle/verdict.md",
+            "sha256": "5c317ca937b3b1393d23001d5d14566de67ca151801af361a18e999e2edd4c02"
+          },
+          "binding": {
+            "revision": "0f5811c756897e3a320cf25e63f0017e479b2e08",
+            "path": "development/research/source-evidence/20261118/block-c-modifier-and-flying-coverage/README.md",
+            "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
+          },
+          "exactPair": "1.21.8--1.21.10"
         }
       ]
     },
@@ -11649,7 +12245,37 @@
           "Feature introduction, not a pre-introduction behavior to backport.",
           "Later evolution, product eligibility and runtime parity unverified."
         ]
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT bounded unchanged ordinary non-flying LocalPlayer water-current scan, impulse and timing. R1 closes client chunk admission, liquid-collision predicate and local tick/caller gates for the exact endpoints.",
+          "snapshot": {
+            "revision": "4df1b8624a4ef35eaccaff5380fd03052822131a",
+            "path": "development/research/source-evidence/20261117/block-a-194-1102-water-current/lane-water-current-source-194-1102/comparison.md",
+            "sha256": "3c5204b3f24a6f5ef09d03897b57b7606b61f4bb230643c2321b44adadc26634"
+          },
+          "review": {
+            "revision": "4df1b8624a4ef35eaccaff5380fd03052822131a",
+            "path": "development/research/source-evidence/20261117/block-a-194-1102-water-current/lane-water-current-source-194-1102-audit/verdict-r1.md",
+            "sha256": "454acbe68e846f1afd2b252849e3e55879ce43593dfc7ee4543c8b969593f29d"
+          },
+          "roster": {
+            "revision": "4df1b8624a4ef35eaccaff5380fd03052822131a",
+            "path": "development/research/source-evidence/20261117/block-a-194-1102-water-current/lane-water-current-source-194-1102-audit/roster.txt",
+            "sha256": "086021619a9edaca426eed0e28786b5a03c56d699ad0c8708f5ff95f38227a71"
+          },
+          "earlierReview": {
+            "revision": "4df1b8624a4ef35eaccaff5380fd03052822131a",
+            "path": "development/research/source-evidence/20261117/block-a-194-1102-water-current/lane-water-current-source-194-1102-audit/verdict.json",
+            "sha256": "43ef0d7f11ac861386b8844f9c34e41f8bb2b07586b8d754c0033234233221e9"
+          },
+          "rosterSupplement": {
+            "revision": "4df1b8624a4ef35eaccaff5380fd03052822131a",
+            "path": "development/research/source-evidence/20261117/block-a-194-1102-water-current/lane-water-current-source-194-1102-audit/roster-r1.txt",
+            "sha256": "cb2c01bb61da16a2702e752c08069fc208e95084384616a36cff3c64f0e07151"
+          }
+        }
+      ]
     },
     {
       "pair": "26.1.2--26.2",
@@ -12381,6 +13007,25 @@
             "path": "development/research/source-evidence/20261118/block-c-pair-gates-and-aliases/README.md",
             "sha256": "68a2d67d69c8cc4d42918e483582549cefc7784baf74cb309339d205ec68e813"
           }
+        },
+        {
+          "decision": "Qualified acceptance for the bounded dry local-player route when live `onClimbable()` is true: ordinary air travel and stop-flag writes follow in order. 26.2 adds collision-gated `restituteMovementAfterCollisions` after `Entity.move`; geometry-dependent effects and broader movement equivalence are unreviewed. Tag membership remains excluded.",
+          "snapshot": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1.2-to-26.2/report.md",
+            "sha256": "d4ab6d6ac4f2c34fc416ba469a9c5534baa05228fe7501da83ab646588299c76"
+          },
+          "review": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1.2-to-26.2/verdict.md",
+            "sha256": "2a5b1fbb10e1f9ca1b7462c57283d46e9681211320cd7d7b31b2c142e86a914e"
+          },
+          "binding": {
+            "revision": "2826cbcdfa6671024fa453a0865469d405f54828",
+            "path": "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/README.md",
+            "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
+          },
+          "exactPair": "26.1.2--26.2"
         }
       ]
     },
@@ -12438,7 +13083,28 @@
       "unexaminedSlices": [],
       "nextAction": "Retain source freeze and immutable one-axis ShulkerBox route correction. Individual findings remain separate from product/runtime state; earlier group aliases required before new implementation ranges.",
       "openDependencies": [],
-      "runtimeParity": "unverified"
+      "runtimeParity": "unverified",
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted for the bounded local, already-active dry Elytra route at climbable feet: same glide branch, strict pre-move threshold/write, and climbable cleanup bypass. Post-move discussion applies to ordinary collision-resolving movement; `noPhysics` bypasses the noted fall-damage call.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.17-to-1.17.1-alias-gate/report.md",
+            "sha256": "9203e6324d346f13debb95a34038bb88fcf86941aaa98b1026656539ddfcda36"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.17-to-1.17.1-alias-gate/verdict.md",
+            "sha256": "6ebde7ed279d25067680e81a4a8a7e2f17a1efc8946100249c5cc3e8f505834b"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.17--1.17.1"
+        }
+      ]
     },
     {
       "pair": "1.8.2--1.8.3",
@@ -12743,7 +13409,28 @@
           "rawSha256": "e4090e6e534a4716cdcc9220d8f66f3f2463640c3d22c640b3b2f62a3f5942a9",
           "sha256": "b021ef9331d9fa431874256894652cdef4bcf5fd5e2321d0a31f2fc92c798fcc"
         }
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted for the stated dry, already-active route: the same cap occurs before glide update and first move. Water/lava branches and whole-pair coverage remain excluded.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.5-to-1.20.6-cap-route/report.md",
+            "sha256": "4fe642489587c2517922506cad1df03711f02476e753253fffc91af2844ecc56"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.5-to-1.20.6-cap-route/verdict.md",
+            "sha256": "6f03108fc097b2feb2475aa9c2fcb599801663ed78ff46a71784699dfad1dd0e"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.20.5--1.20.6"
+        }
+      ]
     },
     {
       "pair": "1.21--1.21.1",
@@ -12764,7 +13451,35 @@
         "Server-produced unequal state, generated-world differences, malformed/external client state and runtime parity are outside this verdict.",
         "This does not close the broader 1.20.6--1.21.1 pair."
       ],
-      "nextAction": "Reconcile independent wiki lanes only after this bounded source freeze; no new ordinary movement delta identified under the audited inputs."
+      "nextAction": "Reconcile independent wiki lanes only after this bounded source freeze; no new ordinary movement delta identified under the audited inputs.",
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted bounded no-difference result for already-active dry glide at climbable feet: cap precedes calculation and first move; climbable cleanup is on the ordinary branch. Landing dispatch via LivingEntity is clarified in the verdict. The verdict's omitted final report-hash digit is bound by unchanged-source correction input-identity-correction.md (SHA-256 b030b3ff860691677fc352afadbd0ffe1bd7c07f07b2cf9255a937796d067b41).",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21-to-1.21.1-active-cap-route/report.md",
+            "sha256": "3d551a0c9b21b712dd3b6bf73e1d063e4f99ac16d42b48fbd01719d29694c10d"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21-to-1.21.1-active-cap-route/verdict.md",
+            "sha256": "f74f12e74b55f63aa693dd11491be017e71fde66068e2c98863978b6051525d0"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "addenda": [
+            {
+              "revision": "5499504691579996c7d9edddb1079b64b536937b",
+              "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.21-to-1.21.1-active-cap-route/input-identity-correction.md",
+              "sha256": "b030b3ff860691677fc352afadbd0ffe1bd7c07f07b2cf9255a937796d067b41"
+            }
+          ],
+          "exactPair": "1.21--1.21.1"
+        }
+      ]
     },
     {
       "pair": "1.8.4--1.8.5",
@@ -13211,7 +13926,28 @@
         "path": "Player inherits syncable gravity attribute; AttributeCommand sets base value, server sync reaches client, and LocalPlayer travel samples Y<=0 plus Slow Falling before consuming the effective gravity.",
         "limits": "No runtime trajectory measurement. This conditional case does not apply if scope is explicitly narrowed to unmodified survival without commands/resources.",
         "archivedReport": "development/research/source-evidence/20261117/checkpoint03/mcpk-20261116/vd-full-checklist/slowfall-consequence-followup/source-verdict.md"
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "decision": "Accepted for the bounded default-gravity (`0.08`), no-effect dry route and pre-move cap. Attribute-adjusted gravity and the `noGravity` getter route remain outside this default witness.",
+          "snapshot": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.4-to-1.20.5-default-gravity/report.md",
+            "sha256": "8371b29f4c7efd50479a49785c850e0036bac0a22a2335ea38b2477a46de3ff3"
+          },
+          "review": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/1.20.4-to-1.20.5-default-gravity/verdict.md",
+            "sha256": "b590967a944df7788937d4979be45b3ca52742632a081d012adea631d0788622"
+          },
+          "binding": {
+            "revision": "5499504691579996c7d9edddb1079b64b536937b",
+            "path": "development/research/source-evidence/20261118/block-c-glide-cap-exact-intermediates/README.md",
+            "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
+          },
+          "exactPair": "1.20.4--1.20.5"
+        }
+      ]
     },
     {
       "pair": "1.16.5--1.17",
