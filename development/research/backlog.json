@@ -10870,6 +10870,25 @@
             }
           ],
           "exactPair": "1.21.10--1.21.11"
+        },
+        {
+          "exactPair": "1.21.10--1.21.11",
+          "snapshot": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.10--1.21.11/source/comparison.md",
+            "sha256": "c357c02878978a198ad030fdabb007da2126ad4f52806a1b97978a91e9974121"
+          },
+          "review": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.10--1.21.11/blind-audit/verdict.md",
+            "sha256": "e245ffc3a7093f2809d053bed18dc91ea38c77e4782fbf18250b2dab4ab183f0"
+          },
+          "frozenIndependentRoster": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.10--1.21.11/blind-audit/frozen.md",
+            "sha256": "be52f100b04cfa91eb1851aed4c252c47f5a0313049e8f5781ae6af1edf50a3a"
+          },
+          "decision": "Accept bounded ordinary non-riding water continuity for admission, contact, push, eye sample, cited swimming/descent gates and the first water move. The extracted predicate preserves the compared ordering; ridden float, lava, dimension metadata and unexamined LocalPlayer gates remain separate."
         }
       ]
     },
@@ -12659,6 +12678,44 @@
             "sha256": "09893aed90882014aa1b4e93ba888a756f8ca3cdd6c7e2ca2bd6532e1b5afe59"
           },
           "exactPair": "1.21.8--1.21.10"
+        },
+        {
+          "exactPair": "1.21.8--1.21.9",
+          "snapshot": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.8--1.21.9/source/comparison.md",
+            "sha256": "2c0e11fdd1b8841f1f30bf058cf9582e8091c3f735868df4338e64801e1fa930"
+          },
+          "review": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.8--1.21.9/blind-audit/verdict.md",
+            "sha256": "8d473b2bcf4f50b416890f03c417c888eea0bb960413baa10b72c3bf48e9f372"
+          },
+          "frozenIndependentRoster": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.8--1.21.9/blind-audit/frozen.md",
+            "sha256": "31fa7c504487ccd59448f883fb035c48e60e69395fc5f72076596dcc5f412ecb"
+          },
+          "decision": "Accept bounded no-difference for body-height, eye prediction, water-flow push, and first ordinary water movement with equal current sprint/swim and queried inputs. The separate LocalPlayer sprint-trigger arming changes from literal 7 to a sprint-window option; sprint state must match for the water result."
+        },
+        {
+          "exactPair": "1.21.9--1.21.10",
+          "snapshot": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.9--1.21.10/source/comparison.md",
+            "sha256": "66189c2431fb9dfc5391aad73e7725d53db8709ac1ff2e7f982b11f153570f0b"
+          },
+          "review": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.9--1.21.10/blind-audit/verdict.md",
+            "sha256": "aa33cc36f8eb4f346d7715f92fe0c36af4153973edabcbf28d91d0433f231c62"
+          },
+          "frozenIndependentRoster": {
+            "revision": "46935922a7275383f975fe226058e12202212a6a",
+            "path": "development/research/source-evidence/20261118/water-java-1218-12111/1.21.9--1.21.10/blind-audit/frozen.md",
+            "sha256": "b636061fe77896a9cc1ab81cc0e6178c1dba66b4a69018fd8516f5dd567f9fca"
+          },
+          "decision": "Accept exact continuity for ordinary water body-height, eye sampling, push and first move with equal effective inputs. The independently accepted first-move witness is non-riding, non-sprinting, non-swimming and non-flying."
         }
       ]
     },
