@@ -1,0 +1,37 @@
+# 1.21.7 → 1.21.8 modifier lifecycle slice
+
+Status: bounded source comparison completed; this does not freeze the full pair.
+
+## Exact-source readiness and identity
+
+- Older source: `decompiled_minecraft/1.21.7/mojmap/`. Its hidden `.decompile-provenance.json` is present (SHA-256 `45bf296d921b2239fd0aedb2684e2c1cb9b7d7532b4106b8a2fd9b09309ca82d`). It records the exact 1.21.7 metadata input (`https://piston-meta.mojang.com/v1/packages/24c116056f9d403403d7b7c06fe018e75aaca464/1.21.7.json`, SHA-256 `b7ebf2fb9a9cc655f874386a55731e87fa20d35fcbae43bb92ddb4df081fc51a`) and client input (`https://piston-data.mojang.com/v1/objects/a2db1ea98c37b2d00c83f6867fb8bb581a593e07/client.jar`, SHA-256 `6d0aa64c6a0aee3270253317f51e9e816f94cd3b16b44f5d605615c39fc62fb9`). Mapping tree is `mojmap`; relevant source-file bytes match the manifest embedded in this provenance file.
+- Newer source: `decompiled_minecraft/1.21.8/mojmap/`. Adjacent `mojmap.ready.json` and `mojmap.provenance.json` are present. The ready marker identifies `versionId=1.21.8`, `mapping=mojmap`, source count 6105, and client SHA-256 `ea74e9c5e92d01f95f3d39196ddb734e19a077a58b4c433c34109487d600276f`. Recomputed source-manifest SHA-256 matches the marker: `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`. Artifact-manifest and diagnostics hashes also match their marker values.
+- Both trees contain every source member cited below. Actual SHA-256 values were checked against each side's source manifest. All cited shared operation files have identical bytes across the pair.
+
+## Bounded comparison
+
+### Effect modifier attach, replacement and removal — no difference found
+
+`net/minecraft/world/entity/LivingEntity.java` (both versions; SHA-256 `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`): `addEffect` lines 982–1000 inserts a first effect then calls `onEffectAdded`, while an accepted update routes to `onEffectUpdated`; `forceAddEffect` lines 1013–1022 overwrites and routes to add/update callbacks. Lines 1044–1049 add modifiers only on the logical server; lines 1060–1071 replace an updated effect's modifiers by remove-then-add and refresh dirty attributes; lines 1074–1089 remove each expired/removed effect's modifiers, then refresh. Client effects arrive through native synchronization; this comparison does not imply historical movement runs server-side.
+
+`net/minecraft/world/effect/MobEffect.java` (both; SHA-256 `a59b16b493d0c1fe164dc09e28a00050f4bf47ad95df0ed67e205b46b10a0e66`), lines 155–170, removes each modifier by ID before adding the amplifier-derived permanent modifier. `AttributeInstance.java` (both; SHA-256 `c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346`), lines 75–100 and 119–132, keeps ID and operation maps synchronized and marks changes dirty. `MobEffects.java` (both; SHA-256 `59460ae5a2087122e88eb4e6f799466ed3ea313a04a9e9162a9abf76dea440ae`), lines 15–27, assigns Speed and Slowness to `MOVEMENT_SPEED` with `ADD_MULTIPLIED_TOTAL`, respectively `0.2F` and `-0.15F`. Jump Boost's inline effect modifier targets safe-fall distance at lines 55–61; direct jump power separately remains `0.1F * (amplifier + 1)` in LivingEntity lines 2196–2202. No attach/replace/remove ordering, destination, or constant difference exists in these files.
+
+### Equipped item/glider refresh — no difference found in the examined path
+
+`LivingEntity.java`, lines 2637–2675, collects changed equipment slots in `EquipmentSlot.VALUES` order and stops the old stack's location effects during collection. For each new nonempty, nonbroken stack it enumerates modifiers, looks up the destination attribute, removes a same-ID modifier, then adds the transient modifier; server-only location-changed enchantment effects follow. Lines 3523–3531 remove a broken/equipped stack's modifiers and stop its location effects. `ItemStack.java` (both; SHA-256 `f454d70486abdd066be5d5dc89c0d5b61ec6920fb702fe397d3d12bf902936c2`), lines 964–974, emits the stack's slot-matching component modifiers before enchantment modifiers. This ordering is byte-identical in both releases.
+
+There is no `ElytraItem` source class in either exact tree. `LivingEntity.java` lines 3678–3685 instead checks the `GLIDER` component, matching `EQUIPPABLE.slot()` to the active slot and rejecting an item whose next damage breaks it; lines 2893–2902 search equipped slots for that predicate. No glider-specific attribute modifier is attached in this predicate/path. Generic equipment modifiers still use the refresh sequence above. The existing player glide state and direct movement calculations are unchanged in the checked files.
+
+### Direct player movement attribute reads — no difference found in the examined files
+
+`Player.java` (both; SHA-256 `8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987`): movement speed is copied from `MOVEMENT_SPEED` after `aiStep` (lines 576–580), read by `getSpeed` (1481–1484), and set as the walking-speed base on load (792). `LocalPlayer.java` (both; SHA-256 `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee`): the moving-slowly input multiplier reads `SNEAKING_SPEED` (lines 633–638). `LivingEntity.java` additionally reads `MOVEMENT_EFFICIENCY` for block slowdown (487–489), `JUMP_STRENGTH` for jump power (2192–2202), `GRAVITY` for default gravity (2235–2238), and `WATER_MOVEMENT_EFFICIENCY` during water travel (2301–2315). These caller files and `Attributes.java` (SHA-256 `b941c0556d9ed3c3ce1ffd4c993c9902287a690230e1510696ff13f9efdf2020`) are byte-identical across the pair. Sprint's remove-then-add path is in `LivingEntity.java` lines 2132–2140, likewise unchanged.
+
+### Enchantment defaults and exclusions
+
+The exact decompiled trees contain Java source and provenance metadata, but no canonical packaged enchantment JSON/data resources (the only `.json` found under the older mapping tree is its provenance file). `Enchantment.java`, `Enchantments.java` and `EnchantmentHelper.java` exist and are byte-identical, but packaged default resources are not established by this source set and remain unexamined. Do not infer a complete enchantment-default no-difference claim. Non-player inventory handling is outside this bounded player-state slice; the reviewed inventory touch in `Player.aiStep` only ticks inventory and did not form part of the modifier comparison.
+
+## Evidence identity for this bounded claim
+
+The source-pair identity is the exact pair `1.21.7/mojmap` and `1.21.8/mojmap`, with readiness/provenance hashes above. Primary compared payload hashes (same on both sides): LivingEntity `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`; AttributeInstance `c2d4f89e7ae2abbe856e7e1aa5bff2ca613073cbda282c1975636e479ba8e346`; MobEffect `a59b16b493d0c1fe164dc09e28a00050f4bf47ad95df0ed67e205b46b10a0e66`; MobEffects `59460ae5a2087122e88eb4e6f799466ed3ea313a04a9e9162a9abf76dea440ae`; Player `8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987`; LocalPlayer `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee`.
+
+Disposition: no accepted difference in the checked Java source slice. Pair remains partial: packaged enchantment defaults are unavailable in the canonical decompiled source roots; this report does not claim complete pair coverage or independent audit.
