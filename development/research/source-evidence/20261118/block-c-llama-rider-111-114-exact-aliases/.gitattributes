@@ -1,0 +1,3 @@
+# Frozen source comparison and verdict artifacts retain their exact original bytes.
+*.md -text
+README.md text eol=lf
