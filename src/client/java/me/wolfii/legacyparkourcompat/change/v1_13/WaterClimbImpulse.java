@@ -2,8 +2,10 @@ package me.wolfii.legacyparkourcompat.change.v1_13;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.OrdinaryPlayerContext;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterClimbImpulseHook;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -21,7 +23,9 @@ import java.util.Set;
  * The 1.13.2 Blocks and TrapdoorBlock sources identify the era trapdoors and
  * their WATERLOGGED property. Suppress the check for their matching water
  * contact without invoking 26.2 LivingEntity.onClimbable, which writes the
- * last climbable position when a trapdoor passes.
+ * last climbable position when a trapdoor passes. The 1.13 through 1.13.2
+ * Entity.m_69693160 body scan also admits adjacent water while the matching
+ * open oak trapdoor in the player's feet cell stays dry.
  */
 @MovementChange(emulates = ParkourVersion.V1_13_1)
 public final class WaterClimbImpulse implements WaterClimbImpulseHook {
@@ -40,15 +44,19 @@ public final class WaterClimbImpulse implements WaterClimbImpulseHook {
         if (state.is(Blocks.LADDER) || state.is(Blocks.VINE)) {
             return false;
         }
-        if (!selected.olderThan(ParkourVersion.V1_13) && isMatchingWaterloggedTrapdoor(player, state)) {
+        if (!selected.olderThan(ParkourVersion.V1_13) && isMatchingTrapdoor(player, state)) {
             return false;
         }
         return nativeCheck.get();
     }
 
-    private static boolean isMatchingWaterloggedTrapdoor(Player player, BlockState state) {
-        if (!V1_13_TRAPDOORS.contains(state.getBlock())
-            || !state.getValue(TrapDoorBlock.OPEN) || !state.getValue(TrapDoorBlock.WATERLOGGED)) {
+    private static boolean isMatchingTrapdoor(Player player, BlockState state) {
+        if (!V1_13_TRAPDOORS.contains(state.getBlock()) || !state.getValue(TrapDoorBlock.OPEN)) {
+            return false;
+        }
+        if (!state.getValue(TrapDoorBlock.WATERLOGGED)
+            && (!state.is(Blocks.OAK_TRAPDOOR) || !(player instanceof LocalPlayer)
+                || !OrdinaryPlayerContext.matches(player) || player.getAbilities().flying)) {
             return false;
         }
         BlockState below = player.level().getBlockState(player.blockPosition().below());
