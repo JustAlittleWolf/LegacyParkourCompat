@@ -1,0 +1,13 @@
+# B11 1.21.8 source identity verification supplement
+
+This immutable supplement resolves the 1.21.8 source-identity gate noted in `support-step.md`; the original report is unchanged.
+
+Verified exact sibling evidence under `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/1.21.8/`:
+
+- `mojmap.ready.json` SHA-256: `2e3bf302503eb127061cc605797b390f5f4a4b508f09350a59d78ced857ba7d7`. It identifies version `1.21.8`, mapping `mojmap`, marks publication `ready`, and pins `mojmap.sources.sha256` to `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008` and `artifacts.sha256` to `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`.
+- `mojmap.sources.sha256` actual SHA-256 matches the ready pin: `8ffb76cea647a2ba4fe58e000678f751bea2c40ea6358bae492e962ed1d9d008`.
+- `artifacts.sha256` actual SHA-256 matches the ready pin: `c8210b15012dcc4e109c2f73015b4117abec1f8ab04fdd375dbc11419e9e246c`. Its exact `1.21.8/client_mappings.txt` entry is the assigned Mojang mapping artifact SHA-256 `dce035fedcc047ce0306c69892176b5eb9036bcc2845c87198163f12bb1d67ca`. The same manifest pins `1.21.8/client.jar` as `ea74e9c5e92d01f95f3d39196ddb734e19a077a58b4c433c34109487d600276f`.
+
+For all ten inspected movement/control members, the actual SHA-256 in `decompiled_minecraft/1.21.8/mojmap/` matches the corresponding entry in the source manifest. Their hashes equal the already recorded 1.21.6 and 1.21.7 hashes: `Entity.java` `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704`; `Player.java` `8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987`; `LivingEntity.java` `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8`; `LocalPlayer.java` `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee`; `CollisionGetter.java` `03752693709491670a3c6b1d91114d46d92d6dfb1f48d3ecea3725c08b22ac8c`; `Block.java` `d66c7efd4afb3e52f8d239a1b5fcd00a5c24874d75b61b5b16b794faf200f2c2`; `SlabBlock.java` `d3666004285a0df44a3b20244d2f474e2feaea78e766b7da1317ca7bd70c8ec8`; `StairBlock.java` `f08b84f9c6f8ed1f33f95cee0a6f78cf27dc1789c3217d70af5f4be9a2d9225d`; `CrossCollisionBlock.java` `a7729019112720b75fd3d171ea85656e40f650daad7cf882d0483d52cea314d6`; `IronBarsBlock.java` `1b7a684fbf9a4ddef67b838a379ddff7310b57e39e2bec7b203cd44223eb0f93`.
+
+Disposition: exact 1.21.7→1.21.8 source identity and relevant member integrity now pass. The reviewed bounded support/stepping and ordinary shape-control members remain byte-identical across both adjacent edges, with no difference found in this slice. This verification does not close unrelated movement areas or establish runtime parity; no implementation, tests, launches, or source generation were performed.
