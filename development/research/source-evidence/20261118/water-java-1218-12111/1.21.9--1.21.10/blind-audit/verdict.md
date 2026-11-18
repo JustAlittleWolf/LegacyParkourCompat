@@ -1,0 +1,19 @@
+# Independent verdict: 1.21.9–1.21.10 ordinary water slice
+
+## Bound revisions
+
+- Reviewed source draft: `source/comparison.md`, SHA-256 `66189c2431fb9dfc5391aad73e7725d53db8709ac1ff2e7f982b11f153570f0b`.
+- My prior blind freeze: `blind-audit/frozen.md`, SHA-256 `b636061fe77896a9cc1ab81cc0e6178c1dba66b4a69018fd8516f5dd567f9fca`.
+- Verdict: accept the draft's bounded no-difference conclusion for the three assigned ordinary-water claims. Its scope and caveats agree with my independent freeze. No positive finding is warranted.
+
+## Claim review
+
+1. **Body height and eye prediction — accepted.** I rechecked the ordered `Entity.baseTick` water, eye, and swimming updates; `updateInWaterStateAndDoWaterCurrentPushing`, `updateFluidHeightAndDoFluidPushing`, `updateFluidOnEyes`, `isInWater`, `isEyeInFluid`, and `getFluidHeight`. The compared complete method bodies have equal SHA-256 on both versions. The water body sample uses the deflated bounding box, fluid surface height and overlap maximum; eye sampling uses `getEyeY()` and the strict fluid-surface-above-eye test. Fluid height provider bodies also match. The draft accurately distinguishes the old and new `Entity.java` whole-file digests from the identical scoped method bodies.
+2. **Water flow sampling and push — accepted.** `FluidState.getFlow` and `FlowingFluid.getFlow` bodies match; the latter samples horizontal neighbors, uses the same below-neighbor fallback and falling-column adjustment, and normalizes its provider vector. The entity consumer averages qualifying per-cell vectors, applies the same body-depth and `0.014` factors and minimum-push rule, preserves the player-specific no-normalization branch, and adds the result to velocity. `Player.isPushedByFluid` is identical and returns false while flying; the draft's non-flying witness satisfies this gate. No flow or push difference was found.
+3. **First ordinary water travel drag/vertical response — accepted with the stated witness bound.** `Player.travel`, `LivingEntity.travel`, `LivingEntity.travelInFluid`, and `getFluidFallingAdjustedMovement` bodies match. `Player.travel` has pre-super swimming vertical assistance and an abilities-flight Y response; the witness explicitly has swimming false and flying false, so neither path applies. It then delegates to the same water gate and travel math in both releases. The non-sprinting witness reaches the same relative acceleration, move, drag, and falling-adjustment order. This is a source-equivalence verdict for equal effective inputs, not a trajectory or runtime-parity claim.
+
+## Provenance and scope limits
+
+The reviewed draft hash is exact. I rechecked the 1.21.9 provenance's version metadata, client jar and official client-mapping hashes; the 1.21.10 ready/provenance IDs and Mojmap namespace; the newer source-manifest digest; artifact-manifest entries for client jar, `client_mappings.txt`, and `version.json`; and the consumed `Entity`, `Player`, `LocalPlayer`, `LivingEntity`, `FluidState`, `FlowingFluid`, and `WaterFluid` source hashes against the appropriate source sidecars. The relevant source identities and hashes agree with the draft.
+
+Sprint/run and shallow-water exemptions, flight behavior, riding, other creative/Elytra paths, lava/other fluids, geometry or block-world differences, damage, the remaining pair inventory, and runtime parity are not accepted or rejected by this verdict. The witness requires the same effective fluid, block, tag, and movement inputs on both versions. No source beyond the exact paired decompilations and their provenance/manifests, the reviewed draft, and my frozen audit was used.
