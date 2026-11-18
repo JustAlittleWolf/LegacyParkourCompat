@@ -1,0 +1,9 @@
+# ACCEPT — fall-distance precision bridge audit
+
+Frozen evidence reviewed: `c-pose-fall-precision-bridge/evidence-r2.md` (SHA-256 `07493239D0D5C6AEF59E8A70D14DAE5284408A09B4B59286D6CF385E5209F6E5`).
+
+I independently checked each exact stable Mojmap `Entity.java` source listed in the evidence: 1.18.2, 1.19, 1.19.1, 1.19.2, 1.19.3, 1.19.4, 1.20, 1.20.1, 1.20.2, 1.20.3, 1.20.4, 1.20.5, 1.20.6, 1.21, 1.21.1, 1.21.2, 1.21.3, and 1.21.4. All 18 complete-file SHA-256 values match the frozen table. Each source has `public float fallDistance`; `checkFallDamage` adds the negative resolved-Y delta via `this.fallDistance -= (float) ...` in the ordinary non-grounded/downward branch. The ordinary `Entity.move` sink passes its post-resolution Y component to that writer.
+
+All 18 local source identities are internally consistent with Mojmap: 14 outer ready/provenance sidecar pairs identify the exact release and mapping and link a source manifest whose `Entity.java` entry matches the recomputed hash; the four nested provenance manifests (1.20, 1.20.3, 1.21, 1.21.2) match the source hash and contain pinned inputs. This confirms local hash-chain consistency; it is not a signed attestation or an independent upstream re-download.
+
+Caller applicability remains separate from this accepted arithmetic bridge. The 1.21.2 move callback is guarded by `!level.isClientSide() || isControlledByLocalInstance()`. In 1.21.4 it additionally requires `!isControlledByClient()`, so the local callback can be suppressed for client-controlled entities. Do not infer the arithmetic writer runs for every local-player profile from the bridge. Other caller gates and runtime parity are not established here.
