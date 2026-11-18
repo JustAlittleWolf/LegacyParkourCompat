@@ -12271,6 +12271,27 @@
       ],
       "limits": [
         "Removed command-block dispenser handler changes server-produced later world state; unequal resulting inputs and server evolution are outside this client comparison. Runtime parity unverified."
+      ],
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.8.5--1.8.8",
+          "decision": "ACCEPT bounded unchanged dry ordinary Oak Fence cue and LocalPlayer water-current route in exact endpoints 1.8.5 and 1.8.8. The sampled endpoint verdict does not cover 1.8.6, 1.8.7, or 1.8.9.",
+          "snapshot": {
+            "revision": "df4cbbc10483f1c9827459a86ab762cb6d7f2e3f",
+            "path": "development/research/source-evidence/20261117/block-a-oak-fence-all-18x/lane-falling-water-fence-185-188/comparison.md",
+            "sha256": "52ac1e0f5c115e6d4d88cc005e5e7d57cfb4fa5c6d24be90de1a71d6395704d2"
+          },
+          "review": {
+            "revision": "df4cbbc10483f1c9827459a86ab762cb6d7f2e3f",
+            "path": "development/research/source-evidence/20261117/block-a-oak-fence-all-18x/lane-falling-water-fence-185-188-audit/verdict.md",
+            "sha256": "f7d5e4afa117a697586ab27c2f750805388bb8d92d25b000f5a0ef0089c4a0e8"
+          },
+          "roster": {
+            "revision": "df4cbbc10483f1c9827459a86ab762cb6d7f2e3f",
+            "path": "development/research/source-evidence/20261117/block-a-oak-fence-all-18x/lane-falling-water-fence-185-188-audit/roster.md",
+            "sha256": "0d062392e682bcff90d2fa8369eb89abbe2395890ce88ea684b963c0bc7f83d2"
+          }
+        }
       ]
     },
     {
@@ -12382,7 +12403,23 @@
           "gaps": [],
           "reconciliation": "The bounded MCPK hint maps to the existing accepted finding and verified product implementation. The existing pair source audit and all its other fields are unchanged; no runtime result is claimed."
         }
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.8--1.8.1",
+          "decision": "ACCEPT bounded unchanged dry ordinary Oak Fence cue and LocalPlayer water-current route. Material solidity qualifies the fence at either horizontal probe; loaded-area and non-flying gates retain the same velocity update. The separately observed 1.8.1 post-step descent difference stays outside this verdict.",
+          "snapshot": {
+            "revision": "df4cbbc10483f1c9827459a86ab762cb6d7f2e3f",
+            "path": "development/research/source-evidence/20261117/block-a-oak-fence-all-18x/lane-falling-water-fence-18-181/comparison.ready-source-r1.md",
+            "sha256": "d2d06008e93664854ad80051597174fa6637c8951a9b07b9dd57741af1b4827b"
+          },
+          "review": {
+            "revision": "df4cbbc10483f1c9827459a86ab762cb6d7f2e3f",
+            "path": "development/research/source-evidence/20261117/block-a-oak-fence-all-18x/lane-falling-water-fence-18-181-audit/audit.md",
+            "sha256": "e27070f2c7859a843e9efa36517d23a296efd0947923ffddd183c56953ef3bfe"
+          }
+        }
+      ]
     },
     {
       "pair": "1.8.1--1.8.2",
