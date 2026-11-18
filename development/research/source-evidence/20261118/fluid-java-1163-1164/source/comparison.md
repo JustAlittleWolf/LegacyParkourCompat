@@ -1,0 +1,26 @@
+# Ordinary player fluid path: 1.16.3 → 1.16.4
+
+## Evidence identity
+
+- Host/source consumer: Windows PowerShell; canonical read-only sources at `D:/Javastuff/LegacyParkourCompat/decompiled_minecraft/{1.16.3,1.16.4}/mojmap/`.
+- 1.16.3 manifest: `.decompile-provenance.json` records release metadata `1.16.3` (`piston-meta ... /1.16.3.json`, SHA-256 `193c5226095ce9e8a317f1e35ddbe4d976f176f6df7ac649ecfa669e17160ead`), client JAR SHA-256 `da85197babd989a7de318774cf5d97bcef95e89a70c9fa9a4c8180463e9589fa`, official Mojang client mappings (`client.txt`) SHA-256 `c41c58faaf3a3b651d8883b9b1df355cb6ad59c4d6296b2e1ffc3dfe2bf9be3e`.
+- 1.16.4 manifest: `.decompile-provenance.json` records release metadata `1.16.4` (`piston-meta ... /1.16.4.json`, SHA-256 `667fff4ca7fd0f56ab78b757224515e8e64375868e8d1ce6040091d7b63a0cb5`), client JAR SHA-256 `d6740464ee2bdf37d285c5d368d2e16497492427fb5783e2db3482bbf0079ed0`, official Mojang client mappings (`client.txt`) SHA-256 `93f188a0038fec8c2402d78e7acca983680978d6a9237c1fab80f22caddb00fe`.
+- Each listed source file's on-disk SHA-256 matched its own manifest `sources` entry. Each source file below has the same SHA-256 in both releases, so the complete decompiled file bodies are byte-identical across the pair.
+
+| Source member | 1.16.3 = 1.16.4 SHA-256 |
+|---|---|
+| `net/minecraft/world/entity/Entity.java` | `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666` |
+| `net/minecraft/world/entity/LivingEntity.java` | `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88` |
+| `net/minecraft/world/entity/player/Player.java` | `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960` |
+| `net/minecraft/world/level/material/FluidState.java` | `665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d` |
+| `net/minecraft/world/level/material/FlowingFluid.java` | `a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552` |
+
+## Compared path and disposition
+
+1. **Body admission and stored water/lava heights** — `Entity.baseTick()` (1.16.3/1.16.4 `Entity.java:362–382`) invokes `updateInWaterStateAndDoFluidPushing()` before eye-fluid update and swimming update. It clears `fluidHeight`, checks water first (water helper: `Entity.java:957–979`), then lava (`Entity.java:957–963`), with the same boat exclusion, fluid-height parameters, water entry effects/fall-distance reset/fire clearing, and lava height storage. `updateFluidHeightAndDoFluidPushing()` (`Entity.java:2641–2705`) uses the same deflated AABB, floor/ceil cell bounds, chunk gate, tag match, surface check (`f >= aABB.minY`), and maximum surface depth. `Entity.isInWater()` reads `wasTouchingWater`; `Entity.isInLava()` requires `!firstTick` and positive stored lava height. **Disposition: no source difference.**
+2. **Current accumulation and push** — In the same method, the matching fluid state contributes `getFlow`; a current whose accumulated depth is below `0.4` is scaled by that depth, then vectors are summed and counted. A nonzero total is averaged, and only non-`Player` entities normalize it. The result is multiplied by the caller's amount; when horizontal velocity magnitudes are both below `0.003` and push magnitude is below `0.0045000000000000005`, it is normalized and raised to that minimum before being added to delta movement. Player's `isPushedByFluid()` override returns `!abilities.flying` (`Player.java:1788–1791`), so an ordinary non-flying player accumulates currents. The relevant provider path is unchanged: `FluidState.getHeight()` delegates to fluid type, `FluidState.getFlow()` delegates to `Fluid.getFlow()`, and `FlowingFluid.getFlow()` is covered by the identical provider file hashes above. **Disposition: no source difference.**
+3. **First ordinary fluid travel move and connected gates** — `Player.travel()` (`Player.java:1387–1417`) has the same swim adjustment and dispatches to `LivingEntity.travel()` for a non-flying ordinary player. `LivingEntity.travel()` (`LivingEntity.java:1914 onward`) has the same effective-AI/local-control outer gate, slow-falling gravity selection, current block fluid lookup, water-first gate (`isInWater && isAffectedByFluids && !canStandOnFluid`), and lava alternative (`isInLava && isAffectedByFluids && !canStandOnFluid`). Water movement preserves the same depth-strider clamps and airborne scaling, Dolphin's Grace friction, `moveRelative → move → friction/climbable adjustment → falling adjustment → collision lift` order. Lava movement preserves the same relative input, move, fluid-height/jump-threshold branches, gravity gate, and collision lift. **Disposition: no source difference.**
+
+## Bounded conclusion and residuals
+
+For equal effective player state, world/block/fluid inputs, effects, enchantments, and dimension inputs on the ordinary non-riding, non-flying player path, these inspected sources establish bounded source equality for body-fluid admission and height storage, current accumulation/push, and the first ordinary water/lava travel movement with its connected gates. No positive finding was identified, so this lane produces no nested canonical finding. This does not audit resource archive/tag membership, all movement tick stages, creative or Elytra travel, or runtime parity.
