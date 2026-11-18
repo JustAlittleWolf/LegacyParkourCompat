@@ -1,0 +1,36 @@
+# Independent source audit: 1.15.2 to 1.16 lava slices
+
+Scope is limited to the three hash-verified authored claims named by `lane-lava-presence-source-1152-116/outputs.sha256` (manifest SHA256 `736510bf78b4e038d6616b38e29b5873a43133a37c9f801a7122b87305dd9abb`). That manifest's five enumerated files all matched their listed SHA256 values before opening. The independent source roster was frozen first at `source-roster.json` (SHA256 `dfc911f2ff7ca99efb5956eb2b1b1937634c2d3082ea5daf20e015b5bef27361`). This is not full-pair coverage or runtime verification.
+
+## Source identity and integrity
+
+- Windows PowerShell on Windows host. Exact roots: `decompiled_minecraft/1.15.2/mojmap` and `decompiled_minecraft/1.16/mojmap`; stable 1.16, not 1.16.1.
+- Both ready markers identify their exact version and `mojmap`; each ready marker's source-manifest digest matches the local `mojmap.sources.sha256`. All manifest entries and all Java files were checked: 3,332/3,332 at 1.15.2, 3,572/3,572 at 1.16; no missing or mismatched source bytes.
+- 1.15.2 manifest SHA256 `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7`; ready marker SHA256 `64a0e40b784d525ce50937c63e465fc4f564efb1f7af17f2bac3c77a36907be0`. Its separate provenance file SHA256 is `d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e`, and the file declares version 1.15.2 / Mojmap, but the ready marker has no provenance field or hash. Treat provenance linkage as absent; source bytes remain bound by the ready marker's checked manifest.
+- 1.16 manifest SHA256 `e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a`; ready marker SHA256 `5b6cb24f95e83b856c53f646d6477f2e46dae2276737dee56dd07c5bd745e4a`; provenance SHA256 `371d50521a183f4a3f42fac2d18021f228e0a4e6b2e8a9838c2805391709f2a9`, matching the ready marker's reference.
+
+## Claim verdicts
+
+### `lava-presence-surface-gate.md` — accept the bounded source difference; correct the timing claim
+
+The compared `LiquidBlock.entityInside` bodies confirm the change. In 1.15.2 (`LiquidBlock.java:171–174`), every lava-tagged callback invokes `entity.setInLava()`. In 1.16 (`LiquidBlock.java:178–185`), it computes `float f = blockPos.getY() + blockState.getFluidState().getHeight(level, blockPos)`, reads the entity AABB, and invokes the setter only for `aABB.minY < f || f > aABB.maxY`. For an ordered AABB, the second disjunct is subsumed by the first; retaining the literal predicate and its float/double types is sound. `FluidState.getHeight` delegates to the fluid type in both releases; `FlowingFluid.getHeight` uses same-fluid-above ? `1.0F` : own height in both. The exact downstream fluid-state/tag contents remain outside this audit.
+
+`Entity.move` resets the corresponding flag immediately before `checkInsideBlocks` in both releases (1.15.2 `Entity.java:533–540`; 1.16 `:551–558`). `checkInsideBlocks` calls each covered block state's `entityInside` when the relevant chunk range is loaded. The reset/callback path is gated: `noPhysics` takes the other `move` branch, and a piston request limited to `Vec3.ZERO` returns early. A whole-source search found only the paired `LiquidBlock.entityInside` call sites for `setInLava` in these roots.
+
+Required correction: the normal LocalPlayer ordering is `LivingEntity.tick` → superclass/base tick → `aiStep`; its jump consumer precedes `travel`, and `Entity.move`'s lava reset/callback runs inside that later travel movement. Therefore this movement's callback result does not admit the jump/travel consumers later in that same movement tick; it supplies the cached predicate for a subsequent consumer pass (subject to later movement calls and the `move` gates above). The draft's same-tick wording overstates timing. It is fine to state that a changed cached result changes a later jump/travel admission.
+
+### `lava-travel-admission-velocity.md` — accept the bounded source difference; state player applicability precisely
+
+The 1.15.2 `LivingEntity.travel` source confirms outer `isEffectiveAi() || isControlledByLocalInstance()`, the water/flying and lava/flying nested admissions, and a lava body with `moveRelative(0.02F, input)`, move, uniform `scale(0.5)`, optional `-d/4` gravity, then the horizontal-collision/free-space `0.3` escape response (`LivingEntity.java:1831–1925`). In 1.16 the lava branch follows water admission and requires `isInLava() && isAffectedByFluids() && !canStandOnFluid(fluidState.getType())`; after moving it selects shallow `multiply(0.5, 0.8F, 0.5)` plus `getFluidFallingAdjustedMovement` for height `<= getFluidJumpThreshold()`, else uniform `scale(0.5)`, then applies gravity and the same kind of collision response (`LivingEntity.java:1912–1976`). The threshold body is `getEyeHeight() < 0.4 ? 0.0 : 0.4` (`Entity.java:2704–2706`).
+
+Player-path check: 1.15.2 `Player.travel` wraps `super.travel`; when not flying it reaches the described LivingEntity lava branch without a movement post-adjustment. In 1.16 there is no Player.travel override in the class; Player's `isAffectedByFluids()` returns `!abilities.flying`, and inherited `canStandOnFluid` returns false. Thus the new branch difference applies directly to non-flying player lava movement; flying is excluded by the new fluid-affect gate. For timing, 1.16 `Entity.baseTick` clears/repopulates the `fluidHeight` map before `LivingEntity.aiStep`, whereas the `isInLava` callback flag is produced by `move`; describe these as separate cached inputs, not one jointly refreshed immersion value. No trajectory consequence is measured.
+
+### `held-jump-lava-immersion.md` — accept the bounded source difference
+
+The 1.15.2 branch runs on `jumping`; its outer water-height/ground test selects the liquid path, and when that test selects the other branch `isInLava()` yields `jumpInLiquid(LAVA)` without testing lava height (`LivingEntity.java:2264–2279`). In 1.16 the whole jump section requires `jumping && isAffectedByFluids()`; it selects `k` by lava predicate, computes water-specific `bl`, obtains `m` from `getFluidJumpThreshold`, and uses strict `k > m` predicates with ground state and `noJumpDelay` to choose lava impulse, water impulse or ground jump (`LivingEntity.java:2423–2449`). `jumpInLiquid` remains `add(0.0, 0.04F, 0.0)` in both. For Player, 1.16's fluid-affect override excludes flying.
+
+The LocalPlayer citation is directionally correct but should name the method accurately: the input assignment is in `LocalPlayer.serverAiStep` under `isControlledCamera` (1.15.2 `:607–618`, 1.16 `:634–645`), called from LivingEntity's `aiStep` through the local player's `isEffectiveAi() == true`; `LocalPlayer.aiStep` later delegates through Player to LivingEntity (`:778` / `:813`). This confirms a reachable local-player held-jump input path without claiming the assignment itself sits in `LocalPlayer.aiStep`. The fluid-height map is prepared during superclass/base tick before this jump section; the lava-touch flag is the move callback cache described above.
+
+## Remaining gates
+
+This audit did not inspect tag resource membership, every movement caller, every neighboring-block case, other stable/patch versions, or runtime trajectories. The comparison draft appropriately disclaims those areas. Keep the 1.15.2 provenance-reference limitation above visible with any source-set identity reused downstream.

@@ -1,0 +1,193 @@
+{
+  "pair": {
+    "older": "1.15.2",
+    "newer": "1.16",
+    "mapping": "Mojmap",
+    "comparison": "exact stable 1.16 (not 1.16.1)"
+  },
+  "sourceRoots": {
+    "1.15.2": {
+      "readySha256": "64a0e40b784d525ce50937c63e465fc4f564efb1f7af17f2bac3c77a36907be0",
+      "sourceManifestSha256": "cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7",
+      "provenanceSha256": "d4802d35ee2927a44d753871f184c3255c060eb94457a5c65a8bc121a087954e",
+      "readyManifestHashMatches": true,
+      "readyProvenanceHashMatches": false,
+      "versionId": "1.15.2",
+      "mapping": "mojmap"
+    },
+    "1.16": {
+      "readySha256": "5b6cb24f95e83b856c53f646d6477f2e46dae2276737dee56dd07c5bd745e4a2",
+      "sourceManifestSha256": "e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a",
+      "provenanceSha256": "371d50521a183f4a3f42fac2d18021f228e0a4e6b2e8a9838c2805391709f2a9",
+      "readyManifestHashMatches": true,
+      "readyProvenanceHashMatches": true,
+      "versionId": "1.16",
+      "mapping": "mojmap"
+    }
+  },
+  "roster": [
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/entity/Entity.java",
+      "sha256": "191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/entity/LivingEntity.java",
+      "sha256": "46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/entity/player/Player.java",
+      "sha256": "1ba2724c22163862b8f7fdfdea5a04a66e4db26a119d7e5360ba024724a34793",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/client/player/LocalPlayer.java",
+      "sha256": "3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/level/block/LiquidBlock.java",
+      "sha256": "cc7638d876a7e70cd111891cdb7be424741a4a5bdd4851f3623881c30734c24e",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/level/block/state/BlockState.java",
+      "sha256": "77320fd1e50e58d7a3ed593ccbcf21853c97d125fccebde2e0e305dc47524f21",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/level/material/FluidState.java",
+      "sha256": "f88bff7d54ea0220ee67e0fe36a78df67871e52ae636e584ea26dd107f652c15",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/level/material/Fluid.java",
+      "sha256": "b20c97ed8fdae1e3ef945340113a2629a8bc53b12fad84bf1ac6c689669de13b",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/level/material/FlowingFluid.java",
+      "sha256": "e8a395552e53f33bcb5648325615d31bc1796ce2a8aeb501bdda3127622dccdf",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/level/material/LavaFluid.java",
+      "sha256": "d315b4cc1cd215e981bf343c03d1fe86de64b4fcea3b0869efff5ac57aff7fd2",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/tags/FluidTags.java",
+      "sha256": "7b75994500c5286295f17227cd89ce0c42ffe829af57e6a5ff3415e41342953c",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/level/BlockGetter.java",
+      "sha256": "7c144c5890245b8189faea94a56c628d469e4c142977645f753deac7f62f9545",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.15.2",
+      "path": "net/minecraft/world/level/LevelReader.java",
+      "sha256": "d09aa8eaaa7f8ca8703091facb4d7e1a26c9f4bea8b99c5c8956682875241d37",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/entity/Entity.java",
+      "sha256": "27e3bb01b5d03c09161891e717c16477899768333082e81ebfaac4e525616576",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/entity/LivingEntity.java",
+      "sha256": "b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/entity/player/Player.java",
+      "sha256": "a849960d47bf00a2cddfb6636c78c518532a11967ba08829f19c5ebced08681e",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/client/player/LocalPlayer.java",
+      "sha256": "ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/level/block/LiquidBlock.java",
+      "sha256": "e7b138668f426eaf7c2f89b34dd0448f6ba0eb133963929ebf12d64840f22fb3",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/level/block/state/BlockState.java",
+      "sha256": "edd2d9dba0c10d035774f8b2dd7dcf00d112d7a2d67734fba1851a2d2f91bd36",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/level/material/FluidState.java",
+      "sha256": "665b4024a32f659d92ce1259b25f529616e44b6f3df8a6aab4a4a2c57c7bc26d",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/level/material/Fluid.java",
+      "sha256": "b37e7870f93cf1c7d4c96456a668c3f42ee48b5c5b9882e9c7cecea55717ae2f",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/level/material/FlowingFluid.java",
+      "sha256": "a85a5cd6625b1b4a047bd693399e1f78c2978ae207af927d4abfac3b34229552",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/level/material/LavaFluid.java",
+      "sha256": "6e98f387c7561bff3b66f2e86ce54bab54a8ff3337639cb106e5e6aaad8ada9b",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/tags/FluidTags.java",
+      "sha256": "29756a98a15f0ab06c33eb6b414883c13c352c803e8c6d42608cbe7960905c58",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/level/BlockGetter.java",
+      "sha256": "0f81fc1750218ddefabb33a03120cf1ac3447640c1c97ff59850fd45fab38f44",
+      "manifestEntryMatches": true
+    },
+    {
+      "version": "1.16",
+      "path": "net/minecraft/world/level/LevelReader.java",
+      "sha256": "d301b992d71b05306a3139e69f3f1529190f82404791ec60f9a693188d29577a",
+      "manifestEntryMatches": true
+    }
+  ],
+  "frozenBeforeScratchClaims": true,
+  "coverageSlices": [
+    "Entity baseTick/fluid-state producer; move/checkInsideBlocks reset and block dispatch; lava predicate; fluid scan and fluidHeight calculation; fluid-jump threshold",
+    "LiquidBlock.entityInside lava gate and fluid-height overlap; BlockState.entityInside dispatch; FluidState height forwarding; Fluid/FlowingFluid/LavaFluid height/flow behavior; FluidTags.LAVA binding",
+    "LivingEntity travel fluid admission, lava shallow/deep damping and gravity/escape response; LivingEntity.aiStep held-jump fluid gating/threshold/velocity; Player overrides and fluid predicates; LocalPlayer input-to-aiStep ordering",
+    "BlockGetter/LevelReader fluid lookup interfaces referenced by the above paths"
+  ]
+}
