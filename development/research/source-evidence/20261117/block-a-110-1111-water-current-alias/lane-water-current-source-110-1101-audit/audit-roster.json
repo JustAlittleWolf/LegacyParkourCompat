@@ -1,0 +1,127 @@
+{
+  "audit": "independent blind source coverage audit",
+  "pair": [
+    "1.10",
+    "1.10.1"
+  ],
+  "mapping": "Ornithe Feather",
+  "scope": "ordinary nonfalling on-foot LocalPlayer water-current path: local tick entry; inherited player/entity gates; water-flow scan bounds and loaded-area access; per-cell flow aggregation and normalize; 0.014 velocity response",
+  "sourceCoverage": [
+    {
+      "version": "1.10",
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+      "sha256": "d9f0ec60a318ac51fd49198aaccd5c3e2b3af95cd3e2df577bb25226f3e0e4e4"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+      "sha256": "db7bbbc15e2bcb0de18476fec1b88e73eccf8ae63b170276b1d8327dd0be796b"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "827fea19d95ddc0a2847859f0c288bf0b6d6dc3692feb30b52b84c60fa19d877"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/block/LiquidBlock.java",
+      "sha256": "b988d19e379d01d291cb014cb05e1579311c589654ce9ff4faa7f43bbba0533e"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/world/chunk/ChunkSource.java",
+      "sha256": "c9d00f05a9cf7ddae22a134b1b5d53fa5f5d4bd676971980c2c54f4014a162c4"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/world/chunk/EmptyChunk.java",
+      "sha256": "ffc3414f16ccb2b1523a7b9b2c9adfc2946c006bdb97b83c3c29f405ee5f8fd0"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/world/chunk/WorldChunk.java",
+      "sha256": "dcfcda41f28cc205f17a547c69efdf70aede8f4770a43101d20ead08e8ed86b5"
+    },
+    {
+      "version": "1.10",
+      "path": "net/minecraft/client/world/chunk/ClientChunkCache.java",
+      "sha256": "08cddb35ed4fdee05e28943c16d61ef8119a1ddac4baf533f3487202b63cf048"
+    },
+    {
+      "version": "1.10",
+      "path": ".decompile-provenance.json",
+      "sha256": "df266e2c3009dd1a873c1665c30fe388078ed1c6227668e10cde87409a18c6da",
+      "mappingArtifact": "ad7cf6744d81d0260c9d97ddfe8250b2fdbd54fe332d4d00266b3545d8ddf8dd",
+      "mappingMetadata": "a1eb1ccff25e2b76fa1d08e9b515508e97ac4837fbcacbd7f77b3a01026d3950",
+      "clientArtifact": "c00f8170ebf4fd834f552246743a64885a6dffb3dd1e3a3f3dba9676b7a0af35"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "a9637065f21ad67464eb5c204c74ebf228c3bb0da8a96ddf4ae73c0490fed443"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+      "sha256": "d9f0ec60a318ac51fd49198aaccd5c3e2b3af95cd3e2df577bb25226f3e0e4e4"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+      "sha256": "020370cffde2d1fe9f1b63fa5d51f1af2fab095908b19e79f88a7bcac7dfd501"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "05da145effa19a6ef7934cc276e89226373b67c12f4ce89a8ce2183f29039f77"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "41fd1edc24b39a5b9a979d15d54fbd3ebf9818651628109f232fcc24c7e28d0a"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/block/LiquidBlock.java",
+      "sha256": "b988d19e379d01d291cb014cb05e1579311c589654ce9ff4faa7f43bbba0533e"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/world/chunk/ChunkSource.java",
+      "sha256": "c9d00f05a9cf7ddae22a134b1b5d53fa5f5d4bd676971980c2c54f4014a162c4"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/world/chunk/EmptyChunk.java",
+      "sha256": "ffc3414f16ccb2b1523a7b9b2c9adfc2946c006bdb97b83c3c29f405ee5f8fd0"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/world/chunk/WorldChunk.java",
+      "sha256": "dcfcda41f28cc205f17a547c69efdf70aede8f4770a43101d20ead08e8ed86b5"
+    },
+    {
+      "version": "1.10.1",
+      "path": "net/minecraft/client/world/chunk/ClientChunkCache.java",
+      "sha256": "08cddb35ed4fdee05e28943c16d61ef8119a1ddac4baf533f3487202b63cf048"
+    },
+    {
+      "version": "1.10.1",
+      "path": ".decompile-provenance.json",
+      "sha256": "a9a50497930848bf0ddec732b6d424e947f643a8fa6290e01425ac2bbfce219f",
+      "mappingArtifact": "6e8ba44832b7b77d913962462bde55084005d5de6389232453afc0bc0339ea37",
+      "mappingMetadata": "8648e97ee398b11151cb2d441161629abde561afed9c933c18fbc622e2c9904a",
+      "clientArtifact": "338b205f20c22b9c676d9d3227a5e6c5e190f30ad84d7caad035150b3e05ba72"
+    }
+  ]
+}
