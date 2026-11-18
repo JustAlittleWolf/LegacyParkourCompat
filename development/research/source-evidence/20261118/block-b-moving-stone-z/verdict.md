@@ -1,0 +1,23 @@
+# Independent north/south zero-plane audit
+
+Terminal: **ACCEPT** — the immutable candidate supports the bounded NORTH/SOUTH Z-axis witness for exact 1.8.0–1.8.9 sources. This is source-level acceptance only.
+
+## Identity and bound evidence
+
+- Candidate: `domain-b-zero-plane-z-source/zero-plane-z-direction-proof.md`, SHA-256 `62aa2c30b943e8ee27a1741bc2361fdd5b3416ccf11684c6defbc63ac8fab147` (independently recomputed; matches the task pin).
+- Reused EAST acceptance: `zero-thickness-stone-audit/zero-thickness-stone-acceptance.md`, SHA-256 `abf6e20c6ff8d374d1cb85269cace027a07f31400c9c7c75c524faeaa702c3cd`; its bound author witness `zero-thickness-stone-source/zero-thickness-stone-source-r2.md`, SHA-256 `37c5225bc05255e27e09dedf81d778092eb932db91510c3ab9b70882a87a4dbf`. Both hashes match their published pins.
+- The 1.8.9 source tree is `decompiled_minecraft/1.8.9/ornithe-feather`, with Feather Gen2 1.8.9 build 2 mapping artifacts in its provenance. I recomputed the manifest hashes for `MovingBlock`, `MovingBlockEntity`, `LocalClientPlayerEntity`, `LivingEntity`, `Entity`, `World`, `Block`, and `Box`; each matches `ornithe-feather.sources.sha256` and the values cited in the bound witness.
+- I checked the release source trees 1.8 through 1.8.9 for the relevant file identities. The collision, shape and query files follow the accepted 1.8 / 1.8.1 / 1.8.2–1.8.9 groups; player input and travel files likewise preserve the claimed method behavior by those groups. `Entity.move` differs as a whole file between early patch groups, so the proof correctly uses the individually checked 1.8, 1.8.1 and 1.8.9 movement slices and the 1.8.2–1.8.9 file alias instead of asserting one whole-file identity.
+
+## Directional and reachable-path checks
+
+- `Direction.java` defines NORTH with negative Z axis direction and SOUTH with positive Z; `getOffsetZ()` returns the axis-direction offset for Z. In `MovingBlock.getCollisionShape`, the moved full-cube bounds are adjusted as `minZ -= offsetZ * progress` for a negative offset and `maxZ -= offsetZ * progress` otherwise. At the accepted extending sample `progress=1`, that yields NORTH `[1,1]` and SOUTH `[0,0]`, with X/Y extents unchanged. The 1.8 and 1.8.1 Direction definitions and getter have the same values and operation; the 1.8.2–1.8.9 source file is identical.
+- The candidate's 1.8.9 caller path is sound: local camera input is copied to `forwardSpeed`; `LivingEntity.mobTick` scales it by `0.98F`; dry airborne `moveRelative` uses positive `speedInAir`; and `Entity.updateVelocity` at yaw zero adds signed forward input to Z (`sin=0`, `cos=1`). Therefore NORTH `forward=-1` produces nonzero negative `dz`, and SOUTH `forward=+1` produces nonzero positive `dz`, from zero initial Z velocity.
+- `Entity.setPosition` uses float `width / 2.0F`; with ordinary player width `0.6F`, the stated centers produce exact contact (`minZ=1` for NORTH, `maxZ=0` for SOUTH). The bound EAST witness establishes the same ordinary-player dimensions and dry-airborne starting setup.
+- The reused timing acceptance is applicable: regular entities are ticked before block entities; the extending moved-Stone push uses the half-progress shape before the next player phase. Its NORTH/SOUTH shapes only touch the respective player face. `WorldChunk.getEntities` uses strict `Box.intersects`, so equality excludes the player and the intervening push leaves exact contact intact.
+- For the next phase, the signed displacement expands the sweep across cell Z=0 in both cases. `World.getCollisions` visits the relevant Z cell using its floor/exclusive-bound scan, and `Block.addCollisions` appends the degenerate candidate because the plane is strictly inside the expanded, positive-volume query. X and Y also overlap the candidate's full extents.
+- The checked `Entity.move` slices preserve Y-then-X-then-Z clipping in 1.8, 1.8.1 and 1.8.9, with the 1.8.2–1.8.9 source file identical. At face contact the strict Z-overlap checks in the earlier Y/X clip operations reject the candidate, so `dy` is unchanged and the airborne step-up predicate stays false. In `Box.intersectZ`, NORTH's negative branch compares `player.minZ >= plane.maxZ` at equality and computes a zero gap; SOUTH's positive branch compares `player.maxZ <= plane.minZ` at equality and also computes zero. Thus the signed Z request clips to zero for both directions.
+
+## Scope
+
+Acceptance is limited to the stated ordinary dry airborne local-player witness, a full-cube Stone moved-block cell, and exact releases 1.8.0–1.8.9. No EAST/WEST, other moved states, shapes, phases, later releases, or runtime parity are accepted by this audit. No product, wiki, backlog, or Git data was read or changed; no build, test, launch, decompilation, or push was run.
