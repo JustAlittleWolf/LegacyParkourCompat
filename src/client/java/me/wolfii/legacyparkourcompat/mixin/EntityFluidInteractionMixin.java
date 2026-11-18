@@ -37,6 +37,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import java.util.Optional;
+
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -82,26 +84,23 @@ abstract class EntityFluidInteractionMixin implements BodyWaterProjection {
     private void legacyparkourcompat$observeBodyWater(Entity entity, boolean ignoreCurrent, CallbackInfo callback,
         @Local FluidState fluidState, @Local BlockPos.MutableBlockPos pos, @Local AABB box,
         @Share("bodyWaterSurface") LocalRef<BodyWaterSurfaceHook> surface) {
-        legacyparkourcompat$recordBodyWater(surface.get(), entity, fluidState, pos.getY(), box.minY);
+        BodyWaterSurfaceHook hook = surface.get();
+        if (hook != null && !legacyparkourcompat$bodyWaterUnsupported && fluidState.is(FluidTags.WATER)) {
+            legacyparkourcompat$recordBodyWater(hook.historicalHeight(entity, fluidState), pos.getY(), box.minY);
+        }
     }
 
     @Unique
-    private void legacyparkourcompat$recordBodyWater(@Nullable BodyWaterSurfaceHook hook, Entity entity,
-        FluidState fluidState, int cellY, double boxMinY) {
-        if (hook == null || legacyparkourcompat$bodyWaterUnsupported || !fluidState.is(FluidTags.WATER)) {
-            return;
-        }
-
-        var ownHeight = hook.historicalHeight(entity, fluidState);
-        if (ownHeight.isEmpty()) {
+    private void legacyparkourcompat$recordBodyWater(Optional<Float> height, int cellY, double boxMinY) {
+        if (height.isEmpty()) {
             legacyparkourcompat$bodyWaterUnsupported = true;
             return;
         }
 
-        // Observe the cell before the native surface check. The 1.13 float addition
-        // can round differently, and an exact lower-face match still counts as contact.
+        // Historical scan adds the cell Y and fluid height as floats before widening.
+        // An exact lower-face match still counts as contact.
         legacyparkourcompat$bodyWaterObserved = true;
-        double top = cellY + ownHeight.get();
+        double top = cellY + height.get();
         if (top >= boxMinY) {
             legacyparkourcompat$bodyWaterContact = true;
             legacyparkourcompat$bodyWaterDepth = Math.max(legacyparkourcompat$bodyWaterDepth, top - boxMinY);
@@ -185,20 +184,26 @@ abstract class EntityFluidInteractionMixin implements BodyWaterProjection {
         }
 
         boolean nativeAdmission = original.call(level, x0, y0, z0, x1, y1, z1);
-        BodyWaterSurfaceHook bodySurface = surface.get();
-        if (!nativeAdmission && bodySurface != null && x0 + 1 == x1 - 1 && z0 + 1 == z1 - 1
+        if (!nativeAdmission && x0 + 1 == x1 - 1 && z0 + 1 == z1 - 1
             && entity instanceof LocalPlayer player && OrdinaryPlayerContext.matches(player)
             && player.getPose() == Pose.STANDING && !player.getAbilities().flying
-            && player.getBbWidth() == 0.6F && player.getBbHeight() == 1.8F
-            && MovementRuntime.find(BodyWaterScanAdmissionHook.class, player)
-                .map(hook -> hook.admitsColumn(y0, y1)).orElse(false)
-            && original.call(level, x0 + 1, y0, z0 + 1, x1 - 1, y1, z1 - 1)) {
-            // The narrower preflight confirms a loaded fluid-bearing column.
-            // Keep the rejected padded result for native eye and current handling.
-            BlockPos.MutableBlockPos cell = new BlockPos.MutableBlockPos();
-            for (int y = y0; y <= y1; y++) {
-                cell.set(x0 + 1, y, z0 + 1);
-                legacyparkourcompat$recordBodyWater(bodySurface, player, level.getFluidState(cell), y, box.minY);
+            && player.getBbWidth() == 0.6F && player.getBbHeight() == 1.8F) {
+            var admission = MovementRuntime.find(BodyWaterScanAdmissionHook.class, player).orElse(null);
+            if (admission != null && admission.admitsColumn(y0, y1)
+                && original.call(level, x0 + 1, y0, z0 + 1, x1 - 1, y1, z1 - 1)) {
+                // The narrower preflight confirms a loaded fluid-bearing column.
+                // Preserve the padded result for native eye and current handling.
+                BodyWaterSurfaceHook bodySurface = surface.get();
+                BlockPos.MutableBlockPos cell = new BlockPos.MutableBlockPos();
+                for (int y = y0; y <= y1 && !legacyparkourcompat$bodyWaterUnsupported; y++) {
+                    cell.set(x0 + 1, y, z0 + 1);
+                    FluidState fluidState = level.getFluidState(cell);
+                    if (fluidState.is(FluidTags.WATER)) {
+                        var height = bodySurface == null ? admission.fallbackHeight(level, cell, fluidState)
+                            : bodySurface.historicalHeight(player, fluidState);
+                        legacyparkourcompat$recordBodyWater(height, y, box.minY);
+                    }
+                }
             }
         }
         return nativeAdmission;
