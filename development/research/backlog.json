@@ -3166,7 +3166,7 @@
         },
         {
           "exactPair": "1.12.2--1.13.2",
-          "decision": "ACCEPT bounded history-independent east-border witness. Supported Speed II movement remains inside the eroded center test for either old flag while the ray crosses the east wall. Loaded AIR samples yield old individual rise 1 and timer 1, new aggregate rise 3 and timer 0. Accepted displacement is stipulated. Broader cases and runtime parity remain open. The bounded product is linked below.",
+          "decision": "ACCEPT bounded history-independent east-border witness. Supported Speed II movement remains inside the eroded center test for either old flag while the ray crosses the east wall. For the exact two-Stone support, the corrected first ray hit has rise 2 in exact 1.13.1 and 1.13.2. With no Jump Boost, old individual rise 1 arms the timer and the newer rise 2 does not. Command-supplied Jump Boost II suffices for the newer support setup with its exact AIR samples. Accepted displacement is stipulated.",
           "snapshot": {
             "revision": "b6e09027a2de47cb90fa711596b88fa88fbb689d",
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-eroded-gate-1122-1132/report.md",
@@ -3200,6 +3200,38 @@
               "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-eroded-gate-1122-1132/binding.md",
               "sha256": "6809a46c0613d200b911627e04b4f3580bd56032fbf47b95562a47d7887a8213"
             }
+          },
+          "supersededDecision": "ACCEPT bounded history-independent east-border witness. Supported Speed II movement remains inside the eroded center test for either old flag while the ray crosses the east wall. Loaded AIR samples yield old individual rise 1 and timer 1, new aggregate rise 3 and timer 0. Accepted displacement is stipulated. Broader cases and runtime parity remain open. The bounded product is linked below.",
+          "geometryCorrection": {
+            "binding": {
+              "revision": "fbcad3c4cf2505ddb6cdad8ed3b40243136c3554",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-shared-border-aggregate-1131-1132/binding.md",
+              "sha256": "df3645f3df5d98685ac1afefbfefaaf52d1573a0e5f89c37ae26fa9dc5b8fa97"
+            },
+            "review": {
+              "revision": "fbcad3c4cf2505ddb6cdad8ed3b40243136c3554",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-shared-border-aggregate-1131-1132/combined-mask-independent-r2.md",
+              "sha256": "daf54bbd174f94b5e62e6c0be06a21586472a688b72ed051b9fca33c6a6f3952"
+            },
+            "reproduction": {
+              "revision": "fbcad3c4cf2505ddb6cdad8ed3b40243136c3554",
+              "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-shared-border-aggregate-1131-1132/combined-mask-repro.md",
+              "sha256": "2eb8a055a56248b39e6cd2f80a3a6d0e0c0eff95dad51390db04af1b8ffca398"
+            },
+            "superseded": [
+              {
+                "revision": "fbcad3c4cf2505ddb6cdad8ed3b40243136c3554",
+                "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-shared-border-aggregate-1131-1132/author-geometry-superseded.md",
+                "sha256": "6ff36be2e8cf6e2c185bbef181802d0a0ba7ec7a6a24c4c59c8c8c326210b8be"
+              },
+              {
+                "revision": "fbcad3c4cf2505ddb6cdad8ed3b40243136c3554",
+                "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-shared-border-aggregate-1131-1132/initial-verdict-geometry-superseded.md",
+                "sha256": "b2aaceb94233585b671a45fc93f99a7fa8852dc6621611de6df86ecaf41a7a43"
+              }
+            ],
+            "runtimeParity": "unverified",
+            "limits": "Two-Stone support, loaded physical AIR samples, and the exact 1.13.1/1.13.2 shared collector. The separate tangent fixture, exact 1.13, and infinite provider remain separate."
           }
         }
       ]
