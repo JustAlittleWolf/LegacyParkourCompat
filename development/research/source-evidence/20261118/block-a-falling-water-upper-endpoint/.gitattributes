@@ -1,0 +1,2 @@
+evidence.md -text whitespace=cr-at-eol,-blank-at-eof,-blank-at-eol
+alias-reach.md whitespace=-blank-at-eof

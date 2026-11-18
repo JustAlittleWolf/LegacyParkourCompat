@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.BoatPassengerBodyWaterHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.FallingWaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBoundHook;
@@ -125,6 +126,7 @@ public abstract class EntityWaterMixin implements WaterContext {
                 MovementRuntime.find(WaterBodyContactScanBoundHook.class, player),
                 MovementRuntime.find(WaterBodyContactAreaAdmissionHook.class, player),
                 MovementRuntime.find(WaterCurrentHook.class, player),
+                MovementRuntime.find(FallingWaterCurrentHook.class, player),
                 MovementRuntime.find(WaterFlowScanBoundHook.class, player),
                 MovementRuntime.find(FlowScanAreaAdmissionHook.class, player),
                 aggregateHistoricalCurrent
