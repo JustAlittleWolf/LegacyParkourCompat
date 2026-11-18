@@ -3,6 +3,7 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
+import me.wolfii.legacyparkourcompat.mechanic.water.LegacyWaterFlowMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
@@ -40,8 +41,8 @@ public final class WaterCurrent implements WaterCurrentHook {
     public boolean replacesNativeCurrent() { return true; }
     public Vec3 accumulate(Vec3 total, Vec3 flow) { return total.add(flow); }
     public Vec3 impulse(Vec3 total, boolean flying) {
-        if (length(total) > 0.0 && !flying) {
-            Vec3 normalized = normalize(total);
+        if (LegacyWaterFlowMath.length(total) > 0.0 && !flying) {
+            Vec3 normalized = LegacyWaterFlowMath.normalize(total);
             return new Vec3(normalized.x * 0.014, normalized.y * 0.014, normalized.z * 0.014);
         }
         return Vec3.ZERO;
@@ -85,7 +86,7 @@ public final class WaterCurrent implements WaterCurrentHook {
                 z += direction.getStepZ() * difference;
             }
         }
-        return Optional.of(normalize(new Vec3(x, y, z)));
+        return Optional.of(LegacyWaterFlowMath.normalize(new Vec3(x, y, z)));
     }
 
     private static boolean historicalHeight(BlockPos pos) {
@@ -119,14 +120,5 @@ public final class WaterCurrent implements WaterCurrentHook {
     private static int depth(BlockState state) {
         return state.getBlock() instanceof LiquidBlock && state.getFluidState().is(FluidTags.WATER)
             ? state.getValue(LiquidBlock.LEVEL) : -1;
-    }
-
-    private static double length(Vec3 vector) {
-        return (float)Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-    }
-
-    private static Vec3 normalize(Vec3 vector) {
-        double length = length(vector);
-        return length < 1.0E-4 ? Vec3.ZERO : new Vec3(vector.x / length, vector.y / length, vector.z / length);
     }
 }

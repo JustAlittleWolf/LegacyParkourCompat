@@ -8,6 +8,8 @@ import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.BoatPassengerBodyWaterHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.FallingWaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBoundHook;
@@ -17,6 +19,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterContext;
 import me.wolfii.legacyparkourcompat.mechanic.water.BodyWaterProjection;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterScan;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.player.Player;
@@ -42,10 +45,12 @@ public abstract class EntityWaterMixin implements WaterContext {
     @ModifyVariable(method = "updateFluidInteraction()Z", at = @At(value = "LOAD", ordinal = 0),
         index = 1, require = 1)
     private boolean legacyparkourcompat$publishBodyWaterContact(boolean nativeContact,
-        @Share("waterContactForCurrent") LocalBooleanRef currentContact) {
+        @Share("waterContactForCurrent") LocalBooleanRef currentContact,
+        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater) {
         // The first inWater load governs fall reset/splash, followed by the state write.
         currentContact.set(nativeContact);
-        return ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterContact(nativeContact);
+        return !skipBoatBodyWater.get()
+            && ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterContact(nativeContact);
     }
 
     @Inject(method = "updateFluidInteraction()Z", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
@@ -60,7 +65,11 @@ public abstract class EntityWaterMixin implements WaterContext {
 
     @ModifyReturnValue(method = "updateFluidInteraction()Z", at = @At("RETURN"))
     private boolean legacyparkourcompat$bodyWaterRefreshResult(boolean original,
-        @Local(index = 1) boolean inWater, @Local(index = 2) boolean inLava) {
+        @Local(index = 1) boolean inWater, @Local(index = 2) boolean inLava,
+        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater) {
+        if (skipBoatBodyWater.get()) {
+            return inLava;
+        }
         boolean contact = ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterContact(inWater);
         return contact == inWater ? original : contact || inLava;
     }
@@ -92,8 +101,18 @@ public abstract class EntityWaterMixin implements WaterContext {
 
     @ModifyExpressionValue(method = "updateFluidInteraction", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/EntityFluidInteraction;isInFluid(Lnet/minecraft/tags/TagKey;)Z", ordinal = 0))
-    private boolean legacyparkourcompat$contact(boolean nativeContact) {
+    private boolean legacyparkourcompat$contact(boolean nativeContact,
+        @Share("skipBoatBodyWater") LocalBooleanRef skipBoatBodyWater) {
         Entity entity = (Entity)(Object)this;
+        if (entity instanceof LocalPlayer player
+            && MovementRuntime.find(BoatPassengerBodyWaterHook.class, player)
+                .map(hook -> hook.skipsBodyWater(player.getVehicle(), MovementRuntime.profile(player).target()))
+                .orElse(false)) {
+            // Skip the legacy query before it can eagerly apply flow. The
+            // native current branch still uses its independent boat policy.
+            skipBoatBodyWater.set(true);
+            return nativeContact;
+        }
         // The native tracker has finished updating eyes/depth/lava. Capture the
         // historical flow result here; current application remains at the
         // later native current call, after its loaded-area gate.
@@ -107,6 +126,7 @@ public abstract class EntityWaterMixin implements WaterContext {
                 MovementRuntime.find(WaterBodyContactScanBoundHook.class, player),
                 MovementRuntime.find(WaterBodyContactAreaAdmissionHook.class, player),
                 MovementRuntime.find(WaterCurrentHook.class, player),
+                MovementRuntime.find(FallingWaterCurrentHook.class, player),
                 MovementRuntime.find(WaterFlowScanBoundHook.class, player),
                 MovementRuntime.find(FlowScanAreaAdmissionHook.class, player),
                 aggregateHistoricalCurrent
