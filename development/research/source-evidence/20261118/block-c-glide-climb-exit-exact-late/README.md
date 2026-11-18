@@ -1,6 +1,6 @@
 # Late Elytra climb-exit route evidence (2026-11-18)
 
-This receipt preserves eight byte-bound source reports and independent verdicts for bounded, already-active dry glide/climb-exit routes. The comparisons are source-only and do not establish runtime parity, complete pair coverage, or product implementation parity.
+This receipt preserves nine byte-bound source reports and independent verdicts for bounded, already-active dry glide/climb-exit routes. The comparisons are source-only and do not establish runtime parity, complete pair coverage, or product implementation parity.
 
 | Pair | Frozen report SHA-256 | Independent verdict SHA-256 | Bounded result / correction |
 |---|---|---|---|
@@ -12,6 +12,7 @@ This receipt preserves eight byte-bound source reports and independent verdicts 
 | 1.21.10→1.21.11 | `c06d237d049085aacd812f92f1d32bd4911bff05cfc3d3a676339b0b97f9d723` | `fc15ab13ebd27dfc331d2aabd8677a13d43dd4ed9953d7e88a4c42faceee6f08` | Accepted for the bounded already-active dry climb-exit slice. Archive original verdict with signed `travel-order-addendum.md` (SHA-256 `d1393f1f12a77cb8da31a1ad106c6225486a68933c237329ae8299737fabcbce`), which corrects the original no-move statement: the nested helper invokes movement before late flag clear. The `.21.11` `CAN_GLIDE_THROUGH` predicate is a separate bounded witness; tag-resource inventory and runtime are excluded. |
 | 1.21.11→26.1 | `168a388c62b9549e1f02b7cfaa8f42ea8a96ede6c474f36ddab1544ce92853c7` | `40e3b3cdfb543c0483ba708948c074fd6649dfdb76b468cfabbd1d0efbe90cd5` | Accepted for the stated source slice: no changed gate, operation order, movement call, or flag write in the bounded climbable exit path. Vanilla tag membership and runtime behavior remain outside scope. |
 | 26.1.1→26.1.2 | `84a2ba87e9bcdad0c3a51f8f7b83a39feb5077c3be01d6a96cbba362a18695c7` | `56c6fc06df3911badbd4b4db32b629b5b41d8a17eb02c3f9691ba3bd588f6896` | Accepted bounded no-difference result, conditional on live `Player.onClimbable()`: `travelInAir` then stop applies only when the effective state is `CLIMBABLE` and not excluded by `CAN_GLIDE_THROUGH`. No tag/resource membership inventory or full-pair audit. |
+| 26.1.2→26.2 | `d4ab6d6ac4f2c34fc416ba469a9c5534baa05228fe7501da83ab646588299c76` | `2a5b1fbb10e1f9ca1b7462c57283d46e9681211320cd7d7b31b2c142e86a914e` | Qualified acceptance for the bounded dry local-player route when live `onClimbable()` is true: ordinary air travel and stop-flag writes follow in order. 26.2 adds collision-gated `restituteMovementAfterCollisions` after `Entity.move`; geometry-dependent effects and broader movement equivalence are unreviewed. Tag membership remains excluded. |
 
 The report, original verdict, and addendum files are copied byte-for-byte. Addenda refine the exact movement order without rewriting frozen inputs. This receipt does not assert a new product implementation or downstream parity finding.
 
