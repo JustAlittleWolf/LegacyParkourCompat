@@ -677,10 +677,10 @@ public final class MovementRuntime {
                 return nativeBlocks;
             }
         }
-        if (!(entity instanceof LocalPlayer)
+        if (!(entity instanceof LocalPlayer player)
             || !appliesTo(entity)
             || CollisionAxisOrderContext.blockCollectionDisabled()
-            || !(context instanceof MovementCollisionContext)
+            || !(context instanceof MovementCollisionContext movementContext)
             || !entityCandidates.isEmpty()) {
             return vanilla.get();
         }
@@ -700,16 +700,21 @@ public final class MovementRuntime {
             || !movement.sweptBox().equals(sweptBox)) {
             return vanilla.get();
         }
-        // A grounded or descending move may enter the separate step-up sweep.
-        // Keep that entire route native because it does not reuse this aggregate.
-        boolean stepUpFree = !entity.onGround() && movement.requestedMovement().y >= 0.0;
-        if (!stepUpFree) {
+        if (entity.onGround()) return vanilla.get();
+        Vec3 requested = movement.requestedMovement();
+        AABB startBox = movement.startingBox();
+        AABB paddedSweep = sweptBox.inflate(1.0E-7);
+        BlockPos descendingSlab = null;
+        if (requested.y < 0.0) {
+            descendingSlab = descendingSlabStart(player, movement, movementContext, sweptBox);
+            if (descendingSlab == null) return vanilla.get();
+        } else if (!(requested.y >= 0.0)) {
             return vanilla.get();
         }
 
         // 26.2 has a different entity query envelope and filter order. Any entity
         // near the old expanded bounds keeps the complete native route unchanged.
-        AABB historicalEntityEnvelope = sweptBox.inflate(0.25);
+        AABB historicalEntityEnvelope = (descendingSlab == null ? sweptBox : paddedSweep).inflate(0.25);
         if (!level.getEntities(entity, historicalEntityEnvelope, other -> other != entity).isEmpty()) {
             return vanilla.get();
         }
@@ -724,9 +729,6 @@ public final class MovementRuntime {
             return vanilla.get();
         }
 
-        AABB startBox = movement.startingBox();
-        Vec3 requested = movement.requestedMovement();
-        AABB paddedSweep = sweptBox.inflate(1.0E-7);
         AABB shiftedStart = startBox.move(
             requested.x > 0.0 ? -1.0E-7 : 1.0E-7,
             requested.y > 0.0 ? -1.0E-7 : 1.0E-7,
@@ -750,6 +752,14 @@ public final class MovementRuntime {
             return vanilla.get();
         }
 
+        List<VoxelShape> descendingNative = null;
+        if (descendingSlab != null) {
+            if (!provider.matchesDescendingSlabs(descendingSlab)) return vanilla.get();
+            descendingNative = new ArrayList<>(2);
+            vanilla.get().forEach(descendingNative::add);
+            if (!matchesNativeDescendingSlabs(descendingSlab, descendingNative)) return descendingNative;
+        }
+
         VoxelShape overlappingStair = provider.overlappingStair;
         List<VoxelShape> stairNative = null;
         if (overlappingStair != null) {
@@ -771,13 +781,18 @@ public final class MovementRuntime {
             true,
             true,
             true,
-            stepUpFree,
+            true, // The descending branch proved a clear transverse Y interval.
             false,
             false
         );
         var historical = collector.get().collect(query, provider);
         if (historical.isEmpty() || !provider.isStillSupported()) {
+            if (descendingNative != null) return descendingNative;
             return stairNative != null ? stairNative : vanilla.get();
+        }
+        if (descendingNative != null
+            && !matchesHistoricalDescendingSlabs(descendingSlab, historical.get(), streamOrder)) {
+            return descendingNative;
         }
         if (stairNative != null && historical.get().stream().anyMatch(shape -> !shape.isEmpty())) {
             return stairNative;
@@ -788,6 +803,73 @@ public final class MovementRuntime {
             CollisionAxisOrderContext.collectedBlockShape(historical.get().getFirst());
         }
         return historical.get();
+    }
+
+    /**
+     * 26.2 LpVec3.unpack/read sends this exact binary64 Y into dry,
+     * no-input SELF travel. Both 1.13 and 1.13.1/.2 Feather Gen2 build.2
+     * shift the start exclusion up for negative Y (WorldView:191–196 and
+     * 158–163 respectively). The audited two-slab gap stays open during Y
+     * clipping, leaving the primary sweep free of any step-up retry.
+     */
+    private static @Nullable BlockPos descendingSlabStart(LocalPlayer player,
+        CollisionAxisOrderContext.MovementQuery movement, MovementCollisionContext context, AABB swept) {
+        Vec3 request = movement.requestedMovement();
+        AABB start = movement.startingBox();
+        if (Minecraft.getInstance().player != player || movement.moverType() != MoverType.SELF
+            || !context.query().equals(swept) || player.noPhysics || player.isSpectator()
+            || player.getPose() != Pose.STANDING || !OrdinaryPlayerContext.matches(player)
+            || player.isShiftKeyDown() || player.isInWater() || player.isInLava() || player.onClimbable()
+            || player.getAbilities().flying || player.input.keyPresses.jump()
+            || player.input.getMoveVector().lengthSquared() != 0.0F || !request.equals(player.getDeltaMovement())
+            || player.getBbWidth() != 0.6F || player.getBbHeight() != 1.8F
+            || start.maxY != start.minY + player.getBbHeight() || !finiteSafeQuery(swept)
+            || request.x != 2.0 || request.z != 0.0
+            || Double.doubleToRawLongBits(request.y) != 0xBF69006401900600L) {
+            return null;
+        }
+
+        int x = Mth.ceil(start.maxX), y = Mth.floor(start.minY), z = Mth.floor(player.getZ());
+        if (x - start.maxX != 4.9999999918171056E-8 || swept.minY <= y + 1.0E-7
+            || start.minY >= y + 0.5 - 1.0E-7 || start.maxY <= y + 1.0 || start.maxY >= y + 2.0 - 1.0E-7
+            || start.minZ <= z + 1.0E-7 || start.maxZ >= z + 1.0 - 1.0E-7
+            || y < 0 || swept.maxY >= 256.0) {
+            return null;
+        }
+        return new BlockPos(x, y, z);
+    }
+
+    private static boolean isDrySmoothStoneBottomSlab(BlockState state) {
+        return state.is(Blocks.SMOOTH_STONE_SLAB) && state.getValue(SlabBlock.TYPE) == SlabType.BOTTOM
+            && !state.getValue(SlabBlock.WATERLOGGED) && state.getFluidState().isEmpty();
+    }
+
+    private static AABB descendingSlabBox(BlockPos pos, int width) {
+        return new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + width,
+            pos.getY() + 0.5, pos.getZ() + 1.0);
+    }
+
+    private static boolean matchesNativeDescendingSlabs(BlockPos first, List<VoxelShape> shapes) {
+        if (shapes.size() != 2) return false;
+        var left = CollisionShapeSourceContext.source(shapes.getFirst());
+        var right = CollisionShapeSourceContext.source(shapes.getLast());
+        BlockPos second = first.east();
+        return left != null && right != null && !left.pos().equals(right.pos())
+            && (left.pos().equals(first) || left.pos().equals(second))
+            && (right.pos().equals(first) || right.pos().equals(second))
+            && isDrySmoothStoneBottomSlab(left.state()) && isDrySmoothStoneBottomSlab(right.state())
+            && shapes.getFirst().toAabbs().equals(List.of(descendingSlabBox(left.pos(), 1)))
+            && shapes.getLast().toAabbs().equals(List.of(descendingSlabBox(right.pos(), 1)));
+    }
+
+    private static boolean matchesHistoricalDescendingSlabs(BlockPos first, List<VoxelShape> shapes,
+        BlockCollisionCollectionHook.StreamOrder order) {
+        // 1.13 clips one aggregate; 1.13.1/.2 clip individual candidates and
+        // stop before processing the next shape once the offset is < 1.0E-7.
+        return order == BlockCollisionCollectionHook.StreamOrder.AGGREGATE_X_Z_Y
+            ? shapes.size() == 1 && shapes.getFirst().toAabbs().equals(List.of(descendingSlabBox(first, 2)))
+            : shapes.size() == 2 && shapes.getFirst().toAabbs().equals(List.of(descendingSlabBox(first, 1)))
+                && shapes.getLast().toAabbs().equals(List.of(descendingSlabBox(first.east(), 1)));
     }
 
     private static void captureHistoricalAxisCandidates(LocalPlayer player, Level level, AABB query,
@@ -1158,6 +1240,20 @@ public final class MovementRuntime {
                 }
             }
             return this.isStillSupported();
+        }
+
+        private boolean matchesDescendingSlabs(BlockPos first) {
+            BlockPos second = first.east();
+            if (!this.missingCollisionChunks.isEmpty() || !this.cells.containsKey(first)
+                || !this.cells.containsKey(second)) {
+                return false;
+            }
+            for (var entry : this.cells.entrySet()) {
+                BlockState state = entry.getValue().currentState();
+                boolean slabCell = entry.getKey().equals(first) || entry.getKey().equals(second);
+                if (slabCell ? !isDrySmoothStoneBottomSlab(state) : !state.is(Blocks.AIR)) return false;
+            }
+            return true;
         }
 
         private boolean isStillSupported() {
