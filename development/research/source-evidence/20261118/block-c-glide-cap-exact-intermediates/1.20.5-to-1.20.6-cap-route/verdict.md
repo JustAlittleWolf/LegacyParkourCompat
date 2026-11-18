@@ -1,0 +1,25 @@
+# Independent source audit verdict — Elytra climbable/cap route
+
+## Verdict
+
+**Accepted, bounded to the stated dry, already-active Elytra route.** The report's operation-level no-difference claim is supported by the exact source pair. It does not establish complete 1.20.5–1.20.6 player-movement coverage or a whole-pair freeze.
+
+## Immutable inputs and source identity
+
+- Audited report: `c-glide-1205-1206-cap-route/report.md`, SHA-256 `4fe642489587c2517922506cad1df03711f02476e753253fffc91af2844ecc56`.
+- Sources: canonical local `decompiled_minecraft/1.20.5/mojmap` and `decompiled_minecraft/1.20.6/mojmap`, exact client IDs 1.20.5 and 1.20.6, official Mojang client mappings, Vineflower.
+- Readiness: each `mojmap.ready.json` names the matching exact `versionId` and `mapping`; 1.20.5 source-manifest SHA-256 is `162dac6c4f1d539a1c2cea0255b7938a5281c207ab460bdc265358016d732484`, and 1.20.6 is `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`. The 1.20.5 ready marker binds its provenance hash; 1.20.6's provenance omits an explicit mapping-family field but its exact run records `mappingOption=mojmap`, and its ready marker records the source manifest and exact client hash.
+- The report's five Java source hashes were independently recomputed in both trees and matched each tree's manifest. Each compared file is byte-identical across these releases: `LivingEntity.java` `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`; `Player.java` `785d93ccc94e1f912e545b2b0c355edeb352b44ee8e83a69364daec35266dbe2`; `Entity.java` `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`; `LocalPlayer.java` `6b429dfa6e0681251ec985dda1627f808652a7bbe5b70dc85c8fa0fe0ed46ffa`; `ServerGamePacketListenerImpl.java` `be4268a7616ed94e2a03411a6fdf002b0e6dc3303ea959c9f41fef322867d533`.
+
+## Independent call-order and bound check
+
+- `LocalPlayer.aiStep` jump-start gate (1.20.6 `LocalPlayer.java:744–748`) excludes `onClimbable()`, then requires an enabled chest Elytra and `tryToStartFallFlying()`. `Player.tryToStartFallFlying` (1534–1543) independently checks airborne, not already flying, not in water, no Levitation, and an enabled chest Elytra; it has no climbable predicate. `ElytraItem.isFlyEnabled` requires damage value `< maxDamage - 1` (1.20.6 `ElytraItem.java:19–21`).
+- `LivingEntity.aiStep` calls `updateFallFlying()` before constructing travel input and entering `travel` (1.20.6 `LivingEntity.java:2671–2684`). Its active-flag predicate requires not grounded, not a passenger, no Levitation and an enabled chest Elytra; it does not inspect climbability (`2721–2745`). The shared flag is written only on the logical server at the end of this updater. The server command route also revalidates start and calls `stopFallFlying()` on failure; `Player.stopFallFlying()` writes flag 7 true then false (`Player.java:1550–1553`; `ServerGamePacketListenerImpl.java:1410–1413`).
+- For the requested **dry** route, `LivingEntity.travel` first excludes the water and lava branches, then tests `isFallFlying()` (`2104–2169`). The glide branch calls `checkSlowFallDistance()` before reading/adjusting glide velocity and before its first `move(MoverType.SELF, ...)` (`2168–2194`). `Entity.checkSlowFallDistance()` uses the strict predicate `deltaMovement.y() > -0.5` and `fallDistance > 1.0F`, and assigns `1.0F` (`Entity.java:2320–2324`). Thus it observes pre-glide-update, pre-move velocity/distance on that tick. The later glide multipliers remain `0.99F, 0.98F, 0.99F` (`LivingEntity.java:2193`).
+- Ordinary friction movement instead calls `handleOnClimbable` before `move`; that helper resets fall distance, clamps X/Z to `[-0.15F, 0.15F]`, clamps Y to at least `-0.15F`, and may suppress negative Y for the specified sneaking Player case (`LivingEntity.java:2269–2273, 2297–2311`). The earlier dry glide branch bypasses this helper. `onClimbable()` uses the in-block `BlockTags.CLIMBABLE` test (1541–1553); the vanilla tag provider includes ladder and vine (`net/minecraft/data/tags/VanillaBlockTagsProvider.java:693–704`). These shape/contact and environmental implementations are outside this verdict.
+
+The compared operation files are byte-identical, so the verified gates, writes, cap constants/order, glide literals and climb cleanup are unchanged for this exact route. A one-sentence scope reminder that the glide-branch conclusion assumes travel has bypassed water and lava would make the report's prose harder to overread; this does not invalidate its dry-route result.
+
+## Limits
+
+This verdict audits only the stated default chest-Elytra, active-flag, dry travel and ladder/vine climbability interaction, plus the start/flag/cap/cleanup callers needed to establish that route. It does not audit collision shapes/contact outcomes, other environment paths, all tick inventory, intervening releases, or complete pair coverage. No product files, source trees, reports other than the requested verdict, builds, tests or game launches were changed/run.
