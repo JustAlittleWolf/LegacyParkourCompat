@@ -8,7 +8,7 @@
 - Compiled Git tree: `d98ac539716fb568a0eaccceb8ec9353f92f5992`
 - Existing shared operation: `PlayerPassengerPlacementHook`, dispatched by `EntityPassengerPlacementMixin`; no new hook or mixin.
 
-The integration changes only local-client direct passenger Y placement for an adult, default-scale, default-dimension vanilla Llama or TraderLlama that is the sole direct passenger. It preserves the native current X/Z position and rotation, checks the passenger relationship and client level, and falls back to the native callback when the witness does not match. The historical factor is `0.67` for the selected 1.17 profiles and `0.6` for 1.18 through 1.20.1. Empty V1_16_2 and V1_19_4 resolver fences keep older profiles and non-Llama carriers native; the 1.20.2 attachment-point design is outside this old-offset implementation. Existing other-carrier behavior remains in the V1_20 provider.
+The integration changes only local-client direct passenger Y placement for an adult, default-scale, default-dimension vanilla Llama or TraderLlama that is the sole direct passenger. It preserves the native current X/Z position and rotation, checks the passenger relationship and client level, and falls back to the native callback when the witness does not match. The historical factor is `0.67` for the selected 1.17 profiles and `0.6` for 1.18 through 1.20.1. The empty V1_16_2 provider preserves native placement for earlier profiles. V1_19_4 supplies `0.6` only for eligible Llama and TraderLlama witnesses and returns to native placement for other carriers; the 1.20.2 attachment-point design is outside this old-offset implementation. Existing other-carrier behavior remains in the V1_20 provider.
 
 ## Bound source evidence
 
