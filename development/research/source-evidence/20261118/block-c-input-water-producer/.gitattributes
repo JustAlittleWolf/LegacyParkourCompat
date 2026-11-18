@@ -1,3 +1,5 @@
 /comparison.md -text whitespace=cr-at-eol,-blank-at-eof
 /verdict.md -text whitespace=cr-at-eol
 /input-identity-correction.md -text whitespace=cr-at-eol,-blank-at-eof,-blank-at-eol
+/eye-submersion-comparison.md -text whitespace=cr-at-eol,-blank-at-eof
+/eye-submersion-verdict.md -text whitespace=cr-at-eol
