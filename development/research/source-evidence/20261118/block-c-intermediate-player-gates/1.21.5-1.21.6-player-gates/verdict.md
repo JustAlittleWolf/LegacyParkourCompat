@@ -1,0 +1,37 @@
+# Independent audit verdict: 1.21.5–1.21.6 player gates
+
+## Identity
+
+- Audited input: `c-queue-1215-1216-player-gates/report.md`
+- Input SHA-256 (raw file bytes): `4d768959fedfbc59685f4e34430410e422f7ea5d4178d45978d286ee477a2be7` — matches the assigned immutable identity.
+- Pair and mappings: exact 1.21.5 / 1.21.6, Mojang mappings (`mojmap`).
+- Verdict: **PASS for the bounded claims below.** The report's no-local-player-delta conclusion is supported for its named slices. This does not accept full-pair coverage or establish the 1.21.6–1.21.8 boundary.
+
+## Canonical source identity
+
+On 1.21.5, `mojmap.ready.json` names version `1.21.5`, mapping `mojmap`, and source manifest `mojmap.sources.sha256`; the marker's manifest SHA-256 is `365cc2d22446ceba0e36f46aa1c95ce4cc31514dbd657505680fb660f3adefd9`, equal to the manifest file's computed SHA-256. The manifest-listed bytes for all seven files below match the actual source files.
+
+On 1.21.6, the adjacent `.decompile-provenance.json` has per-source hashes and exact client/mapping input hashes. Each of the same seven source files matches its corresponding provenance `sources` entry. No generated sources or online mapping evidence were used.
+
+| Relative source | 1.21.5 SHA-256 | 1.21.6 SHA-256 |
+| --- | --- | --- |
+| `net/minecraft/client/player/LocalPlayer.java` | `f1fcfed4a938732361e7ad951f93e9b73b02320ee56f0b219e2b3c7acdbfa2ef` | `53f2a71a886b9c71853afe36f2df857f80a9bf1cd6ec4ca8604ccd7e238d89ee` |
+| `net/minecraft/client/player/ClientInput.java` | `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78` | `597a44339a99f1bce1b081614c7c2984ca03e255b40e9d247675a31b6f810d78` |
+| `net/minecraft/client/player/KeyboardInput.java` | `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3` | `d5cb0e93df7f66755172d74e028225012ee33c6e4f0d510a1d8e25ba5497c0a3` |
+| `net/minecraft/world/entity/player/Input.java` | `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06` | `1c0c12af07da1f90651c3a7c4eb19bab6486b6391dcbfdd2926f06e3f36c2f06` |
+| `net/minecraft/world/entity/player/Player.java` | `8fc187f33999db9dfc49251e95e92a17645a50adab16ca0f93f4948209f62036` | `8dc5514fe44311f39268692f5188840b9f65cb71143228fa8b84242585ea7987` |
+| `net/minecraft/world/entity/LivingEntity.java` | `a8aed863d4fdc515c751dd2878a8bb9c13179228cb8dbb50edf1d19cd5404271` | `609f0197a0b4551ab42279e452c11cdd256135b1d467c2a95950b0e9fd7ddef8` |
+| `net/minecraft/world/entity/Entity.java` | `fc177733e9cc4b2d5cf2562e5529d0f4e0b9c3690f081fbd58aa9119eb173dc4` | `c403e6176d27b5bfd6aaa0dea3735ffa4fcf80dbae58766661dd84453b7e9704` |
+
+## Claim checks
+
+- **Tick and input order:** `LocalPlayer.tick()` calls `super.tick()` before its outbound input comparison on both sides (1.21.5 `LocalPlayer.java:191–200`; 1.21.6 `:197–205`). `LocalPlayer.aiStep()` snapshots jump, shift and forward impulse, computes `crouching`, then calls `input.tick()` (`:683–703` on both). `KeyboardInput.tick()` and the `Input` record bytes are identical across the pair. Later in that same `LocalPlayer.aiStep()`, `super.aiStep()` dispatches to `LivingEntity.aiStep()`, whose `applyInput()` calls the LocalPlayer override; this consumes the refreshed move vector/jump state (`LocalPlayer.java:830`; `LivingEntity.java:2712` in 1.21.5 and `:2764` in 1.21.6; `LocalPlayer.java:608–620` both). The report's pre/post-consumption account is accurate.
+- **Sprint and held-use gates:** The `aiStep()` reset/initiation sequence, including the seven-tick double tap and explicit sprint input, is identical (`LocalPlayer.java:718–744`, both). `canStartSprinting()` has the same ordered forward, food, item-use, blindness, passenger/vehicle, fall-flight, slow-move and water conditions (`:1065–1075`, both). Run/swim stop conditions match (`:837–852`, both). Held-item movement scaling is also identical: local input is scaled by `0.2F` while using an item and not a passenger (`:623–638`, both). These checks support no changed sprint/held-use gate in the assigned slice.
+- **Crouch and pose:** The crouching assignment and its flight/swimming/passenger/fit/shift/sleep order are byte-identical in the examined method (`LocalPlayer.java:693–703`). LocalPlayer reads current shift state in `isShiftKeyDown()` and exposes the computed field via `isCrouching()` (`:594–605`). `Player.getDesiredPose()` retains sleep, swim, fall-flight, spin, then shift-and-not-flying crouch / standing order (`Player.java:465–476` in 1.21.5; `:475–486` in 1.21.6). No delta found.
+- **Jump and effects:** `LivingEntity.getJumpPower`, `getJumpBoostPower`, and `jumpFromGround` retain the same expression/order (1.21.5 `LivingEntity.java:2160–2185`; 1.21.6 `:2192–2217`). The audited jump/slow-falling branches also retain the stated effect gates and writes (1.21.5 `:2208–2235`, `:2725–2749`; 1.21.6 `:2240–2290`, `:2777–2800`). No difference found in these bounded methods.
+- **Travel-authority gate:** The report correctly identifies the 1.21.6 addition and its applicability. Normal travel is gated by `canSimulateMovement()` alone in 1.21.5 (`LivingEntity.java:2763–2767`) and by `canSimulateMovement() && isEffectiveAi()` in 1.21.6 (`:2815–2819`; the rider branch precedes this gate on both). `Player` overrides both predicates with the identical `!level().isClientSide || isLocalPlayer()` expression on each version (`Player.java:1321–1328` and `:1333–1340`). Its `isLocalPlayer()` default is false (`Player.java:1316–1318`, `:1328–1330`), while `LocalPlayer.isLocalPlayer()` overrides it to true (`LocalPlayer.java:348` in 1.21.5; `:342` in 1.21.6). Dynamic dispatch therefore makes both predicates true for the local client player, false for a remote client player, and true on the logical server. The extra conjunct cannot change local-player travel reachability; it is not a local movement delta.
+- **Outbound synchronization boundary:** 1.21.5 seeds `lastSentInput` with `Input.EMPTY`, receives prior shift state in its constructor, sends a changed shift state as a separate `ServerboundPlayerCommandPacket` after `super.tick()`, then compares/sends `input.keyPresses` (`LocalPlayer.java:121, 143–150, 191–200, 269–277`). 1.21.6 seeds `lastSentInput` from constructor `Input`, then compares/sends it after `super.tick()` and has no separate `sendShiftKeyState()` call (`:124, 147–155, 197–205`). `Input` itself, including its shift bit, is identical (`Input.java:6–39` both). This is a real outbound packet/baseline change; the audited source shows it does not feed the local movement predicates. It belongs to the synchronization/server-policy boundary, not a local historical-movement finding. Do not infer a server-side physics change: project policy says the server enforces profile and relaxes eligible checks, while historical movement is client-only.
+
+## Scope and disposition
+
+I found no unsupported conclusion in the report's named slices. Its explicit exclusion of `canPlayerFitWithinBlocksAndEntitiesWhen` geometry, other movement domains, full-pair tick coverage, and 1.21.6–1.21.8 boundary is necessary and correctly stated. The network synchronization change is substantiated, but remains outside this bounded local-player parity verdict. No product code, Git history, wiki material, network access, tests, source generation, or game launch was used.
