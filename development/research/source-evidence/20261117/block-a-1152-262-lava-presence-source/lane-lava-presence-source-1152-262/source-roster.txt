@@ -1,0 +1,16 @@
+Source-only roster: exact local Java sources read for the 1.15.2 to 26.2 lava-presence comparison.
+Version-root ready/provenance/source-manifest gates are listed in comparison.md; every listed file SHA-256 was verified against sources.sha256.
+1.15.2/mojmap/net/minecraft/client/player/LocalPlayer.java  sha256=3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd
+1.15.2/mojmap/net/minecraft/world/entity/Entity.java  sha256=191b3ad3e7348c9bac1e703fff896706d23a751bf15162aacf676f5f97c0a10e
+1.15.2/mojmap/net/minecraft/world/entity/LivingEntity.java  sha256=46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54
+1.15.2/mojmap/net/minecraft/world/level/block/LiquidBlock.java  sha256=cc7638d876a7e70cd111891cdb7be424741a4a5bdd4851f3623881c30734c24e
+1.15.2/mojmap/net/minecraft/world/level/material/FlowingFluid.java  sha256=e8a395552e53f33bcb5648325615d31bc1796ce2a8aeb501bdda3127622dccdf
+1.15.2/mojmap/net/minecraft/world/level/material/LavaFluid.java  sha256=d315b4cc1cd215e981bf343c03d1fe86de64b4fcea3b0869efff5ac57aff7fd2
+1.15.2/mojmap/net/minecraft/data/tags/FluidTagsProvider.java  sha256=4be8ba549baba145f99b4db00fe9519273022f3c65b878497bfeba22166c7172
+26.2/unobfuscated/net/minecraft/client/player/LocalPlayer.java  sha256=8d089aa09217e3607b38590f7c1623385562800943ac6dfd3d17804e041da6d6
+26.2/unobfuscated/net/minecraft/world/entity/Entity.java  sha256=7afb9c1294893ffe73e3b1acffcad41c648f15de8378bff3dffaff869bb811d5
+26.2/unobfuscated/net/minecraft/world/entity/EntityFluidInteraction.java  sha256=5264ff4f1fddebc3fa9d63ad2edbe2eaf617392ff946a867a6817a78b478ee62
+26.2/unobfuscated/net/minecraft/world/entity/LivingEntity.java  sha256=7ffd9c70966edc50c9cb4d9a8fe17a518e2678ff44c8026e763d0b94ac0ae51a
+26.2/unobfuscated/net/minecraft/world/level/material/FlowingFluid.java  sha256=f8c0c4430e81efdf39b221968272ed8e3a4d030fa5192e04e04d34c9fbd37b28
+26.2/unobfuscated/net/minecraft/world/level/material/LavaFluid.java  sha256=423ff44a57c316f58c21a66903a4ef2c1b9c3d26316bdc4d301727575f93703f
+26.2/unobfuscated/net/minecraft/data/tags/FluidTagsProvider.java  sha256=e01d6d0ce140e0f374690b341e68bce4676e019894b130f3f6a038d7a64d3f12
