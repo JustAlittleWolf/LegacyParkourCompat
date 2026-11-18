@@ -41,6 +41,9 @@ import java.util.Set;
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class WaterCurrent implements WaterCurrentHook {
     private static final Set<Block> STAINED_GLASS = Set.copyOf(Blocks.STAINED_GLASS.asList());
+    private static final Set<Block> LEGACY_PLACED_LEAVES = Set.of(
+        Blocks.OAK_LEAVES, Blocks.ACACIA_LEAVES, Blocks.DARK_OAK_LEAVES
+    );
 
     public boolean replacesNativeCurrent() { return true; }
     public Vec3 accumulate(Vec3 total, Vec3 flow) { return total.add(flow); }
@@ -141,13 +144,14 @@ public final class WaterCurrent implements WaterCurrentHook {
     /**
      * 1.8 through 1.12.2 Ornithe Feather: GLASS and LEAVES materials block
      * movement in LiquidBlock.getFlow, so this side skips the one-below read.
-     * The placed oak state is non-decaying (legacy metadata 4). Oak evidence:
-     * development/research/source-evidence/20261119/block-a-nonfalling-water-oak-leaves/.
+     * Placed oak, acacia and dark oak are non-decaying (the placement sets
+     * legacy metadata bit 4). Source evidence under development/research/source-evidence/
+     * 20261119: block-a-nonfalling-water-oak-leaves and block-a-nonfalling-water-leaves2.
      */
     private static boolean isAdditionalDrySideBlocker(BlockState state) {
         return state.getFluidState().isEmpty()
             && (state.is(Blocks.GLASS) || STAINED_GLASS.contains(state.getBlock())
-                || (state.is(Blocks.OAK_LEAVES) && state.getValue(LeavesBlock.PERSISTENT)));
+                || (LEGACY_PLACED_LEAVES.contains(state.getBlock()) && state.getValue(LeavesBlock.PERSISTENT)));
     }
 
     /**
