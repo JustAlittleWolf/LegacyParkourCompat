@@ -68,6 +68,7 @@
     "accessor.EntityInvoker",
     "accessor.EntityVisitedBlocksAccessor",
     "accessor.AbstractCauldronBlockAccessor",
+    "accessor.LiquidBlockAccessor",
     "EntityFluidCurrentMixin",
     "fluid.FlowingFluidMixin",
     "EntityFluidInteractionMixin",
