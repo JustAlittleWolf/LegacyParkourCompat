@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepDescentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerMovementSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SnowLayerOneCollisionPlaneHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.position.PoseBoxHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -1252,6 +1253,27 @@ public final class MovementRuntime {
             if (expected.get(i) != actual.get(i)) return false;
         }
         return true;
+    }
+
+    public static Vec3 clipOrdinaryCollision(Entity entity, Vec3 requested, AABB box,
+                                              List<VoxelShape> entityCollisions, Vec3 clipped) {
+        var movement = CollisionAxisOrderContext.movementQuery();
+        if (!(entity instanceof LocalPlayer player) || Minecraft.getInstance().player != player
+            || CollisionAxisOrderContext.currentEntity() != entity || movement == null
+            || movement.entity() != entity || movement.moverType() != MoverType.SELF
+            || !movement.startingBox().equals(box) || !movement.requestedMovement().equals(requested)
+            || player.isPassenger() || !entityCollisions.isEmpty()
+            || requested.x != 0.0 || requested.z != 0.0
+            || !Double.isFinite(requested.y) || requested.y >= 0.0
+            || clipped.x != 0.0 || clipped.z != 0.0 || !Double.isFinite(clipped.y)) {
+            return clipped;
+        }
+        var hook = find(SnowLayerOneCollisionPlaneHook.class, player).orElse(null);
+        if (hook == null) {
+            return clipped;
+        }
+        double y = hook.clipDescendingY(player, box, requested.y, clipped.y);
+        return y == clipped.y ? clipped : new Vec3(clipped.x, y, clipped.z);
     }
 
     public static Vec3 resolveEmptyShapeMovement(@Nullable Entity entity, Vec3 movement,
