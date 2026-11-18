@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "purpose": "Independent pre-claim raw packaged-resource roster for exact 1.15.2 to 1.16 client archives",
+  "scope": "All raw entries with path data/<namespace>/tags/ and water or lava in the path; record direct block(s)/fluid(s) aliases. No source-lane claim content inspected before this freeze.",
+  "versions": [
+    {
+      "version": "1.15.2",
+      "canonicalReady": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.15.2\\mojmap.ready.json",
+      "canonicalReadyStatus": "ready",
+      "canonicalMapping": "mojmap",
+      "canonicalClientSha256": "4a73008a73f3824b7c711750a5a37556df8614f193c0a531e292dad159a73a7c",
+      "canonicalArtifactManifestSha256": "208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406",
+      "artifactManifestSha256Actual": "208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406",
+      "archivePath": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-exact-1152-262-fluid-resource-recovery\\1.15.2.client.jar",
+      "archiveBytes": 15531492,
+      "archiveSha256Actual": "4a73008a73f3824b7c711750a5a37556df8614f193c0a531e292dad159a73a7c",
+      "archiveSha256Published": "4a73008a73f3824b7c711750a5a37556df8614f193c0a531e292dad159a73a7c",
+      "officialMetadataId": "1.15.2",
+      "officialMetadataPath": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-exact-1152-262-fluid-resource-recovery\\1.15.2.version.json",
+      "officialMetadataSha256Actual": "e974511243e845b2427ab635eba5612481cb420a70c0630aa041eab3eeb590c5",
+      "officialMetadataSha256Published": "e974511243e845b2427ab635eba5612481cb420a70c0630aa041eab3eeb590c5",
+      "officialClientUrl": "https://piston-data.mojang.com/v1/objects/e3f78cd16f9eb9a52307ed96ebec64241cc5b32d/client.jar",
+      "officialClientSha1": "e3f78cd16f9eb9a52307ed96ebec64241cc5b32d",
+      "archiveSha1Actual": "e3f78cd16f9eb9a52307ed96ebec64241cc5b32d",
+      "zipEntryCount": 13311,
+      "waterLavaTagPathMatchCount": 3,
+      "waterLavaTagEntries": [
+        {
+          "path": "data/minecraft/tags/blocks/underwater_bonemeals.json",
+          "uncompressedBytes": 121,
+          "rawEntrySha256": "cc7e93bcd1019e10edd35e5254d6128861c3f87971e2e184a6ece4432583528c",
+          "rawUtf8": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:seagrass\",\n    \"#minecraft:corals\",\n    \"#minecraft:wall_corals\"\n  ]\n}"
+        },
+        {
+          "path": "data/minecraft/tags/fluids/lava.json",
+          "uncompressedBytes": 92,
+          "rawEntrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+          "rawUtf8": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:lava\",\n    \"minecraft:flowing_lava\"\n  ]\n}"
+        },
+        {
+          "path": "data/minecraft/tags/fluids/water.json",
+          "uncompressedBytes": 94,
+          "rawEntrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+          "rawUtf8": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:water\",\n    \"minecraft:flowing_water\"\n  ]\n}"
+        }
+      ],
+      "exactWaterLavaTagAliases": [
+        "data/minecraft/tags/fluids/lava.json",
+        "data/minecraft/tags/fluids/water.json"
+      ]
+    },
+    {
+      "version": "1.16",
+      "canonicalReady": "D:\\Javastuff\\LegacyParkourCompat\\decompiled_minecraft\\1.16\\mojmap.ready.json",
+      "canonicalReadyStatus": "ready",
+      "canonicalMapping": "mojmap",
+      "canonicalClientSha256": "00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71",
+      "canonicalArtifactManifestSha256": "b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2",
+      "artifactManifestSha256Actual": "b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2",
+      "archivePath": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-exact-1152-116-fluid-resource-recovery\\1.16.client.jar",
+      "archiveBytes": 17492200,
+      "archiveSha256Actual": "00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71",
+      "archiveSha256Published": "00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71",
+      "officialMetadataId": "1.16",
+      "officialMetadataPath": "C:\\Users\\Wolfi\\.codex\\visualizations\\2026\\11\\17\\01a1eb7b-ac27-7712-9259-3041950bc340\\lane-exact-1152-116-fluid-resource-recovery\\1.16.version.json",
+      "officialMetadataSha256Actual": "32ea7a259475ba6f2dc03f979bb2429115ba4137727f776dfd22cc55b1483297",
+      "officialMetadataSha256Published": "32ea7a259475ba6f2dc03f979bb2429115ba4137727f776dfd22cc55b1483297",
+      "officialClientUrl": "https://piston-data.mojang.com/v1/objects/228fdf45541c4c2fe8aec4f20e880cb8fcd46621/client.jar",
+      "officialClientSha1": "228fdf45541c4c2fe8aec4f20e880cb8fcd46621",
+      "archiveSha1Actual": "228fdf45541c4c2fe8aec4f20e880cb8fcd46621",
+      "zipEntryCount": 14656,
+      "waterLavaTagPathMatchCount": 3,
+      "waterLavaTagEntries": [
+        {
+          "path": "data/minecraft/tags/blocks/underwater_bonemeals.json",
+          "uncompressedBytes": 121,
+          "rawEntrySha256": "cc7e93bcd1019e10edd35e5254d6128861c3f87971e2e184a6ece4432583528c",
+          "rawUtf8": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:seagrass\",\n    \"#minecraft:corals\",\n    \"#minecraft:wall_corals\"\n  ]\n}"
+        },
+        {
+          "path": "data/minecraft/tags/fluids/lava.json",
+          "uncompressedBytes": 92,
+          "rawEntrySha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd",
+          "rawUtf8": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:lava\",\n    \"minecraft:flowing_lava\"\n  ]\n}"
+        },
+        {
+          "path": "data/minecraft/tags/fluids/water.json",
+          "uncompressedBytes": 94,
+          "rawEntrySha256": "698e1662335b6241879b380a58d478ee019a1e789362b004050b5ccac421ad18",
+          "rawUtf8": "{\n  \"replace\": false,\n  \"values\": [\n    \"minecraft:water\",\n    \"minecraft:flowing_water\"\n  ]\n}"
+        }
+      ],
+      "exactWaterLavaTagAliases": [
+        "data/minecraft/tags/fluids/lava.json",
+        "data/minecraft/tags/fluids/water.json"
+      ]
+    }
+  ],
+  "comparison": {
+    "waterLavaPathMatchCountsEqual": true,
+    "rawEntryRosterEqual": true,
+    "exactRawBytesEqual": true,
+    "exactRawByteMismatches": []
+  }
+}
