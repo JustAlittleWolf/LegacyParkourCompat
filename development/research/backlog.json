@@ -10004,6 +10004,47 @@
             "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+          },
+          "boundedProductAssociation": {
+            "productCommit": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+            "code": [
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/EarlyAbilityFlightGlideFlag.java",
+                "sha256": "58218c79321fcdbf86011a30211c8b8be813c1e17c7aa0fe421011b9b5598584"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/LateAbilityFlightGlideFlag.java",
+                "sha256": "2a595426467ed33c78f1fe5de3d73679a6ee88540fad17d0b8e818f98dbd2c66"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_8_9/NativeAbilityFlightGlideFlag.java",
+                "sha256": "028fad3946d6e5e5b172ca7ea5274a0309b80a8d8c2dc410b9ce7e0e74904e37"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_20_2/NativeAbilityFlightGlideFlag.java",
+                "sha256": "5ebcb4919d06bb2e20201a79cc3366dc23b7115fd56b2234546db57a95eae353"
+              }
+            ],
+            "exactSourceArchive": {
+              "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
+              "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+            },
+            "review": {
+              "revision": "aceb5d72f8d34f59e4e11e2b3999d53d429106d7",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-resolver.md",
+              "sha256": "b3659e22e051a33f22ee668ec83af00d5bafbd0868265995535103beadade973"
+            },
+            "standaloneBuildTree": "e5cbb376a429230412a4b5ca5a1299861a0e3b34",
+            "combinedBuildRevision": "9b1d60ea1c1c1b42de02ace90fe7f39012834ca0",
+            "combinedBuildTree": "166b8a50bac55c632f792eaadf9d3ea4548f2f4b",
+            "applicability": "Exact 1.9 through 1.12.2 and exact 1.20.5 through 1.21.1 for ordinary dry non-passenger local ability flight while chest Elytra fall-flying flag is live. The return callback clears bit 7 after travel and the separate fall-distance callback. The V1_8_9 and V1_20_2 fences retain native behavior outside the accepted lower intervals; later profiles use native fallback.",
+            "build": "BUILD SUCCESSFUL in 7s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         }
       ]
@@ -13100,6 +13141,47 @@
             "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+          },
+          "boundedProductAssociation": {
+            "productCommit": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+            "code": [
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/EarlyAbilityFlightGlideFlag.java",
+                "sha256": "58218c79321fcdbf86011a30211c8b8be813c1e17c7aa0fe421011b9b5598584"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/LateAbilityFlightGlideFlag.java",
+                "sha256": "2a595426467ed33c78f1fe5de3d73679a6ee88540fad17d0b8e818f98dbd2c66"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_8_9/NativeAbilityFlightGlideFlag.java",
+                "sha256": "028fad3946d6e5e5b172ca7ea5274a0309b80a8d8c2dc410b9ce7e0e74904e37"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_20_2/NativeAbilityFlightGlideFlag.java",
+                "sha256": "5ebcb4919d06bb2e20201a79cc3366dc23b7115fd56b2234546db57a95eae353"
+              }
+            ],
+            "exactSourceArchive": {
+              "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
+              "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+            },
+            "review": {
+              "revision": "aceb5d72f8d34f59e4e11e2b3999d53d429106d7",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-resolver.md",
+              "sha256": "b3659e22e051a33f22ee668ec83af00d5bafbd0868265995535103beadade973"
+            },
+            "standaloneBuildTree": "e5cbb376a429230412a4b5ca5a1299861a0e3b34",
+            "combinedBuildRevision": "9b1d60ea1c1c1b42de02ace90fe7f39012834ca0",
+            "combinedBuildTree": "166b8a50bac55c632f792eaadf9d3ea4548f2f4b",
+            "applicability": "Exact 1.9 through 1.12.2 and exact 1.20.5 through 1.21.1 for ordinary dry non-passenger local ability flight while chest Elytra fall-flying flag is live. The return callback clears bit 7 after travel and the separate fall-distance callback. The V1_8_9 and V1_20_2 fences retain native behavior outside the accepted lower intervals; later profiles use native fallback.",
+            "build": "BUILD SUCCESSFUL in 7s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         }
       ]
@@ -20006,6 +20088,47 @@
             "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
             "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+          },
+          "boundedProductAssociation": {
+            "productCommit": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+            "code": [
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_12/EarlyAbilityFlightGlideFlag.java",
+                "sha256": "58218c79321fcdbf86011a30211c8b8be813c1e17c7aa0fe421011b9b5598584"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/LateAbilityFlightGlideFlag.java",
+                "sha256": "2a595426467ed33c78f1fe5de3d73679a6ee88540fad17d0b8e818f98dbd2c66"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_8_9/NativeAbilityFlightGlideFlag.java",
+                "sha256": "028fad3946d6e5e5b172ca7ea5274a0309b80a8d8c2dc410b9ce7e0e74904e37"
+              },
+              {
+                "revision": "610fabc28e91424d7d648d50f4c4c85a8c1f8a8d",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_20_2/NativeAbilityFlightGlideFlag.java",
+                "sha256": "5ebcb4919d06bb2e20201a79cc3366dc23b7115fd56b2234546db57a95eae353"
+              }
+            ],
+            "exactSourceArchive": {
+              "revision": "c3e3c4871acde9c12764f2d3b96ef0e891a3dd81",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/README.md",
+              "sha256": "aba077ea678bd97db8762ae3b9ee18a21bc39544d127063b22a9beabd3e8c989"
+            },
+            "review": {
+              "revision": "aceb5d72f8d34f59e4e11e2b3999d53d429106d7",
+              "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-resolver.md",
+              "sha256": "b3659e22e051a33f22ee668ec83af00d5bafbd0868265995535103beadade973"
+            },
+            "standaloneBuildTree": "e5cbb376a429230412a4b5ca5a1299861a0e3b34",
+            "combinedBuildRevision": "9b1d60ea1c1c1b42de02ace90fe7f39012834ca0",
+            "combinedBuildTree": "166b8a50bac55c632f792eaadf9d3ea4548f2f4b",
+            "applicability": "Exact 1.9 through 1.12.2 and exact 1.20.5 through 1.21.1 for ordinary dry non-passenger local ability flight while chest Elytra fall-flying flag is live. The return callback clears bit 7 after travel and the separate fall-distance callback. The V1_8_9 and V1_20_2 fences retain native behavior outside the accepted lower intervals; later profiles use native fallback.",
+            "build": "BUILD SUCCESSFUL in 7s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         }
       ],
