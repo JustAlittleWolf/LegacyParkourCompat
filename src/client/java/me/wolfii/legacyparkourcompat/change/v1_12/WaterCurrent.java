@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -66,7 +67,7 @@ public final class WaterCurrent implements WaterCurrentHook {
             BlockPos adjacent = pos.relative(direction);
             BlockState neighbor = historicalState(level, adjacent);
             boolean dryLadderSide = admitsDryLadderSide(level, pos, state, direction, adjacent, neighbor);
-            if (!supported(neighbor) && !isDryFullGlass(neighbor) && !dryLadderSide) return Optional.empty();
+            if (!supported(neighbor) && !isAdditionalDrySideBlocker(neighbor) && !dryLadderSide) return Optional.empty();
             int other = depth(neighbor);
             if (other < 0) {
                 if (neighbor.isAir() || dryLadderSide) {
@@ -133,14 +134,15 @@ public final class WaterCurrent implements WaterCurrentHook {
     }
 
     /**
-     * 1.8 through 1.12.2 Ornithe Feather: Block registers glass and stained glass
-     * with Material.GLASS. LiquidBlock.getFlow skips the below-side sample because
-     * that material blocks movement. 26.2 unobfuscated Blocks.GLASS and
-     * Blocks.STAINED_GLASS register the full blocks separately from panes.
+     * 1.8 through 1.12.2 Ornithe Feather: GLASS and LEAVES materials block
+     * movement in LiquidBlock.getFlow, so this side skips the one-below read.
+     * The placed oak state is non-decaying (legacy metadata 4). Oak evidence:
+     * development/research/source-evidence/20261119/block-a-nonfalling-water-oak-leaves/.
      */
-    private static boolean isDryFullGlass(BlockState state) {
-        return (state.is(Blocks.GLASS) || STAINED_GLASS.contains(state.getBlock()))
-            && state.getFluidState().isEmpty();
+    private static boolean isAdditionalDrySideBlocker(BlockState state) {
+        return state.getFluidState().isEmpty()
+            && (state.is(Blocks.GLASS) || STAINED_GLASS.contains(state.getBlock())
+                || (state.is(Blocks.OAK_LEAVES) && state.getValue(LeavesBlock.PERSISTENT)));
     }
 
     private static int depth(BlockState state) {
