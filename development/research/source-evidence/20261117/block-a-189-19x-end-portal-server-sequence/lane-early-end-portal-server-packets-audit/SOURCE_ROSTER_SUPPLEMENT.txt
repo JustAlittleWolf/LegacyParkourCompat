@@ -1,0 +1,5 @@
+Supplemental exact source roster requested by opened claim / full packet payload audit. Added after claim opening; this supplement is not part of the blind roster identity.
+1.8.9 net/minecraft/client/Minecraft.java sha256=1181bb145eb52ecba28fce3db96fca1e639c85012472d96ec0ba71bd02e15020
+1.8.9 net/minecraft/network/packet/c2s/play/PlayerMoveC2SPacket.java sha256=f6b29ab6c8516d84cdd6f7f568eda44aef3a2adfe5df1e3663abd389c8e5bef4
+1.9.4 net/minecraft/client/Minecraft.java sha256=6778bd1f0e8aa8a29fdce3bc5285cbd3ea56fa18ca8a43afc4d88439ab12133e
+1.9.4 net/minecraft/network/packet/c2s/play/PlayerMoveC2SPacket.java sha256=acc2ec0bf5f5ef64bff47b411a065ee3c41b07053c95de9a5ed19d2eb2f941a7

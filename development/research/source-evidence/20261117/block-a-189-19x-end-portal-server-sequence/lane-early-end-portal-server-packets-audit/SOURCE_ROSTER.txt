@@ -1,0 +1,27 @@
+Independent source roster freeze — End portal to server response
+Scope: 1.8.9 -> 1.9.4, Ornithe Feather; eligible player entering End; source invocation order, packet payload, acknowledgement, direct LocalClientPlayerEntity position/velocity only.
+Environment: Windows host, PowerShell; canonical exact-version decompiled sources consumed read-only.
+Evidence roots: decompiled_minecraft/1.8.9/ornithe-feather and decompiled_minecraft/1.9.4/ornithe-feather.
+Provenance 1.8.9 SHA-256 ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185; source manifest SHA-256 9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004; ready marker sourceManifestSha256 9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004.
+Provenance 1.9.4 SHA-256 5c913715bed763369ceb5fd171cab3e63c43298023078c3683f96c7ea8fed3cd; source manifest SHA-256 c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19; ready marker sourceManifestSha256 c7b508fe01634887b65919dcd3a900c311a21d9510a1f1ab248d5c17c528ab19.
+Mapping artifacts, both exact versions: Feather gen2 build.2, per provenance metadata. No online mappings used.
+Roster:
+1.8.9:
+  net/minecraft/server/entity/living/player/ServerPlayerEntity.java  sha256=047158bda6fa8fe2ea8a097972c098c5abe492ffbbe280006ae7592cd97fbb81
+  net/minecraft/server/PlayerManager.java  sha256=0498b44f26782daa8b82db0c0823cef615c6bd7e7234a43c32456e15647d9a5d
+  net/minecraft/server/network/handler/ServerPlayNetworkHandler.java  sha256=47ef077a7fa0f74cf44e1c8bda449d1b220bf56503b2fef98fd8016e8092df5b
+  net/minecraft/network/packet/s2c/play/PlayerRespawnS2CPacket.java  sha256=78a852ea1703863084a7f0a96567989c5298d277c0ff0f1cca3b1102c3a52c21
+  net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java  sha256=3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf
+  net/minecraft/client/network/handler/ClientPlayNetworkHandler.java  sha256=7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3
+  net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java  sha256=1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053
+  net/minecraft/entity/Entity.java  sha256=d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b
+1.9.4:
+  net/minecraft/server/entity/living/player/ServerPlayerEntity.java  sha256=8e65663709c6a41f845ddb703b9ad96ecf05a67cc17bfadcda98328900cd67cd
+  net/minecraft/server/PlayerManager.java  sha256=4b77ddc263a0d9e17ffa359370ef56f9d1b59834ec53a21f29aeb8cc02a571c3
+  net/minecraft/server/network/handler/ServerPlayNetworkHandler.java  sha256=f96587355f356f95362dbca2c57c043fdb3ee8ee2fe81589f4c3379ab1a0336b
+  net/minecraft/network/packet/s2c/play/PlayerRespawnS2CPacket.java  sha256=78a852ea1703863084a7f0a96567989c5298d277c0ff0f1cca3b1102c3a52c21
+  net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java  sha256=8bad09e146ce746085103081b7e3c6d09855114868267e12be8d869f34f0e77e
+  net/minecraft/network/packet/c2s/play/AcceptTeleportC2SPacket.java  sha256=fb1c5b363e88df9a1edfa02fd569b4c0890e253d837724dc81a7aba08af61603
+  net/minecraft/client/network/handler/ClientPlayNetworkHandler.java  sha256=5a2fc039b81ec0e77df3354826aaaf00dfa6e0d1296cf111864900932e811a4c
+  net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java  sha256=8aaf711948b7602c2e6c015a37e36ed06073d39727d999d80480b4910b704f5d
+  net/minecraft/entity/Entity.java  sha256=bcd7fa2206bf8d7271102f6da7fe2771f96dbe22ec79dab9f2101a3e29c17ef0
