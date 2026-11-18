@@ -3267,6 +3267,54 @@
             "build": "BUILD SUCCESSFUL in 8s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
           }
+        },
+        {
+          "exactVersion": "1.12.2",
+          "decision": "ACCEPT four axial Speed II probes against the centered stationary integer square with two-Stone support, loaded AIR and no Jump Boost. The first qualifying synthetic cell reaches maxY 65, so rise 1 arms the timer at every audited face for either prior flag. Corner and broader version cases remain separate.",
+          "snapshot": {
+            "revision": "385ffb41103d413b6487a32632cb0584361cd5b0",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-cardinal-112/report-r3.md",
+            "sha256": "e383daf63378cb6494788c37b87a0b82758440f604acb7df9ff44754cdcbd74c"
+          },
+          "review": {
+            "revision": "385ffb41103d413b6487a32632cb0584361cd5b0",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-cardinal-112/verdict.md",
+            "sha256": "cf9dad860456cfb910449cc8657215934a6e34865d325e2eb43276c526354435"
+          },
+          "binding": {
+            "revision": "385ffb41103d413b6487a32632cb0584361cd5b0",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-cardinal-112/binding.md",
+            "sha256": "fbbe076677866581d30c4ef46cf1e86410b4bfe0dee3fc7b06412b541f89414f"
+          }
+        },
+        {
+          "exactPair": "1.13--1.13.1",
+          "decision": "ACCEPT bounded finite-mask difference and reject the withdrawn timer differential. For the exact loaded two-Stone floor east fixture, 1.13 admits 29 cells and emits seven boxes, while 1.13.1 admits 24 and emits nine. Both first ray-hit boxes reach Y 66 with the same physical sample. Jump Boost II arms on the AIR witness. Upper Stone makes both reject. AIR is the accepted candidate scope.",
+          "snapshot": {
+            "revision": "c89ffe0367736fb43e672993ec3325d1af4d9ff3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-old-edge-113/caller-scope-r2.md",
+            "sha256": "346d7f558c6024c60a8da412c8597f0ae3ab757d4220bb033398ad987c62b2b9"
+          },
+          "review": {
+            "revision": "c89ffe0367736fb43e672993ec3325d1af4d9ff3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-old-edge-113/independent-sample-verdict.md",
+            "sha256": "998d62735a18c5d7624d2bc3ae0d012ab58e5ef80c4dcd4ca8b03a0abd69559b"
+          },
+          "binding": {
+            "revision": "c89ffe0367736fb43e672993ec3325d1af4d9ff3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-old-edge-113/binding.md",
+            "sha256": "58b8e6b217b5fe545b2fe741dd6d923d3882fc848a62cec31cbdc2693ce798e3"
+          },
+          "reproduction": {
+            "revision": "c89ffe0367736fb43e672993ec3325d1af4d9ff3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-old-edge-113/exact-113-old-edge-repro.md",
+            "sha256": "67d33f0b624be134fcf419871ae97793430f7ace7888add9b38db5771fcc8648"
+          },
+          "withdrawn": {
+            "revision": "c89ffe0367736fb43e672993ec3325d1af4d9ff3",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-old-edge-113/sample-state-witness-withdrawn.md",
+            "sha256": "b32834860f56151e434259b43d441223e80eaf6c247aa18c942923d1000cc990"
+          }
         }
       ]
     },
