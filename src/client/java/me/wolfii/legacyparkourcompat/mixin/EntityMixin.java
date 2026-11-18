@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.fluid.WaterFirstLavaProjectionCont
 import me.wolfii.legacyparkourcompat.mechanic.fluid.LavaPresenceLatchContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.LavaPresenceHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.turn.EntityTurnPitchHook;
 import me.wolfii.legacyparkourcompat.change.v1_16.fluid.LegacyWaterPresenceProbe;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -128,6 +129,25 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
 
     @Unique
     private int legacyparkourcompat$explicitCallbackScanDepth;
+
+    @ModifyArg(
+        method = "turn(DD)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/Entity;setXRot(F)V",
+            ordinal = 0
+        ),
+        index = 0
+    )
+    private float legacyparkourcompat$historicalFirstTurnPitch(float vanillaArgument) {
+        Entity entity = (Entity)(Object)this;
+        if (!(entity instanceof LocalPlayer player)) {
+            return vanillaArgument;
+        }
+        return MovementRuntime.find(EntityTurnPitchHook.class, player)
+            .map(hook -> hook.transformFirstPitchArgument(entity, vanillaArgument))
+            .orElse(vanillaArgument);
+    }
 
     @Override
     @Unique
