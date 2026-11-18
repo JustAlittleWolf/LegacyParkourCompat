@@ -58,11 +58,13 @@ import java.util.List;
  * {@code ViewableWorld.getCollisionShapes} and {@code CuboidBlockIterator.step},
  * emits translated per-block shapes instead. The checked cutover is 1.14.1.
  *
- * <p>The bounded east-border case uses Ornithe Feather 1.13.1 and 1.13.2
- * {@code WorldView.getBlockCollisions}: full Stone support and synthetic
- * border cells occupy the same grid before aggregate overlap and
- * {@code VoxelSet.forEachBox}. The supporting floor touches the probe's
- * lower face but changes which box the AutoJump ray encounters first.
+ * <p>For the bounded east-border case, Ornithe Feather 1.13, 1.13.1 and 1.13.2
+ * {@code WorldView.getBlockCollisions} put full Stone support and synthetic
+ * border cells in the same grid before {@code VoxelSet.forEachBox}.
+ * Original 1.13 skips X/Z corners and skips the high-Y row only at an
+ * X or Z edge. 1.13.1 and 1.13.2 instead skip cells on two scan edges.
+ * The supporting floor touches the probe's lower face but changes which
+ * box the AutoJump ray encounters first.
  */
 @MovementChange(emulates = ParkourVersion.V1_14)
 public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook {
@@ -147,7 +149,10 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                     }
                     var state = chunk.getBlockState(pos);
                     boolean edgeY = y == minY || y == maxY - 1;
+                    boolean includesV1_13 = !(edgeX && edgeZ) && (!(edgeX || edgeZ) || y != maxY - 1);
                     boolean includesV1_13_1 = !(edgeX && edgeY || edgeY && edgeZ || edgeZ && edgeX);
+                    boolean includedForSelected = selected == ParkourVersion.V1_13
+                        ? includesV1_13 : includesV1_13_1;
                     if (eastBorder) {
                         boolean floor = y == minY && z == floorZ && (x == east - 2.0 || x == east - 1.0);
                         if (floor) {
@@ -159,7 +164,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                             if (!state.is(Blocks.AIR)) {
                                 return null;
                             }
-                            if (includesV1_13_1 && x >= east) {
+                            if (includedForSelected && x >= east) {
                                 fullCells.add(new Cell(x, y, z));
                             }
                         }
@@ -172,12 +177,9 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
                         || state.getCollisionShape(level, pos, context) != Shapes.block()) {
                         return null;
                     }
-                    boolean includesV1_13 = !(edgeX && edgeZ) && (!(edgeX || edgeZ) || y != maxY - 1);
                     if (includesV1_13 != includesV1_13_1) {
                         return null;
                     }
-                    boolean includedForSelected = selected == ParkourVersion.V1_13
-                        ? includesV1_13 : includesV1_13_1;
                     if (includedForSelected) {
                         fullCells.add(new Cell(x, y, z));
                     }
@@ -245,7 +247,7 @@ public final class AutoJumpCollisionOrder implements AutoJumpCollisionOrderHook 
 
     private static boolean admitsEastBorder(Player player, Level world, AABB query, ParkourVersion selected,
         WorldBorder border) {
-        if (selected != ParkourVersion.V1_13_1 || !(player instanceof LocalPlayer)
+        if ((selected != ParkourVersion.V1_13 && selected != ParkourVersion.V1_13_1) || !(player instanceof LocalPlayer)
             || world != player.level() || !world.isClientSide() || border.getStatus() != BorderStatus.STATIONARY) {
             return false;
         }
