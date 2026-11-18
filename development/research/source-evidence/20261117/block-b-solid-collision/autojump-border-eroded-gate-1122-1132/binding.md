@@ -4,7 +4,7 @@ This fixture complements the [earlier tangent witness](../autojump-border-east-1
 
 The old ordered list first reaches the synthetic cube at (10,64,0). With loaded physical AIR at (10,65,0), its rise 1 sets timer 1. The exact 1.13.2 finite aggregate retains maxY 67 on the first intersecting box, with rise 3 in the reviewed clear setting and no timer assignment. The independent review binds the stipulated accepted motion and standing floor, not an unconditional displacement from raw input. This is an endpoint comparison. The [old alias receipt](../autojump-border-east-1122-1132/old-alias-verdict.md) binds the same consumed old selector, scan, and timer methods in exact 1.12, 1.12.1 and 1.12.2.
 
-The fixture requires loaded physical outside AIR and clearance cells, support below the feet, and no competing blocker or entity. The full-cube Stone floor premise must be carried into any candidate and reviewed against the ordinary move. Runtime parity and broader border cases remain open.
+The fixture requires loaded physical outside AIR and clearance cells, support below the feet, and no competing blocker or entity. The [floor support addendum](floor-support-addendum.md) binds the plain full-cube Stone cells (8,63,0) and (9,63,0). They cover the complete ordinary player footprint along the reviewed move. Their top at y=64 only touches the AutoJump query bottom. Its raw SHA-256 is `13aa0070b905854af3236f6d339f3916310cf913118ca3e640e1788f389526fc`. Runtime parity and broader border cases remain open.
 
 - [Author report](report.md), raw SHA-256 `e830cb9ccff49340d09ac9a5a84dc84ce9f50f3ba2ef2476d66eef594b3e74a8`.
 - [Independent verdict](verdict.md), raw SHA-256 `bf0f87417ef8e2e2b3f948a35939724e0196722d367eced6d27f4889ca403ab5`.
