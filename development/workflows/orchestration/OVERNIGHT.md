@@ -1,6 +1,6 @@
 # Unattended movement campaign
 
-Start only on the user's start signal. Continue until the user sends stop. There is no elapsed-time cutoff. A checkpoint ends a batch and immediately opens the next. On stop, propagate it to descendants immediately and report the latest durable state.
+Start only on the user's start signal. Continue until the user sends stop, usable quota is exhausted, or an explicitly configured campaign time limit is reached. Treat the earlier two-hour estimate as planning context. A checkpoint ends a batch and immediately opens the next. On stop, propagate it to descendants immediately and report the latest durable state.
 
 ## Delegation
 
@@ -29,6 +29,8 @@ Include this instruction in each new orchestrator goal: "Keep up to 20 useful te
 At that checkpoint count running direct and nested technical workers once, excluding managers. If below target, dispatch ready work before waiting. If the queue is thin, split known implementation residuals by independent caller, boundary or applicability gate and let the stream schedulers dispatch concurrently. Reuse completed verdicts and built refs. If only serial or externally blocked work remains across the domains, record the actual count, exact dependency and next wake condition once. Check again when that condition changes. Use this short section for routine reminders and reread changed phase procedures in full. A checkpoint requires no routine message to the coordinator.
 
 Include the [implementation-first phase order](WORKFLOW.md#finish-known-implementations-before-new-discovery) in all four goals. At startup a single queue owner uses the commands below. Page with `--offset` when `nextOffset` is present. Give the domain owners disjoint sets of finding IDs and attach the MCPK claim IDs where relevant. Resolve disputed or missing historical evidence only for those existing operations until the global gate opens.
+
+Finish the MCPK queue and drain all known eligible implementations, including actionable named prerequisites. When those queues are drained and the MCPK phase is complete, automatically resume exact local Minecraft source-led discovery in substantial disjoint slices of adjacent versions. Traverse from newest to oldest in actual release order and reuse existing coverage. When newly accepted implementation work is ready, complete it before starting more discovery. Give blind source workers only the permitted source-only projections and keep wiki and product context outside their assignment. Select the phase from the actual queue and evidence state regardless of the chat title.
 
 ```powershell
 python development/workflows/orchestration/backlog.py show metadata mcpkWikiPriority
