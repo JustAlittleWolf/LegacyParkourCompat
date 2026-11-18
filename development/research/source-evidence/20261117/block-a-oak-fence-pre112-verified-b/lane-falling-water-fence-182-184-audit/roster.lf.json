@@ -1,0 +1,433 @@
+{
+  "title": "Frozen independent source audit roster",
+  "scope": "Dry ordinary oak fence horizontal upper/same-height adjacent-wall collision cue; LocalClientPlayerEntity water-current path and gates",
+  "sourcePair": [
+    "1.8.2",
+    "1.8.4"
+  ],
+  "requiredIntermediate": "1.8.3",
+  "mapping": "Ornithe Feather",
+  "environment": "Windows PowerShell on Windows host",
+  "frozenBeforeAuthorTerminal": true,
+  "sourcePaths": [
+    "net/minecraft/block/Block.java",
+    "net/minecraft/block/Blocks.java",
+    "net/minecraft/block/FenceBlock.java",
+    "net/minecraft/block/FenceGateBlock.java",
+    "net/minecraft/block/WallBlock.java",
+    "net/minecraft/block/FlowingLiquidBlock.java",
+    "net/minecraft/block/LiquidBlock.java",
+    "net/minecraft/block/LiquidSourceBlock.java",
+    "net/minecraft/block/material/Material.java",
+    "net/minecraft/block/state/AbstractBlockState.java",
+    "net/minecraft/block/state/BlockState.java",
+    "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+    "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+    "net/minecraft/entity/Entity.java",
+    "net/minecraft/entity/living/LivingEntity.java",
+    "net/minecraft/entity/living/player/PlayerEntity.java",
+    "net/minecraft/util/math/BlockPos.java",
+    "net/minecraft/util/math/Box.java",
+    "net/minecraft/util/math/Direction.java",
+    "net/minecraft/world/World.java",
+    "net/minecraft/world/WorldView.java"
+  ],
+  "sourceFiles": [
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Blocks.java",
+      "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FenceBlock.java",
+      "sha256": "8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FenceGateBlock.java",
+      "sha256": "43749004a2826051c627c794f72db705283df26e1810d8b4a7a78205ac974d2c"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/WallBlock.java",
+      "sha256": "e1fca4e4dbb7736d17116e4dee92064d35f7bf135da374dae0615e89216aca5e"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FlowingLiquidBlock.java",
+      "sha256": "16b30954bbb5bc9b40072ad19304a7efe8ac2483ee1a4baeda777fb4145daaf0"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/LiquidBlock.java",
+      "sha256": "1537fd6b1bca65e0f910f9a12bcd3bb27f5a86be7f13a1caa380c5e66544f1d5"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/LiquidSourceBlock.java",
+      "sha256": "2b263d3dad30022c81c53d7682791447e4c8a22fa22c01f4e3c1ce84f8c49568"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/material/Material.java",
+      "sha256": "017713d76afe726ca243ce32cbc35c13d3f0f0e7e5d90d122f81103cc2ca1bd2"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/state/AbstractBlockState.java",
+      "sha256": "7e142464fedda0a4bf57004e4a9812df5a56bae7d78f35849fbb845e88e713e2"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/state/BlockState.java",
+      "sha256": "e75e90472cabbbcfdbba5792c05ea3cf629e3cbf4bb97fd96c5fa578e138b6ac"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+      "sha256": "b322144fcc965c9bf5f6ff18882d17f6f0e1cdaf0e545b1c7663c662aceb029b"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/living/LivingEntity.java",
+      "sha256": "082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+      "sha256": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/BlockPos.java",
+      "sha256": "5c8e0baafeaea9d941e6a8c730aaa8800a96d0ce84c43cfce1ac6f979ced9d10"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/Box.java",
+      "sha256": "8fc7bb57b1132afc7ae9539c30ff9c2585f0e36c2b0e59c60946cb1e3cee9eea"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/Direction.java",
+      "sha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/world/WorldView.java",
+      "sha256": "212c5386769dce8f12c06cf8fe9fed6f931bda8cd519239a20bc894a4c1f2fd8"
+    },
+    {
+      "version": "1.8.2",
+      "mapping": "ornithe-feather",
+      "path": ".decompile-provenance.json",
+      "sha256": "8ad11ea36f2dda39ae30d57daa53316a8c0889a2f3c0c84ee5d79b9b21c25472"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Blocks.java",
+      "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FenceBlock.java",
+      "sha256": "8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FenceGateBlock.java",
+      "sha256": "43749004a2826051c627c794f72db705283df26e1810d8b4a7a78205ac974d2c"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/WallBlock.java",
+      "sha256": "e1fca4e4dbb7736d17116e4dee92064d35f7bf135da374dae0615e89216aca5e"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FlowingLiquidBlock.java",
+      "sha256": "16b30954bbb5bc9b40072ad19304a7efe8ac2483ee1a4baeda777fb4145daaf0"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/LiquidBlock.java",
+      "sha256": "1537fd6b1bca65e0f910f9a12bcd3bb27f5a86be7f13a1caa380c5e66544f1d5"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/LiquidSourceBlock.java",
+      "sha256": "2b263d3dad30022c81c53d7682791447e4c8a22fa22c01f4e3c1ce84f8c49568"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/material/Material.java",
+      "sha256": "017713d76afe726ca243ce32cbc35c13d3f0f0e7e5d90d122f81103cc2ca1bd2"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/state/AbstractBlockState.java",
+      "sha256": "7e142464fedda0a4bf57004e4a9812df5a56bae7d78f35849fbb845e88e713e2"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/state/BlockState.java",
+      "sha256": "e75e90472cabbbcfdbba5792c05ea3cf629e3cbf4bb97fd96c5fa578e138b6ac"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+      "sha256": "b322144fcc965c9bf5f6ff18882d17f6f0e1cdaf0e545b1c7663c662aceb029b"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/living/LivingEntity.java",
+      "sha256": "082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+      "sha256": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/BlockPos.java",
+      "sha256": "5c8e0baafeaea9d941e6a8c730aaa8800a96d0ce84c43cfce1ac6f979ced9d10"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/Box.java",
+      "sha256": "8fc7bb57b1132afc7ae9539c30ff9c2585f0e36c2b0e59c60946cb1e3cee9eea"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/Direction.java",
+      "sha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/world/WorldView.java",
+      "sha256": "212c5386769dce8f12c06cf8fe9fed6f931bda8cd519239a20bc894a4c1f2fd8"
+    },
+    {
+      "version": "1.8.3",
+      "mapping": "ornithe-feather",
+      "path": ".decompile-provenance.json",
+      "sha256": "7da5f772d7ed1433cb3da23861723ebaec7cb714ce49c4d1a5c30499fec3afed"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Block.java",
+      "sha256": "ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/Blocks.java",
+      "sha256": "1da2d85406ed991e8f6bc1f420babf0bd43598478f347c6a4dc9fea322ed0695"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FenceBlock.java",
+      "sha256": "8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FenceGateBlock.java",
+      "sha256": "43749004a2826051c627c794f72db705283df26e1810d8b4a7a78205ac974d2c"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/WallBlock.java",
+      "sha256": "e1fca4e4dbb7736d17116e4dee92064d35f7bf135da374dae0615e89216aca5e"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/FlowingLiquidBlock.java",
+      "sha256": "16b30954bbb5bc9b40072ad19304a7efe8ac2483ee1a4baeda777fb4145daaf0"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/LiquidBlock.java",
+      "sha256": "1537fd6b1bca65e0f910f9a12bcd3bb27f5a86be7f13a1caa380c5e66544f1d5"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/LiquidSourceBlock.java",
+      "sha256": "2b263d3dad30022c81c53d7682791447e4c8a22fa22c01f4e3c1ce84f8c49568"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/material/Material.java",
+      "sha256": "017713d76afe726ca243ce32cbc35c13d3f0f0e7e5d90d122f81103cc2ca1bd2"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/state/AbstractBlockState.java",
+      "sha256": "7e142464fedda0a4bf57004e4a9812df5a56bae7d78f35849fbb845e88e713e2"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/block/state/BlockState.java",
+      "sha256": "e75e90472cabbbcfdbba5792c05ea3cf629e3cbf4bb97fd96c5fa578e138b6ac"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/client/entity/living/player/ClientPlayerEntity.java",
+      "sha256": "b322144fcc965c9bf5f6ff18882d17f6f0e1cdaf0e545b1c7663c662aceb029b"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java",
+      "sha256": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/Entity.java",
+      "sha256": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/living/LivingEntity.java",
+      "sha256": "082831c6578e3a70fa6cea5b90bc3eefc26678259b66334470de22b90b5b0e4e"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/entity/living/player/PlayerEntity.java",
+      "sha256": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/BlockPos.java",
+      "sha256": "5c8e0baafeaea9d941e6a8c730aaa8800a96d0ce84c43cfce1ac6f979ced9d10"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/Box.java",
+      "sha256": "8fc7bb57b1132afc7ae9539c30ff9c2585f0e36c2b0e59c60946cb1e3cee9eea"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/util/math/Direction.java",
+      "sha256": "ede4dc29795263853c048e569f24e74407255767c5e02349a90895ac5b08e544"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/world/World.java",
+      "sha256": "3c04f5b874fbb6692039164c882a3c47fe28c7eca864e91c9ac57798153888ee"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": "net/minecraft/world/WorldView.java",
+      "sha256": "212c5386769dce8f12c06cf8fe9fed6f931bda8cd519239a20bc894a4c1f2fd8"
+    },
+    {
+      "version": "1.8.4",
+      "mapping": "ornithe-feather",
+      "path": ".decompile-provenance.json",
+      "sha256": "b2207bf9ab2a7561bf73ac92a63cc67760ccc6fd9e2378ff1e10710ecbb03a00"
+    }
+  ]
+}
