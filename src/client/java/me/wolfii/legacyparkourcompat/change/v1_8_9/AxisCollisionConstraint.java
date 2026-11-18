@@ -11,10 +11,11 @@ import net.minecraft.world.phys.AABB;
  * 1.8 through 1.8.9 Ornithe Feather Gen2 build.2 MovingBlock.getCollisionShape
  * (118–130, 162–197) samples MovingBlockEntity.getProgress(0.0F). For extending
  * Stone at previous progress zero, Block.addCollisions (339–344) can retain
- * the resulting zero-width box at local X=0 for East or X=1 for West.
- * Entity.move (439–460) uses Box.intersectY before intersectX (93–130):
- * strict transverse contact keeps Y, then the touching X face limits the
- * corresponding positive or negative X request to zero.
+ * the resulting zero-width box. Its local coordinate is 0 for East/South
+ * and 1 for West/North along the movement axis. Entity.move (439–460)
+ * uses Box.intersectY before the horizontal clips (Box.java:93–149).
+ * Strict transverse contact keeps Y, then inclusive contact in intersectX
+ * or intersectZ limits the signed horizontal request to zero.
  * 1.9 Ornithe Feather Gen2 build.2 MovingBlock.getCollisionShape delegates to
  * MovingBlockEntity.getShape, which unions the current and previous moved boxes.
  */

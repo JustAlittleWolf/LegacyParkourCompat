@@ -44,15 +44,19 @@ final class MovingStonePlane {
             return OptionalDouble.empty();
         }
 
+        boolean alongX = request.x != 0.0;
+        Direction.Axis approach = alongX ? Direction.Axis.X : Direction.Axis.Z;
+        double amount = request.get(approach);
+        boolean negative = amount < 0.0;
         AABB afterY = start.move(0.0, request.y, 0.0);
         if (axis == Direction.Axis.Y) {
             if (distance != request.y || !moving.equals(start.move(Vec3.ZERO))) return OptionalDouble.empty();
-        } else if (axis != Direction.Axis.X || distance != request.x || !moving.equals(afterY)) {
+        } else if (axis != approach || distance != amount || !moving.equals(afterY)) {
             return OptionalDouble.empty();
         }
 
-        boolean west = request.x < 0.0;
-        Direction facing = west ? Direction.WEST : Direction.EAST;
+        Direction facing = Direction.fromAxisAndDirection(approach,
+            negative ? Direction.AxisDirection.NEGATIVE : Direction.AxisDirection.POSITIVE);
         BlockPos pos = source.pos();
         var level = player.level();
         var chunk = level.getChunkForCollisions(
@@ -71,15 +75,18 @@ final class MovingStonePlane {
 
         int x = pos.getX(), y = pos.getY(), z = pos.getZ();
         List<AABB> parts = shape.toAabbs();
-        double faceX = west ? x + 1.0 : x;
-        AABB nativeBox = new AABB(faceX - 0.5, y, z, faceX + 0.5, y + 1.0, z + 1.0);
+        double face = (alongX ? x : z) + (negative ? 1.0 : 0.0);
+        AABB nativeBox = alongX ? new AABB(face - 0.5, y, z, face + 0.5, y + 1.0, z + 1.0)
+            : new AABB(x, y, face - 0.5, x + 1.0, y + 1.0, face + 0.5);
         if (parts.size() != 1 || !nativeBox.equals(parts.getFirst())) return OptionalDouble.empty();
 
-        AABB plane = new AABB(faceX, y, z, faceX, y + 1.0, z + 1.0);
+        AABB plane = alongX ? new AABB(face, y, z, face, y + 1.0, z + 1.0)
+            : new AABB(x, y, face, x + 1.0, y + 1.0, face);
+        Direction.Axis transverse = alongX ? Direction.Axis.Z : Direction.Axis.X;
         AABB swept = query.sweptBox();
-        if ((west ? start.minX : start.maxX) != faceX || !swept.intersects(plane)
+        if ((negative ? start.min(approach) : start.max(approach)) != face || !swept.intersects(plane)
             || start.minY >= y + 1.0 || afterY.minY <= y
-            || start.minZ <= z || start.maxZ >= z + 1.0
+            || start.min(transverse) <= plane.min(transverse) || start.max(transverse) >= plane.max(transverse)
             || !oldEnvelopeContainsOnlyCandidate(player, swept, pos, source.state())) {
             return OptionalDouble.empty();
         }
@@ -91,8 +98,8 @@ final class MovingStonePlane {
             && !player.noPhysics && !player.isSpectator() && !player.onGround() && !player.isShiftKeyDown()
             && !player.isInWater() && !player.isInLava() && !player.onClimbable() && !player.getAbilities().flying
             && player.getBbWidth() == 0.6F && player.getBbHeight() == 1.8F
-            && Double.isFinite(request.x) && Double.isFinite(request.y)
-            && request.x != 0.0 && request.y < 0.0 && request.z == 0.0;
+            && Double.isFinite(request.x) && Double.isFinite(request.y) && Double.isFinite(request.z)
+            && request.y < 0.0 && ((request.x == 0.0) != (request.z == 0.0));
     }
 
     private static boolean oldEnvelopeContainsOnlyCandidate(LocalPlayer player, AABB swept,
