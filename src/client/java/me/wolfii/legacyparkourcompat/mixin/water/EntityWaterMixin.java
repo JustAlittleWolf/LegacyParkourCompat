@@ -1,6 +1,10 @@
 package me.wolfii.legacyparkourcompat.mixin.water;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
@@ -11,19 +15,62 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.FlowScanAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterContext;
+import me.wolfii.legacyparkourcompat.mechanic.water.BodyWaterProjection;
 import me.wolfii.legacyparkourcompat.mechanic.water.WaterScan;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityFluidInteraction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import org.jspecify.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityWaterMixin implements WaterContext {
+    @Shadow @Final private EntityFluidInteraction fluidInteraction;
+
+    @ModifyVariable(method = "updateFluidInteraction()Z", at = @At(value = "LOAD", ordinal = 0),
+        index = 1, require = 1)
+    private boolean legacyparkourcompat$publishBodyWaterContact(boolean nativeContact,
+        @Share("waterContactForCurrent") LocalBooleanRef currentContact) {
+        // The first inWater load governs fall reset/splash, followed by the state write.
+        currentContact.set(nativeContact);
+        return ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterContact(nativeContact);
+    }
+
+    @Inject(method = "updateFluidInteraction()Z", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
+        target = "Lnet/minecraft/world/entity/Entity;wasTouchingWater:Z", shift = At.Shift.AFTER),
+        require = 1)
+    private void legacyparkourcompat$restoreWaterCurrentContact(CallbackInfoReturnable<Boolean> callback,
+        @Local(index = 1) LocalBooleanRef inWater,
+        @Share("waterContactForCurrent") LocalBooleanRef currentContact) {
+        // The current branch retains the original predicate and tracker.
+        inWater.set(currentContact.get());
+    }
+
+    @ModifyReturnValue(method = "updateFluidInteraction()Z", at = @At("RETURN"))
+    private boolean legacyparkourcompat$bodyWaterRefreshResult(boolean original,
+        @Local(index = 1) boolean inWater, @Local(index = 2) boolean inLava) {
+        boolean contact = ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterContact(inWater);
+        return contact == inWater ? original : contact || inLava;
+    }
+
+    @ModifyReturnValue(method = "getFluidHeight(Lnet/minecraft/tags/TagKey;)D", at = @At("RETURN"))
+    private double legacyparkourcompat$bodyWaterDepth(double nativeDepth, TagKey<Fluid> fluid) {
+        return fluid.equals(FluidTags.WATER)
+            ? ((BodyWaterProjection) this.fluidInteraction).legacyparkourcompat$bodyWaterDepth(nativeDepth) : nativeDepth;
+    }
+
     @Unique private WaterScan.@Nullable Result legacyparkourcompat$water;
     @Unique private int legacyparkourcompat$waterTick;
     @Unique private @Nullable Level legacyparkourcompat$waterLevel;
