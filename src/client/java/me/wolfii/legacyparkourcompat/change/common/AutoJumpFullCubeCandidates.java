@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.collision.LegacyVoxelShapeBoxes;
 import me.wolfii.legacyparkourcompat.mechanic.collision.RawArrayVoxelShape;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook.ProbeSegments;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpEntityPrefixHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpPartialCandidateHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
@@ -80,9 +81,13 @@ public final class AutoJumpFullCubeCandidates {
             return null;
         }
         AABB entityEnvelope = query.inflate(0.25);
-        if (!(level instanceof Level world)
-            || !world.getEntities(player, entityEnvelope, entity -> entity != player).isEmpty()) {
-            return null;
+        if (!(level instanceof Level world)) return null;
+        var entities = world.getEntities(player, entityEnvelope, entity -> entity != player);
+        AutoJumpEntityPrefixHook entityPrefix = null;
+        if (!entities.isEmpty()) {
+            if (probes == null || entities.size() != 1) return null;
+            entityPrefix = MovementRuntime.find(AutoJumpEntityPrefixHook.class, player).orElse(null);
+            if (entityPrefix == null || selected != ParkourVersion.V1_14) return null;
         }
 
         int minX = Mth.floor(query.minX) - 1;
@@ -108,7 +113,7 @@ public final class AutoJumpFullCubeCandidates {
         boolean north = minZ <= border.getMinZ();
         boolean south = maxZ >= border.getMaxZ();
         int borderFaces = (west ? 1 : 0) + (east ? 1 : 0) + (north ? 1 : 0) + (south ? 1 : 0);
-        if (borderFaces > 1) {
+        if (borderFaces > 1 || (entityPrefix != null && borderFaces != 0)) {
             return null;
         }
         BorderProbe borderProbe = null;
@@ -122,6 +127,7 @@ public final class AutoJumpFullCubeCandidates {
 
         List<Cell> fullCells = new ArrayList<>();
         AutoJumpPartialCandidateHook.Partial partial = null;
+        List<VoxelShape> entityFirst = null;
         boolean stoneAndAir = true;
         int stoneCells = 0;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
@@ -143,6 +149,20 @@ public final class AutoJumpFullCubeCandidates {
                     boolean includesV1_13_1 = !(edgeX && edgeY || edgeY && edgeZ || edgeZ && edgeX);
                     boolean includedForSelected = selected == ParkourVersion.V1_13
                         ? includesV1_13 : includesV1_13_1;
+                    if (entityPrefix != null) {
+                        // The Stone floor only touches the query's lower face, so 1.14
+                        // discards its entire aggregate at the strict overlap filter.
+                        if (y == minY) {
+                            if (!state.is(Blocks.STONE)
+                                || context.getCollisionShape(state, level, pos) != Shapes.block()) return null;
+                        } else if (!state.is(Blocks.AIR)) {
+                            if (entityFirst != null || !includedForSelected) return null;
+                            entityFirst = entityPrefix.candidates(player, world, query, probes,
+                                entities.getFirst(), state, pos, context).orElse(null);
+                            if (entityFirst == null) return null;
+                        }
+                        continue;
+                    }
                     if (borderProbe != null) {
                         if (y == minY && borderProbe.isSupport(x, z)) {
                             if (!state.is(Blocks.STONE) || state.getCollisionShape(level, pos, context) != Shapes.block()) {
@@ -187,6 +207,7 @@ public final class AutoJumpFullCubeCandidates {
                 }
             }
         }
+        if (entityPrefix != null) return entityFirst;
         if (borderProbe != null) {
             // The scan already certified physical AIR below maxY. The extra head read is at
             // maxY. The first-hit center in original 1.13 west/north/south is one block lower,
