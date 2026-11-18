@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_21_2;
+package me.wolfii.legacyparkourcompat.change.v1_20_5;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -10,10 +10,10 @@ import net.minecraft.world.entity.Pose;
  * Ornithe Feather 1.14 PlayerEntity pose update and Mojmap 1.16 / 1.21.4
  * Player.updatePlayerPose select FALL_FLYING before SLEEPING; Mojmap 1.21.5
  * Player.getDesiredPose reverses it. Pre-1.14 applicability remains unbound.
- * This lower fence leaves earlier swimming overlap behavior unchanged until its
- * historical applicability is established independently.
+ * The swimming overlap is supported from Mojmap 1.21 Player#updatePlayerPose;
+ * this fence retains the native swimming choice for earlier selections.
  */
-@MovementChange(emulates = ParkourVersion.V1_21_2)
+@MovementChange(emulates = ParkourVersion.V1_20_5)
 public final class PlayerPosePriority implements PlayerPosePriorityHook {
     @Override
     public Pose desiredPose(ParkourVersion selected, boolean sleeping, boolean fallFlying, boolean swimming, Pose vanilla) {

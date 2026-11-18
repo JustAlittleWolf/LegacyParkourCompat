@@ -6,13 +6,14 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPosePriorityHook;
 import net.minecraft.world.entity.Pose;
 
 /**
- * Ornithe Feather 1.14 PlayerEntity pose update and Mojmap 1.16 / 1.21.4
- * Player.updatePlayerPose select FALL_FLYING before SLEEPING. Mojmap 1.21.4
- * also selects FALL_FLYING before SWIMMING. Mojmap 1.21.5 Player.getDesiredPose
- * reverses both priorities, retained in 26.2 unobfuscated. Restore the overlapping-state choice
- * for the logical client; existing swimming-fit and chosen-pose-fit gates
- * and the final pose write stay native. Sleep entry and server pose decisions
- * are not emulated. Pre-1.14 applicability remains unbound.
+ * Ornithe Feather 1.14 PlayerEntity pose selection and Mojmap 1.16
+ * Player#updatePlayerPose select FALL_FLYING before SLEEPING. In exact Mojmap
+ * 1.21, 1.21.1, 1.21.2, 1.21.3 and 1.21.4, Player#updatePlayerPose also
+ * selects FALL_FLYING before SWIMMING. Entity#updateSwimming and
+ * LivingEntity#updateFallFlying admit the locally controlled dry-glider
+ * water-entry overlap. Mojmap 1.21.5 and 26.2 unobfuscated
+ * Player#getDesiredPose select sleeping and swimming first. The native
+ * swimming-fit gate, desired-pose fit and fallback still run.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class PlayerPosePriority implements PlayerPosePriorityHook {
