@@ -1,0 +1,25 @@
+# Local yaw precision continuity: partial source archive through 1.16.5
+
+This partial archive preserves thirteen accepted exact adjacent comparisons from a 16-edge assignment. Three assigned comparisons remain pending. The reports and independent verdicts inspect ordinary local direct yaw updates and bounded first normal dry yaw movement consumers. The scoped operation has no supported difference in the listed edges; this does not establish full travel equivalence, full pair coverage, runtime parity, or a cutover across the unarchived edges.
+
+| Pair | Source report SHA-256 | Independent verdict SHA-256 | Qualification |
+| --- | --- | --- | --- |
+| 1.13.1→1.13.2 | `9170a01a3d758d29201e94e33185fa293412c445128ca2257d699f72a34a4fd2` | `32b674cbbcb764d27c77aee3a1adb12ad6bce704d89ec7a4ca55459bad65b50c` | Direct local ordinary yaw and first dry acceleration consumer only. |
+| 1.14.1→1.14.2 | `c39153365dec91fbb28c806e6af69ecd6b44050461916480f84d9b691dd499c0` | `31bbd70cbad52b895ce1f5cffe8d4aa2fa489f335169f0a524515ceafb87876e` | Audit retains float subtraction before widened double correction. |
+| 1.14.2→1.14.3 | `7c1c3ecd474eef896947f022ba22771ca6ececca1e5898849fc389c0b69bedc3` | `2ebfdc097d5c8cdbca4544ed039fb67c56c597759866fbb178f10767bc9bd533` | Legacy nested exact Yarn source; no scoped local yaw-operation or consumer difference. |
+| 1.14.3→1.14.4 | `6f428c3e7d203c34adb3f6dd70b51138129c4092a80faf766b56b9ce49e4ea09` | `ecaf6861af9261720f7abc93a0e0bb03abffc0153cca60ecba79d6b40b94fac9` | Exact legacy nested Yarn and both modern aliases are preserved in the audit scope. |
+| 1.14.4→1.15 | `fe5e8a7ed89de472f15f676231f3a39130dc2aed822f0d41ecde9ccd59a5f621` | `34b2e702b7791143576cd70c67519f6e55c9007ac55b9655dd6954a3b5b02f7b` | Audit corrects a cited-source hash typo; friction is separate. |
+| 1.15→1.15.1 | `667c649c16b6847b292fe0df7cf32ac880892dfbd4e28d4cc3709a87181a82ef` | `ef95e046fdc8ba7831d7a8804e058ac3b2eff5bbbdd1d589946f99b7351b4be2` | Bounded yaw operation only. |
+| 1.15.1→1.15.2 | `7daca7140d1689d107f0d9047fb3e5105c26f5e72fc05800e0e0885d73818a07` | `91efefc7e1a03abfc43b00cdd835575401a6791016db0883857db0fc8426c6b2` | Independent audit includes LocalPlayer effective-AI/travel and exact helper bytes; retain the older 1.15.2 ready-marker provenance caveat. |
+| 1.15.2→1.16 | `e04ee7dc6d89906d2aed1a6d803a055c202a54c56589999a4014198badcca204` | `e10d9e50996df27b468bf06f6d80120dfb317e124c15c5bacb12483f0840ad4f` | Preserve source identity sidecar `identity.md` `1c6f9fb4bc15293cedb289810697f1b37f559d3f0a1e441fef9201e084164590`; newer version-root vs older nested-source pin asymmetry remains explicit. |
+| 1.16→1.16.1 | `1537f37e3439227bc68441c1c5a9c4ceec8f742bc2b877d221cd3b2997cea9c3` | `2f64458520d9b32361525c38b9225c4f39d4ef7f1f1aae1cacf7e10aae41f3a9` | Bounded direct yaw update and first consumer. |
+| 1.16.1→1.16.2 | `66c861ae87fa11368e0518bda1b2d44dfa4be5d9e76426cbaf3e94961582aa90` | `edd7eaf38e22033e87fb9751672a123eb0b54db2ef4934e32bf15a49b127df35` | Bounded direct yaw update and first consumer. |
+| 1.16.2→1.16.3 | `c43dec997514b9841583232b334b86de0df2e17c392035514d73b1cb31eeaff8` | `3b51824c7137a46664c4d329b0fdf2138e1bdfeab2c707c499099e830a18e8c2` | Bounded direct yaw update and first consumer. |
+| 1.16.3→1.16.4 | `365b4825c2565ad17eaaffe55011e87f01098ae4fe733f1775f2d3889fcbfd55` | `c94cae91ee060b1e0eaa0c98ea8acde1393820405d6c48ba254b1ffcbb8763dd` | Audit notes canonical source locator preceded full input freeze; no author/product/other evidence was consulted before verdict. |
+| 1.16.4→1.16.5 | `c652853c07b19722afd375f37a35c54bdb78e94f8f6f71c0c8a2b6d45d8c20b4` | `36c34ad1960b23532ff13dcca2c8fe3ed2a514e0e9fa58ee54f8f0474e46c705` | The first yaw consumer is bounded; separate movement-speed math is not asserted equal. |
+
+The direct yaw operation and the stated consumer are the extent of the no-difference record. Do not infer that unrelated travel arithmetic, movement speed, friction, or other yaw paths are equal. No inference is made across the six pending comparisons.
+
+Frozen report/verdict/identity bytes are preserved. `git diff --cached --check` reports original trailing whitespace in these paths: `edges/1.13.1-to-1.13.2/report.md`, `edges/1.14.1-to-1.14.2/report.md`, `edges/1.14.1-to-1.14.2/verdict.md`, `edges/1.14.2-to-1.14.3/report.md`, `edges/1.14.4-to-1.15/report.md`, `edges/1.15-to-1.15.1/report.md`, `edges/1.15-to-1.15.1/verdict.md`, `edges/1.15.1-to-1.15.2/verdict.md`, `edges/1.15.2-to-1.16/verdict.md`, `edges/1.16-to-1.16.1/verdict.md`, `edges/1.16.1-to-1.16.2/report.md`, `edges/1.16.3-to-1.16.4/report.md`, `edges/1.16.3-to-1.16.4/verdict.md`, `edges/1.16.4-to-1.16.5/report.md`, and `edges/1.16.4-to-1.16.5/verdict.md`. It also flags a blank line at EOF in `edges/1.14.1-to-1.14.2/report.md`, `edges/1.14.2-to-1.14.3/report.md`, and `edges/1.16.1-to-1.16.2/report.md`. These source bodies are not normalized because that would alter their accepted digests. No product or backlog files, builds, tests, runtime, network, or generated sources were touched.
+
+Base: `aae9c86464638cb5ed7faa535c92569b89484906`.

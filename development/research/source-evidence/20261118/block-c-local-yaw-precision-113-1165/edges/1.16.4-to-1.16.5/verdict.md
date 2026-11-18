@@ -1,0 +1,28 @@
+# C yaw precision audit: 1.16.4 → 1.16.5
+
+**Verdict:** No source difference in the assigned direct-local-yaw and first dry ground/air relative-acceleration slice. This verdict covers only that bounded slice, not full-pair coverage.
+
+## Exact source evidence
+
+- 1.16.4 Mojmap sources are under `decompiled_minecraft/1.16.4/mojmap`. The embedded `.decompile-provenance.json` SHA-256 is `1e04555c915527a398a2c7150679fb24d056f54bd680261e3c1dd55da821147c`; its pinned inputs identify the 1.16.4 client JAR (`d6740464ee2bdf37d285c5d368d2e16497492427fb5783e2db3482bbf0079ed0`), Mojang `client.txt` mappings (`93f188a0038fec8c2402d78e7acca983680978d6a9237c1fab80f22caddb00fe`), and 1.16.4 version metadata (`667fff4ca7fd0f56ab78b757224515e8e64375868e8d1ce6040091d7b63a0cb5`).
+- 1.16.5 is identified by `mojmap.provenance.json` (`versionId=1.16.5`, `namespace=mojmap`) and `mojmap.ready.json` (`versionId=1.16.5`, `mapping=mojmap`). The source-manifest SHA-256 recorded by the ready marker is `9499f2611d0e6dde37cb635f1a28a591416382d6bc188b37d5f99e2b2a20823b`; the artifact manifest SHA-256 is `f9b9812d6995012cefcc1201a63855e5931e8551b508753be6c46d442d8b370c`. It pins the 1.16.5 client JAR (`00b5ebbc33e95ea88c1ab80601599c9827e9aa861d93ccc2cfcbbfd996e86263`), Mojang client mappings (`client_mappings.txt`: `7931ed6d723eceb1d621d05a76e10ddf643bf468c6ecf1c4ecf377bd72cf8b8c`; `client-mojmap.jar`: `7c1a9f30983fa3c777d00116bdf3f3cef97c1c1aaf8294027052f5337fcde940`).
+- I verified actual bytes against each release's source manifest. The paired 1.16.4/1.16.5 files are byte-identical: `Entity.java` SHA-256 `f9a9a073fe3105a0aa53d0f21ec72e59084e8d21a14c1cd3be75703865ee2666`, `LivingEntity.java` `b5d8a1a3c80f85d5d545b5a777e9e2a915dc002a7e31b5f5ad12bf7e285d7a88`, and `Mth.java` `0e4424ffa12923314c309ae13e012768271dfcace4b5a84727f74e8170afe290`. Each actual digest matches its release manifest.
+
+## Local turn operation
+
+In both versions, `net/minecraft/world/entity/Entity.java:340–351`, `turn(double d, double e)` computes `double f = e * 0.15` and then `double g = d * 0.15`. It narrows `xRot + f` and `yRot + g` to `float`, clamps only `xRot`, then independently narrows `xRotO + f` and `yRotO + g` and clamps only `xRotO`; the passenger callback follows. Because each field is a float and each delta is a double, each addition is promoted to double and narrowed once at its assignment. Current yaw and old yaw are incremented independently from their own prior values.
+
+There is no yaw finite-value check, modulo, clamp, or `wrapDegrees` call in `turn`; only pitch has a clamp. This is the direct mutator reached by local mouse input (`client/MouseHandler.java:242`, `player.turn(j, k * n)`). Do not attribute the separate `% 360.0F` in protected `Entity.setRot` (`Entity.java:326–329`) or in `absMoveTo` (`Entity.java:1106–1112`) to ordinary `turn`. The latter repositioning path resets old rotation from current rotation. The entity-move packet stores its yaw as a byte (`network/protocol/game/ClientboundMoveEntityPacket.java:17,149–160`), while the player-position packet stores yaw as a float (`ClientboundPlayerPositionPacket.java:13,36,47`). Rendering interpolates body/head angles (`client/renderer/entity/LivingEntityRenderer.java:53–60`). These serialization/rendering paths are separate from the direct local yaw update audited here.
+
+## First dry ground/air yaw consumer
+
+For the ordinary nonvehicle player path, `Player.travel` delegates to `super.travel` outside its special abilities-flying branch (`world/entity/player/Player.java:1387–1417`). In `LivingEntity.travel` (`world/entity/LivingEntity.java:1914–2043`), the dry, non-fall-flying branch computes ground/air friction and calls `handleRelativeFrictionAndCalculateMovement` before applying the subsequent vertical/gravity and horizontal drag operations. That helper (`LivingEntity.java:2062–2065`) first calls `moveRelative`; `Entity.moveRelative` (`Entity.java:1075–1078`) passes **current** `this.yRot` to `getInputVector`, then adds the resulting vector to delta movement. This movement consumer does not read `yRotO`.
+
+`getInputVector` (`Entity.java:1080–1090`) zeroes input when squared length is below `1.0E-7`, normalizes only above length-squared 1, scales by the float acceleration, computes float radians with `g * (float)(Math.PI / 180.0)`, and uses `Mth.sin`/`Mth.cos` to rotate X/Z. Those calls use the 65,536-entry `Mth.SIN` table (`util/Mth.java:12–30`), whose entries are float casts of `Math.sin`. `Mth.java` is byte-identical across the pair, so this trig dependency has no 1.16.4→1.16.5 change; it remains a separate operation from `Entity.turn`'s yaw arithmetic.
+
+
+## Cross-audit comparison
+
+The blind source report `c-yaw-precision-1164-1165-source/report.md` was verified at SHA-256 `c652853c07b19722afd375f37a35c54bdb78e94f8f6f71c0c8a2b6d45d8c20b4`. Its bounded no-difference result agrees with this audit. I additionally verified its `Player.java` identity claim against both release manifests: actual 1.16.4 and 1.16.5 bytes are identical, each with SHA-256 `d2e26589bdb6a20dc914266db06aa48f50811efc792d6e63b3008c9199914960`.
+
+The source report's finite witness for `setRot(360.0F, 0.0F)` followed by `turn(1.0, 0.0)` is consistent with the audited operations, but `setRot` is a distinct protected stored-angle setter that applies float remainder; local mouse input calls `turn`. Its witness and the report's unit forward-input witness stay within source arithmetic and do not establish downstream displacement or full-pair coverage. Both reports keep the first yaw-dependent `moveRelative` expression separate from the unchanged `Mth` lookup-table trig dependency and from packet/render paths.
