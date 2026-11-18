@@ -1,0 +1,3 @@
+# Frozen supplemental source roster
+After reading the frozen roster's ClientPlayNetworkHandler response method, its direct PlayerRespawn callback dependency became explicit. Freeze this single supplemental source path before opening its implementation:
+net/minecraft/client/Minecraft.java

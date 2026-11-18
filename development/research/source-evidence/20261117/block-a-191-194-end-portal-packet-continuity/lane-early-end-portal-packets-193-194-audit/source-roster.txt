@@ -1,0 +1,26 @@
+# Frozen source roster
+Pair: Minecraft 1.9.3 (Ornithe Feather) to 1.9.4 (Ornithe Feather).
+Scope: ordinary Overworld End-portal transfer, destination/forced-point and safe-vs-unguarded behavior, permission/respawn/transition sequence, server absolute-position packet and TeleportID/flags, client XYZ/velocity/response/effects.
+Selection rule: entrypoint-to-terminal transfer and protocol/player-state dependencies, selected from exact source-manifest path inventories before reading any Java implementation.
+Files are listed as paths relative to each version's ornithe-feather root; the same roster applies to both versions.
+
+net/minecraft/block/EndPortalBlock.java
+net/minecraft/block/entity/EndPortalBlockEntity.java
+net/minecraft/entity/Entity.java
+net/minecraft/entity/living/player/PlayerEntity.java
+net/minecraft/client/entity/living/player/ClientPlayerEntity.java
+net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java
+net/minecraft/client/network/handler/ClientPlayNetworkHandler.java
+net/minecraft/network/packet/c2s/play/AcceptTeleportC2SPacket.java
+net/minecraft/network/packet/s2c/play/EntityVelocityS2CPacket.java
+net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java
+net/minecraft/network/packet/s2c/play/PlayerRespawnS2CPacket.java
+net/minecraft/server/entity/living/player/ServerPlayerEntity.java
+net/minecraft/server/PlayerManager.java
+net/minecraft/server/network/handler/ServerPlayNetworkHandler.java
+net/minecraft/server/MinecraftServer.java
+net/minecraft/server/world/ServerWorld.java
+net/minecraft/server/world/PortalForcer.java
+net/minecraft/world/World.java
+net/minecraft/world/dimension/Dimension.java
+net/minecraft/world/dimension/TheEndDimension.java
