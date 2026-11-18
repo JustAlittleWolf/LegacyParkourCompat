@@ -1280,6 +1280,14 @@ public final class MovementRuntime {
         return true;
     }
 
+    public static double clipPrimaryMovementAxis(@Nullable Entity entity, Direction.Axis axis, AABB moving,
+                                                 Iterable<VoxelShape> shapes, double distance, Vec3 request, AABB start,
+                                                 VanillaFn<Double> vanilla) {
+        var constraint = MovingStonePlane.clip(entity, axis, moving, shapes, distance, request, start);
+        return constraint.isPresent() ? constraint.getAsDouble()
+            : clipMovementAxis(entity, axis, moving, shapes, distance, vanilla);
+    }
+
     public static double clipMovementAxis(@Nullable Entity entity, Direction.Axis axis,
                                           AABB moving, Iterable<VoxelShape> shapes, double distance,
                                           VanillaFn<Double> vanilla) {
