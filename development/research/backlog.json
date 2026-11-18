@@ -10170,6 +10170,66 @@
             },
             "library": "com.mojang:datafixerupper:9.0.19",
             "runtimeParity": "unverified"
+          },
+          "packagedDimensionDefaults": {
+            "decision": "VERIFIED six exact Overworld, Nether and End packaged resource entries. Exact 1.21.10 sets ultrawarm true only for Nether and explicit false in Overworld and End. Exact 1.21.11 omits ultrawarm in these entries and explicitly sets FAST_LAVA true only for Nether; the Overworld and End attributes are absent. Neither archive contains dimension_type/default.json. Overworld caves data, custom pack precedence and runtime effective attributes remain separate.",
+            "snapshot": {
+              "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+              "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/determinations.md",
+              "sha256": "9f425a00611136ea8437d92733437c6656f3a5e929efea90f6dc2435f19517b1"
+            },
+            "review": {
+              "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+              "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111-audit/audit-verdict.json",
+              "sha256": "c750b64e2924afecf402cdd7e1c15a5d0bbd22cd17d6b878046fafc037802a3c"
+            },
+            "resourceRoster": {
+              "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+              "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/resource-roster.json",
+              "sha256": "a7f58fa99a0bab9b9ed9ff76f0e318f5e6f00fa788faf1ccbc68bb273559de75"
+            },
+            "artifactPins": {
+              "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+              "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/artifact-pins.json",
+              "sha256": "cfa0bfb7335f0c7c205db095bd85bb41ead5ae413e3dbb46042cd5d4afd1171c"
+            },
+            "publicationPins": {
+              "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+              "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/publication-pins.addendum.md",
+              "sha256": "189b623de93355f897efebfb9fe35bb0cec662af3250648813c353324e90c89e"
+            },
+            "resources": [
+              {
+                "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+                "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/1.21.10/data/minecraft/dimension_type/overworld.json",
+                "sha256": "e55609ea78fa17ae6cac9456de8ad3cbb317b897c82c0b77c3458294d62eccdc"
+              },
+              {
+                "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+                "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/1.21.10/data/minecraft/dimension_type/the_nether.json",
+                "sha256": "26953e0426b058a44a4c1f2060a1a15823c03dd511f57dd7ef97dfa6327a3825"
+              },
+              {
+                "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+                "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/1.21.10/data/minecraft/dimension_type/the_end.json",
+                "sha256": "cddd6141dd674f204d54e7bc5ca11c3a99293028bd3dd02d27ae9fbdbb75db27"
+              },
+              {
+                "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+                "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/1.21.11/data/minecraft/dimension_type/overworld.json",
+                "sha256": "5f16d8adb6905488738c4edd3c06660d9890e98fedf19708d3e350ab7c0bea8d"
+              },
+              {
+                "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+                "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/1.21.11/data/minecraft/dimension_type/the_nether.json",
+                "sha256": "e9a7ee8fad95b15e17692254b8693bf504294fefed511243a5521f8e847241d6"
+              },
+              {
+                "revision": "9b193c9f6f411e6179396e5ea71a6eef4235cb4b",
+                "path": "development/research/source-evidence/20261117/block-a-12110-12111-packaged-lava-dimension-defaults/lane-late-lava-builtin-dimension-resources-12110-12111/1.21.11/data/minecraft/dimension_type/the_end.json",
+                "sha256": "16042eb4533b0cb0b0e5d385f725430cb42207b96baeb2b3a5a90cc1a74a6a63"
+              }
+            ]
           }
         },
         {
