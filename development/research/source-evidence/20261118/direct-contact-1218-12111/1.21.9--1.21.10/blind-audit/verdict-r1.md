@@ -1,0 +1,7 @@
+# Final narrow author review: revision 1
+
+**Verdict: accepted, bound to the pinned revision and frozen audit.** Reviewed comparison SHA-256 `a8de439869efb56a45f6ac862f9a53609e9a9a24066885089efb84ec5bf47d85`, against frozen audit SHA-256 `700c60d6f1256fd0d5e77a660fec01a2d48e1c90b899a973ad83708960eb980a` and prior review SHA-256 `eb75f6971df904ce22bd54d319de11fadfccae811c893676c572b99d346923a3`.
+
+The original `source/comparison.md` remains preserved at its pinned SHA-256 `e34d82b5198568ea8449b32cfcec8d67cdae9c979d0866b9083d8041a739a472`. Revision 1 removes the duplicated and unfrozen LocalPlayer material, the assertion about unchanged berry damage, and the piston behavior description. It makes no corresponding scope expansion.
+
+The exact source identities and listed source-body digests match the reviewed frozen evidence. Honey slide/reset, Web and berry slowdown production, contact staging, and first ordinary SELF multiplier consumption retain the same bounded equality conclusion and match the freeze's gates and order. The revision makes no claim of full-pair coverage or runtime parity. This verdict accepts only that bound ordinary SELF slice; it does not extend acceptance to any excluded behavior.
