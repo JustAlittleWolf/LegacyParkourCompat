@@ -3327,6 +3327,20 @@
             "revision": "c89ffe0367736fb43e672993ec3325d1af4d9ff3",
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-old-edge-113/sample-state-witness-withdrawn.md",
             "sha256": "b32834860f56151e434259b43d441223e80eaf6c247aa18c942923d1000cc990"
+          },
+          "productAssociation": {
+            "productCommit": "a0ffecd80005d05193eb640cc0384ba929dc3f0d",
+            "code": {
+              "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_14/AutoJumpCollisionOrder.java",
+              "sha256": "3a630448a4bb521a6abe477cb5a02bed517625198fc38004b15646047cd82c6d"
+            },
+            "standaloneBuildTree": "c0017dbc382eff81f728b2072d130e2ff958afd3",
+            "combinedBuildRevision": "ba5b3af07795996153e184c4a325134328aa2207",
+            "combinedBuildTree": "a8de9304db36e3225d4724f5ff092fb8f8f3308e",
+            "scope": "Exact original V1_13, accepted eroded east AIR fixture only. Old X/Z-edge and high-Y admission in the existing greedy mask. The upper Stone control is source-only and the 1.13.1 path retains its separately reviewed edge predicate.",
+            "candidateProvenance": "Candidate author disclosed an accidental product-root directory listing with no product files or Git contents read. The integrated predicate was rechecked against the accepted source receipts.",
+            "build": "BUILD SUCCESSFUL in 11s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
           }
         }
       ]
