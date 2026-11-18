@@ -1,0 +1,43 @@
+# Initial extending Stone: one-axis disposition (r2)
+
+## Scope and source identity
+
+This report covers the first ordinary, nonembedded `Entity` SELF collision query while a single east-extending piston has a Stone moving BE at `(2, y, 0)` and its paired head BE at `(1, y, 0)`, both at progress 0. It covers one-axis movement and collision collection only. It excludes piston-BE direct pushing, block-entity phase ordering, diagonal movement, later progress values and initially embedded players.
+
+Sources are the exact 1.8.9 Ornithe Feather `feather-gen2-1.8.9+build.2` tree and exact 26.2 published unobfuscated tree. Their ready markers report 1,612 and 7,055 source files. Current source-manifest hashes match the ready markers (`9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004` and `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`); every source file cited here matches its recorded entry. The independent verdict opened for reconciliation has SHA-256 `36306b3318fcc81e6ae27281d655df1decab9b02c18fa8b11b5f82a5134035cc`.
+
+## Old moving head collision shape
+
+1.8.9 `PistonBaseBlock.move` installs `MOVING_BLOCK` at the head position, then creates a BE whose moved state is an east-facing `PISTON_HEAD` state and whose `source` flag is false (`block/PistonBaseBlock.java:323-332`). `SHORT` is left at the head state’s default false (`block/PistonHeadBlock.java:24-30`). The current world state at x=1 is `MOVING_BLOCK`, so ordinary `World.getCollisions` dispatches to `MovingBlock`’s inherited `Block.addCollisions`; it does not call `PistonHeadBlock.addCollisions` on the moved state (`world/World.java:891-921`, `block/Block.java:339-351`).
+
+`MovingBlock.getCollisionShape` samples progress at 0, changes it to `1-progress` for extension, and calls its shape overload (`block/MovingBlock.java:118-129`). That overload calls `movedState.getBlock().getCollisionShape(world,pos,movedState)` and then shifts only the forward face (`:162-193`). The called `PistonHeadBlock` method is inherited `Block.getCollisionShape`, which reads the block singleton’s mutable bounds; it does not derive a box from `movedState` or its `SHORT` property (`block/Block.java:198-202,346-351`). In the fresh initial extension path those bounds are the constructor’s full unit cube. `World.setBlockState(...,4)` and `WorldChunk.setBlockState` install the moving block/BE without calling `updateShape` (`world/World.java:238-267`, `world/chunk/WorldChunk.java:443-516`); the ordinary collector also calls `addCollisions`, not `MovingBlock.updateShape`.
+
+For the east head BE at x=1, the getter therefore supplies world box x `[1,2]`; the east-facing adjustment subtracts 1 from `maxX`, leaving plane `[1,1]` after `Box` normalization. The Stone BE at x=2 similarly supplies plane `[2,2]`. This differs from applying the static head plate `[1.75,2]` before the adjustment: that plate is used by `PistonHeadBlock.addCollisions` for a static head and that method resets the singleton to the full cube at return (`block/PistonHeadBlock.java:87-92,127-148`). It is not the getter called by the moving-head BE collector. The `PistonHeadBlock` singleton is mutable; a prior explicit `updateShape` that leaves it state-shaped would change the bound read by this legacy getter. That stateful prior-call case is outside this fresh initial-query witness.
+
+The old extended piston base can add an earlier collider: its own `addCollisions` resets the base bounds to a full cube (`block/PistonBaseBlock.java:174-219`). The witness below keeps the player’s x box entirely above x=1, so the base at x=0 is not a candidate in the old x-cell scan.
+
+## Modern shape and lawful one-axis witness
+
+In 26.2, `PistonMovingBlockEntity.getCollisionShape` translates the non-source moved state by `extendedProgress`; at initial extension, `progress=0` gives `-1`, so Stone at x=2 has collision volume x `[1,2]`, y/z `[0,1]` relative to y=0 (`world/level/block/piston/PistonMovingBlockEntity.java:106-109,366-393`). The paired source head BE is separate (`world/level/block/piston/PistonBaseBlock.java:327-334`); its east-facing head plate lies west of x=1 and does not overlap the witness x interval.
+
+Use a normal player AABB x `[1.2,1.8]`, width 0.6, and move only in Z. For y=0, z=1, put an eight-layer snow support block at `(1,0,1)` and start with player AABB y `[0.875,2.675]`, z `[1,1.6]`. Both releases have the same snow collision top at y=0.875: 1.8.9 derives it from `layers-1` (`block/SnowLayerBlock.java:40-48`), and 26.2 uses shape index `layers-1` (`world/level/block/SnowLayerBlock.java:28,52-53`). The player stands on that support. At the start, the modern Stone is only touched at z=1, so the player is not embedded; the old head and Stone planes at x=1 and x=2 are strictly outside the player x interval.
+
+Request a small negative-Z SELF displacement, e.g. `dz=-0.01`, with no sneaking edge adjustment. The swept AABB is x `[1.2,1.8]`, y `[0.875,2.675]`, z `[0.99,1.6]`.
+
+- **1.8.9:** `Entity.move` collects using `getShape().expanded(dx,dy,dz)` (`entity/Entity.java:439-459`). `World.getCollisions` scans x from `floor(1.2)=1` to exclusive `floor(1.8+1)=2`, so only x=1 is visited (`world/World.java:891-921`). The moving head getter supplies the x=1 plane, which does not intersect x `[1.2,1.8]`; the x=2 Stone is not enumerated, and the x=0 base is outside the scan. The support’s y maximum equals the swept AABB’s y minimum, so `Box.intersects` rejects it. No collider clips this Z request.
+- **26.2:** `Entity.collide` collects block shapes over the expanded AABB (`world/entity/Entity.java:1141-1144,1195-1199`). `BlockCollisions` scans one cell beyond the query, includes x=2 as a face cell, and its `hasLargeCollisionShape` gate admits the dynamic `MOVING_PISTON` state (`world/level/BlockCollisions.java:54-56,84-101; world/level/block/Blocks.java:844-854; world/level/block/state/BlockBehaviour.java:577,1153-1155`). Its Boolean-AND join finds positive overlap with Stone over x `[1.2,1.8]`, y `[0.875,1]`, z `[0.99,1]`; the snow support only touches y and adds no collider. `VoxelShape.collide` clips the negative-Z move to zero at the Stone’s z=1 face (`world/phys/shapes/VoxelShape.java:252-303`).
+
+The ordinary Player edge backoff does not erase this request: its `canFallAtLeast` probe below the shifted box intersects the modern Stone, so `noCollision` is false and the requested Z delta is retained (`world/entity/player/Player.java:880-927`). The old 1.8.9 player edge adjustment is gated on sneaking (`entity/Entity.java:393-397`); the witness is non-sneaking.
+
+This is a lawful side approach from a shared floor. It proves a bounded ordinary one-axis movement difference; it does not rely on the excluded moving-BE push loop or on whole-tick scheduling.
+
+## Axis disposition
+
+- **+X from the west:** the modern Stone begins at x=1. In an isolated head/Stone comparison the old head plane at x=1 supplies the same first face when y/z overlap. In the full piston lane, the base/head assembly can add an earlier contact; this report makes no parity claim for that assembly’s complete x approach.
+- **-X from the east:** the modern Stone’s east face is x=2. The old Stone plane `[2,2]` is collected when it lies strictly inside the swept x interval; `Box.intersectX` clips at x=2. Exact endpoint touch is not collected, but the requested movement ends at contact. Same one-axis contact.
+- **±Y:** x `[1.2,1.8]` avoids both old head and Stone planes while intersecting the modern Stone’s x cross-section. A clear, supported +Y example is to put the piston at y=3, stand at y=1 on a full floor block below, and request `dy=+0.4`: the player top starts at 2.8, clear of the Stone at y=3, and the upward sweep enters its volume. Old x scanning visits only x=1 and misses both plane contacts; modern collection clips at y=3. The floor is below the sweep. Thus Y also has a bounded one-axis counterexample.
+- **±Z:** the supported snow-layer example above gives the negative-Z counterexample. A mirrored support on the far side gives the positive-Z counterpart. At x `[1.2,1.8]`, neither old plane can serve as the cross-axis contact, while modern Stone has positive-volume overlap.
+
+## Reconciliation
+
+The earlier `one-axis-disposition.md` conclusion used the static state-shaped head plate as though the BE collision accessor called it. It does not: the fresh initial BE path calls the moved block’s inherited bounds getter and produces the x=1 plane. The approved independent verdict is consistent with that trace and with the orthogonal-axis counterexample. No implementation change, primary-checkout write, build, test, launch, direct-push, diagonal, later-phase, or embedded-state verdict is made here.
