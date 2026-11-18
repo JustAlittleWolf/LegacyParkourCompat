@@ -201,7 +201,7 @@
     {"finding": "development/research/findings/1.8.9--1.9.4/creative-flight-resets-fall-distance.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_8/CreativeFlightFallDistance.java"], "sourceReview": "no exact independent source acceptance established", "openIssues": [{"missing": "Later applicability gate: exact introduction of legacy-run-MD-06-creative-flight-resets-fall-distance is unknown within (1.8.9, 1.9.4]", "next_action": "Preserve any exact historical verdict for its bounded assertion; verify intervening releases separately before assigning a new implementation range. Formatting alone requires no renewed acceptance."}, {"missing": "Exact independent source verdict/snapshot identity for MD-06-creative-flight-resets-fall-distance", "next_action": "Retain original source-confirmed status only; source-acceptance owner must resolve a preserved independent verdict or review this exact bounded assertion in the later campaign."}], "integratedCommit": "a1c492c8f64bdf4fd041b0275c4f0c638505007b"},
     {"finding": "development/research/findings/1.8.9--1.9.4/end-portal-frame-player-ejection.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_8/EndPortalFramePlayerEjection.java"], "sourceReview": "bounded historical verdict; inspect preserved identity and limits", "sourceReviews": [{"decision": "accepted, bounded", "claim": "Bounded End Portal Frame player ejection/clearance and escape conditions.", "snapshot": {"revision": "aa66894e64733ee729bf7176e08232d73b3bc03f", "path": "workflows/source-campaign-2026-10-07/1.8.9--1.9.4/findings/WORLD-03-end-portal-frame-player-ejection.md", "sha256": "f45dfb003c1dfcc64df5c5d7710fd22a4e6c311b1b8b50a3d77ed1537689479d", "blob": "dfb558dbf0b03ea9da74522164a84fb7ed4f567b"}, "review": {"revision": "a2e510bdc7b284b4b4d0e7b323f6eea079abee80", "path": "workflows/source-campaign-2026-10-07/SNAPSHOT-REVIEW-2026-10-08.md", "sha256": "03a2db799883846159d4de89373125d5808059a280a84c732eb1b8128a112ade", "blob": "e18b596c496cb17c5e841e57ed4940d77860ab23"}, "claimId": "1.8.9-1.9.4/WORLD-03-END-PORTAL-FRAME-EJECTION", "limits": ["only bounded gate/probe/clearance/escape conditions; no first changed release"], "assertionPreserved": true}], "openIssues": [{"missing": "Later applicability gate: exact introduction of campaign-WORLD-03-end-portal-frame-player-ejection is unknown within (1.8.9, 1.9.4]", "next_action": "Preserve any exact historical verdict for its bounded assertion; verify intervening releases separately before assigning a new implementation range. Formatting alone requires no renewed acceptance."}], "integratedCommit": "a1c492c8f64bdf4fd041b0275c4f0c638505007b"},
     {"finding": "development/research/findings/1.8.9--1.9.4/end-portal-overlap-gate.md", "implementation": "present", "changes": [], "sourceReview": "ACCEPT narrow introduction of the literal portal eligibility and shape-intersection expressions at exact 1.9 and presence through 1.9.4. No direct local-client callback write in the six checked releases.", "openIssues": [{"missing": "Detailed geometry, registration, trajectory reachability and equivalence of riding/passenger checks are beyond the bounded independent verdict.", "next_action": "Keep these details outside the accepted authority and condition comparison."}], "sourceReviews": [{"decision": "ACCEPT narrow introduction of the literal portal eligibility and shape-intersection expressions at exact 1.9 and presence through 1.9.4. No direct local-client callback write in the six checked releases.", "commit": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/source-evidence/20261117/block-a-early-end-portal/verdict.md", "rawSha256": "5439dad17f9caa7de55b9ce019bcc1591fef41515c841e832f45f7a5636cbc5e", "snapshot": {"revision": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/source-evidence/20261117/block-a-early-end-portal/report.md", "sha256": "7df6d63a4956793ef8c581cf4ffaf50b964d6fb269a3bdf1e4fbfa00117bb27b"}}], "currentPublication": {"revision": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/findings/1.8.9--1.9.4/end-portal-overlap-gate.md", "sha256": "aee061a2601b321ec32f99cd31e89a7ce5f0db65b3c7d8663b289878c20569f7", "normalization": "Exact committed UTF-8 bytes"}, "applicability": "Exact 1.9 is the first checked release with the new conditions, retained through 1.9.4. All six callbacks and transfers are server-gated.", "implementationDisposition": "Server callback is outside historical client movement. The reviewed operation requires no client Change.", "nextAction": "Retain the bounded server-only callback disposition and independent source evidence.", "runtimeParity": "unverified"},
-    {"finding": "development/research/findings/1.8.9--1.9.4/end-portal-transfer-position-sequence.md", "implementation": "open", "changes": [], "sourceReview": "ACCEPT bounded exact 1.8.9 versus 1.9.4 End-entry producer and client correction. 1.8.9 may send an extra pre-respawn absolute move when target forced spawn is non-null. Both helpers select forced spawn via the old dimension argument. Final XYZ are current fields after the live-entity old-world tick. Both absolute receivers clear velocity, with newer teleport-ID acknowledgment.", "openIssues": [{"missing": "Client-only product applicability and precise source cutover between checked releases.", "next_action": "Keep producer ordering separate from the client-authoritative receiver. Product work requires independent correspondence and applicability evidence."}], "sourceReviews": [{"decision": "ACCEPT conditional client application of received respawn and movement packets in the six checked releases. The server-produced packet sequence and a changed client operation remain unaudited.", "commit": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/source-evidence/20261117/block-a-early-end-portal/verdict.md", "rawSha256": "5439dad17f9caa7de55b9ce019bcc1591fef41515c841e832f45f7a5636cbc5e", "snapshot": {"revision": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/source-evidence/20261117/block-a-early-end-portal/report.md", "sha256": "7df6d63a4956793ef8c581cf4ffaf50b964d6fb269a3bdf1e4fbfa00117bb27b"}}, {"decision": "ACCEPT exact 1.9 permission event send after Respawn and before transfer/removal/final move for the connected-player route, compared with the 1.8.9 source order.", "snapshot": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19/comparison.corrected-r2.md", "sha256": "b1257e0de49dc5bde71328135b855c8559c21cb86738aaa25c1a77d5468de411"}, "review": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19-audit/verdict-r1.md", "sha256": "85057ede4027592beb7a50dc65e3ed05c3b99789fa55499b82a4aaf51c41982a"}, "originalReview": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19-audit/verdict.md", "sha256": "ce73e37b07dfe37f117076ce344fb0baece2875a8d9571d2a3542960293885aa"}, "roster": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19-audit/roster.md", "sha256": "3cb5349a5377eec87e08422ea89339435e82b3351d2eb9e53417b549d4eb99e1"}, "transferDraft": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19/finding-end-portal-transfer.corrected-r1.md", "sha256": "d19f5768ff111ce0d28337e90a957bd35790ab844189cd4a594aff67a0e345ae"}, "clientDraft": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19/finding-client-absolute-move-ack.md", "sha256": "0526e4ecacb312b861687bd50d86c783606b4cb220abe4a0dc9c42f31a377eb8"}}, {"decision": "ACCEPT bounded exact 1.8.9 versus 1.9.4 End-entry producer and client correction. 1.8.9 may send an extra pre-respawn absolute move when target forced spawn is non-null. Both helpers select forced spawn via the old dimension argument. Final XYZ are current fields after the live-entity old-world tick. Both absolute receivers clear velocity, with newer teleport-ID acknowledgment.", "snapshot": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets/outcome.r1.md", "sha256": "d902282f1a2875856e9f7bc95f9f48b25755cb865bb6c104d543ea8e3c53c256"}, "review": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets-audit/VERDICT-r1.txt", "sha256": "f2854bf19b8172d911be54f5006cbcabd6c78b3a9c5318f1bec2e8d844d4f7c5"}, "earlierReview": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets-audit/VERDICT.txt", "sha256": "dd33df95417981163e157a257d972f8218c6ae16106ccbe9abbc609ba8f95c48"}, "roster": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets-audit/SOURCE_ROSTER.txt", "sha256": "f1bacc3fa3d64aefb23f3ca303fd0ac9dedac4fc422e2e9ec5c151e645ff599b"}, "rosterSupplement": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets-audit/SOURCE_ROSTER_SUPPLEMENT.txt", "sha256": "f8a13466553e40ba7dcf66784aa280a9d1cf3431fbb12bfc9c8011497e43c9bc"}, "authorManifests": [{"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets/SHA256SUMS.txt", "sha256": "ac7be6b2b4c7bbd304972dd64c2f5aa3bc3113910eb6314ed46d96121cd3dd85"}, {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets/SHA256SUMS-r1.txt", "sha256": "b5826205d436caa534e0f8242c79741310b5230cfe24fc3df8aa292a0a44ad6b"}]}], "currentPublication": {"revision": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/findings/1.8.9--1.9.4/end-portal-transfer-position-sequence.md", "sha256": "e3c4c0b10badc4a06ab7f0ad221b660b28f1f06867b6a048d101bec3df382a28", "normalization": "Exact committed UTF-8 bytes"}, "nextAction": "Preserve bounded source results pending the scoped client applicability gate.", "runtimeParity": "unverified", "applicability": "Exact 1.8.9 and 1.9.4 End entry for producer/receiver comparison, with separate exact 1.9 permission event ordering. Other releases, End return, Nether transfer and packet arrival remain separate."},
+    {"finding": "development/research/findings/1.8.9--1.9.4/end-portal-transfer-position-sequence.md", "implementation": "open", "changes": [], "sourceReview": "Packet-source conclusions remain accepted for the bounded exact 1.8.9 and 1.9.4 comparison. The ordinary Overworld-to-End PlayerManager helper branch, old-dimension operand, and world-tick calls are REOPENED pending a fresh blind exact-source audit.", "openIssues": [{"missing": "Client-only product applicability and precise source cutover between checked releases.", "next_action": "Keep producer ordering separate from the client-authoritative receiver. Product work requires independent correspondence and applicability evidence."}, {"missing": "Fresh independent old-dimension operand, helper branch and world-tick call verdict.", "next_action": "Hold product promotion of the disputed placement claims."}], "sourceReviews": [{"decision": "ACCEPT conditional client application of received respawn and movement packets in the six checked releases. The server-produced packet sequence and a changed client operation remain unaudited.", "commit": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/source-evidence/20261117/block-a-early-end-portal/verdict.md", "rawSha256": "5439dad17f9caa7de55b9ce019bcc1591fef41515c841e832f45f7a5636cbc5e", "snapshot": {"revision": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/source-evidence/20261117/block-a-early-end-portal/report.md", "sha256": "7df6d63a4956793ef8c581cf4ffaf50b964d6fb269a3bdf1e4fbfa00117bb27b"}}, {"decision": "ACCEPT exact 1.9 permission event send after Respawn and before transfer/removal/final move for the connected-player route, compared with the 1.8.9 source order.", "snapshot": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19/comparison.corrected-r2.md", "sha256": "b1257e0de49dc5bde71328135b855c8559c21cb86738aaa25c1a77d5468de411"}, "review": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19-audit/verdict-r1.md", "sha256": "85057ede4027592beb7a50dc65e3ed05c3b99789fa55499b82a4aaf51c41982a"}, "originalReview": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19-audit/verdict.md", "sha256": "ce73e37b07dfe37f117076ce344fb0baece2875a8d9571d2a3542960293885aa"}, "roster": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19-audit/roster.md", "sha256": "3cb5349a5377eec87e08422ea89339435e82b3351d2eb9e53417b549d4eb99e1"}, "transferDraft": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19/finding-end-portal-transfer.corrected-r1.md", "sha256": "d19f5768ff111ce0d28337e90a957bd35790ab844189cd4a594aff67a0e345ae"}, "clientDraft": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-packets-189-19/finding-client-absolute-move-ack.md", "sha256": "0526e4ecacb312b861687bd50d86c783606b4cb220abe4a0dc9c42f31a377eb8"}}, {"decision": "ACCEPT bounded exact 1.8.9 versus 1.9.4 End-entry producer and client correction. 1.8.9 may send an extra pre-respawn absolute move when target forced spawn is non-null. Both helpers select forced spawn via the old dimension argument. Final XYZ are current fields after the live-entity old-world tick. Both absolute receivers clear velocity, with newer teleport-ID acknowledgment.", "snapshot": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets/outcome.r1.md", "sha256": "d902282f1a2875856e9f7bc95f9f48b25755cb865bb6c104d543ea8e3c53c256"}, "review": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets-audit/VERDICT-r1.txt", "sha256": "f2854bf19b8172d911be54f5006cbcabd6c78b3a9c5318f1bec2e8d844d4f7c5"}, "earlierReview": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets-audit/VERDICT.txt", "sha256": "dd33df95417981163e157a257d972f8218c6ae16106ccbe9abbc609ba8f95c48"}, "roster": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets-audit/SOURCE_ROSTER.txt", "sha256": "f1bacc3fa3d64aefb23f3ca303fd0ac9dedac4fc422e2e9ec5c151e645ff599b"}, "rosterSupplement": {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets-audit/SOURCE_ROSTER_SUPPLEMENT.txt", "sha256": "f8a13466553e40ba7dcf66784aa280a9d1cf3431fbb12bfc9c8011497e43c9bc"}, "authorManifests": [{"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets/SHA256SUMS.txt", "sha256": "ac7be6b2b4c7bbd304972dd64c2f5aa3bc3113910eb6314ed46d96121cd3dd85"}, {"revision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "path": "development/research/source-evidence/20261117/block-a-189-19x-end-portal-server-sequence/lane-early-end-portal-server-packets/SHA256SUMS-r1.txt", "sha256": "b5826205d436caa534e0f8242c79741310b5230cfe24fc3df8aa292a0a44ad6b"}]}], "currentPublication": {"revision": "83a6685b199eed8eeb05c332f0309c9d6f903c59", "path": "development/research/findings/1.8.9--1.9.4/end-portal-transfer-position-sequence.md", "sha256": "e3c4c0b10badc4a06ab7f0ad221b660b28f1f06867b6a048d101bec3df382a28", "normalization": "Exact committed UTF-8 bytes"}, "nextAction": "Finish the fresh blind helper branch and world-tick audit. Preserve accepted packet send and direct receiver results.", "runtimeParity": "unverified", "applicability": "Exact 1.8.9 and 1.9.4 End entry for producer/receiver comparison, with separate exact 1.9 permission event ordering. Other releases, End return, Nether transfer and packet arrival remain separate.", "supersededPlacementSummary": "ACCEPT bounded exact 1.8.9 versus 1.9.4 End-entry producer and client correction. 1.8.9 may send an extra pre-respawn absolute move when target forced spawn is non-null. Both helpers select forced spawn via the old dimension argument. Final XYZ are current fields after the live-entity old-world tick. Both absolute receivers clear velocity, with newer teleport-ID acknowledgment.", "placementReaudit": {"status": "reopened", "priorRevision": "cff5d90e2b542c02e9dc6b52c79c622fef824633", "relatedContinuityRevision": "ec16ea903da09f00016576da3ba9659ba2d7506b", "scope": "Resolve the conflicting 1.9.4 helper operand and conditional world-tick call accounts before using those source claims."}},
     {"finding": "development/research/findings/1.8.9--1.9.4/extended-piston-base-shape.md", "implementation": "present", "changes": [], "sourceReview": "ACCEPT corrected stationary provider trace. REJECT the inherited full-cube premise for valid extended 1.9.4 bases.", "openIssues": [], "sourceEvidenceGaps": [{"version": "1.9.4", "mapping": "ornithe-feather; feather-gen2-1.9.4+build.2-mergedv2.jar, feather-gen2-1.9.4+build.2.tiny", "path": "1.9.4/ornithe-feather/net/minecraft/block/PistonBaseBlock.java", "member": "PistonBaseBlock#getCollisionShape", "lines": null, "status": "different", "detail": "Checked complete canonical file SHA-256 4ef15129e660397ba3a531c8ff4a4810393973ea56417d8830f4445d14035e36 (matches an archived source-file digest); named declaration absent. Named declaration is absent in this checked canonical file; paired existing declaration/range is retained separately, so this is an explicit addition/removal or mapping correspondence limit, not an invented line."}], "sourceReviews": [{"reviewer": "native /root/piston_base_provider_audit", "decision": "ACCEPT corrected stationary provider trace. REJECT the inherited full-cube premise for valid extended 1.9.4 bases.", "commit": "531f4c5aefc9726ab299a36dc64bc9e6b7ed48cb", "path": "development/research/source-evidence/20261117/block-b-solid-collision/bounded-provider-audits.md", "rawSha256": "7888f3b5e8b12e9eb4a843ef05069aabc72b86d660386573f25538b41479c471", "findingSha256": "cae3f0e9c2490981621569f5fd1ef2b604b8cbe8676922ab938d916467d4c7ec"}], "runtimeParity": "unverified", "currentPublication": {"sha256": "cae3f0e9c2490981621569f5fd1ef2b604b8cbe8676922ab938d916467d4c7ec", "normalization": "Exact committed UTF-8 bytes"}, "implementationDisposition": "Native correspondence. No versioned Change is required for the bounded occupied geometry of valid stationary ordinary and sticky piston-base states.", "applicability": "Exact 1.8.9, 1.9, 1.9.4 and native 26.2 providers agree on occupied collision geometry for the checked valid stationary states. Head and moving-piston providers remain separate.", "nextAction": "Retain the verified native stationary-base disposition. Head and moving-piston coverage remain separate."},
     {"finding": "development/research/findings/1.8.9--1.9.4/flight-sneak-input-rescaling.md", "implementation": "present", "changes": ["src/client/java/me/wolfii/legacyparkourcompat/change/v1_14_2/FlightSneakCompensationV1_14_2.java"], "sourceReview": "Existing broader finding remains; ACCEPT exact 1.8.9→1.9 bounded sneaking-flight input rescaling source claim. Product coverage is being reconciled separately.", "openIssues": [], "integratedCommit": "a1c492c8f64bdf4fd041b0275c4f0c638505007b", "sourceReviews": [{"decision": "RENEW ACCEPT bounded stored-axis compensation and earlier keyboard producer", "snapshot": {"revision": "7723fb48", "path": "development/research/findings/1.8.9--1.9.4/flight-sneak-input-rescaling.md", "sha256": "e1f0aa7d6609365838aea49b6b6898b77e47cb1a5b7863ad5bc031cc6079cf52"}}, {"snapshot": {"path": ".native-source/resume-20261023/relative-input-angle-boundary/flying-sneak-horizontal-input.md", "sha256": "88ef52084176998508d3c7da7b78a0b6e776ebc8096612333dba4ca5114b5442"}, "reviewer": "audit_relative_input_angle_boundary Luna/high", "decision": "ACCEPT source gates/producer/double division then float cast; stable1.9 separately closed"}, {"snapshot": {"path": ".native-source/resume-20261023/relative-input-angle-boundary/first-stable-1.9-boundary.md", "sha256": "f5978c93016f37ffe442e7edaab0edfddd05a26859463ef08f9a75e61280d082"}, "reviewer": "audit_relative_input_angle_boundary Luna/high", "decision": "ACCEPT exact1.9 hidden provenance and five matching source hashes; both changes already present in stable1.9"}], "reconciliationEvidence": {"closedPreviousGates": [{"missing": "Later applicability gate: exact introduction of campaign-TICK-02-flight-sneak-input-rescaling is unknown within (1.8.9, 1.9.4]", "next_action": "Preserve any exact historical verdict for its bounded assertion; verify intervening releases separately before assigning a new implementation range. Formatting alone requires no renewed acceptance."}, {"missing": "Exact independent source verdict/snapshot identity for TICK-02-flight-sneak-input-rescaling", "next_action": "Retain original source-confirmed status only; source-acceptance owner must resolve a preserved independent verdict or review this exact bounded assertion in the later campaign."}, {"missing": "Exact independent source verdict/snapshot identity for MD-02-flight-sneak-input-rescaling", "next_action": "Retain original source-confirmed status only; source-acceptance owner must resolve a preserved independent verdict or review this exact bounded assertion in the later campaign."}], "previousIntegratedCommit": "a1c492c8f64bdf4fd041b0275c4f0c638505007b"}, "candidateCommit": "5d297d2f6b3fcbe4b53a0efd8fda1501298cb15c", "integrationReview": "Independent Luna High review passed separate keyboard/flight hooks, stored-axis phase, resolver boundaries, native fallback and automatic discovery migration. Authorized build passed with every Gradle Test task disabled.", "implementationLimits": ["Physical keyboard with default modern scale/sneak/use-effects; keyboard producer through 1.15.2, stored-axis division only 1.9 through 1.14.4. Full pose/fluid/sprint/runtime parity remains separate."], "reconciliation20261023": {"reviewer": "reconcile_ordinary_water_and_input", "decision": "FULL NO-CODE: existing compensation and concrete InputSlowdownV1_13 support cover1.9 and earlier unchanged axes. Do not import redundant candidatec52e43ef61585dcc94852856b8a150179d4ff512 (also contains forbidden exact-profile mixin gate).", "productRevision": "b7eeb2d0163cb954141a179b3424fbd335953dca"}, "boundedSourceAcceptance20261117": {"pair": "1.8.9--1.9", "disposition": "ACCEPT bounded exact adjacent source claim; attach to this existing canonical operation", "report": {"path": "development/research/source-evidence/20261117/checkpoint04/source-189-19-20261117/input-travel/sneaking-flight-input-rescaling-r2.md", "sha256": "4116f0bcbeab6343c9cb8df34a6de335afae7cb3cc897da60e5e23b130e008d2"}, "audit": {"path": "development/research/source-evidence/20261117/checkpoint04/source-189-19-20261117/audit-flight-r2/verdict.md", "sha256": "654254f567817b3667442a013a7a447564eedfad6b17cddd67d5a2ea2d0dbb71", "verdict": "ACCEPT"}, "scope": "Local flight input rescaling with camera/flying/sneak gates; item-use slowdown factor 0.2 remains applied before the sneak division. The movement consequence is conditional on the accepted source gates.", "limits": ["Exact 1.8.9→1.9 only; no wider intermediate-release claim, trajectory or runtime parity."], "productReadiness": {"path": "development/research/source-evidence/20261117/checkpoint04/product-readiness-20261117/flight-effective-path-189-19-readiness.md", "sha256": "d82ae7151d2d95119dbb70bb27205af94009a3e21e4ed531ed64e74eb210311d", "scope": "Corrected effective-profile trace finds InputSlowdownV1_13 @V1_13_1 selected for V1_9/V1_9_3, keyboard .3 transform, item-use .2 factor, and reachable FlightSneakCompensation divide in sequence; V1_8_9 retains the earlier scale without divide.", "limits": ["Read-only product correspondence; no runtime parity or source-pair closure."], "disposition": "COVERED_NO_CODE", "supersedes": {"path": "development/research/source-evidence/20261117/checkpoint04/product-readiness-20261117/flight-trapdoor-189-19-readiness.md", "sha256": "ed2a446cf1e9dcd3d22804bc2b814f78007ae6e22daf25f9e04b6b13e45b52cc", "reason": "Earlier gap disposition missed the closer InputSlowdownV1_13 provider; it is superseded by the effective-profile trace."}}, "failedCandidateAttempt": {"path": "development/research/source-evidence/20261117/checkpoint04/product-readiness-20261117/flight-sneak-input-v1_9-candidate-result.md", "sha256": "78c605cd35e1398d44a3ef462fad00ae04ff7e2b6401fd69bb0fa89c2b2fe849", "disposition": "FAILED; no code patch produced; historical correspondence only."}}},
     {"finding": "development/research/findings/1.8.9--1.9.4/item-attribute-slot-filter.md", "implementation": "open", "changes": [], "sourceReview": "ACCEPT exact 1.8.9 to 1.9 custom-stack slot filter boundary, grounded speed consumer and nested 1.9–1.9.3 provenance. The witnessed lifecycle is server-side with synchronized client attributes.", "openIssues": [{"missing": "Later applicability gate: exact introduction of campaign-MOD-02-item-attribute-slot-filter is unknown within (1.8.9, 1.9.4]", "next_action": "Preserve any exact historical verdict for its bounded assertion; verify intervening releases separately before assigning a new implementation range. Formatting alone requires no renewed acceptance."}, {"missing": "Current implementation of campaign-MOD-02-item-attribute-slot-filter", "next_action": "After expert scope review and independent source acceptance, assign this specific operation to the separate implementation phase."}, {"missing": "Exact independent source verdict/snapshot identity for MOD-02-item-attribute-slot-filter", "next_action": "Retain original source-confirmed status only; source-acceptance owner must resolve a preserved independent verdict or review this exact bounded assertion in the later campaign."}], "sourceReviews": [{"decision": "ACCEPT exact 1.8.9 to 1.9 custom-stack slot filter boundary, grounded speed consumer and nested 1.9–1.9.3 provenance. The witnessed lifecycle is server-side with synchronized client attributes.", "snapshot": {"revision": "f4e54477501fd012c44b975f64f16264d90a18f2", "path": "development/research/source-evidence/20261117/block-c-player-scope/equipment-attribute/comparison.md", "sha256": "27c1e40303178706f075368cbfe60203cbb8f605c82ef09c02b1abeb251c6b8c"}, "review": {"revision": "f4e54477501fd012c44b975f64f16264d90a18f2", "path": "development/research/source-evidence/20261117/block-c-player-scope/equipment-attribute/verdict.md", "sha256": "c9d03800bb5e49b896b984c8cf28d26024a6641c10d66d79f887a652ee004ff1"}}], "nextAction": "Retain the bounded custom-stack and external attribute evidence with the movement consumer distinct from server modifier production."},
@@ -3374,6 +3374,25 @@
             "scope": "1.13.1 and 1.13.2 ordinary axial single-face finite masks with strict eroded interior, Stone supports and loaded physical AIR at the corrected samples. Original 1.13 retains its east-only path.",
             "build": "BUILD SUCCESSFUL in 9s. All Test tasks disabled and test excluded.",
             "runtimeParity": "unverified"
+          }
+        },
+        {
+          "exactPair": "1.12.2--1.13",
+          "decision": "Accepted exact ordinary dry already-gliding witness: old tiny nonzero horizontal denominator vs new zero guarded by `> 0.0`; the delta depends on trig expressions. No reachable old divide-by-zero claim. Product reconciliation remains separate.",
+          "snapshot": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-glide-1122-113-denominator-witness/report.md",
+            "sha256": "2ce93a63aab79b313d82351815aba47a98a901edda5d4f3c0932b29fcde3adfc"
+          },
+          "review": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-glide-1122-113-denominator-witness/verdict.md",
+            "sha256": "ae1a949932631fd3d0e0e3b1671230ba7bf2fec8a6d3f0e65550e0a41da0c1c9"
+          },
+          "manifest": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
+            "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
           }
         }
       ]
@@ -8522,6 +8541,49 @@
             "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
           },
           "exactPair": "1.20.3--1.20.4"
+        },
+        {
+          "exactPair": "1.20.3--1.20.4",
+          "decision": "Accepted no-difference for ordinary local on-foot sprint-state input sampling, start/timer/stop gates, and sprint-flag writes. Signed identity correction records the original verdict's one-character report-hash typo.",
+          "snapshot": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1203-1204-sprint-state/report.md",
+            "sha256": "29bbfc038e49467298a5d040a1ad6e8377dc056eed2bf9652c7832ee3ddc4ccf"
+          },
+          "review": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1203-1204-sprint-state/verdict.md",
+            "sha256": "bc68407198bf46a9f87949d9883b8ae31f1433f052504d91366dd01309a54cda"
+          },
+          "manifest": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
+            "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
+          },
+          "identityCorrection": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1203-1204-sprint-state/input-identity-correction.md",
+            "sha256": "87a1f7ffcbf5cdaa06b0de89c81aa855be1a6628dc39bb3f9c2629df179385c9"
+          }
+        },
+        {
+          "exactPair": "1.20.2--1.20.3",
+          "decision": "Accepted no-difference for ordinary local on-foot sprint input/state. Active-item slowdown and transitive gates stay outside the accepted comparison.",
+          "snapshot": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1202-1203-sprint-state/report.md",
+            "sha256": "32cd1266830ca1303a3cdfef80683cfc4b4dffe7d374b6cb2053aee5105da82f"
+          },
+          "review": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1202-1203-sprint-state/verdict.md",
+            "sha256": "600994b3bcafa51464dff94932fe0429543b3501b702eebeb35228542a9b396a"
+          },
+          "manifest": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
+            "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
+          }
         }
       ]
     },
@@ -11008,6 +11070,25 @@
             "sha256": "ffe1d53db03b53d0355318773990cbb5701c4b04dc9dc4b5c7ddaf3a5ebbbf06"
           },
           "exactPair": "1.21.4--1.21.5"
+        },
+        {
+          "exactPair": "1.21.4--1.21.5",
+          "decision": "Ordinary valid local correction route is unaffected. Helper behavior for arbitrary out-of-range endpoint data remains conditional and separate.",
+          "snapshot": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-late-1214-1215-correction-pitch-gate/report.md",
+            "sha256": "aadfb14b9e8d9bc08cce70ecee1f39732d0aa13b2dbc325ad5964526d318f53a"
+          },
+          "review": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-late-1214-1215-correction-pitch-gate/verdict.md",
+            "sha256": "d9db9aa606a4460c62ed272507e339f4afb4de9261526cbde4badb6bffe169ae"
+          },
+          "manifest": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
+            "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
+          }
         }
       ]
     },
@@ -12622,6 +12703,44 @@
             "path": "development/research/source-evidence/20261117/block-a-189-194-nether-portal-eligibility/lane-early-nether-portal-eligibility-audit/provenance-roster-addendum.md",
             "sha256": "fba3a1c55c34b657bdaeeac483d8c4afcefc83785d118e8b0fb1d56898e85b2b"
           }
+        },
+        {
+          "exactPair": "1.8.9--1.9",
+          "decision": "Accepted sender slice: 1.9 preserves the changed ground-only/no-repeat behavior; first inactivity threshold is 20 vs 21. `AcceptTeleport` plus the immediate existing response does not reset periodic sender state.",
+          "snapshot": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-189-19-local-packet-selection/report.md",
+            "sha256": "6e2777ad4a49b1a43334d3bebfab060195b57c5364f660e4f1680d881c7ae649"
+          },
+          "review": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-189-19-local-packet-selection/verdict.md",
+            "sha256": "18201a4099ff90c5eac911f5287adeabb2a5807d371373ba546b56d0d5d7ab25"
+          },
+          "manifest": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/README.md",
+            "sha256": "4bd98070e67a0a5ec783c0ef3ffd191fe8754f03f401de25d7925d469f48a951"
+          }
+        },
+        {
+          "exactPair": "1.8.9--1.9",
+          "decision": "ACCEPT the audited sprint-use timer and ordinary ability-flight changes. Exact 1.8.9 reads and decrements the old timer while 1.9 stops reading it. The audit separately binds ability-flight reset order and sneak-flight rescale.",
+          "snapshot": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.8.9-to-1.9/report.md",
+            "sha256": "bf5401df3f098be3e2072e7f140d4587503c7782cdc7a341c3a14ebf81dc617b"
+          },
+          "review": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.8.9-to-1.9/verdict.md",
+            "sha256": "56fae6a6cad7457ccc3dd5dcec051766ea0008584c857640a73c5e6b6136d195"
+          },
+          "manifest": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
+            "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
         }
       ]
     },
@@ -13527,6 +13646,44 @@
             "sha256": "b7a998b3daf3855159c630d48dfa29763dd7771707eee0b280ce521fd1e3697f"
           },
           "exactPair": "26.1.2--26.2"
+        },
+        {
+          "exactPair": "26.1.2--26.2",
+          "decision": "Accepted bounded negative: ordinary local input does not reach `Player.stabAttack`; no local attacker movement/sprint delta from that operation. Damage outcomes and custom states are excluded.",
+          "snapshot": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-late-2612-262-local-stab-attacker-movement/report.md",
+            "sha256": "cd13f04751df3f2294cb5804716eb598856d459e7d40588f705cd9e3ada21d17"
+          },
+          "review": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-late-2612-262-local-stab-attacker-movement/verdict.md",
+            "sha256": "4a645bbb4eb5ad31868e91dd8e27cac31992c0d332b684aaeca8ec670ac7eafe"
+          },
+          "manifest": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
+            "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
+          }
+        },
+        {
+          "exactPair": "26.1.2--26.2",
+          "decision": "Source-byte integrity comparison only for the named ordinary effect consumers. 26.2 provenance has summary-excerpt-only log evidence and no mapping-artifact record; no product conclusion is made.",
+          "snapshot": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-late-2612-262-effect-movement-consumers/report.md",
+            "sha256": "0a5c3404dcf354d79d5b28e66b26bc97ffd198198a37c367a774a81df41031f7"
+          },
+          "review": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-late-2612-262-effect-movement-consumers/verdict.md",
+            "sha256": "e9a7a615e9e57fc67b0eed1b0791ade5353ea33adda852410aa1f9cae856a34a"
+          },
+          "manifest": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
+            "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
+          }
         }
       ]
     },
@@ -15365,7 +15522,47 @@
           }
         ]
       },
-      "recordLimit": "Exact 1.9→1.9.1 source freeze only. No trajectory, implementation, runtime parity, or adjacent patch acceptance is inferred."
+      "recordLimit": "Exact 1.9→1.9.1 source freeze only. No trajectory, implementation, runtime parity, or adjacent patch acceptance is inferred.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.9--1.9.1",
+          "decision": "Bounded sender/tick and response bookkeeping is unchanged; report and verdict carry exact source limitations.",
+          "snapshot": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-19-191-local-packet-selection/report.md",
+            "sha256": "f58189ba768e0ecf488f323098b68fba53abe0810f8d12efad9f8910069b18f3"
+          },
+          "review": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-19-191-local-packet-selection/verdict.md",
+            "sha256": "6d4718d65471d3fd05033cbe722e68e812d8d78f262a63144b00fa2f76b17402"
+          },
+          "manifest": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/README.md",
+            "sha256": "4bd98070e67a0a5ec783c0ef3ffd191fe8754f03f401de25d7925d469f48a951"
+          }
+        },
+        {
+          "exactPair": "1.9--1.9.1",
+          "decision": "ACCEPT bounded continuity of the local sprint timer and transitions, ordinary ability-flight fall-distance reset and sneak-flight input rescale.",
+          "snapshot": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.9-to-1.9.1/report.md",
+            "sha256": "b3f454307d47f01d176891d11e60b006cbe8b9c6a0412549fbeb7c8ea5f75f0a"
+          },
+          "review": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.9-to-1.9.1/verdict.md",
+            "sha256": "9c509aff69a7925ef87586ebac7c3ee91307f7f4ac21ea5a347fbd679738a3cb"
+          },
+          "manifest": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
+            "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
+        }
+      ]
     },
     {
       "pair": "1.9.3--1.9.4",
@@ -15396,7 +15593,7 @@
       "recordLimit": "Source acceptance and pair coverage only. Audit addendum binds three same-pair reports; incidental RemoteHandshakeNetworkHandler version-string exposure is excluded from substantive evidence. No implementation or runtime parity claim.",
       "boundedSourceVerdicts": [
         {
-          "decision": "ACCEPT no movement delta in the scoped ordinary Overworld-to-End transfer, respawn and absolute correction source path. Target End spawn, transfer call order, teleport ID, direct client XYZ/velocity response and effect resend agree. Packet delivery, post-tick position and runtime parity remain separate.",
+          "decision": "ACCEPT bounded continuity for the audited ordinary Overworld-to-End respawn and absolute correction packets, teleport ID, direct client XYZ/velocity response and effect resend. The helper placement branch, old-dimension operand and world-tick calls are REOPENED for independent exact-source reconciliation. Packet delivery and runtime parity remain separate.",
           "snapshot": {
             "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
             "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-193-194/comparison.md",
@@ -15416,6 +15613,49 @@
             "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
             "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-193-194-audit/source-roster-addendum.txt",
             "sha256": "da032f6602daf92c6220d24cc3857f8f089ecb092c85f14aa5e2a9ee8947bd07"
+          },
+          "priorPlacementSummary": "ACCEPT no movement delta in the scoped ordinary Overworld-to-End transfer, respawn and absolute correction source path. Target End spawn, transfer call order, teleport ID, direct client XYZ/velocity response and effect resend agree. Packet delivery, post-tick position and runtime parity remain separate.",
+          "placementDisposition": {
+            "status": "reopened",
+            "earlierEndpointEvidence": "cff5d90e2b542c02e9dc6b52c79c622fef824633"
+          }
+        },
+        {
+          "exactPair": "1.9.3--1.9.4",
+          "decision": "Accepted bounded no-difference for normal local sender bookkeeping and adjacent correction acknowledgement/response path.",
+          "snapshot": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-193-194-local-packet-selection/report.md",
+            "sha256": "951a53f6cc51bb1444515d29aecfcc29658272701ee5ef232215e32dc056617a"
+          },
+          "review": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-193-194-local-packet-selection/verdict.md",
+            "sha256": "6286ac043eba77b04c6aab901538d669045ca44c31c1244822bbb2a1d1b463da"
+          },
+          "manifest": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/README.md",
+            "sha256": "4bd98070e67a0a5ec783c0ef3ffd191fe8754f03f401de25d7925d469f48a951"
+          }
+        },
+        {
+          "exactPair": "1.9.3--1.9.4",
+          "decision": "ACCEPT bounded continuity of local sprint timers/transitions, keyboard sneak scaling, ability-flight input and the ability-flight fall-distance reset.",
+          "snapshot": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.9.3-to-1.9.4/report.md",
+            "sha256": "77d8d021eb9b680f234ebb6badfbb37129bb64bed3d781004403c8b292db24d0"
+          },
+          "review": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.9.3-to-1.9.4/verdict.md",
+            "sha256": "1a7c5c509ca1e296781f34541cbe3c48e79b1f22474fb122d685a8b528ce31fb"
+          },
+          "manifest": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
+            "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
           }
         }
       ]
@@ -15495,6 +15735,44 @@
             "revision": "ec16ea903da09f00016576da3ba9659ba2d7506b",
             "path": "development/research/source-evidence/20261117/block-a-191-194-end-portal-packet-continuity/lane-early-end-portal-packets-191-192-audit/verdict.md",
             "sha256": "0c8daa15721115a7db36af462435905656e733e3d64efe58cc0b71fd2b460d21"
+          }
+        },
+        {
+          "exactPair": "1.9.1--1.9.2",
+          "decision": "Accepted bounded no-difference for local sender selection/sent-state bookkeeping and immediate correction response. No correction arithmetic, velocity parity, server behavior, or physical replay.",
+          "snapshot": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-191-192-local-packet-selection/report.md",
+            "sha256": "a7ae455d7ae688d92dfed8d5cee1917b08d862dd8f3f289acfdb02c83d837597"
+          },
+          "review": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-191-192-local-packet-selection/verdict.md",
+            "sha256": "2a1e07a6d7070787b0cd2b8d01ec332ced97f20c4cec1a9600d67edd52180133"
+          },
+          "manifest": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/README.md",
+            "sha256": "4bd98070e67a0a5ec783c0ef3ffd191fe8754f03f401de25d7925d469f48a951"
+          }
+        },
+        {
+          "exactPair": "1.9.1--1.9.2",
+          "decision": "ACCEPT no difference in the checked local sprint timer and gates, ordinary ability-flight fall-distance reset and sneak-flight input scaling/write order.",
+          "snapshot": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.9.1-to-1.9.2/report.md",
+            "sha256": "44facdcbd45e29c5195ce63aad0ca98528a1d86fde44b25ccf648ba82a71c116"
+          },
+          "review": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.9.1-to-1.9.2/verdict.md",
+            "sha256": "8e66349786b24150bfe2ce27ceebcfe9286ca9fb245b003258b27d40941a7f46"
+          },
+          "manifest": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
+            "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
           }
         }
       ]
@@ -15647,7 +15925,47 @@
           }
         },
         "nextAction": "Continue specific unreviewed provider/state, item/enchantment, tick and response families only; the accepted supplements do not close full pair coverage or runtime parity."
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.9.2--1.9.3",
+          "decision": "Accepted bounded no-difference for ordinary local movement-packet selection and sent-state/pacing bookkeeping, plus immediate local correction response. Riding path excluded.",
+          "snapshot": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-192-193-local-packet-selection/report.md",
+            "sha256": "61ef1f4c5806f45c7bb34bc0936d12fb0774676b759e88d3b35734ad55cf9869"
+          },
+          "review": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/c-early-192-193-local-packet-selection/verdict.md",
+            "sha256": "354b8380f581f12002981fd6bdb3624e2eee60676464eb697c58ec4eca429714"
+          },
+          "manifest": {
+            "revision": "9f1ee1689869ff4ac1fe5dcd77452a5925202220",
+            "path": "development/research/source-evidence/20261118/block-c-early-local-movement-sender/README.md",
+            "sha256": "4bd98070e67a0a5ec783c0ef3ffd191fe8754f03f401de25d7925d469f48a951"
+          }
+        },
+        {
+          "exactPair": "1.9.2--1.9.3",
+          "decision": "ACCEPT the independently reviewed local sprint timer, ordinary ability-flight reset, and sneak-flight scaling slices; see the exact verdict for the checked movement gates and provenance limits.",
+          "snapshot": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.9.2-to-1.9.3/report.md",
+            "sha256": "664c031d60bc371f9bc857f3a73fa2f639af8171c112ea0cd1a91e9440438085"
+          },
+          "review": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.9.2-to-1.9.3/verdict.md",
+            "sha256": "47b33edabb6d36cf5b84d64a024e5beb1f0815539eb3f41b56770b9a2aae514f"
+          },
+          "manifest": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
+            "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
+        }
+      ]
     },
     {
       "sourceEvidence": {
@@ -16026,7 +16344,28 @@
       "limits": [
         "Exact 1.12→1.12.1 only; source acceptance does not establish runtime parity or neighboring patch behavior."
       ],
-      "nextAction": "Keep this exact pair frozen with no eligible movement delta. Do not transfer acceptance to adjacent patch edges."
+      "nextAction": "Keep this exact pair frozen with no eligible movement delta. Do not transfer acceptance to adjacent patch edges.",
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.12--1.12.1",
+          "decision": "ACCEPT bounded current-yaw glide look and ordinary server-gated dismount selection for these exact releases.",
+          "snapshot": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.12-to-1.12.1/report.md",
+            "sha256": "1db94cf0b7a1c7e85abffe2fe3aec9d8536f2a25215a81fbb0788a750bd7931e"
+          },
+          "review": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.12-to-1.12.1/verdict.md",
+            "sha256": "46ec5655807b3202c9aeedea51d62d05bae28de86077eb99e3741a11553f7cee"
+          },
+          "manifest": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
+            "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
+        }
+      ]
     },
     {
       "pair": "1.12.1--1.12.2",
@@ -16108,6 +16447,25 @@
             "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
             "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122/source-roster.md",
             "sha256": "25ed784967a02cf7c41a2530a3fe91111e133534d4516992de1ff3404fe3edf0"
+          }
+        },
+        {
+          "exactPair": "1.12.1--1.12.2",
+          "decision": "ACCEPT bounded current body-yaw glide look continuity. The examined ordinary dismount selection remains server-gated; direct client-local position writing and geometry remain separate.",
+          "snapshot": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.12.1-to-1.12.2/report.md",
+            "sha256": "1aa7b1bddaff87bffc0f53331f0eb1ce22f0826b08e7f2ea8b44d11daea11c7c"
+          },
+          "review": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.12.1-to-1.12.2/verdict.md",
+            "sha256": "19601d4e629c40ff57404860254a12980a45086d851a64940886852e4b94503b"
+          },
+          "manifest": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
+            "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
           }
         }
       ]
@@ -17183,6 +17541,25 @@
               "outcome": "BUILD SUCCESSFUL with every Gradle Test task disabled and -x test."
             }
           }
+        },
+        {
+          "exactPair": "1.11.2--1.12",
+          "decision": "ACCEPT current movement-yaw continuity in the bounded already-active dry glide path. Ordinary direct dismount selection follows the separately reviewed server-side gate.",
+          "snapshot": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.11.2-to-1.12/report.md",
+            "sha256": "9ac7e99640f22c7c7ad9ff2b0ee3457b5114e8812dadb808e468d6329137a694"
+          },
+          "review": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/1.11.2-to-1.12/verdict.md",
+            "sha256": "3588517498e0a3d98f35a4f771ca906e9b7337112a5d92452f246f479c0310e5"
+          },
+          "manifest": {
+            "revision": "5aa996120e67af5f9cbf1d8162f81fc881d45e99",
+            "path": "development/research/source-evidence/20261118/block-c-early-player-sprint-flight-look/README.md",
+            "sha256": "88ad5e48816b42be8767fcea66dfa2b9d970f0ec451c72b7b0cabf765f048f4c"
+          }
         }
       ]
     },
@@ -17909,6 +18286,25 @@
               "sha256": "f3a67622f1f6a4c69e7792f1e3731b04236962b5be1821671aca0d1b59c316dd"
             }
           ]
+        },
+        {
+          "exactPair": "1.16.1--1.16.2",
+          "decision": "Accepted no-difference for ordinary no-effect on-foot local input/pose/ownership through travel dispatch and listed direct post-travel writes/callback order. Suffocation and lava state are excluded.",
+          "snapshot": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1161-1162-local-travel-handoff/report.md",
+            "sha256": "7a597b0a615bb4307b4be61321780badadd5ff1517363eca5fbffebf34be7a75"
+          },
+          "review": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1161-1162-local-travel-handoff/verdict.md",
+            "sha256": "7163aaf47fb632a9f3209640993e4af27466aa7b8982d481a0a8039f09ded1ad"
+          },
+          "manifest": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
+            "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
+          }
         }
       ]
     },
@@ -18297,6 +18693,25 @@
             "path": "development/research/source-evidence/20261118/block-c-llama-rider-earlier-alias/README.md",
             "sha256": "988cbadad70fbe2ca08b608f6cd8c88d1019320f7f1c738feb4fdc4c636fa01b"
           }
+        },
+        {
+          "exactPair": "1.16.3--1.16.4",
+          "decision": "Accepted bounded negative: the changed server methods reviewed do not add a producer of client-local movement state; the changed book path updates inventory.",
+          "snapshot": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1163-1164-external-state-writers/report.md",
+            "sha256": "30549876caeb6c6089a1a4fa2003a4bb977944a111740a7cc009b641596d9124"
+          },
+          "review": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/c-middle-1163-1164-external-state-writers/verdict.md",
+            "sha256": "f34627f83de8f6e0c3485c13e1ff342072ffb82bbf3236d8a59eb507d5811317"
+          },
+          "manifest": {
+            "revision": "b8ca33c5b07827bc0d6195fbcda0cbd0e3bde0ae",
+            "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
+            "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
+          }
         }
       ]
     },
@@ -18329,6 +18744,39 @@
             "revision": "ed74332abcacd1d45961f43d6000597d7933039a",
             "path": "development/research/source-evidence/20261117/block-a-1213-262-piston-callback-source/lane-piston-callback-origin-source-1213-262-audit/verdict.txt",
             "sha256": "d78c3833368d08c63fc0d99f6d49c405e77ec31c141f98e032315bc16af94b3e"
+          }
+        },
+        {
+          "decision": "ACCEPT the corrected ordinary one-move falling cobweb witness. The exact 1.21.3 old-position span enters swept traversal and writes the web movement multiplier. At the same endpoints, the exact 26.2 movement record uses axis-split traversal and misses the cobweb. The combined provenance and traversal change controls this witness. The original short fire example is withdrawn. Exact cutover and runtime parity remain open.",
+          "snapshot": {
+            "revision": "31b712d4b059370ef6b277a8826f6fe5ee125e7e",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-cobweb-contact-record/lane-block-contact-record-lifecycle-1213-262/ordinary-contact-movement-witness.md",
+            "sha256": "d2810938c1a0c9473f3c6849223bb10e21d0f5c144299e4f60ac9ab847485738"
+          },
+          "priorSnapshot": {
+            "revision": "31b712d4b059370ef6b277a8826f6fe5ee125e7e",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-cobweb-contact-record/lane-block-contact-record-lifecycle-1213-262/comparison.md",
+            "sha256": "32302c9d2e4f82c9d4dc4a2ca0971d911e71eeea76996d81ec7f8869f733bebd"
+          },
+          "review": {
+            "revision": "31b712d4b059370ef6b277a8826f6fe5ee125e7e",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-cobweb-contact-record/lane-block-contact-record-lifecycle-1213-262-audit/verdict.md",
+            "sha256": "d931ea6f961d2346b6194994a67cf5d0a27c3e5b190689e59c19a01bc26bb7ad"
+          },
+          "authorRoster": {
+            "revision": "31b712d4b059370ef6b277a8826f6fe5ee125e7e",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-cobweb-contact-record/lane-block-contact-record-lifecycle-1213-262/source-roster.tsv",
+            "sha256": "9e2c4c90430f782d75c258be7320dd2018313a18f0b19f20173eb2c7666e3900"
+          },
+          "independentRoster": {
+            "revision": "31b712d4b059370ef6b277a8826f6fe5ee125e7e",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-cobweb-contact-record/lane-block-contact-record-lifecycle-1213-262-audit/independent-source-roster.tsv",
+            "sha256": "ecafe62e63648ada77d421633658d780d4bd1e4292b986be7b1bb126fecefa92"
+          },
+          "supplementalRoster": {
+            "revision": "31b712d4b059370ef6b277a8826f6fe5ee125e7e",
+            "path": "development/research/source-evidence/20261117/block-a-1213-262-cobweb-contact-record/lane-block-contact-record-lifecycle-1213-262-audit/supplemental-source-roster.tsv",
+            "sha256": "dcf88aa021db82a958af58160ff76929906c9df47e32cdd277be373bb969b0b2"
           }
         }
       ]
