@@ -1,0 +1,3 @@
+# Frozen report and verdict artifacts retain their original bytes and line endings.
+*.md -text
+README.md text eol=lf
