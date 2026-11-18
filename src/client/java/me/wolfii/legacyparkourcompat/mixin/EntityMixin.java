@@ -9,6 +9,7 @@ import me.wolfii.legacyparkourcompat.mechanic.fluid.WaterFirstLavaProjectionCont
 import me.wolfii.legacyparkourcompat.mechanic.fluid.LavaPresenceLatchContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.LavaPresenceHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.entity.turn.CurrentPitchHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.turn.EntityTurnPitchHook;
 import me.wolfii.legacyparkourcompat.change.v1_16.fluid.LegacyWaterPresenceProbe;
 
@@ -130,6 +131,7 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     @Unique
     private int legacyparkourcompat$explicitCallbackScanDepth;
 
+    // Entity.turn(DD)V declares yaw before pitch; ordinal 1 captures the second double argument.
     @ModifyArg(
         method = "turn(DD)V",
         at = @At(
@@ -139,10 +141,18 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         ),
         index = 0
     )
-    private float legacyparkourcompat$historicalFirstTurnPitch(float vanillaArgument) {
+    private float legacyparkourcompat$historicalFirstTurnPitch(
+        float vanillaArgument,
+        @Local(argsOnly = true, ordinal = 1) double pitchInput
+    ) {
         Entity entity = (Entity)(Object)this;
         if (!(entity instanceof LocalPlayer player)) {
             return vanillaArgument;
+        }
+        var precisionHook = MovementRuntime.find(CurrentPitchHook.class, player);
+        if (precisionHook.isPresent()) {
+            return precisionHook.get().transformFirstPitchArgument(
+                entity.getXRot(), pitchInput, vanillaArgument);
         }
         return MovementRuntime.find(EntityTurnPitchHook.class, player)
             .map(hook -> hook.transformFirstPitchArgument(entity, vanillaArgument))
