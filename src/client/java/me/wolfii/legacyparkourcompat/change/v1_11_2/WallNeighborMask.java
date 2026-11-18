@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -15,7 +16,8 @@ import java.util.OptionalInt;
 import java.util.Set;
 
 /**
- * Selects the complete 1.11.2 wall mask for the mapped wall, stair and gate domain.
+ * Selects the complete 1.11.2 wall mask for the mapped wall, stair and gate domain
+ * and for a single TNT neighbor with air on the other three sides.
  *
  * <p>Ornithe Feather 1.11.2 and 1.12.2
  * {@code net.minecraft.block.WallBlock.shouldConnectTo} classify the four
@@ -69,7 +71,12 @@ public final class WallNeighborMask implements WallNeighborMaskHook {
             || !isAdmittedNeighbor(east)
             || !isAdmittedNeighbor(south)
             || !isAdmittedNeighbor(west)) {
-            return OptionalInt.empty();
+            // 1.11.2 Ornithe Feather: WallBlock.shouldConnectTo rejects TntBlock because
+            // its Material.TNT fails Material.isSolidBlocking. All four bits are clear here.
+            // 1.12 Ornithe Feather: WallBlock.shouldConnectTo accepts TNT's inherited
+            // Block.getFaceShape SOLID result and resolveVirtualProperties sets its bit.
+            return isTntWithThreeAirNeighbors(north, east, south, west)
+                ? OptionalInt.of(0) : OptionalInt.empty();
         }
 
         int mask = 0;
@@ -78,6 +85,18 @@ public final class WallNeighborMask implements WallNeighborMaskHook {
         if (south.getBlock() instanceof FenceGateBlock) mask |= 1;
         if (west.getBlock() instanceof FenceGateBlock) mask |= 1 << 1;
         return OptionalInt.of(mask);
+    }
+
+    private static boolean isTntWithThreeAirNeighbors(BlockState... neighbors) {
+        int tntCount = 0;
+        for (BlockState neighbor : neighbors) {
+            if (neighbor.is(Blocks.TNT)) {
+                tntCount++;
+            } else if (!neighbor.is(Blocks.AIR)) {
+                return false;
+            }
+        }
+        return tntCount == 1;
     }
 
     private static boolean isAdmittedNeighbor(BlockState state) {
