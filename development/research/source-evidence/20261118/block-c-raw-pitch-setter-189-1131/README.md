@@ -1,0 +1,33 @@
+# Direct mouse-turn pitch response: 1.8.9–1.13.1 source snapshot
+
+This checkpoint preserves 16 of the 16 adjacent source comparisons in the assigned 1.8.9–1.13.1 range. All assigned adjacent comparisons are now archived within this bounded source scope. These source/body records do not establish pair-wide movement coverage, runtime parity, or a product range.
+
+The scope is the ordinary direct player response to the native turn-pitch operation and the cited current-pitch read in active local Elytra movement. Input-device scheduling, renderer interpolation, network/teleport routes, other rotation setters, and runtime behavior are outside this archive.
+
+| Pair | Author source SHA-256 | Independent verdict SHA-256 | Source sidecar / qualification |
+| --- | --- | --- | --- |
+| 1.8.9→1.9 | `ee3c6ed28e2f1ab3b694de26e769f36f0745d0382ae667917242fbaecb7a6637` | `ef805f47c4db7724c97613c8ecaa168f0c375130db12f7686b33af845e19dbad` | `identity.md` `439f5b940f6b3a6868515d15c8bcbcd75e8e9dd644f69bf1090bb4bd4502a190` |
+| 1.9→1.9.1 | `27c8622d839e37aab97ea0ba1628d637b2e7d728410fd3f3cb1c187fc3349b3a` | `12ef34af0f6f187ebbbc5d0ec6091cee5d68bc939d954f4b14fe8c2004b13702` | Centrally authenticated nested source. |
+| 1.9.1→1.9.2 | `6276fe58ba1f90c953d3e47fec54bc18c2d84c8aa4a8612e89d5fe8897c1f8c4` | `5c508250419905645715c1bec2c836fea2046f83e8d523bae13ac9e08b7956f7` | Centrally authenticated legacy nested provenance. |
+| 1.9.2→1.9.3 | `f14bbd785ee4f9bd5dba1af4b93e2941c0a78b7d2b748b10dff181565772108d` | `73b115d56c8b178fc7434e1f77e71abc0eb3f3ef883e7d92fa00ed114e470ef9` | Centrally authenticated nested source. |
+| 1.9.3→1.9.4 | `50eb80904e7bcc5f457f8c8d3f5dc5a66cfe85c8e686950556a9241ba3099cf6` | `9cc76bc9fdd47a37978f2e5220084bef54f482b8c9894f9e4d0bb2450d23f85c` | Centrally affirmed exact legacy nested source identity; signed audit agrees no direct pitch/Elytra delta. |
+| 1.9.4→1.10 | `35b63c728f9283fd5d43aa4c6488eeb08c93e6f86d1762aeb220765e17d00448` | `3d46be348b8eb7ea9babd2c4763e5177c43170d831b16b7ddfc8b1afa9df5ecd` | Nested 1.10 source identity `df266e2c3009dd1a873c1665c30fe388078ed1c6227668e10cde87409a18c6da`; no version-root marker. |
+| 1.10→1.10.1 | `d73f427175ec069b22d08edbaa7b4e4251799fe58ceb91bb47a0f7363100f93b` | `5f5abb9b4299c34f3fc728dd551d904df4e8350d4712d2edf45a9bb7a2c83d63` | Nested 1.10.1 identity `a9a50497930848bf0ddec732b6d424e947f643a8fa6290e01425ac2bbfce219f`; slice unchanged. |
+| 1.10.1→1.10.2 | `bac7e74e3a41067bc469122729647a8a871d816b6300d056369b94b8c5b992e7` | `117f23778f099e44712cbc86701c45c9d7f78495e87ecce9f174d3562ab5248b` | Verdict distinguishes the movement method's first read from earlier tick/history field access. |
+| 1.10.2→1.11 | `ac35e7276f6b76a715556dae840c48c677bad9a9664538274ff6a238d996518b` | `1b4564c27cfafa0f132ab469c5ea5c683f96cc260d43e5a6e069ae3a01315c71` | `identity.md` `f03e783f426847aff39fa3129ddf69312025da04607cfb2552100bc18a59b2dd`; inherited pitch/headYaw differs from local pitch/yaw; local tick sync is noted in verdict. |
+| 1.11→1.11.1 | `fc5c1a24a9cb137620cc9b8cb9732a5baff0ae8bf5972b6d3f7788e083f4a453` | `ecac265de078a4975cdb84c438e0e1fdb111e1b140df2e1971d0ac37944a7493` | — |
+| 1.11.1→1.11.2 | `96075a8a35b81fffa4e9a10b0510448f6903bb5374e7128c696ee006556da259` | `1a374bdde2e3d1af46df052f4b8d42d365852357e39bd540e0d9b2a630c007f0` | — |
+| 1.11.2→1.12 | `bc4b336327900a5da73303f1f94a6a94f322bc323347d0327ccf918b9e6fc1e6` | `4c630537ccd3e5171f858eacd7eb9ea0d8d7d7ba14e29e0131cbcdff51963cac` | Separate dry Elytra `headYaw`→`yaw` operand change is not attributed to pitch setter. |
+| 1.12→1.12.1 | `a1e393df0e1c513693b4b590db72eb608d0ee5e26b468dcdecbb643125e732ee` | `1604cc8c44a3402eb9fa2d63204c92ae29501f0e7f90fbb405d4be0f5a853b66` | — |
+| 1.12.1→1.12.2 | `c33977836b350f20c3c321c25f0ad248fd64e51fc38edcdf04f3be158715c048` (`report-frozen-original.md`) | `8d1ac46323c4408b3a3cd67b8c1fd51e51d78d05a944d2fc6fbc78d1b74dc03a` | `report-accidental-append-trace.md` `92d44f37a27032d27be46ec92edc601ec1709802d3bedcee7cc9131ff5c28307` is trace only. |
+| 1.12.2→1.13 | `3985c7cbe4891f3643ee5054623950aec5fa4019164336e92c53d1b5da4fc0db` | `c01d5896f21dd7f14cb6e24415a9366576b12b8da900c332f96ed9830e4b5ac2` | Literal source release is `1.13`; sign-normalized movement study remains pending. |
+| 1.13→1.13.1 | `156e72afc3e6d54988bbbdd65f32ea17c41cbd0b4cae89684ad1599e95029ba1` | `30d3abe4214abd65860eb35469704f367181feb53fedf891863c1f4edd67c9b2` | — |
+
+## Provenance and byte-preservation notes
+
+- Canonical source preparation accepts nested source identities for 1.9, 1.10, and the newer 1.10.1 output; missing version-root markers are not source identity mismatches. The separately authenticated 1.9.1 and 1.9.2 legacy provenance is preserved in their verdicts.
+- The 1.12 and 1.12.1 roots were checked under shared read locks; nested hashes are `27515e5f4c71e7db2f035a81716507128d77466c75380ad1ef7d140c06401467` and `0ff5246e8d29c04554cc9ec93ae9b4abef539652325b6c0ac822851d7186a9c8`. No source marker is restored or generated.
+- For 1.12.1→1.12.2, the authoritative report is the exact 7,751-byte frozen original; the accidental append trace is separate and not bound as source evidence.
+- Frozen source/audit bodies are copied byte-for-byte. `git diff --cached --check` flags original whitespace in these exact paths: `edges/1.8.9-to-1.9/identity.md`, `edges/1.8.9-to-1.9/report.md`, `edges/1.9-to-1.9.1/verdict.md`, `edges/1.9.1-to-1.9.2/report.md`, `edges/1.9.1-to-1.9.2/verdict.md`, `edges/1.9.2-to-1.9.3/report.md`, `edges/1.9.3-to-1.9.4/verdict.md`, `edges/1.9.4-to-1.10/report.md`, `edges/1.10-to-1.10.1/report.md`, `edges/1.10-to-1.10.1/verdict.md`, `edges/1.10.1-to-1.10.2/report.md`, `edges/1.10.2-to-1.11/identity.md`, `edges/1.10.2-to-1.11/report.md`, `edges/1.11-to-1.11.1/report.md`, `edges/1.11-to-1.11.1/verdict.md`, `edges/1.11.1-to-1.11.2/report.md`, `edges/1.11.2-to-1.12/report.md`, `edges/1.12-to-1.12.1/report.md`, `edges/1.12.1-to-1.12.2/report-frozen-original.md`, `edges/1.12.1-to-1.12.2/report-accidental-append-trace.md`, `edges/1.12.1-to-1.12.2/verdict.md`, `edges/1.12.2-to-1.13/verdict.md`, and `edges/1.13-to-1.13.1/report.md`. The 1.8.9→1.9 report, 1.9.1→1.9.2 report, and 1.9.4→1.10 report also have blank lines at EOF. These files are not normalized because that would change accepted SHA-256 identities. README and `.gitattributes` are newly authored.
+
+Base: `aae9c86464638cb5ed7faa535c92569b89484906`. All 16 authorized adjacent comparisons are present; no other behavior is inferred.
