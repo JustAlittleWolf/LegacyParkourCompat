@@ -10,14 +10,16 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Minecraft 1.21, Mojmap, LivingEntity.travel(Vec3) invokes
- * Entity.checkSlowFallDistance() only in the fall-flying branch after water and lava.
- * Minecraft 1.21.2, Mojmap, LivingEntity.updateFallFlying() invokes that same limiter
- * before travel dispatch from LivingEntity.aiStep(). The strict vertical-velocity
- * and fall-distance thresholds in Entity.checkSlowFallDistance() are unchanged.
- * Minecraft 26.2, unobfuscated, Entity.checkFallDistanceAccumulation() retains the
- * limiter; LivingEntity.updateFallFlying() invokes it before travel(Vec3), while
- * travelFallFlying(Vec3) follows fluid dispatch. This change moves only that call.
+ * Mojmap 1.21 {@code net.minecraft.world.entity.LivingEntity.travel(Vec3)} invokes
+ * {@code Entity.checkSlowFallDistance()} only in its dry fall-flying travel branch; paired Mojmap
+ * 1.21.2 {@code LivingEntity.updateFallFlying()} invokes that limiter before travel dispatch from
+ * {@code LivingEntity.aiStep()}. In 26.2 unobfuscated
+ * {@code LivingEntity.updateFallFlying()} calls {@code Entity.checkFallDistanceAccumulation()} before
+ * travel and {@code LivingEntity.travelFallFlying(Vec3)} follows fluid dispatch. This operation
+ * moves only the native call between its existing callbacks. The accepted Mojmap 1.18.2 and 1.19.2
+ * {@code LivingEntity.travel(Vec3)} sources show the old direct fall-distance assignment inside
+ * dry glide travel without a climbable gate; the selected 1.18.2 and 1.19 profile groups therefore
+ * keep this limiter stage at travel for the already-active climbable witness as well.
  */
 @MovementChange(emulates = ParkourVersion.V1_21)
 public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLimiterStageHook {
@@ -41,7 +43,7 @@ public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLim
             || player.onGround()
             || player.getAbilities().flying
             || player.isPassenger()
-            || player.onClimbable()) {
+            || (player.onClimbable() && !usesHistoricalClimbableTravel(selectedVersion))) {
             return false;
         }
         if (!HistoricalElytra.applies(player, selectedVersion)) {
@@ -53,5 +55,9 @@ public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLim
             }
         }
         return true;
+    }
+
+    private static boolean usesHistoricalClimbableTravel(ParkourVersion selectedVersion) {
+        return selectedVersion == ParkourVersion.V1_18_2 || selectedVersion == ParkourVersion.V1_19;
     }
 }
