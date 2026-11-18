@@ -5509,6 +5509,30 @@
             "path": "development/research/source-evidence/20261117/block-a-1141-1142-dismount-placement/lane-portal-passenger-position-1141-1142/source-roster.txt",
             "sha256": "ac604983703e5ed08ca6b1c0777e780084e2e36c2e8de766cf2dacc89737ada7"
           }
+        },
+        {
+          "exactPair": "1.14.2--1.14.4",
+          "decision": "ACCEPT bounded unchanged vehicle relationship, server-only dismount placement, separate portal contact gate, authoritative absolute correction and local coordinate application. Supporting caller files were checked after author review. Intermediate releases remain separate.",
+          "snapshot": {
+            "revision": "e899153e1778a4b42688a3173c9b7d880c484c2f",
+            "path": "development/research/source-evidence/20261117/block-a-1142-1144-dismount-position/lane-portal-passenger-position-1142-1144/report.md",
+            "sha256": "749cdd64f3dffb726d1f12fb6cb4e5bd575d4895598d344a162b2fe0c5e7b889"
+          },
+          "review": {
+            "revision": "e899153e1778a4b42688a3173c9b7d880c484c2f",
+            "path": "development/research/source-evidence/20261117/block-a-1142-1144-dismount-position/lane-portal-passenger-position-1142-1144-audit/verdict.md",
+            "sha256": "0ee319bb729932da06ffa2fd2e239c854dbc757b7459f3b41461a640979e2de7"
+          },
+          "roster": {
+            "revision": "e899153e1778a4b42688a3173c9b7d880c484c2f",
+            "path": "development/research/source-evidence/20261117/block-a-1142-1144-dismount-position/lane-portal-passenger-position-1142-1144-audit/roster.md",
+            "sha256": "629d0d53b1bf1189c341861b476bee985d0c7769c99727432d07d96277bad9ab"
+          },
+          "authorRoster": {
+            "revision": "e899153e1778a4b42688a3173c9b7d880c484c2f",
+            "path": "development/research/source-evidence/20261117/block-a-1142-1144-dismount-position/lane-portal-passenger-position-1142-1144/roster.md",
+            "sha256": "7831bb830ac1157d8d2279d3c2263635ccc3bd85ea85a2c7594904336ae7d60c"
+          }
         }
       ]
     },
@@ -5873,6 +5897,35 @@
             "revision": "486b266716c3eba2657b077c52ad1555ce5c3a7d",
             "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-applicability-1144-1152/binding.md",
             "sha256": "76ff5fcc1b32820389408d9d15e8afa0a527c936f659957e201d16a5789b2abc"
+          },
+          "nextAction": "See the linked follow-up for the closed west tangent and centered face samples; general timer outcomes remain open."
+        },
+        {
+          "decision": "ACCEPT bounded unchanged exact endpoint border decomposition and center samples. The west tangent samples origin X/Z and clearance Y=1, enabling a finite full-cube rise of 1. Centered north, south and east sample out-of-range X and leave infinite height. Corners, other shapes and intermediate aliases remain open.",
+          "snapshot": {
+            "revision": "4afa9ef8b0bb33aeddba7caa389c635a56e478b6",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-applicability-1144-1152/decomposition-addendum.md",
+            "sha256": "c73f4d8f5da9b7507a8617f47f8553bdb41d97623aa22c8748b7b1ccd79287b0"
+          },
+          "review": {
+            "revision": "4afa9ef8b0bb33aeddba7caa389c635a56e478b6",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-applicability-1144-1152/west-origin-verdict.md",
+            "sha256": "f9d67ef6201ef225a598a702940b36b0fdb1166f6000879ad0d82d8ad42789de"
+          },
+          "binding": {
+            "revision": "4afa9ef8b0bb33aeddba7caa389c635a56e478b6",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-applicability-1144-1152/binding.md",
+            "sha256": "1390cc65e5bb83144a4a175fba8a2343a57ab25a0110d5147a123ac8163dee38"
+          },
+          "priorSnapshot": {
+            "revision": "4afa9ef8b0bb33aeddba7caa389c635a56e478b6",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-applicability-1144-1152/comparison.md",
+            "sha256": "8161f41f5b750bc63ddb6d1ae2d4a6012a62d1e71fe3e79d43cc5bbc4112d1f7"
+          },
+          "priorReview": {
+            "revision": "4afa9ef8b0bb33aeddba7caa389c635a56e478b6",
+            "path": "development/research/source-evidence/20261117/block-b-solid-collision/autojump-border-applicability-1144-1152/verdict.md",
+            "sha256": "c1353ff8232aaaaa74a0d418390f9ddef7d25dbf343db296db50ec1e9e124566"
           }
         }
       ]
@@ -14430,7 +14483,54 @@
       "limits": [
         "Exact 1.12.1→1.12.2 only. A possible queued block-entity cleanup order change is conditional; ordinary local-player unload/overlap application is not established."
       ],
-      "nextAction": "Continue only the ordinary client unload-schedule/player-overlap applicability gate and remaining pair dependencies; retain partial status until independently audited closure."
+      "nextAction": "Continue only the ordinary client unload-schedule/player-overlap applicability gate and remaining pair dependencies; retain partial status until independently audited closure.",
+      "boundedSourceVerdicts": [
+        {
+          "decision": "ACCEPT bounded unchanged lava-material scan Y upper bound and effective client read route. Both exact releases use the same shrunk box and half-open floor-to-ceil interval; an integer maximum excludes its row.",
+          "review": {
+            "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
+            "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122-audit/verdict.md",
+            "sha256": "5c71a02ff32ea43df519b11f28ffda0e6eb4a7ab0d6062da8339d11d31f2c35a"
+          },
+          "rosters": [
+            {
+              "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
+              "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122-audit/source-roster.md",
+              "sha256": "bd8983f8314e96c16a7106db06d2bbfb46c5e286604ee73e065b398bb59d0a75"
+            },
+            {
+              "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
+              "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122-audit/source-roster-addendum.md",
+              "sha256": "0caa11aee5ec0a18aaaf3ae91af065d0d459919acd88a65369a0b117641e9716"
+            },
+            {
+              "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
+              "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122-audit/source-roster-addendum-material.md",
+              "sha256": "1a3515a9bd618c891b45c2c43305da0712e5ac3da7b8fa6e2b57685252dc5726"
+            },
+            {
+              "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
+              "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122-audit/source-roster-addendum-state.md",
+              "sha256": "1ad08b6f0748ba7197b23074dfcf36ff1c0c4fe6d39e82d0ffbbac039a356445"
+            },
+            {
+              "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
+              "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122-audit/source-roster-addendum-materialimpl.md",
+              "sha256": "de2456877b28f7f316fa4e03adbb23a0429a1fe11c7b83d48fda8bfee4756aba"
+            },
+            {
+              "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
+              "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122-audit/source-roster-addendum-y.md",
+              "sha256": "ddefcc5cc29d2a1f0e6d8252794e6cec0330d3fd50672599d9f13b01baec7840"
+            }
+          ],
+          "authorRoster": {
+            "revision": "bc4963667c4c26d47785915eb9899ec216e47821",
+            "path": "development/research/source-evidence/20261117/block-a-1121-1122-lava-upper/lane-lava-scan-upper-bound-1121-1122/source-roster.md",
+            "sha256": "25ed784967a02cf7c41a2530a3fe91111e133534d4516992de1ff3404fe3edf0"
+          }
+        }
+      ]
     },
     {
       "pair": "1.10.2--1.11",
