@@ -1,0 +1,38 @@
+# Earlier applicability: active glide with ordinary lava and a foot-cell climbable
+
+## Question and scope
+
+This comparison checks the narrow earlier-version prerequisite for the accepted 1.21.1 → 1.21.2 active-glide fall-distance-cap claim. It asks whether, in exact source-ready Mojmap snapshots from 1.19.3 through 1.21.1, a locally controlled player with the shared fall-flying bit already active can have ordinary lava travel and `onClimbable()` true together, and whether the old cap can run before that lava move.
+
+This is a source-state compatibility check only. It makes no claim that an incoming trajectory reaches the state, no general fluid-geometry claim, and no claim about dry-glide outcomes beyond locating the old cap call. The 1.21.1 → 1.21.2 comparison and its raw-bound independent audit are the bound for the later accepted operation: comparison SHA-256 `3e1b52e3f5ad10c6008a417133b7e9d1e855d2e34770d23ea8b00badefbaa537`; audit verdict `c-glide-fluid-cap-audit/verdict.md` supports the 1.21.2 cap conditionally, and accepts ordinary lava plus a foot-cell climbable predicate only as a compatible state witness, without trajectory inference.
+
+## Result
+
+**Confirmed for every ready snapshot inspected: the earlier cap is only in the fall-flying `travel` arm, after the ordinary lava arm.** In each snapshot, `travel` selects water, then ordinary lava, then `isFallFlying()`. The lava arm calls `move` before finishing its fluid adjustment. The fall-flying arm calls `checkSlowFallDistance()` before its own `move`. Because this is an `else if` chain, an ordinary lava route cannot reach that call during the same `travel`; the cap is before a move only when the dry fall-flying arm is selected. 1.19.3 is the earliest exact ready snapshot checked and already has this arrangement and the cap operation.
+
+The cap primitive in each checked `Entity.java` writes `fallDistance = 1.0F` only when `deltaMovement.y() > -0.5` and `fallDistance > 1.0F`. `Entity` base ticking halves fall distance on lava contact before living travel. A current foot-cell climbable predicate does not replace the fluid route: `onClimbable()` reads `blockPosition()` and its block state, while `isInLava()` is based on positive tracked lava fluid height. Thus the two predicates can coexist at source level, but the ordinary lava branch still wins before the old glide cap. No placement or incoming movement is inferred.
+
+The local active-bit condition is compatible in these sources. `isFallFlying()` reads shared flag 7; `updateFallFlying()` is run before travel setup and its shared-flag write is guarded by `!level.isClientSide`. On the client it therefore does not clear a pre-existing active bit. Travel itself is restricted to `isControlledByLocalInstance()` in the inspected 1.20+ snapshots; 1.19.3’s local/AI travel gate is `isEffectiveAi() || isControlledByLocalInstance()`. `isFallFlying()` returns shared flag 7 in `LivingEntity.java:3064` (1.19.3), `3033` (1.20.1), `3085` (1.20.2), `3087` (1.20.4), `3166` (1.20.5/1.20.6), and `3168` (1.21.1). This establishes a conditional local-client state path, not how the bit or lava overlap was reached.
+
+Effect resets qualify the positive-state witness. In 1.19.3, downward Slow Falling resets distance at the start of `travel`, before fluid routing. Beginning in ready 1.20.1 and through 1.21.1, `aiStep` calls `updateFallFlying()`, then resets fall distance if Slow Falling **or** Levitation is active, before calling `travel`; do not carry a positive residual-cap witness across either effect. Water contact also resets fall distance during base ticking. Ordinary lava base ticking halves it but does not reset it. These source facts do not establish numeric state or a trajectory.
+
+## Readiness boundary
+
+The bounded continuity claim is **not established for every exact release** from 1.19.3 through 1.21.1. The ready snapshots below all support the result, but the canonical checkout has no 1.19.4 Mojmap source directory, and directories for 1.20.0, 1.20.3 and 1.21.0 lack `mojmap.ready.json`. Those unready directories were not used to close gaps. Therefore this does not assert a release-by-release continuous interval or an exact cutover. It does establish that the reviewed later 1.21.2 condition is newly pre-travel relative to the first ready 1.19.3 source and every intervening ready snapshot listed below.
+
+## Exact source identity and operation locations
+
+All entries are read-only local canonical `decompiled_minecraft/<release>/mojmap` sources with `mojmap.ready.json` status `ready`, mapping `mojmap`. Hashes are SHA-256 of the complete `LivingEntity.java` and `Entity.java` files. Source manifest hashes are copied from each ready marker.
+
+| Release | Source manifest SHA-256 | `LivingEntity.java` SHA-256 | `Entity.java` SHA-256 | Key `LivingEntity` lines: lava / glide cap / update and effect reset |
+|---|---|---|---|---|
+| 1.19.3 | `6f1cc6d07ab3902a7ea25a3f8817504723be70d82e97f541cffda95ea2c1c843` | `2b8befdc406176e01672175451dd480b14da0b52bfe11a982d368909c05e73db` | `8c35bdef3bf2de7b70ac76ad767ba2c194305e0dda2e03fdf6544983667adc32` | `2097–2116` / `2117–2119` / update `2597`, downward Slow Falling reset `2056–2058` in travel |
+| 1.20.1 | `858b56764113e591c60d09bc63e4d90f9c1d67a705645f0c793e8b28f2378465` | `decf8cd70d194098ad51d0c82e5a0087e0687881e0a2dc66456f2ba6ea76676f` | `94b9c3656715de2d61fa9a02ccef164261e50eb13d6090a6f07e58fe9c5b0759` | `2048–2067` / `2068–2070` / update `2562`, effects reset `2565–2566` |
+| 1.20.2 | `e439ff7e1d3f1d31e01be1edd141f94d917a9dc7fa0de5f69904544cbbe62887` | `5c481da1ffc8684c4b30171c92e61fad751e6a3a708d5bc6486acf9f96ff69828` | `d7ee49aaea5e862b92508e767562cabc8f10515605e8fb67565c8c8d5c23b01b` | `2082–2101` / `2102–2104` / update `2591`, effects reset `2594–2595` |
+| 1.20.4 | `fd3c8668483e5ff208c847474f6cbd3952a909c4aa602ed98b24e3d11a9602a1` | `f7bc53db24c1798f19f9bd6f6356c86d5e560e9c8e8aac60decaf15cc785e07d` | `07383522bff169938136638ef8c3244ca511b56ca4266913524f99f9821331b9` | `2079–2098` / `2099–2101` / update `2593`, effects reset `2596–2597` |
+| 1.20.5 | `162dac6c4f1d539a1c2cea0255b7938a5281c207ab460bdc265358016d732484` | `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2` | `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3` | `2148–2167` / `2168–2170` / update `2673`, effects reset `2676–2677` |
+| 1.20.6 | `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311` | `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2` | `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3` | `2148–2167` / `2168–2170` / update `2673`, effects reset `2676–2677` |
+| 1.21.1 | `900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48` | `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8` | `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850` | `2131–2150` / `2151–2153` / update `2668`, effects reset `2671–2672` |
+
+In each table row, the fluid arm’s cited range precedes the fall-flying arm and includes its `move` call. `Entity.java` gives the corresponding lava half-distance write at lines 455 (1.19.3), 461 (1.20.1), 463 (1.20.2), 464 (1.20.4), 466 (1.20.5/1.20.6), and 467 (1.21.1). The cap implementation is at `Entity.java:2147–2151` (1.19.3), `2274–2278` (1.20.1), `2312–2316` (1.20.2), `2313–2317` (1.20.4), `2320–2324` (1.20.5/1.20.6), and `2386–2390` (1.21.1). `onClimbable()` reads `blockPosition()` at `LivingEntity.java:1464–1469` (1.19.3), `1478–1483` (1.20.1), `1511–1516` (1.20.2), `1508–1513` (1.20.4), `1541–1546` (1.20.5/1.20.6), and `1517–1522` (1.21.1).
+
