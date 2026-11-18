@@ -25473,6 +25473,39 @@
           ]
         }
       ]
+    },
+    {
+      "pair": "1.13--1.13.1",
+      "sourceCoverage": "Partial. Independently audited local stored yaw and its first ordinary dry ground/air acceleration consumer.",
+      "dependencyClosure": "Closed for the bounded stored-yaw and first ordinary dry acceleration trace.",
+      "independentCoverageAudit": "Pending full-pair source inventory and independent coverage audit.",
+      "examinedSlices": [
+        {
+          "slice": "Local stored yaw and first ordinary dry ground/air relative acceleration",
+          "outcome": "noDifference",
+          "evidence": "Bounded independent source verdict below."
+        }
+      ],
+      "unexaminedSlices": [
+        "Remaining local-player tick operations and provider inventory for this exact pair."
+      ],
+      "boundedSourceVerdicts": [
+        {
+          "exactPair": "1.13--1.13.1",
+          "decision": "ACCEPT bounded no-difference in local stored yaw and its first ordinary dry ground/air relative-acceleration consumer.",
+          "snapshot": {
+            "revision": "2c155a088b9b19076dd1a658913c3bccdafa6e85",
+            "path": "development/research/source-evidence/20261118/block-c-interrupted-drafts/payload/c-yaw-precision-113-1131-source/report.md",
+            "sha256": "d95c35c1bf746ca8d40b7cff6c8995f8aef57dce3982b3bfc87c91bdfc301dab"
+          },
+          "review": {
+            "revision": "1e3c159f2184e55f98f962e520c9fb74736a21af",
+            "path": "development/research/source-evidence/20261118/block-c-interrupted-drafts/payload/c-yaw-precision-113-1131-source/verdict.md",
+            "sha256": "9f33f06f9100ef490d40b6a09313d1c8a0cc6857508c5de6b2aa4978d9087aec"
+          }
+        }
+      ],
+      "nextAction": "Retain this bounded verdict. Remaining tick and provider coverage and the independent full-pair audit are open."
     }
   ],
   "productRevision": "67db60727182f874919d7460ad56e79a09df8bdd",
