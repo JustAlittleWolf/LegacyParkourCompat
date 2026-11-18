@@ -14108,11 +14108,12 @@
           "WORLD-21: pressure-plate, button and landing callbacks [line 838]",
           "WORLD-24: fixed inherited state-shape collision providers [line 865]",
           "WORLD-FENCE-WALL-SHAPES: fence and wall neighbor-derived collision boxes [line 934]",
-          "WORLD-LIQUID-FLOW: liquid drag vector calculation [line 975]"
+          "WORLD-LIQUID-FLOW: liquid drag vector calculation [line 975]",
+          "WORLD-27: ordinary non-null local player client border fallback, exact 1.8.9 / 1.9 / 1.9.4"
         ]
       },
       "unexaminedSlices": [
-        "WORLD-27: client world-limit and border collision fallback",
+        "WORLD-27 remainder: exact 1.9.1, 1.9.2 and 1.9.3 aliases and non-ordinary caller contexts",
         "WORLD-27-SERVER-CHUNK-GATE: server loaded-chunk gate at the collision scan"
       ],
       "openDependencies": [
@@ -15062,6 +15063,31 @@
             "sha256": "eb862212207a10db53a07effe470d2d6340c9b02a1d13dad3457d4597e5113cd"
           },
           "decision": "ACCEPT exact east-facing mature cocoa collision contraction. The 1.8.9 geometry clips the bounded grounded +X move; each tested 1.9 through 1.9.4 member admits the ordinary full X request."
+        },
+        {
+          "scopeId": "WORLD-27",
+          "exactReleases": [
+            "1.8.9",
+            "1.9",
+            "1.9.4"
+          ],
+          "snapshot": {
+            "revision": "b52c10c6bbcaf08835fa172f11f6d9350e344ca4",
+            "path": "development/research/source-evidence/20261118/block-c-world-27-client-border/comparison.md",
+            "sha256": "2c1a96caaec208131dd876098b95ad0bd7dd2aa84a312dc8e51083d14550ed35"
+          },
+          "review": {
+            "revision": "b52c10c6bbcaf08835fa172f11f6d9350e344ca4",
+            "path": "development/research/source-evidence/20261118/block-c-world-27-client-border/verdict.md",
+            "sha256": "7376873040990543514a04c891fac853988b83bd4e7babe896bf236bb4db54e4"
+          },
+          "priorContext": {
+            "revision": "583f8a9b01205b09922ed76d5a0eadfbe819cc85",
+            "path": "development/research/findings/1.8.9--1.9.4/neighbor-cell-collision-scan.md",
+            "blob": "111a7f7d60453d88f5b2110515666c9b5aec30bd",
+            "sha256": "e3187dc7f2e394d94cecab2819d20b51ad44f19a62bb9b7f727933634c1e2789"
+          },
+          "decision": "ACCEPT bounded no difference for ordinary non-null local-player border fallback within eligible scanned cells. Exact checked releases retain cached strict border hysteresis, state update and synthetic Stone fallback. Null callers, WORLD-26 scan/geometry, separate server chunk gates and untested aliases remain outside the reviewed scope."
         }
       ]
     },
