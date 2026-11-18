@@ -1,0 +1,9 @@
+# Binding addendum: corrected 1.12.2–1.13.2 author receipt
+
+The current author receipt `source-1122-1132-autojump-border-applicability/analysis.md` was read and its actual SHA-256 verified as `d62ffcb2be2b95f3ddb18f542a0eb7b1ee09d986a70d4818e00b3a804f872d99`, matching the supplied identity. The earlier overwritten bytes are unavailable; their previously documented digest is not independently bound by this addendum.
+
+The corrected receipt's decisive east-border result matches my independently source-traced verdict `review-1122-1132-114-autojump-border-cutchains/verdict.md` (SHA-256 `91bbb4ddda9462a535a10102f5179f51d9d20466954752145af432ed38e1a2cb`): for a finite 1.13.2 query scan at y `[63,67)`, synthetic full cells at `(10,y,0)`, y=63..66, merge into a box with `maxY=67`. Its center is y=65 and the one clearance sample is y=66. With that sample empty, `u=3`, so the timer stays 0. In 1.12.2 the intersected synthetic per-cell box at `(10,64,0)` has `maxY=65`; its center is y=64 and its clearance sample is y=65. With that sample empty, `u=1`, so the timer is assigned 1. The scan/merge heights and timer conclusions in the corrected receipt match this trace.
+
+One setup detail remains uncorrected and limits binding the receipt's entire stated witness: its coordinate list says air at `(9,65,0)` / `(9,66,0)`, but the east border AABB center floors to `(10,64,0)` in 1.12.2 and `(10,65,0)` in 1.13.2. Therefore the actual samples are `(10,65,0)` and `(10,66,0)`. “No other collision provider intersecting the two rays” does not prove those sample blocks empty. The receipt's timer comparison is source-correct conditional on the relevant x=10 clearance samples being empty; as written, its listed air assumptions do not close that condition. No product or implementation claim is added here.
+
+I did not inspect or adjudicate the separate west-note receipt (`63db56908126b5ade350cd5574c8a06666aa4b9e9d6af2b63c49372927627d23`).
