@@ -8298,6 +8298,32 @@
             "sha256": "93f6424003875573ba0053a3d61a937a3172d9ca02dc19e47dcf5f7fb3227df1"
           },
           "decision": "Accept the four exact fluid operation comparisons under equal effective fluid tags and queried inputs. The corrected local eye reader is LocalPlayer.isUnderWater() using wasUnderwater, written from the previous eye-tag cache before Entity.baseTick refreshes it."
+        },
+        {
+          "snapshot": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+          "report": {
+            "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+            "path": "development/research/source-evidence/20261118/powder-frost-aliases/early/source/comparison-r1.md",
+            "sha256": "83488257b14f3dbcef1c2bc2e8c3690d31a81e2d22db6f6229d86cd397e2eb58"
+          },
+          "verdict": {
+            "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+            "path": "development/research/source-evidence/20261118/powder-frost-aliases/early/blind-audit/verdict-r1.md",
+            "sha256": "a1c523c3e0a87cdc9c2ad12aa93d6fa6d4e497a6e451bd478999e726e4b76a1a"
+          },
+          "support": [
+            {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/early/source/revision-r1/findings/1.19.4--1.20/powder-snow-frost-gate.md",
+              "sha256": "9b94b7bfc39e2c40aedf9d7aa1fc6a97667ef42f5fb08870c6729cc6e73a14e9"
+            },
+            {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/product-applicability/applicability-r2.md",
+              "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
+            }
+          ],
+          "decision": "Accepted Frost non-air gate at exact 1.19.4 to 1.20, with 1.20.2 confirming continuation. Tracked support replaces center-floor selection where present. Empty support omits the earlier lower special-block check. Retry needs an empty first result, onGroundNoBlocks false and a known movement vector. Frost-specific product alias coverage remains open."
         }
       ]
     },
@@ -10128,7 +10154,35 @@
           "boundary": "development/research/source-evidence/20261117/checkpoint03/later-source-20261116/1.20.6--1.21.11/explosion_boundary/boundary-check-r2.md",
           "productReadiness": "development/research/source-evidence/20261117/checkpoint03/mcpk-20261116/vd-full-checklist/product-readiness-explosion-knockback/terminal.md"
         }
-      }
+      },
+      "boundedSourceVerdicts": [
+        {
+          "snapshot": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+          "report": {
+            "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+            "path": "development/research/source-evidence/20261118/powder-frost-aliases/speed-math/source/comparison-r1.md",
+            "sha256": "8cdf3f5abd9727853d045e089159b933315887d67eb32b878f9450b56e32d172"
+          },
+          "verdict": {
+            "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+            "path": "development/research/source-evidence/20261118/powder-frost-aliases/speed-math/blind-audit/verdict.md",
+            "sha256": "01b71d5ae0aa19b56000168d8e6e7ba30a2e86298408b14db887c6c6e89d81b6"
+          },
+          "support": [
+            {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/speed-math/blind-audit/frozen.md",
+              "sha256": "c8a9ec154aaf09943f5fe20c50d1ce853dc1dae2fafc7b624a5c1e7fea79bea2"
+            },
+            {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/product-applicability/applicability-r2.md",
+              "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
+            }
+          ],
+          "decision": "Exact arithmetic anchors 1.20.5, 1.21, 1.21.2, 1.21.4 and 26.2 agree for equal effective attribute snapshots, bases and modifiers. Revised product assessment narrows the gap to local Frost recomputation. No alias or runtime claim."
+        }
+      ]
     },
     {
       "pair": "1.21.1--1.21.3",
@@ -12749,6 +12803,32 @@
             "path": "development/research/source-evidence/20261118/block-c-middle-late-player-operation-closures/README.md",
             "sha256": "ecb523958cccf98b7f5ecb41f6bf6e303d8dc24c0d22ac9e90125e5eeb9f2dde"
           }
+        },
+        {
+          "snapshot": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+          "report": {
+            "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+            "path": "development/research/source-evidence/20261118/powder-frost-aliases/late/source/comparison.md",
+            "sha256": "3affe7a67d8e98065135a68dfe5b3eb33e75cc1f2296ef56735329bbec2956f1"
+          },
+          "verdict": {
+            "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+            "path": "development/research/source-evidence/20261118/powder-frost-aliases/late/blind-audit/verdict-r1.md",
+            "sha256": "743c5d28ec0ba68b034270b261f5aeb66faa2bc5340de9ef9a93e3390bd8e613"
+          },
+          "support": [
+            {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/late/blind-audit/frozen.md",
+              "sha256": "2eeaa398bfd19354f5fbd2bb0ad1c4e571f2ed2038f36b06ebb42cf3155a4822"
+            },
+            {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/product-applicability/applicability-r2.md",
+              "sha256": "8bd5236bfde9870616b287a0ddf3f8575568850508cfafae989ee6e1dab42158"
+            }
+          ],
+          "decision": "Accepted exact loss of local post-travel Frost recomputation at 1.21.5. The later consumer can read an attribute snapshot already applied before its speed read. Packet timing remains open. The revised static product disposition records a local recomputation gap."
         }
       ]
     },
@@ -16987,6 +17067,71 @@
             "path": "development/research/source-evidence/20261118/block-c-ability-flying-glide-flag-writer/integration-receipt-all-historical.md",
             "sha256": "504dcde1842125b1e4f6308acf7afb06d26c1e0537c017daf4b5f3ba2f5b517d"
           }
+        },
+        {
+          "snapshot": "327c092ff111ed186bacdd9832c9c12e3df6348c",
+          "report": {
+            "revision": "327c092ff111ed186bacdd9832c9c12e3df6348c",
+            "path": "development/research/source-evidence/20261118/block-c-mouse-turn-batching/1.20.4-to-1.20.5/report.md",
+            "sha256": "45436c6764dc4abcf0ba333d80dc2110de686400944757fb73ca7681605120de"
+          },
+          "verdict": {
+            "revision": "327c092ff111ed186bacdd9832c9c12e3df6348c",
+            "path": "development/research/source-evidence/20261118/block-c-mouse-turn-batching/1.20.4-to-1.20.5/verdict.md",
+            "sha256": "a0dd152ebc9b70fda3b6d5860577c0bb34ad362810d56d1089cba8237d348120"
+          },
+          "decision": "Accepted direct finite first pitch-setter continuity across exact 1.20.4 to 1.20.5. Callback scheduling remains excluded input-device plumbing. The 1.20.4 to 26.2 scheduling comparison is a separate source witness.",
+          "excludedEndpointWitness": {
+            "revision": "327c092ff111ed186bacdd9832c9c12e3df6348c",
+            "path": "development/research/source-evidence/20261118/block-c-mouse-turn-batching/1.20.4-to-26.2-destination/verdict.md",
+            "sha256": "14f56153aa9a960abecacbe0367f178323453c6622c9646c33733a32890aba7e"
+          },
+          "boundedProductAssociation": {
+            "productCommit": "72adb0edccf5dc8f850ecfb727c0fe10afeb15ce",
+            "code": [
+              {
+                "revision": "72adb0edccf5dc8f850ecfb727c0fe10afeb15ce",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/EntityTurnPitchNative.java",
+                "sha256": "9a01893fc8f75b9efdc53bda7c2b62c763b7511a6890f980befd6f4fa6cbd852"
+              },
+              {
+                "revision": "72adb0edccf5dc8f850ecfb727c0fe10afeb15ce",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/EntityTurnPitchClamp.java",
+                "sha256": "25c4ef730f850d4098c6177ffa2a91ae5ee1bfe40ee3b45c823fff391bbcbf65"
+              }
+            ],
+            "integrationReceipt": {
+              "revision": "518e2043dba999f25a143990f2f3d1fbfb52bfa9",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/extension-integration-receipt.md",
+              "sha256": "64046514fb2302135d6ec9c01f5a504be954e26118f3af6fa7400e2ec8323ae6"
+            },
+            "review": {
+              "revision": "4c42fcf53e62398121856e7658bb970b62856c5a",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/extension-independent-review.md",
+              "sha256": "1e932356609d5e10c0fe7dc2c8df9c4ccf5c374fea9839a5ac0207ccee8bc9f4"
+            },
+            "applicabilitySource": {
+              "revision": "4c42fcf53e62398121856e7658bb970b62856c5a",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/extension-applicability.md",
+              "sha256": "7fc31ac2995085e569be00658db0b1e68576233ca1f3e14fc345b85727b8cf07"
+            },
+            "exactContinuitySource": {
+              "revision": "327c092ff111ed186bacdd9832c9c12e3df6348c",
+              "path": "development/research/source-evidence/20261118/block-c-mouse-turn-batching/1.20.4-to-1.20.5/report.md",
+              "sha256": "45436c6764dc4abcf0ba333d80dc2110de686400944757fb73ca7681605120de"
+            },
+            "exactContinuityVerdict": {
+              "revision": "327c092ff111ed186bacdd9832c9c12e3df6348c",
+              "path": "development/research/source-evidence/20261118/block-c-mouse-turn-batching/1.20.4-to-1.20.5/verdict.md",
+              "sha256": "a0dd152ebc9b70fda3b6d5860577c0bb34ad362810d56d1089cba8237d348120"
+            },
+            "standaloneBuildTree": "e49ce4e534203a675c5001b1ce8fa670f054db0a",
+            "combinedBuildRevision": "9e082e88073657f6dc346d28fb4072587cfb3beb",
+            "combinedBuildTree": "45e81847b4aba586b34bc03361d42193185ce93e",
+            "applicability": "Finite first setXRot argument in ordinary local Entity.turn, 1.17 through 1.21.1. Native fence through exact 1.16.5 and native fallback from 1.21.2. Pitch arithmetic width, yaw, later writes and callback scheduling are separate operations.",
+            "build": "BUILD SUCCESSFUL in 14s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
+          }
         }
       ]
     },
@@ -17202,6 +17347,27 @@
             "sha256": "3c867ee9bf12a3b1ca982176ac1dbe99e744e83055c9659af5a5c0dcc8a8fe09"
           },
           "decision": "Accept a finite direct yaw width/precision witness that changes the first ordinary relative-acceleration X component after crossing the sine lookup bucket. The corrected cosine bucket and Z component agree."
+        },
+        {
+          "snapshot": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+          "report": {
+            "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+            "path": "development/research/source-evidence/20261118/powder-frost-aliases/intro/source/comparison.md",
+            "sha256": "eca40f08758e536a9c796eab81edadca20df46aa718f872487b83f104c2ed7b4"
+          },
+          "verdict": {
+            "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+            "path": "development/research/source-evidence/20261118/powder-frost-aliases/intro/blind-audit/verdict.md",
+            "sha256": "93f42d60669c25af47b64192a0b47e55d79e8266627b8730c4ff67fcc75ea2d2"
+          },
+          "support": [
+            {
+              "revision": "2875455170f2f6feb5c49a1943a96444853d5d4d",
+              "path": "development/research/source-evidence/20261118/powder-frost-aliases/intro/blind-audit/frozen.md",
+              "sha256": "eff0b24d516945677a0dc1aea7838afc96f3f2a04dee3c3f342e155bd968148e"
+            }
+          ],
+          "decision": "Accepted introduction from absent in 1.16.5 to present in 1.17 of the conditional post-travel Frost movement-speed modifier and its next grounded speed read. Client relay timing remains open."
         }
       ]
     },
@@ -23430,6 +23596,52 @@
             "sha256": "84c638037b4b8e30d36afaf095e6f5d209c070312eab74432e00afb31acfd5b4"
           },
           "boundedProductAssociation": {
+            "productCommit": "72adb0edccf5dc8f850ecfb727c0fe10afeb15ce",
+            "code": [
+              {
+                "revision": "72adb0edccf5dc8f850ecfb727c0fe10afeb15ce",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_16_2/EntityTurnPitchNative.java",
+                "sha256": "9a01893fc8f75b9efdc53bda7c2b62c763b7511a6890f980befd6f4fa6cbd852"
+              },
+              {
+                "revision": "72adb0edccf5dc8f850ecfb727c0fe10afeb15ce",
+                "path": "src/client/java/me/wolfii/legacyparkourcompat/change/v1_21/EntityTurnPitchClamp.java",
+                "sha256": "25c4ef730f850d4098c6177ffa2a91ae5ee1bfe40ee3b45c823fff391bbcbf65"
+              }
+            ],
+            "integrationReceipt": {
+              "revision": "518e2043dba999f25a143990f2f3d1fbfb52bfa9",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/extension-integration-receipt.md",
+              "sha256": "64046514fb2302135d6ec9c01f5a504be954e26118f3af6fa7400e2ec8323ae6"
+            },
+            "review": {
+              "revision": "4c42fcf53e62398121856e7658bb970b62856c5a",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/extension-independent-review.md",
+              "sha256": "1e932356609d5e10c0fe7dc2c8df9c4ccf5c374fea9839a5ac0207ccee8bc9f4"
+            },
+            "applicabilitySource": {
+              "revision": "4c42fcf53e62398121856e7658bb970b62856c5a",
+              "path": "development/research/source-evidence/20261118/block-c-raw-pitch-authority/extension-applicability.md",
+              "sha256": "7fc31ac2995085e569be00658db0b1e68576233ca1f3e14fc345b85727b8cf07"
+            },
+            "exactContinuitySource": {
+              "revision": "327c092ff111ed186bacdd9832c9c12e3df6348c",
+              "path": "development/research/source-evidence/20261118/block-c-mouse-turn-batching/1.20.4-to-1.20.5/report.md",
+              "sha256": "45436c6764dc4abcf0ba333d80dc2110de686400944757fb73ca7681605120de"
+            },
+            "exactContinuityVerdict": {
+              "revision": "327c092ff111ed186bacdd9832c9c12e3df6348c",
+              "path": "development/research/source-evidence/20261118/block-c-mouse-turn-batching/1.20.4-to-1.20.5/verdict.md",
+              "sha256": "a0dd152ebc9b70fda3b6d5860577c0bb34ad362810d56d1089cba8237d348120"
+            },
+            "standaloneBuildTree": "e49ce4e534203a675c5001b1ce8fa670f054db0a",
+            "combinedBuildRevision": "9e082e88073657f6dc346d28fb4072587cfb3beb",
+            "combinedBuildTree": "45e81847b4aba586b34bc03361d42193185ce93e",
+            "applicability": "Finite first setXRot argument in ordinary local Entity.turn, 1.17 through 1.21.1. Native fence through exact 1.16.5 and native fallback from 1.21.2. Pitch arithmetic width, yaw, later writes and callback scheduling are separate operations.",
+            "build": "BUILD SUCCESSFUL in 14s. All Test tasks disabled and test excluded.",
+            "runtimeParity": "unverified"
+          },
+          "previousBoundedProductAssociation": {
             "productCommit": "9ec57a6256b39ea8a290b298322d827d8b3002de",
             "code": [
               {
