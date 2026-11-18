@@ -1,0 +1,35 @@
+# Independent source audit: horizontal input assembly
+
+## Scope and verdict
+
+Compared Java 1.15.2 with 1.16, both Mojmap, for ordinary dry, local, unmounted, nonsprinting horizontal input assembly: keyboard axes; the crouch/walk and ordinary item-use slowdown gates; local-player input consumption and horizontal-field writes; horizontal damping; and the vector passed to `travel`. Pose/world/hand/effect state is treated as input. Sprint/timer behavior, vertical input, jump/climb/swim/flight/Elytra, collision/support/stepping, travel-body math, and producers of equipment/effects are excluded.
+
+**Verdict: no source-confirmed difference in this bounded horizontal-input operation.** The expressions that construct and slow the horizontal inputs match. The 1.16 crouch cache is assigned from the same predicate immediately before `Input.tick`; at that point the keyboard shift field has not yet been refreshed by `KeyboardInput.tick`, so the slowdown decision receives the same prior input state in both releases. The local-player copies, horizontal `0.98F` damping, and `travel(new Vec3(...))` argument also match. This does not claim parity for the excluded movement path or for other crouch consumers.
+
+## Source identity and integrity
+
+Canonical roots: `decompiled_minecraft/1.15.2/mojmap/` and `decompiled_minecraft/1.16/mojmap/`.
+
+| Release | Ready marker SHA-256 | Provenance SHA-256 | Artifact manifest SHA-256 | Source manifest SHA-256 | Verified tree |
+|---|---|---|---|---|---|
+| 1.15.2 Mojmap | `64A0E40B784D525CE50937C63E465FC4F564EFB1F7AF17F2BAC3C77A36907BE0` | `D4802D35EE2927A44D753871F184C3255C060EB94457A5C65A8BC121A087954E` | `208ab867640097a0c188e452de4876934deb217d75ac726d358cfa6730260406` | `cb7fd93f8730d8b2813857744f8572060535c7de44fcee86222acd1ceb6f43e7` | 3,332 / 3,332 files; 17,543,871 bytes; 0 hash mismatches |
+| 1.16 Mojmap | `5B6CB24F95E83B856C53F646D6477F2E46DAE2276737DEE56DD07C5BD745E4A2` | `371D50521A183F4A3F42FAC2D18021F228E0A4E6B2E8A9838C2805391709F2A9` | `b482d7aa44422dfafebad3a0b2a886d47d1f01135f99055aea5973faa110e8b2` | `e3c23e94ac985c25dec0c768aed17b443ba4823662cf1e152235c99756ae5d4a` | 3,572 / 3,572 files; 19,220,152 bytes; 0 hash mismatches |
+
+Both ready markers identify the expected exact version and `mojmap`. The 1.15.2 ready record pins client SHA-256 `4a73008a73f3824b7c711750a5a37556df8614f193c0a531e292dad159a73a7c`; its artifact manifest records `client_mappings.txt` as `65ad295b6cf63821f5d8f961c128128475e6d39386358d22eb238a3ce6e31777`. Its older provenance record has `mappingArtifacts: null`, so the mapping artifact identity here is the ready-linked artifact manifest entry. The 1.16 provenance identifies exact version `1.16`, Mojmap, client SHA-256 `00740ef4475d4cd0a1d7064f89602f759c45ff9afe29da9b0ee0b9037ebb2a71`, and mapping artifact SHA-256 `53d46abe149aadd367be8789207c53a7cee46ba8382e5bfd60247eb22984119d`. Ready-marker source-manifest and artifact-manifest digests match the corresponding files. I recomputed each listed source file hash against the complete source manifest; all entries and aggregate counts/bytes match. No source was generated or modified.
+
+## Compared evidence
+
+Source paths below are relative to each canonical version/mapping root. Line numbers are one-based.
+
+- `net/minecraft/client/player/Input.java`, 1.15.2 lines 5–24 and 1.16 lines 5–24: same fields, no-op `tick(boolean)`, `getMoveVector()` returning `(leftImpulse, forwardImpulse)`, and `hasForwardImpulse()` threshold. Both file SHA-256: `367c3a9b0b21d8f106a21fd2c73a3018685dbf07d9c8a9340e2d4c9d73359201` (564 bytes).
+- `net/minecraft/client/player/KeyboardInput.java`, 1.15.2 lines 12–26 and 1.16 lines 12–26: same key-state reads, opposite-key cancellation, `1.0F` / `-1.0F` axes, jump/shift refresh, and `0.3` slow-input multiplication with the same cast to `float`. Both file SHA-256: `746ea654cf4f46a5f4b94a237c4307652252a44807a488b606dc993e088396f7` (947 bytes).
+- `net/minecraft/client/player/LocalPlayer.java`, 1.15.2 lines 590–618 and 625–641; 1.16 lines 619–645 and 652–672: 1.15.2 computes crouching in `isCrouching`; 1.16 caches the same Boolean expression at aiStep lines 662–665 and returns that field from `isCrouching`. In both, `isMovingSlowly()` is crouching OR visually crawling, and `input.tick(this.isMovingSlowly())` precedes keyboard tick’s shift refresh. Both item-use gates are `isUsingItem() && !isPassenger()` and multiply `leftImpulse` and `forwardImpulse` by `0.2F`. `serverAiStep` in both copies those two impulses to `xxa` / `zza` only when `isControlledCamera()` is true. (The neighboring 1.16 crouch-triggered sprint-timer reset is outside this assignment.) Source SHA-256: 1.15.2 `3a9019bd7b860e251c23fd8d0cd70b7f5b38566d34470c4e29b1014ef689ccbd` (38,858 bytes); 1.16 `ee20523adfdb82f3753fa43312af170f34c4f4aa78570631c61bc8c0820dfb8b` (39,915 bytes).
+- `net/minecraft/world/entity/LivingEntity.java`, 1.15.2 lines 2283–2288 and 1.16 lines 2453–2458: both multiply `xxa` then `zza` by `0.98F`, then pass `new Vec3(this.xxa, this.yya, this.zza)` to `travel` in the same relative order. This records only the call boundary; travel-body math is excluded. Source SHA-256: 1.15.2 `46d243bb7e51f7b54404aa1d7d6e6b827682d0f5925d02847c4193306c4d5e54` (106,059 bytes); 1.16 `b6ea2b9b037b79fc3ea6e1f6bcd2c4c1d89d4a96315968a8f247641f6c335f26` (112,004 bytes).
+
+## Coverage and limits
+
+Paired terminal slices checked: logical keyboard-axis construction; generic input vector accessors; crouch/walk slowdown predicate and tick ordering; ordinary item-use horizontal slowdown; local-player `xxa`/`zza` writes; horizontal damping; and travel-vector construction. No difference found in these slices. Applicability assumes the assigned dry/local/unmounted/nonsprinting path; all pose/world/hand/effect predicates were held as paired inputs. No claim is made about vertical input, travel implementation, non-input movement, or intermediate patch introduction.
+
+## Independent review of author report
+
+**ACCEPT** — the independently authored bounded report matches this audit's no-difference result. I reverified the report before reading: 5,935 bytes, SHA-256 `8DE297EBD0CBC053F8FDAE00C9629419403BA8D59CB072713A46A99EB3D0B2F3`. Its keyboard-axis and `0.3` scaling statements match both `KeyboardInput.tick` bodies; its item-use `0.2F` gate and controlled-camera `xxa`/`zza` copies match the compared `LocalPlayer` ranges; and its crouch-cache qualification correctly limits equivalence to the `isMovingSlowly()` value consumed before `input.tick` refreshes shift state. The superclass sequence confirms `serverAiStep` precedes `0.98F` horizontal damping and travel-vector construction in both versions. Its source-identity caveat for the 1.15.2 null `mappingArtifacts` provenance field is appropriately bounded by the ready-linked artifact manifest. No claim in the report requires revision for this slice.

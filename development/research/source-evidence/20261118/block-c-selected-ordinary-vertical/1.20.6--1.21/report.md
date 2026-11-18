@@ -1,0 +1,27 @@
+# 1.20.6 → 1.21 source comparison: ordinary local-player vertical air integration
+
+Verdict: no difference found in the assigned ordinary, dry, nonvehicle, non-gliding, non-flying vertical path. No canonical difference finding is warranted for this slice.
+
+## Authenticated source identity
+
+- 1.20.6 Mojmap: ready marker `decompiled_minecraft/1.20.6/mojmap.ready.json` identifies `versionId=1.20.6`, `mapping=mojmap`, and Vineflower/Java 25. Release-level marker SHA-256 `1ec1dc773ea2a8a3ef48a9fc868893bd2f83d6b13b057d75b151b711788c3d41`; provenance SHA-256 `ee53e67e7ab51069a0aae5a0ce13d49a9f972bdc13e3c31e041afa77f4d26e8`; source-list SHA-256 `56aae10684471d7abb1c366bd5dd431ab976112a87e6cc5c687a68f1eff06311`. The source list pins each cited Java file to its computed digest.
+- 1.21 Mojmap: `decompiled_minecraft/1.21/mojmap/.decompile-provenance.json`, SHA-256 `90246f277aefd2350e42e17245faa51928a949c8db4427f3be04a732527deb7c`. Its pinned inputs include the 1.21 client jar (`4b56bc9b44de7e88f9fbb52e716c18240da34469fcbafa5ed2e75b04d60617e8`) and 1.21 client mappings (`127485d79248d4ae2955a7d061c3626d38853ecb054c4d008707732264b0aac1`); computed Java hashes match its `sources` map. The tree is `mojmap`.
+- Exact relevant source hashes (SHA-256):
+  - 1.20.6 `net/minecraft/world/entity/LivingEntity.java`: `c66ec8dc3b1856e490e5834a46185589030d9fbc411e3e2ce64c73203cd753b2`.
+  - 1.21 `net/minecraft/world/entity/LivingEntity.java`: `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8`.
+  - 1.20.6 `net/minecraft/world/entity/Entity.java`: `71cd6b9f6c002684154dce11d3745e8714d82f13c8e1b3aa56743930131c18f3`.
+  - 1.21 `net/minecraft/world/entity/Entity.java`: `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850`.
+  - 1.20.6 `net/minecraft/world/entity/ai/attributes/Attributes.java`: `7e30d87c7a58b14d0052d2f9f7319d997b49ae7d025579cd762d28e845b2e82e`.
+  - 1.21 `net/minecraft/world/entity/ai/attributes/Attributes.java`: `a9a19f556bb77fc218b5b2f4831eb6b285f4398c24fa2a3519009ca8dad2db7c`.
+
+## Compared behavior and coverage
+
+- `LivingEntity.aiStep`, 1.20.6 lines 2613–2629, 2670–2684; 1.21 lines 2608–2624, 2665–2679: the common vertical deadzone remains `Math.abs(y) < 0.003` then `y = 0.0`; after the shared travel setup, the unmounted path calls `travel(input)`. The only caller-side vertical reset is for Slow Falling or Levitation, excluded by assignment.
+- `LivingEntity.travel(Vec3)`, 1.20.6 lines 2104–2111 and 2208–2230; 1.21 lines 2091–2097 and 2191–2213: both versions enter under `isControlledByLocalInstance()`, set gravity from `getGravity()`, and use the same ordinary branch after water, lava, and fall-flying branches. With Levitation absent and an ordinary loaded client chunk, both calculate `y = movement.y - gravity`; unless `shouldDiscardFriction()`, both then store `movement.x * friction, y * 0.98F, movement.z * friction`. The `FlyingAnimal` exception does not apply to a player. Order, double/float expression types, constants, and branch gates match. The 1.21-only water-movement-efficiency parameterization is confined to the water branch and does not alter this dry path.
+- Default numeric witness: both `Attributes.java` files retain gravity default `0.08` (1.20.6 lines 42–44; 1.21 lines 50–52). Starting with `y=0`, and with no gravity override/status/grounding, both ordinary-air paths produce `(-0.08) * 0.98F = -0.0784000015258789` for stored vertical velocity. This is an expression witness, not a claim about a full collision trajectory.
+- `Entity.getGravity`/`applyGravity`, 1.20.6 lines 1101–1113; 1.21 lines 1140–1152: identical no-gravity gate and addition of `-gravity` to velocity, but this helper is not the ordinary LivingEntity air branch’s application site; travel subtracts gravity in both versions.
+- Fall state and collision boundary: `Entity.checkFallDamage`, 1.20.6 lines 1124–1140; 1.21 lines 1163–1179, retains the same on-ground reset and `else if (dy < 0.0)` accumulation `fallDistance -= (float)dy`. `Entity.move`, 1.20.6 lines 597–648; 1.21 lines 598–649, keeps the same nonzero fall-distance / movement-length-squared `>= 1.0` reset gate, exact Y collision comparison, below-collision condition, and call order into fall-state handling. Its on-ground helper was renamed (`setOnGroundWithKnownMovement` to `setOnGroundWithMovement`), and both bodies set `onGround` then call `checkSupportingBlock` with the same arguments; support/collision providers remain a boundary dependency, not owned here. No difference was found in the inspected common fall-state math or reset gates.
+
+## Boundaries and exclusions
+
+Covered: the ordinary local controlled travel gate, dry-air passive Y gravity/drag and operation order, the shared vertical `0.003` deadzone, movement-to-position/collision handoff location, and common fall-distance accumulation/reset gates. The Y request reaches `Entity.move(SELF, deltaMovement)` in the same order in both ordinary branches. The collision solver, support providers, fluids/water/lava, climbables, powder snow/blocks, Slow Falling and Levitation behavior, jump causation, equipment, direct rotation, horizontal velocity/acceleration, Elytra and flying branches, vehicles, and visual/network paths were excluded as assigned. The comparison does not claim complete tick-pair closure beyond this slice.
