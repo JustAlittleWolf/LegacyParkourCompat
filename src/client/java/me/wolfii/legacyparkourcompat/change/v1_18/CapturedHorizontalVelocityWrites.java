@@ -7,10 +7,12 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
 
 /**
- * 1.17.1, 1.18 and 1.18.1 Mojmap Entity.move capture velocity once, then write
- * X and Z separately in that order. The Z write restores captured X, including
- * when the previous write cleared X. 1.18.2 Mojmap Entity.move combines the
- * flags into one write. V1_18 includes both inspected 1.18 and 1.18.1.
+ * 1.13.2 Ornithe Feather Entity.move clears velocity fields independently.
+ * Starting in 1.14 Ornithe Feather Entity.move, it captures velocity once and
+ * writes X and Z separately in that order. The Z write restores captured X
+ * when the previous write cleared it. The snapshot is retained in 1.14.1–1.14.3
+ * Yarn Entity.move and 1.14.4–1.18.1 Mojmap Entity.move. 1.18.2 Mojmap Entity.move
+ * combines the flags into one write.
  */
 @MovementChange(emulates = ParkourVersion.V1_18)
 public final class CapturedHorizontalVelocityWrites implements HorizontalVelocityWriteHook {

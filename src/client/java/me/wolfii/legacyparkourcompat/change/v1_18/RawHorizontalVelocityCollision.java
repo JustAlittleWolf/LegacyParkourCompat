@@ -6,11 +6,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityC
 import java.util.Optional;
 
 /**
- * 1.17.1, 1.18 and 1.18.1 Mojmap Entity.move compare displacement with raw !=
- * for horizontal velocity writes. 1.18.2 Mojmap Entity.move instead reuses
- * !Mth.equal, whose Mth.equal(double,double) threshold is the widened 1.0E-5F.
- * The separate horizontalCollision field already used Mth.equal in 1.17.1.
- * V1_18 includes both inspected 1.18 and 1.18.1.
+ * Entity.move compares displacement with raw != for horizontal velocity
+ * writes in 1.14 Ornithe Feather, 1.14.1–1.14.3 Yarn and 1.14.4–1.18.1 Mojmap.
+ * 1.18.2 Mojmap Entity.move reuses !Mth.equal for the write gates. The
+ * Mth.equal(double, double) threshold is the widened 1.0E-5F.
  */
 @MovementChange(emulates = ParkourVersion.V1_18)
 public final class RawHorizontalVelocityCollision implements HorizontalVelocityCollisionHook {
