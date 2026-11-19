@@ -7,6 +7,7 @@ import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 
 /** Shared direct point query for releases with the same player eye-water sampling body. */
 public final class PlayerEyeWaterSampler {
@@ -21,7 +22,7 @@ public final class PlayerEyeWaterSampler {
      * {@code Entity#isSubmergedIn} and 1.15.2 {@code Entity#isUnderLiquid} are the source operations.
      * Unsupported modern boat subtypes keep the native result because they had no historical counterpart.
      */
-    public static Optional<Boolean> query(Player player) {
+    public static Optional<Boolean> query(Player player, DoubleSupplier eyeSampleY) {
         var vehicle = player.getVehicle();
         if (vehicle instanceof AbstractBoat && !(vehicle instanceof Boat)) {
             return Optional.empty();
@@ -30,7 +31,7 @@ public final class PlayerEyeWaterSampler {
             return Optional.of(false);
         }
 
-        double eyeY = player.getY() + player.getEyeHeight();
+        double eyeY = eyeSampleY.getAsDouble();
         BlockPos eyePos = BlockPos.containing(player.getX(), eyeY, player.getZ());
         // Preserve virtual client-world dispatch, rather than replacing it with a cache residency test.
         if (!player.level().hasChunkAt(eyePos)) {
