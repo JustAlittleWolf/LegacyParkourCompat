@@ -1,7 +1,5 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -433,21 +431,24 @@ abstract class LocalPlayerMixin {
         }
     }
 
-    @Definition(id = "sprintTriggerTime", field = "Lnet/minecraft/client/player/LocalPlayer;sprintTriggerTime:I")
-    @Expression("this.sprintTriggerTime > 0")
     @ModifyExpressionValue(
         method = "aiStep()V",
-        at = @At("MIXINEXTRAS:EXPRESSION"),
-        slice = @Slice(from = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/player/LocalPlayer;canStartSprinting()Z"
-        ))
+        slice = @Slice(
+            from = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;canStartSprinting()Z"),
+            to = @At(value = "INVOKE", target = "Lnet/minecraft/client/Options;sprintWindow()Lnet/minecraft/client/OptionInstance;")
+        ),
+        at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;sprintTriggerTime:I", opcode = Opcodes.GETFIELD),
+        require = 1, allow = 1
     )
-    private boolean legacyparkourcompat$doubleTapSprintKey(boolean activeTimer) {
+    private int legacyparkourcompat$tapTimerForStart(int timer) {
+        if (timer > 0) {
+            return timer;
+        }
         LocalPlayer player = (LocalPlayer) (Object) this;
-        return activeTimer || MovementRuntime.find(DoubleTapSprintKeyHook.class, player)
+        boolean start = MovementRuntime.find(DoubleTapSprintKeyHook.class, player)
             .map(change -> change.startsWithExpiredTimer(this.minecraft.options.keySprint.isDown()))
             .orElse(false);
+        return start ? 1 : timer;
     }
 
     @WrapOperation(

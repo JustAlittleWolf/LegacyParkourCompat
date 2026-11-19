@@ -5,18 +5,14 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.shulker.ShulkerOpeningPushAmountHook;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.ShulkerBoxBlock;
-import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Restores the 1.16.5 opening lid-slab overlap amount while retaining native progress, query admission,
- * and movement. In 1.16.5 Mojang mappings, ShulkerBoxBlockEntity#getTopBoundingBox contracts the
+ * Restores the 1.16.5 opening lid-slab overlap amount from the exact query slab. In 1.16.5 Mojang mappings, ShulkerBoxBlockEntity#getTopBoundingBox contracts the
  * full ShulkerBoxBlockEntity#getBoundingBox result to the moving lid slab; #moveCollidedEntities
  * pushes by its directional overlap plus 0.01. In 1.17 Mojang mappings, #moveCollidedEntities instead
- * uses Shulker#getProgressDeltaAabb's unhalved axis size plus 0.01. Only this local-player amount is
- * replaced; the current native sweep and all non-player responses remain unchanged.
+ * uses Shulker#getProgressDeltaAabb's unhalved axis size plus 0.01.
  */
 @MovementChange(emulates = ParkourVersion.V1_16_2)
 public final class ShulkerOpeningPushAmount implements ShulkerOpeningPushAmountHook {
@@ -26,11 +22,7 @@ public final class ShulkerOpeningPushAmount implements ShulkerOpeningPushAmountH
     }
 
     @Override
-    public Vec3 pushAmount(ShulkerBoxBlockEntity box, Entity player, Vec3 nativeAmount) {
-        Direction direction = box.getBlockState().getValue(ShulkerBoxBlock.FACING);
-        AABB lid = box.getBoundingBox(box.getBlockState())
-            .contract(-direction.getStepX(), -direction.getStepY(), -direction.getStepZ())
-            .move(box.getBlockPos());
+    public Vec3 pushAmount(AABB lid, Direction direction, Entity player) {
         AABB target = player.getBoundingBox();
         double amount = switch (direction.getAxis()) {
             case X -> direction.getAxisDirection() == Direction.AxisDirection.POSITIVE

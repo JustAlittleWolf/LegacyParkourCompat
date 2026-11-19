@@ -56,7 +56,7 @@ abstract class CrossCollisionBlockMixin {
             }
             BlockState neighbor = level.getBlockState(pos.relative(direction));
             boolean suppressWall = MovementRuntime.find(PaneWallAttachmentHook.class, localPlayer)
-                .map(hook -> hook.suppressAttachment(neighbor, selected))
+                .map(hook -> hook.suppressAttachment(state, neighbor, selected))
                 .orElse(false);
             if (suppressWall) {
                 queryState = queryState.setValue(property, false);

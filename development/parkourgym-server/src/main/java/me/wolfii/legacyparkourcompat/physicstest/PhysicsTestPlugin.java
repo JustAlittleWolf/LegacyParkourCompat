@@ -24,6 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -199,9 +200,24 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         if (polarReady.get()) createPrivateWorld(player);
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onWorldChange(PlayerChangedWorldEvent event) {
+        Player player = event.getPlayer();
+        UUID id = player.getUniqueId();
+        if (player.getWorld() == privateWorlds.get(id)) {
+            readyPrivateWorlds.add(id);
+        } else {
+            readyPrivateWorlds.remove(id);
+            if (controlApi.failPlayerRun(player, "Worker left its private Gym world")) {
+                player.kick(Component.text("TAS run stopped because the worker left its private world."));
+            }
+        }
+    }
+
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         readyPrivateWorlds.remove(event.getPlayer().getUniqueId());
+        controlApi.failPlayerRun(event.getPlayer(), "Worker disconnected from Minecraft");
         creatingPrivateWorlds.remove(event.getPlayer().getUniqueId());
         World world = privateWorlds.remove(event.getPlayer().getUniqueId());
         if (world != null) {
@@ -217,9 +233,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
         UUID id = player.getUniqueId();
         World existing = privateWorlds.get(id);
         if (existing != null) {
-            player.teleportAsync(spawnLocation(existing)).thenAccept(success -> {
-                if (success) readyPrivateWorlds.add(id);
-            });
+            player.teleportAsync(spawnLocation(existing));
             return;
         }
         UUID creationId = UUID.randomUUID();
@@ -251,9 +265,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
                 privateWorlds.put(id, world);
                 Bukkit.getRegionScheduler().run(this, spawnLocation(world), task -> {
                     applyWorldSettings(world);
-                    if (player.isOnline()) player.teleportAsync(spawnLocation(world)).thenAccept(success -> {
-                        if (success && player.isOnline() && privateWorlds.get(id) == world) readyPrivateWorlds.add(id);
-                    });
+                    if (player.isOnline()) player.teleportAsync(spawnLocation(world));
                 });
             })));
     }
@@ -427,6 +439,11 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             sender.sendMessage(Component.text("Only a player can set a TAS pose.", NamedTextColor.RED));
             return;
         }
+        World world = privateWorlds.get(player.getUniqueId());
+        if (world == null || player.getWorld() != world) {
+            player.sendMessage(Component.text("TAS start poses require your private Gym world.", NamedTextColor.RED));
+            return;
+        }
         String[] parts = arguments.trim().split("\\s+");
         if (parts.length != 5) {
             player.sendMessage(Component.text("Expected X Y Z yaw pitch.", NamedTextColor.RED));
@@ -445,7 +462,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             // handleTasPayload invokes this on the player's entity scheduler.
             // The target is a nearby, already-loaded pose, so mutate location
             // synchronously on the scheduler that owns this player.
-            Location target = new Location(player.getWorld(), x, y, z, yaw, pitch);
+            Location target = new Location(world, x, y, z, yaw, pitch);
             if (!player.teleport(target, org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.PLUGIN)) {
                 getLogger().warning("TAS start-pose teleport failed for " + player.getName()
                     + ": valid=" + player.isValid() + ", dead=" + player.isDead()

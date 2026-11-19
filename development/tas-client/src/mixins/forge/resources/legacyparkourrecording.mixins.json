@@ -6,7 +6,6 @@
   "client": [
     "MinecraftTickMixin",
     "EntityPlayerSPMixin",
-    "MovementInputFromOptionsMixin",
     "GuiScreenMixin"
   ],
   "injectors": {

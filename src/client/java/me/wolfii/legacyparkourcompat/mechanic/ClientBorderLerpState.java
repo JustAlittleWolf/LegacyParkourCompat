@@ -8,6 +8,7 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -45,36 +46,51 @@ public final class ClientBorderLerpState {
             return null;
         }
 
-        // Sample once: the admission and collision shape must share this size.
-        double elapsed = (Util.getMillis() - lerp.beginMillis) / lerp.durationMillis;
-        double size = elapsed < 1.0 ? Mth.lerp(elapsed, lerp.from, lerp.to) : lerp.to;
-        double centerX = border.getCenterX();
-        double centerZ = border.getCenterZ();
-        int absoluteMaxSize = border.getAbsoluteMaxSize();
-        double minX = Mth.clamp(centerX - size / 2.0, -absoluteMaxSize, absoluteMaxSize);
-        double minZ = Mth.clamp(centerZ - size / 2.0, -absoluteMaxSize, absoluteMaxSize);
-        double maxX = Mth.clamp(centerX + size / 2.0, -absoluteMaxSize, absoluteMaxSize);
-        double maxZ = Mth.clamp(centerZ + size / 2.0, -absoluteMaxSize, absoluteMaxSize);
-
         double margin = Math.max(Mth.absMax(box.getXsize(), box.getZsize()), 1.0);
-        double distance = Math.min(entity.getX() - minX, maxX - entity.getX());
-        distance = Math.min(distance, entity.getZ() - minZ);
-        distance = Math.min(distance, maxZ - entity.getZ());
-        boolean close = distance < margin * 2.0
-            && entity.getX() >= minX - margin
-            && entity.getX() < maxX + margin
-            && entity.getZ() >= minZ - margin
-            && entity.getZ() < maxZ + margin;
-
-        var shape = Shapes.join(
-            Shapes.INFINITY,
-            Shapes.box(Math.floor(minX), Double.NEGATIVE_INFINITY, Math.floor(minZ),
-                Math.ceil(maxX), Double.POSITIVE_INFINITY, Math.ceil(maxZ)),
-            BooleanOp.ONLY_FIRST
-        );
-        return new WorldBorderCollisionHook.Collision(close, shape);
+        boolean close = lerp.distanceToBorder(border, entity.getX(), entity.getZ()) < margin * 2.0
+            && lerp.isWithinBounds(border, entity.getX(), entity.getZ(), margin);
+        return new WorldBorderCollisionHook.Collision(close, () -> lerp.shape(border));
     }
 
     private record Lerp(double from, double to, double durationMillis, long beginMillis) {
+        // 1.21.4–1.21.10 Mojmap WorldBorder.MovingBorderExtent#getSize reads the clock
+        // on each bound access, including the separate shape read in Entity#collectColliders.
+        private double size() {
+            double elapsed = (Util.getMillis() - beginMillis) / durationMillis;
+            return elapsed < 1.0 ? Mth.lerp(elapsed, from, to) : to;
+        }
+
+        private double min(double center, int limit) {
+            return Mth.clamp(center - size() / 2.0, -limit, limit);
+        }
+
+        private double max(double center, int limit) {
+            return Mth.clamp(center + size() / 2.0, -limit, limit);
+        }
+
+        private double distanceToBorder(WorldBorder border, double x, double z) {
+            int limit = border.getAbsoluteMaxSize();
+            double fromMinZ = z - min(border.getCenterZ(), limit);
+            double fromMaxZ = max(border.getCenterZ(), limit) - z;
+            double fromMinX = x - min(border.getCenterX(), limit);
+            double fromMaxX = max(border.getCenterX(), limit) - x;
+            return Math.min(Math.min(Math.min(fromMinX, fromMaxX), fromMinZ), fromMaxZ);
+        }
+
+        private boolean isWithinBounds(WorldBorder border, double x, double z, double margin) {
+            int limit = border.getAbsoluteMaxSize();
+            return x >= min(border.getCenterX(), limit) - margin
+                && x < max(border.getCenterX(), limit) + margin
+                && z >= min(border.getCenterZ(), limit) - margin
+                && z < max(border.getCenterZ(), limit) + margin;
+        }
+
+        private VoxelShape shape(WorldBorder border) {
+            int limit = border.getAbsoluteMaxSize();
+            return Shapes.join(Shapes.INFINITY, Shapes.box(
+                Math.floor(min(border.getCenterX(), limit)), Double.NEGATIVE_INFINITY,
+                Math.floor(min(border.getCenterZ(), limit)), Math.ceil(max(border.getCenterX(), limit)),
+                Double.POSITIVE_INFINITY, Math.ceil(max(border.getCenterZ(), limit))), BooleanOp.ONLY_FIRST);
+        }
     }
 }

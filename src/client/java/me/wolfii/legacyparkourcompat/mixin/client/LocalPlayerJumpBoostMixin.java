@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin.client;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.JumpBoostAmplifierHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jumpboost.JumpBoostEffectReceiverHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
@@ -53,6 +54,14 @@ abstract class LocalPlayerJumpBoostMixin {
         OptionalInt amplifier = MovementRuntime.find(JumpBoostEffectReceiverHook.class, player)
             .map(receiver -> receiver.amplifier(player))
             .orElseGet(OptionalInt::empty);
-        return amplifier.isPresent() ? amplifier.getAsInt() : effect.getAmplifier();
+        if (amplifier.isPresent()) {
+            return amplifier.getAsInt();
+        }
+        // 1.20–1.20.4 Mojmap LocalPlayer.updateAutoJump consumes the signed packet byte.
+        // 1.20.5 Mojmap and 26.2 unobfuscated use the clamped integer in the same formula.
+        int nativeAmplifier = effect.getAmplifier();
+        return MovementRuntime.find(JumpBoostAmplifierHook.class, player)
+            .map(hook -> hook.interpretAmplifier(nativeAmplifier))
+            .orElse(nativeAmplifier);
     }
 }

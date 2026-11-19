@@ -24,6 +24,8 @@ import java.util.Optional;
  * 1.15.2/mojmap net/minecraft/world/level/block/piston/PistonMovingBlockEntity.java,
  * getCollisionShape: retracting source-head SHORT threshold 4.0F.
  * 1.16/mojmap same file/member: threshold becomes 0.25F.
+ * The native fence uses 26.2 unobfuscated PistonMovingBlockEntity.getCollisionShape's
+ * 0.25F threshold, also used by 1.11–1.11.2 Ornithe Feather MovingBlockEntity.addCollisions.
  * Retains the common raw-progress/NOCLIP gate and float offset operation order.
  *
  * Source evidence (paths are relative to decompiled_minecraft/):
@@ -66,7 +68,7 @@ public final class RetractingPistonHeadCollisionShape implements BlockCollisionS
             .setValue(PistonHeadBlock.FACING, piston.getDirection())
             .setValue(PistonHeadBlock.SHORT, piston.isExtending() != MovementRuntime.find(
                 ShortArmThresholdHook.class, MovementRuntime.playerFrom(context))
-                .map(hook -> hook.isShort(progress, 1.0F - progress < 4.0F))
+                .map(hook -> hook.isShort(progress, 1.0F - progress < 0.25F))
                 .orElseGet(() -> 1.0F - progress < 4.0F));
 
         Direction direction = piston.getDirection();

@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.change.common.SuffocationProbeColumn;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistory;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistoryAccess;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepDescentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.item.TridentUseDurabilityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerMovementSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
@@ -79,12 +80,14 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
 /**
  * Mixin-facing lookup. Change authors should not call this; they implement
  * {@link VersionedMechanic} hooks instead.
  */
 public final class MovementRuntime {
+    private static final ScopedValue<Entity> NATIVE_GLIDE_GRAVITY = ScopedValue.newInstance();
     private static final ThreadLocal<Entity> CURRENT_ENTITY = new ThreadLocal<>();
     private static final ThreadLocal<LocalPlayer> FLUID_CURRENT_PLAYER = new ThreadLocal<>();
     private static final ThreadLocal<LocalPlayer> ROLELESS_SUFFOCATION_SUPPRESSED = new ThreadLocal<>();
@@ -187,6 +190,21 @@ public final class MovementRuntime {
     public static boolean limitPistonMovement(Entity entity) {
         return find(PistonMovementHook.class, entity)
             .map(PistonMovementHook::limitPistonMovement).orElse(true);
+    }
+
+    public static Optional<TridentUseDurabilityHook> tridentUseDurability(Player player) {
+        if (!appliesTo(player) || profile(player).target().olderThan(ParkourVersion.V1_13)) {
+            return Optional.empty();
+        }
+        return profile(player).get(TridentUseDurabilityHook.class);
+    }
+
+    public static double nativeGlideGravity(Entity entity, DoubleSupplier query) {
+        return ScopedValue.where(NATIVE_GLIDE_GRAVITY, entity).call(query::getAsDouble);
+    }
+
+    public static boolean isNativeGlideGravityQuery(Entity entity) {
+        return NATIVE_GLIDE_GRAVITY.isBound() && NATIVE_GLIDE_GRAVITY.get() == entity;
     }
 
     /** Samples the eye point for movement queries without changing the stored pose dimensions. */

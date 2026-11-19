@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlaceme
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Input;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Invocation;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Placement;
+import me.wolfii.legacyparkourcompat.mixin.accessor.EnderDragonAccessor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
@@ -101,7 +102,7 @@ public final class PlayerPassengerPlacement implements PlayerPassengerPlacementH
         float walkPosition = vehicle instanceof Strider strider ? strider.walkAnimation.position() : 0.0F;
         float walkSpeed = vehicle instanceof Strider strider ? strider.walkAnimation.speed() : 0.0F;
         float dragonBodyHeight = vehicle instanceof EnderDragon dragon
-            ? dragon.getSubEntities()[0].getBbHeight()
+            ? ((EnderDragonAccessor) dragon).legacyparkourcompat$body().getBbHeight()
             : 0.0F;
 
         EntityDimensions dimensions = vehicle.getDimensions(vehicle.getPose());
@@ -138,10 +139,14 @@ public final class PlayerPassengerPlacement implements PlayerPassengerPlacementH
         if (SOURCE_1_20_1_ENTITY_TYPES.contains(type)) {
             return true;
         }
-        // The 1.20.1 source registers boat variants through a factory rather than literal strings.
-        return type.matches("(oak|spruce|birch|jungle|acacia|dark_oak|mangrove)_(chest_)?boat")
-            || type.equals("bamboo_raft")
-            || type.equals("bamboo_chest_raft");
+        return isSourceBoat(type);
+    }
+
+    private static boolean isSourceBoat(String type) {
+        // 1.20 and 1.20.1 Mojmap Boat.Type includes CHERRY. Each wood now has separate entity IDs.
+        return type.matches("(oak|spruce|birch|jungle|acacia|cherry|dark_oak|mangrove)_(chest_)?boat")
+            || type.equals("boat") || type.equals("chest_boat")
+            || type.equals("bamboo_raft") || type.equals("bamboo_chest_raft");
     }
 
     private static boolean isChestBoat(String type) {
@@ -149,9 +154,7 @@ public final class PlayerPassengerPlacement implements PlayerPassengerPlacementH
     }
 
     private static Carrier carrier(String type) {
-        if (type.matches("(oak|spruce|birch|jungle|acacia|dark_oak|mangrove)_(chest_)?boat")
-            || type.equals("boat") || type.equals("chest_boat")
-            || type.equals("bamboo_raft") || type.equals("bamboo_chest_raft")) {
+        if (isSourceBoat(type)) {
             return Carrier.BOAT;
         }
         if (type.endsWith("minecart")) {

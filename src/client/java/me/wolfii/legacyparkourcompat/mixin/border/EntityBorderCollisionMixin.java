@@ -4,6 +4,8 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.wolfii.legacyparkourcompat.mechanic.BorderAdmissionContext;
 import me.wolfii.legacyparkourcompat.mechanic.CollisionBorderShapeContext;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
@@ -40,7 +42,8 @@ public abstract class EntityBorderCollisionMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/border/WorldBorder;isInsideCloseToBorder(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Z")
     )
     private static boolean legacyparkourcompat$admitBorder(WorldBorder border, Entity entity,
-                                                         AABB sweptBox, Operation<Boolean> original) {
+        AABB sweptBox, Operation<Boolean> original,
+        @Share("movingBorder") LocalRef<WorldBorderCollisionHook.Collision> movingBorder) {
         var contraction = MovementRuntime.borderContractionAdmission(border, entity, sweptBox);
         if (contraction.isPresent()) {
             var frame = CollisionBorderShapeContext.current();
@@ -53,10 +56,11 @@ public abstract class EntityBorderCollisionMixin {
         var historicalCollision = MovementRuntime.find(WorldBorderCollisionHook.class, entity)
             .map(hook -> hook.collision(border, entity, sweptBox)).orElse(null);
         if (historicalCollision != null) {
-            boolean nativeAdmission = original.call(border, entity, sweptBox);
+            movingBorder.set(historicalCollision);
             var frame = CollisionBorderShapeContext.current();
             if (frame != null) {
-                frame.recordHistoricalCollision(entity, historicalCollision, nativeAdmission);
+                frame.recordAdmission(entity, historicalCollision.insideCloseToBorder(),
+                    original.call(border, entity, sweptBox));
             }
             return historicalCollision.insideCloseToBorder();
         }
@@ -77,12 +81,13 @@ public abstract class EntityBorderCollisionMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/border/WorldBorder;getCollisionShape()Lnet/minecraft/world/phys/shapes/VoxelShape;")
     )
     private static VoxelShape legacyparkourcompat$captureAdmittedBorder(WorldBorder border,
-        Operation<VoxelShape> original, @Local(argsOnly = true) Entity source) {
+        Operation<VoxelShape> original, @Local(argsOnly = true) Entity source,
+        @Share("movingBorder") LocalRef<WorldBorderCollisionHook.Collision> movingBorder) {
         var frame = CollisionBorderShapeContext.current();
-        var historicalCollision = frame == null ? null : frame.historicalCollision(source);
+        var historicalCollision = movingBorder.get();
         VoxelShape shape;
         if (historicalCollision != null) {
-            shape = historicalCollision.shape();
+            shape = historicalCollision.shape().get();
         } else {
             var admission = BorderAdmissionContext.collision();
             var carriedStaticShape = admission != null && admission.entity() == source

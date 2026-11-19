@@ -29,7 +29,7 @@ public final class ChainCollisionShape implements BlockCollisionShapeHook {
 
     @Override
     public String blockId() {
-        return "minecraft:chain";
+        return "minecraft:iron_chain";
     }
 
     @Override

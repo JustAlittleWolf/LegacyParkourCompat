@@ -8,11 +8,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
-/** Resolves the moving-border admission and shape from one historical bounds snapshot. */
+import java.util.function.Supplier;
+
+/** Resolves the moving-border clock for admission and for the later shape read. */
 @MechanicType("border.collision_clock")
 public interface WorldBorderCollisionHook extends VersionedMechanic {
     @Nullable Collision collision(WorldBorder border, Entity entity, AABB box);
 
-    record Collision(boolean insideCloseToBorder, VoxelShape shape) {
+    record Collision(boolean insideCloseToBorder, Supplier<VoxelShape> shape) {
     }
 }

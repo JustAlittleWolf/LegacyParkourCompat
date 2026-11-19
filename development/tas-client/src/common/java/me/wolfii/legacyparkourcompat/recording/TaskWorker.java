@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.Socket;
@@ -23,8 +24,10 @@ final class TaskWorker {
     private final String host;
     private final String id;
     private final String version;
-    private final BlockingQueue<JsonObject> commands = new LinkedBlockingQueue<JsonObject>();
+    private final BlockingQueue<Command> commands = new LinkedBlockingQueue<Command>();
     private final BlockingQueue<Event> events = new LinkedBlockingQueue<Event>();
+    private volatile long gameSession;
+    private volatile Object controlSession;
 
     TaskWorker(String host, String version) {
         this.host = host;
@@ -38,9 +41,23 @@ final class TaskWorker {
         reporter.start();
     }
 
-    JsonObject poll() { return commands.poll(); }
+    void gameSession(long gameSession) { this.gameSession = gameSession; }
+
+    Command poll() {
+        Command command;
+        while ((command = commands.poll()) != null) {
+            if (isCurrent(command)) return command;
+        }
+        return null;
+    }
+
+    boolean isCurrent(Command command) {
+        return command.gameSession == gameSession && command.controlSession == controlSession;
+    }
 
     String id() { return id; }
+
+    boolean isCurrentClient() { return "current".equals(version); }
 
     void event(String runId, String type, String detail, int tick) {
         events.add(new Event(runId, type, detail, tick));
@@ -63,6 +80,8 @@ final class TaskWorker {
                 String response = readHeaders(input);
                 if (!response.startsWith("HTTP/1.1 101 ")) throw new IOException("Gym rejected worker: " + response.split("\r\n")[0]);
                 socket.setSoTimeout(0);
+                Object sessionToken = new Object();
+                controlSession = sessionToken;
                 while (true) {
                     int first = input.read();
                     if (first < 0) throw new IOException("Gym WebSocket closed");
@@ -74,12 +93,37 @@ final class TaskWorker {
                     byte[] data = new byte[length];
                     readFully(input, data);
                     if ((first & 15) == 8) throw new IOException("Gym closed worker WebSocket");
-                    if ((first & 15) == 1) commands.add(new JsonParser().parse(new String(data, StandardCharsets.UTF_8)).getAsJsonObject());
+                    if ((first & 15) == 1) {
+                        long session = gameSession;
+                        if (session == 0L) continue;
+                        JsonObject command = new JsonParser().parse(new String(data, StandardCharsets.UTF_8)).getAsJsonObject();
+                        // A run from the previous game connection may arrive late on this separate socket.
+                        if (session == 1L || !isRunComplete(command.get("runId").getAsString())) {
+                            commands.add(new Command(session, sessionToken, command));
+                        }
+                    }
                 }
             } catch (Exception failure) {
+                controlSession = null;
                 System.err.println("[Legacy Parkour Recording] Gym WebSocket: " + failure.getMessage());
                 try { Thread.sleep(2000L); } catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); return; }
             }
+        }
+    }
+
+    private boolean isRunComplete(String runId) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL("http", host, GymPorts.HTTP,
+            "/api/runs/" + URLEncoder.encode(runId, "UTF-8")).openConnection();
+        connection.setConnectTimeout(3000);
+        connection.setReadTimeout(3000);
+        try {
+            int status = connection.getResponseCode();
+            if (status != 200) throw new IOException("Could not check Gym run " + runId + ": HTTP " + status);
+            try (InputStreamReader reader = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8)) {
+                return new JsonParser().parse(reader).getAsJsonObject().get("complete").getAsBoolean();
+            }
+        } finally {
+            connection.disconnect();
         }
     }
 
@@ -114,7 +158,7 @@ final class TaskWorker {
                 try (OutputStream output = connection.getOutputStream()) { output.write(body); }
                 int status = connection.getResponseCode();
                 connection.disconnect();
-                if (status != 200) throw new IOException("Gym rejected " + event.type + " event: HTTP " + status);
+                if (status != 200 && status != 409) throw new IOException("Gym rejected " + event.type + " event: HTTP " + status);
                 return;
             } catch (Exception failure) {
                 System.err.println("[Legacy Parkour Recording] Could not notify Gym: " + failure.getMessage());
@@ -143,6 +187,18 @@ final class TaskWorker {
             int count = input.read(data, position, data.length - position);
             if (count < 0) throw new IOException("Truncated Gym WebSocket frame");
             position += count;
+        }
+    }
+
+    static final class Command {
+        final long gameSession;
+        final Object controlSession;
+        final JsonObject payload;
+
+        Command(long gameSession, Object controlSession, JsonObject payload) {
+            this.gameSession = gameSession;
+            this.controlSession = controlSession;
+            this.payload = payload;
         }
     }
 

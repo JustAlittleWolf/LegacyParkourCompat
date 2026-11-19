@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -79,6 +80,23 @@ public final class RecordingFiles {
             write(output, recording);
         } finally {
             output.close();
+        }
+    }
+
+    /** An automated capture exclusively creates its destination, including across worker processes. */
+    public static void writeNew(Path path, MovementRecording recording) throws IOException {
+        Path parent = path.getParent();
+        if (parent != null) Files.createDirectories(parent);
+        OutputStream stream = Files.newOutputStream(path, StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+        try (OutputStream output = new BufferedOutputStream(stream)) {
+            write(output, recording);
+        } catch (IOException | RuntimeException failure) {
+            try {
+                Files.deleteIfExists(path);
+            } catch (IOException cleanup) {
+                failure.addSuppressed(cleanup);
+            }
+            throw failure;
         }
     }
 

@@ -128,9 +128,6 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     @Unique
     private final Deque<CallbackMoveInput> legacyparkourcompat$callbackMoveInputs = new ArrayDeque<>();
 
-    @Unique
-    private int legacyparkourcompat$explicitCallbackScanDepth;
-
     // Entity.turn(DD)V declares yaw before pitch; ordinal 1 captures the second double argument.
     @ModifyArg(
         method = "turn(DD)V",
@@ -185,23 +182,15 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         return true;
     }
 
-    @Override
-    @Unique
-    public boolean legacyparkourcompat$isExplicitCallbackScan() {
-        return this.legacyparkourcompat$explicitCallbackScanDepth > 0;
-    }
-
-    @Inject(method = "applyEffectsFromBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"))
-    private void legacyparkourcompat$beginExplicitCallbackScan(Vec3 from, Vec3 to, CallbackInfo callbackInfo) {
-        this.legacyparkourcompat$explicitCallbackScanDepth++;
-    }
-
-    @Inject(method = "applyEffectsFromBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)V", at = @At("RETURN"))
-    private void legacyparkourcompat$endExplicitCallbackScan(Vec3 from, Vec3 to, CallbackInfo callbackInfo) {
-        if (this.legacyparkourcompat$explicitCallbackScanDepth <= 0) {
-            throw new IllegalStateException("Explicit callback scan depth underflow");
+    // 1.21.5 Mojmap Entity.teleportSetPosition clears its pending batches after setting
+    // velocity. 26.2 unobfuscated delegates both teleport overloads to this clear call.
+    @Inject(method = "teleportSetPosition(Lnet/minecraft/world/entity/PositionMoveRotation;Lnet/minecraft/world/entity/PositionMoveRotation;Ljava/util/Set;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;clearMovementThisTick()V",
+            shift = At.Shift.AFTER))
+    private void legacyparkourcompat$clearCallbackBatchesAfterTeleport(CallbackInfo callbackInfo) {
+        if (!this.legacyparkourcompat$callbackMovementBatches.isEmpty()) {
+            this.legacyparkourcompat$callbackMovementBatches.clear();
         }
-        this.legacyparkourcompat$explicitCallbackScanDepth--;
     }
 
     @Inject(method = "removeLatestMovementRecording()V", at = @At("HEAD"), cancellable = true)
@@ -465,11 +454,12 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         @Share("requestedMovement") LocalRef<Vec3> requested,
         @Share("resolvedMovement") LocalRef<Vec3> resolved,
         @Share("resolvedCollisionBox") LocalRef<AABB> resolvedBox,
-        @Local(argsOnly = true) Vec3 movementAtMoveEntry,
         @Local(argsOnly = true) MoverType moverType) {
         requested.set(movement);
         AABB startingBox = entity.getBoundingBox();
-        boolean unadjustedPrimaryMovement = movement.equals(movementAtMoveEntry);
+        // Entity.move reassigns its delta argument before collide, including after edge backoff.
+        CallbackMoveInput entry = this.legacyparkourcompat$callbackMoveInputs.peek();
+        boolean unadjustedPrimaryMovement = entry != null && movement.equals(entry.requestedAtEntry());
         Vec3 result = CollisionAxisOrderContext.withMovementEntity(
             entity, moverType, startingBox, movement, unadjustedPrimaryMovement, () -> {
             Vec3 clipped = original.call(entity, movement);
@@ -793,6 +783,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     @ModifyReturnValue(method = "getGravity", at = @At("RETURN"))
     private double legacyparkourcompat$historicalPlayerGravity(double vanilla) {
         Entity entity = (Entity)(Object)this;
+        if (MovementRuntime.isNativeGlideGravityQuery(entity)) {
+            return vanilla;
+        }
         return MovementRuntime.find(GravityHook.class, entity)
             .map(behavior -> behavior.gravity(entity, vanilla))
             .orElse(vanilla);

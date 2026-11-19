@@ -26,8 +26,8 @@ public abstract class LivingEntityClimbingMixin {
     )
     private boolean legacyparkourcompat$trapdoorClimbing(LivingEntity entity, BlockPos pos, BlockState state, Operation<Boolean> original) {
         boolean vanillaResult = original.call(entity, pos, state);
-        return MovementRuntime.find(TrapdoorClimbingHook.class, entity)
-            .map(hook -> hook.canClimbTrapdoor(vanillaResult))
-            .orElse(vanillaResult);
+        return vanillaResult && !MovementRuntime.find(TrapdoorClimbingHook.class, entity)
+            .map(hook -> hook.blocksClimbing(state))
+            .orElse(false);
     }
 }

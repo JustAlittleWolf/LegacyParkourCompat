@@ -11,6 +11,7 @@ import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.protocol.game.ClientboundSetBorderLerpSizePacket;
 import net.minecraft.world.level.border.WorldBorder;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -51,9 +52,15 @@ abstract class ClientBorderPacketMixin {
         MovementRuntime.clearClientBorderContraction();
     }
 
-    @Inject(method = "handleRespawn", at = @At(value = "INVOKE", target = THREAD_GUARD, shift = At.Shift.AFTER))
+    // 1.21.4–1.21.10 Mojmap and 26.2 keep the level and its border on same-dimension respawn.
+    @Inject(method = "handleRespawn", at = @At(value = "FIELD", opcode = Opcodes.PUTFIELD,
+        target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;level:Lnet/minecraft/client/multiplayer/ClientLevel;"))
     private void legacyparkourcompat$clearRespawnBorderState(ClientboundRespawnPacket packet, CallbackInfo ci) {
-        ClientBorderLerpState.clearAll();
+        ClientBorderLerpState.clear(this.level.getWorldBorder());
+    }
+
+    @Inject(method = "handleRespawn", at = @At(value = "INVOKE", target = THREAD_GUARD, shift = At.Shift.AFTER))
+    private void legacyparkourcompat$clearRespawnPlayerContraction(ClientboundRespawnPacket packet, CallbackInfo ci) {
         MovementRuntime.clearClientBorderContraction();
     }
 

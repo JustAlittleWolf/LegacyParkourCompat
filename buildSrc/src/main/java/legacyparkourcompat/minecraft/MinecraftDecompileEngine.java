@@ -627,6 +627,13 @@ final class MinecraftDecompileEngine {
     private Path downloadYarnJar(String mavenRoot, String group, String artifact, String version) throws Exception {
         String base = mavenRoot + group.replace('.', '/') + '/' + artifact + '/' + version + '/' + artifact + '-' + version;
         List<String> suffixes = List.of("-mergedv2.jar", "-v2.jar", ".jar");
+        // Reuse the chosen classifier even when a preferred classifier was absent on first use.
+        for (String suffix : suffixes) {
+            Path dest = cacheDir.resolve("yarn").resolve(artifact + '-' + version + suffix);
+            if (Files.exists(dest.resolveSibling(dest.getFileName() + ".pin.json"))) {
+                return download(base + suffix, dest, null);
+            }
+        }
         for (String suffix : suffixes) {
             Path dest = cacheDir.resolve("yarn").resolve(artifact + '-' + version + suffix);
             try {

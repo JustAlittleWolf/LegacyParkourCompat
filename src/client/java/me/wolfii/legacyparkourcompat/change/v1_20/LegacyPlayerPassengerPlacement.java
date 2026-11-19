@@ -1,12 +1,12 @@
 package me.wolfii.legacyparkourcompat.change.v1_20;
 
+import me.wolfii.legacyparkourcompat.change.common.LegacyTrig;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Carrier;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Input;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Invocation;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.Placement;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.PlayerPassengerPlacementHook.RotationEffect;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
@@ -75,6 +75,9 @@ public final class LegacyPlayerPassengerPlacement {
 
         RotationEffect rotation = switch (carrier) {
             case CAMEL -> RotationEffect.CLAMP_TO_VEHICLE;
+            // 1.20.1 Mojmap Llama.positionRider writes only position. In 26.2 the
+            // inherited AbstractHorse.positionRider also assigns the passenger's body yaw.
+            case LLAMA -> RotationEffect.SUPPRESS_NATIVE_BODY_YAW_COPY;
             case ABSTRACT_HORSE, CHESTED_HORSE, SKELETON_HORSE -> input.horseStandAnimO() > 0.0F
                 ? RotationEffect.KEEP_NATIVE
                 : RotationEffect.SUPPRESS_NATIVE_BODY_YAW_COPY;
@@ -107,17 +110,17 @@ public final class LegacyPlayerPassengerPlacement {
             }
         }
 
-        Vec3 seat = new Vec3(0.0, 0.0, side)
-            .yRot(-input.vehicleYBodyRot() * (float)(Math.PI / 180.0));
+        float rotation = -input.vehicleYBodyRot() * (float)(Math.PI / 180.0);
+        Vec3 seat = rotateSeat(0.0, side, rotation);
         return new Vec3(input.vehicleX() + seat.x, input.vehicleY() + yOffset, input.vehicleZ() + seat.z);
     }
 
     private static Vec3 chicken(Input input) {
         float radians = input.vehicleYBodyRot() * (float)(Math.PI / 180.0);
         return new Vec3(
-            input.vehicleX() + 0.1F * Mth.sin(radians),
+            input.vehicleX() + 0.1F * LegacyTrig.sin(radians),
             input.chickenYAtHalf() + PLAYER_RIDING_OFFSET + 0.0,
-            input.vehicleZ() - 0.1F * Mth.cos(radians)
+            input.vehicleZ() - 0.1F * LegacyTrig.cos(radians)
         );
     }
 
@@ -128,9 +131,9 @@ public final class LegacyPlayerPassengerPlacement {
             float horizontal = 0.7F * input.horseStandAnimO();
             float vertical = 0.15F * input.horseStandAnimO();
             return new Vec3(
-                input.vehicleX() + horizontal * Mth.sin(radians),
+                input.vehicleX() + horizontal * LegacyTrig.sin(radians),
                 input.vehicleY() + vehicleOffset + PLAYER_RIDING_OFFSET + vertical,
-                input.vehicleZ() - horizontal * Mth.cos(radians)
+                input.vehicleZ() - horizontal * LegacyTrig.cos(radians)
             );
         }
         return base(input, vehicleOffset);
@@ -139,9 +142,9 @@ public final class LegacyPlayerPassengerPlacement {
     private static Vec3 llama(Input input) {
         float radians = input.vehicleYBodyRot() * (float)(Math.PI / 180.0);
         return new Vec3(
-            input.vehicleX() + 0.3F * Mth.sin(radians),
+            input.vehicleX() + 0.3F * LegacyTrig.sin(radians),
             input.vehicleY() + oldVehicleOffset(input) + PLAYER_RIDING_OFFSET,
-            input.vehicleZ() - 0.3F * Mth.cos(radians)
+            input.vehicleZ() - 0.3F * LegacyTrig.cos(radians)
         );
     }
 
@@ -154,8 +157,16 @@ public final class LegacyPlayerPassengerPlacement {
         }
 
         float rotation = -input.vehicleYRot() * (float)(Math.PI / 180.0) - (float)(Math.PI / 2);
-        Vec3 seat = new Vec3(side, 0.0, 0.0).yRot(rotation);
+        Vec3 seat = rotateSeat(side, 0.0, rotation);
         return new Vec3(input.vehicleX() + seat.x, input.vehicleY() + yOffset, input.vehicleZ() + seat.z);
+    }
+
+    // 1.20.1 Mojmap Vec3.yRot multiplies double coordinates by float Mth samples.
+    // 26.2 unobfuscated Vec3.yRot calls Mth.sin(double)/cos(double), changing the table index.
+    private static Vec3 rotateSeat(double x, double z, float radians) {
+        float cosine = LegacyTrig.cos(radians);
+        float sine = LegacyTrig.sin(radians);
+        return new Vec3(x * cosine + z * sine, 0.0, z * cosine - x * sine);
     }
 
     private static double oldVehicleOffset(Input input) {
@@ -173,7 +184,7 @@ public final class LegacyPlayerPassengerPlacement {
             case RAVAGER -> 2.1;
             case SPIDER -> input.vehicleBoundingBoxHeight() * 0.5F;
             case STRIDER -> input.vehicleBoundingBoxHeight() - 0.19
-                + 0.12F * Mth.cos(input.striderWalkPosition() * 1.5F) * 2
+                + 0.12F * LegacyTrig.cos(input.striderWalkPosition() * 1.5F) * 2
                     * Math.min(0.25F, input.striderWalkSpeed());
             case ABSTRACT_MINECART, MINECART -> 0.0;
             case BOAT -> input.bambooBoat() ? 0.25 : -0.1;

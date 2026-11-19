@@ -58,6 +58,21 @@ final class GymControlApi implements AutoCloseable {
             && (worker.player == null || worker.player.getUniqueId().equals(player.getUniqueId()))) worker.player = player;
     }
 
+    boolean failPlayerRun(Player player, String detail) {
+        synchronized (workers) {
+            boolean playbackMayBeRunning = false;
+            for (Worker worker : workers.values()) {
+                if (worker.player != player || worker.runId == null) continue;
+                Run run = runs.get(worker.runId);
+                if (run != null && run.event("error", detail)) {
+                    worker.runId = null;
+                    playbackMayBeRunning |= run.dispatched;
+                }
+            }
+            return playbackMayBeRunning;
+        }
+    }
+
     void start() throws IOException {
         InetAddress loopback = InetAddress.getByName("127.0.0.1");
         http = HttpServer.create(new InetSocketAddress(loopback, HTTP_PORT), 32);
@@ -121,6 +136,20 @@ final class GymControlApi implements AutoCloseable {
         JsonObject request;
         try { request = JsonParser.parseString(readBody(exchange)).getAsJsonObject(); }
         catch (RuntimeException invalid) { respond(exchange, 400, error("Invalid JSON")); return; }
+        String requestId = string(request, "requestId");
+        if (request.has("requestId")) {
+            try {
+                if (requestId == null || !UUID.fromString(requestId).toString().equals(requestId))
+                    throw new IllegalArgumentException();
+            } catch (IllegalArgumentException invalid) {
+                respond(exchange, 400, error("requestId must be a canonical UUID")); return;
+            }
+            Run previous = runs.get(requestId);
+            if (previous != null) {
+                respondToRetry(exchange, previous, request);
+                return;
+            }
+        }
         String version = string(request, "clientVersion");
         String recording = string(request, "recording");
         String output = string(request, "output");
@@ -134,7 +163,7 @@ final class GymControlApi implements AutoCloseable {
         try {
             source = Path.of(recording).toAbsolutePath().normalize();
             target = Path.of(output).toAbsolutePath().normalize();
-            if (!Files.isRegularFile(source) || source.equals(target) || Files.exists(target)) {
+            if (!Files.isRegularFile(source) || source.equals(target)) {
                 respond(exchange, 400, error("Recording must exist and output must be a fresh, separate path")); return;
             }
             if (request.has("maxUlps") && (request.get("maxUlps").getAsLong() < 0 || request.get("maxUlps").getAsLong() > Long.MAX_VALUE)) {
@@ -148,19 +177,47 @@ final class GymControlApi implements AutoCloseable {
             preparation = RunPreparation.parse(recordingData, request, featureVersion);
         } catch (RuntimeException invalid) { respond(exchange, 400, error("Invalid run settings: " + invalid.getMessage())); return; }
         catch (IOException invalid) { respond(exchange, 400, error("Invalid recording: " + invalid.getMessage())); return; }
+        boolean existingOutput = Files.exists(target);
         Worker selected = null;
-        Run run;
+        Run previous;
+        Run run = null;
+        String rejection = null;
+        int rejectionStatus = 409;
         synchronized (workers) {
-            for (Worker worker : workers.values()) {
-                if (worker.version.equals(version) && worker.runId == null && worker.player != null
-                    && worker.player.isOnline() && plugin.isPrivateReady(worker.player.getUniqueId())) {
-                    selected = worker; break;
+            previous = requestId == null ? null : runs.get(requestId);
+            if (previous == null) {
+                if (existingOutput) {
+                    rejection = "Output already exists";
+                    rejectionStatus = 400;
+                } else {
+                    for (Worker worker : workers.values()) {
+                        String activeId = worker.runId;
+                        if (activeId != null && target.equals(runs.get(activeId).outputPath)) {
+                            rejection = "Output is already reserved by run " + activeId;
+                            break;
+                        }
+                        if (selected == null && worker.version.equals(version) && activeId == null && worker.player != null
+                            && worker.player.isOnline() && plugin.isPrivateReady(worker.player.getUniqueId())) {
+                            selected = worker;
+                        }
+                    }
+                    if (selected == null && rejection == null) rejection = "No idle worker for " + version;
+                }
+                if (rejection == null) {
+                    String id = requestId == null ? UUID.randomUUID().toString() : requestId;
+                    run = new Run(id, version, selected.id, target, requestId == null ? null : request.deepCopy());
+                    runs.put(id, run);
+                    selected.runId = id;
                 }
             }
-            if (selected == null) { respond(exchange, 409, error("No idle worker for " + version)); return; }
-            run = new Run(UUID.randomUUID().toString(), version, selected.id);
-            selected.runId = run.id;
-            runs.put(run.id, run);
+        }
+        if (previous != null) {
+            respondToRetry(exchange, previous, request);
+            return;
+        }
+        if (rejection != null) {
+            respond(exchange, rejectionStatus, error(rejection));
+            return;
         }
         request.addProperty("type", "run");
         request.addProperty("runId", run.id);
@@ -170,14 +227,28 @@ final class GymControlApi implements AutoCloseable {
             JsonObject start = preparation.prepare(plugin, selected.player).get(30, TimeUnit.SECONDS);
             request.add("start", start);
             request.add("setup", preparation.setup);
+            synchronized (run) {
+                if (run.complete) throw new IllegalStateException("Worker became unavailable before dispatch");
+                run.dispatched = true;
+            }
             selected.send(JSON.toJson(request));
         } catch (Exception failure) {
-            synchronized (workers) { selected.runId = null; }
+            synchronized (workers) {
+                if (run.id.equals(selected.runId)) selected.runId = null;
+            }
             run.event("error", "Run preparation failed: " + failure.getMessage());
             respond(exchange, 503, JSON.toJson(run.snapshot()));
             return;
         }
         respond(exchange, 202, JSON.toJson(run.snapshot()));
+    }
+
+    private static void respondToRetry(HttpExchange exchange, Run run, JsonObject request) throws IOException {
+        if (!request.equals(run.submission)) {
+            respond(exchange, 409, error("requestId already belongs to a different request"));
+        } else {
+            respond(exchange, 202, JSON.toJson(run.snapshot()));
+        }
     }
 
     private void postEvent(HttpExchange exchange, Run run) throws IOException {
@@ -194,8 +265,10 @@ final class GymControlApi implements AutoCloseable {
             run.event(type, JSON.toJson(event));
         }
         if (run.complete) {
-            Worker worker = workers.get(run.workerId);
-            if (worker != null && run.id.equals(worker.runId)) worker.runId = null;
+            synchronized (workers) {
+                Worker worker = workers.get(run.workerId);
+                if (worker != null && run.id.equals(worker.runId)) worker.runId = null;
+            }
         }
         respond(exchange, 200, JSON.toJson(run.snapshot()));
     }
@@ -321,11 +394,21 @@ final class GymControlApi implements AutoCloseable {
 
     private static final class Run {
         final String id, version, workerId;
+        final Path outputPath;
+        final JsonObject submission;
         final List<JsonObject> events = new ArrayList<>();
         String state = "queued";
         boolean complete;
-        Run(String id, String version, String workerId) { this.id = id; this.version = version; this.workerId = workerId; }
-        synchronized void event(String type, String detail) {
+        boolean dispatched;
+        Run(String id, String version, String workerId, Path outputPath, JsonObject submission) {
+            this.id = id;
+            this.version = version;
+            this.workerId = workerId;
+            this.outputPath = outputPath;
+            this.submission = submission;
+        }
+        synchronized boolean event(String type, String detail) {
+            if (complete) return false;
             JsonObject event = new JsonObject();
             event.addProperty("type", type);
             event.addProperty("detail", detail);
@@ -333,6 +416,7 @@ final class GymControlApi implements AutoCloseable {
             events.add(event);
             state = type;
             complete = "success".equals(type) || "after_failure".equals(type) || "error".equals(type);
+            return true;
         }
         synchronized JsonObject snapshot() {
             JsonObject value = new JsonObject();

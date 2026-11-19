@@ -75,6 +75,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
@@ -160,9 +161,6 @@ abstract class LivingEntityMixin {
         return PostMoveFluidRefreshContext.suppressLavaCurrent(entity, () -> original.call(entity));
     }
 
-    @Invoker("getEffectiveGravity")
-    protected abstract double legacyparkourcompat$invokeGetEffectiveGravity();
-
     @WrapOperation(method = "tick()V", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/LivingEntity;setXRot(F)V"))
     private void legacyparkourcompat$sleepPitchReset(LivingEntity entity, float pitch, Operation<Void> original) {
@@ -221,12 +219,8 @@ abstract class LivingEntityMixin {
         LivingEntity entity = (LivingEntity)(Object)this;
         if (!entity.isFallFlying()) {
             MovementRuntime.find(ClimbImpulseHook.class, entity)
-                .ifPresent(hook -> {
-                    boolean trapdoorClimbing = MovementRuntime.find(TrapdoorClimbingHook.class, entity)
-                        .map(trapdoor -> trapdoor.canClimbTrapdoor(true))
-                        .orElse(true);
-                    cir.setReturnValue(hook.afterMove(entity, cir.getReturnValue(), trapdoorClimbing));
-                });
+                .ifPresent(hook -> cir.setReturnValue(hook.afterMove(entity, MovementRuntime.profile(entity).target(),
+                    cir.getReturnValue(), MovementRuntime.find(TrapdoorClimbingHook.class, entity).orElse(null))));
         }
     }
 
@@ -502,9 +496,10 @@ abstract class LivingEntityMixin {
     private void legacyparkourcompat$groundAcceleration(float blockFriction, CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity)(Object)this;
         if (entity instanceof Player player) {
-            cir.setReturnValue(MovementRuntime.find(GroundSpeedHook.class, player)
-                .map(behavior -> behavior.speed(entity, blockFriction, cir.getReturnValue()))
-                .orElse(cir.getReturnValue()));
+            MovementRuntime.find(GroundSpeedHook.class, player)
+                // 26.2 travelInAir can reduce friction to zero with this modern attribute.
+                .filter(ignored -> (float) player.getAttributeValue(Attributes.FRICTION_MODIFIER) == 1.0F)
+                .ifPresent(behavior -> cir.setReturnValue(behavior.speed(entity, blockFriction, cir.getReturnValue())));
         }
     }
 
@@ -519,17 +514,17 @@ abstract class LivingEntityMixin {
             .orElse(vanilla);
     }
 
-    @Redirect(
+    @WrapOperation(
         method = "updateFallFlyingMovement",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getEffectiveGravity()D")
     )
-    private double legacyparkourcompat$fallFlyingGravity(LivingEntity entity) {
+    private double legacyparkourcompat$fallFlyingGravity(LivingEntity entity, Operation<Double> original) {
         if (!entity.level().isClientSide() || !entity.isLocalInstanceAuthoritative()) {
-            return ((LivingEntityMixin)(Object)entity).legacyparkourcompat$invokeGetEffectiveGravity();
+            return original.call(entity);
         }
         return MovementRuntime.find(TravelFallFlyingGravityHook.class, entity)
-            .map(hook -> hook.gravity(entity))
-            .orElseGet(() -> ((LivingEntityMixin)(Object)entity).legacyparkourcompat$invokeGetEffectiveGravity());
+            .map(hook -> hook.gravity(entity, () -> MovementRuntime.nativeGlideGravity(entity, () -> original.call(entity))))
+            .orElseGet(() -> original.call(entity));
     }
 
     @Inject(
