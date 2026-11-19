@@ -61,12 +61,13 @@ public abstract class WallBlockMixin {
                 boolean suppressPane = MovementRuntime.find(WallPaneAttachmentHook.class, localPlayer)
                     .map(hook -> hook.suppressAttachment(neighbor, selected))
                     .orElse(false);
-                boolean suppressSoulSand = MovementRuntime.find(WallSoulSandConnectionHook.class, localPlayer)
-                    .map(hook -> hook.suppressConnection(neighbor, selected))
-                    .orElse(false);
-                if (suppressPane || suppressSoulSand) {
+                if (suppressPane) {
                     shapeState = shapeState.setValue(sideProperty, WallSide.NONE);
                 }
+            }
+            var soulSandConnection = MovementRuntime.find(WallSoulSandConnectionHook.class, localPlayer);
+            if (soulSandConnection.isPresent()) {
+                shapeState = soulSandConnection.get().collisionState(shapeState, level, pos, selected);
             }
         }
 
