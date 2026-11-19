@@ -1,17 +1,31 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
 import me.wolfii.legacyparkourcompat.mechanic.FluidCurrentCutoffContext;
+import me.wolfii.legacyparkourcompat.mechanic.FluidTrackerDepthAccess;
 
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidCurrentMinimumHook;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(targets = "net.minecraft.world.entity.EntityFluidInteraction$Tracker")
-abstract class EntityFluidCurrentMixin {
+abstract class EntityFluidCurrentMixin implements FluidTrackerDepthAccess {
+    @Shadow private double height;
+
+    @Override
+    public double legacyparkourcompat$getDepth() {
+        return this.height;
+    }
+
+    @Override
+    public void legacyparkourcompat$setDepth(double depth) {
+        this.height = depth;
+    }
+
     @Redirect(
         method = "applyCurrentTo",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec3;lengthSqr()D")

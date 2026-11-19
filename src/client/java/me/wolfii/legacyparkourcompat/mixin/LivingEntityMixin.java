@@ -55,6 +55,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.state.SleepPitchResetHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.jump.SprintJumpImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.RetainedWaterJumpHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PostMoveLavaCurrentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PostMoveLavaDepthHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.VelocityZeroThresholdHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterGravityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterEnchantmentFactorsHook;
@@ -159,15 +160,19 @@ abstract class LivingEntityMixin {
         method = "checkFallDamage",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;updateFluidInteraction()Z")
     )
-    private boolean legacyparkourcompat$historicalPostMoveLavaCurrent(
+    private boolean legacyparkourcompat$historicalPostMoveFluidRefresh(
         LivingEntity entity,
         Operation<Boolean> original
     ) {
-        var behavior = MovementRuntime.find(PostMoveLavaCurrentHook.class, entity);
-        if (behavior.isEmpty() || behavior.get().appliesLavaCurrent(entity)) {
+        boolean suppressLavaCurrent = MovementRuntime.find(PostMoveLavaCurrentHook.class, entity)
+            .map(hook -> !hook.appliesLavaCurrent(entity)).orElse(false);
+        boolean retainLavaDepth = MovementRuntime.find(PostMoveLavaDepthHook.class, entity)
+            .map(PostMoveLavaDepthHook::retainsLavaDepth).orElse(false);
+        if (!suppressLavaCurrent && !retainLavaDepth) {
             return original.call(entity);
         }
-        return PostMoveFluidRefreshContext.suppressLavaCurrent(entity, () -> original.call(entity));
+        return PostMoveFluidRefreshContext.run(entity, suppressLavaCurrent, retainLavaDepth,
+            () -> original.call(entity));
     }
 
     @WrapOperation(method = "tick()V", at = @At(value = "INVOKE",

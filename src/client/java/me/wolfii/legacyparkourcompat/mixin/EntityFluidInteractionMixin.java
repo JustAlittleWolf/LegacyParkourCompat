@@ -3,13 +3,16 @@ package me.wolfii.legacyparkourcompat.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import me.wolfii.legacyparkourcompat.mechanic.FluidTrackerDepthAccess;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.OrdinaryPlayerContext;
+import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.BodyWaterScanAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.BodyWaterSurfaceHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.FluidInteractionBoxHook;
@@ -38,10 +41,13 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import java.util.Map;
 import java.util.Optional;
 
 import org.jspecify.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -50,6 +56,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityFluidInteraction.class)
 abstract class EntityFluidInteractionMixin implements BodyWaterProjection {
+    @Shadow @Final private Map<TagKey<Fluid>, ?> trackerByFluid;
+
     @Unique private boolean legacyparkourcompat$bodyWaterObserved;
     @Unique private boolean legacyparkourcompat$bodyWaterUnsupported;
     @Unique private boolean legacyparkourcompat$bodyWaterContact;
@@ -65,6 +73,22 @@ abstract class EntityFluidInteractionMixin implements BodyWaterProjection {
     public double legacyparkourcompat$bodyWaterDepth(double nativeDepth) {
         return legacyparkourcompat$bodyWaterObserved && !legacyparkourcompat$bodyWaterUnsupported
             ? legacyparkourcompat$bodyWaterDepth : nativeDepth;
+    }
+
+    @WrapMethod(method = "update(Lnet/minecraft/world/entity/Entity;Z)V")
+    private void legacyparkourcompat$retainPostMoveLavaDepth(Entity entity, boolean ignoreCurrent,
+        Operation<Void> original) {
+        if (!PostMoveFluidRefreshContext.retainsLavaDepth(entity)) {
+            original.call(entity, ignoreCurrent);
+            return;
+        }
+        var tracker = (FluidTrackerDepthAccess) this.trackerByFluid.get(FluidTags.LAVA);
+        double depth = tracker.legacyparkourcompat$getDepth();
+        try {
+            original.call(entity, ignoreCurrent);
+        } finally {
+            tracker.legacyparkourcompat$setDepth(depth);
+        }
     }
 
     @Inject(method = "update(Lnet/minecraft/world/entity/Entity;Z)V", at = @At("HEAD"))
