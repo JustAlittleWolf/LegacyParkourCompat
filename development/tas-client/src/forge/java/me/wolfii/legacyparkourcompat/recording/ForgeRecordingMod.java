@@ -14,6 +14,7 @@ public final class ForgeRecordingMod {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         RecordingController controller = RecordingController.get();
+        ReflectivePlayback.INSTANCE.enableForgeMovementInput();
         controller.attach(ReflectivePlayback.INSTANCE);
         try {
             controller.configureAutomation(AutomationSettings.fromSystemProperties());

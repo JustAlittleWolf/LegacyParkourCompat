@@ -18,6 +18,7 @@ public final class ForgeRecordingMod {
 
     private void setup(FMLCommonSetupEvent event) {
         RecordingController controller = RecordingController.get();
+        ReflectivePlayback.INSTANCE.enableForgeMovementInput();
         controller.attach(ReflectivePlayback.INSTANCE);
         try {
             controller.configureAutomation(AutomationSettings.fromSystemProperties());
@@ -42,6 +43,7 @@ public final class ForgeRecordingMod {
         if (event.phase == TickEvent.Phase.START) {
             controller.beforePlayerTick();
         } else {
+            ReflectivePlayback.INSTANCE.restoreForgeMovementKeys();
             controller.afterPlayerTick();
         }
     }

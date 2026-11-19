@@ -14,6 +14,8 @@ import java.nio.file.Path;
 public final class ReflectivePlayback implements MinecraftPlayback {
     public static final ReflectivePlayback INSTANCE = new ReflectivePlayback();
 
+    private boolean forgeMovementInput;
+    private ForgeMovementKeys forgeKeys;
     private boolean wasUseDown;
     private Object mutedAudioCategory;
     private Object mutedAudioOption;
@@ -161,6 +163,12 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         boolean useHold = keyDown(new String[]{"keyUse", "keyBindUseItem", "field_1904"});
         boolean useClick = keyClicked(new String[]{"keyUse", "keyBindUseItem", "field_1904"}) || (useHold && !this.wasUseDown);
         this.wasUseDown = useHold;
+        if (this.forgeMovementInput) {
+            int buttons = forgeMovementKeys().read();
+            if (useHold) buttons |= TickButtons.USE_HOLD;
+            if (useClick) buttons |= TickButtons.USE_CLICK;
+            return buttons;
+        }
         boolean sprint = keyDown(new String[]{"keySprint", "keyBindSprint", "field_1867"}) || boolInvoke(player, new String[]{"isSprinting", "method_5728"});
         if (input == null) {
             return TickButtons.pack(false, false, false, false, false, false, sprint, useHold, useClick);
@@ -181,7 +189,7 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     public void applyButtons(int buttons) {
         Object player = requirePlayer();
         Object input = first(player, new String[]{"input", "movementInput", "field_3913", "field_71158_b"});
-        if (input != null) {
+        if (!this.forgeMovementInput && input != null) {
             setNumber(input, new String[]{"forwardImpulse", "movementForward", "moveForward", "field_3905", "field_78900_b"},
                 TickButtons.isSet(buttons, TickButtons.FORWARD) ? 1.0F : TickButtons.isSet(buttons, TickButtons.BACK) ? -1.0F : 0.0F);
             setNumber(input, new String[]{"leftImpulse", "movementSideways", "moveStrafe", "field_3907", "field_78902_a"},
@@ -199,7 +207,107 @@ public final class ReflectivePlayback implements MinecraftPlayback {
         if (TickButtons.isSet(buttons, TickButtons.USE_CLICK)) {
             clickKey(new String[]{"keyUse", "keyBindUseItem", "field_1904"});
         }
-        setKeyDown(new String[]{"keySprint", "keyBindSprint", "field_1867"}, TickButtons.isSet(buttons, TickButtons.SPRINT));
+        if (this.forgeMovementInput) {
+            if (RecordingController.get().isPlaying()) forgeMovementKeys().apply(buttons);
+        } else {
+            setKeyDown(new String[]{"keySprint", "keyBindSprint", "field_1867"}, TickButtons.isSet(buttons, TickButtons.SPRINT));
+        }
+    }
+
+    void enableForgeMovementInput() {
+        this.forgeMovementInput = true;
+    }
+
+    public void restoreForgeMovementKeys() {
+        if (this.forgeKeys != null) this.forgeKeys.restore();
+    }
+
+    private ForgeMovementKeys forgeMovementKeys() {
+        if (this.forgeKeys == null) this.forgeKeys = new ForgeMovementKeys(options());
+        return this.forgeKeys;
+    }
+
+    // Ornithe Feather 1.8.9 and 1.9.4 through 1.13.2 KeyboardInput.tick reads these
+    // bindings, cancels opposite axes and scales sneaking inputs. Preserve the old
+    // sampled inputs until vanilla reaches that call inside the local player tick.
+    private static final class ForgeMovementKeys {
+        private static final String[][] NAMES = {
+            {"keyBindForward", "field_74351_w"}, {"keyBindBack", "field_74368_y"},
+            {"keyBindLeft", "field_74370_x"}, {"keyBindRight", "field_74366_z"},
+            {"keyBindJump", "field_74314_A"}, {"keyBindSneak", "field_74311_E"},
+            {"keyBindSprint", "field_151444_V"}
+        };
+        private static final int[] BITS = {
+            TickButtons.FORWARD, TickButtons.BACK, TickButtons.LEFT, TickButtons.RIGHT,
+            TickButtons.JUMP, TickButtons.SNEAK, TickButtons.SPRINT
+        };
+        private final Object[] bindings = new Object[NAMES.length];
+        private final Field pressed;
+        private int liveButtons;
+        private boolean overridden;
+
+        ForgeMovementKeys(Object options) {
+            for (int i = 0; i < NAMES.length; i++) {
+                this.bindings[i] = first(options, NAMES[i]);
+                if (this.bindings[i] == null) throw new IllegalStateException("Missing Forge binding " + NAMES[i][0]);
+            }
+            this.pressed = pressedField(this.bindings[0].getClass());
+        }
+
+        private static Field pressedField(Class<?> bindingType) {
+            for (Class<?> type = bindingType; type != null; type = type.getSuperclass()) {
+                for (String name : new String[]{"pressed", "field_74513_e"}) {
+                    try {
+                        Field field = type.getDeclaredField(name);
+                        field.setAccessible(true);
+                        return field;
+                    } catch (NoSuchFieldException missing) {
+                        // Continue with the other MCP/SRG name and the superclass.
+                    }
+                }
+            }
+            throw new IllegalStateException("Missing Forge key binding pressed field");
+        }
+
+        int read() {
+            int buttons = 0;
+            try {
+                for (int i = 0; i < this.bindings.length; i++) {
+                    if (this.pressed.getBoolean(this.bindings[i])) buttons |= BITS[i];
+                }
+            } catch (IllegalAccessException failure) {
+                throw new IllegalStateException("Cannot read Forge movement keys", failure);
+            }
+            return buttons;
+        }
+
+        void apply(int buttons) {
+            if (!this.overridden) this.liveButtons = read();
+            this.overridden = true;
+            try {
+                write(buttons);
+            } catch (RuntimeException failure) {
+                restore();
+                throw failure;
+            }
+        }
+
+        void restore() {
+            if (this.overridden) {
+                write(this.liveButtons);
+                this.overridden = false;
+            }
+        }
+
+        private void write(int buttons) {
+            try {
+                for (int i = 0; i < this.bindings.length; i++) {
+                    this.pressed.setBoolean(this.bindings[i], TickButtons.isSet(buttons, BITS[i]));
+                }
+            } catch (IllegalAccessException failure) {
+                throw new IllegalStateException("Cannot write Forge movement keys", failure);
+            }
+        }
     }
 
     @Override

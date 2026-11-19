@@ -1,6 +1,7 @@
 package me.wolfii.legacyparkourcompat.recording.mixin;
 
 import me.wolfii.legacyparkourcompat.recording.RecordingController;
+import me.wolfii.legacyparkourcompat.recording.ReflectivePlayback;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,6 +16,7 @@ public abstract class EntityPlayerSPMixin {
 
     @Inject(method = {"onUpdate", "func_70071_h_", "tick"}, at = @At("RETURN"), require = 0)
     private void legacyparkourcompat$afterTick(CallbackInfo callback) {
+        ReflectivePlayback.INSTANCE.restoreForgeMovementKeys();
         RecordingController.get().afterPlayerTick();
     }
 
