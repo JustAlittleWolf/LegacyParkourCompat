@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_19_4;
+package me.wolfii.legacyparkourcompat.change.v1_21_10;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.Fluids;
 import java.util.Optional;
 
 /**
- * Exact 1.14–1.19.4 client fluid admission uses an area guard whose virtual
+ * Exact 1.14–1.21.10 client fluid admission uses an area guard whose virtual
  * client chunk check accepts empty chunks. Its ordinary body scan uses a
  * 0.001 inset, contextual height and inclusive surface overlap. The 1.16–1.16.5
  * explicit scan-admission change takes precedence before this fallback.
@@ -22,9 +22,10 @@ import java.util.Optional;
  * actually loaded ordinary water column without reopening the native scan.
  * Source and audit: development/research/source-evidence/20261118/
  * block-a-114-115-body-water-admission/ and development/research/source-evidence/
- * 20261119/block-a-118-119-body-water-admission/.
+ * 20261119: block-a-118-119-body-water-admission, block-a-120-body-water-admission,
+ * and block-a-121-body-water-admission.
  */
-@MovementChange(emulates = ParkourVersion.V1_19_4)
+@MovementChange(emulates = ParkourVersion.V1_21_10)
 public final class BodyWaterScanAdmission implements BodyWaterScanAdmissionHook {
     @Override
     public boolean admitsColumn(int minY, int maxY) {
@@ -44,7 +45,7 @@ public final class BodyWaterScanAdmission implements BodyWaterScanAdmissionHook 
         if (!aboveState.getFluidState().isEmpty() && !aboveState.is(Blocks.WATER)) {
             return Optional.empty();
         }
-        // Exact 1.14–1.19.4 and current FlowingFluid use the same contextual
+        // Exact 1.14–1.21.10 and current FlowingFluid use the same contextual
         // height formula: same fluid above means 1.0F, otherwise amount / 9.0F.
         return Optional.of(state.getType().isSame(aboveState.getFluidState().getType())
             ? 1.0F : state.getOwnHeight());
