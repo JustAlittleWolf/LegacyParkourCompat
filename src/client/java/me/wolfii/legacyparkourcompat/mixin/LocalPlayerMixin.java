@@ -59,6 +59,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.player.PushAwayProbeRangeHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.VehicleSprintHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.WaterDescentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSneakHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSneakImpulseHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintGateHook;
 import me.wolfii.legacyparkourcompat.mixin.client.LocalPlayerAccessor;
 import me.wolfii.legacyparkourcompat.mixin.client.ClientInputAccessor;
@@ -511,7 +512,13 @@ abstract class LocalPlayerMixin {
             .map(behavior -> behavior.shouldApplyDownwardImpulse(player, true))
             .orElse(true);
         if (apply) {
-            vanilla.call(player);
+            var historicalImpulse = MovementRuntime.find(WaterSneakImpulseHook.class, player)
+                .flatMap(behavior -> behavior.applyImpulse(player.getDeltaMovement()));
+            if (historicalImpulse.isPresent()) {
+                player.setDeltaMovement(historicalImpulse.get());
+            } else {
+                vanilla.call(player);
+            }
         }
     }
 
