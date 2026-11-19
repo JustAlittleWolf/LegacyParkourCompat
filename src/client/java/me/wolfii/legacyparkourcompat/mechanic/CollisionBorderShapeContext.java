@@ -1,7 +1,6 @@
 package me.wolfii.legacyparkourcompat.mechanic;
 
 import net.minecraft.world.entity.Entity;
-import me.wolfii.legacyparkourcompat.mechanic.hook.border.WorldBorderCollisionHook;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jspecify.annotations.Nullable;
 
@@ -19,7 +18,6 @@ public final class CollisionBorderShapeContext {
         private boolean historicallyAdmitted;
         private boolean nativelyAdmitted;
         private @Nullable VoxelShape admittedShape;
-        private WorldBorderCollisionHook.@Nullable Collision historicalCollision;
 
         private Frame(@Nullable Entity entity) {
             this.entity = entity;
@@ -36,20 +34,6 @@ public final class CollisionBorderShapeContext {
             if (source == entity) {
                 admittedShape = shape;
             }
-        }
-
-        public void recordHistoricalCollision(Entity source, WorldBorderCollisionHook.Collision collision,
-                                              boolean nativeAdmission) {
-            if (source == entity) {
-                historicalCollision = collision;
-                historicallyAdmitted = collision.insideCloseToBorder();
-                nativelyAdmitted = nativeAdmission;
-                admittedShape = collision.shape();
-            }
-        }
-
-        public WorldBorderCollisionHook.@Nullable Collision historicalCollision(Entity source) {
-            return source == entity ? historicalCollision : null;
         }
 
         public boolean isSoleHistoricalBorder(List<VoxelShape> shapes) {

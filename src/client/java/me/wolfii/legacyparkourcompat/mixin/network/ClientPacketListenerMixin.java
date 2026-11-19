@@ -77,7 +77,8 @@ public abstract class ClientPacketListenerMixin {
         Vec3 previousDeltaMovement = positionCorrection == null ? null : entity.getDeltaMovement();
         if (!interpolate && entity instanceof LocalPlayer player && MovementRuntime.appliesTo(player)) {
             historicalPitch = MovementRuntime.find(PlayerCorrectionPitchStateHook.class, player)
-                .flatMap(hook -> hook.resolvedState(player.getXRot(), change.xRot(), relatives.contains(Relative.X_ROT)))
+                .flatMap(hook -> hook.resolvedState(player.getXRot(), player.xRotO, change.xRot(),
+                    relatives.contains(Relative.X_ROT)))
                 .orElse(null);
             PlayerCorrectionContext.set(player);
             historicalAngles = MovementRuntime.find(PlayerCorrectionRotationHook.class, player)

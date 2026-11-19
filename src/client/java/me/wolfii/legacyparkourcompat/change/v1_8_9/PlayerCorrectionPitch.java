@@ -18,7 +18,7 @@ import java.util.Optional;
 @MovementChange(emulates = ParkourVersion.V1_8_9)
 public final class PlayerCorrectionPitch implements PlayerCorrectionPitchStateHook {
     @Override
-    public Optional<PitchState> resolvedState(float currentPitch, float packetPitch, boolean relativePitch) {
+    public Optional<PitchState> resolvedState(float currentPitch, float previousPitch, float packetPitch, boolean relativePitch) {
         if (!Float.isFinite(currentPitch) || !Float.isFinite(packetPitch)) {
             return Optional.empty();
         }

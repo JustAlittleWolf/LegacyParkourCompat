@@ -25,7 +25,6 @@ import me.wolfii.legacyparkourcompat.mixin.accessor.EntityInvoker;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.Avatar;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
@@ -46,12 +45,11 @@ abstract class PlayerMixin {
         method = "updateSwimming()V",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Avatar;updateSwimming()V")
     )
-    private void legacyparkourcompat$swimmingStateUpdate(Avatar avatar, Operation<Void> original) {
-        Player player = (Player) (Object) this;
+    private void legacyparkourcompat$swimmingStateUpdate(Player player, Operation<Void> original) {
         if (MovementRuntime.find(SwimmingUpdateHook.class, player)
             .map(hook -> hook.shouldDelegate(player))
             .orElse(true)) {
-            original.call(avatar);
+            original.call(player);
         }
     }
 
