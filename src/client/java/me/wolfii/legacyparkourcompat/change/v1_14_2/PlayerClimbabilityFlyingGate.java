@@ -7,18 +7,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 
 /**
- * Preserves 1.14.4's inherited ladder/vine climbing response while flying.
- * Its {@code LivingEntity.isClimbing} has no player flying veto; 26.2
- * {@code Player.onClimbable} returns false before the inherited predicate when
- * flying. Suppress only that newer veto for local, non-spectator ladder/vine
- * contact; other climbable blocks retain the native result.
- * Sources: 1.14.4 Ornithe Feather Gen2
- * {@code net/minecraft/entity/LivingEntity#isClimbing}; 26.2 unobfuscated
- * {@code net/minecraft/world/entity/player/Player#onClimbable} and
- * {@code net/minecraft/world/entity/LivingEntity#onClimbable}.
- *
- * <p>The checked 1.14.0–1.14.4 sources retain this gate behavior. The audit
- * does not identify the exact patch introduction or establish runtime reachability.
+ * In 1.14–1.14.3 Yarn, {@code LivingEntity#isClimbing} admits scaffolding,
+ * ladders, and vines for non-spectators. Ability-flying still reaches the
+ * ordinary-air climb clamp in {@code LivingEntity#travel/method_18801}
+ * before the self move. 1.14.4 Feather Gen2 retains both operations in
+ * {@code LivingEntity#isClimbing/travel/m_19439509}.
+ * In 26.2 unobfuscated, {@code Player#onClimbable} vetoes ability-flying
+ * before {@code LivingEntity#onClimbable} can admit those blocks for
+ * {@code LivingEntity#handleOnClimbable}.
+ * The 1.13.2 provider preserves the earlier ladder and vine behavior.
  */
 @MovementChange(emulates = ParkourVersion.V1_14_2)
 public final class PlayerClimbabilityFlyingGate implements PlayerClimbabilityFlyingGateHook {
@@ -29,6 +26,6 @@ public final class PlayerClimbabilityFlyingGate implements PlayerClimbabilityFly
         }
 
         var block = player.getInBlockState().getBlock();
-        return block != Blocks.LADDER && block != Blocks.VINE;
+        return block != Blocks.LADDER && block != Blocks.VINE && block != Blocks.SCAFFOLDING;
     }
 }
