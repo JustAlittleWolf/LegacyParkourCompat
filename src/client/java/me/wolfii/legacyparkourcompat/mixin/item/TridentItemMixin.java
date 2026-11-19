@@ -53,9 +53,10 @@ public abstract class TridentItemMixin {
                 .map(hook -> hook.allowsUse(stack, strength))
                 .orElse(false);
         }
+        boolean releaseAllowed = result;
         return legacyparkourcompat$findTridentHook(RiptideReleaseDurabilityHook.class, entity)
-            .map(hook -> hook.rejectsRelease(strength, result))
-            .orElse(result);
+            .map(hook -> hook.rejectsRelease(strength, releaseAllowed))
+            .orElse(releaseAllowed);
     }
 
     @WrapOperation(
