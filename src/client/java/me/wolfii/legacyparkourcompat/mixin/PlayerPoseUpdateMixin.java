@@ -1,6 +1,9 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.collision.PlayerPoseCollisionContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
@@ -23,6 +26,14 @@ abstract class PlayerPoseUpdateMixin {
 
     @Unique
     private float legacyparkourcompat$previousEyeHeight;
+
+    @WrapOperation(method = "updatePlayerPose", at = @At(value = "INVOKE", target =
+        "Lnet/minecraft/world/entity/player/Player;canPlayerFitWithinBlocksAndEntitiesWhen(Lnet/minecraft/world/entity/Pose;)Z"))
+    private boolean legacyparkourcompat$scopePostTravelPoseFit(Player player, Pose pose, Operation<Boolean> original) {
+        return player.isLocalPlayer()
+            ? PlayerPoseCollisionContext.withPoseCheck(player, () -> original.call(player, pose))
+            : original.call(player, pose);
+    }
 
     // Snapshot 26.2/unobfuscated Entity dimensions, eyeHeight and bounding box before Player.updatePlayerPose
     // (343-355) can refresh them through Entity.refreshDimensions (3393-3400). They are the old 1.13

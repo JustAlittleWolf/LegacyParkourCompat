@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.OrdinaryPlayerContext;
 import me.wolfii.legacyparkourcompat.mechanic.collision.MovementCollisionContext;
+import me.wolfii.legacyparkourcompat.mechanic.collision.PlayerPoseCollisionContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.LowerRowCollisionCandidateHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.PistonMovingBlockEntityAccessor;
 import net.minecraft.client.Minecraft;
@@ -31,6 +32,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
  * (FenceBlock.java:27–43,78–82), which ends below this player.
  * 26.2 BlockCollisions.computeNext (79–101) reaches the dynamic moving
  * piston and its translated 1.5-high collision post in this same sweep.
+ *
+ * In all three Ornithe Feather versions, PlayerEntity.tick calls
+ * updatePlayerPose (296–320) after travel. Releasing sneak keeps the 1.65F
+ * box during travel, then checks the 1.8F box with World.getCollisions(Box)
+ * (1022–1059). That overload also skips the lower-row post. Even if it
+ * visited the owner, the moved outline ends below both boxes. In 26.2,
+ * unobfuscated Player.updatePlayerPose (343–374) checks SWIMMING and then
+ * STANDING. Both fits must omit this post for the player to stand after travel.
  */
 @MovementChange(emulates = ParkourVersion.V1_10_1)
 public final class LowerRowMovingFenceCollision implements LowerRowCollisionCandidateHook {
@@ -40,32 +49,29 @@ public final class LowerRowMovingFenceCollision implements LowerRowCollisionCand
     @Override
     public boolean excludeCandidate(BlockState state, CollisionGetter level, BlockPos pos, AABB query,
                                     CollisionContext context) {
-        if (!state.is(Blocks.MOVING_PISTON) || !(context instanceof MovementCollisionContext movementContext)
-            || !movementContext.query().equals(query)) {
-            return false;
-        }
-        var movement = CollisionAxisOrderContext.movementQuery();
-        if (movement == null || !(movement.entity() instanceof LocalPlayer player)
-            || Minecraft.getInstance().player != player || MovementRuntime.playerFrom(context) != player
-            || player.level() != level || movement.moverType() != MoverType.SELF
-            || !movement.unadjustedPrimaryMovement() || !movement.sweptBox().equals(query)
-            || !movement.startingBox().equals(player.getBoundingBox())
-            || !OrdinaryPlayerContext.matches(player) || player.getPose() != Pose.STANDING
+        if (!state.is(Blocks.MOVING_PISTON) || !(MovementRuntime.playerFrom(context) instanceof LocalPlayer player)
+            || Minecraft.getInstance().player != player || player.level() != level
+            || !OrdinaryPlayerContext.matches(player)
             || player.noPhysics || player.isSpectator() || player.onGround() || player.isShiftKeyDown()
             || player.isInWater() || player.isInLava() || player.onClimbable() || player.getAbilities().flying
-            || player.getBbWidth() != 0.6F || player.getBbHeight() != 1.8F) {
+            || player.getBbWidth() != 0.6F) {
             return false;
         }
-        var request = movement.requestedMovement();
-        AABB start = movement.startingBox();
+        boolean releasingCrouch = player.getPose() == Pose.CROUCHING && player.getBbHeight() == 1.65F;
+        boolean standing = player.getPose() == Pose.STANDING && player.getBbHeight() == 1.8F;
         AABB post = WEST_POST.move(pos);
+        boolean poseFit = releasingCrouch && PlayerPoseCollisionContext.isCheckingPose(player);
+        boolean sweep = (standing || releasingCrouch) && isWestwardSweep(player, context, query, post);
+        if (!poseFit && !sweep) {
+            return false;
+        }
+
         int x = pos.getX(), y = pos.getY(), z = pos.getZ();
         // The relative interval locates the owner on exactly one horizontal
-        // perimeter and the lower padded Y row. The live sweep crosses only
-        // the current post face, with the old outline entirely below it.
-        if (!(request.x < 0.0 && request.y == 0.0 && request.z == 0.0
-            && query.minX > x + 1.0 + QUERY_EPSILON && query.minX < post.maxX - QUERY_EPSILON
-            && start.minX > post.maxX + QUERY_EPSILON && query.maxX < x + 2.0 - QUERY_EPSILON
+        // perimeter and the lower padded Y row. The old outline is below
+        // the query in both the sweep and the stand clearance check.
+        if (!(query.minX > x + 1.0 + QUERY_EPSILON && query.minX < post.maxX - QUERY_EPSILON
+            && query.maxX < x + 2.0 - QUERY_EPSILON
             && query.minY > y + 1.0 + QUERY_EPSILON && query.minY < post.maxY - QUERY_EPSILON
             && query.minZ > z + QUERY_EPSILON && query.maxZ < z + 1.0 - QUERY_EPSILON
             && query.minZ < post.maxZ - QUERY_EPSILON && query.maxZ > post.minZ + QUERY_EPSILON
@@ -96,5 +102,20 @@ public final class LowerRowMovingFenceCollision implements LowerRowCollisionCand
             && !moved.getValue(FenceBlock.NORTH) && !moved.getValue(FenceBlock.SOUTH)
             && !moved.getValue(FenceBlock.EAST) && !moved.getValue(FenceBlock.WEST)
             && piston.getCollisionShape(level, pos).toAabbs().equals(List.of(WEST_POST));
+    }
+
+    private static boolean isWestwardSweep(LocalPlayer player, CollisionContext context, AABB query, AABB post) {
+        if (!(context instanceof MovementCollisionContext movementContext) || !movementContext.query().equals(query)) {
+            return false;
+        }
+        var movement = CollisionAxisOrderContext.movementQuery();
+        if (movement == null || movement.entity() != player || movement.moverType() != MoverType.SELF
+            || !movement.unadjustedPrimaryMovement() || !movement.sweptBox().equals(query)
+            || !movement.startingBox().equals(player.getBoundingBox())
+            || movement.startingBox().minX <= post.maxX + QUERY_EPSILON) {
+            return false;
+        }
+        var request = movement.requestedMovement();
+        return request.x < 0.0 && request.y == 0.0 && request.z == 0.0;
     }
 }
