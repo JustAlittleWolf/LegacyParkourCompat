@@ -1,0 +1,3 @@
+/verdict.md -text whitespace=cr-at-eol
+/repeat-verdict.md -text whitespace=cr-at-eol
+/product-disposition.md -text whitespace=cr-at-eol

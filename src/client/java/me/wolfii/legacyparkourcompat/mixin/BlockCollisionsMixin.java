@@ -162,7 +162,7 @@ abstract class BlockCollisionsMixin<T> {
         if (!this.onlySuffocatingBlocks && !context.isPlacement() && !context.alwaysCollideWithFluid()
             && PistonMovingBlockEntityAccessor.legacyparkourcompat$noClip().get() == null
             && MovementRuntime.find(LowerRowCollisionCandidateHook.class, MovementRuntime.playerFrom(context))
-                .map(hook -> hook.excludeCandidate(state, level, pos, this.box)).orElse(false)) {
+                .map(hook -> hook.excludeCandidate(state, level, pos, this.box, context)).orElse(false)) {
             return Shapes.empty();
         }
         VoxelShape shape = original.call(context, state, level, pos);

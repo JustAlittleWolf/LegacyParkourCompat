@@ -1,8 +1,13 @@
 package me.wolfii.legacyparkourcompat.change.common;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.collision.LegacyVoxelShapeBoxes;
+import me.wolfii.legacyparkourcompat.mechanic.collision.RawArrayVoxelShape;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpCollisionOrderHook.ProbeSegments;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpEntityPrefixHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.jump.AutoJumpPartialCandidateHook;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,9 +15,11 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.border.BorderStatus;
 import net.minecraft.world.level.border.WorldBorder;
@@ -21,16 +28,22 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Full-cell AutoJump collection shared by the 1.13 fallback and the 1.14 change.
  * The selected profile controls the existing scan pruning and border admission.
  */
 public final class AutoJumpFullCubeCandidates {
+    private static final Set<Block> NON_WHITE_WOOL_AND_CONCRETE = nonWhiteWoolAndConcrete();
+
     private AutoJumpFullCubeCandidates() {}
 
     private record Cell(int x, int y, int z) { }
@@ -38,14 +51,20 @@ public final class AutoJumpFullCubeCandidates {
     public static Iterable<VoxelShape> collect(Player player, CollisionGetter level, AABB query,
                                                    ParkourVersion selected,
                                                    VanillaFn<Iterable<VoxelShape>> vanilla) {
-        List<VoxelShape> aggregate = aggregate(player, level, query, selected);
+        return collect(player, level, query, selected, vanilla, null);
+    }
+
+    public static Iterable<VoxelShape> collect(Player player, CollisionGetter level, AABB query,
+                                               ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla,
+                                               @Nullable ProbeSegments probes) {
+        List<VoxelShape> aggregate = aggregate(player, level, query, selected, probes);
         return aggregate == null
             ? AutoJumpCollisionCandidates.blocksBeforeEntities(player, level, query, selected, vanilla)
             : aggregate;
     }
 
     private static List<VoxelShape> aggregate(Player player, CollisionGetter level, AABB query,
-                                               ParkourVersion selected) {
+                                               ParkourVersion selected, @Nullable ProbeSegments probes) {
         if (query.getXsize() <= 0.0 || query.getYsize() <= 0.0 || query.getZsize() <= 0.0
             || !Double.isFinite(query.minX) || !Double.isFinite(query.minY) || !Double.isFinite(query.minZ)
             || !Double.isFinite(query.maxX) || !Double.isFinite(query.maxY) || !Double.isFinite(query.maxZ)) {
@@ -62,9 +81,13 @@ public final class AutoJumpFullCubeCandidates {
             return null;
         }
         AABB entityEnvelope = query.inflate(0.25);
-        if (!(level instanceof Level world)
-            || !world.getEntities(player, entityEnvelope, entity -> entity != player).isEmpty()) {
-            return null;
+        if (!(level instanceof Level world)) return null;
+        var entities = world.getEntities(player, entityEnvelope, entity -> entity != player);
+        AutoJumpEntityPrefixHook entityPrefix = null;
+        if (!entities.isEmpty()) {
+            if (probes == null || entities.size() != 1) return null;
+            entityPrefix = MovementRuntime.find(AutoJumpEntityPrefixHook.class, player).orElse(null);
+            if (entityPrefix == null || selected != ParkourVersion.V1_14) return null;
         }
 
         int minX = Mth.floor(query.minX) - 1;
@@ -90,7 +113,7 @@ public final class AutoJumpFullCubeCandidates {
         boolean north = minZ <= border.getMinZ();
         boolean south = maxZ >= border.getMaxZ();
         int borderFaces = (west ? 1 : 0) + (east ? 1 : 0) + (north ? 1 : 0) + (south ? 1 : 0);
-        if (borderFaces > 1) {
+        if (borderFaces > 1 || (entityPrefix != null && borderFaces != 0)) {
             return null;
         }
         BorderProbe borderProbe = null;
@@ -103,6 +126,10 @@ public final class AutoJumpFullCubeCandidates {
         }
 
         List<Cell> fullCells = new ArrayList<>();
+        AutoJumpPartialCandidateHook.Partial partial = null;
+        List<VoxelShape> entityFirst = null;
+        boolean stoneAndAir = true;
+        int stoneCells = 0;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         CollisionContext context = CollisionContext.of(player);
         for (int x = minX; x < maxX; x++) {
@@ -122,6 +149,20 @@ public final class AutoJumpFullCubeCandidates {
                     boolean includesV1_13_1 = !(edgeX && edgeY || edgeY && edgeZ || edgeZ && edgeX);
                     boolean includedForSelected = selected == ParkourVersion.V1_13
                         ? includesV1_13 : includesV1_13_1;
+                    if (entityPrefix != null) {
+                        // The Stone floor only touches the query's lower face, so 1.14
+                        // discards its entire aggregate at the strict overlap filter.
+                        if (y == minY) {
+                            if (!state.is(Blocks.STONE)
+                                || context.getCollisionShape(state, level, pos) != Shapes.block()) return null;
+                        } else if (!state.is(Blocks.AIR)) {
+                            if (entityFirst != null || !includedForSelected) return null;
+                            entityFirst = entityPrefix.candidates(player, world, query, probes,
+                                entities.getFirst(), state, pos, context).orElse(null);
+                            if (entityFirst == null) return null;
+                        }
+                        continue;
+                    }
                     if (borderProbe != null) {
                         if (y == minY && borderProbe.isSupport(x, z)) {
                             if (!state.is(Blocks.STONE) || state.getCollisionShape(level, pos, context) != Shapes.block()) {
@@ -139,11 +180,23 @@ public final class AutoJumpFullCubeCandidates {
                         continue;
                     }
                     if (state.isAir()) {
+                        stoneAndAir &= state.is(Blocks.AIR);
                         continue;
                     }
                     if (!AutoJumpCollisionCandidates.isHistoricalFullCube(state)
-                        || state.getCollisionShape(level, pos, context) != Shapes.block()) {
-                        return null;
+                        && !NON_WHITE_WOOL_AND_CONCRETE.contains(state.getBlock())) {
+                        if (probes == null || partial != null || !includedForSelected) return null;
+                        partial = MovementRuntime.find(AutoJumpPartialCandidateHook.class, player)
+                            .flatMap(hook -> hook.candidate(player, world, query, probes, state, pos, context))
+                            .orElse(null);
+                        if (partial == null) return null;
+                        continue;
+                    }
+                    if (state.getCollisionShape(level, pos, context) != Shapes.block()) return null;
+                    if (state.is(Blocks.STONE)) {
+                        stoneCells++;
+                    } else {
+                        stoneAndAir = false;
                     }
                     if (includesV1_13 != includesV1_13_1) {
                         return null;
@@ -154,6 +207,7 @@ public final class AutoJumpFullCubeCandidates {
                 }
             }
         }
+        if (entityPrefix != null) return entityFirst;
         if (borderProbe != null) {
             // The scan already certified physical AIR below maxY. The extra head read is at
             // maxY. The first-hit center in original 1.13 west/north/south is one block lower,
@@ -164,6 +218,9 @@ public final class AutoJumpFullCubeCandidates {
                 return null;
             }
         }
+
+        if (partial != null && (!stoneAndAir || stoneCells != partial.requiredFullCells()
+            || fullCells.size() != partial.requiredFullCells())) return null;
 
         BitSet cells = new BitSet(sizeX * sizeY * sizeZ);
         for (Cell cell : fullCells) {
@@ -184,7 +241,31 @@ public final class AutoJumpFullCubeCandidates {
                 return List.of();
             }
         }
+        if (partial != null) {
+            VoxelShape probe = RawArrayVoxelShape.oneCell(query);
+            if (result.stream().noneMatch(box -> Shapes.joinIsNotEmpty(probe, box, BooleanOp.AND))) return null;
+            result.addFirst(partial.shape());
+        }
         return List.copyOf(result);
+    }
+
+    /**
+     * Ornithe Feather Gen2 build.2: 1.13, 1.13.1 and 1.13.2 {@code Block}
+     * static registrations and 1.14 {@code Blocks} static registrations give all
+     * wool/concrete colors the base {@code Block.getCollisionShape} cube used by
+     * {@code WorldView.getBlockCollisions} for aggregation. Yarn 1.14.1 build.10
+     * {@code Blocks} registers the same variants and {@code Block.getCollisionShape}
+     * supplies the same cube to the per-block collision iterator.
+     * 26.2 unobfuscated {@code Blocks.WOOL}, {@code Blocks.CONCRETE} and
+     * {@code ColorCollection.pick} identify the matching registered blocks.
+     */
+    private static Set<Block> nonWhiteWoolAndConcrete() {
+        Set<Block> blocks = Collections.newSetFromMap(new IdentityHashMap<>());
+        blocks.addAll(Blocks.WOOL.asList());
+        blocks.addAll(Blocks.CONCRETE.asList());
+        blocks.remove(Blocks.WOOL.pick(DyeColor.WHITE));
+        blocks.remove(Blocks.CONCRETE.pick(DyeColor.WHITE));
+        return Collections.unmodifiableSet(blocks);
     }
 
     private record BorderProbe(Direction face, int edge, int row) {

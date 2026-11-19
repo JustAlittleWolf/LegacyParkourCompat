@@ -1,0 +1,2 @@
+/comparison.md -text whitespace=cr-at-eol,-blank-at-eof
+/comparison-r2.md -text whitespace=cr-at-eol

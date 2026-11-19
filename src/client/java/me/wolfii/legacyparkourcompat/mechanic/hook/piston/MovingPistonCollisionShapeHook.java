@@ -2,8 +2,11 @@ package me.wolfii.legacyparkourcompat.mechanic.hook.piston;
 
 import me.wolfii.legacyparkourcompat.mechanic.MechanicType;
 import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Optional;
@@ -13,5 +16,6 @@ import java.util.Optional;
 public interface MovingPistonCollisionShapeHook extends VersionedMechanic {
     Optional<VoxelShape> collisionShape(BlockState movedState, Direction direction,
                                        boolean extending, boolean source,
-                                       float progress, float previousProgress);
+                                       float progress, float previousProgress, BlockGetter level,
+                                       BlockPos owner, CollisionContext context, VoxelShape nativeShape);
 }

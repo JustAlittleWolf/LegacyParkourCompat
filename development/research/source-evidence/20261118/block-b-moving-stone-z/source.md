@@ -1,0 +1,27 @@
+# North/south zero-plane source subgate
+
+Terminal: **ACCEPT** — north/south Z-axis mirror of the accepted 1.8–1.8.9 moved-Stone zero-width collision, for the bounded ordinary dry airborne local-player witness. This closes only the requested Z-direction gate; it adds no East/West, shape, phase, or runtime claim.
+
+## Bound source identities
+
+- Accepted source audit: `zero-thickness-stone-acceptance.md`, SHA-256 `abf6e20c6ff8d374d1cb85269cace027a07f31400c9c7c75c524faeaa702c3cd`.
+- Immutable author witness: `zero-thickness-stone-source-r2.md`, SHA-256 `37c5225bc05255e27e09dedf81d778092eb932db91510c3ab9b70882a87a4dbf`.
+- The audit binds exact 1.8–1.8.8 Feather Gen2 versioned sources/mappings and exact 1.8.9 Feather Gen2 build 2 sources/mappings; it accepts the old moved-Stone projection for 1.8.0–1.8.9 and its existing immediate 1.9 boundary. Alias evidence is reused only for unchanged collision/timing classes named there. The relevant whole player files are also byte-identical for 1.8.2–1.8.9; 1.8/1.8.1 player files differ, so their source gates below were checked at the method/slice level rather than inferred from whole-file aliases.
+
+## Directional shape and signed travel
+
+In the 1.8.9 exact Feather source, `MovingBlock.getCollisionShape(World,BlockPos,BlockState)` (118–130) samples `getProgress(0.0F)` and, for extension, changes it to `1.0F - f`; with native phase `(progress,lastProgress)=(0.5F,0.0F)`, that sample is zero and the collision helper receives `f=1`. Its overload (162–197) applies the facing's Z offset to one endpoint: NORTH has offsetZ `-1`, so `minZ -= (-1)*1` yields `[1,1]`; SOUTH has offsetZ `+1`, so `maxZ -= 1` yields `[0,0]`. X and Y extents remain `[0,1]` for a full-cube Stone block. The accepted audit establishes this helper and its exact alias interval.
+
+Use the same ordinary awake player dimensions and dry airborne travel as the accepted witness, with center X `0.5`, feet Y `0.2`, yaw `0`, zero initial horizontal velocity, and exact face contact. For NORTH, player `minZ=1` (center Z `1 + (double)(0.6F/2.0F)`) and input forward `-1`; for SOUTH, player `maxZ=0` (center Z `-(double)(0.6F/2.0F)`) and input forward `+1`. `LocalClientPlayerEntity.serverTickAi` copies camera `movementForward` to `forwardSpeed` (1.8.9 lines 470–481; method body is unchanged in 1.8–1.8.9). `LivingEntity.mobTick` scales that value by `0.98F` and reaches `moveRelative` (1.8.9 lines 1421–1450). Its dry, non-lava branch calls `Entity.move` (1.8.9 `LivingEntity.moveRelative` 1119–1220). `Entity.updateVelocity` (844–860) at yaw zero has `sin=0`, `cos=1`, so signed forward input adds `dx=0` and signed `dz` (negative NORTH, positive SOUTH); with positive `speedInAir`, the Z request is nonzero. Method-body identity was checked for the input-copy and movement methods across the exact patch groups; 1.8/1.8.1 versus 1.8.2–1.8.9 were not conflated.
+
+## Prior push, swept visit, and Z clip
+
+On the preceding tick, moved-block entity processing occurs after regular player entities. At its half-progress push sample, the extending NORTH shape occupies Z `[0.5,1]`, touching the NORTH player at `minZ=1`; the SOUTH shape occupies `[0,0.5]`, touching the SOUTH player at `maxZ=0`. `World.getEntities`' chunk entity query uses strict `Box.intersects`; equality at either shared Z face excludes the player, so the prior push does not disturb exact contact. These timing/query facts are accepted in the cited audit for this same ordinary Stone witness and cardinal-direction-independent strict predicate.
+
+On the next player phase, the displacement-expanded query crosses the cell boundary: NORTH's negative `dz` makes `floor(query.minZ)=0`; SOUTH's positive `dz` with the player `maxZ=0` makes `floor(query.maxZ+1)=1` and the exclusive scan includes Z cell `0`. The query also covers X cell `0` (player centered at `0.5`) and Y cell `0` (feet remain within the stated floor band). `World.getCollisions` scans `p` from `floor(minZ)` up to but excluding `floor(maxZ+1)` (1.8.9 lines 891–922; its alias continuity is already accepted). Thus the moving Stone at `(0,0,0)` is visited and its zero-width candidate is appended by the existing strict `Box.intersects` candidate test when its Z plane lies inside the swept query.
+
+`Entity.move` preserves Y-then-X-then-Z clipping in all three source shapes checked: 1.8 lines 438–458, 1.8.1 lines 443–463, and 1.8.9 lines 439–459; the entire file is identical across 1.8.2–1.8.9. Because the player's Z face only touches the candidate, the earlier Y and X clip overlap gates reject it, leaving `dy` unchanged and keeping the airborne step-up gate false. Then `Box.intersectZ` (133–151; alias continuity is accepted) uses the negative branch for NORTH: `box.minZ >= plane.maxZ` at equality gives gap `plane.maxZ-box.minZ=0`. For SOUTH it uses the positive branch: `box.maxZ <= plane.minZ` at equality gives gap `plane.minZ-box.maxZ=0`. In both directions the signed Z displacement clips to exactly zero, while no X displacement was requested.
+
+## Scope and disposition
+
+This is a deterministic source-level reachability proof at the stated ordinary dry local-player phase. It does not claim observed runtime parity or extend beyond 1.8.0–1.8.9. No product/history/wiki/backlog files were read or changed; no tests, build, launch, decompilation, push, or delegation were performed.

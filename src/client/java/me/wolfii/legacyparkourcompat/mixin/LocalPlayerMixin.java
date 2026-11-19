@@ -70,6 +70,7 @@ import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -464,7 +465,7 @@ abstract class LocalPlayerMixin {
     @Unique
     private boolean legacyparkourcompat$doubleTapGroundAdmits(LocalPlayer player) {
         return MovementRuntime.find(SprintDoubleTapGroundHook.class, player)
-            .map(change -> change.admits(MovementRuntime.profile(player).target(), player))
+            .map(change -> change.admits(player))
             .orElse(true);
     }
 
@@ -508,6 +509,16 @@ abstract class LocalPlayerMixin {
         if (apply) {
             vanilla.call(player);
         }
+    }
+
+    @WrapOperation(
+        method = "move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;updateAutoJump(FF)V")
+    )
+    private void legacyparkourcompat$observeAutoJumpCallback(LocalPlayer player, float dx, float dz,
+        Operation<Void> original, @Local(argsOnly = true) MoverType mover, @Local(argsOnly = true) Vec3 requested) {
+        MovementRuntime.observeAutoJumpCallback(player, mover, requested, dx, dz,
+            () -> original.call(player, dx, dz));
     }
 
     @Redirect(
@@ -558,13 +569,17 @@ abstract class LocalPlayerMixin {
         Level level,
         Entity source,
         AABB query,
-        Operation<Iterable<VoxelShape>> vanilla
+        Operation<Iterable<VoxelShape>> vanilla,
+        @Local(name = "leftSegBegin") Vec3 leftStart, @Local(name = "leftSegEnd") Vec3 leftEnd,
+        @Local(name = "rightSegBegin") Vec3 rightStart, @Local(name = "rightSegEnd") Vec3 rightEnd
     ) {
         Player player = (Player) (Object) this;
+        var probes = new AutoJumpCollisionOrderHook.ProbeSegments(leftStart, leftEnd, rightStart, rightEnd,
+            MovementRuntime.autoJumpGroundedTravelStart(player));
         java.util.function.Supplier<Iterable<VoxelShape>> resolveCandidates = () ->
             MovementRuntime.find(AutoJumpCollisionOrderHook.class, player)
                 .map(change -> change.autoJumpCollisions(player, level, query,
-                    MovementRuntime.profile(player).target(), () -> vanilla.call(level, source, query)))
+                    MovementRuntime.profile(player).target(), probes, () -> vanilla.call(level, source, query)))
                 .orElseGet(() -> vanilla.call(level, source, query));
         Iterable<VoxelShape> candidates = MovementRuntime.find(WorldBlockQueryBoundsHook.class, player)
             .flatMap(change -> change.bounds(query))

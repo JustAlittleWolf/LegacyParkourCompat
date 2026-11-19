@@ -25,6 +25,12 @@ public interface FallingFluidFaceSturdyHook extends VersionedMechanic {
         "minecraft:red_sandstone_stairs", "minecraft:purpur_stairs"
     );
 
+    /** Fence keys restricted to the default state at the pre-1.12 material-face boundary. */
+    List<String> DEFAULT_FENCE_IDS = List.of(
+        "minecraft:spruce_fence", "minecraft:birch_fence", "minecraft:jungle_fence",
+        "minecraft:acacia_fence", "minecraft:dark_oak_fence", "minecraft:nether_brick_fence"
+    );
+
     /** Ordinary glass and the 16 full stained-glass keys in the 1.12–1.13.2 source domain. */
     List<String> FULL_GLASS_IDS = List.of(
         "minecraft:glass",

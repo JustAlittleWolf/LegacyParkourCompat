@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.change.common.HistoricalElytra;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.gliding.GlideFallDistanceLimiterStageHook;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,14 +13,17 @@ import net.minecraft.world.entity.player.Player;
 /**
  * Native-cap schedule evidence is the accepted Mojmap 1.21.1–1.21.2 active-glide comparison at
  * {@code development/research/source-evidence/20261118/block-c-glide-climb-route/1.21.1-to-1.21.2-active-glide-cap/}.
- * In 1.21.1 {@code net.minecraft.world.entity.LivingEntity.travel(Vec3)} calls
- * {@code Entity.checkSlowFallDistance()} in its dry fall-flying arm before glide movement. In
- * 1.21.2 {@code LivingEntity.updateFallFlying()} calls that limiter before travel dispatch from
- * {@code LivingEntity.aiStep()}; the accepted report bounds the moved schedule to the dry active
- * glide witness and records the separate wet-path change. In 26.2 unobfuscated,
- * {@code LivingEntity.updateFallFlying()} calls {@code Entity.checkFallDistanceAccumulation()} before
- * travel and {@code LivingEntity.travelFallFlying(Vec3)} follows fluid dispatch. This operation
- * moves only the native call between its existing callbacks.
+ * In Mojmap 1.19.3 through 1.21.1, LivingEntity.travel performs ordinary lava
+ * movement before the fall-flying arm, which calls Entity.checkSlowFallDistance
+ * before glide movement. Exact anchors include 1.19.3 LivingEntity.java:2097/2118,
+ * 1.20.2:2082/2103 and 1.21.1:2131/2152. The lava branch takes precedence
+ * even if the foot cell is climbable.
+ * Mojmap 1.21.2 LivingEntity.updateFallFlying calls the limiter before travel.
+ * In 26.2 unobfuscated, LivingEntity.updateFallFlying calls
+ * Entity.checkFallDistanceAccumulation before travel, and LivingEntity.travel
+ * at 2430–2445 and travelInFluid at 2504–2513 dispatch fluids before gliding
+ * and water before lava. Deferring the call to glide travel therefore skips it
+ * on the qualifying ordinary lava route.
  * The earlier accepted pairs identify Feather 1.9–1.14
  * {@code LivingEntity.moveRelative(float, float)} after {@code flyingTick()}, Yarn 1.14–1.14.3
  * {@code LivingEntity.travel(Vec3d)} after {@code initAi()}, and Mojmap 1.14.4 onward
@@ -44,7 +48,7 @@ public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLim
         }
     }
 
-    private boolean eligible(LivingEntity entity, ParkourVersion selectedVersion) {
+    private static boolean eligible(LivingEntity entity, ParkourVersion selectedVersion) {
         // The accepted witness uses an airborne local player with vanilla chest Elytra.
         // Preserve native behavior before Elytra's introduction and for modern gliders.
         if (selectedVersion.olderThan(ParkourVersion.V1_9)
@@ -56,7 +60,8 @@ public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLim
             || player.onGround()
             || player.getAbilities().flying
             || player.isPassenger()
-            || (!usesHistoricalClimbableTravel(selectedVersion) && player.onClimbable())) {
+            || (!usesHistoricalClimbableTravel(selectedVersion) && player.onClimbable()
+                && !usesOrdinaryLavaTravel(player))) {
             return false;
         }
         if (!HistoricalElytra.applies(player, selectedVersion)) {
@@ -68,6 +73,19 @@ public final class GlideFallDistanceLimiterStage implements GlideFallDistanceLim
             }
         }
         return true;
+    }
+
+    private static boolean usesOrdinaryLavaTravel(Player player) {
+        return !player.isSpectator()
+            && !(player.getControllingPassenger() instanceof Player)
+            && player.canSimulateMovement()
+            && player.isEffectiveAi()
+            && !player.hasEffect(MobEffects.SLOW_FALLING)
+            && !player.hasEffect(MobEffects.LEVITATION)
+            && !player.isInWater()
+            && player.isInLava()
+            && player.isAffectedByFluids()
+            && !player.canStandOnFluid(player.level().getFluidState(player.blockPosition()));
     }
 
     private static boolean usesHistoricalClimbableTravel(ParkourVersion selectedVersion) {

@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "mapping": "ornithe-feather",
+  "exactReleaseIds": [
+    {
+      "releaseId": "1.8",
+      "sourceRoot": "decompiled_minecraft/1.8/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "52c8312c34a1a491d4a200c84e90f5d8d95c7e5caa9571f864d8e70f9737db05",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "98d45c8c5b72d43592f2d4c95f8f3fb9647ad98c946e6d0a15d588d426516590",
+        "net/minecraft/server/command/AbstractCommand__Coordinate.java": "aa58aa76672e328fe9a04e8a03c189ca4f37fe5046d52a22cc39e561ed5ef567",
+        "net/minecraft/server/command/TpCommand.java": "74c0a6e2561ef0f7697402bfa829c8f16dff1b6c793b80ee0a18d30ec98aaffc",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "216ce6b9b382b34bff762ca4de22cac4368b310f99615b47da06415bd6039d7f",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "b50a7a2f46c5866d1008801246b69314d8a49654fede657b0f8182741da7d8be",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "1cca0ded9f1112d407b149931c1f067a104d2beed74f1e7070200e8c035a102d",
+        "net/minecraft/entity/Entity.java": "2be081abe1720f89d7ab90f782b8411e71bc5b8a6b53966b49a2380e3c47ffd9",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "42a92a74e5c64992572760196a2052273d96bc061cd9d1120045ba03532f1e2c",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "13fa1367b71035efbfccc593de57838268b10a8ceebb0aa76ad3d819b44cb0ca"
+      }
+    },
+    {
+      "releaseId": "1.8.1",
+      "sourceRoot": "decompiled_minecraft/1.8.1/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.1/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "f3a3baa039f0e0ade6e656dfa11a4529909a4b709ac489703c4250262cefb1ca",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "af55ae52eab085323833a933d4e7ea1083fa7634a549ac1f3cd36628a9c06aa9",
+        "net/minecraft/server/command/AbstractCommand__Coordinate.java": "aa58aa76672e328fe9a04e8a03c189ca4f37fe5046d52a22cc39e561ed5ef567",
+        "net/minecraft/server/command/TpCommand.java": "74c0a6e2561ef0f7697402bfa829c8f16dff1b6c793b80ee0a18d30ec98aaffc",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "40b8cadecfa03ef348cfff76ac812d4b8251e24c6766567e240230a444a4fd65",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "b50a7a2f46c5866d1008801246b69314d8a49654fede657b0f8182741da7d8be",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "65fe3f74154996a5b94a9d5534a4805b40e13be245d50178b838ce0e79802118",
+        "net/minecraft/entity/Entity.java": "aa359621cf9348e5ce4bcb9e28b67f8a5c75d7e5a3d554c8d93471c79540a55c",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "42a92a74e5c64992572760196a2052273d96bc061cd9d1120045ba03532f1e2c",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "6c24523140f31d588214da9c9ce15ac7999446e1b647fc64194e695ebbd30d8e"
+      }
+    },
+    {
+      "releaseId": "1.8.2",
+      "sourceRoot": "decompiled_minecraft/1.8.2/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.2/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "8ad11ea36f2dda39ae30d57daa53316a8c0889a2f3c0c84ee5d79b9b21c25472",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "3f531b41115f1029588c9d64d6d1276f80e9eb1159d7d51b8651cdc44a64dc5c",
+        "net/minecraft/server/command/TpCommand.java": "1c174612d55379498cf1eea7186354f824ddd7e51efea7499ad4767e533874bd",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "291a05b4702ff32e604dfa8e57dc5c8f90f63aa424afd1b37ddbb4a204569f58",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3",
+        "net/minecraft/entity/Entity.java": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+      }
+    },
+    {
+      "releaseId": "1.8.3",
+      "sourceRoot": "decompiled_minecraft/1.8.3/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.3/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "7da5f772d7ed1433cb3da23861723ebaec7cb714ce49c4d1a5c30499fec3afed",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "3f531b41115f1029588c9d64d6d1276f80e9eb1159d7d51b8651cdc44a64dc5c",
+        "net/minecraft/server/command/TpCommand.java": "1c174612d55379498cf1eea7186354f824ddd7e51efea7499ad4767e533874bd",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "291a05b4702ff32e604dfa8e57dc5c8f90f63aa424afd1b37ddbb4a204569f58",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3",
+        "net/minecraft/entity/Entity.java": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+      }
+    },
+    {
+      "releaseId": "1.8.4",
+      "sourceRoot": "decompiled_minecraft/1.8.4/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.4/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "b2207bf9ab2a7561bf73ac92a63cc67760ccc6fd9e2378ff1e10710ecbb03a00",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "3f531b41115f1029588c9d64d6d1276f80e9eb1159d7d51b8651cdc44a64dc5c",
+        "net/minecraft/server/command/TpCommand.java": "1c174612d55379498cf1eea7186354f824ddd7e51efea7499ad4767e533874bd",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "c2de662af504d7128a855efd1b105097667f662a80919f569bdc922787d5197a",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3",
+        "net/minecraft/entity/Entity.java": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+      }
+    },
+    {
+      "releaseId": "1.8.5",
+      "sourceRoot": "decompiled_minecraft/1.8.5/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.5/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "986d25dfd11927abed51c92643e5beda48237da875fbcdf1a48a930456ea99ce",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "3f531b41115f1029588c9d64d6d1276f80e9eb1159d7d51b8651cdc44a64dc5c",
+        "net/minecraft/server/command/TpCommand.java": "1c174612d55379498cf1eea7186354f824ddd7e51efea7499ad4767e533874bd",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "de2a90e177d03d7ce674c8e93ce1d730b036a4e05d3ec0819932087e41166692",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3",
+        "net/minecraft/entity/Entity.java": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+      }
+    },
+    {
+      "releaseId": "1.8.6",
+      "sourceRoot": "decompiled_minecraft/1.8.6/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.6/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "c96f635864596f6cbd6e34ba7ba184c22a8139b25f099cc8fbbff46a85286ea9",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "3f531b41115f1029588c9d64d6d1276f80e9eb1159d7d51b8651cdc44a64dc5c",
+        "net/minecraft/server/command/TpCommand.java": "1c174612d55379498cf1eea7186354f824ddd7e51efea7499ad4767e533874bd",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "88359015b17d123aea5cda6a1bab0e76cfe558a4730d9c9b59890ec8d01e70fa",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3",
+        "net/minecraft/entity/Entity.java": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+      }
+    },
+    {
+      "releaseId": "1.8.7",
+      "sourceRoot": "decompiled_minecraft/1.8.7/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.7/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "6c6a5b64243ae7931ea1fa72a6c33440d5eec4070461cba80cdf51bf95dd93ef",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "3f531b41115f1029588c9d64d6d1276f80e9eb1159d7d51b8651cdc44a64dc5c",
+        "net/minecraft/server/command/TpCommand.java": "1c174612d55379498cf1eea7186354f824ddd7e51efea7499ad4767e533874bd",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "47ef077a7fa0f74cf44e1c8bda449d1b220bf56503b2fef98fd8016e8092df5b",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3",
+        "net/minecraft/entity/Entity.java": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+      }
+    },
+    {
+      "releaseId": "1.8.8",
+      "sourceRoot": "decompiled_minecraft/1.8.8/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.8/ornithe-feather/.decompile-provenance.json",
+      "provenanceSha256": "588f83dc64ce0bbd0f11880d2da8e59d4d097d43225025a2a74a2b26cf909ac1",
+      "readyMarker": false,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "3f531b41115f1029588c9d64d6d1276f80e9eb1159d7d51b8651cdc44a64dc5c",
+        "net/minecraft/server/command/TpCommand.java": "1c174612d55379498cf1eea7186354f824ddd7e51efea7499ad4767e533874bd",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "47ef077a7fa0f74cf44e1c8bda449d1b220bf56503b2fef98fd8016e8092df5b",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3",
+        "net/minecraft/entity/Entity.java": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+      }
+    },
+    {
+      "releaseId": "1.8.9",
+      "sourceRoot": "decompiled_minecraft/1.8.9/ornithe-feather",
+      "provenancePath": "decompiled_minecraft/1.8.9/ornithe-feather.provenance.json",
+      "provenanceSha256": "ba066fc8f1c7ceb9819d2106338d9e9f2c2b96eb5a8329eb40e171b1f9889185",
+      "readyMarker": true,
+      "files": {
+        "net/minecraft/server/command/AbstractCommand.java": "3f531b41115f1029588c9d64d6d1276f80e9eb1159d7d51b8651cdc44a64dc5c",
+        "net/minecraft/server/command/TpCommand.java": "1c174612d55379498cf1eea7186354f824ddd7e51efea7499ad4767e533874bd",
+        "net/minecraft/server/network/handler/ServerPlayNetworkHandler.java": "47ef077a7fa0f74cf44e1c8bda449d1b220bf56503b2fef98fd8016e8092df5b",
+        "net/minecraft/network/packet/s2c/play/PlayerMoveS2CPacket.java": "3c2c044610df527df20561b4ded36aca91c774b7d0520f9e4cfe657030bf1baf",
+        "net/minecraft/client/network/handler/ClientPlayNetworkHandler.java": "7fa3d587325068eaa158526cb59e4850b704ac237938df6592d1a09148db40c3",
+        "net/minecraft/entity/Entity.java": "d4c10932cb5bb1067a5a58be4e1bb1b42bdde3b6fc893d88178cc07435a1696b",
+        "net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java": "1762b116e6b06d682b7daaa0fc8cce39b0ff455b3db8cf79dab03ac74f6c4053",
+        "net/minecraft/entity/living/player/PlayerEntity.java": "e66cb294fc93118148a444bbafdf4dd57cbf66a23d69b1e8892cefccc690ab88"
+      },
+      "readyMarkerPath": "decompiled_minecraft/1.8.9/ornithe-feather.ready.json",
+      "readyMarkerSha256": "fe0ec792349ae43c91d0a30f23660c94b2f5c8d31a29643f73ed0de367110b95",
+      "sourceManifestPath": "decompiled_minecraft/1.8.9/ornithe-feather.sources.sha256",
+      "sourceManifestSha256": "9e75f46dc0ed43b6a355bd65db8a92c93a4dfeaecfa92284187c6fe9410d8004"
+    }
+  ],
+  "sources": {}
+}

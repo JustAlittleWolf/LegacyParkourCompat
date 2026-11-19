@@ -1,0 +1,7 @@
+# 1.10 Brewing Stand AutoJump applicability
+
+The exact 1.10, 1.10.1 and 1.10.2 Ornithe Feather Gen2 build.2 sources support the same dry, grounded bottom-slab fixture as the three 1.11 releases. The corrected source report has SHA-256 `cba108269bf1b487c77ec7d4d3a5aa17ac89dbca01ce91978663a179aee83083`. The initial audit (`70569e36b893c40a65b1709ce60a784ce403f0303b54efd67bda5a1af49722ad`) records two corrections to the superseded draft. The renewal (`26514fdcf52de20d98e26bbcb5b92a9cc791df2c85dd8f407a2635d90aa20e789`) verifies both corrections against the corrected report.
+
+`BrewingStandBlock.addCollisions` (`:70–72`) submits the stem first and the plate second. The exact 1.11.1 and 1.11.2 callbacks add a `forceShape` parameter and keep these two additions. In the fixture, `Entity.move` clips the positive X movement against the plate, including the `0.6F` step retry. `LocalClientPlayerEntity.move` then calls `autoJump` once with the clipped displacement. The fallback side probe intersects both boxes, and the stem appears first. Its top at `1.875` gives a `1.375F` rise from the bottom slab, exceeding the `1.2F` cap. The independently reviewed full-floor control gives a `0.75F` rise. The product extension uses the existing bounded bottom-slab route.
+
+The three 1.10 releases have matching relevant source files. `World.getCollisions` retains the X/Z/Y traversal and skips both Y caps at each single horizontal edge. Runtime parity remains unverified.

@@ -3,15 +3,22 @@ package me.wolfii.legacyparkourcompat.change.v1_12;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterCurrentHook;
+import me.wolfii.legacyparkourcompat.mechanic.water.LegacyWaterFlowMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LadderBlock;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * 1.12/1.12.1/1.12.2 Feather: World.applyLiquidDrag, LiquidBlock.getFlow,
@@ -33,11 +40,17 @@ import java.util.Optional;
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class WaterCurrent implements WaterCurrentHook {
+    private static final Set<Block> STAINED_GLASS = Set.copyOf(Blocks.STAINED_GLASS.asList());
+    private static final Set<Block> LEGACY_PLACED_LEAVES = Set.of(
+        Blocks.OAK_LEAVES, Blocks.SPRUCE_LEAVES, Blocks.BIRCH_LEAVES,
+        Blocks.JUNGLE_LEAVES, Blocks.ACACIA_LEAVES, Blocks.DARK_OAK_LEAVES
+    );
+
     public boolean replacesNativeCurrent() { return true; }
     public Vec3 accumulate(Vec3 total, Vec3 flow) { return total.add(flow); }
     public Vec3 impulse(Vec3 total, boolean flying) {
-        if (length(total) > 0.0 && !flying) {
-            Vec3 normalized = normalize(total);
+        if (LegacyWaterFlowMath.length(total) > 0.0 && !flying) {
+            Vec3 normalized = LegacyWaterFlowMath.normalize(total);
             return new Vec3(normalized.x * 0.014, normalized.y * 0.014, normalized.z * 0.014);
         }
         return Vec3.ZERO;
@@ -59,13 +72,19 @@ public final class WaterCurrent implements WaterCurrentHook {
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos adjacent = pos.relative(direction);
             BlockState neighbor = historicalState(level, adjacent);
-            if (!supported(neighbor)) return Optional.empty();
+            boolean dryLadderSide = admitsDryLadderSide(level, pos, state, direction, adjacent, neighbor);
+            if (!supported(neighbor) && !isAdditionalDrySideBlocker(neighbor) && !dryLadderSide
+                && !isSupportedDrySandOrGravel(level, state, direction, adjacent, neighbor)) {
+                return Optional.empty();
+            }
             int other = depth(neighbor);
             if (other < 0) {
-                if (neighbor.isAir()) {
+                if (neighbor.isAir() || dryLadderSide) {
                     BlockPos belowPosition = adjacent.below();
                     BlockState below = historicalState(level, belowPosition);
-                    if (!supported(below)) return Optional.empty();
+                    if (!supported(below) || (dryLadderSide && below != Blocks.WATER.defaultBlockState())) {
+                        return Optional.empty();
+                    }
                     other = depth(below);
                     if (other >= 0) {
                         int difference = other - (depth - 8);
@@ -81,7 +100,29 @@ public final class WaterCurrent implements WaterCurrentHook {
                 z += direction.getStepZ() * difference;
             }
         }
-        return Optional.of(normalize(new Vec3(x, y, z)));
+        return Optional.of(LegacyWaterFlowMath.normalize(new Vec3(x, y, z)));
+    }
+
+    /**
+     * In 1.8 through 1.12.2 Ornithe Feather, the registered ladder has
+     * Material.DECORATION, so LiquidBlock.getFlow can read below its dry side.
+     * Source and audit: development/research/source-evidence/20261118/
+     * block-a-nonfalling-water-ladder-side/.
+     */
+    private static boolean admitsDryLadderSide(Level level, BlockPos centerPos, BlockState center,
+                                               Direction direction, BlockPos side, BlockState ladder) {
+        if (!ladder.is(Blocks.LADDER) || direction != Direction.EAST
+            || ladder.getValue(LadderBlock.FACING) != Direction.WEST || !ladder.getFluidState().isEmpty()
+            || center != Blocks.WATER.defaultBlockState()) {
+            return false;
+        }
+
+        BlockPos support = side.east();
+        BlockPos below = side.below();
+        return historicalHeight(below)
+            && !level.isOutsideBuildHeight(side) && !level.isOutsideBuildHeight(below)
+            && level.hasChunkAt(centerPos) && level.hasChunkAt(side) && level.hasChunkAt(support)
+            && level.getBlockState(support).is(Blocks.STONE);
     }
 
     private static boolean historicalHeight(BlockPos pos) {
@@ -101,17 +142,46 @@ public final class WaterCurrent implements WaterCurrentHook {
             || state.is(Blocks.DIRT) || state.is(Blocks.BEDROCK);
     }
 
+    /**
+     * 1.8 through 1.12.2 Ornithe Feather: GLASS and LEAVES materials block
+     * movement in LiquidBlock.getFlow, so this side skips the one-below read.
+     * The six reviewed placed leaf species are non-decaying (the placement
+     * sets legacy metadata bit 4). Source evidence under
+     * development/research/source-evidence/20261119: block-a-nonfalling-water-oak-leaves,
+     * block-a-nonfalling-water-leaves2 and block-a-nonfalling-water-legacy-leaf-siblings.
+     */
+    private static boolean isAdditionalDrySideBlocker(BlockState state) {
+        return state.getFluidState().isEmpty()
+            && (state.is(Blocks.GLASS) || STAINED_GLASS.contains(state.getBlock())
+                || (LEGACY_PLACED_LEAVES.contains(state.getBlock()) && state.getValue(LeavesBlock.PERSISTENT)));
+    }
+
+    /**
+     * In 1.8 through 1.12.2 Ornithe Feather, sand (including its red variant)
+     * and gravel have Material.SAND, which blocks the one-below flow sample.
+     * This side is applicable to the reviewed stable, stone-supported fixture.
+     * Source: development/research/source-evidence/20261119/
+     * block-a-nonfalling-water-sand-gravel/.
+     */
+    private static boolean isSupportedDrySandOrGravel(Level level, BlockState center, Direction direction,
+                                                      BlockPos side, BlockState state) {
+        if (direction != Direction.EAST || center != Blocks.WATER.defaultBlockState()
+            || !(state.is(Blocks.SAND) || state.is(Blocks.RED_SAND) || state.is(Blocks.GRAVEL))
+            || !state.getFluidState().isEmpty()) {
+            return false;
+        }
+
+        BlockPos support = side.below();
+        if (!historicalHeight(support) || level.isOutsideBuildHeight(support)) {
+            return false;
+        }
+        var chunk = level.getChunk(SectionPos.blockToSectionCoord(support.getX()),
+            SectionPos.blockToSectionCoord(support.getZ()), ChunkStatus.FULL, false);
+        return chunk != null && chunk.getBlockState(support).is(Blocks.STONE);
+    }
+
     private static int depth(BlockState state) {
         return state.getBlock() instanceof LiquidBlock && state.getFluidState().is(FluidTags.WATER)
             ? state.getValue(LiquidBlock.LEVEL) : -1;
-    }
-
-    private static double length(Vec3 vector) {
-        return (float)Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-    }
-
-    private static Vec3 normalize(Vec3 vector) {
-        double length = length(vector);
-        return length < 1.0E-4 ? Vec3.ZERO : new Vec3(vector.x / length, vector.y / length, vector.z / length);
     }
 }

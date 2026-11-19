@@ -2,7 +2,9 @@ package me.wolfii.legacyparkourcompat.mechanic.water;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
+import me.wolfii.legacyparkourcompat.mechanic.OrdinaryPlayerContext;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.FluidCurrentAggregationHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.water.FallingWaterCurrentHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactAreaAdmissionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.water.WaterBodyContactScanBoundHook;
@@ -12,9 +14,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.world.WaterFlowScanBoundHook;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.OptionalInt;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
@@ -51,16 +55,18 @@ public final class WaterScan {
                                         Optional<WaterBodyContactScanBoundHook> contactBound,
                                         Optional<WaterBodyContactAreaAdmissionHook> contactAdmission,
                                         Optional<WaterCurrentHook> current,
+                                        Optional<FallingWaterCurrentHook> fallingCurrent,
                                         Optional<WaterFlowScanBoundHook> flowBound,
                                         Optional<FlowScanAreaAdmissionHook> flowAdmission,
                                         Optional<FluidCurrentAggregationHook> currentAggregation) {
         boolean aggregateHistoricalCurrent = currentAggregation.isPresent()
             && !MovementRuntime.profile(player).target().olderThan(ParkourVersion.V1_13);
         flowBound = flowBound.filter(hook -> hook.supports(player));
-        Optional<AABB> selected = body.flatMap(hook -> hook.probe(player.getBoundingBox()));
+        Optional<AABB> selected = body.flatMap(hook -> hook.probe(player.getBoundingBox())
+            .filter(query -> hook.supports(player, query)));
         boolean replacesContact = selected.isPresent();
         AABB historicalFlowBox = !aggregateHistoricalCurrent && flowBound.isPresent()
-            ? legacyFlowQuery(player.getBoundingBox()) : null;
+            ? LegacyWaterProbe.bounds(player.getBoundingBox()) : null;
         boolean hasHistoricalFlowBound = historicalFlowBox != null
             && hasHistoricalUpperBound(flowBound.get(), historicalFlowBox);
         Bounds historicalFlowBounds = hasHistoricalFlowBound
@@ -145,6 +151,11 @@ public final class WaterScan {
             : flowBounds == null ? 0 : flowBounds.y0;
         int flowScanY1 = historicalFlowResolved ? Math.min(flowBounds.y1, 256)
             : flowBounds == null ? 0 : flowBounds.y1;
+        FallingWaterCurrentHook fallingHook = historicalFlowAdmitted && supportsFallingEndpoint(player)
+            ? fallingCurrent.orElse(null) : null;
+        FallingWaterCurrentHook.Sample fallingSample = null;
+        int ordinaryFlowCells = 0;
+        BlockPos firstZeroFlowCell = null;
         boolean contactFound = false;
         Vec3 total = Vec3.ZERO;
         ArrayList<FluidCurrentAggregationHook.Contribution> currentContributions =
@@ -184,17 +195,26 @@ public final class WaterScan {
                     float fluidHeight = fluidState.getOwnHeight();
                     boolean inFlow = inFlowBounds && (aggregateHistoricalCurrent
                         ? y + fluidHeight >= flowBox.minY
-                        : includesFlow(flowBounds.y1, y, liquidLevel));
+                        : LegacyWaterProbe.includes(flowBounds.y1, y, liquidLevel));
                     if (!inContact && !inFlow) continue;
                     if (inContact) {
                         // Falling (LEVEL >= 8) water remains valid for 1.8.9 contact;
                         // its historical height loss is zero.
                         contactFound = true;
                     }
-                    // The existing current hook is bounded to nonfalling liquid.
-                    // Reject current alone when a relevant cell needs native flow.
                     if (inFlow && !aggregateHistoricalCurrent && liquidLevel >= 8) {
-                        replacesCurrent = false;
+                        if (fallingHook == null || fallingSample != null || y != flowBox.maxY) {
+                            replacesCurrent = false;
+                            continue;
+                        }
+                        var sample = fallingHook.sample(level, pos, state,
+                            center -> currentHook.flow(level, pos, center));
+                        if (sample.isEmpty()) {
+                            replacesCurrent = false;
+                            continue;
+                        }
+                        fallingSample = sample.get();
+                        total = currentHook.accumulate(total, fallingSample.flow());
                         continue;
                     }
                     if (inFlow) {
@@ -215,11 +235,23 @@ public final class WaterScan {
                                 replacesCurrent = false;
                                 continue;
                             }
+                            if (fallingHook != null) {
+                                ordinaryFlowCells++;
+                                if (ordinaryFlowCells == 1 && flow.get().equals(Vec3.ZERO)) {
+                                    firstZeroFlowCell = pos.immutable();
+                                }
+                            }
                             total = currentHook.accumulate(total, flow.get());
                         }
                     }
                 }
             }
+        }
+        // The admitted falling fixture has exactly one other old scan cell: the
+        // sampled west-lower source whose own flow is zero.
+        if (fallingSample != null && (ordinaryFlowCells != 1
+            || !fallingSample.zeroFlowCompanion().equals(firstZeroFlowCell))) {
+            replacesCurrent = false;
         }
         Vec3 impulse = Vec3.ZERO;
         if (replacesCurrent && aggregateHistoricalCurrent) {
@@ -231,6 +263,16 @@ public final class WaterScan {
             impulse = currentHook.impulse(total, player.getAbilities().flying);
         }
         return Optional.of(new Result(contactFound, impulse, replacesContact, replacesCurrent));
+    }
+
+    private static boolean supportsFallingEndpoint(Player player) {
+        if (!(player instanceof LocalPlayer) || !OrdinaryPlayerContext.matches(player)
+            || player.getPose() != Pose.STANDING || player.getAbilities().flying
+            || !player.getDeltaMovement().equals(Vec3.ZERO)) {
+            return false;
+        }
+        var dimensions = player.getDimensions(Pose.STANDING);
+        return dimensions.width() == 0.6F && dimensions.height() == 1.8F;
     }
 
     private static Bounds bounds(AABB box, Optional<WaterFlowScanBoundHook> flowBound) {
@@ -271,20 +313,6 @@ public final class WaterScan {
 
     private static boolean hasHistoricalContactYBound(WaterBodyContactScanBoundHook hook, AABB box) {
         return hook.exclusiveUpperBound(box.maxY).isPresent();
-    }
-
-    private static AABB legacyFlowQuery(AABB body) {
-        // 1.8.0-1.8.9 Entity.checkWaterCollisions passes this exact transformed
-        // shape to World.applyLiquidDrag; retain the source float literal conversion.
-        return new AABB(body.minX, body.minY - -0.4F, body.minZ,
-            body.maxX, body.maxY + -0.4F, body.maxZ).deflate(0.001);
-    }
-
-    private static boolean includesFlow(int exclusiveMaxY, int cellY, int liquidLevel) {
-        // 1.8.9 LiquidBlock.getHeightLoss and World.applyLiquidDrag's l >= d gate.
-        int level = liquidLevel >= 8 ? 0 : liquidLevel;
-        double surface = cellY + 1 - (level + 1) / 9.0F;
-        return exclusiveMaxY >= surface;
     }
 
 }

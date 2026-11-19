@@ -1,0 +1,2 @@
+evidence.md -text whitespace=cr-at-eol,-blank-at-eof
+audit.md -text whitespace=cr-at-eol

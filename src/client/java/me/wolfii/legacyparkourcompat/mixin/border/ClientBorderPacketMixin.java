@@ -1,13 +1,15 @@
 package me.wolfii.legacyparkourcompat.mixin.border;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.wolfii.legacyparkourcompat.mechanic.ClientBorderLerpState;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundInitializeBorderPacket;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.protocol.game.ClientboundSetBorderLerpSizePacket;
-import net.minecraft.network.protocol.game.ClientboundSetBorderSizePacket;
 import net.minecraft.world.level.border.WorldBorder;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,6 +30,7 @@ abstract class ClientBorderPacketMixin {
 
     @Inject(method = "handleInitializeBorder", at = @At(value = "INVOKE", target = THREAD_GUARD, shift = At.Shift.AFTER))
     private void legacyparkourcompat$captureInitialBorder(ClientboundInitializeBorderPacket packet, CallbackInfo ci) {
+        MovementRuntime.clearClientBorderContraction();
         capture(this.level.getWorldBorder(), packet.getOldSize(), packet.getNewSize(), packet.getLerpTime());
     }
 
@@ -36,14 +39,17 @@ abstract class ClientBorderPacketMixin {
         capture(this.level.getWorldBorder(), packet.getOldSize(), packet.getNewSize(), packet.getLerpTime());
     }
 
-    @Inject(method = "handleSetBorderSize", at = @At(value = "INVOKE", target = THREAD_GUARD, shift = At.Shift.AFTER))
-    private void legacyparkourcompat$clearStaticBorder(ClientboundSetBorderSizePacket packet, CallbackInfo ci) {
-        ClientBorderLerpState.clear(this.level.getWorldBorder());
+    @WrapOperation(method = "handleSetBorderSize(Lnet/minecraft/network/protocol/game/ClientboundSetBorderSizePacket;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/border/WorldBorder;setSize(D)V"))
+    private void legacyparkourcompat$setStaticBorder(WorldBorder border, double size, Operation<Void> original) {
+        ClientBorderLerpState.clear(border);
+        MovementRuntime.setClientBorderSize(this.level, border, size, () -> original.call(border, size));
     }
 
     @Inject(method = "handleLogin", at = @At(value = "INVOKE", target = THREAD_GUARD, shift = At.Shift.AFTER))
     private void legacyparkourcompat$clearLoginBorderState(ClientboundLoginPacket packet, CallbackInfo ci) {
         ClientBorderLerpState.clearAll();
+        MovementRuntime.clearClientBorderContraction();
     }
 
     // 1.21.4–1.21.10 Mojmap and 26.2 keep the level and its border on same-dimension respawn.
@@ -51,6 +57,11 @@ abstract class ClientBorderPacketMixin {
         target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;level:Lnet/minecraft/client/multiplayer/ClientLevel;"))
     private void legacyparkourcompat$clearRespawnBorderState(ClientboundRespawnPacket packet, CallbackInfo ci) {
         ClientBorderLerpState.clear(this.level.getWorldBorder());
+    }
+
+    @Inject(method = "handleRespawn", at = @At(value = "INVOKE", target = THREAD_GUARD, shift = At.Shift.AFTER))
+    private void legacyparkourcompat$clearRespawnPlayerContraction(ClientboundRespawnPacket packet, CallbackInfo ci) {
+        MovementRuntime.clearClientBorderContraction();
     }
 
     private static void capture(WorldBorder border, double from, double to, long durationTicks) {

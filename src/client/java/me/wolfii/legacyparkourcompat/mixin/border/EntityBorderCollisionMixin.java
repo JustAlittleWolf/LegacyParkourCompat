@@ -44,6 +44,15 @@ public abstract class EntityBorderCollisionMixin {
     private static boolean legacyparkourcompat$admitBorder(WorldBorder border, Entity entity,
         AABB sweptBox, Operation<Boolean> original,
         @Share("movingBorder") LocalRef<WorldBorderCollisionHook.Collision> movingBorder) {
+        var contraction = MovementRuntime.borderContractionAdmission(border, entity, sweptBox);
+        if (contraction.isPresent()) {
+            var frame = CollisionBorderShapeContext.current();
+            if (frame != null) {
+                frame.recordAdmission(entity, contraction.get(), original.call(border, entity, sweptBox));
+            }
+            return contraction.get();
+        }
+
         var historicalCollision = MovementRuntime.find(WorldBorderCollisionHook.class, entity)
             .map(hook -> hook.collision(border, entity, sweptBox)).orElse(null);
         if (historicalCollision != null) {

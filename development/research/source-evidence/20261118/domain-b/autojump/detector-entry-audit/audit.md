@@ -1,0 +1,27 @@
+# Independent audit: AutoJump detector entry/counter
+
+## Bound input and evidence identity
+
+- Audited candidate: `domain-b-autojump/detector-entry-source/autojump-gates-1.10.2-to-26.2.md`
+- Candidate SHA-256: `1AC3DEE465A0CFB9D14B3FCEED48EFE4BF3718626FFBF1D0795624F1AF2AD8C5` (matches assignment).
+- Exact older source: Minecraft 1.10.2, Ornithe Feather Gen2 build.2, `ornithe-feather`.
+- Exact newer source: Minecraft 26.2, unobfuscated.
+- Sidecar checks: both ready markers identify the expected version/mapping; each source manifest, artifact manifest, and movement diagnostics digest matches its ready-marker digest. All source files named by the candidate and all additionally inspected input producer/helper files match their respective source-manifest entries. The provenance records the expected Feather build.2 artifacts for 1.10.2 and no mapping artifact for published unobfuscated 26.2. Candidate's listed source hashes match. The 1.10.2 verification record says source tree/raw inputs match; its one derived remapped intermediary jar differed and is explicitly explained as regenerated, not a source-tree change.
+- Source-manifest digests: 1.10.2 `91B0F478ACB7B6F13463C35B268A30D2806F583402631A56F54CE2EB70D1EC71`; 26.2 `A7AD74FC712567EB87136AFC1EAFCFD602B4088E9869F3596331FD34FAEFE894`.
+
+## Individual verdicts
+
+1. **Post-move detector call and delta casts — ACCEPT.** 1.10.2 `LocalClientPlayerEntity.move(double,double,double)` calls `super.move`, then passes `(float)(x-oldX)` / `(float)(z-oldZ)` to `autoJump` (source lines 811–817). 26.2 `LocalPlayer.move(MoverType,Vec3)` likewise saves X/Z, calls `super.move`, casts resulting deltas to float, then calls `updateAutoJump` (986–994).
+
+2. **Entry gates — ACCEPT.** At 1.10.2 lines 823–827, the cached enabled flag, `ticksToNextAutojump <= 0`, `onGround`, `!isSneaking()`, `!isRiding()`, and per-component nonzero input checks guard detector entry. At 26.2 lines 1121–1129, `canAutoJump` guards with cached enabled, `autoJumpTime <= 0`, `onGround()`, `!isStayingOnGroundSurface()`, `!isPassenger()`, `isMoving()`, and `getBlockJumpFactor() >= 1.0`. `Player.isStayingOnGroundSurface()` returns `isShiftKeyDown()` (Player lines 300–302), supporting the candidate's sneak/shift description. No conclusion here about the separately excluded block-factor effect.
+
+3. **AutoJump option cache and defaults — ACCEPT, with cache distinction.** Both local-player cache fields initialize `true` (old LocalClientPlayerEntity line 105; new LocalPlayer line 152). The cache is refreshed in the camera movement-report path (old `sendMovementToServer`, line 228; new `sendPosition`, line 299) from the option. The *option* defaults differ: old `GameOptions.autoJump = true` (line 108); new `Options` registers its AutoJump option with default `false` (candidate's line 502 reference). This is an endpoint fact; it does not imply either local-player cache itself starts false.
+
+4. **Movement-input expression — REVISE the reachability wording.** The source expression change is correct: old `input.getMovement()` returns `(movementSideways,movementForward)` and accepts if either float is `!= 0.0F`; new `input.getMoveVector().lengthSquared() > 0.0F` is the guard. However, leave no open arbitrary-vector/domain caveat. The vanilla old producer is `KeyboardInput.tick()` (keys set each axis to -1/0/+1); sneaking and item-use multiply those values by 0.3 or 0.2 but do not create tiny arbitrary finite values. `Minecraft` installs that `KeyboardInput` for the local player. The new `ClientPacketListener` installs `KeyboardInput`; it forms each impulse from opposing booleans as -1/0/+1 and normalizes the pair. `Vec2.normalized()` returns zero below `1e-4`, otherwise the normalized vector. Thus for vanilla-produced input, old per-component nonzero and new positive squared length agree on whether movement is active. Squared-length underflow for arbitrary finite nonzero vectors and NaN differences are algebraically possible outside this producer domain, but are not a reachable vanilla keyboard input distinction in this bounded claim. Revise the candidate to say that clearly and close the input-domain gate.
+
+5. **One-tick counter consumption and origin marker — REVISE the comparative description.** The one-tick scheduling path is supported: success stores 1 (old lines 911–915; new 1091–1095); on the following input tick, after `input.tick()`, the positive counter decrements (old `tickMovement`, 661–677; new `aiStep`, 777–793). The candidate correctly reports current `wasAutoJump` and `input.makeJump()`, but it omits the old local origin marker: old `bl4` is set when the timer is consumed and guards the synthetic jump from the same creative-flight double-tap path (`!bl4`, line 719). Current `wasAutoJump` likewise marks this consumed synthetic jump and guards the jump-key edge/double-tap path (`!wasAutoJump`, line 838). Therefore the origin suppression is not a new current-only behavior; revise to record the equivalent old flag and compare the input-state update (`input.jumping = true` vs `input.makeJump()`) without implying the marker was added in 26.2.
+
+## Scope and limits
+
+This accepts/revises only the bounded candidate clauses above. No detector geometry, normalization/trajectory, pose/entity-fit gates, creative-flight implementation beyond the flag's immediate use, or intermediate release boundary was audited. No product, Git, backlog, wiki, tests, build, or runtime state was read or changed.
+

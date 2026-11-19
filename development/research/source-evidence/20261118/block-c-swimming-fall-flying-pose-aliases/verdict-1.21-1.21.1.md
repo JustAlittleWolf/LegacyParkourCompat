@@ -1,0 +1,33 @@
+# 1.21 fall-flying/swimming priority audit
+
+Status: COMPLETED. Independent source-only audit of the bounded applicability extension. The overlap claim is supported for exact releases 1.21 and 1.21.1. The inspected 1.21.2 and 1.21.4 selectors retain the same priority; this audit does not establish an intermediate change boundary or runtime parity.
+
+## Frozen inputs and exact source identity
+
+- Frozen overlap proof: `c-pose-swim-priority-bound/1.21.0-1.21.1-overlap-proof.md`, SHA-256 `9150ec8ef64ff5fda383a86ddc4331b1e88cc5d29ae9a5bf41960c9c47ab2ea7` (recomputed).
+- 1.21 Mojmap: canonical `decompiled_minecraft/1.21/mojmap/`; the nested `.decompile-provenance.json` hash is `90246f277aefd2350e42e17245faa51928a949c8db4427f3be04a732527deb7c`. Its pinned metadata is exact `1.21.json` (SHA-256 `cdd1a44db7b5e8787723c1f6c7c7dc3a4638d96a31ddc84aeb27d3f30efa802a`); client object `0e9a07b9bb3390602f977073aa12884a4ce12431` has SHA-256 `4b56bc9b44de7e88f9fbb52e716c18240da34469fcbafa5ed2e75b04d60617e8`.
+- 1.21.1 Mojmap: outer provenance and ready marker identify `versionId=1.21.1`, `namespace/mapping=mojmap`; the source manifest SHA-256 recomputes to the ready marker value `900f956e00f6fc1300bb3d689ea49df2b1a57bcaa54617344ef456d95d47cb48`, and its version metadata id is `1.21.1`.
+- 1.21.2 Mojmap: canonical `decompiled_minecraft/1.21.2/mojmap/`; nested `.decompile-provenance.json` SHA-256 `00f399407dc447737ea83e3e46562418f8c712f66e3f51cb85d46afa2ecac575`; the pinned metadata is exact `1.21.2.json` (SHA-256 `793e3fd0451354a26aaa00253dcb6600add11f9d2a90f7bdef75ddf5b38c2b45`), and client object `c7ac2d0d86f4ca416cab9064ff8a281852ad0c7b` has SHA-256 `613091da0f62426ae8dcf9afb30eb639485f493b81cda3a2b96b1fb8a6b9976c`.
+- 1.21.4 Mojmap: outer provenance and ready marker identify `versionId=1.21.4`, `namespace/mapping=mojmap`; source manifest SHA-256 recomputes to `f90b61197928632e061ea877955a19055c92ae6f357c2daf1bc646172c6f51f0`, matching the ready marker; version metadata id is `1.21.4`.
+
+For 1.21 and 1.21.1, computed SHA-256 values match the nested provenance / outer manifest entries and the compared source files are byte-identical:
+
+| Source file | SHA-256 in both 1.21 and 1.21.1 |
+|---|---|
+| `world/entity/player/Player.java` | `ed32b88c3c7c8418b83db41823520f2b6b0b49a98610306ef26e9681dc925c71` |
+| `world/entity/Entity.java` | `b81905c7879e2cc5c5063a41d865c4164ad919f156306705be791d1017b99850` |
+| `world/entity/LivingEntity.java` | `324a3eee8496caab57cfaf5101ef576f1ae3c60c40e3857e96f35f3af9a3a0d8` |
+| `client/player/LocalPlayer.java` | `c555e68ac3c63ab9b4f9a9e31933e263b96350a2bc599d11a0de5928bc24b583` |
+| `server/network/ServerGamePacketListenerImpl.java` | `cc73bb8fab95346aea10f7018ba7de6c723cde8a52a4ae40629b5370b6ff6d10` |
+
+The same five files were checked against the matching nested provenance entries for 1.21.2 and the outer manifest entries for 1.21.4. Their computed hashes agree. Exact identities are therefore authenticated at the relevant source-file level for all four inspected releases.
+
+## Bounded source verdict
+
+- **Selection order persists.** `Player.updatePlayerPose` in 1.21 and 1.21.1 (`Player.java:401-429`), 1.21.2 (`431-459`) and 1.21.4 (`434-462`) first requires `canPlayerFitWithinBlocksAndEntitiesWhen(Pose.SWIMMING)`. It then chooses `FALL_FLYING` before `SLEEPING` and `SWIMMING`. It accepts the chosen pose when the player is a spectator/passenger or the pose fits; otherwise it tries crouching and finally swimming. The fit predicate uses the target dimensions' bounding box deflated by `1.0E-7` (`1.21:431-433`; corresponding lines 461-463 and 464-466 in 1.21.2 and 1.21.4).
+- **The overlap state is produced in player tick order.** `Entity.baseTick` refreshes fluid state and eye-fluid state before `updateSwimming` (`1.21/1.21.1:440-442`; `1.21.2:449-451`; `1.21.4:453-455`). The non-swimming entry branch sets swimming from sprinting, underwater state, not passenger, and water fluid at `blockPosition` (`Entity.java:1232-1240`, `1285-1293`, `1306-1314`). The player override clears swimming while ability-flying (`Player.java:1481-1486`, `1476-1482`, `1479-1485`); `Player.isSwimming` also filters ability flight and spectator (`1827-1829`, `1815-1817`, `1818-1820`). `Player.tick` calls `super.tick()` before `updatePlayerPose` (`1.21:319`, `1.21.2:326`, `1.21.4:329`), so the selector sees the refreshed swimming state.
+- **Dry start and retained flight are compatible with water entry.** In 1.21, `tryToStartFallFlying` rejects water at start (`Player.java:1529-1539`), while `LivingEntity.updateFallFlying` retains a valid airborne, non-passenger, non-Levitation glider and only writes the shared flag on the server (`LivingEntity.java:2716-2740`). In 1.21.2/1.21.4, `tryToStartFallFlying` still rejects water (`Player.java:1525-1535`, `1528-1538`); `canGlide` checks ground, passenger, Levitation and usable equipment but not water (`LivingEntity.java:2836-2845`, `2847-2856`). Its fall-flying updater mutates/clears the tracked flag only in the server branch (`2814-2834`, `2825-2845`). Thus a previously established local fall-flying flag is not cleared merely by water entry in these source paths. This conclusion is conditional on the usual valid-glider and airborne gates.
+- **The two relevant poses have equal dimensions.** The `POSES` entries give both `FALL_FLYING` and `SWIMMING` scalable dimensions `0.6F x 0.6F` with eye height `0.4F` (`Player.java:138-139` in 1.21/1.21.1; `142-143` in 1.21.2/1.21.4). With the preliminary swimming-fit guard passing, the selected fall-flying dimensions also fit; the ordinary eligible path therefore writes `FALL_FLYING` while both flags overlap. The asserted difference is pose state/priority, not a demonstrated bounding-box or trajectory change.
+- **Packet caveat remains bounded.** LocalPlayer's tick invokes `super.tick()` before its input command path (`LocalPlayer.java:191-193` in 1.21; `189-191` in 1.21.2; `191-195` in 1.21.4). The local start request is sent only when `tryToStartFallFlying()` succeeds (`741-745`, `735-737`, `749-751`), which excludes water. If the server receives a failed/duplicate `START_FALL_FLYING`, its handler calls `stopFallFlying` (`ServerGamePacketListenerImpl.java:1432-1435`, `1445-1448`, `1512-1515`). That is a separate packet caveat, not a normal water-entry writer.
+
+Conclusion: accept the 1.21 / 1.21.1 applicability extension for the bounded dry-start → eligible water-entry overlap. The source also shows the same selector priority in 1.21.2 and 1.21.4. No gameplay, runtime, timing, collision-world or fit-world test was performed; source conditions establish the admitted path, not a particular map's reachability.

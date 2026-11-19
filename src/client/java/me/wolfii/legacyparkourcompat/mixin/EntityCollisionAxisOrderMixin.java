@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.CollisionAxisOrderContext;
 import com.google.common.collect.ImmutableList;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.CollisionAxisOrderHook;
 import net.minecraft.core.Direction;
@@ -48,8 +49,9 @@ abstract class EntityCollisionAxisOrderMixin {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/shapes/Shapes;collide(Lnet/minecraft/core/Direction$Axis;Lnet/minecraft/world/phys/AABB;Ljava/lang/Iterable;D)D"))
     private static double legacyparkourcompat$axisClipping(Direction.Axis axis,
         AABB moving, Iterable<VoxelShape> shapes,
-        double distance, Operation<Double> original) {
-        return MovementRuntime.clipMovementAxis(CollisionAxisOrderContext.currentEntity(), axis,
-            moving, shapes, distance, () -> original.call(axis, moving, shapes, distance));
+        double distance, Operation<Double> original,
+        @Local(argsOnly = true) Vec3 request, @Local(argsOnly = true) AABB start) {
+        return MovementRuntime.clipPrimaryMovementAxis(CollisionAxisOrderContext.currentEntity(), axis,
+            moving, shapes, distance, request, start, () -> original.call(axis, moving, shapes, distance));
     }
 }

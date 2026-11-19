@@ -3,23 +3,20 @@ package me.wolfii.legacyparkourcompat.change.v1_21_4;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.falldistance.FallDistanceAccumulatorHook;
+import net.minecraft.world.entity.Entity;
 
 /**
- * Restores the float rounding of the accumulator update while leaving its call site and gates native.
- *
- * <p>Exact-source basis: 1.21 and 1.21.1 (the {@code V1_21} profile bucket), then 1.21.2, 1.21.3
- * and 1.21.4 Mojmap {@code Entity.fallDistance} fields are float, and
- * {@code Entity.checkFallDamage} subtracts the cast float delta from that float accumulator.
- * 1.21.5 changes the field to double while retaining
- * the casted delta; 26.2 unobfuscated {@code Entity.checkFallDamage} retains the double update.
- * The redirected value is the native {@code double accumulator - (double)(float)delta}; narrowing
- * it reproduces the prior float accumulator's write rounding for each ordinary downward update.
- * Other field writes and the callback/reset/effect branches remain native.
+ * Mojmap 1.21 through 1.21.4 Entity#checkFallDamage subtracts the float-cast
+ * resolved Y from a float field in the airborne branch. Mojmap 1.21.5 and
+ * 26.2 unobfuscated retain the displacement cast but use a double field.
+ * Keep the existing rounding of the 26.2 pre-callback write on downward landings.
  */
 @MovementChange(emulates = ParkourVersion.V1_21_4)
 public final class FloatFallDistanceAccumulator implements FallDistanceAccumulatorHook {
     @Override
-    public double updatedDistance(double nativeUpdatedDistance) {
-        return (float) nativeUpdatedDistance;
+    public double updatedDistance(Entity entity, double previousDistance, double resolvedY, boolean onGround, double nativeUpdatedDistance) {
+        return onGround
+            ? (float)nativeUpdatedDistance
+            : FallDistanceAccumulatorHook.subtractFloatDisplacement(previousDistance, resolvedY);
     }
 }

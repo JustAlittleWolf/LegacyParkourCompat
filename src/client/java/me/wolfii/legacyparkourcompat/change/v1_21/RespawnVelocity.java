@@ -3,6 +3,8 @@ package me.wolfii.legacyparkourcompat.change.v1_21;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnVelocityHook;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -14,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 @MovementChange(emulates = ParkourVersion.V1_21)
 public final class RespawnVelocity implements RespawnVelocityHook {
     @Override
-    public Vec3 replacementVelocity(Vec3 vanillaVelocity) {
+    public Vec3 replacementVelocity(ResourceKey<Level> oldDimension, ResourceKey<Level> newDimension, Vec3 vanillaVelocity) {
         return Vec3.ZERO;
     }
 }

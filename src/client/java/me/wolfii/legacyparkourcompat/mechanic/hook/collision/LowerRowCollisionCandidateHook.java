@@ -6,9 +6,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
 /** Eligibility of an already visited block collision candidate; does not collect shapes. */
 @MechanicType("collision.lower_row_candidate")
 public interface LowerRowCollisionCandidateHook extends VersionedMechanic {
-    boolean excludeCandidate(BlockState state, CollisionGetter level, BlockPos pos, AABB query);
+    boolean excludeCandidate(BlockState state, CollisionGetter level, BlockPos pos, AABB query,
+                             CollisionContext context);
 }

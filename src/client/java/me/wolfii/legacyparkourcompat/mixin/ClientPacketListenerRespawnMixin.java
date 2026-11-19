@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnMovementAttributeHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.RespawnMovementFlagsHook;
@@ -16,9 +17,11 @@ import net.minecraft.client.multiplayer.CommonListenerCookie;
 import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -53,10 +56,11 @@ abstract class ClientPacketListenerRespawnMixin extends ClientCommonPacketListen
     private void legacyparkourcompat$copyRespawnVelocity(
         LocalPlayer replacementPlayer,
         Vec3 vanillaVelocity,
-        Operation<Void> original
+        Operation<Void> original,
+        @Local(name = "oldDimensionKey") ResourceKey<Level> oldDimension
     ) {
         Vec3 velocity = MovementRuntime.find(RespawnVelocityHook.class, replacementPlayer)
-            .map(hook -> hook.replacementVelocity(vanillaVelocity))
+            .map(hook -> hook.replacementVelocity(oldDimension, replacementPlayer.level().dimension(), vanillaVelocity))
             .orElse(vanillaVelocity);
         original.call(replacementPlayer, velocity);
     }

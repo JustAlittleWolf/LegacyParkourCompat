@@ -1,0 +1,34 @@
+# Independent source audit: observed descending vector on the frozen slab witness
+
+## Bound inputs and verdict
+
+Reviewed the immutable claim `domain-b-aggregate-observed-descending-source/modern-observed-descending-slab.md`, raw SHA-256 `D8DF3B1993F27F49435B1CFCF5B9E2ECEB14241628DF9AD8EEC150AD35ADCFAE`, and producer audit `domain-b-aggregate-dry-producer-audit/verdict.md`, raw SHA-256 `210A88579C0B7D0575EC570CFB1AE05887AC7FF9EE6AFAF6E8A9F1DA22219C2F`. The original exact `-0.003` fixture audit remains `domain-b-aggregate-negative-y-audit/negative-y-source-audit.md`, bound there to its own source claim SHA.
+
+**Verdict: accept the bounded operation-equivalence conclusion for the exact 26.2 codec output, conditional on that vector being the state presented to the old local dry travel call. The draft's rational shorthand needs an exact-double clarification before its prose can be treated as a bit-exact codec identity.** This does not establish old packet decoding of the 26.2 output, common packet parity, runtime parity, or a wider velocity interval.
+
+## Codec value and local dry movement consumers
+
+The exact 26.2 `LpVec3.unpack` source computes `min(code, 32766.0) * 2.0 / 32766.0 - 1.0`; `read` then multiplies the result by the long scale. For Y code 16358 and scale 2, this is the binary64 result of `(16358 * 2.0 / 32766.0 - 1.0) * 2.0`, approximately `-0.003051944088384273` (bits `BF69006401900600`). It is mathematically `-50/16383`, but Java's sequential binary64 expression differs from evaluating `-50.0/16383.0` directly (bits `BF69006401900640`). The frozen note's `-50/16383` is therefore suitable as a rational label, not an exact Java-double spelling. Both values are below `-0.003`; exactly, `50/16383 > 3/1000` because `50000 > 49149`.
+
+For an airborne, dry, non-fall-flying, non-climbing local `LivingEntity` with zero travel input and this Y already in delta movement, 26.2 `travel` selects `travelInAir`; `moveRelative` adds `getInputVector`, which returns `Vec3.ZERO` for zero input. `handleOnClimbable` leaves the vector unchanged under the stated non-climbing condition, then calls `move(MoverType.SELF, getDeltaMovement())`. With no stuck multiplier and the fixture's non-sneaking state, neither `Entity.move`'s stuck adjustment nor `Player.maybeBackOffFromEdge` changes the request. Thus the request entering 26.2's local `SELF` move is the actual decoded binary64 vector `(2.0, decodedY, 0.0)`. Air gravity and drag are applied after that move. This validates the bounded modern dry consumer and does not assert that 26.2's packet path is the old 1.13 producer path.
+
+On the old side, the 1.13 `LivingEntity` dry airborne branch calls `updateVelocity` and then `move(SELF, velocityX, velocityY, velocityZ)`. With all input components zero, the unchanged `1.0E-4` input-squared guard is taken, so velocity remains the supplied exact binary64 state through the movement request. The strict `abs(velocityY) < 0.003` cleanup does not clear this codec output because its magnitude is greater than `0.003`. The older accepted producer trace for shorts `(16000,-24,0)` still establishes only the old `-0.003` packet-produced value; it does not establish the 26.2 vector on the old wire path.
+
+## Frozen old geometry: what changes and what does not
+
+Retain the source claim's fixed box and world: `minY=64.1`, `maxY=65.9`, `maxX=1.99999995`; two bottom slabs at `(2,64,0)` and `(3,64,0)`; every other scanned cell air; airborne, non-sneaking `SELF`, no piston/cobweb, border, or entity shapes; and request X/Z `(2,0)`. Only the tested Y input changes from `-0.003` to the exact codec output above.
+
+The old swept block query is magnitude-sensitive in Y (`box.expanded(dx,dy,dz).expand(1.0E-7)`) and sign-sensitive in its start exclusion (`dy > 0 ? -1.0E-7 : +1.0E-7`), with `BooleanOp.ONLY_FIRST`. Both Y values are negative, so the exclusion sign is identical. Before the final epsilon expansion, the swept lower Y is respectively `64.097` and approximately `64.0969480559`; after it, both remain above 64 and below 65, while the upper bound remains `65.9` (apart from the same epsilon). The block-cell range is therefore unchanged: the same Y=64 and Y=65 rows are scanned, and the stated scene contains no other non-air shapes. The small extra descent does not add a shape or alter the two-slab X geometry. X and Z inputs, query bounds and exclusion shifts are unchanged.
+
+For the primary Y clip, both slabs still begin at X=2 while its orthogonal X upper bound remains `1.99999985`; neither slab participates. Hence Y clipping returns the original exact request value, including the codec's actual binary64 bits, before X clipping. The old X face gap stays `2 - 1.99999995 = 4.9999999918171056E-8`. In 1.13 the one aggregated shape is clipped once and retains that offset. In 1.13.1/1.13.2 the X=2 slab is visited before X=3; after the first slab leaves the same gap, the strict lazy cutoff `abs(maxDist) < 1.0E-7` returns zero before reading the next shape. The descending Y value cannot change that cutoff because X and the geometry determining `maxDist` are unchanged.
+
+The step-up gate remains closed for this exact vector: the requested-Y snapshot and post-Y-clip value are the same exact double, so `o != y` is false; with `onGround=false`, `onGround || o != y && o < 0.0` is false. The alternate collector query is not reached.
+
+This audit proves only the requested pair of exact Y inputs on the frozen fixture. Although the inspected source equations show why these results persist for the stated bound conditions, this verdict claims no interval, no general descending-velocity family, and no packet modification.
+
+## Source identity and scope
+
+Read-only ready markers identify Ornithe Feather Gen2 build 2 for 1.13, 1.13.1 and 1.13.2, and unobfuscated 26.2. Direct source hashes matched their corresponding ready-manifest entries; each manifest's raw SHA-256 matched its ready marker. Relevant sources: old `Entity.java`, `LivingEntity.java`, `WorldView.java`, `VoxelShapes.java` and `VoxelShape.java`; modern `LpVec3.java`, `Entity.java`, `LivingEntity.java`, `Player.java`, `CollisionGetter.java` and `VoxelShape.java`. The compared 1.13.1/1.13.2 movement, collector and clipping source hashes are identical as stated in the frozen claim. Exact manifest SHA-256 values: 1.13 `0509c2614b0bb0e616e2ebc6382f8eb5d031b5d86b834a4a6ed7fd96b6d68f1a`; 1.13.1 `21770b01ff3bf443db2e9e1b6df7db25d2fd6b7a72a86228259269c932d3abba`; 1.13.2 `2c8cfb646bf622fb26ac0ca0cb5e02a354fb512e29f8b1010f1aaacd509e1211`; 26.2 `a7ad74fc712567eb87136afc1eafcfd602b4088e9869f3596331fd34faefe894`.
+
+This was a source-only audit. I read no product code, wiki inventory, backlog or Git history and performed no build, test, runtime launch or decompilation. No source files or packet behavior were changed.
+

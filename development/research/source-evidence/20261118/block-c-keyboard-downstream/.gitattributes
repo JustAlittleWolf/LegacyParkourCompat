@@ -1,0 +1,5 @@
+/comparison.md -text whitespace=cr-at-eol
+/verdict.md -text
+/input-identity-correction.md -text
+/non-camera-comparison.md -text whitespace=cr-at-eol,-blank-at-eof
+/non-camera-verdict.md -text whitespace=cr-at-eol,-blank-at-eol

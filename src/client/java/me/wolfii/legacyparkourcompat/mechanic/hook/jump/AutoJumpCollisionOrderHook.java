@@ -7,7 +7,9 @@ import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jspecify.annotations.Nullable;
 
 /** Supplies collision candidates in the historical order used by auto-jump. */
 @FunctionalInterface
@@ -15,4 +17,17 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public interface AutoJumpCollisionOrderHook extends VersionedMechanic {
     Iterable<VoxelShape> autoJumpCollisions(Player player, CollisionGetter level, AABB query,
                                            ParkourVersion selected, VanillaFn<Iterable<VoxelShape>> vanilla);
+
+    default Iterable<VoxelShape> autoJumpCollisions(Player player, CollisionGetter level, AABB query,
+                                                   ParkourVersion selected, ProbeSegments probes,
+                                                   VanillaFn<Iterable<VoxelShape>> vanilla) {
+        return this.autoJumpCollisions(player, level, query, selected, vanilla);
+    }
+
+    default boolean observesGroundedTravel() {
+        return false;
+    }
+
+    record ProbeSegments(Vec3 leftStart, Vec3 leftEnd, Vec3 rightStart, Vec3 rightEnd,
+                         @Nullable Vec3 groundedTravelStart) {}
 }

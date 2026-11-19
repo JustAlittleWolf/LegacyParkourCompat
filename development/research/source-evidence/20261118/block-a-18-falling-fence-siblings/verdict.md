@@ -1,0 +1,25 @@
+# Independent 1.8 wooden-fence sibling audit
+
+## Verdict
+
+**ACCEPT**, limited to the five dry ordinary non-oak fence providers in the supplied 1.8 falling-water upper-Y call-boundary fixture: spruce, birch, jungle, acacia and dark oak. Their provider substitution preserves the accepted oak fixture's falling-water horizontal side/above solidity cue and remains vertically separated from the player collision box. No blockers remain within this bounded claim.
+
+## Immutable claim and dependencies
+
+Reviewed falling-fence-18-wood-siblings commit aa7c69a7bb0640a7d4fb8559a2ca558f1c124c43:siblings.md, whose Git blob bytes hash to SHA-256 61a7c39f39a2c0e2cbaf63d6643ab529b019e184d7145875b192e5d2c154280f. The supplied 5c77e92c… digest is the author's working-tree bytes; it differs from Git blob bytes because of line-ending normalization. I independently hashed git cat-file blob output. The accepted fixture dependency is falling-current-boundary commit 4cd8c9d010a04b52d7d66c672295f1bc7cf0f76d:evidence.md (SHA-256 7f5f2c31a35121c1acdef172f069e8cd28c0fba4c6618562286c184af0b25e7c); the 1.8 alias applicability dependency is falling-current-18-alias-audit commit 5a64a143033ca2d8b6d94d4e466af53182fac9f6:acceptance-addendum.md (SHA-256 47335f7f9c4fc2608124a57fee06f55eeedf2328cd8f0f872006833a04cb0e36).
+
+## Source trace and provenance
+
+All cited Java files are under decompiled_minecraft/<release>/ornithe-feather/ in the primary checkout. For 1.8, Block.java lines 1124–1128 registers all five names with new FenceBlock(Material.WOOD). In 1.8.1, Block.java lines 1210–1251 registers the same providers with the corresponding plank MapColor. FenceBlock.java lines 18–29 (1.8) and 19–33 (1.8.1) show the shared class and constructors; it has no isFaceSolid override. The 1.8.1 color argument is forwarded to the base constructor and does not change the material or the fence solidity implementation.
+
+LiquidBlock.getFlow in 1.8 lines 150–160 and 1.8.1 lines 151–161 has the same LEVEL >= 8 branch and short-circuits isFaceSolid(side, direction) || isFaceSolid(side.up(), direction) in side-then-above order. LiquidBlock.isFaceSolid lines 74–82 (1.8) and 75–83 (1.8.1) reject same-liquid material and ICE, accept UP, then dispatch to Block.isFaceSolid. The base method at Block.java lines 282–284 (1.8) and 289–291 (1.8.1) reads the neighbor's material isSolid(). Material.WOOD is registered at Material.java line 7 and the default Material.isSolid() returns true at lines 55–57. Thus dry side air fails and each above-side wooden fence succeeds for the same WEST query. This cue reads vanilla state/material; it does not inspect fence connection bits, render shape or collision shape.
+
+The exact 1.8 and 1.8.1 Feather build.2 provenance manifests' source entries match the local source bytes for Block.java, FenceBlock.java, LiquidBlock.java and Material.java. Across every exact release 1.8.2–1.8.8, each of those four files has the same complete-file SHA-256 as 1.8.9 and matches that release's own .decompile-provenance.json source entry. 1.8.9's ready marker identifies Feather gen2 build.2 and its source manifest; all four local files match the manifest entries. Common 1.8.2–1.8.9 whole-file hashes, in that order, are ea10f05106a3cf7189aec85236a7ecf9c7106a717f37bed583b5ea4adeffa528, 8d6a803988d77fc51f364520f2e0cd5567b1d5c29a4d28d01cdcf93e6d5890d9, 1537fd6b1bca65e0f910f9a12bcd3bb27f5a86be7f13a1caa380c5e66544f1d5, and 017713d76afe726ca243ce32cbc35c13d3f0f0e7e5d90d122f81103cc2ca1bd2.
+
+The 1.8 / 1.8.1 provider and flow traces differ only in registration constructor arguments: 1.8 uses Material.WOOD alone, while 1.8.1 also supplies per-variant map color. The relevant dispatch, base solidity predicate and collision vertical extent are unchanged. No intermediate patch boundary is inferred within 1.8.2–1.8.9.
+
+## Fixture reach and limits
+
+The accepted fixture places falling water at (0,64,0), queries WEST with side air at (-1,64,0), and reads the dry oak fence at (-1,65,0). Replacing that one block with any of the five registered siblings leaves all other fixed inputs unchanged. The inherited call-boundary player has contracted scan-box maximum Y 64.0 and uncontracted collision-box maximum about 64.401. In 1.8 and 1.8.1, FenceBlock.addCollisions sets local collision shapes with minimum Y 0.0 (raised segment maximum 1.5); translated to the fence block at Y=65, every such shape starts at world Y=65. The player's collision box remains below that boundary regardless of connection state. The fixed source fixture therefore retains the same non-colliding above-side cue.
+
+This accepts provider applicability to the supplied call-boundary witness only. It does not claim natural full-tick reachability, trajectory or runtime parity, other fence families/materials, or patch boundaries beyond those explicitly inspected. No product, wiki, backlog or history was consulted; no shared sources were edited and no build, test, runtime launch or decompilation was run.
