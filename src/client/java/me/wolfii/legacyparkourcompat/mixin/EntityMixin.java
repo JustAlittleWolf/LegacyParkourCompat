@@ -182,6 +182,17 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         return true;
     }
 
+    // 1.21.5 Mojmap Entity.teleportSetPosition clears its pending batches after setting
+    // velocity. 26.2 unobfuscated delegates both teleport overloads to this clear call.
+    @Inject(method = "teleportSetPosition(Lnet/minecraft/world/entity/PositionMoveRotation;Lnet/minecraft/world/entity/PositionMoveRotation;Ljava/util/Set;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;clearMovementThisTick()V",
+            shift = At.Shift.AFTER))
+    private void legacyparkourcompat$clearCallbackBatchesAfterTeleport(CallbackInfo callbackInfo) {
+        if (!this.legacyparkourcompat$callbackMovementBatches.isEmpty()) {
+            this.legacyparkourcompat$callbackMovementBatches.clear();
+        }
+    }
+
     @Inject(method = "removeLatestMovementRecording()V", at = @At("HEAD"), cancellable = true)
     private void legacyparkourcompat$removeLatestMovementCallbackBatch(CallbackInfo callbackInfo) {
         Entity entity = (Entity)(Object)this;

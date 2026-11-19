@@ -53,21 +53,13 @@ abstract class PlayerMixin {
         }
     }
 
-    @WrapOperation(
-        method = "rideTick()V",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/player/Player;wantsToStopRiding()Z"
-        )
-    )
-    private boolean legacyparkourcompat$shiftDismountGate(Player player, Operation<Boolean> original) {
-        boolean vanilla = original.call(player);
-        if (!(player instanceof LocalPlayer localPlayer)) {
-            return vanilla;
+    @Inject(method = "rideTick()V", at = @At("HEAD"), cancellable = true)
+    private void legacyparkourcompat$shiftDismountGate(CallbackInfo ci) {
+        if ((Object)this instanceof LocalPlayer player && MovementRuntime.find(LocalPlayerShiftDismountHook.class, player)
+            .map(hook -> hook.dismountIfShifting(player, MovementRuntime.profile(player).target()))
+            .orElse(false)) {
+            ci.cancel();
         }
-        return MovementRuntime.find(LocalPlayerShiftDismountHook.class, localPlayer)
-            .map(hook -> hook.shouldStopRiding(vanilla))
-            .orElse(vanilla);
     }
 
     // Keep Player's native super calls intact, including the inside callback's fall-distance reset.

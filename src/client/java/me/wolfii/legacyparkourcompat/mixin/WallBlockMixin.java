@@ -44,7 +44,7 @@ public abstract class WallBlockMixin {
         CollisionContext context,
         CallbackInfoReturnable<VoxelShape> callback
     ) {
-        var player = MovementRuntime.playerFrom(context);
+        var player = MovementRuntime.blockShapePlayerFrom(context);
         if (player == null) {
             return;
         }
@@ -59,10 +59,10 @@ public abstract class WallBlockMixin {
                 }
                 BlockState neighbor = level.getBlockState(pos.relative(direction));
                 boolean suppressPane = MovementRuntime.find(WallPaneAttachmentHook.class, localPlayer)
-                    .map(hook -> hook.suppressAttachment(neighbor, selected))
+                    .map(hook -> hook.suppressAttachment(state, neighbor, selected))
                     .orElse(false);
                 boolean suppressSoulSand = MovementRuntime.find(WallSoulSandConnectionHook.class, localPlayer)
-                    .map(hook -> hook.suppressConnection(neighbor, selected))
+                    .map(hook -> hook.suppressConnection(state, neighbor, selected))
                     .orElse(false);
                 if (suppressPane || suppressSoulSand) {
                     shapeState = shapeState.setValue(sideProperty, WallSide.NONE);

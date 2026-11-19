@@ -208,11 +208,8 @@ public class MovementVersionScreen extends OptionsSubScreen {
             if (this.screen.serverForced) {
                 return;
             }
+            // Vanilla also calls this when keyboard focus moves.
             super.setSelected(entry);
-            // Keyboard focus can select the already highlighted row when the screen opens.
-            if (entry != null && entry.version != this.screen.selected) {
-                this.screen.selectListedVersion(entry.version);
-            }
         }
 
         @Override
@@ -296,7 +293,9 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
             @Override
             public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a) {
-                int color = hovered || this.list.getSelected() == this ? 0xFFFFFFFF : 0xFFAAAAAA;
+                boolean chosen = this.version == this.list.screen.selected;
+                boolean highlighted = hovered || this.list.getSelected() == this;
+                int color = chosen || highlighted ? 0xFFFFFFFF : 0xFFAAAAAA;
                 graphics.text(
                     Minecraft.getInstance().font,
                     this.label,

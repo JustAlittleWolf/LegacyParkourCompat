@@ -4,10 +4,13 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.BlockCollisionShapeHook;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CrossCollisionBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.StainedGlassBlock;
-import net.minecraft.world.level.block.StainedGlassPaneBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -16,6 +19,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Source evidence (paths are relative to decompiled_minecraft/):
@@ -56,6 +60,8 @@ public final class PaneCollisionShape implements BlockCollisionShapeHook {
     private static final VoxelShape Z = Shapes.box(7.0 / 16.0, 0.0, 0.0, 9.0 / 16.0, 1.0, 1.0);
     private static final VoxelShape Z_NORTH = Shapes.box(7.0 / 16.0, 0.0, 0.0, 9.0 / 16.0, 1.0, 8.0 / 16.0);
     private static final VoxelShape Z_SOUTH = Shapes.box(7.0 / 16.0, 0.0, 8.0 / 16.0, 9.0 / 16.0, 1.0, 1.0);
+    private static final VoxelShape NATIVE_POST = Block.column(2.0, 0.0, 16.0);
+    private static final Set<Block> STAINED_PANES = Set.copyOf(Blocks.STAINED_GLASS_PANE.asList());
 
     private final String blockId;
 
@@ -80,16 +86,33 @@ public final class PaneCollisionShape implements BlockCollisionShapeHook {
         BlockPos pos,
         CollisionContext context
     ) {
-        boolean north = this.connectsTo(level, pos.north());
-        boolean east = this.connectsTo(level, pos.east());
-        boolean south = this.connectsTo(level, pos.south());
-        boolean west = this.connectsTo(level, pos.west());
+        BlockState connections = state;
+        boolean nativePost = false;
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BlockState neighbor = level.getBlockState(pos.relative(direction));
+            Block block = neighbor.getBlock();
+            // 26.2 IronBarsBlock.attachsTo includes later bars such as copper.
+            // Keep that side's native state bit and CrossCollisionBlock.makeShapes
+            // center post while resolving the other sides independently.
+            if (block instanceof IronBarsBlock && block != Blocks.IRON_BARS
+                && block != Blocks.GLASS_PANE && !STAINED_PANES.contains(block)) {
+                nativePost = true;
+                continue;
+            }
+            connections = connections.setValue(
+                CrossCollisionBlock.PROPERTY_BY_DIRECTION.get(direction), connectsTo(neighbor)
+            );
+        }
+        boolean north = connections.getValue(CrossCollisionBlock.NORTH);
+        boolean east = connections.getValue(CrossCollisionBlock.EAST);
+        boolean south = connections.getValue(CrossCollisionBlock.SOUTH);
+        boolean west = connections.getValue(CrossCollisionBlock.WEST);
 
-        if (!north && !east && !south && !west) {
+        if (!nativePost && !north && !east && !south && !west) {
             return Optional.of(Shapes.or(X, Z));
         }
 
-        VoxelShape shape = Shapes.empty();
+        VoxelShape shape = nativePost ? NATIVE_POST : Shapes.empty();
         if (east || west) {
             VoxelShape xShape = east ? (west ? X : X_EAST) : X_WEST;
             shape = Shapes.or(shape, xShape);
@@ -101,13 +124,16 @@ public final class PaneCollisionShape implements BlockCollisionShapeHook {
         return Optional.of(shape);
     }
 
-    private boolean connectsTo(BlockGetter level, BlockPos pos) {
-        BlockState neighbor = level.getBlockState(pos);
+    private static boolean connectsTo(BlockState neighbor) {
         var block = neighbor.getBlock();
+        // 1.8–1.8.9 Feather PaneBlock.shouldConnectTo reads Block.isOpaque,
+        // cached from PistonBaseBlock.isSolidRender() == false for both pistons.
+        // In 26.2 the unextended PistonBaseBlock.getShape is a full occluder.
+        if (block == Blocks.PISTON || block == Blocks.STICKY_PISTON) {
+            return false;
+        }
         return neighbor.isSolidRender()
-            || block == Blocks.IRON_BARS
-            || block == Blocks.GLASS_PANE
-            || block instanceof StainedGlassPaneBlock
+            || block instanceof IronBarsBlock
             || block == Blocks.GLASS
             || block instanceof StainedGlassBlock;
     }

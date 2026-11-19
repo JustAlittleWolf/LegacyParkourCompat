@@ -75,6 +75,9 @@ public final class LegacyPlayerPassengerPlacement {
 
         RotationEffect rotation = switch (carrier) {
             case CAMEL -> RotationEffect.CLAMP_TO_VEHICLE;
+            // 1.20.1 Mojmap Llama.positionRider writes only position. In 26.2 the
+            // inherited AbstractHorse.positionRider also assigns the passenger's body yaw.
+            case LLAMA -> RotationEffect.SUPPRESS_NATIVE_BODY_YAW_COPY;
             case ABSTRACT_HORSE, CHESTED_HORSE, SKELETON_HORSE -> input.horseStandAnimO() > 0.0F
                 ? RotationEffect.KEEP_NATIVE
                 : RotationEffect.SUPPRESS_NATIVE_BODY_YAW_COPY;

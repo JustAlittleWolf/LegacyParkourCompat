@@ -13,7 +13,9 @@ public final class PaneWallAttachment implements PaneWallAttachmentHook {
     }
 
     @Override
-    public boolean suppressAttachment(BlockState neighbor, ParkourVersion selected) {
-        return selected == ParkourVersion.V1_15_2 && neighbor.is(BlockTags.WALLS);
+    public boolean suppressAttachment(BlockState pane, BlockState neighbor, ParkourVersion selected) {
+        return selected == ParkourVersion.V1_15_2
+            && WallConnectionBlocks.isPaneOrBars(pane) && WallConnectionBlocks.isWall(neighbor)
+            && neighbor.is(BlockTags.WALLS);
     }
 }

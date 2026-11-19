@@ -4,6 +4,8 @@ import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.ClientBorderLerpState;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.border.WorldBorderCollisionHook;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
@@ -24,6 +26,10 @@ public final class ElapsedWorldBorderCollision implements WorldBorderCollisionHo
      */
     @Override
     public @Nullable Collision collision(WorldBorder border, Entity entity, AABB box) {
+        if (!(entity instanceof LocalPlayer player) || Minecraft.getInstance().player != player
+            || player.level().getWorldBorder() != border) {
+            return null;
+        }
         return ClientBorderLerpState.collision(border, entity, box);
     }
 }
