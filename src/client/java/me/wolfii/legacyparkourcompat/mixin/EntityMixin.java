@@ -128,9 +128,6 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     @Unique
     private final Deque<CallbackMoveInput> legacyparkourcompat$callbackMoveInputs = new ArrayDeque<>();
 
-    @Unique
-    private int legacyparkourcompat$explicitCallbackScanDepth;
-
     // Entity.turn(DD)V declares yaw before pitch; ordinal 1 captures the second double argument.
     @ModifyArg(
         method = "turn(DD)V",
@@ -183,25 +180,6 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         }
         this.legacyparkourcompat$callbackMovementBatches.remove(lastIndex);
         return true;
-    }
-
-    @Override
-    @Unique
-    public boolean legacyparkourcompat$isExplicitCallbackScan() {
-        return this.legacyparkourcompat$explicitCallbackScanDepth > 0;
-    }
-
-    @Inject(method = "applyEffectsFromBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)V", at = @At("HEAD"))
-    private void legacyparkourcompat$beginExplicitCallbackScan(Vec3 from, Vec3 to, CallbackInfo callbackInfo) {
-        this.legacyparkourcompat$explicitCallbackScanDepth++;
-    }
-
-    @Inject(method = "applyEffectsFromBlocks(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;)V", at = @At("RETURN"))
-    private void legacyparkourcompat$endExplicitCallbackScan(Vec3 from, Vec3 to, CallbackInfo callbackInfo) {
-        if (this.legacyparkourcompat$explicitCallbackScanDepth <= 0) {
-            throw new IllegalStateException("Explicit callback scan depth underflow");
-        }
-        this.legacyparkourcompat$explicitCallbackScanDepth--;
     }
 
     @Inject(method = "removeLatestMovementRecording()V", at = @At("HEAD"), cancellable = true)
@@ -782,6 +760,9 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
     @ModifyReturnValue(method = "getGravity", at = @At("RETURN"))
     private double legacyparkourcompat$historicalPlayerGravity(double vanilla) {
         Entity entity = (Entity)(Object)this;
+        if (MovementRuntime.isNativeGlideGravityQuery(entity)) {
+            return vanilla;
+        }
         return MovementRuntime.find(GravityHook.class, entity)
             .map(behavior -> behavior.gravity(entity, vanilla))
             .orElse(vanilla);

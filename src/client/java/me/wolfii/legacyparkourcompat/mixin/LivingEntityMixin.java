@@ -158,9 +158,6 @@ abstract class LivingEntityMixin {
         return PostMoveFluidRefreshContext.suppressLavaCurrent(entity, () -> original.call(entity));
     }
 
-    @Invoker("getEffectiveGravity")
-    protected abstract double legacyparkourcompat$invokeGetEffectiveGravity();
-
     @WrapOperation(method = "tick()V", at = @At(value = "INVOKE",
         target = "Lnet/minecraft/world/entity/LivingEntity;setXRot(F)V"))
     private void legacyparkourcompat$sleepPitchReset(LivingEntity entity, float pitch, Operation<Void> original) {
@@ -219,12 +216,8 @@ abstract class LivingEntityMixin {
         LivingEntity entity = (LivingEntity)(Object)this;
         if (!entity.isFallFlying()) {
             MovementRuntime.find(ClimbImpulseHook.class, entity)
-                .ifPresent(hook -> {
-                    boolean trapdoorClimbing = MovementRuntime.find(TrapdoorClimbingHook.class, entity)
-                        .map(trapdoor -> trapdoor.canClimbTrapdoor(true))
-                        .orElse(true);
-                    cir.setReturnValue(hook.afterMove(entity, cir.getReturnValue(), trapdoorClimbing));
-                });
+                .ifPresent(hook -> cir.setReturnValue(hook.afterMove(entity, MovementRuntime.profile(entity).target(),
+                    cir.getReturnValue(), MovementRuntime.find(TrapdoorClimbingHook.class, entity).orElse(null))));
         }
     }
 
@@ -517,17 +510,17 @@ abstract class LivingEntityMixin {
             .orElse(vanilla);
     }
 
-    @Redirect(
+    @WrapOperation(
         method = "updateFallFlyingMovement",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getEffectiveGravity()D")
     )
-    private double legacyparkourcompat$fallFlyingGravity(LivingEntity entity) {
+    private double legacyparkourcompat$fallFlyingGravity(LivingEntity entity, Operation<Double> original) {
         if (!entity.level().isClientSide() || !entity.isLocalInstanceAuthoritative()) {
-            return ((LivingEntityMixin)(Object)entity).legacyparkourcompat$invokeGetEffectiveGravity();
+            return original.call(entity);
         }
         return MovementRuntime.find(TravelFallFlyingGravityHook.class, entity)
-            .map(hook -> hook.gravity(entity))
-            .orElseGet(() -> ((LivingEntityMixin)(Object)entity).legacyparkourcompat$invokeGetEffectiveGravity());
+            .map(hook -> hook.gravity(entity, () -> MovementRuntime.nativeGlideGravity(entity, () -> original.call(entity))))
+            .orElseGet(() -> original.call(entity));
     }
 
     @Inject(

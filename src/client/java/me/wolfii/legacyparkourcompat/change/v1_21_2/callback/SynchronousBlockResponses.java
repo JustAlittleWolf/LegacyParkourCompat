@@ -5,11 +5,13 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.VanillaCall;
 import me.wolfii.legacyparkourcompat.mechanic.hook.callback.SweptBlockResponseHook;
 import me.wolfii.legacyparkourcompat.mixin.accessor.AbstractCauldronBlockAccessor;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
@@ -79,8 +81,23 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
             }
 
             if (entity.getRemainingFireTicks() >= 0) {
-                entity.igniteForSeconds(8.0F);
+                igniteForSeconds(entity, 8.0F);
             }
+        }
+    }
+
+    private static void igniteForSeconds(Entity entity, float seconds) {
+        if (!(entity instanceof LocalPlayer player)) {
+            entity.igniteForSeconds(seconds);
+            return;
+        }
+        // 1.21.2/1.21.3 Mojmap Entity.igniteForSeconds floors before LivingEntity.igniteForTicks
+        // scales by BURNING_TIME. Entity.igniteForTicks only raises the timer; 26.2 also clears
+        // freeze. Player.setRemainingFireTicks retains the historical invulnerability cap.
+        int ticks = Mth.floor(seconds * 20.0F);
+        int duration = Mth.ceil(ticks * player.getAttributeValue(Attributes.BURNING_TIME));
+        if (player.getRemainingFireTicks() < duration) {
+            player.setRemainingFireTicks(duration);
         }
     }
 
@@ -122,7 +139,7 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
         if (entity.getY() < pos.getY() + contentHeight
             && entity.getBoundingBox().maxY > pos.getY() + 0.25
             && !entity.fireImmune()) {
-            entity.igniteForSeconds(15.0F);
+            igniteForSeconds(entity, 15.0F);
         }
     }
 }

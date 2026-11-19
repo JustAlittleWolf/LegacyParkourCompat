@@ -65,6 +65,7 @@
     "EntityStepUpCollisionMixin",
     "EntityMovementCutoffMixin",
     "ShulkerMixin",
+    "accessor.EnderDragonAccessor",
     "accessor.EntityInvoker",
     "accessor.EntityRotationAccessor",
     "accessor.EntityVisitedBlocksAccessor",

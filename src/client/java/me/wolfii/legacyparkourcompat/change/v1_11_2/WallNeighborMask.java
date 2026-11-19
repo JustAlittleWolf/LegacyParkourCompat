@@ -8,7 +8,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -22,8 +21,8 @@ import java.util.Set;
  * <p>Ornithe Feather 1.11.2 and 1.12.2
  * {@code net.minecraft.block.WallBlock.shouldConnectTo} classify the four
  * neighbors before {@code getShapeIndex} consumes all four bits. Its
- * {@code shouldConnectTo(WorldView, BlockPos)} accepts every neighboring
- * {@code FenceGateBlock} regardless of facing; the 1.12 overload adds a
+ * {@code shouldConnectTo(WorldView, BlockPos)} accepts each historically registered
+ * fence gate regardless of facing; the 1.12 overload adds a
  * direction and accepts only the gate's matching axis. For air and mapped
  * stairs the 1.11.2 {@code StairsBlock.isCube} result is false. The 26.2 unobfuscated
  * {@code BlockStateData.register/create} mappings identify the current wall
@@ -80,10 +79,10 @@ public final class WallNeighborMask implements WallNeighborMaskHook {
         }
 
         int mask = 0;
-        if (north.getBlock() instanceof FenceGateBlock) mask |= 1 << 2;
-        if (east.getBlock() instanceof FenceGateBlock) mask |= 1 << 3;
-        if (south.getBlock() instanceof FenceGateBlock) mask |= 1;
-        if (west.getBlock() instanceof FenceGateBlock) mask |= 1 << 1;
+        if (HistoricalFenceGates.contains(north)) mask |= 1 << 2;
+        if (HistoricalFenceGates.contains(east)) mask |= 1 << 3;
+        if (HistoricalFenceGates.contains(south)) mask |= 1;
+        if (HistoricalFenceGates.contains(west)) mask |= 1 << 1;
         return OptionalInt.of(mask);
     }
 
@@ -104,7 +103,7 @@ public final class WallNeighborMask implements WallNeighborMaskHook {
         if ("minecraft:air".equals(key)) {
             return true;
         }
-        if (state.getBlock() instanceof FenceGateBlock) {
+        if (HistoricalFenceGates.contains(state)) {
             return true;
         }
         return STAIR_KEYS.contains(key) && isFalseWaterlogged(state);
