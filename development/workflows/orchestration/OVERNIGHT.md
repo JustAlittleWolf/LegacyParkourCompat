@@ -1,5 +1,17 @@
 # Unattended movement campaign
 
+## Current single-orchestrator takeover
+
+The dedicated local-main publisher owns all writes to main. The MCPK integration writer builds on `build/takeover/publisher-20261119` and exposes immutable `refs/campaign-ready/takeover-*` there for the publisher. The recovered overnight batch is `refs/campaign-ready/takeover-recovered-overnight-20261119` at `9468873c784c78f3b9f4af40a82b2a6a5270d91d`. Publish implementation batches independently of morning cleanup.
+
+When moving beyond MCPK, check the separate per-release source orchestrators' reservations. Reuse their exact-pair work and assign only uncovered scopes.
+
+The outgoing campaign publisher stopped at checkpoint `5fdda26c`. Its combined repository and immutable local bundles live under `C:/Users/Wolfi/.codex/visualizations/2026/11/18/01a1f01a-11a3-7520-b7e4-32fb64b744bd/`, in `publication/` and its sibling bundles. Compare against that checkpoint as well as main when checking for prior implementations. The publisher may supply a workspace-local mirror for consumers.
+
+The 19 November user handoff supersedes the older role and sequencing instructions below. One orchestrator assigns one direct GPT-6.2 Sol Medium worker per distinct MCPK difference and exact Minecraft version, with fresh context and no delegation. Target 20 useful workers and refill on completion. Each worker verifies the claim in exact local sources, reconciles effective providers and unpublished refs, and implements any confirmed missing delta in isolation. Independent operations can proceed immediately. Each worker returns a local commit with source evidence, an evidenced existing-code or no-difference disposition, or the exact unresolved gate. The same worker owns discovery and implementation. Separate acceptance and a global discovery gate are not prerequisites for these MCPK assignments.
+
+Use the primary checkout at D:/Javastuff/LegacyParkourCompat for read-only sources, records and refs. For candidate edits clone locally with Git into the assigned exclusive directory under build/takeover/ using main as the base. Read AGENTS.md, README.md and the applicable phase procedures. Preserve native fallback and client-only scope. Workers use static checks only. A single integration writer reconciles overlapping changes, builds with every test task disabled, and publishes locally after the prior writer releases ownership. Preserve dirty files and verified refs. The scheduled audit and runtime verification remain independent. Revisit this brief roughly hourly. Continue with exact local source pairs newest first after MCPK, until stopped or actual run limits.
+
 Start only on the user's start signal. Continue until the user sends stop. There is no elapsed-time cutoff. A checkpoint ends a batch and immediately opens the next. On stop, propagate it to descendants immediately and report the latest durable state.
 
 ## Delegation
@@ -14,13 +26,23 @@ Use English throughout. Arm a native goal for the GPT-6.2 Sol high coordinator a
 
 Assign the operation by its player-visible behavior. Its owner can trace shared dependencies and edit its operation-specific members in shared files on an isolated branch. Each orchestrator targets 20 useful concurrent workers in its own chat. Distribute contracts across relevant releases, independent operations, evidence gates and eligible implementation. Use the actual launcher's capacity and refill on any completion. See the [standing reservation and worker contract](WORKFLOW.md#reserve-an-end-to-end-block).
 
-The coordinator allocates domains, transfers idle capacity, handles urgent organizational conflicts and propagates stop. A reported exhausted queue can trigger transfer of an unstarted independent slice from a busier domain. Otherwise the coordinator waits. At startup grant one technical publication worker exclusive ownership of the main checkout and backlog writes. The worker handles intake, combined verification and publication under the [Git handoff procedure](WORKFLOW.md#git-ownership-and-recovery).
+The coordinator allocates domains, transfers idle capacity, handles urgent organizational conflicts and propagates stop. A reported exhausted queue can trigger transfer of an unstarted independent slice from a busier domain. Grant ordinary in-domain decisions once for the full run. Orchestrators obtain routine instructions from this brief and exchange verified results through the publication queue. The coordinator waits for a user stop, a genuine cross-domain conflict, a global phase transition or an exhausted domain needing a substantial transfer. Bundle the transfer into one decision; worker counts, repeated grants, workflow reminders and routine acknowledgments stay local. At startup grant one technical publication worker exclusive ownership of the main checkout and backlog writes. The worker handles intake, combined verification and publication under the [Git handoff procedure](WORKFLOW.md#git-ownership-and-recovery).
 
 Each orchestrator's first operational pass is to fill its own pool toward 20 active useful workers. Give a triage worker a bounded backlog projection if queue preparation is the bottleneck. Count running workers from the native roster, refill on each completion, and record a concrete capacity or readiness limit if it binds. Delegate implementation edits, source tracing, evidence writing, Git work and builds to workers. An orchestrator spends its time on task selection, dependency order, dispatch and refills.
 
 Dispatch routine workers with explicit native arguments `model="gpt-6-luna"`, `reasoning_effort="high"` and `fork_turns="none"`. Verify execution on the first assignment. An omitted model suggestion alone does not establish unavailability. If the call fails, hold routine dispatch and report the error to the coordinator. This run requires Luna for routine work. Resolve technical issues within the owning group and reassign capacity around unavailable resources or approvals. Follow the [reusable orchestration procedure](WORKFLOW.md) for queue balancing, Git recovery, checkpoints and stop propagation.
 
+## After MCPK
+
+Once the MCPK inventory and its in-scope implementation work are complete, continue with the local Minecraft source lane. Apply the implementation-first gate before every new discovery batch. Order uncovered adjacent release pairs by their newer endpoint, newest first, and work backward through the supported releases. Use existing coverage to skip completed slices. The coordinator grants large disjoint slices once per transition. Provide blind source workers only the exact source pair and its permitted coverage.
+
 ## First dispatch and checks
+
+### Capacity checkpoint
+
+Include this instruction in each new orchestrator goal: "Keep up to 20 useful technical workers active across my domain, including nested workers. Refill on any completion. On context recovery and roughly once per hour while dispatching, reread the Capacity checkpoint in the primary checkout's development/workflows/orchestration/OVERNIGHT.md. Continue until user stop." Give stream schedulers the same instruction with their own slot allocation.
+
+At that checkpoint count running direct and nested technical workers once, excluding managers. If below target, dispatch ready work before waiting. If the queue is thin, split known implementation residuals by independent caller, boundary or applicability gate and let the stream schedulers dispatch concurrently. Reuse completed verdicts and built refs. If only serial or externally blocked work remains across the domains, record the actual count, exact dependency and next wake condition once. Check again when that condition changes. Use this short section for routine reminders and reread changed phase procedures in full. A checkpoint requires no routine message to the coordinator.
 
 Include the [implementation-first phase order](WORKFLOW.md#finish-known-implementations-before-new-discovery) in all four goals. At startup a single queue owner uses the commands below. Page with `--offset` when `nextOffset` is present. Give the domain owners disjoint sets of finding IDs and attach the MCPK claim IDs where relevant. Resolve disputed or missing historical evidence only for those existing operations until the global gate opens.
 
