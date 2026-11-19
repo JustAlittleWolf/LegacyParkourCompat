@@ -3,34 +3,39 @@ package me.wolfii.legacyparkourcompat.change.v1_16_2;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.shulker.ShulkerOpeningPushAmountHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.shulker.ShulkerOpeningPushQueryHook;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
 
 /**
- * Restores the 1.16.5 opening lid-slab overlap amount while retaining native progress, query admission,
- * and movement. In 1.16.5 Mojang mappings, ShulkerBoxBlockEntity#getTopBoundingBox contracts the
- * full ShulkerBoxBlockEntity#getBoundingBox result to the moving lid slab; #moveCollidedEntities
- * pushes by its directional overlap plus 0.01. In 1.17 Mojang mappings, #moveCollidedEntities instead
- * uses Shulker#getProgressDeltaAabb's unhalved axis size plus 0.01. Only this local-player amount is
- * replaced; the current native sweep and all non-player responses remain unchanged.
+ * In 1.11 Ornithe Feather mappings, ShulkerBoxBlockEntity#moveEntities queries the full lid slab from
+ * #getLidShape and pushes by directional overlap plus 0.01. In 1.16.5 Mojang mappings,
+ * #moveCollidedEntities and #getTopBoundingBox do the same. Both opening completion paths query and
+ * push at the incremented progress before clamping it. In 1.17 Mojang mappings, #moveCollidedEntities
+ * queries the unhalved progress delta slab and pushes by its axis size plus 0.01.
  */
 @MovementChange(emulates = ParkourVersion.V1_16_2)
-public final class ShulkerOpeningPushAmount implements ShulkerOpeningPushAmountHook {
+public final class ShulkerOpeningPushAmount implements ShulkerOpeningPushAmountHook, ShulkerOpeningPushQueryHook {
     private static final double PUSH_EPSILON = 0.01;
 
     public ShulkerOpeningPushAmount() {
     }
 
     @Override
+    public AABB openingPushBounds(ShulkerBoxBlockEntity box) {
+        Direction direction = box.getBlockState().getValue(ShulkerBoxBlock.FACING);
+        return openingPushBounds(box, direction);
+    }
+
+    @Override
     public Vec3 pushAmount(ShulkerBoxBlockEntity box, Entity player, Vec3 nativeAmount) {
         Direction direction = box.getBlockState().getValue(ShulkerBoxBlock.FACING);
-        AABB lid = box.getBoundingBox(box.getBlockState())
-            .contract(-direction.getStepX(), -direction.getStepY(), -direction.getStepZ())
-            .move(box.getBlockPos());
+        AABB lid = openingPushBounds(box, direction);
         AABB target = player.getBoundingBox();
         double amount = switch (direction.getAxis()) {
             case X -> direction.getAxisDirection() == Direction.AxisDirection.POSITIVE
@@ -48,5 +53,15 @@ public final class ShulkerOpeningPushAmount implements ShulkerOpeningPushAmountH
             amount * direction.getStepY(),
             amount * direction.getStepZ()
         );
+    }
+
+    private static AABB openingPushBounds(ShulkerBoxBlockEntity box, Direction direction) {
+        float oldProgress = box.getProgress(0.0F);
+        float newProgress = oldProgress + 0.1F;
+        float lidLength = 0.5F * (oldProgress + (newProgress - oldProgress) * 1.0F);
+        return Shapes.block().bounds()
+            .expandTowards(lidLength * direction.getStepX(), lidLength * direction.getStepY(), lidLength * direction.getStepZ())
+            .contract(-direction.getStepX(), -direction.getStepY(), -direction.getStepZ())
+            .move(box.getBlockPos());
     }
 }
