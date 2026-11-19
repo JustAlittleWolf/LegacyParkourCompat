@@ -8,15 +8,11 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintKeyStartHook;
 import net.minecraft.world.entity.player.Player;
 
 /**
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.12.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:
- *   public void mobTick().
- * 1.13.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:
- *   public void mobTick().
- * Remaining source/applicability gates:
- *   Later applicability gate: exact introduction of campaign-F-WATER-SPRINT is unknown within (1.12.2, 1.13.2]
- *   Exact independent source verdict/snapshot identity for water-sprint-gates
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * 1.12.2 Feather LocalClientPlayerEntity.mobTick requires ground for the
+ * forward-tap branch and permits held-key start without a water predicate.
+ * 1.13 Feather LocalClientPlayerEntity.mobTick adds eye-water support and
+ * excludes shallow water from the held-key branch. Both recheck sprint state
+ * immediately after the forward-tap branch, before considering the held key.
  */
 @MovementChange(emulates = ParkourVersion.V1_12)
 public final class SprintInputStart implements ShallowWaterSprintStartHook, DoubleTapSprintStartHook, SprintKeyStartHook {
@@ -38,6 +34,6 @@ public final class SprintInputStart implements ShallowWaterSprintStartHook, Doub
 
     @Override
     public boolean allowSprintKeyStart(Player player, boolean vanilla) {
-        return vanilla;
+        return vanilla && !player.isSprinting();
     }
 }

@@ -1,5 +1,7 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -40,6 +42,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.SprintRetentionInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintKeyHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintDoubleTapGroundHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintStartHook;
@@ -59,6 +62,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSneakHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintGateHook;
 import me.wolfii.legacyparkourcompat.mixin.client.LocalPlayerAccessor;
 import me.wolfii.legacyparkourcompat.mixin.client.ClientInputAccessor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.player.ClientInput;
@@ -75,6 +79,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -89,6 +94,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+    @Shadow @Final
+    protected Minecraft minecraft;
+
     // Mojmap 1.21.4–1.21.10 Player initializes this per instance. Both historical
     // and published 26.2 ClientPacketListener#handleRespawn create a new player,
     // including same-dimension respawns; the timer must not carry across players.
@@ -422,6 +430,23 @@ abstract class LocalPlayerMixin {
         if (allowed && (!sprinting || legacyparkourcompat$doubleTapGroundAdmits(player))) {
             vanilla.call(player, sprinting);
         }
+    }
+
+    @Definition(id = "sprintTriggerTime", field = "Lnet/minecraft/client/player/LocalPlayer;sprintTriggerTime:I")
+    @Expression("this.sprintTriggerTime > 0")
+    @ModifyExpressionValue(
+        method = "aiStep()V",
+        at = @At("MIXINEXTRAS:EXPRESSION"),
+        slice = @Slice(from = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/player/LocalPlayer;canStartSprinting()Z"
+        ))
+    )
+    private boolean legacyparkourcompat$doubleTapSprintKey(boolean activeTimer) {
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        return activeTimer || MovementRuntime.find(DoubleTapSprintKeyHook.class, player)
+            .map(change -> change.startsWithExpiredTimer(this.minecraft.options.keySprint.isDown()))
+            .orElse(false);
     }
 
     @WrapOperation(
