@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.change.v1_16_2.player;
 
+import java.util.function.BooleanSupplier;
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.change.common.HistoricalRideables;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -19,9 +20,10 @@ import net.minecraft.world.entity.vehicle.boat.Boat;
 @MovementChange(emulates = ParkourVersion.V1_16_2)
 public final class LocalPlayerShiftDismount implements LocalPlayerShiftDismountHook {
     @Override
-    public boolean dismountIfShifting(LocalPlayer player, ParkourVersion selected) {
-        if (player.input == null || !player.isShiftKeyDown() || !(player.getVehicle() instanceof Boat boat)
-            || !HistoricalRideables.contains(boat, selected)) {
+    public boolean dismountIfRequested(LocalPlayer player, BooleanSupplier wantsToStopRiding,
+                                       ParkourVersion selected) {
+        if (!wantsToStopRiding.getAsBoolean() || !player.isPassenger()
+            || !(player.getVehicle() instanceof Boat boat) || !HistoricalRideables.contains(boat, selected)) {
             return false;
         }
         player.stopRiding();

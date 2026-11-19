@@ -41,7 +41,7 @@ import net.minecraft.core.Direction;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.HorizontalVelocityWriteHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.player.NonSwimmingPushAwayBlockingHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.player.PushAwayBlockingHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PushAwayProbeRangeHook;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -230,7 +230,7 @@ public final class MovementRuntime {
 
     /**
      * Resolves the existing suffocation predicate with an independently selected
-     * push-away row range when the bounded stone/air/source-water witness applies.
+     * push-away row range within the supported block set.
      */
     public static boolean pushAwaySuffocatesAt(LocalPlayer player, BlockPos pos,
                                                PushAwayProbeRangeHook.ProbeRole role,
@@ -248,13 +248,13 @@ public final class MovementRuntime {
         if (selectedRange.isEmpty()) {
             return suffocationFallback(player, predicate, target, pos, vanilla);
         }
-        if (player.isSwimming()) {
-            if (!swimmingSearchAdmitted) {
-                return suffocationFallback(player, predicate, target, pos, vanilla);
-            }
-        } else if (!supportsPushAwayWitness(player, pos, box, selectedRange.get())) {
-            var blocking = find(NonSwimmingPushAwayBlockingHook.class, player);
-            var rows = selectedRange.get();
+        if (player.isSwimming() && !swimmingSearchAdmitted) {
+            return suffocationFallback(player, predicate, target, pos, vanilla);
+        }
+
+        var rows = selectedRange.get();
+        if (!supportsPushAwayWitness(player, pos, box, rows)) {
+            var blocking = find(PushAwayBlockingHook.class, player);
             if (blocking.isPresent() && supportsPushAwayWitness(player, pos, box, rows,
                 state -> supportsPushAwayCell(state) || blocking.get().isBlocking(state).isPresent())) {
                 return SuffocationProbeColumn.any(pos, rows.minY(), rows.maxYExclusive(), cursor -> {
@@ -266,7 +266,6 @@ public final class MovementRuntime {
             return suffocationFallback(player, predicate, target, pos, vanilla);
         }
 
-        var rows = selectedRange.get();
         if (predicate.isPresent()) {
             return runWithoutRolelessSuffocation(player,
                 () -> predicate.get().suffocatesAt(
@@ -296,8 +295,11 @@ public final class MovementRuntime {
             Math.min(originRange.get().minY(), candidateRange.get().minY()));
         int maxY = Math.max(Mth.ceil(box.maxY),
             Math.max(originRange.get().maxYExclusive(), candidateRange.get().maxYExclusive()));
+        var blocking = find(PushAwayBlockingHook.class, player);
         return supportsPushAwayCells(player,
-            List.of(origin, origin.west(), origin.east(), origin.north(), origin.south()), minY, maxY);
+            List.of(origin, origin.west(), origin.east(), origin.north(), origin.south()), minY, maxY,
+            state -> supportsPushAwayCell(state)
+                || blocking.flatMap(hook -> hook.isBlocking(state)).isPresent());
     }
 
     private static boolean suffocationFallback(LocalPlayer player, Optional<SuffocationProbeHook> predicate,
@@ -321,10 +323,6 @@ public final class MovementRuntime {
         int minY = Math.min(Mth.floor(box.minY), range.minY());
         int maxY = Math.max(Mth.ceil(box.maxY), range.maxYExclusive());
         return supportsPushAwayCells(player, List.of(column), minY, maxY, supported);
-    }
-
-    private static boolean supportsPushAwayCells(LocalPlayer player, List<BlockPos> columns, int minY, int maxY) {
-        return supportsPushAwayCells(player, columns, minY, maxY, MovementRuntime::supportsPushAwayCell);
     }
 
     private static boolean supportsPushAwayCells(LocalPlayer player, List<BlockPos> columns,

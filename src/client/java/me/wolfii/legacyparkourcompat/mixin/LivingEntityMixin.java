@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import me.wolfii.legacyparkourcompat.mechanic.EntityCollisionPushContext;
 import me.wolfii.legacyparkourcompat.mechanic.PostMoveFluidRefreshContext;
 import me.wolfii.legacyparkourcompat.mechanic.HoneyContactScope;
 
@@ -135,6 +136,14 @@ abstract class LivingEntityMixin {
         LivingEntity entity = (LivingEntity)(Object)this;
         MovementRuntime.observeAutoJumpAirTravel(entity, input,
             () -> HoneyContactScope.duringAirTravel(entity, () -> original.call(input)));
+    }
+
+    @WrapOperation(
+        method = "doPush(Lnet/minecraft/world/entity/Entity;)V",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;push(Lnet/minecraft/world/entity/Entity;)V")
+    )
+    private void legacyparkourcompat$scopeCollisionPush(Entity receiver, Entity pusher, Operation<Void> original) {
+        EntityCollisionPushContext.dispatch(receiver, pusher, () -> original.call(receiver, pusher));
     }
 
     @Inject(method = "isPushable()Z", at = @At("RETURN"), cancellable = true)

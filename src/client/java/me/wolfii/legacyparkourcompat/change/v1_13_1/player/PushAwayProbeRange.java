@@ -23,8 +23,8 @@ import java.util.Optional;
  * {@code net/minecraft/client/network/ClientPlayerEntity.java},
  * {@code pushOutOfBlocks}/{@code cannotFitAt}, with the same whole-column scan.
  * 1.14.4/ornithe-feather retains that scan. The suffocation predicate remains
- * resolved independently by SuffocationProbeHook; this range only applies to
- * proven stone/air/source-water witness columns. Push-away calls retain their
+ * resolved independently. The range applies to the supported push-away block
+ * set, including states covered by PushAwayBlockingHook. Push-away calls retain their
  * native order and closest-space comparisons.
  */
 @MovementChange(emulates = ParkourVersion.V1_13_1)

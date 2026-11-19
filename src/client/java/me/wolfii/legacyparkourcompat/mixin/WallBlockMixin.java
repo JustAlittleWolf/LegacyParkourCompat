@@ -1,5 +1,6 @@
 package me.wolfii.legacyparkourcompat.mixin;
 
+import me.wolfii.legacyparkourcompat.change.common.WallCollisionGeometry;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionHeightHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionShapeHook;
@@ -61,12 +62,13 @@ public abstract class WallBlockMixin {
                 boolean suppressPane = MovementRuntime.find(WallPaneAttachmentHook.class, localPlayer)
                     .map(hook -> hook.suppressAttachment(state, neighbor, selected))
                     .orElse(false);
-                boolean suppressSoulSand = MovementRuntime.find(WallSoulSandConnectionHook.class, localPlayer)
-                    .map(hook -> hook.suppressConnection(state, neighbor, selected))
-                    .orElse(false);
-                if (suppressPane || suppressSoulSand) {
+                if (suppressPane) {
                     shapeState = shapeState.setValue(sideProperty, WallSide.NONE);
                 }
+            }
+            var soulSandConnection = MovementRuntime.find(WallSoulSandConnectionHook.class, localPlayer);
+            if (soulSandConnection.isPresent()) {
+                shapeState = soulSandConnection.get().collisionState(shapeState, level, pos, selected);
             }
         }
 
@@ -84,18 +86,22 @@ public abstract class WallBlockMixin {
             }
         }
         OptionalInt completeHistoricalMask = selectedHistoricalMask;
-
-        var heightHook = MovementRuntime.find(WallCollisionHeightHook.class, collisionState.getBlock(), player);
-        VoxelShape heightAdjustedShape = heightHook
-            .map(hook -> hook.applyHeight(vanillaShape, collisionState))
-            .orElse(vanillaShape);
-        OptionalDouble historicalMaxY = heightHook
-            .map(hook -> OptionalDouble.of(hook.maxY(collisionState)))
-            .orElseGet(() -> vanillaShape.isEmpty() ? OptionalDouble.empty()
-                : OptionalDouble.of(vanillaShape.max(Direction.Axis.Y)));
         int restoredConnections = MovementRuntime.find(LegacyFenceWallNeighborConnectionHook.class, player)
             .map(hook -> hook.restoredConnectionMask(level, pos))
             .orElse(0);
+
+        var heightHook = MovementRuntime.find(WallCollisionHeightHook.class, collisionState.getBlock(), player);
+        var historicalHeight = heightHook.map(hook -> {
+            int mask = completeHistoricalMask.orElseGet(() -> WallCollisionGeometry.mask(collisionState));
+            return hook.maxY(mask | restoredConnections);
+        });
+        VoxelShape heightAdjustedShape = historicalHeight
+            .map(maxY -> WallCollisionHeightHook.applyHeight(vanillaShape, maxY))
+            .orElse(vanillaShape);
+        OptionalDouble historicalMaxY = historicalHeight
+            .map(OptionalDouble::of)
+            .orElseGet(() -> vanillaShape.isEmpty() ? OptionalDouble.empty()
+                : OptionalDouble.of(vanillaShape.max(Direction.Axis.Y)));
         VoxelShape historicalShape = MovementRuntime.find(WallCollisionShapeHook.class, collisionState.getBlock(), player)
             .flatMap(hook -> hook.horizontalCollisionShape(collisionState, level, pos, heightAdjustedShape,
                 historicalMaxY, restoredConnections, completeHistoricalMask))
