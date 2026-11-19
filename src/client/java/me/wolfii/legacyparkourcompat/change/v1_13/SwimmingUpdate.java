@@ -7,30 +7,27 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Preserves the 1.13 already-swimming flag under the accepted source-water /
- * full-stone-roof fixture. In Minecraft 1.13, Ornithe Feather Gen2
+ * Preserves the 1.13 already-swimming flag in water under a full stone roof.
+ * In Minecraft 1.13, Ornithe Feather Gen2
  * ({@code net.ornithemc:feather-gen2:1.13+build.2}),
  * {@code net.minecraft.entity.living.player.PlayerEntity#updateSwimming} calls
- * {@code net.minecraft.entity.Entity#updateSwimming} only when the old
- * feet/head clearance passes; its lower
- * {@code PlayerEntity#shouldSuffocate(BlockPos)} and upper material checks are
- * distinct from modern collision-shape or fluid predicates. In Minecraft
+ * {@code net.minecraft.entity.Entity#updateSwimming} for an already-swimming
+ * player only when the feet/head clearance passes. {@code Block#init}
+ * registers water with {@code Material.WATER}, so {@code Block#isSolid}
+ * is false for every {@code LiquidBlock#LEVEL} of water. Full stone above
+ * the player fails {@code PlayerEntity#doesNotSuffocate} for every water level.
+ * In Minecraft
  * 1.13.1, Feather Gen2
  * ({@code net.ornithemc:feather-gen2:1.13.1+build.2}), the same
  * {@code PlayerEntity#updateSwimming} calls {@code Entity#updateSwimming}
- * unconditionally in its non-flying arm. The accepted 26.2 unobfuscated
+ * unconditionally in its non-flying arm. The 26.2 unobfuscated
  * {@code net.minecraft.world.entity.player.Player#updateSwimming} also calls
- * its superclass unconditionally in that arm. Static bytecode inspection of
- * the product target confirms that invocation's symbolic owner is
- * {@code net.minecraft.world.entity.Avatar#updateSwimming}.
+ * its superclass unconditionally in that arm.
  *
- * <p>This provider suppresses only that superclass delegation for the exact
- * accepted local fixture. It uses the floored feet block's exact default
- * water state and the exact default stone state immediately above it. It does
- * not generalize to other materials, shapes, fluids, or remote players.
+ * <p>The provider covers the local water-block and default-stone fixture,
+ * including source, flowing and falling water.
  */
 @MovementChange(emulates = ParkourVersion.V1_13)
 public final class SwimmingUpdate implements SwimmingUpdateHook {
@@ -45,8 +42,7 @@ public final class SwimmingUpdate implements SwimmingUpdateHook {
         }
 
         BlockPos feet = player.blockPosition();
-        BlockState feetState = player.level().getBlockState(feet);
-        if (!feetState.equals(Blocks.WATER.defaultBlockState())) {
+        if (!player.level().getBlockState(feet).is(Blocks.WATER)) {
             return true;
         }
 
