@@ -52,6 +52,8 @@ final class TaskWorker {
 
     String id() { return id; }
 
+    boolean isCurrentClient() { return "current".equals(version); }
+
     void event(String runId, String type, String detail, int tick) {
         events.add(new Event(runId, type, detail, tick));
     }

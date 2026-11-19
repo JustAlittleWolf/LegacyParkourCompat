@@ -39,6 +39,7 @@ public final class RecordingController {
     private int workerRegistrationTicks;
     private long workerSession;
     private boolean workerConnected;
+    private String workerProfile;
 
     private AutomationSettings automation;
     private boolean automationMuted;
@@ -356,7 +357,10 @@ public final class RecordingController {
             // A connection may exist before the local player has been created.
             // The player tick will call this again once teleport/capture is safe.
             if (!this.automationStarted && hasLocalPlayer()) {
-                if (!this.parkourVersionSelected && !"unknown".equals(this.automation.version())) {
+                if (!this.parkourVersionSelected && this.worker != null && this.worker.isCurrentClient()) {
+                    this.workerProfile = this.minecraft.selectWorkerProfile(this.automation.version(), this.workerProfile);
+                    this.parkourVersionSelected = true;
+                } else if (!this.parkourVersionSelected && !"unknown".equals(this.automation.version())) {
                     boolean selected = this.minecraft.selectParkourVersion(this.automation.version());
                     if (this.automation.compare() && !selected) {
                         throw new IllegalStateException("Legacy Parkour mod is unavailable for comparison");
@@ -400,6 +404,7 @@ public final class RecordingController {
         boolean connected = this.minecraft.isConnected();
         if (connected == this.workerConnected) return;
         this.workerConnected = connected;
+        this.workerProfile = null;
         this.worker.gameSession(connected ? ++this.workerSession : 0L);
         this.workerRegistrationTicks = 0;
         if (!connected && this.automation.enabled() && !this.automationFinished) {
@@ -412,7 +417,8 @@ public final class RecordingController {
         try {
             Path source = Paths.get(command.get("recording").getAsString());
             Path output = Paths.get(command.get("output").getAsString());
-            String profile = command.has("profile") ? command.get("profile").getAsString() : "unknown";
+            String profile = command.has("profile") ? command.get("profile").getAsString().trim() : "unknown";
+            if (this.worker.isCurrentClient() && (profile.isEmpty() || "unknown".equals(profile))) profile = "current";
             boolean compare = command.has("compare") && command.get("compare").getAsBoolean();
             Long maxUlps = command.has("maxUlps") ? Long.valueOf(command.get("maxUlps").getAsLong()) : null;
             double tolerance = command.has("tolerance") ? command.get("tolerance").getAsDouble() : 0.0D;

@@ -539,6 +539,39 @@ public final class ReflectivePlayback implements MinecraftPlayback {
     }
 
     @Override
+    public String selectWorkerProfile(String requested, String sessionProfile) {
+        Class<?> controllerType = loadClass("me.wolfii.legacyparkourcompat.api.MovementController");
+        if (controllerType == null) throw new IllegalStateException("Current TAS worker requires Legacy Parkour Compat");
+        try {
+            Object controller = controllerType.getMethod("get").invoke(null);
+            Method selectedVersion = controllerType.getMethod("selectedVersion");
+            Class<?> profileType = selectedVersion.getReturnType();
+            Object selected = selectedVersion.invoke(controller);
+            Object nativeVersion = controllerType.getMethod("nativeVersion").invoke(controller);
+            Object target = "current".equals(requested) ? nativeVersion
+                : profileType.getMethod("of", String.class).invoke(null, requested);
+            String targetId = (String) profileType.getMethod("id").invoke(target);
+            // ParkourVersion.of falls back to CURRENT for an unrecognized label.
+            if (target == nativeVersion && !"current".equals(requested) && !targetId.equals(requested)) {
+                throw new IllegalArgumentException("Unknown TAS movement profile: " + requested);
+            }
+            boolean conflictsWithSession = sessionProfile != null && !sessionProfile.equals(targetId);
+            boolean wouldSwitchProfile = selected != target && (sessionProfile != null || selected != nativeVersion);
+            if (conflictsWithSession || wouldSwitchProfile) {
+                Object activeId = profileType.getMethod("id").invoke(selected);
+                throw new IllegalStateException("Cannot run profile " + targetId + " on this current worker"
+                    + " (active " + activeId + ", session " + sessionProfile + "). "
+                    + "Start a fresh current worker and resubmit the run.");
+            }
+            if (target != selected) controllerType.getMethod("select", profileType).invoke(controller, target);
+            if (selectedVersion.invoke(controller) != target) throw new IllegalStateException("Failed to select " + targetId);
+            return targetId;
+        } catch (ReflectiveOperationException failure) {
+            throw new IllegalStateException("Cannot resolve the current worker's movement profile", failure);
+        }
+    }
+
+    @Override
     public boolean selectParkourVersion(String version) {
         Class<?> controllerType = loadClass("me.wolfii.legacyparkourcompat.api.MovementController");
         if (controllerType == null) {

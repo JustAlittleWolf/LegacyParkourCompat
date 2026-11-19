@@ -89,6 +89,9 @@ public interface MinecraftPlayback {
         return false;
     }
 
+    /** Select or validate the fixed movement profile of the current worker game session. */
+    String selectWorkerProfile(String requested, String sessionProfile);
+
     /** Mutes client audio for headless/reference runs. */
     default void muteAudio() {
     }
