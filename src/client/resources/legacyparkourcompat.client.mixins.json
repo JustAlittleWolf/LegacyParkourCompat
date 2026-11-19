@@ -85,7 +85,8 @@
     "client.ClientInputAccessor",
     "accessor.PistonMovingBlockEntityAccessor",
     "accessor.ShulkerAccessor",
-    "item.TridentItemMixin"
+    "item.TridentItemMixin",
+    "equipment.EquippableMixin"
   ],
   "injectors": {
     "defaultRequire": 1
