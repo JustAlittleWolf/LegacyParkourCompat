@@ -2,6 +2,9 @@ package me.wolfii.legacyparkourcompat.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.vehicle.BoatPassengerYawRefreshHook;
 import net.minecraft.client.Minecraft;
@@ -14,7 +17,6 @@ import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -23,20 +25,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 abstract class ClientPacketListenerMixin extends ClientCommonPacketListenerImpl {
     protected ClientPacketListenerMixin(Minecraft minecraft, Connection connection, CommonListenerCookie cookie) {
         super(minecraft, connection, cookie);
-    }
-
-    @Unique private Boat legacyparkourcompat$refreshVehicle;
-    @Unique private boolean legacyparkourcompat$hadLocalPlayerPassenger;
-    @Unique private boolean legacyparkourcompat$successfullyRemountedLocalPlayer;
-
-    @Inject(method = "handleSetEntityPassengersPacket", at = @At("HEAD"))
-    private void legacyparkourcompat$clearPassengerRefresh(
-        ClientboundSetPassengersPacket packet,
-        CallbackInfo ci
-    ) {
-        this.legacyparkourcompat$refreshVehicle = null;
-        this.legacyparkourcompat$hadLocalPlayerPassenger = false;
-        this.legacyparkourcompat$successfullyRemountedLocalPlayer = false;
     }
 
     @WrapOperation(
@@ -48,15 +36,12 @@ abstract class ClientPacketListenerMixin extends ClientCommonPacketListenerImpl 
     )
     private void legacyparkourcompat$capturePassengerRefresh(
         Entity vehicle,
-        Operation<Void> original
+        Operation<Void> original,
+        @Share("refreshVehicle") LocalRef<Boat> refreshVehicle
     ) {
         LocalPlayer player = this.minecraft.player;
-        this.legacyparkourcompat$refreshVehicle = null;
-        this.legacyparkourcompat$hadLocalPlayerPassenger = false;
-        this.legacyparkourcompat$successfullyRemountedLocalPlayer = false;
         if (vehicle instanceof Boat boat && player != null && vehicle.hasIndirectPassenger(player)) {
-            this.legacyparkourcompat$refreshVehicle = boat;
-            this.legacyparkourcompat$hadLocalPlayerPassenger = true;
+            refreshVehicle.set(boat);
         }
         original.call(vehicle);
     }
@@ -73,14 +58,15 @@ abstract class ClientPacketListenerMixin extends ClientCommonPacketListenerImpl 
         Entity vehicle,
         boolean force,
         boolean sendEventAndTriggers,
-        Operation<Boolean> original
+        Operation<Boolean> original,
+        @Share("refreshVehicle") LocalRef<Boat> refreshVehicle,
+        @Share("remountedLocalPlayer") LocalBooleanRef remountedLocalPlayer
     ) {
         boolean startedRiding = original.call(passenger, vehicle, force, sendEventAndTriggers);
         if (startedRiding
-            && this.legacyparkourcompat$hadLocalPlayerPassenger
             && passenger == this.minecraft.player
-            && vehicle == this.legacyparkourcompat$refreshVehicle) {
-            this.legacyparkourcompat$successfullyRemountedLocalPlayer = true;
+            && vehicle == refreshVehicle.get()) {
+            remountedLocalPlayer.set(true);
         }
         return startedRiding;
     }
@@ -88,17 +74,13 @@ abstract class ClientPacketListenerMixin extends ClientCommonPacketListenerImpl 
     @Inject(method = "handleSetEntityPassengersPacket", at = @At("TAIL"))
     private void legacyparkourcompat$restorePassengerYaw(
         ClientboundSetPassengersPacket packet,
-        CallbackInfo ci
+        CallbackInfo ci,
+        @Share("refreshVehicle") LocalRef<Boat> refreshVehicle,
+        @Share("remountedLocalPlayer") LocalBooleanRef remountedLocalPlayer
     ) {
-        Boat vehicle = this.legacyparkourcompat$refreshVehicle;
-        boolean hadLocalPlayerPassenger = this.legacyparkourcompat$hadLocalPlayerPassenger;
-        boolean successfullyRemountedLocalPlayer = this.legacyparkourcompat$successfullyRemountedLocalPlayer;
-        this.legacyparkourcompat$refreshVehicle = null;
-        this.legacyparkourcompat$hadLocalPlayerPassenger = false;
-        this.legacyparkourcompat$successfullyRemountedLocalPlayer = false;
-
+        Boat vehicle = refreshVehicle.get();
         LocalPlayer player = this.minecraft.player;
-        if (hadLocalPlayerPassenger && successfullyRemountedLocalPlayer && vehicle != null && player != null) {
+        if (remountedLocalPlayer.get() && vehicle != null && player != null) {
             MovementRuntime.find(BoatPassengerYawRefreshHook.class, player)
                 .ifPresent(behavior -> behavior.onPassengerRefresh(
                     player,

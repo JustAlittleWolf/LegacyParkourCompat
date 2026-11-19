@@ -3,8 +3,8 @@ package me.wolfii.legacyparkourcompat.mixin;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.boat.BoatRiderOrientationHook;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.TypedInstance;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.entity.vehicle.boat.Boat;
@@ -18,11 +18,11 @@ abstract class AbstractBoatPassengerOrientationMixin {
         method = "positionRider(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity$MoveFunction;)V",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/core/TypedInstance;is(Lnet/minecraft/tags/TagKey;)Z"
+            target = "Lnet/minecraft/world/entity/Entity;is(Lnet/minecraft/tags/TagKey;)Z"
         )
     )
     private boolean legacyparkourcompat$preserveHistoricalRiderOrientation(
-        TypedInstance<EntityType<?>> passenger,
+        Entity passenger,
         TagKey<EntityType<?>> tag
     ) {
         if (passenger instanceof LocalPlayer rider && (Object) this instanceof Boat boat

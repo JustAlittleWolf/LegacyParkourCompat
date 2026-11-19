@@ -27,17 +27,18 @@ import java.util.Set;
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin {
     // 1.21.1 handleMovePlayer applies the correction regardless of riding state.
+    // 26.2 unobfuscated: ClientPacketListener.handleMovePlayer invokes Player.isPassenger.
     @Redirect(
         method = "handleMovePlayer(Lnet/minecraft/network/protocol/game/ClientboundPlayerPositionPacket;)V",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;isPassenger()Z")
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isPassenger()Z")
     )
-    private boolean legacyParkourCompat$applyHistoricalPassengerGate(Entity entity) {
-        return MovementRuntime.find(DirectPlayerPositionCorrectionHook.class, entity)
+    private boolean legacyParkourCompat$applyHistoricalPassengerGate(Player player) {
+        return MovementRuntime.find(DirectPlayerPositionCorrectionHook.class, player)
             .map(hook -> {
-                hook.preparePassengerCorrection(entity);
-                return hook.applyToPassenger() ? false : entity.isPassenger();
+                hook.preparePassengerCorrection(player);
+                return hook.applyToPassenger() ? false : player.isPassenger();
             })
-            .orElseGet(entity::isPassenger);
+            .orElseGet(player::isPassenger);
     }
 
     // Separate from position corrections: keep native yaw, old rotation and reply.
