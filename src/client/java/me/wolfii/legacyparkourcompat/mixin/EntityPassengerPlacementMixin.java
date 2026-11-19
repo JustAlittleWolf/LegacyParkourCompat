@@ -60,7 +60,8 @@ abstract class EntityPassengerPlacementMixin {
         float clampedYaw = Mth.clamp(relativeYaw, -160.0F, 160.0F);
         float correction = clampedYaw - relativeYaw;
         passenger.yRotO += correction;
-        float adjustedYaw = riderYaw + correction;
+        // 1.20 and 1.20.1 Mojmap Camel.clampRotation rounds the addition first.
+        float adjustedYaw = riderYaw + clampedYaw - relativeYaw;
         passenger.setYRot(adjustedYaw);
         passenger.setYHeadRot(adjustedYaw);
     }

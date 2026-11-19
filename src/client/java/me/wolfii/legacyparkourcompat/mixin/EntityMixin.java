@@ -455,11 +455,12 @@ abstract class EntityMixin implements WaterJumpDepthAccess, WaterFirstLavaProjec
         @Share("requestedMovement") LocalRef<Vec3> requested,
         @Share("resolvedMovement") LocalRef<Vec3> resolved,
         @Share("resolvedCollisionBox") LocalRef<AABB> resolvedBox,
-        @Local(argsOnly = true) Vec3 movementAtMoveEntry,
         @Local(argsOnly = true) MoverType moverType) {
         requested.set(movement);
         AABB startingBox = entity.getBoundingBox();
-        boolean unadjustedPrimaryMovement = movement.equals(movementAtMoveEntry);
+        // Entity.move reassigns its delta argument before collide, including after edge backoff.
+        CallbackMoveInput entry = this.legacyparkourcompat$callbackMoveInputs.peek();
+        boolean unadjustedPrimaryMovement = entry != null && movement.equals(entry.requestedAtEntry());
         Vec3 result = CollisionAxisOrderContext.withMovementEntity(
             entity, moverType, startingBox, movement, unadjustedPrimaryMovement, () -> {
             Vec3 clipped = original.call(entity, movement);

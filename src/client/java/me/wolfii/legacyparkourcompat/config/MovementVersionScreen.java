@@ -13,6 +13,7 @@ import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.options.OptionsSubScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
@@ -30,7 +31,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
 
     private final boolean serverForced = MovementVersions.isServerForced();
     private ParkourVersion selected = MovementVersions.selectedForUi();
-    private boolean committed;
+    private boolean selectionPending;
     private LinearLayout header;
     private FrameLayout selectedSlot;
     private FrameLayout warningSlot;
@@ -138,10 +139,10 @@ public class MovementVersionScreen extends OptionsSubScreen {
     }
 
     private void commit() {
-        if (this.committed || this.serverForced) {
+        if (!this.selectionPending || this.serverForced || MovementVersions.isServerForced()) {
             return;
         }
-        this.committed = true;
+        this.selectionPending = false;
         MovementVersions.select(this.selected);
     }
 
@@ -150,6 +151,7 @@ public class MovementVersionScreen extends OptionsSubScreen {
             return;
         }
         this.selected = version;
+        this.selectionPending = true;
         this.refreshStatus();
         this.repositionElements();
     }
@@ -207,7 +209,8 @@ public class MovementVersionScreen extends OptionsSubScreen {
                 return;
             }
             super.setSelected(entry);
-            if (entry != null) {
+            // Keyboard focus can select the already highlighted row when the screen opens.
+            if (entry != null && entry.version != this.screen.selected) {
                 this.screen.selectListedVersion(entry.version);
             }
         }
@@ -268,8 +271,22 @@ public class MovementVersionScreen extends OptionsSubScreen {
                 if (this.list.screen.serverForced || this.list.overScrollbar(event.x(), event.y())) {
                     return false;
                 }
-                this.list.setSelected(this);
+                this.choose();
                 return true;
+            }
+
+            @Override
+            public boolean keyPressed(KeyEvent event) {
+                if (event.isSelection() && !this.list.screen.serverForced) {
+                    this.choose();
+                    return true;
+                }
+                return super.keyPressed(event);
+            }
+
+            private void choose() {
+                this.list.screen.selectListedVersion(this.version);
+                this.list.setSelected(this);
             }
 
             @Override

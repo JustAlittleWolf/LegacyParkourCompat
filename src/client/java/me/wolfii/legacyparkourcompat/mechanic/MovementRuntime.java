@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.change.common.SuffocationProbeColumn;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistory;
 import me.wolfii.legacyparkourcompat.mechanic.attribute.MovementSpeedModifierHistoryAccess;
 import me.wolfii.legacyparkourcompat.mechanic.hook.entity.StepDescentHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.item.TridentUseDurabilityHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.player.PlayerMovementSpeedHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
@@ -143,6 +144,13 @@ public final class MovementRuntime {
     public static boolean limitPistonMovement(Entity entity) {
         return find(PistonMovementHook.class, entity)
             .map(PistonMovementHook::limitPistonMovement).orElse(true);
+    }
+
+    public static Optional<TridentUseDurabilityHook> tridentUseDurability(Player player) {
+        if (!appliesTo(player) || profile(player).target().olderThan(ParkourVersion.V1_13)) {
+            return Optional.empty();
+        }
+        return profile(player).get(TridentUseDurabilityHook.class);
     }
 
     /**

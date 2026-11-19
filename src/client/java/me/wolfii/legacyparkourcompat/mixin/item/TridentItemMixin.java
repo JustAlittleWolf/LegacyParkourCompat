@@ -1,19 +1,17 @@
 package me.wolfii.legacyparkourcompat.mixin.item;
 
-import me.wolfii.legacyparkourcompat.api.ParkourVersion;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
-import me.wolfii.legacyparkourcompat.mechanic.hook.item.TridentUseDurabilityHook;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(net.minecraft.world.item.TridentItem.class)
 public abstract class TridentItemMixin {
-    @Redirect(
+    @ModifyExpressionValue(
         method = "use(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResult;",
         at = @At(
             value = "INVOKE",
@@ -21,18 +19,23 @@ public abstract class TridentItemMixin {
         )
     )
     private boolean legacyparkourcompat$useDurabilityGate(
-        ItemStack stack, Level level, Player player, InteractionHand hand
+        boolean vanillaResult, @Local ItemStack stack, @Local(argsOnly = true) Player player
     ) {
-        boolean vanillaResult = stack.nextDamageWillBreak();
-        if (!MovementRuntime.appliesTo(player)) {
-            return vanillaResult;
-        }
+        return vanillaResult && !MovementRuntime.tridentUseDurability(player)
+            .map(hook -> hook.allowsUse(stack, EnchantmentHelper.getTridentSpinAttackStrength(stack, player)))
+            .orElse(false);
+    }
 
-        if (MovementRuntime.profile(player).target().olderThan(ParkourVersion.V1_13)) {
-            return vanillaResult;
-        }
-        return MovementRuntime.find(TridentUseDurabilityHook.class, player)
-            .map(hook -> hook.rejectsUse(player, stack, vanillaResult))
-            .orElse(vanillaResult);
+    @ModifyExpressionValue(
+        method = "releaseUsing(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;I)Z",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;nextDamageWillBreak()Z")
+    )
+    private boolean legacyparkourcompat$releaseDurabilityGate(
+        boolean vanillaResult, @Local(argsOnly = true) ItemStack stack, @Local Player player,
+        @Local float riptideStrength
+    ) {
+        return vanillaResult && !MovementRuntime.tridentUseDurability(player)
+            .map(hook -> hook.allowsUse(stack, riptideStrength))
+            .orElse(false);
     }
 }

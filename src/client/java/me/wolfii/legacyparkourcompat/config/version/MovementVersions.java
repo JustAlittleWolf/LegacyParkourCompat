@@ -128,14 +128,7 @@ public final class MovementVersions {
      * Version the config screen should show as selected.
      */
     public static ParkourVersion selectedForUi() {
-        if (serverForced) {
-            return MovementController.get().selectedVersion();
-        }
-        if (!wanted) {
-            return ParkourVersion.CURRENT;
-        }
-        ParkourVersion match = parkourVersion(input);
-        return match == null ? ParkourVersion.CURRENT : match;
+        return MovementController.get().selectedVersion();
     }
 
     public static String nativeGameVersion() {
