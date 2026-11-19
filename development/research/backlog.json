@@ -25639,6 +25639,113 @@
         "Remaining tick and provider coverage outside the audited yaw slice."
       ],
       "nextAction": "Retain this bounded yaw verdict. Remaining exact-pair source and dependency coverage is open."
+    },
+    {
+      "pair": "26.1--26.1.1",
+      "sourceCoverage": "complete",
+      "dependencyClosure": "complete for the fixed-profile local-player source graph and stock distribution inputs",
+      "independentCoverageAudit": {
+        "verdict": "ACCEPT complete static coverage. No in-scope local-player movement difference.",
+        "sourceManifestSha256": {
+          "26.1": "b77289c135ac6e12aa35e75177cea52d968f49d49e1ec745e510b1a786c9aeba",
+          "26.1.1": "88afdfb8264842713f8cce86c0bf88e95c2c991ee706349d6ed8b6c22d52fcb3"
+        },
+        "officialClientSha256": {
+          "26.1": "bc6194c61566b587f196090d730698f2191170f7580adb143e4ff839939d3840",
+          "26.1.1": "8c109be6177f40d10d0afd820b06542f9609597874242b96e16c5b0dc9e1fef3"
+        },
+        "scope": "Exact adjacent releases, canonical Java inventory and changed members, reachable local-player movement paths, and stock inputs.",
+        "evidence": {
+          "path": "development/research/source-evidence/20261119/adjacent-26.1-patches/26.1--26.1.1/verdict.md",
+          "sha256": "c0773485a17bf773fdabedf0ed8c5fc6a91c35e2ee557abb86fd06a870c0320a"
+        }
+      },
+      "nextAction": "Retain the exact adjacent-pair source freeze. There is no movement implementation candidate. Runtime parity is unverified.",
+      "evidence": {
+        "mapping": "Published unobfuscated, no mapping artifact",
+        "sourceManifestSha256": {
+          "26.1": "b77289c135ac6e12aa35e75177cea52d968f49d49e1ec745e510b1a786c9aeba",
+          "26.1.1": "88afdfb8264842713f8cce86c0bf88e95c2c991ee706349d6ed8b6c22d52fcb3"
+        },
+        "officialClientSha256": {
+          "26.1": "bc6194c61566b587f196090d730698f2191170f7580adb143e4ff839939d3840",
+          "26.1.1": "8c109be6177f40d10d0afd820b06542f9609597874242b96e16c5b0dc9e1fef3"
+        },
+        "scopedPriorCoverage": {
+          "commit": "b891786edf1366252549f2fead6a6c4b92cc05e5",
+          "paths": [
+            "development/research/source-evidence/20261118/fluid-java-261-2612/26.1--26.1.1/source/comparison.md",
+            "development/research/source-evidence/20261118/fluid-java-261-2612/26.1--26.1.1/blind-audit/verdict.md",
+            "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1-to-26.1.1/report.md"
+          ]
+        }
+      },
+      "examinedSlices": [
+        "Verified exact membership and actual SHA-256 bytes for all 6,882 canonical Java files in each release. No files were added or removed.",
+        "DetectedVersion and SharedConstants change version fields.",
+        "PlayerEntry's social-interaction constructor negates canReceivePlayerMessages when deciding whether chat is disabled or blocked (line 98). The gate affects social UI controls.",
+        "Paired ordinary local tick and input, movement and travel, collision and block contact, direct client packet responses, pose and dimensions, and equipment paths have no in-scope Java difference.",
+        "The client JARs contain 29,435 file entries per side with identical membership. All 1,202 changed built-in structure NBT payloads are byte-identical after replacing the root DataVersion integer 4786 with 4788. The last DataFixer schema is 4773, with no intervening fixes. Built-in registry and tag bytes and 75 published library/native inputs match. The stable protocol remains 775.",
+        "Release-version identity can change whether known-pack registry data is reused locally or supplied over the connection. The relevant stock registry and tag contents match."
+      ],
+      "unexaminedSlices": [
+        "Runtime parity and custom/effective runtime resource inputs were outside the static source and stock-distribution comparison."
+      ],
+      "openDependencies": []
+    },
+    {
+      "pair": "26.1.1--26.1.2",
+      "sourceCoverage": "complete",
+      "dependencyClosure": "complete for the fixed-profile local-player source graph and stock distribution inputs",
+      "independentCoverageAudit": {
+        "verdict": "ACCEPT complete static coverage. No in-scope local-player movement difference.",
+        "sourceManifestSha256": {
+          "26.1.1": "88afdfb8264842713f8cce86c0bf88e95c2c991ee706349d6ed8b6c22d52fcb3",
+          "26.1.2": "54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0"
+        },
+        "officialClientSha256": {
+          "26.1.1": "8c109be6177f40d10d0afd820b06542f9609597874242b96e16c5b0dc9e1fef3",
+          "26.1.2": "b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0"
+        },
+        "scope": "Exact adjacent releases, canonical Java inventory and changed members, reachable local-player movement paths, and stock inputs.",
+        "evidence": {
+          "javaClasses": "All 10,682 archive class entries compared. Eight changed class files correspond to the five Java deltas, including nested UI classes.",
+          "movementRoute": "Minecraft.startAttack (1663-1668) already uses the spectate path. ServerGamePacketListenerImpl.handleAttack (1797-1822) adds the spectator guard to the logical-server attack producer.",
+          "stockInputs": "All 18,753 non-class entries compared. Apart from the 1,202 NBT DataVersion changes, version.json changes ID, name, build_time and world_version, while packs remain 84.0 and 101.1. META-INF signatures change and main manifest headers match. TemplateSource.readStructure (117-120) upgrades templates through unchanged fixes. KnownPack (21) and RegistrySynchronization.packRegistry (45-58) govern transfer or reuse of matching stock data."
+        }
+      },
+      "nextAction": "Retain the exact adjacent-pair source freeze. There is no movement implementation candidate. Runtime parity is unverified.",
+      "evidence": {
+        "mapping": "Published unobfuscated, no mapping artifact",
+        "sourceManifestSha256": {
+          "26.1.1": "88afdfb8264842713f8cce86c0bf88e95c2c991ee706349d6ed8b6c22d52fcb3",
+          "26.1.2": "54ae320660ca911a6d20514c965c33eb414fbedd1ad6727bbaa95fe906aa23c0"
+        },
+        "officialClientSha256": {
+          "26.1.1": "8c109be6177f40d10d0afd820b06542f9609597874242b96e16c5b0dc9e1fef3",
+          "26.1.2": "b1b3158572666445eff01e82fad8c7de2e4953db6d354f311730d77a8359d0b0"
+        },
+        "scopedPriorCoverage": {
+          "commit": "b891786edf1366252549f2fead6a6c4b92cc05e5",
+          "paths": [
+            "development/research/source-evidence/20261118/fluid-java-261-2612/26.1.1--26.1.2/source/comparison.md",
+            "development/research/source-evidence/20261118/fluid-java-261-2612/26.1.1--26.1.2/blind-audit/verdict.md",
+            "development/research/source-evidence/20261118/block-c-glide-climb-exit-exact-late/26.1.1-to-26.1.2/report.md"
+          ]
+        }
+      },
+      "examinedSlices": [
+        "Verified exact membership and actual SHA-256 bytes for all 6,882 canonical Java files in each release. No files were added or removed.",
+        "DetectedVersion and SharedConstants change version and snapshot fields.",
+        "Checkbox and AbstractReportScreen change report-screen layout.",
+        "In ServerGamePacketListenerImpl.handleAttack (1797-1822), the logical-server hasClientLoaded gate gains !this.player.isSpectator(). Minecraft.startAttack (1663-1668) already chooses the spectate route. Direct local-player movement responses and incoming movement packet consumers are unchanged.",
+        "Paired ordinary local tick and input, movement and travel, collision and block contact, direct client packet responses, pose and dimensions, and equipment paths have no in-scope Java difference.",
+        "The client JARs contain 29,435 file entries per side with identical membership. All 1,202 changed built-in structure NBT payloads are byte-identical after replacing the root DataVersion integer 4788 with 4790. The last DataFixer schema is 4773, with no intervening fixes. Built-in registry and tag bytes and 75 published library/native inputs match. The stable protocol remains 775."
+      ],
+      "unexaminedSlices": [
+        "Runtime parity and custom/effective runtime resource inputs were outside the static source and stock-distribution comparison."
+      ],
+      "openDependencies": []
     }
   ],
   "productRevision": "67db60727182f874919d7460ad56e79a09df8bdd",
