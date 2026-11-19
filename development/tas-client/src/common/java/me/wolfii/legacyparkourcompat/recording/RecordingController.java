@@ -37,6 +37,8 @@ public final class RecordingController {
     private JsonObject recordingSetup;
     private MovementRecording workerPreparedRecording;
     private int workerRegistrationTicks;
+    private long workerSession;
+    private boolean workerConnected;
 
     private AutomationSettings automation;
     private boolean automationMuted;
@@ -310,7 +312,8 @@ public final class RecordingController {
             return;
         }
         try {
-            if (this.worker != null && this.minecraft.isConnected() && hasLocalPlayer()
+            if (this.worker != null) updateWorkerConnection();
+            if (this.workerConnected && hasLocalPlayer()
                 && this.workerRegistrationTicks++ % 40 == 0) {
                 this.minecraft.sendGymMessage("worker " + this.worker.id());
                 this.minecraft.sendServerCommand("lpcworker " + this.worker.id());
@@ -390,6 +393,17 @@ public final class RecordingController {
             if (this.automation.exit()) {
                 this.minecraft.requestShutdown();
             }
+        }
+    }
+
+    private void updateWorkerConnection() {
+        boolean connected = this.minecraft.isConnected();
+        if (connected == this.workerConnected) return;
+        this.workerConnected = connected;
+        this.worker.gameSession(connected ? ++this.workerSession : 0L);
+        this.workerRegistrationTicks = 0;
+        if (!connected && this.automation.enabled() && !this.automationFinished) {
+            failCapture("Worker disconnected from the Gym during playback");
         }
     }
 
@@ -659,7 +673,11 @@ public final class RecordingController {
             );
             result = ReusableRecordingPlacement.trimStationaryEnds(result);
             try {
-                RecordingFiles.write(output, result);
+                if (automated) {
+                    RecordingFiles.writeNew(output, result);
+                } else {
+                    RecordingFiles.write(output, result);
+                }
                 this.minecraft.sendGameMessage("Playback finished: captured " + result.ticks().size() + " ticks to " + output.getFileName());
                 if (automated && this.worker != null) {
                     String type = this.deviationReported ? "after_failure" : "success";
@@ -688,7 +706,9 @@ public final class RecordingController {
         this.captureOutput = null;
         this.captureOnPlayback = false;
         this.capturedTicks.clear();
-        boolean automated = this.automation != null && this.automationStarted && !this.automationFinished;
+        this.workerPreparedRecording = null;
+        clearPendingPlayback();
+        boolean automated = this.automation != null && this.automation.enabled() && !this.automationFinished;
         if (automated && this.worker != null) {
             this.worker.event(this.automation.runId(), "error", detail, this.playbackIndex);
         }

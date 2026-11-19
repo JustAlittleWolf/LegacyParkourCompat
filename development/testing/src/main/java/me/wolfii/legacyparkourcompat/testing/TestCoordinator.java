@@ -179,23 +179,35 @@ public final class TestCoordinator {
                 continue;
             }
             worker.starting = false;
-            JsonObject response;
-            try { response = postJson("http://127.0.0.1:25566/api/runs", job.request); }
-            catch (IOException rejected) {
-                if (rejected.getMessage().startsWith("Gym HTTP 400") || rejected.getMessage().startsWith("Gym HTTP 409")) {
-                    job.fail(rejected.getMessage());
-                    queue.remove(job);
-                    continue;
-                }
-                throw rejected;
+            HttpResponse<String> reply = submitGymRun(job.request);
+            int status = reply.statusCode();
+            if (status == 409 && ("No idle worker for " + job.version)
+                .equals(field(JsonParser.parseString(reply.body()).getAsJsonObject(), "error"))) {
+                continue;
             }
-            if (response.has("runId")) {
-                job.gymRunId = response.get("runId").getAsString();
+            if (status == 400 || status == 409) {
+                job.fail("Gym HTTP " + status + ": " + reply.body());
+                queue.remove(job);
+                continue;
+            }
+            if (status != 202 && status != 503) throw new IOException("Gym HTTP " + status + ": " + reply.body());
+            JsonObject response = JsonParser.parseString(reply.body()).getAsJsonObject();
+            String gymRunId = field(response, "runId");
+            String state = field(response, "state");
+            boolean complete = response.has("complete") && response.get("complete").getAsBoolean();
+            if (gymRunId == null || state == null || (status == 503 && (!complete || !"error".equals(state)))) {
+                throw new IOException("Invalid response to Gym run submission (HTTP " + status + "): " + reply.body());
+            }
+            job.gymRunId = gymRunId;
+            if (complete) {
+                job.state = state;
+                job.gymState = response;
+            } else {
                 job.state = "queued_on_client";
                 worker.busy = true;
                 worker.job = job;
-                queue.remove(job);
             }
+            queue.remove(job);
         }
     }
 
@@ -222,12 +234,10 @@ public final class TestCoordinator {
         return JsonParser.parseString(response.body()).getAsJsonObject();
     }
 
-    private JsonObject postJson(String url, JsonObject value) throws Exception {
-        HttpResponse<String> response = http.send(HttpRequest.newBuilder(URI.create(url)).timeout(Duration.ofSeconds(3))
+    private HttpResponse<String> submitGymRun(JsonObject value) throws IOException, InterruptedException {
+        return http.send(HttpRequest.newBuilder(URI.create("http://127.0.0.1:25566/api/runs")).timeout(Duration.ofSeconds(3))
             .header("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(JSON.toJson(value))).build(), HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() != 202) throw new IOException("Gym HTTP " + response.statusCode() + ": " + response.body());
-        return JsonParser.parseString(response.body()).getAsJsonObject();
     }
 
     private Process launch(Path log, String... arguments) throws IOException {

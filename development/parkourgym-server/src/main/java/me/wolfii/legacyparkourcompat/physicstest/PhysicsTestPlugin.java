@@ -208,7 +208,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
             readyPrivateWorlds.add(id);
         } else {
             readyPrivateWorlds.remove(id);
-            if (controlApi.failRunOutsidePrivateWorld(player)) {
+            if (controlApi.failPlayerRun(player, "Worker left its private Gym world")) {
                 player.kick(Component.text("TAS run stopped because the worker left its private world."));
             }
         }
@@ -217,6 +217,7 @@ public final class PhysicsTestPlugin extends JavaPlugin implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         readyPrivateWorlds.remove(event.getPlayer().getUniqueId());
+        controlApi.failPlayerRun(event.getPlayer(), "Worker disconnected from Minecraft");
         creatingPrivateWorlds.remove(event.getPlayer().getUniqueId());
         World world = privateWorlds.remove(event.getPlayer().getUniqueId());
         if (world != null) {

@@ -58,13 +58,13 @@ final class GymControlApi implements AutoCloseable {
             && (worker.player == null || worker.player.getUniqueId().equals(player.getUniqueId()))) worker.player = player;
     }
 
-    boolean failRunOutsidePrivateWorld(Player player) {
+    boolean failPlayerRun(Player player, String detail) {
         synchronized (workers) {
             boolean playbackMayBeRunning = false;
             for (Worker worker : workers.values()) {
                 if (worker.player != player || worker.runId == null) continue;
                 Run run = runs.get(worker.runId);
-                if (run != null && run.event("error", "Worker left its private Gym world")) {
+                if (run != null && run.event("error", detail)) {
                     worker.runId = null;
                     playbackMayBeRunning |= run.dispatched;
                 }
@@ -149,7 +149,7 @@ final class GymControlApi implements AutoCloseable {
         try {
             source = Path.of(recording).toAbsolutePath().normalize();
             target = Path.of(output).toAbsolutePath().normalize();
-            if (!Files.isRegularFile(source) || source.equals(target) || Files.exists(target)) {
+            if (!Files.isRegularFile(source) || source.equals(target)) {
                 respond(exchange, 400, error("Recording must exist and output must be a fresh, separate path")); return;
             }
             if (request.has("maxUlps") && (request.get("maxUlps").getAsLong() < 0 || request.get("maxUlps").getAsLong() > Long.MAX_VALUE)) {
@@ -166,14 +166,21 @@ final class GymControlApi implements AutoCloseable {
         Worker selected = null;
         Run run;
         synchronized (workers) {
+            if (Files.exists(target)) {
+                respond(exchange, 400, error("Output already exists")); return;
+            }
             for (Worker worker : workers.values()) {
-                if (worker.version.equals(version) && worker.runId == null && worker.player != null
+                String activeId = worker.runId;
+                if (activeId != null && target.equals(runs.get(activeId).outputPath)) {
+                    respond(exchange, 409, error("Output is already reserved by run " + activeId)); return;
+                }
+                if (selected == null && worker.version.equals(version) && activeId == null && worker.player != null
                     && worker.player.isOnline() && plugin.isPrivateReady(worker.player.getUniqueId())) {
-                    selected = worker; break;
+                    selected = worker;
                 }
             }
             if (selected == null) { respond(exchange, 409, error("No idle worker for " + version)); return; }
-            run = new Run(UUID.randomUUID().toString(), version, selected.id);
+            run = new Run(UUID.randomUUID().toString(), version, selected.id, target);
             selected.runId = run.id;
             runs.put(run.id, run);
         }
@@ -215,8 +222,10 @@ final class GymControlApi implements AutoCloseable {
             run.event(type, JSON.toJson(event));
         }
         if (run.complete) {
-            Worker worker = workers.get(run.workerId);
-            if (worker != null && run.id.equals(worker.runId)) worker.runId = null;
+            synchronized (workers) {
+                Worker worker = workers.get(run.workerId);
+                if (worker != null && run.id.equals(worker.runId)) worker.runId = null;
+            }
         }
         respond(exchange, 200, JSON.toJson(run.snapshot()));
     }
@@ -342,11 +351,17 @@ final class GymControlApi implements AutoCloseable {
 
     private static final class Run {
         final String id, version, workerId;
+        final Path outputPath;
         final List<JsonObject> events = new ArrayList<>();
         String state = "queued";
         boolean complete;
         boolean dispatched;
-        Run(String id, String version, String workerId) { this.id = id; this.version = version; this.workerId = workerId; }
+        Run(String id, String version, String workerId, Path outputPath) {
+            this.id = id;
+            this.version = version;
+            this.workerId = workerId;
+            this.outputPath = outputPath;
+        }
         synchronized boolean event(String type, String detail) {
             if (complete) return false;
             JsonObject event = new JsonObject();
