@@ -40,6 +40,7 @@ public final class RecordingController {
     private long workerSession;
     private boolean workerConnected;
     private String workerProfile;
+    private TaskWorker.Command workerCommand;
 
     private AutomationSettings automation;
     private boolean automationMuted;
@@ -314,13 +315,14 @@ public final class RecordingController {
         }
         try {
             if (this.worker != null) updateWorkerConnection();
+            if (cancelExpiredWorkerRun()) return;
             if (this.workerConnected && hasLocalPlayer()
                 && this.workerRegistrationTicks++ % 40 == 0) {
                 this.minecraft.sendGymMessage("worker " + this.worker.id());
                 this.minecraft.sendServerCommand("lpcworker " + this.worker.id());
             }
             if (this.worker != null && (this.automation == null || !this.automation.enabled() || this.automationFinished)) {
-                JsonObject command = this.worker.poll();
+                TaskWorker.Command command = this.worker.poll();
                 if (command != null) acceptWorkerCommand(command);
             }
             drivePendingPlayback();
@@ -382,6 +384,7 @@ public final class RecordingController {
             }
         } catch (RuntimeException exception) {
             this.automationFinished = true;
+            this.workerCommand = null;
             if (this.worker != null && this.automation != null && this.automation.enabled()) {
                 this.worker.event(this.automation.runId(), "error", safeMessage(exception), this.playbackIndex);
             }
@@ -412,7 +415,14 @@ public final class RecordingController {
         }
     }
 
-    private void acceptWorkerCommand(JsonObject command) {
+    private boolean cancelExpiredWorkerRun() {
+        if (this.workerCommand == null || this.worker.isCurrent(this.workerCommand)) return false;
+        failCapture("Worker lost its Gym control connection during playback");
+        return true;
+    }
+
+    private void acceptWorkerCommand(TaskWorker.Command workerCommand) {
+        JsonObject command = workerCommand.payload;
         String runId = command.get("runId").getAsString();
         try {
             Path source = Paths.get(command.get("recording").getAsString());
@@ -430,9 +440,11 @@ public final class RecordingController {
                     start.get("x").getAsDouble(), start.get("y").getAsDouble(), start.get("z").getAsDouble());
             }
             if (command.has("setup")) sourceRecording = sourceRecording.withSetup(command.getAsJsonObject("setup"));
+            if (!this.worker.isCurrent(workerCommand)) return;
             this.workerPreparedRecording = sourceRecording;
             configureAutomation(new AutomationSettings(source, output, "localhost:25565", true, true, true, false,
                 compare, runId, profile, "", tolerance, maxUlps));
+            this.workerCommand = workerCommand;
             this.worker.event(runId, "started", "Run accepted", 0);
         } catch (Exception failure) {
             this.worker.event(runId, "error", safeMessage(failure), 0);
@@ -653,6 +665,7 @@ public final class RecordingController {
     }
 
     private void finishPlayback() {
+        if (cancelExpiredWorkerRun()) return;
         MovementRecording completed = this.playback;
         Path output = this.captureOutput;
         boolean automated = this.automation != null && this.automationStarted;
@@ -729,6 +742,7 @@ public final class RecordingController {
 
     private void finishAutomation() {
         this.automationFinished = true;
+        this.workerCommand = null;
         if (this.automation.mute()) {
             try {
                 this.minecraft.restoreAudio();

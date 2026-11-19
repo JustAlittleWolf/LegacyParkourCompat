@@ -27,6 +27,7 @@ final class TaskWorker {
     private final BlockingQueue<Command> commands = new LinkedBlockingQueue<Command>();
     private final BlockingQueue<Event> events = new LinkedBlockingQueue<Event>();
     private volatile long gameSession;
+    private volatile Object controlSession;
 
     TaskWorker(String host, String version) {
         this.host = host;
@@ -42,12 +43,16 @@ final class TaskWorker {
 
     void gameSession(long gameSession) { this.gameSession = gameSession; }
 
-    JsonObject poll() {
+    Command poll() {
         Command command;
         while ((command = commands.poll()) != null) {
-            if (command.gameSession == gameSession) return command.payload;
+            if (isCurrent(command)) return command;
         }
         return null;
+    }
+
+    boolean isCurrent(Command command) {
+        return command.gameSession == gameSession && command.controlSession == controlSession;
     }
 
     String id() { return id; }
@@ -75,6 +80,8 @@ final class TaskWorker {
                 String response = readHeaders(input);
                 if (!response.startsWith("HTTP/1.1 101 ")) throw new IOException("Gym rejected worker: " + response.split("\r\n")[0]);
                 socket.setSoTimeout(0);
+                Object sessionToken = new Object();
+                controlSession = sessionToken;
                 while (true) {
                     int first = input.read();
                     if (first < 0) throw new IOException("Gym WebSocket closed");
@@ -92,11 +99,12 @@ final class TaskWorker {
                         JsonObject command = new JsonParser().parse(new String(data, StandardCharsets.UTF_8)).getAsJsonObject();
                         // A run from the previous game connection may arrive late on this separate socket.
                         if (session == 1L || !isRunComplete(command.get("runId").getAsString())) {
-                            commands.add(new Command(session, command));
+                            commands.add(new Command(session, sessionToken, command));
                         }
                     }
                 }
             } catch (Exception failure) {
+                controlSession = null;
                 System.err.println("[Legacy Parkour Recording] Gym WebSocket: " + failure.getMessage());
                 try { Thread.sleep(2000L); } catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); return; }
             }
@@ -182,12 +190,14 @@ final class TaskWorker {
         }
     }
 
-    private static final class Command {
+    static final class Command {
         final long gameSession;
+        final Object controlSession;
         final JsonObject payload;
 
-        Command(long gameSession, JsonObject payload) {
+        Command(long gameSession, Object controlSession, JsonObject payload) {
             this.gameSession = gameSession;
+            this.controlSession = controlSession;
             this.payload = payload;
         }
     }
