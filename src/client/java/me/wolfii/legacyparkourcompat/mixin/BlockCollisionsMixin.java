@@ -27,6 +27,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import me.wolfii.legacyparkourcompat.mechanic.collision.ComponentCollisionShape;
+import me.wolfii.legacyparkourcompat.mechanic.collision.MovementCollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mutable;
@@ -122,7 +123,9 @@ abstract class BlockCollisionsMixin<T> {
         if (!this.legacyparkourcompat$initialized) {
             this.legacyparkourcompat$initialized = true;
             var player = MovementRuntime.playerFrom(this.context);
-            if (!this.onlySuffocatingBlocks && !this.context.isPlacement() && this.legacyparkourcompat$scan != null) {
+            // Movement queries collect the ordered components at the per-block dispatch below.
+            if (!(this.context instanceof MovementCollisionContext) && !this.onlySuffocatingBlocks
+                && !this.context.isPlacement() && this.legacyparkourcompat$scan != null) {
                 var scan = this.legacyparkourcompat$scan;
                 var border = player.level().getWorldBorder();
                 // Accepted witness assumes candidate cells inside the border. Outside that bounded
