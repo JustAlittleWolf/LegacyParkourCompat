@@ -5,6 +5,7 @@ import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.travel.TravelFallFlyingGravityHook;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import java.util.function.DoubleSupplier;
 
 /**
  * 1.20.4 Mojmap LivingEntity.travel uses 0.08 gravity, reduced to 0.01 when
@@ -18,7 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 @MovementChange(emulates = ParkourVersion.V1_20_2)
 public final class TravelFallFlyingGravity implements TravelFallFlyingGravityHook {
     @Override
-    public double gravity(LivingEntity entity) {
+    public double gravity(LivingEntity entity, DoubleSupplier nativeGravity) {
         boolean isFalling = entity.getDeltaMovement().y <= 0.0;
         return isFalling && entity.hasEffect(MobEffects.SLOW_FALLING) ? 0.01 : 0.08;
     }
