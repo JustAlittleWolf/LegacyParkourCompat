@@ -191,7 +191,7 @@ abstract class LocalPlayerMixin {
     }
 
     @WrapOperation(
-        method = "shouldStopRunSprinting()Z",
+        method = {"shouldStopRunSprinting()Z", "shouldStopSwimSprinting()Z"},
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z")
     )
     private boolean legacyparkourcompat$storedSprintRetentionInput(ClientInput input, Operation<Boolean> vanilla) {
@@ -203,9 +203,8 @@ abstract class LocalPlayerMixin {
         if (!active || !(input instanceof KeyboardInput)) {
             return vanilla.call(input);
         }
-        // Retention resolves independently of sprint start and its eye-water gate.
-        // From 1.14.2 the native positive-forward predicate already matches.
         return MovementRuntime.find(SprintRetentionInputHook.class, player)
+            .filter(change -> change.supports(MovementRuntime.profile(player).target(), player.isSwimming()))
             .map(change -> !change.shouldStopSprinting(input.getMoveVector().y))
             .orElseGet(() -> vanilla.call(input));
     }
