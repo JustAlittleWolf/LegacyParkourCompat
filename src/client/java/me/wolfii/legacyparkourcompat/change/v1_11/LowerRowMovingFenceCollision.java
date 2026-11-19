@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.shapes.CollisionContext;
 
 /**
  * 1.11, ornithe-feather gen2 build.2, World.getCollisions(Entity, Box) and
@@ -31,7 +32,8 @@ import net.minecraft.world.phys.AABB;
 @MovementChange(emulates = ParkourVersion.V1_11)
 public final class LowerRowMovingFenceCollision implements LowerRowCollisionCandidateHook {
     @Override
-    public boolean excludeCandidate(BlockState state, CollisionGetter level, BlockPos pos, AABB query) {
+    public boolean excludeCandidate(BlockState state, CollisionGetter level, BlockPos pos, AABB query,
+                                    CollisionContext context) {
         if (!state.is(Blocks.MOVING_PISTON) || pos.getY() != Mth.floor(query.minY) - 1) {
             return false;
         }
