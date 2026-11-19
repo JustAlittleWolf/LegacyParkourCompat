@@ -37,6 +37,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.SlowInputPredicateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.PoseFitHook;
 import me.wolfii.legacyparkourcompat.mechanic.input.KeyboardInputSupport;
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.HeldKeyTapStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.SprintRetentionInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
@@ -422,6 +423,25 @@ abstract class LocalPlayerMixin {
         if (allowed && (!sprinting || legacyparkourcompat$doubleTapGroundAdmits(player))) {
             vanilla.call(player, sprinting);
         }
+    }
+
+    @ModifyExpressionValue(
+        method = "aiStep()V",
+        slice = @Slice(
+            from = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;canStartSprinting()Z"),
+            to = @At(value = "INVOKE", target = "Lnet/minecraft/client/Options;sprintWindow()Lnet/minecraft/client/OptionInstance;")
+        ),
+        at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;sprintTriggerTime:I", opcode = Opcodes.GETFIELD),
+        require = 1, allow = 1
+    )
+    private int legacyparkourcompat$tapTimerForStart(int timer) {
+        if (timer > 0) {
+            return timer;
+        }
+        LocalPlayer player = (LocalPlayer) (Object) this;
+        boolean start = MovementRuntime.find(HeldKeyTapStartHook.class, player)
+            .map(HeldKeyTapStartHook::startOnExpiredTimer).orElse(false);
+        return start ? 1 : timer;
     }
 
     @WrapOperation(
