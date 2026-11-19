@@ -128,7 +128,7 @@ abstract class PlayerMixin {
     private boolean legacyparkourcompat$queryCachedEyeWater(Player player, TagKey<Fluid> fluidTag) {
         if (fluidTag.equals(net.minecraft.tags.FluidTags.WATER)) {
             return MovementRuntime.find(PlayerEyeWaterQueryHook.class, player)
-                .flatMap(hook -> hook.queryEyeWater(player))
+                .flatMap(hook -> hook.queryEyeWater(player, () -> MovementRuntime.movementEyeY(player)))
                 .orElseGet(() -> player.isEyeInFluid(fluidTag));
         }
         return player.isEyeInFluid(fluidTag);

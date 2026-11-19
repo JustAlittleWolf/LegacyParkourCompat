@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
  * 1.13, 1.13.1 and 1.13.2, ornithe-feather:
  * LocalClientPlayerEntity.mobTick adds eye-water support for double taps and
  * rejects body-water held-key starts unless the cached eye-water query is true.
+ * The held-key branch checks sprint state again after the forward-tap branch.
  * 1.12.2, ornithe-feather: the same member requires ground for double taps and
  * has no held-key body-water exclusion. These are conditional start predicates;
  * float-forward eligibility and fluid/eye-state producers resolve separately.
@@ -29,6 +30,6 @@ public final class SprintInputStart implements ShallowWaterSprintStartHook, Doub
 
     @Override
     public boolean allowSprintKeyStart(Player player, boolean vanilla) {
-        return vanilla && (!player.isInWater() || player.isUnderWater());
+        return vanilla && !player.isSprinting() && (!player.isInWater() || player.isUnderWater());
     }
 }

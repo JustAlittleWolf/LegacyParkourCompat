@@ -13,6 +13,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.collision.PistonMovementHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.MovementPositionReconstructionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SnowLayerOneCollisionPlaneHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.position.PoseBoxHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerMovementEyeHeightHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
@@ -204,6 +205,16 @@ public final class MovementRuntime {
 
     public static boolean isNativeGlideGravityQuery(Entity entity) {
         return NATIVE_GLIDE_GRAVITY.isBound() && NATIVE_GLIDE_GRAVITY.get() == entity;
+    }
+
+    /** Samples the eye point for movement queries without changing the stored pose dimensions. */
+    public static double movementEyeY(Entity entity) {
+        if (entity instanceof Player player) {
+            return find(PlayerMovementEyeHeightHook.class, player)
+                .map(hook -> player.getY() + hook.eyeHeight(player, player.getEyeHeight()))
+                .orElseGet(player::getEyeY);
+        }
+        return entity.getEyeY();
     }
 
     /**

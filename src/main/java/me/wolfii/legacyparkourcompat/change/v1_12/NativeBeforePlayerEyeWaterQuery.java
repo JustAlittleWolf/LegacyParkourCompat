@@ -6,6 +6,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 
 /** Leaves the cache producer native before the 1.13 point-query boundary. */
 @MovementChange(emulates = ParkourVersion.V1_12)
@@ -14,7 +15,7 @@ public final class NativeBeforePlayerEyeWaterQuery implements PlayerEyeWaterQuer
     }
 
     @Override
-    public Optional<Boolean> queryEyeWater(Player player) {
+    public Optional<Boolean> queryEyeWater(Player player, DoubleSupplier eyeSampleY) {
         return Optional.empty();
     }
 }

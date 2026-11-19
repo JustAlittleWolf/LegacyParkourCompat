@@ -122,7 +122,7 @@ abstract class EntityFluidInteractionMixin implements BodyWaterProjection {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getEyeY()D")
     )
     private double legacyparkourcompat$eyeFluidSampleY(Entity entity) {
-        double eyeY = entity.getEyeY();
+        double eyeY = MovementRuntime.movementEyeY(entity);
         return MovementRuntime.find(PlayerEyeFluidSampleHook.class, entity)
             .map(hook -> hook.sampleY(entity, eyeY))
             .orElse(eyeY);

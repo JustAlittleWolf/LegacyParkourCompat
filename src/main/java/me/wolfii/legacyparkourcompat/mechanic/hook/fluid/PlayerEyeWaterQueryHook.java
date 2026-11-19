@@ -5,10 +5,11 @@ import me.wolfii.legacyparkourcompat.mechanic.VersionedMechanic;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 
 /** Supplies the historical point query used to produce the player's cached underwater value. */
 @MechanicType("player.eye_water_query")
 public interface PlayerEyeWaterQueryHook extends VersionedMechanic {
-    /** Returns the historical point-query result, or empty for a modern vehicle without a 1.13 equivalent. */
-    Optional<Boolean> queryEyeWater(Player player);
+    /** Samples the supplied eye point after vehicle checks, or returns empty to keep native behavior. */
+    Optional<Boolean> queryEyeWater(Player player, DoubleSupplier eyeSampleY);
 }

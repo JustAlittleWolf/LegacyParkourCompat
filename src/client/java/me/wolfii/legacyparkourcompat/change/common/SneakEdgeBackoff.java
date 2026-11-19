@@ -34,7 +34,7 @@ public final class SneakEdgeBackoff {
         return new Vec3(x, delta.y, z);
     }
 
-    private static boolean noCollision(
+    public static boolean noCollision(
         Player player,
         AABB candidate,
         @Nullable SneakEdgeCollisionQueryHook collisionQuery

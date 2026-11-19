@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 
 /**
  * Restores the direct current-eye water query retained through 1.15.2; from 1.16, the player reads
@@ -20,7 +21,7 @@ public final class PlayerEyeWaterQuery implements PlayerEyeWaterQueryHook {
     }
 
     @Override
-    public Optional<Boolean> queryEyeWater(Player player) {
-        return PlayerEyeWaterSampler.query(player);
+    public Optional<Boolean> queryEyeWater(Player player, DoubleSupplier eyeSampleY) {
+        return PlayerEyeWaterSampler.query(player, eyeSampleY);
     }
 }

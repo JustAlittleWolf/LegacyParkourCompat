@@ -12,6 +12,7 @@ import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.level.material.FluidState;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 
 /** Restores the 1.13 cached underwater producer without adopting the modern body-scan admission gate. */
 @MovementChange(emulates = ParkourVersion.V1_13_1)
@@ -31,7 +32,7 @@ public final class PlayerEyeWaterQuery implements PlayerEyeWaterQueryHook {
      * body-scan gate can suppress refreshing that tracker.
      */
     @Override
-    public Optional<Boolean> queryEyeWater(Player player) {
+    public Optional<Boolean> queryEyeWater(Player player, DoubleSupplier eyeSampleY) {
         var vehicle = player.getVehicle();
         if (vehicle instanceof AbstractBoat && !(vehicle instanceof Boat)) {
             // Chest boats and rafts have no 1.13.2 counterpart; retain their native tracker result.
@@ -41,7 +42,7 @@ public final class PlayerEyeWaterQuery implements PlayerEyeWaterQueryHook {
             return Optional.of(false);
         }
 
-        double eyeY = player.getY() + player.getEyeHeight();
+        double eyeY = eyeSampleY.getAsDouble();
         BlockPos eyePos = BlockPos.containing(player.getX(), eyeY, player.getZ());
         FluidState fluidState = player.level().getFluidState(eyePos);
         return Optional.of(fluidState.is(FluidTags.WATER)

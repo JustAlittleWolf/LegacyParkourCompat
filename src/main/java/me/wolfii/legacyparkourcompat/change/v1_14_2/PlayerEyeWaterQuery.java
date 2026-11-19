@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.fluid.PlayerEyeWaterQueryHook
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 
 /**
  * Yarn 1.14 through 1.14.2 PlayerEntity.tick/updateInWater call Entity.isInFluid
@@ -23,7 +24,7 @@ import java.util.Optional;
 @MovementChange(emulates = ParkourVersion.V1_14_2)
 public final class PlayerEyeWaterQuery implements PlayerEyeWaterQueryHook {
     @Override
-    public Optional<Boolean> queryEyeWater(Player player) {
-        return PlayerEyeWaterSampler.query(player);
+    public Optional<Boolean> queryEyeWater(Player player, DoubleSupplier eyeSampleY) {
+        return PlayerEyeWaterSampler.query(player, eyeSampleY);
     }
 }

@@ -37,10 +37,10 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.SlowInputPredicateHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.PoseFitHook;
 import me.wolfii.legacyparkourcompat.mechanic.input.KeyboardInputSupport;
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.ForwardSprintInputHook;
-import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.HeldKeyTapStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.sprint.SprintRetentionInputHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SprintCollisionHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintFallFlyingGateHook;
+import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintKeyHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.DoubleTapSprintStartHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.SprintDoubleTapGroundHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.ShallowWaterSprintStartHook;
@@ -60,6 +60,7 @@ import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSneakHook;
 import me.wolfii.legacyparkourcompat.mechanic.hook.input.WaterSprintGateHook;
 import me.wolfii.legacyparkourcompat.mixin.client.LocalPlayerAccessor;
 import me.wolfii.legacyparkourcompat.mixin.client.ClientInputAccessor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.client.player.ClientInput;
@@ -76,6 +77,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -90,6 +92,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
 abstract class LocalPlayerMixin {
+    @Shadow @Final
+    protected Minecraft minecraft;
+
     // Mojmap 1.21.4–1.21.10 Player initializes this per instance. Both historical
     // and published 26.2 ClientPacketListener#handleRespawn create a new player,
     // including same-dimension respawns; the timer must not carry across players.
@@ -192,7 +197,7 @@ abstract class LocalPlayerMixin {
     }
 
     @WrapOperation(
-        method = "shouldStopRunSprinting()Z",
+        method = {"shouldStopRunSprinting()Z", "shouldStopSwimSprinting()Z"},
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z")
     )
     private boolean legacyparkourcompat$storedSprintRetentionInput(ClientInput input, Operation<Boolean> vanilla) {
@@ -204,9 +209,8 @@ abstract class LocalPlayerMixin {
         if (!active || !(input instanceof KeyboardInput)) {
             return vanilla.call(input);
         }
-        // Retention resolves independently of sprint start and its eye-water gate.
-        // From 1.14.2 the native positive-forward predicate already matches.
         return MovementRuntime.find(SprintRetentionInputHook.class, player)
+            .filter(change -> change.supports(MovementRuntime.profile(player).target(), player.isSwimming()))
             .map(change -> !change.shouldStopSprinting(input.getMoveVector().y))
             .orElseGet(() -> vanilla.call(input));
     }
@@ -440,8 +444,9 @@ abstract class LocalPlayerMixin {
             return timer;
         }
         LocalPlayer player = (LocalPlayer) (Object) this;
-        boolean start = MovementRuntime.find(HeldKeyTapStartHook.class, player)
-            .map(HeldKeyTapStartHook::startOnExpiredTimer).orElse(false);
+        boolean start = MovementRuntime.find(DoubleTapSprintKeyHook.class, player)
+            .map(change -> change.startsWithExpiredTimer(this.minecraft.options.keySprint.isDown()))
+            .orElse(false);
         return start ? 1 : timer;
     }
 
