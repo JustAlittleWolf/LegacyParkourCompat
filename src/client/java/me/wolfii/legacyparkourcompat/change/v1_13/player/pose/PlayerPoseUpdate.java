@@ -2,6 +2,7 @@ package me.wolfii.legacyparkourcompat.change.v1_13.player.pose;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
+import me.wolfii.legacyparkourcompat.mechanic.MovementRuntime;
 import me.wolfii.legacyparkourcompat.mechanic.hook.state.PlayerPoseHook;
 import me.wolfii.legacyparkourcompat.mixin.EntityPoseDimensionsAccessor;
 import net.minecraft.world.entity.EntityDimensions;
@@ -11,6 +12,7 @@ import net.minecraft.world.phys.AABB;
 
 /**
  * 1.13 ordinary player pose choice and collision-aware direct resize.
+ * 1.12.2 Ornithe Feather PlayerEntity.updatePlayerPose has no swimming resize.
  * The selector is text-identical in 1.13, 1.13.1 and 1.13.2 Ornithe Feather
  * PlayerEntity.updatePlayerPose (including isDoingSpinAttack/isSneaking); the
  * current adapter is 26.2 unobfuscated Player.updatePlayerPose, Player.isAutoSpinAttack
@@ -88,9 +90,13 @@ public final class PlayerPoseUpdate implements PlayerPoseHook {
         // which adds entity and border checks.
         // CollisionGetter.noCollision(null, box) still asks for entity collisions, so use its block-only primitive
         // to preserve the old null-source gate and the exact, undeflated candidate dimensions.
+        // 1.13 Ornithe Feather WorldView.getBlockCollisions queries era-specific block state shapes.
+        // Keep the empty collision context while supplying the player to the historical shape dispatch.
         AABB candidate = new AABB(previousBox.minX, previousBox.minY, previousBox.minZ,
             previousBox.minX + width, previousBox.minY + height, previousBox.minZ + width);
-        if (!player.level().noBlockCollision(null, candidate)) {
+        boolean clear = MovementRuntime.withHistoricalBlockShapePlayer(player,
+            () -> player.level().noBlockCollision(null, candidate));
+        if (!clear) {
             // 1.13 PlayerEntity.updatePlayerPose leaves the pre-call size and box untouched when
             // the block-only fit fails. Keep a native SWIMMING fallback only when it represents
             // modern crawling rather than a historical swimming/spin/fall-flying/sleep pose.
