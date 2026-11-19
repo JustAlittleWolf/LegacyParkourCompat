@@ -7,6 +7,7 @@ import me.wolfii.legacyparkourcompat.mechanic.VanillaFn;
 import me.wolfii.legacyparkourcompat.mechanic.hook.collision.SuffocationProbeHook;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ShulkerBoxBlock;
 
 /**
@@ -28,6 +29,12 @@ import net.minecraft.world.level.block.ShulkerBoxBlock;
  * net/minecraft/block/ShulkerBoxBlock.java, isCube, returns false.
  * This restoration therefore applies from 1.14 through 1.15.2, before the
  * first changed stable release 1.16; older profiles retain their existing path.
+ * Soul Sand's 14/16-high collision box fails the full-shape test for push-away
+ * in 1.14 Feather Block.isViewBlocking, 1.14.1–1.14.3 Yarn Block.canSuffocate,
+ * 1.14.4 Mojmap Block.isViewBlocking, and 1.15–1.15.2 Mojmap Block.isSuffocating.
+ * In 1.13.2 Feather, PlayerEntity.shouldSuffocate reads Block.isSolid, and
+ * SoulSandBlock inherits Block.isCube returning true. In 26.2 unobfuscated,
+ * Blocks.SOUL_SAND overrides isSuffocating to always return true.
  * 1.13.2/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:
  *   pushAwayFrom, mobTick.
  * 1.14.4/ornithe-feather/net/minecraft/client/entity/living/player/LocalClientPlayerEntity.java:
@@ -59,10 +66,14 @@ public final class SuffocationProbe implements SuffocationProbeHook {
     private boolean isSuffocating(Player player, ParkourVersion target, BlockPos pos) {
         var blockState = player.level().getBlockState(pos);
         // The resolved old probe includes 1.14 and 1.15, not just the latest endpoint.
-        if (target.newerThanOrEqual(ParkourVersion.V1_14)
-            && blockState.getBlock() instanceof ShulkerBoxBlock) {
-            return true;
+        if (target.newerThanOrEqual(ParkourVersion.V1_14)) {
+            if (blockState.is(Blocks.SOUL_SAND)) {
+                return false;
+            }
+            if (blockState.getBlock() instanceof ShulkerBoxBlock) {
+                return true;
+            }
         }
-        return player.level().getBlockState(pos).isSuffocating(player.level(), pos);
+        return blockState.isSuffocating(player.level(), pos);
     }
 }
