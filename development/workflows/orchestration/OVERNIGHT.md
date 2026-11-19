@@ -1,6 +1,6 @@
 # Unattended movement campaign
 
-Start only on the user's start signal. Continue until the user sends stop, usable quota is exhausted, or an explicitly configured campaign time limit is reached. Treat the earlier two-hour estimate as planning context. A checkpoint ends a batch and immediately opens the next. On stop, propagate it to descendants immediately and report the latest durable state.
+Start only on the user's start signal. Continue until the user sends stop. There is no elapsed-time cutoff. A checkpoint ends a batch and immediately opens the next. On stop, propagate it to descendants immediately and report the latest durable state.
 
 ## Delegation
 
@@ -14,7 +14,7 @@ Use English throughout. Arm a native goal for the GPT-6.2 Sol high coordinator a
 
 Assign the operation by its player-visible behavior. Its owner can trace shared dependencies and edit its operation-specific members in shared files on an isolated branch. Each orchestrator targets 20 useful concurrent workers in its own chat. Distribute contracts across relevant releases, independent operations, evidence gates and eligible implementation. Use the actual launcher's capacity and refill on any completion. See the [standing reservation and worker contract](WORKFLOW.md#reserve-an-end-to-end-block).
 
-The coordinator allocates domains, transfers idle capacity, handles urgent organizational conflicts and propagates stop. A reported exhausted queue can trigger transfer of an unstarted independent slice from a busier domain. Grant ordinary in-domain decisions once for the full run. Orchestrators obtain routine instructions from this brief and exchange verified results through the publication queue. The coordinator waits for a user stop, a genuine cross-domain conflict, a global phase transition or an exhausted domain needing a substantial transfer. Bundle the transfer into one decision; worker counts, repeated grants, workflow reminders and routine acknowledgments stay local. At startup grant one technical publication worker exclusive ownership of the main checkout and backlog writes. The worker handles intake, combined verification and publication under the [Git handoff procedure](WORKFLOW.md#git-ownership-and-recovery).
+The coordinator allocates domains, transfers idle capacity, handles urgent organizational conflicts and propagates stop. A reported exhausted queue can trigger transfer of an unstarted independent slice from a busier domain. Otherwise the coordinator waits. At startup grant one technical publication worker exclusive ownership of the main checkout and backlog writes. The worker handles intake, combined verification and publication under the [Git handoff procedure](WORKFLOW.md#git-ownership-and-recovery).
 
 Each orchestrator's first operational pass is to fill its own pool toward 20 active useful workers. Give a triage worker a bounded backlog projection if queue preparation is the bottleneck. Count running workers from the native roster, refill on each completion, and record a concrete capacity or readiness limit if it binds. Delegate implementation edits, source tracing, evidence writing, Git work and builds to workers. An orchestrator spends its time on task selection, dependency order, dispatch and refills.
 
@@ -22,15 +22,7 @@ Dispatch routine workers with explicit native arguments `model="gpt-6-luna"`, `r
 
 ## First dispatch and checks
 
-### Capacity checkpoint
-
-Include this instruction in each new orchestrator goal: "Keep up to 20 useful technical workers active across my domain, including nested workers. Refill on any completion. On context recovery and roughly once per hour while dispatching, reread the Capacity checkpoint in the primary checkout's development/workflows/orchestration/OVERNIGHT.md. Continue until user stop." Give stream schedulers the same instruction with their own slot allocation.
-
-At that checkpoint count running direct and nested technical workers once, excluding managers. If below target, dispatch ready work before waiting. If the queue is thin, split known implementation residuals by independent caller, boundary or applicability gate and let the stream schedulers dispatch concurrently. Reuse completed verdicts and built refs. If only serial or externally blocked work remains across the domains, record the actual count, exact dependency and next wake condition once. Check again when that condition changes. Use this short section for routine reminders and reread changed phase procedures in full. A checkpoint requires no routine message to the coordinator.
-
 Include the [implementation-first phase order](WORKFLOW.md#finish-known-implementations-before-new-discovery) in all four goals. At startup a single queue owner uses the commands below. Page with `--offset` when `nextOffset` is present. Give the domain owners disjoint sets of finding IDs and attach the MCPK claim IDs where relevant. Resolve disputed or missing historical evidence only for those existing operations until the global gate opens.
-
-Finish the MCPK queue and drain all known eligible implementations, including actionable named prerequisites. When those queues are drained and the MCPK phase is complete, automatically resume exact local Minecraft source-led discovery in substantial disjoint slices of adjacent versions. Traverse from newest to oldest in actual release order and reuse existing coverage. When newly accepted implementation work is ready, complete it before starting more discovery. Give blind source workers only the permitted source-only projections and keep wiki and product context outside their assignment. Select the phase from the actual queue and evidence state regardless of the chat title.
 
 ```powershell
 python development/workflows/orchestration/backlog.py show metadata mcpkWikiPriority
