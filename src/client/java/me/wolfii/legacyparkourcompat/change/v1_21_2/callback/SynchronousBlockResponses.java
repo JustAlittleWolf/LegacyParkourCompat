@@ -88,7 +88,7 @@ public final class SynchronousBlockResponses implements SweptBlockResponseHook {
         // 1.21.2/1.21.3 Mojmap and 26.2 unobfuscated PowderSnowBlock.entityInside; preserve
         // its inline stuck response, particle gate/order and powder-snow entity flag.
         if (!(entity instanceof LivingEntity) || entity.getInBlockState().is(state.getBlock())) {
-            entity.makeStuckInBlock(state, new Vec3(0.9F, 1.5, 0.9));
+            entity.makeStuckInBlock(state, new Vec3(0.9F, 1.5, 0.9F));
             if (level.isClientSide()) {
                 RandomSource random = level.getRandom();
                 boolean movedHorizontally = entity.xOld != entity.getX() || entity.zOld != entity.getZ();
