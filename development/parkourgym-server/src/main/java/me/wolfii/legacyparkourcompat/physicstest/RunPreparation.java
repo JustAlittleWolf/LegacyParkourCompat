@@ -60,8 +60,9 @@ final class RunPreparation {
         if (request.has("equipment")) setup.add("equipment", request.getAsJsonObject("equipment").deepCopy());
         if (request.has("potionEffects")) setup.add("potionEffects", request.getAsJsonArray("potionEffects").deepCopy());
         setup = RecordingSetup.normalize(setup);
-        validateEquipment(setup.getAsJsonObject("equipment"), version);
-        validateEffects(setup.getAsJsonArray("potionEffects"), version);
+        int versionNumber = versionNumber(version);
+        validateEquipment(setup.getAsJsonObject("equipment"), versionNumber);
+        validateEffects(setup.getAsJsonArray("potionEffects"), version, versionNumber);
         if (!request.has("placement")) return new RunPreparation(setup, null,
             recording.startX(), recording.startY(), recording.startZ(), 0, 0, 0);
         JsonObject placement = request.getAsJsonObject("placement");
@@ -92,7 +93,7 @@ final class RunPreparation {
             return result;
         }
         if (block == null) {
-            preparePlayer(plugin, player, x, y, z, result);
+            preparePlayer(plugin, player, world, x, y, z, result);
             return result;
         }
         int index = BLOCKS.indexOf(block);
@@ -109,7 +110,7 @@ final class RunPreparation {
                     }
                     Block center = world.getBlockAt(originX + 7, 64, originZ + 7);
                     double surfaceY = center.getBoundingBox().getMaxY();
-                    preparePlayer(plugin, player, originX + 7.5 + offsetX, surfaceY + offsetY,
+                    preparePlayer(plugin, player, world, originX + 7.5 + offsetX, surfaceY + offsetY,
                         originZ + 7.5 + offsetZ, result);
                 } catch (RuntimeException invalid) { result.completeExceptionally(invalid); }
             });
@@ -117,10 +118,12 @@ final class RunPreparation {
         return result;
     }
 
-    private void preparePlayer(PhysicsTestPlugin plugin, Player player, double x, double y, double z,
+    private void preparePlayer(PhysicsTestPlugin plugin, Player player, World world, double x, double y, double z,
                                CompletableFuture<JsonObject> result) {
         player.getScheduler().execute(plugin, () -> {
             try {
+                if (player.getWorld() != world || plugin.privateWorld(player.getUniqueId()) != world)
+                    throw new IllegalStateException("Worker left its private Gym world during run preparation");
                 for (PotionEffect effect : player.getActivePotionEffects()) player.removePotionEffect(effect.getType());
                 player.getInventory().clear();
                 JsonObject equipment = setup.getAsJsonObject("equipment");
@@ -159,20 +162,16 @@ final class RunPreparation {
         }, () -> result.completeExceptionally(new IllegalStateException("Worker left the Gym")), 1L);
     }
 
-    private static void validateEquipment(JsonObject equipment, String version) {
-        for (String key : List.of("swiftSneak", "soulSpeed", "depthStrider")) level(equipment, key, 3);
-        if (!"current".equals(version)) {
-            int versionNumber = versionNumber(version);
-            if (level(equipment, "swiftSneak", 3) > 0 && versionNumber < 11900)
-                throw new IllegalArgumentException("Swift Sneak requires Minecraft 1.19+");
-            if (level(equipment, "soulSpeed", 3) > 0 && versionNumber < 11600)
-                throw new IllegalArgumentException("Soul Speed requires Minecraft 1.16+");
-            if (level(equipment, "depthStrider", 3) > 0 && versionNumber < 10800)
-                throw new IllegalArgumentException("Depth Strider requires Minecraft 1.8+");
-        }
+    private static void validateEquipment(JsonObject equipment, int versionNumber) {
+        if (level(equipment, "swiftSneak", 3) > 0 && versionNumber < 11900)
+            throw new IllegalArgumentException("Swift Sneak requires Minecraft 1.19+");
+        if (level(equipment, "soulSpeed", 3) > 0 && versionNumber < 11600)
+            throw new IllegalArgumentException("Soul Speed requires Minecraft 1.16+");
+        if (level(equipment, "depthStrider", 3) > 0 && versionNumber < 10800)
+            throw new IllegalArgumentException("Depth Strider requires Minecraft 1.8+");
     }
 
-    private static void validateEffects(JsonArray effects, String version) {
+    private static void validateEffects(JsonArray effects, String version, int versionNumber) {
         for (JsonElement entry : effects) {
             JsonObject effect = entry.getAsJsonObject();
             NamespacedKey key = NamespacedKey.fromString(requiredString(effect, "id"));
@@ -182,7 +181,7 @@ final class RunPreparation {
             int duration = effect.has("durationTicks") ? effect.get("durationTicks").getAsInt() : 1200000;
             if (amplifier < 0 || amplifier > 255 || duration <= 0)
                 throw new IllegalArgumentException("Invalid potion amplifier or durationTicks");
-            if (!"current".equals(version) && versionNumber(version) < minimumEffectVersion(key.getKey()))
+            if (versionNumber < minimumEffectVersion(key.getKey()))
                 throw new IllegalArgumentException("Potion effect is unavailable in " + version + ": " + key);
         }
     }
@@ -194,7 +193,7 @@ final class RunPreparation {
             case "bad_omen", "hero_of_the_village" -> 11400;
             case "darkness" -> 11900;
             case "trial_omen", "raid_omen", "wind_charged", "weaving", "oozing", "infested" -> 12100;
-            case "breath_of_the_nautilus" -> Integer.MAX_VALUE;
+            case "breath_of_the_nautilus" -> 12111;
             default -> 10800;
         };
     }
@@ -212,9 +211,14 @@ final class RunPreparation {
     }
 
     private static int versionNumber(String version) {
-        String[] parts = version.replaceFirst("-(forge|fabric)$", "").split("\\.");
-        if (parts.length < 2 || !"1".equals(parts[0])) throw new IllegalArgumentException("Unsupported client version " + version);
-        return 10000 + Integer.parseInt(parts[1]) * 100 + (parts.length > 2 ? Integer.parseInt(parts[2]) : 0);
+        if ("current".equals(version)) return Integer.MAX_VALUE;
+        String release = version.replaceFirst("-(forge|fabric)$", "");
+        boolean calendarRelease = List.of("26.1", "26.1.1", "26.1.2", "26.2").contains(release);
+        if (!calendarRelease && !release.matches("1\\.[1-9][0-9]?(?:\\.[1-9][0-9]?)?"))
+            throw new IllegalArgumentException("Unsupported client version " + version);
+        String[] parts = release.split("\\.");
+        return Integer.parseInt(parts[0]) * 10000 + Integer.parseInt(parts[1]) * 100
+            + (parts.length == 3 ? Integer.parseInt(parts[2]) : 0);
     }
 
     private static double number(JsonObject object, String key) {

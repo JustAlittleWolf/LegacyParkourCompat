@@ -394,7 +394,6 @@ def awaitTasLabRun = { String runId ->
     while (System.currentTimeMillis() < deadline) {
         def state = tasLabApi("/api/runs/${runId}", 'GET')
         if (state.state in ['success', 'after_failure', 'error']) {
-            if (state.state == 'error') throw new GradleException("TAS lab run ${runId} failed: ${state}")
             return state
         }
         Thread.sleep(500L)
@@ -405,22 +404,21 @@ def awaitTasLabRun = { String runId ->
 tasks.register('runTasCompare') {
     group = 'minecraft'
     description = 'Compare a reference against Legacy Parkour emulation and fail on any positional difference.'
-    doFirst {
+    doLast {
         ensureTasLab()
+        File expectedFile = file(rootTasAutomationExpected)
+        File actualFile = file(rootTasAutomationOutput)
         Map<String, Object> request = [
-            clientVersion: 'current', recording: file(rootTasAutomationExpected).absolutePath,
-            output: file(rootTasAutomationOutput).absolutePath, profile: rootTasAutomationVersion, compare: true
+            clientVersion: 'current', recording: expectedFile.absolutePath,
+            output: actualFile.absolutePath, profile: rootTasAutomationVersion, compare: true
         ]
         if (rootTasAutomationMaxUlps != null) request.maxUlps = Long.parseLong(rootTasAutomationMaxUlps)
         if (rootTasAutomationTolerance != null) request.tolerance = Double.parseDouble(rootTasAutomationTolerance)
         def accepted = tasLabApi('/api/runs', 'POST', request)
-        logger.lifecycle("Queued TAS comparison ${accepted.runId} on the reusable current client")
-        awaitTasLabRun(accepted.runId.toString())
-    }
-    doLast {
-        File expectedFile = file(rootTasAutomationExpected)
-        File actualFile = file(rootTasAutomationOutput)
-        String runId = rootTasAutomationRun
+        String runId = accepted.runId.toString()
+        logger.lifecycle("Queued TAS comparison ${runId} on the reusable current client")
+        def state = awaitTasLabRun(runId)
+        String gymRunId = state.gymRunId
         String version = rootTasAutomationVersion
         double tolerance = rootTasAutomationTolerance == null ? 0.0D : Double.parseDouble(rootTasAutomationTolerance)
         Long maxUlps = rootTasAutomationMaxUlps == null ? null : Long.valueOf(rootTasAutomationMaxUlps)
@@ -444,15 +442,22 @@ tasks.register('runTasCompare') {
             if (snapshotLog.isFile()) {
                 List<Integer> matchingLineNumbers = []
                 snapshotLog.eachLine('UTF-8') { line, lineNumber ->
-                    if (line.contains('[LPC_FAILURE_SNAPSHOT]') && line.contains('"runId":"' + runId + '"')) {
+                    if (line.contains('[LPC_FAILURE_SNAPSHOT]') && line.contains('"runId":"' + gymRunId + '"')) {
                         matchingLineNumbers << lineNumber
                     }
                 }
                 if (!matchingLineNumbers.isEmpty()) {
-                    return "Snapshots: ${matchingLineNumbers.collect { line -> "${logPath}:${line}" }.join(', ')} [LPC_FAILURE_SNAPSHOT] runId=${runId}"
+                    return "Snapshots: ${matchingLineNumbers.collect { line -> "${logPath}:${line}" }.join(', ')} [LPC_FAILURE_SNAPSHOT] gymRunId=${gymRunId}"
                 }
             }
-            return "Snapshot log: ${logPath}; search for [LPC_FAILURE_SNAPSHOT] and runId=${runId}"
+            return "Snapshot log: ${logPath}; search for [LPC_FAILURE_SNAPSHOT] with Gym runId=${gymRunId}"
+        }
+        if (state.state == 'error') {
+            String snapshots = gymRunId == null ? '' : "; ${snapshotContext()}"
+            throw new GradleException("TAS lab run ${runId} failed: ${state}${snapshots}")
+        }
+        if (gymRunId == null) {
+            throw new GradleException("TAS lab run ${runId} completed without a Gym run ID: ${state}")
         }
         def readPositions = { File source, String label ->
             if (!source.isFile() || source.length() == 0L) {
@@ -478,7 +483,9 @@ tasks.register('runTasCompare') {
                 int metadataLength = 0
                 if (formatVersion == 2) {
                     metadataLength = data.readInt()
-                    if (metadataLength < 0 || metadataLength > 65536) throw new GradleException("Invalid LPRC setup length: ${source}")
+                    if (metadataLength < 0 || metadataLength > 65536) {
+                        throw new GradleException("TAS comparison failed for runId=${runId}: ${label} recording has an invalid LPRC setup length: ${source.absolutePath}; ${snapshotContext()}")
+                    }
                     data.skipNBytes(metadataLength)
                 }
                 if (count < 0 || source.length() != 44L + (formatVersion == 2 ? 4L + metadataLength : 0L) + (34L * count)) {
@@ -550,7 +557,7 @@ tasks.register('runTasCompare') {
         }
         String comparisonMode = maxUlps != null ? "maxUlps=${maxUlps}, maxUlpXYZ=${maximumUlps}"
             : tolerance == 0.0D ? 'exact' : "tolerance=${tolerance}"
-        logger.lifecycle("TAS comparison PASSED runId=${runId} version=${version}: ${comparisonMode} positions matched for ${expectedCount} ticks (expected=${expectedFile.absolutePath}, actual=${actualFile.absolutePath})")
+        logger.lifecycle("TAS comparison PASSED runId=${runId} gymRunId=${gymRunId} version=${version}: ${comparisonMode} positions matched for ${expectedCount} ticks (expected=${expectedFile.absolutePath}, actual=${actualFile.absolutePath})")
     }
 }
 
@@ -638,7 +645,8 @@ tasks.register('runTasWorkflow') {
             logger.lifecycle("Queued TAS ${version}: ${accepted.runId}")
         }
         submitted.each { entry ->
-            awaitTasLabRun(entry.runId.toString())
+            def state = awaitTasLabRun(entry.runId.toString())
+            if (state.state == 'error') throw new GradleException("TAS lab run ${entry.runId} failed: ${state}")
             File result = (File) entry.output
             if (!result.isFile() || result.length() == 0L) {
                 throw new GradleException("TAS run ${entry.runId} produced no result: ${result}")

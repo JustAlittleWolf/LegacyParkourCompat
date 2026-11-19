@@ -58,6 +58,21 @@ final class GymControlApi implements AutoCloseable {
             && (worker.player == null || worker.player.getUniqueId().equals(player.getUniqueId()))) worker.player = player;
     }
 
+    boolean failRunOutsidePrivateWorld(Player player) {
+        synchronized (workers) {
+            boolean playbackMayBeRunning = false;
+            for (Worker worker : workers.values()) {
+                if (worker.player != player || worker.runId == null) continue;
+                Run run = runs.get(worker.runId);
+                if (run != null && run.event("error", "Worker left its private Gym world")) {
+                    worker.runId = null;
+                    playbackMayBeRunning |= run.dispatched;
+                }
+            }
+            return playbackMayBeRunning;
+        }
+    }
+
     void start() throws IOException {
         InetAddress loopback = InetAddress.getByName("127.0.0.1");
         http = HttpServer.create(new InetSocketAddress(loopback, HTTP_PORT), 32);
@@ -170,9 +185,15 @@ final class GymControlApi implements AutoCloseable {
             JsonObject start = preparation.prepare(plugin, selected.player).get(30, TimeUnit.SECONDS);
             request.add("start", start);
             request.add("setup", preparation.setup);
+            synchronized (run) {
+                if (run.complete) throw new IllegalStateException("Worker became unavailable before dispatch");
+                run.dispatched = true;
+            }
             selected.send(JSON.toJson(request));
         } catch (Exception failure) {
-            synchronized (workers) { selected.runId = null; }
+            synchronized (workers) {
+                if (run.id.equals(selected.runId)) selected.runId = null;
+            }
             run.event("error", "Run preparation failed: " + failure.getMessage());
             respond(exchange, 503, JSON.toJson(run.snapshot()));
             return;
@@ -324,8 +345,10 @@ final class GymControlApi implements AutoCloseable {
         final List<JsonObject> events = new ArrayList<>();
         String state = "queued";
         boolean complete;
+        boolean dispatched;
         Run(String id, String version, String workerId) { this.id = id; this.version = version; this.workerId = workerId; }
-        synchronized void event(String type, String detail) {
+        synchronized boolean event(String type, String detail) {
+            if (complete) return false;
             JsonObject event = new JsonObject();
             event.addProperty("type", type);
             event.addProperty("detail", detail);
@@ -333,6 +356,7 @@ final class GymControlApi implements AutoCloseable {
             events.add(event);
             state = type;
             complete = "success".equals(type) || "after_failure".equals(type) || "error".equals(type);
+            return true;
         }
         synchronized JsonObject snapshot() {
             JsonObject value = new JsonObject();

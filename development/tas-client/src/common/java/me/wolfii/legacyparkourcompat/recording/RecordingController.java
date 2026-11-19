@@ -525,27 +525,24 @@ public final class RecordingController {
                     }
                     if (this.automation != null && this.automation.compare()) {
                         reportFirstDeviation(source, actualX, actualY, actualZ);
+                        if (this.deviationReported && (this.playbackIndex - this.firstDeviationIndex >= 20
+                            || this.playbackIndex + 1 == this.playback.ticks().size())) {
+                            this.followupDetail = String.format(Locale.ROOT,
+                                "discrepancy after %d further ticks at tick %d (expected %.17g %.17g %.17g, actual %.17g %.17g %.17g, ULP=%s %s %s)",
+                                Integer.valueOf(this.playbackIndex - this.firstDeviationIndex), Integer.valueOf(this.playbackIndex),
+                                source.x(), source.y(), source.z(), actualX, actualY, actualZ,
+                                safeUlp(source.x(), actualX), safeUlp(source.y(), actualY), safeUlp(source.z(), actualZ));
+                            this.minecraft.sendGameMessage(this.followupDetail);
+                            sendFailureSnapshotSignal(this.playbackIndex);
+                        }
                     }
                 } catch (RuntimeException exception) {
-                    this.minecraft.sendGameMessage("Failed to read playback position: " + safeMessage(exception));
+                    failCapture("Could not capture playback tick " + this.playbackIndex + ": " + safeMessage(exception));
+                    return;
                 }
             }
             this.playbackIndex++;
-            if (this.deviationReported && this.playback != null
-                && this.playbackIndex >= Math.min(this.playback.ticks().size(), this.firstDeviationIndex + 21)) {
-                TickFrame expected = this.playback.ticks().get(this.playbackIndex - 1);
-                this.followupDetail = String.format(Locale.ROOT,
-                    "discrepancy after %d further ticks at tick %d (expected %.17g %.17g %.17g, actual %.17g %.17g %.17g, ULP=%s %s %s)",
-                    Integer.valueOf(this.playbackIndex - this.firstDeviationIndex - 1), Integer.valueOf(this.playbackIndex - 1),
-                    expected.x(), expected.y(), expected.z(),
-                    this.minecraft.playerX(), this.minecraft.playerY(), this.minecraft.playerZ(),
-                    safeUlp(expected.x(), this.minecraft.playerX()),
-                    safeUlp(expected.y(), this.minecraft.playerY()),
-                    safeUlp(expected.z(), this.minecraft.playerZ()));
-                this.minecraft.sendGameMessage(this.followupDetail);
-                sendFailureSnapshotSignal(this.playbackIndex - 1);
-                finishPlayback();
-            } else if (this.playback != null && this.playbackIndex >= this.playback.ticks().size()) {
+            if (this.followupDetail != null || (this.playback != null && this.playbackIndex >= this.playback.ticks().size())) {
                 finishPlayback();
             }
         }
@@ -639,16 +636,11 @@ public final class RecordingController {
         MovementRecording completed = this.playback;
         Path output = this.captureOutput;
         boolean automated = this.automation != null && this.automationStarted;
-        if (this.deviationReported && this.followupDetail == null && completed != null && this.playbackIndex > 0) {
-            TickFrame expected = completed.ticks().get(Math.min(this.playbackIndex, completed.ticks().size()) - 1);
-            this.followupDetail = String.format(Locale.ROOT,
-                "discrepancy after %d further ticks at tick %d (expected %.17g %.17g %.17g, actual %.17g %.17g %.17g, ULP=%s %s %s)",
-                Integer.valueOf(this.playbackIndex - this.firstDeviationIndex - 1), Integer.valueOf(this.playbackIndex - 1),
-                expected.x(), expected.y(), expected.z(), this.minecraft.playerX(), this.minecraft.playerY(), this.minecraft.playerZ(),
-                safeUlp(expected.x(), this.minecraft.playerX()), safeUlp(expected.y(), this.minecraft.playerY()),
-                safeUlp(expected.z(), this.minecraft.playerZ()));
-            this.minecraft.sendGameMessage(this.followupDetail);
-            sendFailureSnapshotSignal(this.playbackIndex - 1);
+        if (output != null && (completed == null || this.capturedTicks.size() != this.playbackIndex
+            || (!this.deviationReported && this.playbackIndex != completed.ticks().size()))) {
+            failCapture("Incomplete playback capture: " + this.capturedTicks.size() + " captured ticks, "
+                + this.playbackIndex + " processed ticks, " + (completed == null ? 0 : completed.ticks().size()) + " source ticks");
+            return;
         }
         this.playing = false;
         this.playback = null;
@@ -686,17 +678,40 @@ public final class RecordingController {
         }
         this.capturedTicks.clear();
         if (automated) {
-            this.automationFinished = true;
-            if (this.automation.mute()) {
-                try {
-                    this.minecraft.restoreAudio();
-                } catch (RuntimeException exception) {
-                    this.minecraft.sendGameMessage("Unable to restore client audio: " + safeMessage(exception));
-                }
+            finishAutomation();
+        }
+    }
+
+    private void failCapture(String detail) {
+        this.playing = false;
+        this.playback = null;
+        this.captureOutput = null;
+        this.captureOnPlayback = false;
+        this.capturedTicks.clear();
+        boolean automated = this.automation != null && this.automationStarted && !this.automationFinished;
+        if (automated && this.worker != null) {
+            this.worker.event(this.automation.runId(), "error", detail, this.playbackIndex);
+        }
+        System.err.println("[Legacy Parkour Recording] " + detail);
+        try {
+            this.minecraft.applyButtons(0);
+            this.minecraft.sendGameMessage(detail);
+        } finally {
+            if (automated) finishAutomation();
+        }
+    }
+
+    private void finishAutomation() {
+        this.automationFinished = true;
+        if (this.automation.mute()) {
+            try {
+                this.minecraft.restoreAudio();
+            } catch (RuntimeException exception) {
+                this.minecraft.sendGameMessage("Unable to restore client audio: " + safeMessage(exception));
             }
-            if (this.automation.exit()) {
-                this.minecraft.requestShutdown();
-            }
+        }
+        if (this.automation.exit()) {
+            this.minecraft.requestShutdown();
         }
     }
 
