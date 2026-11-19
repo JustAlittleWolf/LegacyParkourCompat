@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.OptionalInt;
 
-/** Selects a complete historical wall mask only for a closed current-state domain. */
+/** Selects the wall connection mask used by historical collision geometry. */
 @MechanicType("block.wall.neighbor-mask")
 public interface WallNeighborMaskHook extends VersionedMechanic {
     /** False for resolver fences that preserve the pre-existing shape path. */

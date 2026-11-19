@@ -1,10 +1,8 @@
 package me.wolfii.legacyparkourcompat.change.v1_11_1;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
-import me.wolfii.legacyparkourcompat.change.common.WallCollisionGeometry;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
 import me.wolfii.legacyparkourcompat.mechanic.hook.block.WallCollisionHeightHook;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
@@ -36,8 +34,7 @@ public final class WallCollisionHeight implements WallCollisionHeightHook {
     }
 
     @Override
-    public double maxY(BlockState state) {
-        int mask = WallCollisionGeometry.mask(state);
-        return mask == 5 || mask == 10 ? 0.875 : 1.0;
+    public double maxY(int connectionMask) {
+        return connectionMask == 5 || connectionMask == 10 ? 0.875 : 1.0;
     }
 }

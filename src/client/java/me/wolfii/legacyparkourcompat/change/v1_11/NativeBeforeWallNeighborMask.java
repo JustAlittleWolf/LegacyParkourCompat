@@ -1,4 +1,4 @@
-package me.wolfii.legacyparkourcompat.change.v1_11_1;
+package me.wolfii.legacyparkourcompat.change.v1_11;
 
 import me.wolfii.legacyparkourcompat.api.ParkourVersion;
 import me.wolfii.legacyparkourcompat.mechanic.MovementChange;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.OptionalInt;
 
 /** Keeps earlier, unproved wall-neighbor selectors on the native wall shape path. */
-@MovementChange(emulates = ParkourVersion.V1_11_1)
+@MovementChange(emulates = ParkourVersion.V1_11)
 public final class NativeBeforeWallNeighborMask implements WallNeighborMaskHook {
     public NativeBeforeWallNeighborMask() {
     }
