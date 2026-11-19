@@ -13,14 +13,10 @@ import org.jspecify.annotations.Nullable;
 import java.util.Optional;
 
 /**
- * Source evidence (paths are relative to decompiled_minecraft/):
- * 1.15.2/mojmap/net/minecraft/world/entity/player/Player.java:
- *   maybeBackOffFromEdge.
- *   maybeBackOffFromEdge.
- * 1.16.5/mojmap/net/minecraft/world/entity/player/Player.java:
- *   maybeBackOffFromEdge.
- *   maybeBackOffFromEdge.
- * Source-content correspondence and compilation do not establish tick-level runtime parity.
+ * Mojmap 1.16 and 1.16.1, {@code Player#maybeBackOffFromEdge}, require
+ * {@code onGround} for sneak restraint. Mojmap 1.16.2, the same member
+ * and {@code Player#isAboveGround}, exclude flying players and also allow
+ * restraint during a short fall when the support probe finds a collision.
  */
 @MovementChange(emulates = ParkourVersion.V1_16)
 public final class SneakEdge implements SneakEdgeHook {

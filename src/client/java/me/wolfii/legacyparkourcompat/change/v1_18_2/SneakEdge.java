@@ -26,10 +26,10 @@ import java.util.Optional;
  * 1.16.2/mojmap/net/minecraft/world/entity/LivingEntity.java initializes
  *   maxUpStep to 0.6F; SneakEdgeDistanceHook retains that probe distance.
  *
- * Mojmap 1.16.2 Player#maybeBackOffFromEdge excludes flying players and
- * admits grounded or short-fall support through Player#isAboveGround. The
- * shared backoff helper retains the X, Z, then joint loops and their
- * step-height probes.
+ * Mojmap 1.16.2, 1.17.1 and 1.18.2 Player#isAboveGround use the same
+ * collision query as the horizontal probes in Player#maybeBackOffFromEdge.
+ * Their float fall distance and step height are subtracted before widening
+ * the result to move the bounding box.
  * 1.18.2/mojmap/net/minecraft/client/player/LocalPlayer.java:
  *   move.
  * 1.18.2/mojmap/net/minecraft/world/entity/Entity.java:
@@ -78,19 +78,25 @@ public final class SneakEdge implements SneakEdgeHook {
         if (player.getAbilities().flying
             || (moverType != MoverType.SELF && moverType != MoverType.PLAYER)
             || !stayingOnGroundSurface
-            || !isAboveGround(player, probeDistance)) {
+            || !isAboveGround(player, probeDistance, collisionQuery)) {
             return Optional.of(delta);
         }
 
         return Optional.of(SneakEdgeBackoff.apply(player, delta, probeDistance, collisionQuery));
     }
 
-    private static boolean isAboveGround(Player player, float probeDistance) {
+    private static boolean isAboveGround(
+        Player player,
+        float probeDistance,
+        @Nullable SneakEdgeCollisionQueryHook collisionQuery
+    ) {
+        float fallDistance = (float) player.fallDistance;
         return player.onGround()
-            || player.fallDistance < probeDistance
-                && !player.level().noCollision(
+            || fallDistance < probeDistance
+                && !SneakEdgeBackoff.noCollision(
                     player,
-                    player.getBoundingBox().move(0.0D, player.fallDistance - probeDistance, 0.0D)
+                    player.getBoundingBox().move(0.0D, fallDistance - probeDistance, 0.0D),
+                    collisionQuery
                 );
     }
 }
