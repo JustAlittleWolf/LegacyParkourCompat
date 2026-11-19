@@ -75,6 +75,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
@@ -493,9 +494,10 @@ abstract class LivingEntityMixin {
     private void legacyparkourcompat$groundAcceleration(float blockFriction, CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity)(Object)this;
         if (entity instanceof Player player) {
-            cir.setReturnValue(MovementRuntime.find(GroundSpeedHook.class, player)
-                .map(behavior -> behavior.speed(entity, blockFriction, cir.getReturnValue()))
-                .orElse(cir.getReturnValue()));
+            MovementRuntime.find(GroundSpeedHook.class, player)
+                // 26.2 travelInAir can reduce friction to zero with this modern attribute.
+                .filter(ignored -> (float) player.getAttributeValue(Attributes.FRICTION_MODIFIER) == 1.0F)
+                .ifPresent(behavior -> cir.setReturnValue(behavior.speed(entity, blockFriction, cir.getReturnValue())));
         }
     }
 

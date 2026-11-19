@@ -32,9 +32,11 @@ public final class UnloadedChunkGravity implements UnloadedChunkGravityHook {
             return movementChunkLoaded;
         }
 
-        // Keep the existing first predicate as a gate, then use the old cast coordinates.
+        // 1.8.9 World.contains checks the horizontal ±30M bounds at the fixed valid Y=0.
+        // The resolved chunk lookup already checks presence at these truncated X/Z coordinates.
+        // 26.2 Level.isInSpawnableBounds preserves those horizontal limits at Y=0 in any dimension.
         BlockPos historicalPosition = new BlockPos((int) entity.getX(), 0, (int) entity.getZ());
-        return movementChunkLoaded && level.isLoaded(historicalPosition);
+        return movementChunkLoaded && Level.isInSpawnableBounds(historicalPosition);
     }
 
     @Override

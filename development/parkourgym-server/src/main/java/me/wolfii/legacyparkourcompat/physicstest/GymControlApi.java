@@ -136,6 +136,20 @@ final class GymControlApi implements AutoCloseable {
         JsonObject request;
         try { request = JsonParser.parseString(readBody(exchange)).getAsJsonObject(); }
         catch (RuntimeException invalid) { respond(exchange, 400, error("Invalid JSON")); return; }
+        String requestId = string(request, "requestId");
+        if (request.has("requestId")) {
+            try {
+                if (requestId == null || !UUID.fromString(requestId).toString().equals(requestId))
+                    throw new IllegalArgumentException();
+            } catch (IllegalArgumentException invalid) {
+                respond(exchange, 400, error("requestId must be a canonical UUID")); return;
+            }
+            Run previous = runs.get(requestId);
+            if (previous != null) {
+                respondToRetry(exchange, previous, request);
+                return;
+            }
+        }
         String version = string(request, "clientVersion");
         String recording = string(request, "recording");
         String output = string(request, "output");
@@ -163,26 +177,47 @@ final class GymControlApi implements AutoCloseable {
             preparation = RunPreparation.parse(recordingData, request, featureVersion);
         } catch (RuntimeException invalid) { respond(exchange, 400, error("Invalid run settings: " + invalid.getMessage())); return; }
         catch (IOException invalid) { respond(exchange, 400, error("Invalid recording: " + invalid.getMessage())); return; }
+        boolean existingOutput = Files.exists(target);
         Worker selected = null;
-        Run run;
+        Run previous;
+        Run run = null;
+        String rejection = null;
+        int rejectionStatus = 409;
         synchronized (workers) {
-            if (Files.exists(target)) {
-                respond(exchange, 400, error("Output already exists")); return;
-            }
-            for (Worker worker : workers.values()) {
-                String activeId = worker.runId;
-                if (activeId != null && target.equals(runs.get(activeId).outputPath)) {
-                    respond(exchange, 409, error("Output is already reserved by run " + activeId)); return;
+            previous = requestId == null ? null : runs.get(requestId);
+            if (previous == null) {
+                if (existingOutput) {
+                    rejection = "Output already exists";
+                    rejectionStatus = 400;
+                } else {
+                    for (Worker worker : workers.values()) {
+                        String activeId = worker.runId;
+                        if (activeId != null && target.equals(runs.get(activeId).outputPath)) {
+                            rejection = "Output is already reserved by run " + activeId;
+                            break;
+                        }
+                        if (selected == null && worker.version.equals(version) && activeId == null && worker.player != null
+                            && worker.player.isOnline() && plugin.isPrivateReady(worker.player.getUniqueId())) {
+                            selected = worker;
+                        }
+                    }
+                    if (selected == null && rejection == null) rejection = "No idle worker for " + version;
                 }
-                if (selected == null && worker.version.equals(version) && activeId == null && worker.player != null
-                    && worker.player.isOnline() && plugin.isPrivateReady(worker.player.getUniqueId())) {
-                    selected = worker;
+                if (rejection == null) {
+                    String id = requestId == null ? UUID.randomUUID().toString() : requestId;
+                    run = new Run(id, version, selected.id, target, requestId == null ? null : request.deepCopy());
+                    runs.put(id, run);
+                    selected.runId = id;
                 }
             }
-            if (selected == null) { respond(exchange, 409, error("No idle worker for " + version)); return; }
-            run = new Run(UUID.randomUUID().toString(), version, selected.id, target);
-            selected.runId = run.id;
-            runs.put(run.id, run);
+        }
+        if (previous != null) {
+            respondToRetry(exchange, previous, request);
+            return;
+        }
+        if (rejection != null) {
+            respond(exchange, rejectionStatus, error(rejection));
+            return;
         }
         request.addProperty("type", "run");
         request.addProperty("runId", run.id);
@@ -206,6 +241,14 @@ final class GymControlApi implements AutoCloseable {
             return;
         }
         respond(exchange, 202, JSON.toJson(run.snapshot()));
+    }
+
+    private static void respondToRetry(HttpExchange exchange, Run run, JsonObject request) throws IOException {
+        if (!request.equals(run.submission)) {
+            respond(exchange, 409, error("requestId already belongs to a different request"));
+        } else {
+            respond(exchange, 202, JSON.toJson(run.snapshot()));
+        }
     }
 
     private void postEvent(HttpExchange exchange, Run run) throws IOException {
@@ -352,15 +395,17 @@ final class GymControlApi implements AutoCloseable {
     private static final class Run {
         final String id, version, workerId;
         final Path outputPath;
+        final JsonObject submission;
         final List<JsonObject> events = new ArrayList<>();
         String state = "queued";
         boolean complete;
         boolean dispatched;
-        Run(String id, String version, String workerId, Path outputPath) {
+        Run(String id, String version, String workerId, Path outputPath, JsonObject submission) {
             this.id = id;
             this.version = version;
             this.workerId = workerId;
             this.outputPath = outputPath;
+            this.submission = submission;
         }
         synchronized boolean event(String type, String detail) {
             if (complete) return false;

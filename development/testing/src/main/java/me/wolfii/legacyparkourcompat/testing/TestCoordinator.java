@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executors;
 
 /** Process owner and queue for reusable test clients. Paper never launches a Minecraft process. */
@@ -125,6 +127,10 @@ public final class TestCoordinator {
     private synchronized void pump(Path logs) throws Exception {
         if (!gymReady()) return;
         for (Worker worker : new ArrayList<>(workers.values())) {
+            if (worker.job != null && worker.job.gymRunId == null) {
+                resolveSubmission(worker);
+                if (worker.job != null && worker.job.gymRunId == null) continue;
+            }
             if (!worker.process.isAlive()) {
                 workers.remove(worker.version);
                 if (worker.job != null) worker.job.fail("Client process exited; see " + worker.log);
@@ -179,36 +185,56 @@ public final class TestCoordinator {
                 continue;
             }
             worker.starting = false;
-            HttpResponse<String> reply = submitGymRun(job.request);
-            int status = reply.statusCode();
-            if (status == 409 && ("No idle worker for " + job.version)
-                .equals(field(JsonParser.parseString(reply.body()).getAsJsonObject(), "error"))) {
-                continue;
-            }
-            if (status == 400 || status == 409) {
-                job.fail("Gym HTTP " + status + ": " + reply.body());
-                queue.remove(job);
-                continue;
-            }
+            worker.busy = true;
+            worker.job = job;
+            job.state = "submitting";
+            queue.remove(job);
+            job.submission = submitGymRun(job.request);
+        }
+    }
+
+    private void resolveSubmission(Worker worker) throws IOException {
+        Job job = worker.job;
+        if (job.submission == null) {
+            job.submission = submitGymRun(job.request);
+            return;
+        }
+        if (!job.submission.isDone()) return;
+        HttpResponse<String> reply;
+        try {
+            reply = job.submission.join();
+        } catch (CompletionException failure) {
+            throw new IOException("Gym submission response unavailable for " + job.id, failure);
+        } finally {
+            job.submission = null;
+        }
+        int status = reply.statusCode();
+        if (status == 409 && ("No idle worker for " + job.version)
+            .equals(field(JsonParser.parseString(reply.body()).getAsJsonObject(), "error"))) {
+            job.state = "waiting_for_client";
+            queue.addFirst(job);
+        } else if (status == 400 || status == 409) {
+            job.fail("Gym HTTP " + status + ": " + reply.body());
+        } else {
             if (status != 202 && status != 503) throw new IOException("Gym HTTP " + status + ": " + reply.body());
             JsonObject response = JsonParser.parseString(reply.body()).getAsJsonObject();
             String gymRunId = field(response, "runId");
             String state = field(response, "state");
             boolean complete = response.has("complete") && response.get("complete").getAsBoolean();
-            if (gymRunId == null || state == null || (status == 503 && (!complete || !"error".equals(state)))) {
+            if (!job.id.equals(gymRunId) || state == null || (status == 503 && (!complete || !"error".equals(state)))) {
                 throw new IOException("Invalid response to Gym run submission (HTTP " + status + "): " + reply.body());
             }
             job.gymRunId = gymRunId;
-            if (complete) {
-                job.state = state;
-                job.gymState = response;
-            } else {
+            job.gymState = response;
+            if (!complete) {
                 job.state = "queued_on_client";
-                worker.busy = true;
-                worker.job = job;
+                return;
             }
-            queue.remove(job);
+            job.state = state;
         }
+        worker.busy = false;
+        worker.job = null;
+        worker.lastUsed = System.nanoTime();
     }
 
     private boolean registered(Worker worker) throws Exception {
@@ -234,8 +260,8 @@ public final class TestCoordinator {
         return JsonParser.parseString(response.body()).getAsJsonObject();
     }
 
-    private HttpResponse<String> submitGymRun(JsonObject value) throws IOException, InterruptedException {
-        return http.send(HttpRequest.newBuilder(URI.create("http://127.0.0.1:25566/api/runs")).timeout(Duration.ofSeconds(3))
+    private CompletableFuture<HttpResponse<String>> submitGymRun(JsonObject value) {
+        return http.sendAsync(HttpRequest.newBuilder(URI.create("http://127.0.0.1:25566/api/runs")).timeout(Duration.ofSeconds(40))
             .header("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(JSON.toJson(value))).build(), HttpResponse.BodyHandlers.ofString());
     }
@@ -317,7 +343,13 @@ public final class TestCoordinator {
         String state = "waiting_for_client";
         String gymRunId;
         JsonObject gymState;
-        Job(String id, String version, JsonObject request) { this.id = id; this.version = version; this.request = request; }
+        CompletableFuture<HttpResponse<String>> submission;
+        Job(String id, String version, JsonObject request) {
+            this.id = id;
+            this.version = version;
+            this.request = request;
+            this.request.addProperty("requestId", id);
+        }
         void fail(String reason) { state = "error"; gymState = new JsonObject(); gymState.addProperty("error", reason); }
         JsonObject snapshot() {
             JsonObject value = new JsonObject();
