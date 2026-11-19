@@ -1,0 +1,9 @@
+# Vertical velocity zero sign on ordinary solid collisions
+
+26.1.2, published unobfuscated names. `net/minecraft/world/entity/Entity.java`, `move`, lines 754–786, dispatches the effect block's `updateEntityMovementAfterFallOn` when requested and resolved Y disagree. The inherited implementation in `net/minecraft/world/level/block/Block.java`, lines 498–500, multiplies the stored vertical velocity by the double literal `0.0`.
+
+26.2, published unobfuscated names. `net/minecraft/world/entity/Entity.java`, `move`, lines 761–786, dispatches `restituteMovementAfterCollisions` after a vertical clip with nonzero requested Y. With default player bounciness and an ordinary solid block, its vertical branch at lines 815–842 sets Y to `(0.0 - currentMovement.y) * 1.0 * 0.0` in that order.
+
+For negative incoming velocity against a solid floor, the stored result is `-0.0` in 26.1.2 and `+0.0` in 26.2. For positive incoming velocity against a solid ceiling, the stored result is `+0.0` in 26.1.2 and `-0.0` in 26.2. Their raw double bit patterns are `0x8000000000000000` and `0x0000000000000000`, respectively, for negative and positive zero.
+
+In dry travel with default gravity and a loaded chunk, the subsequent gravity subtraction produces the same negative Y from either zero. The sign survives the collision tick with the existing gravity attribute set to positive zero and the default positive air drag. One reachable ceiling example is an unmounted, non-flying standing player jumping from stone into a ceiling in a two-block-high dry stone passage. The paired dry movement suffixes are `net/minecraft/world/entity/LivingEntity.java`, `travelInAir` and `handleRelativeFrictionAndCalculateMovement`, lines 2430–2452 and 2623–2633 in 26.1.2, and lines 2468–2496 and 2676–2686 in 26.2. `aiStep` normalizes a sub-`0.003` Y velocity on the following tick.
